@@ -1,0 +1,47 @@
+.tabs_title {
+	list-style-image: none;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	height: 24px;
+	
+}
+
+.tabs_title li {
+	float: left;
+	background-color: #3975BD;
+	padding: 2px 8px 2px 8px;
+	margin-right: 2px;
+	cursor: pointer;
+	color: #fff;
+	font-family: "Trebuchet MS";
+	font-size: 12px;
+	height: 24px;
+	line-height: 24px;
+}
+
+.tabs_title li.active {
+	background-color: #49A8EC;
+}
+
+.tabs_panel {
+	display: none;
+	position: relative;
+	width: 100%;
+	top: -1px;
+	font-family: "Trebuchet MS";
+	clear: both;
+	color: #fff;
+	overflow: auto;
+	padding: 5px;
+}
+
+.tabs_panel.active {
+	background-color: #49A8EC;
+	display: block;
+	
+}
+
+.tabs_title li.over {
+	font-weight: bold;
+}

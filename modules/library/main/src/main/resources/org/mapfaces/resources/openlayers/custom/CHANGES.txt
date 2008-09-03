@@ -1,0 +1,71 @@
+/*****************************************************************************/
+
+CHANGES.txt: this file was created to save OpenLayers custom library history
+
+/*****************************************************************************/
+
+
+#################################################
+package org.mapfaces.resources.openlayers.custom:
+#################################################
+
+OpenLayers.js :
+
+    *Changes of files's path to load
+    *Add MouseWheelDefaults.js file
+    *Add Proj4js 
+
+############################################################
+package org.mapfaces.resources.openlayers.custom.OpenLayers:
+############################################################
+
+Map.js :
+
+    *Remove all this.layers reference
+    *Replace all this.baseLayer  by this
+    *Delete the loading of style.css file in the initialize function
+    *Add initialisation of map resolutions  into the initalize function
+    *Add sendAjaxRequest function and attach it to the moveend event for send to
+     the server on each modification of bbox and window 
+    *Now the map done what the baseLayer did 
+    *Add 2 controls when this.controls = null : new OpenLayers.Control.MouseWheelDefaults(),
+                                                new OpenLayers.Control.KeyboardDefaults(),
+
+
+####################################################################
+package org.mapfaces.resources.openlayers.custom.OpenLayers.Control:
+####################################################################
+
+NavToolbar.js :
+    
+    *Modify initialize function to choose the control we want to add to the toolbar
+
+
+ZoomBoxOut.js :
+
+    *New class who extends ZoomBox class with the "out" option set to true
+
+Navigation.js : 
+
+    *l 150 : Replace this.map.baseLayer by this.map
+    *Set zoomWheelEnabled option to false (now MouseWheel events are activate by default with the class OpenLayers.Control.MouseWheelDefaults)
+    *Add single click event and its onClick function for enable animated panning by default, in the Navigation control.
+    *Add animatedPanEnabled, default to false .
+
+MousePosition.js :
+
+    *Add projection support.
+    *Add option for  multiple displaying format : - PX      // pixel coordinates
+                                                  - XY      // XY Coordinates
+                                                  - LatLong // Standard lat long
+                                                  - DMS     // Lat/long in DD MM SS.S format 
+                                                  - DM      // Lat/long in DD MM.MMMM format 
+                                                  - MGRS    // Military Grid Reference System 
+
+####################################################################
+package org.mapfaces.resources.openlayers.custom.OpenLayers.Handler:
+####################################################################
+
+MouseWheel.js :
+
+    *l 106 : delete "map[i].layers"  reference and replace by a "for" loop through all layerDivs
