@@ -1,0 +1,234 @@
+package org.mapfaces.models.timeline;
+
+import java.util.Date;
+import org.geotools.map.MapLayer;
+import org.geotools.temporal.object.DefaultPeriod;
+import org.geotools.temporal.object.DefaultTemporalObject;
+import org.opengis.temporal.Duration;
+import org.opengis.temporal.Period;
+
+/**
+ *
+ * @author Mehdi Sidhoum.
+ */
+public class Event {
+
+    private Date dateBegin;
+    private Date dateEnd;
+    private boolean topological;
+    private String title;
+    private String description;
+    private String image;
+    private String link;
+    private String icon;
+    private MapLayer owner;
+    
+    /**
+     * This is a geometric primitive in the temporal dimension, it can be an instant or a period. see ISO19108 specificatios.
+     */
+    private DefaultTemporalObject temporalObject;
+    /**
+     * priority attribute take one of three values : Low, High or Normal, a Default value is assigned if nothing. 
+     * This attribute determine the icon of the event in the timeline component.
+     */
+    private Priority priority;
+    /**
+     * this can be represented by a css code for colors example #ffffff or white.
+     */
+    private String color;
+    /**
+     * status attribute take one of three values : Not started, In progress or default, this attribute determines the color of the event.
+     */
+    private Status status;
+    /**
+     * this can takes css code for colors.
+     */
+    private String textColor;
+    
+    /**
+     * This is a duration to define hotzones for iterators events during a period, @code null if no.
+     */
+    private Duration duration;
+
+    /**
+     * creates a new instance of Event with two Date objects begin and end.
+     */
+    public Event(Date dateBegin, Date dateEnd, Duration duration, boolean isTopological, String title,
+            String description, String image, String link, String icon, Priority priority,
+            String color, Status status, String textColor, MapLayer owner) {
+
+        this.dateBegin = dateBegin;
+        this.dateEnd = dateEnd;
+        this.duration = duration;
+        this.topological = isTopological;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.link = link;
+        this.icon = icon;
+        this.priority = priority;
+        this.color = color;
+        this.status = status;
+        this.textColor = textColor;
+        this.owner = owner;
+    }
+
+    /**
+     * creates a new instance of Event with a TemporalObject, to introduce the implementation of specifications ISO 19108.
+     */
+    public Event(DefaultTemporalObject temporalObject, boolean isTopological, String title,
+            String description, String image, String link, String icon, Priority priority,
+            String color, Status status, String textColor, MapLayer owner) {
+
+        this.temporalObject = temporalObject;
+        this.topological = isTopological;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.link = link;
+        this.icon = icon;
+        this.priority = priority;
+        this.color = color;
+        this.status = status;
+        this.textColor = textColor;
+        this.owner = owner;
+    }
+    
+    public Event(Period period, Duration duration, boolean isTopological, String title,
+            String description, String image, String link, String icon, Priority priority,
+            String color, Status status, String textColor, MapLayer owner) {
+        this.temporalObject = (DefaultPeriod) period;
+        this.duration = duration;
+        this.topological = isTopological;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.link = link;
+        this.icon = icon;
+        this.priority = priority;
+        this.color = color;
+        this.status = status;
+        this.textColor = textColor;
+        this.owner = owner;
+    }
+
+    public Date getDateBegin() {
+        return dateBegin;
+    }
+
+    public void setDateBegin(Date dateBegin) {
+        this.dateBegin = dateBegin;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public boolean isTopological() {
+        return topological;
+    }
+
+    public void setDuration(boolean isDuration) {
+        this.topological = isDuration;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
+    }
+
+    public DefaultTemporalObject getTemporalObject() {
+        return temporalObject;
+    }
+
+    public void setTemporalObject(DefaultTemporalObject temporalObject) {
+        this.temporalObject = temporalObject;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public MapLayer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(MapLayer owner) {
+        this.owner = owner;
+    }
+}

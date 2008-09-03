@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+    <!-- TreeTable component -->
+     <component>
+        <component-type>org.mapfaces.TreeTable</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeTable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.TreePanel</component-type>
+        <component-class>org.mapfaces.component.tree.UITreePanel</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.Column</component-type>
+        <component-class>org.mapfaces.component.tree.UIColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.CheckColumn</component-type>
+        <component-class>org.mapfaces.component.tree.UICheckColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeLines</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeLines</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeNodeInfo</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeNodeInfo</component-class>
+    </component>
+    <render-kit>
+        <!-- TreeTable Renderers -->
+        <renderer>
+            <description> Treetable : This tag is used to create tree table on the page. The component is rendered as an
+            TreePanel component. UIColumn child components are responsible for rendering columns of the table. In these
+            columns you can put any type of component like input text box, output text, command button etc. org:column>
+            tag is used to create column. There can be many column tags within dataTable tag. You can set header and footer 
+            in this table.
+            </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLTreeTable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeTableRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treepanel </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.HTMLTreePanel</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treecolumn : This tag is used for creating columns of a table. This tag creates a data column inside 
+            a tree data table
+            </description>
+            <component-family>org.mapfaces.treetable.treepanel.TreeColumn</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Column : This tag is used for creating columns of a table. This tag creates a data column inside 
+            a tree data table
+            </description>
+            <component-family>org.mapfaces.treetable.treepanel.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.ColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treelines </description>
+            <component-family>org.mapfaces.treetable.treepanel.TreeLines</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeLines</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeLinesRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treenodeinfo </description>
+             <component-family>org.mapfaces.treetable.treepanel.treelines.TreeNodeInfo</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeNodeInfo</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeNodeInfoRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+</faces-config>
