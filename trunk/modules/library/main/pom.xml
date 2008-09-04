@@ -15,7 +15,7 @@
   <!-- =========================================================== -->
   <groupId>org.mapfaces</groupId>
   <artifactId>mapfaces-main</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>Main module</name>
 
   <scm>
