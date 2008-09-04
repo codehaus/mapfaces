@@ -38,6 +38,7 @@ import org.mapfaces.util.FacesUtils;
 public abstract class AbstractColumnRenderer extends Renderer implements AjaxRendererInterface {
 
     private TreeTableConfig config = new TreeTableConfig();
+    private boolean debug = false;
     private static final transient Log log = LogFactory.getLog(AbstractColumnRenderer.class);
 
     /**
@@ -83,13 +84,17 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         assertValid(context, component);
 
         //Method to apply before encodeBegin
-        if (debug()) {
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+        
+        if (debug) {
             log.info("beforeEncodeBegin : " + AbstractColumnRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
 
         //Start encodeBegin
-        if (debug()) {
+        if (debug) {
             log.info("encodeBegin : " + AbstractColumnRenderer.class.getName());
         }
         ResponseWriter writer = context.getResponseWriter();
@@ -101,7 +106,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         if (component.getAttributes().get("width") != null) {
             size = String.valueOf(component.getAttributes().get("width")) + "px";
         }
-        System.out.println("getWidth " +((UIAbstractColumn)component).getWidth());
+        System.out.println("getWidth " + ((UIAbstractColumn) component).getWidth());
         System.out.println("getAttributesWidth " + component.getAttributes().get("width"));
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
@@ -113,7 +118,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
 
         //Method to apply before encodeBegin
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeBegin : " + AbstractColumnRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
@@ -142,7 +147,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         TreeNodeModel node = treeline.getNodeInstance();
         ResponseWriter writer = context.getResponseWriter();
 
-        if (debug()) {
+        if (debug) {
             log.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
@@ -176,7 +181,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         writer.endElement("div");
         writer.endElement("div");
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeEnd : " + AbstractColumnRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
@@ -328,23 +333,8 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
                 "});");
         writer.endElement("script");
     }
-    
 
-    /* ======================= ABSTRACT METHODS ==================================*/
-    public abstract void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract boolean debug();
-       /**
+    /**
      * Extra fonction useful for layercontrol columns
      * 
      * 
@@ -362,4 +352,19 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         }
         return null;
     }
+
+    /* ======================= ABSTRACT METHODS ==================================*/
+    public abstract void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException;
+
+    
 }

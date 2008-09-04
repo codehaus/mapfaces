@@ -25,11 +25,7 @@ public class ColumnRenderer extends AbstractColumnRenderer {
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
-
+ 
     @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";

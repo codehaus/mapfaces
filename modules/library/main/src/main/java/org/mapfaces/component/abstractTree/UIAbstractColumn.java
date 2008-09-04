@@ -6,13 +6,13 @@ import java.io.Serializable;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 
-
 public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface, Serializable {
 
     // =========== ATTRIBUTES ================================================== //
     private String header;
     private String width;
     private String icon;
+    private boolean debug;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -31,14 +31,29 @@ public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface
         this.width = width;
     }
 
+    /**
+     * @return the debug
+     */
+    public boolean getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
     // =========== FONCTIONS ======================================== //
     //Override methods
+
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+        Object values[] = new Object[4];
         values[0] = super.saveState(context);
         values[1] = getHeader();
         values[2] = getWidth();
+        values[3] = getDebug();
         return values;
     }
 
@@ -48,6 +63,7 @@ public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface
         super.restoreState(context, values[0]);
         setHeader((String) values[1]);
         setWidth((String) values[2]);
+        setDebug((Boolean) values[3]);
     }
 
     @Override

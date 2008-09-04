@@ -31,9 +31,5 @@ public class TreeTableRenderer extends AbstractTreeTableRenderer{
         return;
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
 
 }

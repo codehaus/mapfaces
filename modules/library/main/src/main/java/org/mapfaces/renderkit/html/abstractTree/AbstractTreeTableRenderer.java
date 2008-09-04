@@ -26,6 +26,7 @@ import org.mapfaces.util.treetable.TreeTableUtils;
 public abstract class AbstractTreeTableRenderer extends Renderer {
 
     private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
+    private boolean debug = false;
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
@@ -78,7 +79,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         }
         assertValid(context, component);
 
-        if (debug()) {
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+        
+        if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
@@ -87,7 +92,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         ResponseWriter writer = context.getResponseWriter();
         TreeTableUtils tabletools = new TreeTableUtils();
 
-        if (debug()) {
+        if (debug) {
             log.info("encodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
 
@@ -142,7 +147,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         writer.writeAttribute("id", "treetable:" + component.getClientId(context), null);
         writer.writeAttribute("style", width + ";" + height + ";", null);
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
@@ -155,8 +160,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+    public void encodeChildren(FacesContext context, UIComponent component)
+            throws IOException {
+        if (debug) {
             log.info("encodeChildren : " + AbstractTreeTableRenderer.class.getName());
         }
 
@@ -175,20 +181,21 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+    public void encodeEnd(FacesContext context, UIComponent component)
+            throws IOException {
+        if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
 
-        if (debug()) {
+        if (debug) {
             log.info("encodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
         writer.endElement("div");
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
@@ -196,7 +203,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        if (debug()) {
+        if (debug) {
             log.info("decode : " + AbstractTreeTableRenderer.class.getName());
         }
         return;
@@ -219,7 +226,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
      */
     private void writeHeaders(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        if (debug()) {
+        if (debug) {
             log.info("decode : " + AbstractTreeTableRenderer.class.getName());
         }
 
@@ -249,6 +256,4 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 
     public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract boolean debug();
 }

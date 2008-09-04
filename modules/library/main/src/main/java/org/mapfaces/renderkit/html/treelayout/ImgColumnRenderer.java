@@ -61,8 +61,4 @@ public class ImgColumnRenderer extends AbstractColumnRenderer{
         return "";
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
 }

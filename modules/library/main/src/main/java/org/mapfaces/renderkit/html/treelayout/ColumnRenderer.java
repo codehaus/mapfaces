@@ -83,9 +83,5 @@ public class ColumnRenderer extends AbstractColumnRenderer {
         return "";
     }
     
-    @Override
-    public boolean debug() {
-        return false;
-    }
-
+  
 }

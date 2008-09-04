@@ -28,6 +28,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
 
     private String EXPAND_TEXT = "Expand";
     private String COLLAPSE_TEXT = "Collapse";
+    private boolean debug = false;
     private static final transient Log log = LogFactory.getLog(AbstractTreePanelRenderer.class);
     private TreeTableConfig config = new TreeTableConfig();
 
@@ -76,13 +77,17 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
         }
         assertValid(context, component);
 
-        if (debug()) {
+       if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+        
+        if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
 
         //Start encoding
-        if (debug()) {
+        if (debug) {
             log.info("encodeBegin : " + AbstractTreePanelRenderer.class.getName());
         }
 
@@ -200,13 +205,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
             long start = System.currentTimeMillis();
             createTreeLines(((UIAbstractTreePanel) component), root, backup);
             long duree = System.currentTimeMillis() - start;
-            if (debug()) {
+            if (debug) {
                 log.info("createTreeLines times : " + duree + " mlls");
             }
             ((UIAbstractTreePanel) component).setInit(true);
 
 
-            if (debug()) {
+            if (debug) {
                 log.info("afterEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
             }
             afterEncodeBegin(context, component);
@@ -222,7 +227,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
      */
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+        if (debug) {
             log.info("encodeChildren : " + AbstractTreePanelRenderer.class.getName());
         }
 
@@ -245,12 +250,12 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
      */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+        if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
         
-        if (debug()) {
+        if (debug) {
             log.info("encodeEnd : " + AbstractTreePanelRenderer.class.getName());
         }
 
@@ -274,7 +279,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
         writer.endElement("div");
         writer.endElement("div");
         
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
@@ -406,6 +411,4 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
     public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 
     public abstract void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list);
-
-    public abstract boolean debug();
 }

@@ -43,8 +43,5 @@ public class TreePanelRenderer extends AbstractTreePanelRenderer {
         }
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
+
 }

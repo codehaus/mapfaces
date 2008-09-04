@@ -24,6 +24,7 @@ public class TreePanelTag extends UIComponentELTag {
     private ValueExpression showLines = null;
     private ValueExpression title = null;
     private ValueExpression width = null;
+    private ValueExpression debug = null;
     private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treetable.TreePanel";
     private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreePanel";
 
@@ -119,6 +120,20 @@ public class TreePanelTag extends UIComponentELTag {
         this.width = width;
     }
 
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -143,6 +158,7 @@ public class TreePanelTag extends UIComponentELTag {
         component.setValueExpression("rowId", rowId);
         component.setValueExpression("showLines", showLines);
         component.setValueExpression("width", width);
+        component.setValueExpression("debug", getDebug());
     }
 
     @Override
@@ -158,5 +174,6 @@ public class TreePanelTag extends UIComponentELTag {
         setShowLines(null);
         setTitle(null);
         setWidth(null);
+        setDebug(null);
     }
 }

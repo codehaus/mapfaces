@@ -23,7 +23,7 @@ public class TreePanelTag extends UIComponentELTag {
     private ValueExpression rowId = null;
     private ValueExpression showLines = null;
     private ValueExpression title = null;
-    
+    private ValueExpression debug = null;
     private final String TREEPANEL_COMP_TYPE = "org.mapfaces.treelayout.treetable.TreePanel";
     private final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.HTMLTreePanel";
 
@@ -111,20 +111,23 @@ public class TreePanelTag extends UIComponentELTag {
         }
     }
 
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-//        UITreePanel treepanel = (UITreePanel) component;
-//        if (title != null) {
-//            if (!title.isLiteralText()) {
-//                component.setValueExpression("title", title);
-//            } else {
-//                FacesContext context = FacesContext.getCurrentInstance();
-//                ExpressionFactory ef = context.getApplication().getExpressionFactory();
-//                ValueExpression vex = ef.createValueExpression(context.getELContext(), title.getExpressionString(), java.lang.String.class);
-//                treepanel.setTitle((String) vex.getValue(context.getELContext()));
-//            }
-//        }
         component.setValueExpression("border", border);
         component.setValueExpression("check", check);
         component.setValueExpression("collapsible", collapsible);
@@ -134,6 +137,7 @@ public class TreePanelTag extends UIComponentELTag {
         component.setValueExpression("rowId", rowId);
         component.setValueExpression("showLines", showLines);
         component.setValueExpression("title", title);
+        component.setValueExpression("debug", getDebug());
     }
 
     @Override
@@ -148,5 +152,6 @@ public class TreePanelTag extends UIComponentELTag {
         setRowId(null);
         setShowLines(null);
         setTitle(null);
+        setDebug(null);
     }
 }

@@ -23,6 +23,7 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
     private boolean rowId;
     private boolean showLines;
     private String title;
+    private boolean debug;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getBorder() {
@@ -96,6 +97,20 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
     public void setTitle(String title) {
         this.title = title;
     }
+
+    /**
+     * @return the debug
+     */
+    public boolean getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
     // =========== FONCTIONS ======================================== //
 
     public boolean isTREEPANEL_EXPAND_ALL() {
@@ -116,7 +131,7 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[11];
+        Object values[] = new Object[12];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCheck();
@@ -127,7 +142,8 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
         values[7] = isRowId();
         values[8] = isShowLines();
         values[9] = getTitle();
-        values[10] = init;
+        values[10] = isInit();
+        values[11] = getDebug();
         return values;
     }
 

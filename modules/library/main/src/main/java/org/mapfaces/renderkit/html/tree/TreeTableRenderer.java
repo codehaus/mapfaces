@@ -27,9 +27,4 @@ public class TreeTableRenderer extends AbstractTreeTableRenderer{
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
-
 }
