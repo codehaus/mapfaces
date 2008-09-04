@@ -14,6 +14,7 @@ public class CheckColumnTag extends UIComponentELTag {
     private ValueExpression icon = null;
     private ValueExpression value = null;
     private ValueExpression width = null;
+    private ValueExpression debug = null;
     private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.CheckColumn";
     private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLCheckColumn";
 
@@ -57,6 +58,20 @@ public class CheckColumnTag extends UIComponentELTag {
         this.width = width;
     }
 
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -64,6 +79,7 @@ public class CheckColumnTag extends UIComponentELTag {
         component.setValueExpression("icon", getIcon());
         component.setValueExpression("value", getValue());
         component.setValueExpression("width", getWidth());
+        component.setValueExpression("debug", getDebug());
     }
 
     @Override
@@ -73,6 +89,7 @@ public class CheckColumnTag extends UIComponentELTag {
         setIcon(null);
         setHeader(null);
         setWidth(null);
+        setDebug(null);
     }
 
     @Override

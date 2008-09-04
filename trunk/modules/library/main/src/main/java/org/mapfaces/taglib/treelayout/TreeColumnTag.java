@@ -13,7 +13,7 @@ public class TreeColumnTag extends UIComponentELTag {
     private ValueExpression header = null;
     private ValueExpression value = null;
     private ValueExpression width = null;
-    
+    private ValueExpression debug = null;
     private final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.TreeColumn";
     private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeColumn";
 
@@ -41,12 +41,27 @@ public class TreeColumnTag extends UIComponentELTag {
         this.value = value;
     }
 
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("header", getHeader());
         component.setValueExpression("value", getValue());
         component.setValueExpression("width", width);
+        component.setValueExpression("debug", getDebug());
     }
 
     @Override
@@ -55,6 +70,7 @@ public class TreeColumnTag extends UIComponentELTag {
         setHeader(null);
         setValue(null);
         setWidth(null);
+        setDebug(null);
     }
 
     @Override

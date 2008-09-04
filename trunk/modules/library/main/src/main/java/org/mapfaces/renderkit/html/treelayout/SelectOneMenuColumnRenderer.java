@@ -58,11 +58,6 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
     }
 
     @Override
-    public boolean debug() {
-        return false;
-    }
-
-    @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }

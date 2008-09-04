@@ -17,6 +17,7 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
     // =========== ATTRIBUTES ================================================== //
     private String header;
     private String width;
+    private boolean debug;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -35,6 +36,19 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
         this.width = width;
     }
 
+      /**
+     * @return the debug
+     */
+    public boolean getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
     // =========== FONCTIONS ======================================== //
     public boolean isAlreadyRender() {
         return alreadyRender;
@@ -47,11 +61,12 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
     //Override methods
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[4];
+        Object values[] = new Object[5];
         values[0] = super.saveState(context);
-        values[1] = alreadyRender;
+        values[1] = isAlreadyRender();
         values[2] = getHeader();
         values[3] = getWidth();
+        values[4] = getDebug();
         return values;
     }
 
@@ -62,6 +77,7 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
         alreadyRender = (Boolean) values[1];
         header = ((String) values[2]);
         width = ((String) values[3]);
+        debug = ((Boolean) values[4]);
     }
 
     @Override

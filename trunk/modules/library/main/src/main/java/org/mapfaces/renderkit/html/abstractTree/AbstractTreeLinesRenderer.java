@@ -24,6 +24,7 @@ import org.mapfaces.util.AjaxUtils;
 public abstract class AbstractTreeLinesRenderer extends Renderer implements AjaxRendererInterface {
 
     private AjaxUtils ajaxtools = new AjaxUtils();
+    private boolean debug = false;
     private static final transient Log log = LogFactory.getLog(AbstractTreeLinesRenderer.class);
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";
     private static String CLASS_LEAF_DIV = "x-tree-node-el x-tree-node-leaf x-tree-col";
@@ -70,13 +71,17 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         }
         assertValid(context, component);
 
-        if (debug()) {
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+        
+        if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
 
         //Start encoding
-        if (debug()) {
+        if (debug) {
             log.info("encodeBegin : " + AbstractTreeLinesRenderer.class.getName());
         }
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
@@ -146,7 +151,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             }
         }
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
@@ -155,7 +160,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+        if (debug) {
             log.info("encodeChildren : " + AbstractTreeLinesRenderer.class.getName());
         }
 
@@ -192,12 +197,12 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+        if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreeLinesRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
 
-        if (debug()) {
+        if (debug) {
             log.info("encodeEnd : " + AbstractTreeLinesRenderer.class.getName());
         }
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
@@ -209,7 +214,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         writer.endElement("li");
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeLinesRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
@@ -278,6 +283,4 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
     public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 
     public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract boolean debug();
 }

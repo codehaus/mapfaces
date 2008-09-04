@@ -35,6 +35,7 @@ import org.mapfaces.util.AjaxUtils;
 public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface {
 
     private static final transient Log log = LogFactory.getLog(AbstractTreeColumnRenderer.class);
+    private boolean debug = false;
     private static String DEFAULT_SIZE_COLUMN = "250";
     private static String DEFAULT_HEADER_COLUMN = "Tree";
     private static int LINES_SHOW = 1;
@@ -94,13 +95,17 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         }
         assertValid(context, component);
 
-        if (debug()) {
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+        
+        if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
 
         //Start encoding
-        if (debug()) {
+        if (debug) {
             log.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
         }
         String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
@@ -144,7 +149,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         }
 
 
-        if (!((UIAbstractTreeColumn)component).isAlreadyRender()) {
+        if (!((UIAbstractTreeColumn) component).isAlreadyRender()) {
 
             HtmlOutputLabel NodeIdent = new HtmlOutputLabel();
             NodeIdent.setStyleClass(CLASS_NODE_INDENT);
@@ -226,10 +231,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             component.getChildren().add(component.getChildCount(), ImgTreeNodeInfo);
             ImgNodeRep.getChildren().add(AjaxSupport);
             ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
-            ((UIAbstractTreeColumn)component).setAlreadyRender(true);
+            ((UIAbstractTreeColumn) component).setAlreadyRender(true);
         }
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
@@ -238,7 +243,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+        if (debug) {
             log.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
         }
 
@@ -265,17 +270,17 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        if (debug()) {
+        if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
 
-        if (debug()) {
+        if (debug) {
             log.info("encodeEnd : " + AbstractTreeColumnRenderer.class.getName());
         }
         writer.endElement("div");
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
@@ -345,6 +350,4 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 
     public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract boolean debug();
 }

@@ -22,6 +22,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
 
     private static final transient Log log = LogFactory.getLog(AbstractTreeNodeInfoRenderer.class);
     private static String DESC_STYLE_CLASS = "x-tree-node-info";
+    private boolean debug = false;
 
     /**
      * This method returns the parent form of this element.
@@ -65,12 +66,16 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
         }
         assertValid(context, component);
 
-        if (debug()) {
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+        
+        if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
 
-        if (debug()) {
+        if (debug) {
             log.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
         //Start encoding
@@ -92,7 +97,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
             }
         }
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
@@ -100,7 +105,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
 
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug()) {
+        if (debug) {
             log.info("encodeChildren : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
 
@@ -123,18 +128,18 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        if (debug()) {
+        if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
 
-        if (debug()) {
+        if (debug) {
             log.info("encodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
 
         writer.endElement("div");
 
-        if (debug()) {
+        if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
@@ -161,6 +166,4 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
     public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 
     public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract boolean debug();
 }

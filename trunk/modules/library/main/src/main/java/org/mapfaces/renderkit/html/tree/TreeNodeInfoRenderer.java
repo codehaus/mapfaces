@@ -27,8 +27,5 @@ public class TreeNodeInfoRenderer extends AbstractTreeNodeInfoRenderer {
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
+ 
 }

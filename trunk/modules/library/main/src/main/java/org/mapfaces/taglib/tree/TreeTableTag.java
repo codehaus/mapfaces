@@ -17,7 +17,7 @@ public class TreeTableTag extends UIComponentELTag {
     private ValueExpression var = null;
     private ValueExpression width = null;
     private ValueExpression height = null;
-    private String id = null;
+    private ValueExpression debug = null;
     private static final String TREETABLE_COMP_TYPE = "org.mapfaces.TreeTable";
     private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeTable";
 
@@ -58,6 +58,20 @@ public class TreeTableTag extends UIComponentELTag {
         this.height = height;
     }
 
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
     @Override
     public String getComponentType() {
         return TREETABLE_COMP_TYPE;
@@ -75,6 +89,7 @@ public class TreeTableTag extends UIComponentELTag {
         component.setValueExpression("var", var);
         component.setValueExpression("width", width);
         component.setValueExpression("height", height);
+        component.setValueExpression("debug", debug);
     }
 
     @Override
@@ -85,6 +100,7 @@ public class TreeTableTag extends UIComponentELTag {
         setVar(null);
         setWidth(null);
         setHeight(null);
+        setDebug(null);
     }
 }
 

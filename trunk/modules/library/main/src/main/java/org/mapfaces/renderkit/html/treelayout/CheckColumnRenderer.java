@@ -56,8 +56,4 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
         return "";
     }
 
-    @Override
-    public boolean debug() {
-        return false;
-    }
 }

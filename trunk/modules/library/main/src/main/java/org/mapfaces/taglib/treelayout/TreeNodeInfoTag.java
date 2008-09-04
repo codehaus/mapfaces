@@ -12,7 +12,7 @@ public class TreeNodeInfoTag extends UIComponentELTag {
 
     private ValueExpression header = null;
     private ValueExpression hide = null;
-    
+    private ValueExpression debug = null;
     private final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.TreeNodeInfo";
     private final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeNodeInfo";
 
@@ -32,11 +32,26 @@ public class TreeNodeInfoTag extends UIComponentELTag {
         this.hide = hide;
     }
 
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("header", getHeader());
         component.setValueExpression("hide", getHide());
+        component.setValueExpression("debug", getDebug());
     }
 
     @Override
@@ -44,6 +59,7 @@ public class TreeNodeInfoTag extends UIComponentELTag {
         super.release();
         setHeader(null);
         setHide(null);
+        setDebug(null);
     }
 
     @Override

@@ -13,6 +13,7 @@ public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Seriali
     // =========== ATTRIBUTES ================================================== //
     private String header;
     private String hide;
+    private boolean debug;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -31,13 +32,22 @@ public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Seriali
         this.hide = hide;
     }
 
+    public boolean getDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
     // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+        Object values[] = new Object[4];
         values[0] = super.saveState(context);
         values[1] = getHeader();
         values[2] = getHide();
+        values[3] = getDebug();
         return values;
     }
 
@@ -47,6 +57,7 @@ public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Seriali
         super.restoreState(context, values[0]);
         setHeader((String) values[1]);
         setHide((String) values[2]);
+        setDebug((Boolean)values[3]);
     }
 
     // =========== ABSTRACTS METHODS ================================== //
@@ -55,4 +66,6 @@ public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Seriali
 
     @Override
     public abstract String getRendererType();
+
+    
 }
