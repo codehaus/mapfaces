@@ -405,7 +405,7 @@
           <useSystemClassLoader>true</useSystemClassLoader>
         </configuration>
       </plugin>
-      <!--plugin>
+      <plugin>
         <groupId>org.geotools.maven</groupId>
         <artifactId>jar-collector</artifactId>
         
@@ -416,7 +416,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin-->
+      </plugin>
     </plugins>
   </build>
   
