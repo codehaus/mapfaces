@@ -14,6 +14,9 @@ import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.lang.model.element.Name;
+import javax.naming.Context;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.mapfaces.models.tree.TreeNodeModel;
 
@@ -64,7 +67,7 @@ public class CustomELResolver extends ELResolver {
             requestMap.put("property", property.toString());
             // if the base is an instance of TreeNodeModel then
             // we try to find the getter access method for the property
-            TreeNodeModel node = (TreeNodeModel) base;            
+            TreeNodeModel node = (TreeNodeModel) base;
             Method methode = getMethod(node.getUserObject(), property);
             // if the Node UserObject isn't null  and the method have been found
             //  then we invoke the method and return the result on this object
@@ -100,9 +103,9 @@ public class CustomELResolver extends ELResolver {
     public Method getMethod(Object base, Object property) {
         // Fisrt capitalize PropName
         String propName = StringUtils.capitalize(property.toString());
-        Class myclass = base.getClass();
+        Class classe = base.getClass();
         // Search in base class methods the getter correspond to the attribut
-        for (Method method : myclass.getMethods()) {
+        for (Method method : classe.getMethods()) {
             if ((method.getName().equals("get" + propName)) || (method.getName().equals("is" + propName))) {
                 return method;
             }
@@ -111,27 +114,44 @@ public class CustomELResolver extends ELResolver {
     }
 
     @Override
-    public Class<?> getType(ELContext elcontext, Object base, Object property) throws NullPointerException, PropertyNotFoundException, ELException {
+    public Class<?> getType(ELContext elContext, Object base, Object property) throws NullPointerException, PropertyNotFoundException, ELException {
+        if (null != base && base instanceof Context) {
+            elContext.setPropertyResolved(true);
+            return Object.class;
+        }
+        return null;
+    }
+
+    @Override
+    public void setValue(ELContext elContext, Object base, Object property, Object value) throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException {
+        if (null != base && base instanceof Context) {
+            Context context = (Context) base;
+            elContext.setPropertyResolved(true);
+            try {
+                if (property instanceof Name) {
+                    context.rebind(((Name)property).toString(), value);
+                } else {
+                    context.rebind(property.toString(), value);
+                }
+
+            } catch (NamingException e) {
+                throw new ELException(e);
+            }
+        }
+    }
+
+    @Override
+    public boolean isReadOnly(ELContext arg0, Object arg1, Object arg2) throws NullPointerException, PropertyNotFoundException, ELException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void setValue(ELContext elcontext, Object base, Object property, Object value) throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException {
+    public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext arg0, Object arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean isReadOnly(ELContext elcontext, Object base, Object property) throws NullPointerException, PropertyNotFoundException, ELException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext elcontext, Object base) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Class<?> getCommonPropertyType(ELContext elcontext, Object base) {
+    public Class<?> getCommonPropertyType(ELContext arg0, Object arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
