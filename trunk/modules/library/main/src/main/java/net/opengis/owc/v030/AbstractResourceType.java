@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import net.seagis.ows.v100.IdentificationType;
+import org.constellation.ows.v100.IdentificationType;
 
 
 /**

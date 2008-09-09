@@ -43,10 +43,7 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 import org.xml.sax.SAXException;
-/**
- *
- * @author olivier
- */
+
 public class OWC_v030 extends AbstractOWC {
     
     private transient OWSContextType doc;
@@ -260,7 +257,7 @@ public class OWC_v030 extends AbstractOWC {
                         }else if(style.getSLD().getStyledLayerDescriptor()!=null){ 
 
                             //TODO transformInlineSLDToStyleObject
-                            JAXBContext Jcontext = JAXBContext.newInstance("net.seagis.sld.v100");
+                            JAXBContext Jcontext = JAXBContext.newInstance("org.constellation.sld.v100");
                             Marshaller marshaller = Jcontext.createMarshaller();
                             StringWriter xmlstr = new StringWriter();
                             marshaller.marshal(style.getSLD().getStyledLayerDescriptor(), xmlstr);

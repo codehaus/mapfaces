@@ -12,8 +12,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import net.seagis.sld.v100.FeatureTypeStyle;
-import net.seagis.sld.v100.StyledLayerDescriptor;
+import org.constellation.sld.v100.FeatureTypeStyle;
+import org.constellation.sld.v100.StyledLayerDescriptor;
 
 
 /**

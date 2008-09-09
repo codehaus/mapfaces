@@ -1,11 +1,9 @@
 package adapter.owc;
 
-import bean.TimeLineBean;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -14,9 +12,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.geotools.map.MapLayer;
-import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractContext;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.OWC_v030;
