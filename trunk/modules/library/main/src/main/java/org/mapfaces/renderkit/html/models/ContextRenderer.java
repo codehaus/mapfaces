@@ -165,7 +165,7 @@ public class ContextRenderer extends Renderer {
                 }
             }*/
             
-            String title = (String) params.get(comp.getParent().getId()+":title"); 
+            String title = (String) params.get(FacesUtils.getFormId(context, component)+":title"); 
             if(title!=null  &&  !title.equals(tmp.getTitle())){
                 tmp.setTitle(title);   
             }
