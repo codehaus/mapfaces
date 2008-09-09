@@ -16,10 +16,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import net.seagis.gml.v212.AbstractFeatureCollectionType;
-import net.seagis.kml.v220.DocumentType;
-import net.seagis.ogc.v100.FilterType;
-
+import org.constellation.gml.v212.AbstractFeatureCollectionType;
+import org.constellation.kml.v220.DocumentType;
+import org.constellation.ogc.v100.FilterType;
+ 
 
 /**
  * <p>Java class for LayerType complex type.

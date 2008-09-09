@@ -43,9 +43,9 @@ public class XML2Java {
                         ,GetRecordsResponseType.class, GetRecordByIdResponseType.class
                         ,DescribeRecordResponseType.class, GetDomainResponseType.class
                         ,TransactionResponseType.class, HarvestResponseType.class
-                        ,ExceptionReport.class, net.seagis.ows.v110.ExceptionReport.class
+                        ,ExceptionReport.class, org.constellation.ows.v110.ExceptionReport.class
                         ,ObjectFactory.class);*/
-        context = JAXBContext.newInstance("net.seagis.sos:net.seagis.gml:net.seagis.swe:net.seagis.gml:net.seagis.observation");
+        context = JAXBContext.newInstance("org.constellation.sos:org.constellation.gml:org.constellation.swe:org.constellation.gml:org.constellation.observation");
         Unmarshaller unmarshaller = context.createUnmarshaller();
         Object request =  unmarshaller.unmarshal(new FileReader(fileName));
         
