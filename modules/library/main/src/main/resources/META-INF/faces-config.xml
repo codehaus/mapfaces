@@ -12,7 +12,10 @@
         <phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener>
     </lifecycle>        
     
-    <!-- Mapfaces components -->
+    
+    <!-- *************************************************************** -->
+    <!-- ******************** COMPONENTS ******************************* -->
+    <!-- *************************************************************** -->
     <component>
         <component-type>org.mapfaces.treelayout.VisibilityColumn</component-type>
         <component-class>org.mapfaces.component.layercontrol.UIVisibilityColumn</component-class>
@@ -60,7 +63,24 @@
     <component>
         <component-type>org.mapfaces.component.MapSize</component-type>
         <component-class>org.mapfaces.component.UIMapSize</component-class>
-    </component>    
+    </component>
+     <!-- TimeLine component -->
+        <component>
+            <component-type>org.mapfaces.component.TimeLine</component-type>
+            <component-class>org.mapfaces.component.timeline.UITimeLine</component-class>
+        </component>
+        <component>
+            <component-type>org.mapfaces.component.Timeline.BandInfo</component-type>
+            <component-class>org.mapfaces.component.timeline.UIBandInfo</component-class>
+        </component>
+        <component>
+            <component-type>org.mapfaces.component.Timeline.HotZoneBandInfo</component-type>
+            <component-class>org.mapfaces.component.timeline.UIHotZoneBandInfo</component-class>
+        </component>
+        <component>
+            <component-type>SliderInput</component-type>
+            <component-class>org.mapfaces.component.timeline.UISliderInput</component-class>
+        </component>
      <!-- Tabbedpane component -->
      <component>
         <component-type>org.mapfaces.tabbedpane.TabPanel</component-type>
@@ -69,7 +89,80 @@
     <component>
         <component-type>org.mapfaces.tabbedpane.tabpanel.TabItem</component-type>
         <component-class>org.mapfaces.component.tabbedpane.UITabItem</component-class>
-    </component>    
+    </component> 
+    <!-- TreeTable component -->
+     <component>
+        <component-type>org.mapfaces.TreeTable</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeTable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.TreePanel</component-type>
+        <component-class>org.mapfaces.component.tree.UITreePanel</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.Column</component-type>
+        <component-class>org.mapfaces.component.tree.UIColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.CheckColumn</component-type>
+        <component-class>org.mapfaces.component.tree.UICheckColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeLines</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeLines</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeNodeInfo</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeNodeInfo</component-class>
+    </component>
+    
+    <!-- TreeLayout component -->
+    <component>
+        <component-type>org.mapfaces.treelayout.TreeTable</component-type>
+        <component-class>org.mapfaces.component.treelayout.UITreeTable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.treetable.TreePanel</component-type>
+        <component-class>org.mapfaces.component.treelayout.UITreePanel</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.treelayout.UITreeColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.Column</component-type>
+        <component-class>org.mapfaces.component.treelayout.UIColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.CheckColumn</component-type>
+        <component-class>org.mapfaces.component.treelayout.UICheckColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.SelectOneMenuColumn</component-type>
+        <component-class>org.mapfaces.component.treelayout.UISelectOneMenuColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.ImgColumn</component-type>
+        <component-class>org.mapfaces.component.treelayout.UIImgColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.TreeLines</component-type>
+        <component-class>org.mapfaces.component.treelayout.UITreeLines</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treelayout.TreeNodeInfo</component-type>
+        <component-class>org.mapfaces.component.treelayout.UITreeNodeInfo</component-class>
+    </component>
+    
+    
+    <!-- *************************************************************** -->
+    <!-- ******************** RENDER-KIT ******************************* -->
+    <!-- *************************************************************** -->
+    
     <render-kit>
         <!-- Map Renderers -->
         <renderer>
@@ -145,6 +238,27 @@
             <renderer-class>org.mapfaces.renderkit.html.MapSizeRenderer</renderer-class>
         </renderer>
         
+       
+        <!-- TimeLine Renderers -->
+        <renderer>
+            <description>Timeline is a DHTML-based AJAX JSF component for visualizing time-based events</description>
+            <component-family>org.mapfaces.component.TimeLine</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLTimeLine</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.timeline.TimeLineRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>BandInfo a component band for visualizing time-based events</description>
+            <component-family>org.mapfaces.component.Timeline.BandInfo</component-family>
+            <renderer-type>org.mapfaces.renderkit.Timeline.HTMLBandInfo</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.timeline.BandInfoRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>HotZoneBandInfo a component HotZone band for visualizing time-based events and multiples zones</description>
+            <component-family>org.mapfaces.component.Timeline.HotZoneBandInfo</component-family>
+            <renderer-type>org.mapfaces.renderkit.Timeline.HTMLHotZoneBandInfo</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.timeline.HotZoneBandInfoRenderer</renderer-class>
+        </renderer>
+        
          <!-- Tabbedpane Renderers -->
         <renderer>
             <description> TabPanel </description>
@@ -157,6 +271,116 @@
             <component-family>javax.faces.Output</component-family>
             <renderer-type>org.mapfaces.renderkit.tabpanel.HTMLTabItem</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.tabbedpane.TabItemRenderer</renderer-class>
+        </renderer>
+        
+        <!-- TreeTable Renderers -->
+        <renderer>
+            <description> Treetable : This tag is used to create tree table on the page. The component is rendered as an
+            TreePanel component. UIColumn child components are responsible for rendering columns of the table. In these
+            columns you can put any type of component like input text box, output text, command button etc. org:column>
+            tag is used to create column. There can be many column tags within dataTable tag. You can set header and footer 
+            in this table.
+            </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLTreeTable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeTableRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treepanel </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.HTMLTreePanel</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treecolumn : This tag is used for creating columns of a table. This tag creates a data column inside 
+            a tree data table
+            </description>
+            <component-family>org.mapfaces.treetable.treepanel.TreeColumn</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Column : This tag is used for creating columns of a table. This tag creates a data column inside 
+            a tree data table
+            </description>
+            <component-family>org.mapfaces.treetable.treepanel.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.ColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treelines </description>
+            <component-family>org.mapfaces.treetable.treepanel.TreeLines</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeLines</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeLinesRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treenodeinfo </description>
+             <component-family>org.mapfaces.treetable.treepanel.treelines.TreeNodeInfo</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeNodeInfo</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeNodeInfoRenderer</renderer-class>
+        </renderer>
+        
+        <!-- treeLayout -->
+        <renderer>
+            <description> TreeLayoutTable </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreeTable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.TreeTableRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treepanel </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreePanel</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treecolumn : This tag is used for creating columns of a table. This tag creates a data column inside 
+            a tree data table
+            </description>
+            <component-family>org.mapfaces.treelayout.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreeColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.TreeColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Column : This tag is used for creating columns of a table. This tag creates a data column inside 
+            a tree data table
+            </description>
+            <component-family>org.mapfaces.treelayout.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.ColumnRenderer</renderer-class>
+        </renderer>
+         <renderer>
+            <description>CheckColumn : This tag is used for creating  check columns of a table.
+            </description>
+            <component-family>org.mapfaces.treelayout.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLCheckColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>SelectOneMenuColumn : This tag is used for creating  check columns of a table.
+            </description>
+            <component-family>org.mapfaces.treelayout.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLSelectOneMenuColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>ImgColumn : This tag is used for creating  check columns of a table.
+            </description>
+            <component-family>org.mapfaces.treelayout.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLImgColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.ImgColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treelines </description>
+            <component-family>org.mapfaces.treelayout.TreeLines</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreeLines</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.TreeLinesRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treenodeinfo </description>
+             <component-family>org.mapfaces.treelayout.TreeNodeInfo</component-family>
+            <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreeNodeInfo</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treelayout.TreeNodeInfoRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>
