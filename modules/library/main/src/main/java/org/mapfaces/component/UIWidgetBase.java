@@ -17,8 +17,8 @@ import org.mapfaces.component.models.UIModelBase;
 public abstract class UIWidgetBase extends UIComponentBase {
     
     private String outputNodeId;    
-    private UIModelBase model;
-    private UIModelBase targetModel;
+    private UIModelBase UIModel;
+    private UIModelBase UITargetModel;
     private String autoRefresh;
     private String toolId;
     
@@ -43,18 +43,19 @@ public abstract class UIWidgetBase extends UIComponentBase {
     }
 
     public UIModelBase getUITargetModel() {
-        return targetModel;
+        return UITargetModel;
     }
 
     public void setUITargetModel(UIModelBase model) {
-        this.targetModel = model;
+        this.UITargetModel = model;
     }
     public UIModelBase getUIModel() {
-        return model;
+        //Applied a lazy load for this critical property.
+        return (UIModel == null && this.getParent() instanceof UIModelBase) ? (UIModelBase) this.getParent() : UIModel;
     }
 
     public void setUIModel(UIModelBase model) {
-        this.model = model;
+        this.UIModel = model;
     }
     
     public String getAutoRefresh() {
@@ -78,8 +79,8 @@ public abstract class UIWidgetBase extends UIComponentBase {
         Object values[] = new Object[7];
         values[0] = super.saveState(context); 
         values[1] = outputNodeId;
-        values[2] = model;
-        values[3] = targetModel;
+        values[2] = UIModel;
+        values[3] = UITargetModel;
         values[4] = autoRefresh;
         values[5] = toolId;
         values[6] = debug;
@@ -91,8 +92,8 @@ public abstract class UIWidgetBase extends UIComponentBase {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]); 
         outputNodeId = (String) values[1];
-        model = (UIModelBase) values[2];
-        targetModel = (UIModelBase) values[3];
+        UIModel = (UIModelBase) values[2];
+        UITargetModel = (UIModelBase) values[3];
         autoRefresh = (String) values[4];
         toolId = (String) values[5];
         debug = (Boolean) values[6];

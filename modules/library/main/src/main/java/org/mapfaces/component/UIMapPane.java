@@ -3,12 +3,8 @@
  *
  * Created on 27 décembre 2007, 15:59
  */
-
-
-
 package org.mapfaces.component;
 
-import java.awt.Dimension;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import org.geotools.display.service.DefaultPortrayalService;
@@ -19,14 +15,10 @@ import org.geotools.map.DefaultMapContext;
  * @author Mehdi Sidhoum
  */
 public class UIMapPane extends UIWidgetBase {
-    
+
     public static final String FAMILIY = "org.mapfaces.MapPane";
-    
-    
-    
     private DefaultPortrayalService portray = new DefaultPortrayalService();
-    private DefaultMapContext defaultMapContext ;
-    
+    private DefaultMapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
      * larger than the visible map. Large values mean slow loading, small
@@ -34,12 +26,10 @@ public class UIMapPane extends UIWidgetBase {
      * default is 2.
      */
     private Integer imageBuffer = 1;
-
     /**
      * Number of layers that are currently being loaded
      */
     private int loadingLayers = 0;
-
     /**
      * For tiled wms layers: how many rows of tiles should be preloaded
      * outside the visible map? Large values mean slow loading, small
@@ -47,26 +37,22 @@ public class UIMapPane extends UIWidgetBase {
      * default is 2.
      */
     private Integer tileBuffer = 2;
-
     /**
      * For tiled wms layers: Overlap of map tiles in pixels. Useful for
      * preventing rendering artefacts at tile edges. Recommended values:
      * 0-15, default is 0 (no gutter at all).
      */
     private Integer tileGutter = 0;
-
     /**
      * For tiled wms layers: how many pixels should the size of one tile
      * be? Default is 256.
      */
     private Integer tileSize = 256;
-
     /**
      * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
      * the WMS images to fit the odd sized google tiles. Default is false
      */
     private boolean imageReproject = false;
-
     /**
      * Should layers also be rendered outside the map extent? Default is false.
      */
@@ -80,38 +66,34 @@ public class UIMapPane extends UIWidgetBase {
     private String units = "degrees";
     private Boolean fixedSize = false;
     private Boolean fractionalZoom = true;
-    private Boolean singleTile = true;     
+    private Boolean singleTile = true;
     private Integer numZoomLevels = 16;
-    
     /**
      * Control options
      */
     private Boolean panZoomBar = false;
     private Boolean panZoom = false;
     private Boolean keyboardDefaults = false;
-    private Boolean layerSwitcher = false;    
-    private Boolean mousePosition = false;  
-    
-     /**
+    private Boolean layerSwitcher = false;
+    private Boolean mousePosition = false;
+    /**
      * Commercial layers
      */
     private Boolean google = false;
     private Boolean yahoo = false;
     private Boolean virtualEarth = false;
-    
     /**
      * Option to know if the layers should be displayed
      * (set to true after the first page loads)     * 
      */
     private boolean initDisplay = false;
-    
-    
-    
+
     /** Creates a new instance of UIMapPane */
     public UIMapPane() {
         super();
-        if(isDebug())
+        if (isDebug()) {
             System.out.println("    UIMapPane constructor----------------------");
+        }
         setRendererType("org.mapfaces.renderkit.html.MapPane");    // this component has a renderer
     }
 
@@ -132,13 +114,13 @@ public class UIMapPane extends UIWidgetBase {
     }
 
     public void setInitDisplay(boolean b) {
-         this.initDisplay = b;
+        this.initDisplay = b;
     }
-    
+
     public boolean getInitDisplay() {
-         return initDisplay;
+        return initDisplay;
     }
-    
+
     public void setLoadingLayers(int loadingLayers) {
         this.loadingLayers = loadingLayers;
     }
@@ -247,8 +229,6 @@ public class UIMapPane extends UIWidgetBase {
         this.panZoomBar = panZoomBar;
     }
 
-    
-
     public Boolean isKeyboardDefaults() {
         return keyboardDefaults;
     }
@@ -345,7 +325,6 @@ public class UIMapPane extends UIWidgetBase {
         this.portray = portray;
     }
 
-   
     public DefaultMapContext getDefaultMapContext() {
         return defaultMapContext;
     }
@@ -353,11 +332,11 @@ public class UIMapPane extends UIWidgetBase {
     public void setDefaultMapContext(DefaultMapContext defaultMapContext) {
         this.defaultMapContext = defaultMapContext;
     }
-    
+
     @Override
-     public Object saveState(FacesContext context) {
+    public Object saveState(FacesContext context) {
         Object values[] = new Object[3];
-        values[0] = super.saveState(context); 
+        values[0] = super.saveState(context);
         values[1] = defaultMapContext;
         return values;
     }
@@ -365,11 +344,9 @@ public class UIMapPane extends UIWidgetBase {
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
-        super.restoreState(context, values[0]); 
+        super.restoreState(context, values[0]);
         defaultMapContext = (DefaultMapContext) values[1];
-        
+
     }
 }
 
-
-//~ Formatted by Jindent --- http://www.jindent.com
