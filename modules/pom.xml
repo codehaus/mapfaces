@@ -40,6 +40,7 @@
   <!-- =========================================================== -->
   <modules>
     <module>library</module>
+    <module>web</module>
   </modules>
 
 
