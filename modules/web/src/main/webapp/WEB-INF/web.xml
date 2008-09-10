@@ -56,7 +56,8 @@
 	<welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     
-    <jsp-config>
+<!-- The tld files are loaded from the mapfaces jar in WEB-INF/lib -->
+    <!--jsp-config>
         <taglib>
             <taglib-uri>http://mapfaces.org/taglib</taglib-uri>
             <taglib-location>/WEB-INF/tld/mapfaces.tld</taglib-location>
@@ -71,6 +72,6 @@
             <taglib-uri>http://mapfaces.org/taglib-models</taglib-uri>
             <taglib-location>/WEB-INF/tld/mapfaces-models.tld</taglib-location>
         </taglib>
-    </jsp-config>
+    </jsp-config-->
     
 </web-app>
