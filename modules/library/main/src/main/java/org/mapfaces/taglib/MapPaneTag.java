@@ -1,33 +1,40 @@
 /*
- * MapPaneTag.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 27 decembre 2007, 16:28
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.taglib;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentELTag;
 
 /**
  *
  * @author Mehdi Sidhoum
  */
 public class MapPaneTag extends WidgetBaseTag {
+
     /**
      * <p>The standard component type for this component.</p>
      */
     public static final String COMP_TYPE = "org.mapfaces.component.MapPane";
-    
     /**
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.MapPane";
-    
-    
     private ValueExpression empty = null;
-   
     /**
      * OpenLayers.Control
      * */
@@ -36,59 +43,58 @@ public class MapPaneTag extends WidgetBaseTag {
     private ValueExpression navigation = null;
     private ValueExpression keyboardDefaults = null;
     private ValueExpression layerSwitcher = null;
-    private ValueExpression mousePosition = null; 
-    private ValueExpression navToolBar = null;   
-    private ValueExpression numZoomLevels = null;   
-    
+    private ValueExpression mousePosition = null;
+    private ValueExpression navToolBar = null;
+    private ValueExpression numZoomLevels = null;
     /**
      * OpenLayers.Map options
      */
-    private ValueExpression imageBuffer = null;      
-    private ValueExpression singleTile = null;     
+    private ValueExpression imageBuffer = null;
+    private ValueExpression singleTile = null;
     private ValueExpression fixedSize = null;
     private ValueExpression fractionalZoom = null;
-    
     /**
      * Commercial OpenLayers.Layer
      */
     private ValueExpression google = null;
     private ValueExpression yahoo = null;
     private ValueExpression virtualEarth = null;
-        
+
+    @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
-    
     @Override
     protected void setProperties(UIComponent component) {
         // always call the superclass method
-        super.setProperties(component);        
-        component.setValueExpression("empty",empty);
-        component.setValueExpression("panZoomBar",panZoomBar);
-        component.setValueExpression("panZoom",panZoom);
-        component.setValueExpression("navigation",navigation);
-        component.setValueExpression("keyboardDefaults",keyboardDefaults);
-        component.setValueExpression("layerSwitcher",layerSwitcher);
-        component.setValueExpression("mousePosition",mousePosition);
-        component.setValueExpression("navToolBar",navToolBar);
-        
-        
-        component.setValueExpression("imageBuffer",imageBuffer);
-        component.setValueExpression("singleTile",singleTile);
-        component.setValueExpression("fixedSize",fixedSize);
-        component.setValueExpression("fractionalZoom",fractionalZoom);
-        component.setValueExpression("numZoomLevels",numZoomLevels);
-        
-        component.setValueExpression("google",google);
-        component.setValueExpression("yahoo",yahoo);
-        component.setValueExpression("virtualEarth",virtualEarth);
+        super.setProperties(component);
+        component.setValueExpression("empty", empty);
+        component.setValueExpression("panZoomBar", panZoomBar);
+        component.setValueExpression("panZoom", panZoom);
+        component.setValueExpression("navigation", navigation);
+        component.setValueExpression("keyboardDefaults", keyboardDefaults);
+        component.setValueExpression("layerSwitcher", layerSwitcher);
+        component.setValueExpression("mousePosition", mousePosition);
+        component.setValueExpression("navToolBar", navToolBar);
+
+
+        component.setValueExpression("imageBuffer", imageBuffer);
+        component.setValueExpression("singleTile", singleTile);
+        component.setValueExpression("fixedSize", fixedSize);
+        component.setValueExpression("fractionalZoom", fractionalZoom);
+        component.setValueExpression("numZoomLevels", numZoomLevels);
+
+        component.setValueExpression("google", google);
+        component.setValueExpression("yahoo", yahoo);
+        component.setValueExpression("virtualEarth", virtualEarth);
     }
-    
+
     @Override
     public void release() {
         // allways call the superclass method
@@ -100,13 +106,13 @@ public class MapPaneTag extends WidgetBaseTag {
         layerSwitcher = null;
         mousePosition = null;
         navToolBar = null;
-        setPanZoom(null);        
-        
-        imageBuffer = null;   
-        singleTile = null;   
+        setPanZoom(null);
+
+        imageBuffer = null;
+        singleTile = null;
         fixedSize = null;
-        fractionalZoom = null;        
-        
+        fractionalZoom = null;
+
         google = null;
         yahoo = null;
         virtualEarth = null;
@@ -140,7 +146,6 @@ public class MapPaneTag extends WidgetBaseTag {
         this.virtualEarth = virtualEarth;
     }
 
-
     public void setMousePosition(ValueExpression mousePosition) {
         this.mousePosition = mousePosition;
     }
@@ -157,7 +162,6 @@ public class MapPaneTag extends WidgetBaseTag {
         this.fixedSize = fixedSize;
     }
 
-
     public void setFractionalZoom(ValueExpression fractionalZoom) {
         this.fractionalZoom = fractionalZoom;
     }
@@ -170,7 +174,6 @@ public class MapPaneTag extends WidgetBaseTag {
         this.panZoom = panZoom;
     }
 
-
     public void setNumZoomLevels(ValueExpression numZoomLevels) {
         this.numZoomLevels = numZoomLevels;
     }
@@ -178,5 +181,4 @@ public class MapPaneTag extends WidgetBaseTag {
     public void setempty(ValueExpression empty) {
         this.empty = empty;
     }
-    
 }

@@ -1,8 +1,20 @@
 /*
- * TimeLineRenderer.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 10 avril 2008, 17:27
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.timeline;
 
 import bean.TimeLineBean;
@@ -46,7 +58,6 @@ import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.component.timeline.UITimeLine;
-import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.models.timeline.HighlightDecorator;
 import org.mapfaces.models.timeline.Priority;
@@ -66,7 +77,8 @@ import org.opengis.temporal.TemporalPrimitive;
  */
 public class TimeLineRenderer extends Renderer {
 
-        Date centerDate;
+    Date centerDate;
+
     @Override
     @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -81,7 +93,7 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        comp.setJsObject(comp.getId().replace("-","_")+"_Container");
+        comp.setJsObject(comp.getId().replace("-", "_") + "_Container");
         //Write the scripts once per page
         ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.ajaxScript")) {
@@ -91,7 +103,7 @@ public class TimeLineRenderer extends Renderer {
 
         //begin to render the component.        
         writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId , "id");
+        writer.writeAttribute("id", clientId, "id");
         String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) {
             writer.writeAttribute("class", styleclass, "styleclass");
@@ -101,13 +113,13 @@ public class TimeLineRenderer extends Renderer {
         if (style != null) {
             writer.writeAttribute("style", style, "style");
         }
-        
+
         writeSliderZoom(context, comp, writer, extContext);
-        
+
         style = style.concat(" width:100%;");
-        
+
         writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId+"_Container", "id");
+        writer.writeAttribute("id", clientId + "_Container", "id");
         writer.writeAttribute("style", style + "left:0px;top:0px;position:relative;", "style");
         writer.endElement("div"); //close the tm-widget
 
@@ -123,7 +135,7 @@ public class TimeLineRenderer extends Renderer {
         UITimeLine comp = (UITimeLine) component;
         String clientId = component.getClientId(context);
         String idjs = comp.getJsObject();
-        
+
         //begin the javascript declarations
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", "text/javascript");
@@ -150,7 +162,7 @@ public class TimeLineRenderer extends Renderer {
         }
 
         events = buildAllTemporalEvents(events);
-        
+
         List<Event> specialEvents = writeScriptEvents(context, comp, events);
 
         //split the list erasZone to extract te events defined with Duration object to creates the HotzoneBandinfos components.
@@ -165,7 +177,7 @@ public class TimeLineRenderer extends Renderer {
         }
         //Creates a list of Zone objects from the durationEventsCopy list to display zones in the bandInfo component
         List<Zone> zones = buildZonesFromEvents(durationEventsCopy);
-        
+
         //getting children to create BandInfos or HotZoneBandInfos
         if (comp.getChildCount() != 0) {
 
@@ -210,43 +222,41 @@ public class TimeLineRenderer extends Renderer {
         writer.write(idjs + "_tl = Timeline.create(document.getElementById('form:" + idjs + "'), " + idjs + "_bandInfos);\n");
 
         writeResizeFunction(context, comp);
-       writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
+        writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
                 "        var parameters = {    'synchronized': 'true',\n" +
-                 "                             'org.mapfaces.ajax.AJAX_LAYER_ID': 'form:'+img.textContent.split(' ')[1],\n" +
-                 "                             'refresh': img.textContent.split(' ')[1],\n" +
+                "                             'org.mapfaces.ajax.AJAX_LAYER_ID': 'form:'+img.textContent.split(' ')[1],\n" +
+                "                             'refresh': img.textContent.split(' ')[1],\n" +
                 "                              'Time': img.textContent.split(' ')[2],\n" +
                 "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
                 "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
                 "                         };" +
-                "parameters['"+((UIContext)comp.getParent()).getAjaxCompId()+"'] =' "+((UIContext)comp.getParent()).getAjaxCompId()+"';"+
-                
+                "parameters['" + ((UIContext) comp.getParent()).getAjaxCompId() + "'] =' " + ((UIContext) comp.getParent()).getAjaxCompId() + "';" +
                 "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','form',\n" +
-                 "                        null,\n" +
-                 "                        {   'control':this,\n" +
-                 "                            'single':true,\n" +
-                 "                            'parameters': parameters ,\n" +
-//                 "                            'actionUrl':'mapfaces.jsf'\n" +
-                 "                        } \n" +
+                "                        null,\n" +
+                "                        {   'control':this,\n" +
+                "                            'single':true,\n" +
+                "                            'parameters': parameters ,\n" +
+                //                 "                            'actionUrl':'mapfaces.jsf'\n" +
+                "                        } \n" +
                 "                      );\n" +
-
                 "    };\n");
-                    
-              writer.endElement("script");
-              writer.endElement("div"); //close the global div
 
-              writer.flush();
-        }
+        writer.endElement("script");
+        writer.endElement("div"); //close the global div
+
+        writer.flush();
+    }
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
         UITimeLine comp = (UITimeLine) component;
         Map requestMap = context.getExternalContext().getRequestParameterMap();
-        
-        if(requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
-                requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID")&&
-                 ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")){
+
+        if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
+                requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
+                ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
             try {
-                UILayer uiLayer =  ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
                 TimeLineBean tlb = (new TimeLineBean(uiLayer));
                 centerDate = tlb.getCenterDate();
                 comp.setValue(tlb.getEvents());
@@ -274,7 +284,7 @@ public class TimeLineRenderer extends Renderer {
         }
         List<UIComponent> children = component.getChildren();
         for (UIComponent tmp : children) {
-            if(tmp instanceof UIHotZoneBandInfo){
+            if (tmp instanceof UIHotZoneBandInfo) {
                 ((UIHotZoneBandInfo) tmp).setDate(centerDate);
             }
             FacesUtils.encodeRecursive(context, tmp);
@@ -518,8 +528,7 @@ public class TimeLineRenderer extends Renderer {
                             "unit:    Timeline.DateTime." + zoneInterval + "}\n");
                 }
                 writer.write("],\n");
-            }
-            else {
+            } else {
                 System.out.println("%%%%%%%%%%%%%%%");
                 writer.write("zones: [],\n");
             }
@@ -790,7 +799,7 @@ public class TimeLineRenderer extends Renderer {
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/timeline-api.js", null), null);
         writer.writeAttribute("type", "text/javascript", null);
         writer.endElement("script");
-        
+
         writer.startElement("script", component);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.js", null), null);
         writer.writeAttribute("type", "text/javascript", null);
@@ -811,9 +820,9 @@ public class TimeLineRenderer extends Renderer {
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/fr/labellers.js", null), null);
         writer.writeAttribute("type", "text/javascript", null);
         writer.endElement("script");
-        
-        writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\""+ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null)+"\"/>");
-        
+
+        writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
+
         writer.startElement("script", component);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/styles/theme.js", null), null);
         writer.writeAttribute("type", "text/javascript", null);
@@ -998,7 +1007,7 @@ public class TimeLineRenderer extends Renderer {
         Unit unit = Utils.getUnitFromDuration(duration);
         return map.get(unit);
     }
-    
+
     public void writeSilderScripts(ResponseWriter writer, UITimeLine comp, FacesContext context) throws IOException {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
@@ -1008,7 +1017,7 @@ public class TimeLineRenderer extends Renderer {
         writer.writeAttribute("type", "text/javascript", null);
         writer.endElement("script");
     }
-    
+
     public void writeSliderZoom(FacesContext context, UITimeLine comp, ResponseWriter writer, ExternalContext extContext) throws IOException {
         //Write the scripts for slider component once per page
         if (!extContext.getRequestMap().containsKey("ajaxflag.sliderScript")) {
@@ -1020,21 +1029,21 @@ public class TimeLineRenderer extends Renderer {
         writer.writeAttribute("id", comp.getJsObject() + "-zoom", "id");
         writer.writeAttribute("style", "background:#D9E1EC;float:left; height: 300px; width: 34pt; z-index: 1000; position: absolute;", "style");
         writer.endElement("div");
-        
+
         String idjs = comp.getJsObject();
         writer.startElement("script", comp);
-        System.out.println("iiiiiiddd js"+idjs);
-        writer.write("\nvar "+idjs+"zoomSlider = document.getElementById(\""+idjs + "-zoom\");\n" +
-                idjs+"zoomSlider.appendChild(JSSlider.getInstance(\""+idjs+"zoom\", false, 10, 150, 45, undefined, undefined, \""+idjs+"_valChangeHandlerzoomslider\", false).render());\n" +
-                "function "+idjs+"_valChangeHandlerzoomslider(newStartPercent0To100, newEndPercent0To100) {\n" +
+        System.out.println("iiiiiiddd js" + idjs);
+        writer.write("\nvar " + idjs + "zoomSlider = document.getElementById(\"" + idjs + "-zoom\");\n" +
+                idjs + "zoomSlider.appendChild(JSSlider.getInstance(\"" + idjs + "zoom\", false, 10, 150, 45, undefined, undefined, \"" + idjs + "_valChangeHandlerzoomslider\", false).render());\n" +
+                "function " + idjs + "_valChangeHandlerzoomslider(newStartPercent0To100, newEndPercent0To100) {\n" +
                 "    var slideVal = Math.round(10*newStartPercent0To100/100);\n" +
                 "    var intervalPixels;\n" +
                 "    intervalPixels = (slideVal*70);\n" +
                 "    if (intervalPixels == 0) {\n" +
                 "        intervalPixels = 100;\n" +
                 "    }\n" +
-                idjs+"_tl.getBand(0).getEther()._pixelsPerInterval= intervalPixels;\n" +
-                idjs+"_tl.paint();\n" +
+                idjs + "_tl.getBand(0).getEther()._pixelsPerInterval= intervalPixels;\n" +
+                idjs + "_tl.paint();\n" +
                 "}\n");
         writer.endElement("script");
     }

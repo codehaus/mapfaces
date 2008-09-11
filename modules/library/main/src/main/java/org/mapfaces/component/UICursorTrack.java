@@ -1,45 +1,54 @@
 /*
- * UICursorTrack.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 24 decembre 2007, 13:55
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.component;
 
-import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author Mehdi Sidhoum
+ * @author OLivier Terral.
+ * @author Mehdi Sidhoum.
  */
 public class UICursorTrack extends UIWidgetBase {
-    
+
     public static final String FAMILIY = "org.mapfaces.CursorTrack";
-    
     private boolean showPX = false;
     private boolean showXY = false;
     private boolean showLatLon = true;
     private boolean showDMS = false;
     private boolean showDM = false;
-       
+
     /** Creates a new instance of UICursorTrack */
     public UICursorTrack() {
         super();
         setRendererType("org.mapfaces.renderkit.html.CursorTrack"); // this component has a renderer
-        if(isDebug())
-            System.out.println("    UICursorTrack constructor----------------------");
-        
+        if (isDebug()) {
+            System.out.println("[UICursorTrack] constructor----------------------");
+        }
     }
-    
+
     public String getFamily() {
         return FAMILIY;
     }
-    
+
     @Override
-     public Object saveState(FacesContext context) {
+    public Object saveState(FacesContext context) {
         Object values[] = new Object[6];
-        values[0] = super.saveState(context); 
+        values[0] = super.saveState(context);
         values[1] = isShowPX();
         values[2] = isShowXY();
         values[3] = isShowLatLon();
@@ -51,7 +60,7 @@ public class UICursorTrack extends UIWidgetBase {
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
-        super.restoreState(context, values[0]);         
+        super.restoreState(context, values[0]);
         setShowPX((boolean) (Boolean) values[1]);
         setShowXY((boolean) (Boolean) values[2]);
         setShowLatLon((boolean) (Boolean) values[3]);
@@ -98,6 +107,4 @@ public class UICursorTrack extends UIWidgetBase {
     public void setShowDM(boolean showDM) {
         this.showDM = showDM;
     }
-
-    
 }

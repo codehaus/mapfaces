@@ -1,7 +1,18 @@
 /*
- * MapPaneRenderer.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 27 decembre 2007, 16:20
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.renderkit.html;
@@ -9,7 +20,6 @@ package org.mapfaces.renderkit.html;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,9 +27,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
-import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.DefaultMapContext;
-import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 import org.geotools.referencing.CRS;
 import org.mapfaces.component.UILayer;
@@ -27,19 +35,30 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractContext;
 import org.mapfaces.models.Layer;
-import org.mapfaces.util.FacesUtils;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
+/**
+ * 
+ * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
+ */
 public class MapPaneRenderer extends WidgetBaseRenderer {
-    
     
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
         super.encodeBegin(context, component);
         
         UIMapPane comp = (UIMapPane) component;
-        AbstractContext model = ((UIContext) UIModel).getModel(); 
+        
+        AbstractContext model;
+        if (comp.getModel() != null && comp.getModel() instanceof AbstractContext) {
+            model = (AbstractContext) comp.getModel();
+        }
+        else {
+            //The model context is null or not an AbstractContext instance
+            throw new UnsupportedOperationException("The model context is null or not supported yet !");
+        }
         
         boolean isContextExist = true;
         
@@ -144,8 +163,16 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
-        UIMapPane comp = (UIMapPane) component;    
-        AbstractContext model = ((UIContext) UIModel).getModel(); 
+        UIMapPane comp = (UIMapPane) component;
+        UIContext contextComp = (UIContext) comp.getParent();
+        AbstractContext model;
+        if (comp.getModel() != null && comp.getModel() instanceof AbstractContext) {
+            model = (AbstractContext) comp.getModel();
+        } else {
+            //The model context is null or not an AbstractContext instance
+            throw new UnsupportedOperationException("The model context is null or not supported yet !");
+        }
+        
         ResponseWriter writer = context.getResponseWriter();
         // ... ending the started elements
                 writer.endElement("div");
@@ -155,7 +182,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 writer.writeAttribute("type","text/javascript","text/javascript");
         
                 //suppression des ":" pour nommer l'objet javascript correspondant correctement      
-                String jsObject = UIModel.getClientId(context);        
+                String jsObject = contextComp.getClientId(context);        
                 if(jsObject.contains(":"))                 
                     jsObject = jsObject.replace(":","");
                 String[] srsCode = model.getSrs().split(":");
@@ -170,7 +197,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     "                       theme:  null ,\n" +
                     "                       fractionnalZoom:  true ,\n" +
                     "                       layersName:  '"+model.getLayersId()+"' ,\n" +
-                    "                       mfAjaxCompId:'"+comp.getUIModel().getAjaxCompId()+"'\n"+
+                    "                       mfAjaxCompId:'"+contextComp.getAjaxCompId()+"'\n"+
                     "                   };\n" +    
                     "    window."+jsObject+" = new OpenLayers.Map('"+comp.getClientId(context)+"',mapOptions);\n" +
                     "   ");
@@ -184,8 +211,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     public void decode(FacesContext context, UIComponent component) {
         super.decode(context, component);
         UIMapPane comp = (UIMapPane) component;
-        UIContext ctx = (UIContext)comp.getUIModel();
-        AbstractContext tmp=(AbstractContext) ctx.getModel();
+        UIContext contextComp = (UIContext) comp.getParent();
+        AbstractContext tmp=(AbstractContext) contextComp.getModel();
         
         if(context.getExternalContext().getRequestParameterMap()!=null){
             Map params = context.getExternalContext().getRequestParameterMap();
@@ -201,7 +228,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             }
         }
          //((UILayer) tmp).setMapPane((UIMapPane) component);
-        ctx.setModel(tmp);
-        comp.setUIModel(ctx); 
+        contextComp.setModel(tmp);
+        comp.setModel(tmp); 
     }
 }

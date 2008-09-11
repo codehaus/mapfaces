@@ -1,7 +1,18 @@
 /*
- * MapSizeRenderer.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 24 decembre 2007, 13:55
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.renderkit.html;
@@ -10,39 +21,42 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIWidget;
-import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractContext;
 
-
+/**
+ * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
+ */
 public class WidgetRenderer extends WidgetBaseRenderer {
-    
+
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
-        
+    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+
         super.encodeBegin(context, component);
-        
+
         UIWidget comp = (UIWidget) component;
-        AbstractContext model = ((UIContext) getUIModel()).getModel(); 
-        
+        AbstractContext model = (AbstractContext) comp.getModel();
+
         getWriter().startElement("div", comp);
-        getWriter().writeAttribute("id",getClientId(),"id");
-        getWriter().writeAttribute("style",getStyle(),"style");        
-        if(getStyleClass() == null)
-            getWriter().writeAttribute("class","mfWidget","styleClass");
-        else
-            getWriter().writeAttribute("class",getStyleClass(),"styleClass");
+        getWriter().writeAttribute("id", getClientId(), "id");
+        getWriter().writeAttribute("style", getStyle(), "style");
+        if (getStyleClass() == null) {
+            getWriter().writeAttribute("class", "mfWidget", "styleClass");
+        } else {
+            getWriter().writeAttribute("class", getStyleClass(), "styleClass");
+        }
         getWriter().endElement("div");
         getWriter().flush();
-        
+
     }
-    
+
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException { 
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
     }
-    
+
     @Override
-    public void decode(FacesContext context, UIComponent component) {      
+    public void decode(FacesContext context, UIComponent component) {
         super.decode(context, component);
     }
 }

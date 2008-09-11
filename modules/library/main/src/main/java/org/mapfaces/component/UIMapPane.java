@@ -1,8 +1,20 @@
 /*
- * UIMapPane.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 27 décembre 2007, 15:59
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.component;
 
 import java.util.List;
@@ -11,8 +23,8 @@ import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.map.DefaultMapContext;
 
 /**
- *
- * @author Mehdi Sidhoum
+ * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
  */
 public class UIMapPane extends UIWidgetBase {
 
@@ -92,7 +104,7 @@ public class UIMapPane extends UIWidgetBase {
     public UIMapPane() {
         super();
         if (isDebug()) {
-            System.out.println("    UIMapPane constructor----------------------");
+            System.out.println("[UIMapPane] constructor----------------------");
         }
         setRendererType("org.mapfaces.renderkit.html.MapPane");    // this component has a renderer
     }
