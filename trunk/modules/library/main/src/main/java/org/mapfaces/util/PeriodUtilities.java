@@ -1,18 +1,20 @@
 /*
- * Sicade - Systèmes intégrés de connaissances pour l'aide à la décision en environnement
- * (C) 2005, Institut de Recherche pour le Développement
- * (C) 2007, Geomatys
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation; either
- *    version 2.1 of the License, or (at your option) any later version.
+ *    version 3 of the License, or (at your option) any later version.
  *
  *    This library is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util;
 
 import java.text.DateFormat;
@@ -28,8 +30,6 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.Duration;
 
 /**
  * 
@@ -256,7 +256,7 @@ public class PeriodUtilities {
                 //then we get the period Description
                 long gap = getTimeFromPeriodDescription(dates);
                 Date currentDate = first;
-                while ( currentDate.before(last) ) {
+                while (currentDate.before(last)) {
                     Date nextDate = new Date(currentDate.getTime() + gap);
                     response.add(currentDate);
                     currentDate = nextDate;
@@ -273,13 +273,13 @@ public class PeriodUtilities {
      * @param startInstant
      * @return
      */
-      /**
+    /**
      * Return a Date (long time) from a String description
      * 
      * @param periodDescription
      * @return
      */
-    public  static long getTimeFromPeriodDescription(String periodDescription) {
+    public static long getTimeFromPeriodDescription(String periodDescription) {
 
         long time = 0;
         //we remove the 'P'
@@ -293,13 +293,13 @@ public class PeriodUtilities {
         }
 
         //we look if the period contains months (2628000000 ms)
-        if (    periodDescription.indexOf('M') != -1 && 
-                (periodDescription.indexOf("T") == -1 || periodDescription.indexOf("T") > periodDescription.indexOf('M')) ) {
+        if (periodDescription.indexOf('M') != -1 &&
+                (periodDescription.indexOf("T") == -1 || periodDescription.indexOf("T") > periodDescription.indexOf('M'))) {
             int nbMonth = Integer.parseInt(periodDescription.substring(0, periodDescription.indexOf('M')));
             time += nbMonth * monthMS;
             periodDescription = periodDescription.substring(periodDescription.indexOf('M') + 1);
         }
-        
+
         //we look if the period contains weeks (604800000 ms)
         if (periodDescription.indexOf('W') != -1) {
             int nbWeek = Integer.parseInt(periodDescription.substring(0, periodDescription.indexOf('W')));
@@ -345,7 +345,7 @@ public class PeriodUtilities {
         }
         return time;
     }
-    
+
     /**
      * Returns a Date object from an ISO-8601 representation string. (String defined with pattern yyyy-MM-dd'T'HH:mm:ss.SSSZ or yyyy-MM-dd).
      * @param dateString
@@ -357,30 +357,29 @@ public class PeriodUtilities {
         String DATE_FORMAT2 = "yyyy-MM-dd";
         SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
         SimpleDateFormat sdf2 = new java.text.SimpleDateFormat(DATE_FORMAT2, Locale.ENGLISH);
-        
-        if (dateString.contains("T")){
+
+        if (dateString.contains("T")) {
             //set the timezone if exists.
             String timezone = getTimeZone(dateString);
             sdf.setTimeZone(TimeZone.getTimeZone(timezone));
-            
+
             response = sdf.parse(dateString);
-        }
-        else {
-            if (dateString.contains("-")){
+        } else {
+            if (dateString.contains("-")) {
                 response = sdf2.parse(dateString);
             }
         }
         return response;
     }
-    
+
     public static String getTimeZone(String dateString) {
         int index = dateString.lastIndexOf("+");
-        if (index ==-1) {
+        if (index == -1) {
             index = dateString.lastIndexOf("-");
         }
-        return "GMT"+dateString.substring(index);
+        return "GMT" + dateString.substring(index);
     }
-    
+
     /**
      * Return a Date (long time) from a String description
      * 
@@ -401,13 +400,13 @@ public class PeriodUtilities {
         }
 
         //we look if the period contains months (2628000000 ms)
-        if (    periodDescription.indexOf('M') != -1 && 
-                (periodDescription.indexOf("T") == -1 || periodDescription.indexOf("T") > periodDescription.indexOf('M')) ) {
+        if (periodDescription.indexOf('M') != -1 &&
+                (periodDescription.indexOf("T") == -1 || periodDescription.indexOf("T") > periodDescription.indexOf('M'))) {
             int nbMonth = Integer.parseInt(periodDescription.substring(0, periodDescription.indexOf('M')));
             time += nbMonth * monthMS;
             periodDescription = periodDescription.substring(periodDescription.indexOf('M') + 1);
         }
-        
+
         //we look if the period contains weeks (604800000 ms)
         if (periodDescription.indexOf('W') != -1) {
             int nbWeek = Integer.parseInt(periodDescription.substring(0, periodDescription.indexOf('W')));
@@ -459,8 +458,8 @@ public class PeriodUtilities {
         /*PeriodUtilities pu = new PeriodUtilities(null);
         long response = pu.getTimeFromDuration("PT1M", new Date());
         System.out.println(">>>>>>>>>>>>>>>>> response = " + response);
-
-
+        
+        
         String begin = "2003-02-13T12:28:55.456-0800";
         String end = "2004-02-13T12:28:55.456-0800";
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -468,37 +467,37 @@ public class PeriodUtilities {
         dateFormat.setTimeZone(TimeZone.getTimeZone(PeriodUtilities.getTimeZone(begin)));
         SortedSet dates = pu.getDatesFromPeriodDescription(begin+"/"+end+"/P1DT23H", dateFormat);
         System.out.println(">>>>> dates size = " + dates.size());
-
+        
         Date d = PeriodUtilities.getDateFromString(begin);
         System.out.println(">>>>>>>>> begin = "+d.toString());
         
         
         System.out.println(">>>>>>>> long = "+PeriodUtilities.getTimeInMillis("P1MT1M"));
-        */
+         */
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
         Date d = new Date();
-        SortedSet dates = PeriodUtilities.getDatesFromPeriodDescription("2007-06-06T10:00:00Z/2007-06-20T10:00:00Z/P1D",dateFormat);
-        System.out.println(">>>>>> "+dateFormat.format(d));
+        SortedSet dates = PeriodUtilities.getDatesFromPeriodDescription("2007-06-06T10:00:00Z/2007-06-20T10:00:00Z/P1D", dateFormat);
+        System.out.println(">>>>>> " + dateFormat.format(d));
         System.out.println("dates = " + dates.size());
-        for (Iterator it = dates.iterator(); it.hasNext();){
-                  // System.out.println("ici"+((Date)it).toString());
+        for (Iterator it = dates.iterator(); it.hasNext();) {
+            // System.out.println("ici"+((Date)it).toString());
             Date crrt = (Date) it.next();
-                   /* events.add(new Event((Date)it.next(),
-                                        (Date)it.next(),
-                                        null,
-                                        false,
-                                        "Developpement of the TimeLine components renderers",
-                                        "This is the duration of the jsf implementation for the component TimeLine",
-                                        "http://simile.mit.edu/images/csail-logo.gif",
-                                        "http://travel.yahoo.com/",
-                                        "",
-                                        Priority.NORMAL,
-                                        "",
-                                        Status.IN_PROGRESS,
-                                        "",
-                                        null));
-               }*/
+        /* events.add(new Event((Date)it.next(),
+        (Date)it.next(),
+        null,
+        false,
+        "Developpement of the TimeLine components renderers",
+        "This is the duration of the jsf implementation for the component TimeLine",
+        "http://simile.mit.edu/images/csail-logo.gif",
+        "http://travel.yahoo.com/",
+        "",
+        Priority.NORMAL,
+        "",
+        Status.IN_PROGRESS,
+        "",
+        null));
+        }*/
         }
     }
 }

@@ -1,8 +1,20 @@
 /*
- * HotZoneBandInfoRenderer.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 10 avril 2008, 17:28
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.timeline;
 
 import java.io.IOException;
@@ -47,7 +59,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
 
         //casting the component.
         UIHotZoneBandInfo bandInfoComp = (UIHotZoneBandInfo) component;
-        bandInfoComp.setJsObject(bandInfoComp.getId().replace("-","_"));
+        bandInfoComp.setJsObject(bandInfoComp.getId().replace("-", "_"));
         ExternalContext extContext = context.getExternalContext();
         int index = 0;
         String key = component.getParent().getId() + "-indexhotZoneBand";
@@ -152,7 +164,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     idjs + "_bandInfos[bandId].ether._interval=ms;\n" +
                     idjs + "_bandInfos[bandId].ether._params.interval=ms;\n" +
                     idjs + "_bandInfos[bandId].etherPainter._params.unit=eval(val);\n" +
-                    "var size = "+idjs + "_bandInfos[bandId].etherPainter._zones.length;\n" +
+                    "var size = " + idjs + "_bandInfos[bandId].etherPainter._zones.length;\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n" +
                     centerdateScript +

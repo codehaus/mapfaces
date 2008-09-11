@@ -1,3 +1,20 @@
+/*
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.share.listener;
 
 /**
@@ -25,8 +42,7 @@ public class ResourcePhaseListener implements PhaseListener {
     public static final String CONTENT_TYPE_PARAM = "ct";
     public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
     private Map<String, String> extensionToContentType = null;
-    
-    private static final Map<String,String> POOL = new HashMap<String, String>();
+    private static final Map<String, String> POOL = new HashMap<String, String>();
 
     public ResourcePhaseListener() {
         extensionToContentType = new HashMap<String, String>();
@@ -82,8 +98,9 @@ public class ResourcePhaseListener implements PhaseListener {
 
                 servletResponse.setContentType(contentType);
                 int ch;
-                if (in == null)
+                if (in == null) {
                     return;
+                }
                 while ((ch = in.read()) != -1) {
                     out.write(ch);
                 }
@@ -110,11 +127,11 @@ public class ResourcePhaseListener implements PhaseListener {
      */
     public static String getURL(FacesContext context, String resourcePath,
             String contentType) {
-        
+
         if (POOL.containsKey(resourcePath)) {
             return getURLvalue(resourcePath);
         }
-        
+
         ViewHandler handler = context.getApplication().getViewHandler();
 
         String url = handler.getActionURL(context, RESOURCE_PREFIX);
@@ -127,7 +144,7 @@ public class ResourcePhaseListener implements PhaseListener {
         POOL.put(resourcePath, r.toString());
         return r.toString();
     }
-    
+
     public static String getURLvalue(final String key) {
         synchronized (POOL) {
             return POOL.get(key);

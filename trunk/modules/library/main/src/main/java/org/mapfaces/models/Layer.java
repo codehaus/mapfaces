@@ -1,18 +1,29 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.models;
 
 import java.util.HashMap;
-import java.util.List;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
 
 /**
  *
- * @author olivier
+ * @author Olivier Terral.
  */
 public interface Layer {
 
@@ -59,7 +70,6 @@ public interface Layer {
     //Server getServer();
 
     //List<Style> getStyle();
-
     String getTitle();
 
     boolean isHidden();
@@ -104,43 +114,44 @@ public interface Layer {
 
     void setResponseCRS(String responseCRS);
 
-   // void setServer(Server server);
+    // void setServer(Server server);
 
     //void setStyle(List<Style> style);
-
     void setTitle(String title);
-    
+
     MapLayer getMapLayer();
 
     void setMapLayer(MapLayer mapLayer);
-    
+
     void get(MapLayer mapLayer);
-    
+
     Dimension getElevation();
-    
+
     Dimension getTime();
-    
+
     Dimension getDimension(String name);
-    
+
     void setDimension(String name, String value);
 
     String getType();
 
     void setType(String type);
-    
+
     /*
      * These function are added to easily configure the layercontrol tag
      * */
     /*
      * Elevations is the dimension node value for elevation dimension
      * */
-            
     String getElevations();
+
     String getTimes();
-    
+
     String setElevations();
-     
+
     String getUserValueElevation();
+
     String getUserValueTime();
+
     String getUserValueDimension(String name);
 }

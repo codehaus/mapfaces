@@ -1,7 +1,20 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.models;
 
 import java.io.FileReader;
@@ -20,6 +33,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.models.AbstractContext;
@@ -27,7 +41,8 @@ import org.mapfaces.util.FacesUtils;
 
 /**
  *
- * @author olivier
+ * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
  */
 public class ContextRenderer extends Renderer {
 
@@ -69,7 +84,7 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
 
-            //Load context file
+            //Loading the context file if the model is null.
             if (comp.getModel() == null) {
                 String fileUrl = (String) component.getAttributes().get("service");
                 if (fileUrl == null || fileUrl.length() < 1) {
@@ -96,16 +111,14 @@ public class ContextRenderer extends Renderer {
             comp.getChildren().add(ajaxComp);
             comp.setAjaxCompId(comp.getClientId(context) + "Ajax");
 
-            component.setTransient(true);
+            //setting to transient the context component to remove it from the JSF tree component.
+            //comp.setTransient(true);
 
         } catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
     }
 
     @Override
@@ -113,8 +126,12 @@ public class ContextRenderer extends Renderer {
         if (debug) {
             System.out.println("ContextRenderer  children");
         }
+        UIContext comp = (UIContext) component;
         List<UIComponent> childrens = component.getChildren();
         for (UIComponent tmp : childrens) {
+            if (tmp instanceof UIWidgetBase) {
+                ((UIWidgetBase) tmp).setModel(comp.getModel());
+            }
             FacesUtils.encodeRecursive(context, tmp);
         }
     }
@@ -143,7 +160,8 @@ public class ContextRenderer extends Renderer {
             System.out.println("ContextRenderer decode");
         }
         if (context.getExternalContext().getRequestParameterMap() != null) {
-            AbstractContext tmp = comp.getModel();
+            AbstractContext tmp = (AbstractContext) comp.getModel();
+            
             //tmp.setI
             Map params = context.getExternalContext().getRequestParameterMap();
             /* String bbox = (String) params.get(comp.getParent().getId()+":bbox");               

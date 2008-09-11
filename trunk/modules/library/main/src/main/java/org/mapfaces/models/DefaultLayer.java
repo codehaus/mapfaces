@@ -1,17 +1,34 @@
+/*
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.models;
 
+/**
+ *
+ * @author Olivier Terral.
+ */
 import java.util.HashMap;
-import java.util.List;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 
-
 public class DefaultLayer implements Layer {
-    
-    private MapLayer mapLayer;
-    
 
+    private MapLayer mapLayer;
     private boolean edit;
     private boolean lock;
     private int groupId;
@@ -19,26 +36,23 @@ public class DefaultLayer implements Layer {
      * bbox
      */
     private ReferencedEnvelope refEnv;
-    
     private String type;
-    private String id;   
+    private String id;
     private String name;
     private boolean queryable;
     private String group;
-    private String title;  
+    private String title;
     private boolean hidden;
-    private String opacity;  
+    private String opacity;
     private String outputFormat;
     private String minScaleDenominator;
     private String maxScaleDenominator;
     //private List<Style> style;
-    private HashMap<String,Dimension> dimensionList;
-   // private HashMap<String,Parameter> parameterList;
-    
+    private HashMap<String, Dimension> dimensionList;
+    // private HashMap<String,Parameter> parameterList;
     //private Server server;
     private String maxFeatures;
     private String inlineGeometry;
-    
     private String dataUrl;
     private String metadataUrl;
     private String responseCRS;
@@ -46,8 +60,8 @@ public class DefaultLayer implements Layer {
     private String resX;
     private String resY;
     private String resZ;
-    
-    public DefaultLayer( boolean edit, boolean lock, int groupId) {
+
+    public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
         this.lock = lock;
         this.groupId = groupId;
@@ -127,9 +141,9 @@ public class DefaultLayer implements Layer {
 
     public void setOutputFormat(String outputFormat) {
         this.outputFormat = outputFormat;
-        if(type.contains("WMS"))
-                ((WMSMapLayer) mapLayer).setOutputFormat(outputFormat);
-        
+        if (type.contains("WMS")) {
+            ((WMSMapLayer) mapLayer).setOutputFormat(outputFormat);
+        }
     }
 
     public String getMinScaleDenominator() {
@@ -155,31 +169,31 @@ public class DefaultLayer implements Layer {
 //    public void setStyle(List<Style> style) {
 //        this.style = style;
 //    }
-
     public HashMap<String, Dimension> getDimensionList() {
         return dimensionList;
     }
 
     @Override
     public void setDimensionList(HashMap<String, Dimension> dimensionList) {
-        
-        if(this.dimensionList == null)
+
+        if (this.dimensionList == null) {
             this.dimensionList = new HashMap<String, Dimension>(dimensionList);
-         for ( String tmp : dimensionList.keySet()){
-             if(type.contains("WMS"))
+        }
+        for (String tmp : dimensionList.keySet()) {
+            if (type.contains("WMS")) {
                 ((WMSMapLayer) mapLayer).setDimension(tmp, dimensionList.get(tmp).getUserValue());
-             System.out.println(tmp +" : "+  this.dimensionList.get(tmp));
-         }        
+            }
+            System.out.println(tmp + " : " + this.dimensionList.get(tmp));
+        }
     }
 
     /*public Server getServer() {
-        return server;
+    return server;
     }
-
+    
     public void setServer(Server server) {
-        this.server = server;
+    this.server = server;
     }*/
-
     public String getMaxFeatures() {
         return maxFeatures;
     }
@@ -267,38 +281,46 @@ public class DefaultLayer implements Layer {
 
     @Override
     public Dimension getElevation() {
-        if(dimensionList != null)
+        if (dimensionList != null) {
             return dimensionList.get("elevation");
+        }
         return null;
     }
 
     @Override
     public Dimension getTime() {
-        if(dimensionList != null)
+        if (dimensionList != null) {
             return dimensionList.get("time");
-         return null;
+        }
+        return null;
     }
 
     @Override
     public Dimension getDimension(String name) {
-        if(dimensionList != null)        
+        if (dimensionList != null) {
             return dimensionList.get(name);
-         return null;
-    }
-    @Override
-    public String getUserValueElevation() {
-        if(getElevation() != null)
-            return getElevation().getUserValue();
+        }
         return null;
     }
+
+    @Override
+    public String getUserValueElevation() {
+        if (getElevation() != null) {
+            return getElevation().getUserValue();
+        }
+        return null;
+    }
+
     @Override
     public String getElevations() {
-         return getElevation().getValue();
+        return getElevation().getValue();
     }
+
     @Override
     public String getTimes() {
-         return getTime().getValue();
+        return getTime().getValue();
     }
+
     /**
      * 
      * 
@@ -307,15 +329,16 @@ public class DefaultLayer implements Layer {
      * @param value
      */
     public void setDimension(String name, Dimension dim) {
-        if(dimensionList == null)
+        if (dimensionList == null) {
             dimensionList = new HashMap<String, Dimension>();
-        if(dimensionList.get(name) != null){
+        }
+        if (dimensionList.get(name) != null) {
             dimensionList.remove(name);
-        } 
+        }
         dimensionList.put(name, dim);
-        if(type.contains("WMS"))
-            ((WMSMapLayer) mapLayer).setDimension(name,dim.getUserValue());
-        
+        if (type.contains("WMS")) {
+            ((WMSMapLayer) mapLayer).setDimension(name, dim.getUserValue());
+        }
     }
 
     public String getType() {
@@ -328,15 +351,18 @@ public class DefaultLayer implements Layer {
     /*
      * Set the User Value of a dimension specify with name
      * */
+
     @Override
     public void setUserValue(String dimName, String value) {
-        if(dimensionList == null)
+        if (dimensionList == null) {
             dimensionList = new HashMap<String, Dimension>();
-        if(dimensionList.get(dimName) != null){
+        }
+        if (dimensionList.get(dimName) != null) {
             dimensionList.get(dimName).setUserValue(value);
-        } 
-        if(type.contains("WMS"))
-            ((WMSMapLayer) mapLayer).setDimension(dimName,dimensionList.get(dimName).getUserValue());
+        }
+        if (type.contains("WMS")) {
+            ((WMSMapLayer) mapLayer).setDimension(dimName, dimensionList.get(dimName).getUserValue());
+        }
     }
 
     @Override
@@ -351,13 +377,16 @@ public class DefaultLayer implements Layer {
 
     @Override
     public String getUserValueTime() {
-       if(getElevation() != null)
+        if (getElevation() != null) {
             return getTime().getUserValue();
+        }
         return null;
     }
+
     public String getUserValueDimension(String name) {
-      if(dimensionList != null)
+        if (dimensionList != null) {
             return dimensionList.get(name).getUserValue();
-         return null;
+        }
+        return null;
     }
 }

@@ -1,7 +1,18 @@
 /*
- * MapPaneTag.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 27 decembre 2007, 16:28
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.taglib;
@@ -11,60 +22,57 @@ import javax.faces.component.UIComponent;
 
 /**
  *
- * @authorOlivier Terral
+ * @author Olivier Terral.
  */
 public class ButtonBarTag extends WidgetBaseTag {
+
     /**
      * <p>The standard component type for this component.</p>
      */
     public static final String COMP_TYPE = "org.mapfaces.component.ButtonBar";
-    
     /**
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.ButtonBar";
-    
     private ValueExpression empty = null;
-   
     /**
      * OpenLayers.Control
      * */
     private ValueExpression zoomIn = null;
     private ValueExpression zoomOut = null;
-    private ValueExpression pan = null; 
+    private ValueExpression pan = null;
     private ValueExpression zoomMaxExtent = null;
     private ValueExpression history = null;
     private ValueExpression panEffect = null;
-    
-  
-        
+
+    @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
-    
     @Override
     protected void setProperties(UIComponent component) {
         // always call the superclass method
-        super.setProperties(component);             
-        component.setValueExpression("empty",empty);
-        component.setValueExpression("zoomIn",zoomIn);
-        component.setValueExpression("zoomOut",zoomOut);
-        component.setValueExpression("pan",pan);
-        component.setValueExpression("zoomMaxExtent",zoomMaxExtent);
-        component.setValueExpression("history",history);
-        component.setValueExpression("panEffect",panEffect);
-        
+        super.setProperties(component);
+        component.setValueExpression("empty", empty);
+        component.setValueExpression("zoomIn", zoomIn);
+        component.setValueExpression("zoomOut", zoomOut);
+        component.setValueExpression("pan", pan);
+        component.setValueExpression("zoomMaxExtent", zoomMaxExtent);
+        component.setValueExpression("history", history);
+        component.setValueExpression("panEffect", panEffect);
+
     }
-    
+
     @Override
     public void release() {
         // allways call the superclass method
-        super.release();        
+        super.release();
         setEmpty(null);
         setZoomIn(null);
         setZoomOut(null);
@@ -73,8 +81,6 @@ public class ButtonBarTag extends WidgetBaseTag {
         setHistory(null);
         setPanEffect(null);
     }
-
-
 
     public void setEmpty(ValueExpression empty) {
         this.empty = empty;
@@ -127,5 +133,4 @@ public class ButtonBarTag extends WidgetBaseTag {
     public void setPanEffect(ValueExpression panEffect) {
         this.panEffect = panEffect;
     }
-    
 }

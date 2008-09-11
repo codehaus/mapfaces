@@ -1,3 +1,19 @@
+/*
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
@@ -17,7 +33,6 @@ import org.apache.commons.lang.StringUtils;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.abstractTree.UIAbstractColumn;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
-import org.mapfaces.component.treelayout.UIColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.component.treelayout.UITreeTable;
 import org.mapfaces.models.Layer;
@@ -25,30 +40,34 @@ import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.share.utils.Utils;
 
+/**
+ * 
+ * @author Olivier Terral.
+ */
 public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
-    
+
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-       if(((UITreeLines)(component.getParent())).getNodeInstance().isLeaf() ){
-           super.encodeBegin(context, component);
-       }
+        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
+            super.encodeBegin(context, component);
+        }
     }
-    
+
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        if(((UITreeLines)(component.getParent())).getNodeInstance().isLeaf() ){
+        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeEnd(context, component);
         }
     }
-    
+
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
-        
+
         /*
          * Prepare informations for making any Ajax request (TO BE FACTORIZE)
          */
-         
-        ResponseWriter writer = context.getResponseWriter();            
+
+        ResponseWriter writer = context.getResponseWriter();
         AjaxUtils ajaxtools = new AjaxUtils();
         String varId = getVarId(context, (UIAbstractColumn) component);
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -56,7 +75,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY(), "'+value+'");
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), component.getId());
         ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_LAYER_ID(),varId );
+        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_LAYER_ID(), varId);
         String AJAX_SERVER = ajaxtools.getAjaxServer(request);
         String AJAX_PARAMETERS = ajaxtools.getAjaxParameters();
         String Request = ajaxtools.getRequestJs("post", AJAX_SERVER, AJAX_PARAMETERS);
@@ -65,14 +84,15 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
         writer.startElement("script", component);
 
-        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){"+addBeforeRequestScript(varId));        
+        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId));
         writer.write("value = event.target.value;" +
-                      "target = event.target.name;" +
-                      "viewstate = document.getElementById('javax.faces.ViewState').value;" +
-                      Request +
-                      "});");
+                "target = event.target.name;" +
+                "viewstate = document.getElementById('javax.faces.ViewState').value;" +
+                Request +
+                "});");
         writer.endElement("script");
     }
+
     @Override
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
         UIOpacityColumn comp = (UIOpacityColumn) component;
@@ -117,29 +137,25 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
                 }
             }
         }
-        
+
         try {
             HttpServletResponse response = createResponse(context, haveBeenResolved);
         } catch (IOException ex) {
             Logger.getLogger(OpacityColumnRenderer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        UILayer uiLayer= (UILayer) Utils.findComponentById(context,context.getViewRoot(),request.getParameter(ajaxtools.getAJAX_LAYER_ID()).split(":")[1]);
-        if(uiLayer==null){
-            throw new NullPointerException("Layer doesn't exist with id : "+request.getParameter(ajaxtools.getAJAX_LAYER_ID()).split(":")[1]);
+
+
+        UILayer uiLayer = (UILayer) Utils.findComponentById(context, context.getViewRoot(), request.getParameter(ajaxtools.getAJAX_LAYER_ID()).split(":")[1]);
+        if (uiLayer == null) {
+            throw new NullPointerException("Layer doesn't exist with id : " + request.getParameter(ajaxtools.getAJAX_LAYER_ID()).split(":")[1]);
         }
         uiLayer.decode(context);
 
     }
 
-
-    
     public String addBeforeRequestScript(String layerId) {
-        return "document.getElementById('" + layerId + "').style.opacity=event.target.value;"
-//               +"var ieValue=event.target.value*100;" +
-//               "document.getElementById('" + layerId + "').style.filter='alpha('+opacity=ieValue+')';event.target.value;"
-               ;
+        return "document.getElementById('" + layerId + "').style.opacity=event.target.value;" //               +"var ieValue=event.target.value*100;" +
+                //               "document.getElementById('" + layerId + "').style.filter='alpha('+opacity=ieValue+')';event.target.value;"
+                ;
     }
-   
 }

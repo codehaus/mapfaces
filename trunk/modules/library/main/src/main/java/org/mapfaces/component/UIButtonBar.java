@@ -1,46 +1,55 @@
 /*
- * UIButtonBar.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 24 decembre 2007, 13:55
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.component;
 
-import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author Mehdi Sidhoum
+ * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
  */
 public class UIButtonBar extends UIWidgetBase {
-    
+
     public static final String FAMILIY = "org.mapfaces.ButtonBar";
-    
     private boolean zoomIn = true;
     private boolean zoomOut = true;
     private boolean pan = true;
     private boolean zoomMaxExtent = true;
     private boolean history = true;
     private boolean panEffect = false;
-       
+
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
         super();
         setRendererType("org.mapfaces.renderkit.html.ButtonBar"); // this component has a renderer
-        if(isDebug())
-            System.out.println("    UIButtonBar constructor----------------------");
-        
+        if (isDebug()) {
+            System.out.println("[UIButtonBar] constructor----------------------");
+        }
     }
-    
+
     public String getFamily() {
         return FAMILIY;
     }
-    
+
     @Override
-     public Object saveState(FacesContext context) {
+    public Object saveState(FacesContext context) {
         Object values[] = new Object[7];
-        values[0] = super.saveState(context); 
+        values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
         values[3] = pan;
@@ -53,7 +62,7 @@ public class UIButtonBar extends UIWidgetBase {
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
-        super.restoreState(context, values[0]);         
+        super.restoreState(context, values[0]);
         zoomIn = (Boolean) values[1];
         zoomOut = (Boolean) values[2];
         pan = (Boolean) values[3];

@@ -1,28 +1,30 @@
 /*
- * ButtonBarRenderer.java
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
  *
- * Created on 24 decembre 2007, 13:55
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
-import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.render.Renderer;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIButtonBar;
-import org.mapfaces.component.models.UIContext;
-import org.mapfaces.component.models.UIModelBase;
-import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.models.AbstractContext;
-import org.mapfaces.util.FacesUtils;
 
 /**
- *
- * @author Mehdi Sidhoum
+ * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
  */
 public class ButtonBarRenderer extends WidgetBaseRenderer {
     
@@ -50,8 +52,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         writer.startElement("script", comp);
         writer.writeAttribute("type","text/javascript","text/javascript");
        
-        //suppression des ":" pour nommer l'objet javascript correspondant correctement      
-        String jsObject = UIModel.getClientId(context);        
+        //suppression des ":" pour nommer l'objet javascript correspondant correctement.
+        String jsObject =  comp.getParent().getClientId(context);        
         if(jsObject.contains(":"))                 
             jsObject = jsObject.replace(":","");        
         

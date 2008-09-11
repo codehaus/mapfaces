@@ -1,3 +1,20 @@
+/*
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.share.listener;
 
 /**
@@ -5,21 +22,17 @@ package org.mapfaces.share.listener;
  * @author kdelfour
  */
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Map;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-
 
 public class ResourceLoaderPhaseListener implements PhaseListener {
 
@@ -41,9 +54,8 @@ public class ResourceLoaderPhaseListener implements PhaseListener {
         }
     }
 
-    
     private void serveResource(FacesContext facesContext) {
-        
+
         Map requestMap = facesContext.getExternalContext().getRequestParameterMap();
 
         String resourceName = getResourceName(requestMap);
@@ -56,7 +68,7 @@ public class ResourceLoaderPhaseListener implements PhaseListener {
         byte byteArr[] = new byte[65535];
 
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-        
+
         try {
 //            String resourcePath = RESOURCE_FOLDER + "/" + resourceName;
             String resourcePath = resourceName;
