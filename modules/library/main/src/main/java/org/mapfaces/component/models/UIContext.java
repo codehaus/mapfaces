@@ -37,7 +37,7 @@ public class UIContext extends UIModelBase {
     public static final String FAMILIY = "org.mapfaces.model.Context";
        
     
-    public static final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
+    public final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
             
     /** Creates a new instance of UIAbstract */
     public UIContext(){
@@ -53,17 +53,17 @@ public class UIContext extends UIModelBase {
 
     @Override
     public void setJAXBElt(JAXBElement JAXBElt) {
-        super.setJAXBElt(JAXBElt);
-        if((JAXBElt.getName().getLocalPart()).equalsIgnoreCase("ViewContext")){
+            super.setJAXBElt(JAXBElt);
+            if((JAXBElt.getName().getLocalPart()).equalsIgnoreCase("ViewContext")){
             if(isDebug())
-                System.out.println("Le fichier de context est de type : "+JAXBElt.getDeclaredType()+" "+JAXBElt.getName()+" "+(JAXBElt.getName().getLocalPart()).equalsIgnoreCase("ViewContext"));
-//            this.model = new WMC_v110(JAXBElt.getValue());
-        }
-        else if((JAXBElt.getName().getLocalPart()).equalsIgnoreCase("OWSContext")){
+            System.out.println("Le fichier de context est de type : "+JAXBElt.getDeclaredType()+" "+JAXBElt.getName()+" "+(JAXBElt.getName().getLocalPart()).equalsIgnoreCase("ViewContext"));
+            //            this.model = new WMC_v110(JAXBElt.getValue());
+            }
+            else if((JAXBElt.getName().getLocalPart()).equalsIgnoreCase("OWSContext")){
             if(isDebug())
-                System.out.println("Le fichier de context est de type : "+JAXBElt.getDeclaredType()+" "+JAXBElt.getName()+" "+(JAXBElt.getName().getLocalPart()).equalsIgnoreCase("OWSContext"));
-           setModel(new OWC_v030(JAXBElt.getValue()));
-        }
+            System.out.println("Le fichier de context est de type : "+JAXBElt.getDeclaredType()+" "+JAXBElt.getName()+" "+(JAXBElt.getName().getLocalPart()).equalsIgnoreCase("OWSContext"));
+            setModel(new OWC_v030(JAXBElt.getValue()));
+            }
     }
 
      @Override

@@ -349,7 +349,7 @@ public class UIMapPane extends UIWidgetBase {
     public Object saveState(FacesContext context) {
         Object values[] = new Object[3];
         values[0] = super.saveState(context);
-        values[1] = defaultMapContext;
+        //values[1] = defaultMapContext;
         return values;
     }
 
@@ -357,7 +357,7 @@ public class UIMapPane extends UIWidgetBase {
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        defaultMapContext = (DefaultMapContext) values[1];
+        //defaultMapContext = (DefaultMapContext) values[1];
 
     }
 }

@@ -184,7 +184,7 @@ public class FacesUtils {
      * @param component
      * @return the Map of the component.
      */
-    public static Map getParameterMap(UIComponent component) {
+    public static Map<String, Object> getParameterMap(UIComponent component) {
         Map result = new HashMap();
         for (Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
             UIComponent child = (UIComponent) iter.next();

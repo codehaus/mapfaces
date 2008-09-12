@@ -108,8 +108,6 @@ public class ContextTag extends UIComponentELTag {
         } else {
             throw new IllegalArgumentException("You must indicate a path to file to read");
         }
-
-
     }
 
     @Override

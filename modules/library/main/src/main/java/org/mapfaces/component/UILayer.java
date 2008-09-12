@@ -87,9 +87,9 @@ public class UILayer extends UIWidgetBase {
     public Object saveState(FacesContext context) {
         Object values[] = new Object[4];
         values[0] = super.saveState(context);
-        values[1] = layer;
-        values[2] = contextPath;
-        values[3] = dir;
+        values[1] = contextPath;
+        values[2] = dir;
+        values[3] = layer;
         return values;
     }
 
@@ -97,8 +97,8 @@ public class UILayer extends UIWidgetBase {
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        layer = (Layer) values[1];
-        contextPath = (String) values[2];
-        dir = (File) values[3];
+        contextPath = (String) values[1];
+        dir = (File) values[2];
+        layer = (Layer) values[3];
     }
 }

@@ -49,7 +49,7 @@ public abstract class UIModelBase extends UICommand {
     /**
      * This is the model context of this UIcomponent.
      */
-    private transient AbstractModelBase model;
+    private AbstractModelBase model;
 
     /** Creates a new instance of UIModelBase */
     public UIModelBase() {
@@ -100,9 +100,9 @@ public abstract class UIModelBase extends UICommand {
         values[2] = defaultModelUrl;
         values[3] = method;
         values[4] = namespace;
-        values[5] = JAXBElt;
+        //values[5] = JAXBElt;
         values[6] = ajaxCompId;
-        values[7] = model;
+        //values[7] = model;
         return values;
     }
 
@@ -115,9 +115,9 @@ public abstract class UIModelBase extends UICommand {
         defaultModelUrl = (String) values[2];
         method          = (String) values[3];
         namespace       = (String) values[4];
-        JAXBElt         = (JAXBElement) values[5];
+        //JAXBElt         = (JAXBElement) values[5];
         ajaxCompId      = (String) values[6];
-        model           = (AbstractModelBase) values[7];
+        //model           = (AbstractModelBase) values[7];
     }
 
     public String getAjaxCompId() {

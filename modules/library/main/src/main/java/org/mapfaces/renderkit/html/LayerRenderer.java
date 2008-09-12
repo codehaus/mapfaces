@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.xml.bind.JAXBException;
@@ -50,11 +51,13 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        UILayer comp = (UILayer) component;
+        
         try {
-            if (isDebug()) {
-                System.out.println("        LayerRenderer encodeBegin");
-            // suppress rendering if "rendered" property on the component is false.
+            if (comp.isDebug()) {
+                System.out.println("[LayerRenderer] encodeBegin");
             }
+            // suppress rendering if "rendered" property on the component is false.
             if (!component.isRendered()) {
                 return;
             }
@@ -62,27 +65,25 @@ public class LayerRenderer extends WidgetBaseRenderer {
             ResponseWriter writer = context.getResponseWriter();
             String clientId = component.getClientId(context);
 
-            UILayer comp = (UILayer) component;
-
             String id = (String) comp.getAttributes().get("id");
             /* if(!clientId.equals(id)){
             comp.setId(id);
             }*/
             clientId = component.getClientId(context);
             if (comp == null) {
-                if (isDebug()) {
+                if (comp.isDebug()) {
                     System.out.println("comp is null");
                 }
             }
             if (comp.getModel() == null) {
-                if (isDebug()) {
+                if (comp.isDebug()) {
                     System.out.println("[LayerRenderer] comp.getModel() is null");
                 }
             }
 
             AbstractContext model = (AbstractContext) comp.getModel();
             if (model == null) {
-                if (isDebug()) {
+                if (comp.isDebug()) {
                     System.out.println("[LayerRenderer] model is null");
                 }
             }
@@ -99,11 +100,11 @@ public class LayerRenderer extends WidgetBaseRenderer {
             Layer layer = comp.getLayer();
 
             if (layer.getDimensionList() == null) {
-                if (isDebug()) {
+                if (comp.isDebug()) {
                     System.out.println("            Pas de dimensions pour ce layer");
                 }
             } else {
-                if (isDebug()) {
+                if (comp.isDebug()) {
                     System.out.println("            La dimension elevation a  pour valeur : " + layer.getDimensionList().get("elevation"));                //model.save();
                 }
             }
@@ -121,7 +122,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     writer.startElement("div", comp);
                     writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
                     File dst = File.createTempFile("img", ".png", comp.getDir());
-                    if (isDebug()) {
+                    if (comp.isDebug()) {
                         System.out.println("            Layer updated " + dst.getName());
                     }
                     try {
@@ -131,7 +132,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                              * normally it doesn't
                              */
                             if (!defaultMapContext.getBounds().equals(env)) {
-                                if (isDebug()) {
+                                if (comp.isDebug()) {
                                     System.out.println("            Aoi du context : " + env.toString());
                                     System.out.println("             != ");
                                     System.out.println("            Aoi affiché par le portrayal : " + defaultMapContext.getBounds().toString());
@@ -167,18 +168,18 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     }
                     writer.endElement("div");
                 } else {
-                    if (isDebug()) {
+                    if (comp.isDebug()) {
                         System.out.println("            Layer not added");
                     }
                 }
                 writer.endElement("div");
                 if (defaultMapContext.layers().remove(layer.getMapLayer())) {
-                    if (isDebug()) {
+                    if (comp.isDebug()) {
                         System.out.println("            Layer removed");
                     }
                 }
             } else {
-                if (isDebug()) {
+                if (comp.isDebug()) {
                     System.out.println("            Layer not added");
                 }
             }
@@ -193,20 +194,25 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        if (isDebug()) {
+        UILayer comp = (UILayer) component;
+        if (comp.isDebug()) {
             System.out.println("        LayerRenderer encodeEnd");
         }
     }
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        if (isDebug()) {
+        UILayer comp = (UILayer) component;
+        if (comp.isDebug()) {
             System.out.println("        LayerRenderer decode");
         }
-        UILayer comp = (UILayer) component;
+        
         if (context.getExternalContext().getRequestParameterMap() != null) {
             UIContext ctx = FacesUtils.getParentUIContext(context, comp);
-            AbstractContext tmp = (AbstractContext) ctx.getModel();
+            ExternalContext extContext = context.getExternalContext();
+            AbstractContext tmp = (AbstractContext) extContext.getApplicationMap().get("context_"+ctx.getClientId(context));
+            System.out.println("DECODE LAYER RENDERER  = "+tmp);
+            
             Map params = context.getExternalContext().getRequestParameterMap();
             Layer layer = comp.getLayer();
             String formId = FacesUtils.getFormId(context, comp);
@@ -222,7 +228,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             //if(elevation!=null || tmp.getLayerFromName(elevation).)
 
             //System.out.println("eleeeeeeeeeeevationnnnnnnnnnnn : " + layer.getDimensions().get("elevation"));    
-            String bbox = (String) params.get("bbox");
+            String bbox = (String) params.get("bbox");            
             if (bbox != null && !bbox.equals(tmp.getMinx() + "," + tmp.getMiny().toString() + "," + tmp.getMaxx() + "," + tmp.getMaxy())) {
                 // try {
                     /*if (!tmp.getSrs().equals("urn:ogc:def:crs:EPSG:6.6:4326")) {
@@ -299,7 +305,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             if(render==null || render.equals("true"))
             comp.setInitDisplay(true);
              */
-            if (isDebug()) {
+            if (comp.isDebug()) {
                 System.out.println("            Nouveaux parametres du layer : " + tmp.getTitle() + " " + tmp.getWindowWidth() + " " + tmp.getWindowHeight() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }
         }

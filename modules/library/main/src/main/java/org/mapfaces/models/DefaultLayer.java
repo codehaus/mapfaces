@@ -20,22 +20,27 @@ package org.mapfaces.models;
 /**
  *
  * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
  */
+
 import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 
 public class DefaultLayer implements Layer {
+    
+    private static final long serialVersionUID = -1378795978545632191L;
 
-    private MapLayer mapLayer;
+    //@TODO this pproperty will be moved.
+    private static MapLayer mapLayer;
     private boolean edit;
     private boolean lock;
     private int groupId;
     /**
      * bbox
      */
-    private ReferencedEnvelope refEnv;
+    private  ReferencedEnvelope refEnv;
     private String type;
     private String id;
     private String name;
