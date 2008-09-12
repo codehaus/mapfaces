@@ -62,7 +62,7 @@ import org.xml.sax.SAXException;
  */
 public class OWC_v030 extends AbstractOWC {
     
-    private transient OWSContextType doc;
+    private OWSContextType doc;
     
     
     /*Context server used*/

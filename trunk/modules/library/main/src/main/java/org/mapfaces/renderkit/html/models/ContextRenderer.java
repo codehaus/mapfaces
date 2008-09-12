@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIParameter;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -46,17 +48,17 @@ import org.mapfaces.util.FacesUtils;
  */
 public class ContextRenderer extends Renderer {
 
-    private boolean debug;
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
     private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        UIContext comp = (UIContext) component;
         try {
-            if (debug) {
+            if (comp.isDebug()) {
                 System.out.println("ContextRenderer encodeBegin");
             }
-            UIContext comp = (UIContext) component;
+            
             assertValid(context, component);
             ResponseWriter writer = context.getResponseWriter();
             /* writer.startElement("script", component);
@@ -96,9 +98,9 @@ public class ContextRenderer extends Renderer {
                 Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
                 ServletContext sc = (ServletContext) context.getExternalContext().getContext();
                 JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
-                comp.setJAXBElt(elt);
+                comp.setJAXBElt(elt);                
             } else {
-                if (debug) {
+                if (comp.isDebug()) {
                     System.out.println("AbstractContext already exist");
                 }
             }
@@ -108,11 +110,15 @@ public class ContextRenderer extends Renderer {
             ajaxComp.setId(comp.getId() + "Ajax");
             ajaxComp.setAjaxSingle(true);
             ajaxComp.setImmediate(true);
+            
+            /*if (! FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().containsKey("a4jcontextFlag_"+comp.getClientId(context))) {
+                FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("a4jcontextFlag_"+comp.getClientId(context), "TRUE");
+                */
             comp.getChildren().add(ajaxComp);
+            //}
             comp.setAjaxCompId(comp.getClientId(context) + "Ajax");
-
-            //setting to transient the context component to remove it from the JSF tree component.
-            //comp.setTransient(true);
+            
+            FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("context_"+comp.getClientId(context), comp.getModel());
 
         } catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,10 +129,10 @@ public class ContextRenderer extends Renderer {
 
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug) {
+        UIContext comp = (UIContext) component;
+        if (comp.isDebug()) {
             System.out.println("ContextRenderer  children");
         }
-        UIContext comp = (UIContext) component;
         List<UIComponent> childrens = component.getChildren();
         for (UIComponent tmp : childrens) {
             if (tmp instanceof UIWidgetBase) {
@@ -145,7 +151,7 @@ public class ContextRenderer extends Renderer {
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         UIContext comp = (UIContext) component;
-        if (debug) {
+        if (comp.isDebug()) {
             System.out.println("ContextRenderer encodeEnd");
         }
         ResponseWriter writer = context.getResponseWriter();
@@ -156,12 +162,12 @@ public class ContextRenderer extends Renderer {
     @Override
     public void decode(FacesContext context, UIComponent component) {
         UIContext comp = (UIContext) component;
-        if (debug) {
+        if (comp.isDebug()) {
             System.out.println("ContextRenderer decode");
         }
         if (context.getExternalContext().getRequestParameterMap() != null) {
             AbstractContext tmp = (AbstractContext) comp.getModel();
-            
+
             //tmp.setI
             Map params = context.getExternalContext().getRequestParameterMap();
             /* String bbox = (String) params.get(comp.getParent().getId()+":bbox");               
@@ -196,7 +202,7 @@ public class ContextRenderer extends Renderer {
             tmp.setWindowHeight(new BigInteger(window[1]));
             }*/
             comp.setModel(tmp);
-            if (debug) {
+            if (comp.isDebug()) {
                 System.out.println("    Nouveaux parametres du context : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }
         }
@@ -208,13 +214,5 @@ public class ContextRenderer extends Renderer {
         } else if (component == null) {
             throw new NullPointerException("component should not be null");
         }
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
     }
 }

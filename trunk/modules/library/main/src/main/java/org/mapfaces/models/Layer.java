@@ -17,6 +17,7 @@
 
 package org.mapfaces.models;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
@@ -25,7 +26,7 @@ import org.geotools.map.MapLayer;
  *
  * @author Olivier Terral.
  */
-public interface Layer {
+public interface Layer extends Serializable{
 
     void setUserValue(String string, String value);
 
