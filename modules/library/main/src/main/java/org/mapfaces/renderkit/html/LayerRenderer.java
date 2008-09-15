@@ -28,11 +28,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.xml.bind.JAXBException;
+import org.geotools.display.service.PortrayalException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.DefaultMapContext;
 import org.geotools.referencing.CRS;
 import org.mapfaces.component.UILayer;
-import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractContext;
 
@@ -41,7 +41,6 @@ import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
-import org.opengis.referencing.operation.TransformException;
 
 /**
  * @author Olivier Terral.
@@ -52,7 +51,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         UILayer comp = (UILayer) component;
-        
+
         try {
             if (comp.isDebug()) {
                 System.out.println("[LayerRenderer] encodeBegin");
@@ -117,66 +116,70 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 writer.writeAttribute("class", "layerDiv", "style");
                 writer.writeAttribute("style", "position: absolute; width: 100%; height: 100%; z-index: 100;" + styleImg, "style");
                 //Add layer image if not the first page loads
-                if (((UIMapPane) comp.getParent()).getInitDisplay() && !layer.isHidden()) {
-                    writer.startElement("div", comp);
-                    writer.writeAttribute("id", clientId , "style");
-                    writer.writeAttribute("class", "layerDiv", "style");
-                    writer.writeAttribute("style","position: absolute; width: 100%; height: 100%; z-index: 100;"+styleImg, "style");
+//                if (((UIMapPane) comp.getParent()).getInitDisplay() && !layer.isHidden()) {
+//                    writer.startElement("div", comp);
+//                    writer.writeAttribute("id", clientId , "style");
+//                    writer.writeAttribute("class", "layerDiv", "style");
+//                    writer.writeAttribute("style","position: absolute; width: 100%; height: 100%; z-index: 100;"+styleImg, "style");
                     //Add layer image if not the first page loads
                     if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
                         writer.startElement("div", comp);
                         writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: "+width+"px; height: "+height+"px;", "style");
-                        File dst = File.createTempFile("img", ".png", comp.getDir()); 
+                        File dst = File.createTempFile("img", ".png", comp.getDir());
                         if(isDebug())
                             System.out.println("            Layer updated " + dst.getName());
-                        try {
-                            if (FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, "image/png", new Dimension(width.intValue(), height.intValue()))) {
-                                /**
-                                 * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
-                                 * normally it doesn't
-                                 */
-                                if (!defaultMapContext.getBounds().equals(env)) {
-                                    if (comp.isDebug()) {
-                                        System.out.println("            Aoi du context : " + env.toString());
-                                        System.out.println("             != ");
-                                        System.out.println("            Aoi affiché par le portrayal : " + defaultMapContext.getBounds().toString());
-                                    }
-                                    model.setMinx(env.getMinX());
-                                    model.setMiny(env.getMinY());
-                                    model.setMaxx(env.getMaxX());
-                                    model.setMaxy(env.getMaxY());
-                                }
 
-                                writer.startElement("img", comp);
-                                writer.writeAttribute("id", id + "_Img", "style");
-                                writer.writeAttribute("class", "layerImg", "style");
-                                if (styleImg != null) {
-                                    writer.writeAttribute("style", "position:relative;", "style");
-                                }
-                                writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
-                                writer.endElement("img");
-                            } else {
-                                writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
-                                writer.startElement("img", comp);
-                                writer.writeAttribute("id", id + "_Img", "style");
-                                writer.writeAttribute("class", "layerImg", "style");
-                                if (styleImg != null) {
-                                    writer.writeAttribute("style", styleImg, "style");
-                                }
-                                writer.writeAttribute("src", comp.getContextPath() + "/resource.jsf?r=/org/mapfaces/resources/img/Spacer.gif", "src");
-                                writer.endElement("img");
-                                System.out.println("            Layer not loaded");
+                            try {
+                                FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, "image/png", new Dimension(width.intValue(), height.intValue()));
+                            } catch (PortrayalException ex) {
+                                Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        } catch (TransformException ex) {
-                            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        
+                            if (true) {
+                            /**
+                             * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
+                             * normally it doesn't
+                             */
+                            if (!defaultMapContext.getBounds().equals(env)) {
+                                if (comp.isDebug()) {
+                                    System.out.println("            Aoi du context : " + env.toString());
+                                    System.out.println("             != ");
+                                    System.out.println("            Aoi affiché par le portrayal : " + defaultMapContext.getBounds().toString());
+                                }
+                                model.setMinx(env.getMinX());
+                                model.setMiny(env.getMinY());
+                                model.setMaxx(env.getMaxX());
+                                model.setMaxy(env.getMaxY());
+                            }
+
+                            writer.startElement("img", comp);
+                            writer.writeAttribute("id", id + "_Img", "style");
+                            writer.writeAttribute("class", "layerImg", "style");
+                            if (styleImg != null) {
+                                writer.writeAttribute("style", "position:relative;", "style");
+                            }
+                            writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
+                            writer.endElement("img");
+                        } else {
+                            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
+                            writer.startElement("img", comp);
+                            writer.writeAttribute("id", id + "_Img", "style");
+                            writer.writeAttribute("class", "layerImg", "style");
+                            if (styleImg != null) {
+                                writer.writeAttribute("style", styleImg, "style");
+                            }
+                            writer.writeAttribute("src", comp.getContextPath() + "/resource.jsf?r=/org/mapfaces/resources/img/Spacer.gif", "src");
+                            writer.endElement("img");
+                            System.out.println("            Layer not loaded");
                         }
+
                     }
                     writer.endElement("div");
-                } else {
-                    if (comp.isDebug()) {
-                        System.out.println("            Layer not added");
-                    }
-                }
+//                } else {
+//                    if (comp.isDebug()) {
+//                        System.out.println("            Layer not added");
+//                    }
+//                }
                 writer.endElement("div");
                 if (defaultMapContext.layers().remove(layer.getMapLayer())) {
                     if (comp.isDebug()) {
@@ -211,14 +214,14 @@ public class LayerRenderer extends WidgetBaseRenderer {
         if (comp.isDebug()) {
             System.out.println("        LayerRenderer decode");
         }
-        
+
         if (context.getExternalContext().getRequestParameterMap() != null) {
             UIContext ctx = FacesUtils.getParentUIContext(context, comp);
             ExternalContext extContext = context.getExternalContext();
             //AbstractContext tmp = (AbstractContext) extContext.getApplicationMap().get("context_"+ctx.getClientId(context));
             AbstractContext tmp = (AbstractContext) comp.getModel();
             System.out.println("DECODE LAYER RENDERER  = "+tmp);
-            
+
             Map params = context.getExternalContext().getRequestParameterMap();
             Layer layer = comp.getLayer();
             String formId = FacesUtils.getFormId(context, comp);
@@ -229,10 +232,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
             }
             String bbox = (String) params.get("bbox");
             if(bbox!=null && !bbox.equals(tmp.getMinx()+","+tmp.getMiny().toString()+","+tmp.getMaxx()+","+tmp.getMaxy())){               
-                    tmp.setMinx(new Double(bbox.split(",")[0]));
-                    tmp.setMiny(new Double(bbox.split(",")[1]));
-                    tmp.setMaxx(new Double(bbox.split(",")[2]));
-                    tmp.setMaxy(new Double(bbox.split(",")[3]));
+                tmp.setMinx(new Double(bbox.split(",")[0]));
+                tmp.setMiny(new Double(bbox.split(",")[1]));
+                tmp.setMaxx(new Double(bbox.split(",")[2]));
+                tmp.setMaxy(new Double(bbox.split(",")[3]));
             }
             String win = (String) params.get("window");
             if (win != null) {
@@ -253,7 +256,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 value = (String) params.get((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
             //layerId = (String) params.get("refresh");
             }
-            
+
             if( value != null && layerId != null){     
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
                 if (layerId.equals(FacesUtils.getFormId(context, component) + ":" + layer.getId())) {
@@ -283,7 +286,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         if(isDebug())
                              System.out.println("La propriété dim_range du layer "+layer.getId()+" à été modifiée :"+ tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
  
-                    }
+                        }
 
                 }
             }

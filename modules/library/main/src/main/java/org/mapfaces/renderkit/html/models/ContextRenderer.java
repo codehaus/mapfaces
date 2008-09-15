@@ -133,13 +133,11 @@ public class ContextRenderer extends Renderer {
             ajaxComp.setAjaxSingle(true);
             ajaxComp.setImmediate(true);
             
-            //if (! FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().containsKey("a4jcontextFlag_"+comp.getClientId(context))) {
-            //    FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("a4jcontextFlag_"+comp.getClientId(context), "TRUE");
+            if (FacesUtils.findComponentById(context, comp, ajaxComp.getId()) == null) {
                 comp.getChildren().add(ajaxComp);
-            //}
+            }
+                        
             comp.setAjaxCompId(ajaxComp.getClientId(context));
-            
-            //FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("context_"+comp.getClientId(context), comp.getModel());
 
         } catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);

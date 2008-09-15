@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
@@ -125,10 +124,6 @@ public class FacesUtils {
             ex.printStackTrace();
         }
         return writer;
-    }
-
-    public static UIComponent findComponent(FacesContext fc, String clientId) {
-        return fc.getViewRoot().findComponent(clientId);
     }
 
     public static String getRequestParam(FacesContext fc, String name) {
