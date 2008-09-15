@@ -65,7 +65,7 @@ import org.xml.sax.SAXException;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-public class OWC_v030 extends AbstractOWC implements Serializable {
+public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
 
     /**
      * Determines if a de-serialized file is compatible with this class.
@@ -875,8 +875,8 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
         in.defaultReadObject();
     }
 
-    Object writeReplace() throws ObjectStreamException {
-        singleton = this;
+    Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
+        singleton = (OWC_v030) this.clone();
         OWC_v030 s = getSingleton();
         return s;
     }
@@ -897,7 +897,12 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
 
         try {
             OWSContextType ctxtType = new OWSContextType();
+            HashMap<String, DataStore> wfs = new HashMap<String, DataStore>();
+            wfs.put("toto", null);
             OWC_v030 owc = new OWC_v030(ctxtType);
+            owc.setWfsDataStores(wfs);
+            
+            System.out.println("1111111111 "+owc+"   ctx = "+owc.getDoc()+"   wfs = "+owc.getWfsDataStores().keySet());
             FileOutputStream fos = new FileOutputStream("OWC_v030.serial");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -914,7 +919,8 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
             FileInputStream fis = new FileInputStream("OWC_v030.serial");
             ObjectInputStream ois = new ObjectInputStream(fis);
             try {
-                owc = (OWC_v030) ois.readObject();
+                OWC_v030 owc2 = (OWC_v030) ois.readObject();
+                System.out.println("222222222222 "+owc2+"   ctx = "+owc2.getDoc()+"   wfs = "+owc.getWfsDataStores().keySet());
             } finally {
                 ois.close();
                 fis.close();
