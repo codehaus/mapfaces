@@ -89,8 +89,8 @@ public abstract class UIWidgetBase extends UICommand {
         Object values[] = new Object[7];
         values[0] = super.saveState(context);
         values[1] = outputNodeId;
-        //values[2] = model;
-        //values[3] = targetModel;
+        values[2] = model;
+        values[3] = targetModel;
         values[4] = autoRefresh;
         values[5] = toolId;
         values[6] = debug;
@@ -102,8 +102,8 @@ public abstract class UIWidgetBase extends UICommand {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         outputNodeId = (String) values[1];
-        //model = (AbstractModelBase) values[2];
-        //targetModel = (AbstractModelBase) values[3];
+        model = (AbstractModelBase) values[2];
+        targetModel = (AbstractModelBase) values[3];
         autoRefresh = (String) values[4];
         toolId = (String) values[5];
         debug = (Boolean) values[6];

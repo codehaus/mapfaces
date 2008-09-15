@@ -102,7 +102,7 @@ public abstract class UIModelBase extends UICommand {
         values[4] = namespace;
         //values[5] = JAXBElt;
         values[6] = ajaxCompId;
-        //values[7] = model;
+        values[7] = model;
         return values;
     }
 
@@ -117,7 +117,7 @@ public abstract class UIModelBase extends UICommand {
         namespace       = (String) values[4];
         //JAXBElt         = (JAXBElement) values[5];
         ajaxCompId      = (String) values[6];
-        //model           = (AbstractModelBase) values[7];
+        model           = (AbstractModelBase) values[7];
     }
 
     public String getAjaxCompId() {
