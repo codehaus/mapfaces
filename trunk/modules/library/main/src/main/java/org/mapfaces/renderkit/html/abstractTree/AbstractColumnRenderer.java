@@ -123,14 +123,13 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         if (component.getAttributes().get("width") != null) {
             size = String.valueOf(component.getAttributes().get("width")) + "px";
         }
-        System.out.println("getWidth " + ((UIAbstractColumn) component).getWidth());
-        System.out.println("getAttributesWidth " + component.getAttributes().get("width"));
+        
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
         writer.writeAttribute("class", "x-tree-col", null);
-        writer.writeAttribute("style", "width:" + size + ";", null);
+        writer.writeAttribute("style", "width:" + (size+2) + ";", null);
         writer.startElement("div", component);
-        writer.writeAttribute("style", "padding-left:5px;", null);
+        writer.writeAttribute("style", "", null);
 
 
 

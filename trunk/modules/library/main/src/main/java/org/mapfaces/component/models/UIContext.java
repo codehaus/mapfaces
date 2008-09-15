@@ -35,10 +35,8 @@ import org.mapfaces.models.OWC_v030;
 public class UIContext extends UIModelBase {
     
     public static final String FAMILIY = "org.mapfaces.model.Context";
-       
-    
     public final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
-            
+
     /** Creates a new instance of UIAbstract */
     public UIContext(){
         super();

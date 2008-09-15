@@ -13,10 +13,10 @@
                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             </head>
             <body>                   
-                <h:form id="form">               
-                    <mf-model:Context id="owsContext" service="data/context/blueMarble.xml">                        
-                       <mf:MapPane id="mappane" ></mf:MapPane>
-                       <mf:CursorTrack id="cursorTrack" showPX="true" showXY="true" showLatLon="true" showDMS="true" showDM="true" ></mf:CursorTrack>
+                <h:form>               
+                    <mf-model:Context service="data/context/blueMarble.xml">                        
+                       <mf:MapPane></mf:MapPane>
+                       <mf:CursorTrack showPX="true" showXY="true" showLatLon="true" showDMS="true" showDM="true" ></mf:CursorTrack>
                     </mf-model:Context>
                 </h:form>
           </body>

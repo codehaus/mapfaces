@@ -18,6 +18,8 @@ package org.mapfaces.util.treelayout;
 
 import org.mapfaces.share.requestmap.RequestMapUtils;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -294,19 +296,54 @@ public class TreeLayoutUtils {
      * @param component
      * @param news
      */
-    private void copyAttributes(UIComponent component, UIComponent news) {
+   private void copyAttributes(UIComponent component, UIComponent news) {
+
+        Class newClasse = news.getClass();
+        Class oldClasse = component.getClass();
+        Object resultGet;
+
         if (component != null) {
             if (news != null) {
-                if (component instanceof UITreeColumn) {
-                    ((UITreeColumn) news).setHeader(((UITreeColumn) component).getHeader());
-                    ((UITreeColumn) news).setWidth(((UITreeColumn) component).getWidth());
-                } else if (component instanceof UIAbstractColumn) {
-                    ((UIAbstractColumn) news).setHeader(((UIAbstractColumn) component).getHeader());
-                    ((UIAbstractColumn) news).setWidth(((UIAbstractColumn) component).getWidth());
-                    ((UIAbstractColumn) news).setIcon(((UIAbstractColumn) component).getIcon());
-                } else if (component instanceof UITreeNodeInfo) {
-                    ((UITreeNodeInfo) news).setHeader(((UITreeNodeInfo) component).getHeader());
-                    ((UITreeNodeInfo) news).setHide(((UITreeNodeInfo) component).getHide());
+                for (Method method : newClasse.getMethods()) {
+                    if (method.getName().startsWith("set")) {
+                        try {
+                            String Propertie = method.getName().substring(3);
+                            if (!(Propertie.equals("Id")) && !(Propertie.equals("Converter")) && !(Propertie.equals("ValueExpression")) && !(Propertie.equals("RendererType")) && !(Propertie.equals("Parent")) && !(Propertie.equals("Value"))) {
+
+                                Method Getter = null;
+                                if (oldClasse.getMethod("get" + Propertie) != null) {
+                                    Getter = oldClasse.getMethod("get" + Propertie);
+                                    try {
+                                        resultGet = Getter.invoke(component);
+                                        method.invoke(news, resultGet);
+                                    } catch (IllegalAccessException ex) {
+                                        Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (IllegalArgumentException ex) {
+                                        Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (InvocationTargetException ex) {
+                                        Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                                if (oldClasse.getMethod("is" + Propertie) != null) {
+                                    Getter = oldClasse.getMethod("is" + Propertie);
+                                    try {
+                                        resultGet = Getter.invoke(component);
+                                        method.invoke(news, resultGet);
+                                    } catch (IllegalAccessException ex) {
+                                        Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (IllegalArgumentException ex) {
+                                        Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (InvocationTargetException ex) {
+                                        Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                            }
+                        } catch (NoSuchMethodException ex) {
+                           // Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.INFO, null, ex.getMessage());
+                            } catch (SecurityException ex) {
+                            Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
             }
         }

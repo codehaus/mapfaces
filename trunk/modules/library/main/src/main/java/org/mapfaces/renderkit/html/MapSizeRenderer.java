@@ -20,13 +20,13 @@ package org.mapfaces.renderkit.html;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
-import javax.faces.component.UIParameter;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectOne;
 import javax.faces.context.FacesContext;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIMapSize;
 import org.mapfaces.models.AbstractContext;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Olivier Terral.
@@ -74,9 +74,9 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         getWriter().flush();
     }
 
-    private UISelectOne createSelectOneMenu(FacesContext context, UIMapSize comp, boolean ajaxSupport, String idsToRefresh) {
-        UISelectOne selectOneMenu = new UISelectOne();
-        selectOneMenu.setId(comp.getId() + "Select");
+    private UISelectOne createSelectOneMenu(FacesContext context,UIMapSize comp,boolean ajaxSupport,String idsToRefresh) {
+        UISelectOne selectOneMenu= new UISelectOne();
+        selectOneMenu.setId(comp.getId()+"_Select");
         String[] labelsArray = comp.getItemsLabels().split("/");
         String[] valuesArray = comp.getItemsValues().split("/");
 
@@ -102,40 +102,23 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
     private HtmlAjaxSupport createAjaxSupport(FacesContext context, UIMapSize comp, String idsToRefresh) {
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
-        ajaxComp.setId(comp.getId() + "Ajax");
-        ajaxComp.setEvent("onchange");
-        ajaxComp.setAjaxSingle(true);
-        ajaxComp.setLimitToList(true);
+        HtmlAjaxSupport ajaxComp = FacesUtils.createBasicAjaxSupport(context, comp, "onchange", null);
 
         /*2 ways to resize the map:
-         *  -use OpenLayers javascript, but the resize change the resolution of the map
+         *  -use OpenLayers javascript, but the resize change the resolution of the map but in term of speed it's the better solution
          *  -use the AjaxSupport to reRender the MaPane, but we loose the OpenLayers events of ButtonBar or CursorTrack
          *  -use the AjaxSupport to refresh only layers , but we don't change the OpenLayers.Map size
          */
 
-
+        String mappaneJsObject =  FacesUtils.getParentUIModelBase(context, comp).getClientId(context).replace(":", "");
+        
         ajaxComp.setOnsubmit("" +
-                "var size = document.getElementById('" + comp.getClientId(context) + "Select').value.split(',');" +
-                "formowsContext.div.style.width=size[0]+'px';" +
-                "formowsContext.div.style.height=size[1]+'px';" +
-                "formowsContext.updateSize();" +
-                "return false;" +
-                "");
-
-
-        // ajaxComp.setReRender("mappane,bar,cursorTrack");
-        //ajaxComp.getChildren().add(createFParam("synchronized","true"));
-        //ajaxComp.getChildren().add(createFParam("refresh",idsToRefresh));
+                "var size = this.value.split(',');" +
+                mappaneJsObject+".div.style.width=size[0]+'px';" +
+                mappaneJsObject+".div.style.height=size[1]+'px';" +
+                mappaneJsObject+".updateSize();" +
+                "return false;");
         return ajaxComp;
     }
 
-    private UIParameter createFParam(String name, String value) {
-
-        /* Add <f:param> component */
-        UIParameter fParam = new UIParameter();
-        fParam.setName(name);
-        fParam.setValue(value);
-        return fParam;
-    }
 }

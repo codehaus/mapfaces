@@ -127,15 +127,11 @@ public class ResourcePhaseListener implements PhaseListener {
      */
     public static String getURL(FacesContext context, String resourcePath,
             String contentType) {
-
         if (POOL.containsKey(resourcePath)) {
             return getURLvalue(resourcePath);
         }
-
         ViewHandler handler = context.getApplication().getViewHandler();
-
         String url = handler.getActionURL(context, RESOURCE_PREFIX);
-        System.out.println(url);
         StringBuilder r = new StringBuilder(url);
         r.append("?" + RESOURCE_LOCATION_PARAM + "=").append(resourcePath);
         if (contentType != null) {

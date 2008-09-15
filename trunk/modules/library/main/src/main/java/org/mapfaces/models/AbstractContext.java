@@ -114,7 +114,7 @@ public abstract class AbstractContext extends AbstractModelBase {
 
     public abstract String getLayerDimension(String layerId, String dimName, String value);
 
-    public abstract String getLayerAttrDimension(String layerId, String dimName, String attrName, String value);
+    public abstract String getLayerAttrDimension(String layerId, String dimName, String attrName);
 
     public abstract String getLayersId();
 

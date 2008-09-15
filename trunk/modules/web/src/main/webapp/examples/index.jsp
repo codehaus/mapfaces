@@ -15,6 +15,9 @@
         <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
         <ul>
             <li>
+                <a href="./basic.jsf">basic</a>
+            </li>
+            <li>
                 <a href="./wmsOwc.jsf">Wms</a>
             </li>
             <li>
@@ -40,5 +43,6 @@
             </li>         
         </ul>
         <br/>
+       
     </body>
 </html>

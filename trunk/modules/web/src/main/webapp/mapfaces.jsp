@@ -115,7 +115,7 @@
                    <%--mf:MapSize id="mapSize"  debug="true" title=" Map size : " itemsLabels="300,150/300,300/600,300/600,600/1000,500/1000,1000" itemsValues="300,150/300,300/600,300/600,600/1000,500/1000,1000" style="position:absolute;left:800px;"></mf:MapSize>
                    --%>
                    <mf:LayerControl id="lcc" debug="true" style="position: absolute; top: 150px;" ></mf:LayerControl>
-                   <mf:TimeLine id="timeline" style="height: 300px; border: 1px solid #aaa;width:1000px;margin:0pt auto;position: relative; font-size:0.8em;top: 410px;" >
+                   <mf:TimeLine id="timeline" style="height: 300px; border: 1px solid #aaa;width:1000px;margin:0pt auto;position: relative; font-size:0.8em;top: 510px;" >
                         <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" date="#{timelineBean.centerDate}" timeZone="-5" theme="OLanceTheme" inputInterval="true"/>
                         <mf:HotZoneBandInfo id="band1" width="25" intervalUnit="YEAR" intervalPixels="200" date="#{timelineBean.centerDate}" showEventText="false" trackGap="0.2" trackHeight="0.5" inputInterval="true"/>
                    </mf:TimeLine>

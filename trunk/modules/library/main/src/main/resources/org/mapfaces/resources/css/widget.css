@@ -127,3 +127,58 @@
 .mfCursorTrack .mfCursorTrackPrefix{
     font-weight:bold;    
 }
+/*DimRange*/
+.special { background-color: #50ea70; color: red; }
+
+.track{
+height:10px;
+left:125px;
+margin-left:-75px;
+position:relative;
+top:25px;
+width:256px;
+z-index:20000;
+ }
+.mfDimRange{
+        height:100px;
+        position:relative;
+}
+/*Coloramp*/
+.mfDimRange .range{
+	font-size:12px;
+	font-weight:bold;
+	position:absolute;
+
+	
+	
+}
+.mfDimRange .range input{
+	width:50px;
+	text-align:right;
+	height:19px;
+}
+.mfDimRange .minRange{
+	left:10px;
+
+	
+}
+.mfDimRange .maxRange{
+	/*right:10px;*/
+    left:250px;
+        
+}
+.mfDimRange .colorRamp{
+	position : absolute;
+	left : 100px;
+	
+}
+.mfDimRange .colorRamp img{
+	height : 20px;
+	width:135px;
+}
+.mfDimRange .colorDiv{
+	
+}
+.mfDimRange .colorDivSpan{
+	
+}

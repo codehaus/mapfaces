@@ -26,6 +26,7 @@ import org.mapfaces.models.AbstractModelBase;
  * 
  * @author Mehdi Sidhoum
  */
+
 public abstract class UIWidgetBase extends UICommand {
 
     private String outputNodeId;

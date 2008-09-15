@@ -498,15 +498,9 @@ OpenLayers.Map = OpenLayers.Class({
 
         // always call map.destroy()
         OpenLayers.Event.observe(window, 'unload', this.unloadDestroy);
-this.initResolutions();
-        this.events.register("moveend", null, this.submitRequest);
+        this.initResolutions();
     },
-    submitRequest: function() {
-        var extent = this.getExtent();
-        bbox=extent.toBBOX();
-        alert('iciirequest'+extent.toBBOX());
- A4J.AJAX.Submit('j_id_jsp_1260680181_0','form',this.events.listeners.click[0].obj.evt,{'control':this,'single':true,'parameters':{bbox:bbox,'synchronized':'true','form:ajaxZoomTo':'form:ajaxZoomTo','refresh':'MapFaces_Layer_WMS_1,MapFaces_Layer_WMS_2'} ,'actionUrl':'/mapfaces/mapfaces.jsf'} )
-    },
+   
         /** 
      * Method: initResolutions
      * This method's responsibility is to set up the 'resolutions' array 

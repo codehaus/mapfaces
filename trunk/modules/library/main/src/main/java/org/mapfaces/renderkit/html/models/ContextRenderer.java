@@ -50,6 +50,9 @@ public class ContextRenderer extends Renderer {
 
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
     private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
+    private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";    
+    private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
+    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -61,10 +64,13 @@ public class ContextRenderer extends Renderer {
             
             assertValid(context, component);
             ResponseWriter writer = context.getResponseWriter();
-            /* writer.startElement("script", component);
+            ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+            
+            //Add the context path varaible to load openlayers with the good url , see  custom/OpenLayers.js
+            writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
-            writer.write("window.onload=\"alert('ici');\"");
-            writer.endElement("script");*/
+            writer.write("window.contextpath=\""+sc.getContextPath()+"\"");
+            writer.endElement("script");
 
             //Add MapFaces css
             writer.startElement("link", component);
@@ -79,7 +85,24 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("href", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/openlayers/theme/default/style.css", null), null);
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");*/
-
+            
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+            writer.endElement("script");
+        
+           //Add Prototype script
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            
+            //Add Scriptaculous scripts
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            
             //Add OpenLayers scripts
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
@@ -96,7 +119,6 @@ public class ContextRenderer extends Renderer {
                 JAXBContext Jcontext;
                 Jcontext = JAXBContext.newInstance("net.opengis.owc.v030:net.opengis.context.v110");
                 Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
-                ServletContext sc = (ServletContext) context.getExternalContext().getContext();
                 JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
                 comp.setJAXBElt(elt);                
             } else {
@@ -107,7 +129,7 @@ public class ContextRenderer extends Renderer {
 
             /* Add a4j:support component */
             HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
-            ajaxComp.setId(comp.getId() + "Ajax");
+            ajaxComp.setId("testAjax");
             ajaxComp.setAjaxSingle(true);
             ajaxComp.setImmediate(true);
             
@@ -115,7 +137,7 @@ public class ContextRenderer extends Renderer {
             //    FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("a4jcontextFlag_"+comp.getClientId(context), "TRUE");
                 comp.getChildren().add(ajaxComp);
             //}
-            comp.setAjaxCompId(comp.getClientId(context) + "Ajax");
+            comp.setAjaxCompId(ajaxComp.getClientId(context));
             
             //FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("context_"+comp.getClientId(context), comp.getModel());
 
@@ -169,37 +191,10 @@ public class ContextRenderer extends Renderer {
 
             //tmp.setI
             Map params = context.getExternalContext().getRequestParameterMap();
-            /* String bbox = (String) params.get(comp.getParent().getId()+":bbox");               
-            if(bbox!=null && !bbox.equals(tmp.getMinx()+","+tmp.getMiny().toString()+","+tmp.getMaxx()+","+tmp.getMaxy())){ 
-            try {
-            System.out.println("voici la nouveau bboxxxxxxxxx : "+bbox);
-            if( !tmp.getSrs().equals("urn:ogc:def:crs:EPSG:6.6:4326") )
-            bbox = (String) GeometricUtilities.reprojectBbox2DString("urn:ogc:def:crs:EPSG:6.6:4326",tmp.getSrs(),bbox);
-            System.out.println("voici la nouveau bboxxxxxxxxx : "+bbox);
-            tmp.setMinx(new Double(bbox.split(",")[0]));
-            tmp.setMiny(new Double(bbox.split(",")[1]));
-            tmp.setMaxx(new Double(bbox.split(",")[2]));
-            tmp.setMaxy(new Double(bbox.split(",")[3]));
-            } catch (NoSuchAuthorityCodeException ex) {
-            Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FactoryException ex) {
-            Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformException ex) {
-            Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }*/
-
             String title = (String) params.get(FacesUtils.getFormId(context, component) + ":title");
             if (title != null && !title.equals(tmp.getTitle())) {
                 tmp.setTitle(title);
             }
-
-            /*String win = (String) params.get(comp.getParent().getId()+":window");  
-            if( win != null){
-            String[] window = win.split(",");
-            tmp.setWindowWidth(new BigInteger(window[0]));
-            tmp.setWindowHeight(new BigInteger(window[1]));
-            }*/
             comp.setModel(tmp);
             if (comp.isDebug()) {
                 System.out.println("    Nouveaux parametres du context : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");

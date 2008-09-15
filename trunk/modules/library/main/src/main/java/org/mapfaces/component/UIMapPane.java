@@ -69,7 +69,7 @@ public class UIMapPane extends UIWidgetBase {
      * Should layers also be rendered outside the map extent? Default is false.
      */
     private boolean displayOutsideMaxExtent = true;
-    private float[] maxExtent = new float[4];
+    private String  maxExtent ;
     private String maxResolution = "auto";
     private String minResolution = null;
     private List<Float> resolutions = null;
@@ -177,11 +177,11 @@ public class UIMapPane extends UIWidgetBase {
         this.displayOutsideMaxExtent = displayOutsideMaxExtent;
     }
 
-    public float[] getMaxExtent() {
+    public String getMaxExtent() {
         return maxExtent;
     }
 
-    public void setMaxExtent(float[] maxExtent) {
+    public void setMaxExtent(String maxExtent) {
         this.maxExtent = maxExtent;
     }
 
@@ -350,6 +350,7 @@ public class UIMapPane extends UIWidgetBase {
         Object values[] = new Object[3];
         values[0] = super.saveState(context);
         //values[1] = defaultMapContext;
+        values[2] = maxExtent;
         return values;
     }
 
@@ -357,7 +358,6 @@ public class UIMapPane extends UIWidgetBase {
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        //defaultMapContext = (DefaultMapContext) values[1];
 
     }
 }

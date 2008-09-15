@@ -20,14 +20,19 @@ package org.mapfaces.renderkit.html;
 import adapter.owc.Adapter;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIOutput;
+import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
 import javax.swing.tree.DefaultTreeModel;
+import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UILayerControl;
 import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.layercontrol.UIVisibilityColumn;
+import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.treelayout.UITreeColumn;
+import org.mapfaces.component.treelayout.UITreeNodeInfo;
 import org.mapfaces.component.treelayout.UITreePanel;
 import org.mapfaces.component.treelayout.UITreeTable;
 import org.mapfaces.models.AbstractContext;
@@ -85,7 +90,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId("Layers");
-        tc.setValue("#{layer.name}");
+        tc.setValue("#{layer.title}");
         tc.setHeader("Layers grouped");
         tc.setWidth("400");
 
@@ -121,21 +126,51 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         tic.setId("Time");
         ec.setValue("#{layer.userValueDate}");
         tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
-        tic.setWidth("100");
+        tic.setWidth("32");
 
-        /*UICalendarColumn tic = new UICalendarColumn();
-        tic.setId("Time");             
-        tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
-        tic.setWidth("100");*/
-//        
+        UITreeNodeInfo tni = new UITreeNodeInfo();
+        tni.setHeader("Info");
+            UIOutput o4 = new UIOutput();
+            o4.setValue("Id : #{layer.id}");
+            UIOutput o1 = new UIOutput();
+            o1.setValue("Name : #{layer.name}");
+            UIOutput o3 = new UIOutput();
+            o3.setValue("Group : #{layer.group}");
+            UIOutput o5 = new UIOutput();
+            o5.setValue("Format : #{layer.outputFormat}");            
+            UIOutput o6 = new UIOutput();
+            o6.setValue("Legende : #{layer.legendUrl}");
+            UIDimRange dr = new UIDimRange();
+            //dr.setUIModel(getUIModel());
+            dr.setValue("#{layer.userValueDimRange}");
+            dr.setLayerCompId("#{layer.id}");
+            //dr.setDebug(true);
+//            HtmlGraphicImage img = new HtmlGraphicImage();
+//            img.setId("img_" + comp.getId());
+//            /**
+//             * Problem with url of an HtmlGraphicImage , when the first character of the url is a slash , the compoennt
+//             * addd automatically a /webappname/[the url we want] so we have specified directly in the property imgData
+//             * of the column the url with resource.jsf
+//             * 
+//             */
+//            img.setValue("#{layer.legendUrl}");
+            tni.getChildren().add(o4);
+            tni.getChildren().add(o1);
+//            tni.getChildren().add(o2);
+            tni.getChildren().add(o3);
+            tni.getChildren().add(o5);
+            tni.getChildren().add(o6);
+//            tni.getChildren().add(img);
+            tni.getChildren().add(dr);
         treePanel.getChildren().add(tc);
         treePanel.getChildren().add(vc);
         treePanel.getChildren().add(oc);
         treePanel.getChildren().add(ec);
-        treePanel.getChildren().add(tic);
+
+        treePanel.getChildren().add(tic);  
+        treePanel.getChildren().add(tni);
         treeTable.getChildren().add(treePanel);
         comp.getChildren().add(treeTable);
-
         getWriter().flush();
 
     }
@@ -146,9 +181,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
     }
 
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException { 
         super.encodeEnd(context, component);
-
         getWriter().endElement("div");
         getWriter().flush();
     }
