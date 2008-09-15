@@ -67,10 +67,10 @@ public class ContextRenderer extends Renderer {
             ServletContext sc = (ServletContext) context.getExternalContext().getContext();
             
             //Add the context path varaible to load openlayers with the good url , see  custom/OpenLayers.js
-            writer.startElement("script", component);
+            /*writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.write("window.contextpath=\""+sc.getContextPath()+"\"");
-            writer.endElement("script");
+            writer.endElement("script");*/
 
             //Add MapFaces css
             writer.startElement("link", component);
@@ -86,22 +86,25 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");*/
             
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-            writer.endElement("script");
-        
-           //Add Prototype script
-            writer.startElement("script", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.endElement("script");
             
-            //Add Scriptaculous scripts
-            writer.startElement("script", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.endElement("script");
+            if (comp.isScriptaculous()) {
+                writer.startElement("script", component);
+                writer.writeAttribute("type", "text/javascript", null);
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+                writer.endElement("script");
+
+               //Add Prototype script
+                writer.startElement("script", component);
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
+                writer.writeAttribute("type", "text/javascript", null);
+                writer.endElement("script");
+
+                //Add Scriptaculous scripts
+                writer.startElement("script", component);
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
+                writer.writeAttribute("type", "text/javascript", null);
+                writer.endElement("script");
+            }
             
             //Add OpenLayers scripts
             writer.startElement("script", component);

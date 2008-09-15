@@ -62,7 +62,12 @@ public class ContextTag extends UIComponentELTag {
      * The style of the overall div that surrounds this component.
      */
     private ValueExpression style = null;
+    
     private ValueExpression debug = null;
+    /**
+     * This is a flag that indicates if the scripts prototype, scruptaculous and mootools must be loaded.
+     */
+    private ValueExpression scriptaculous = null;
 
     @Override
     public String getComponentType() {
@@ -87,6 +92,12 @@ public class ContextTag extends UIComponentELTag {
         component.setValueExpression("styleClass", styleClass);
         component.setValueExpression("style", style);
         component.setValueExpression("debug", debug);
+        component.setValueExpression("scriptaculous", scriptaculous);
+        
+        //setting the flag to load or not the prototype and scriptaculous js libs
+        if (scriptaculous != null) {
+            compContext.setScriptaculous((Boolean) scriptaculous.getValue(FacesContext.getCurrentInstance().getELContext()));
+        }
 
         //setting the abstract model for the UIContext.
         if (service != null) {
@@ -119,6 +130,7 @@ public class ContextTag extends UIComponentELTag {
         styleClass = null;
         style = null;
         debug = null;
+        scriptaculous = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -143,5 +155,13 @@ public class ContextTag extends UIComponentELTag {
 
     public void setDebug(ValueExpression debug) {
         this.debug = debug;
+    }
+
+    public ValueExpression getScriptaculous() {
+        return scriptaculous;
+    }
+
+    public void setScriptaculous(ValueExpression scriptaculous) {
+        this.scriptaculous = scriptaculous;
     }
 }
