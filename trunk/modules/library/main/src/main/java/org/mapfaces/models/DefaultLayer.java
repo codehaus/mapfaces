@@ -419,26 +419,22 @@ public class DefaultLayer implements Layer {
     }
     
     private void writeObject(ObjectOutputStream out) throws IOException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeObject() ");
         // calling the default serialization.
         out.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readObject() ");
         // calling the default deserialization.
         in.defaultReadObject();
     }
     
     Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeReplace() ");
         singleton = this;
         DefaultLayer l = getSingleton();
         return l;
     }
 
     Object readResolve() throws ObjectStreamException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readResolve() ");
         DefaultLayer l = getSingleton();
         return l;
     }

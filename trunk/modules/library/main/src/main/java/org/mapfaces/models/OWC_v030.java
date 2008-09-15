@@ -866,26 +866,22 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
     }*/
     
     private void writeObject(ObjectOutputStream out) throws IOException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeObject() ");
         // calling the default serialization.
         out.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readObject() ");
         // calling the default deserialization.
         in.defaultReadObject();
     }
 
     Object writeReplace() throws ObjectStreamException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeReplace() ");
         singleton = this;
         OWC_v030 s = getSingleton();
         return s;
     }
 
     Object readResolve() throws ObjectStreamException {
-        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readResolve() ");        
         OWC_v030 s = getSingleton();
         return s;
     }

@@ -79,6 +79,17 @@
                 the HTTP method to use to retrieve the model. Optional, defaults to GET.
             </description>
     </attribute>
+    <attribute>
+       <name>scriptaculous</name>
+       <deferred-value>
+          <type>boolean</type>
+       </deferred-value>
+       <required>false</required>
+       <rtexprvalue>false</rtexprvalue>
+       <description>
+                a flag that indicates if the prototype and scriptaculous libs must be loaded or not.
+       </description>
+    </attribute>
   </tag>
   <tag>
     <name>ContextCollection</name>
