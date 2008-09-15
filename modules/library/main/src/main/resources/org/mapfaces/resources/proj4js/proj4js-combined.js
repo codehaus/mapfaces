@@ -70,7 +70,7 @@ Proj4js = {
      * internal: http server path to library code.
      * TBD figure this out automatically
      */
-    libPath: 'resource.jsf?r=/org/mapfaces/resources/proj4js/',
+    libPath: window.OpenLayers._getScriptLocation()+"proj4js/",
 
     /** 
     * Method: transform(source, dest, point)

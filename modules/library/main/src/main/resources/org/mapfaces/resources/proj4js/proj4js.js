@@ -7,7 +7,7 @@
                 Note: This program is an almost direct port of the C library
                 Proj4.
 */
-Proj4js={defaultDatum:'WGS84',proxyScript:null,defsLookupService:'http://spatialreference.org/ref',libPath:'../lib/',transform:function(source,dest,point){if(!source.readyToUse||!dest.readyToUse){this.reportError("Proj4js initialization for "+source.srsCode+" not yet complete");return;}
+Proj4js={defaultDatum:'WGS84',proxyScript:null,defsLookupService:'http://spatialreference.org/ref',libPath:window.OpenLayers._getScriptLocation()+"proj4js/",transform:function(source,dest,point){if(!source.readyToUse||!dest.readyToUse){this.reportError("Proj4js initialization for "+source.srsCode+" not yet complete");return;}
 if(point.transformed){this.log("point already transformed");return;}
 if((source.srsProjNumber=="900913"&&dest.datumCode!="WGS84")||(dest.srsProjNumber=="900913"&&source.datumCode!="WGS84")){var wgs84=Proj4js.WGS84;this.transform(source,wgs84,point);point.transformed=false;source=wgs84;}
 if(source.projName=="longlat"){point.x*=Proj4js.common.D2R;point.y*=Proj4js.common.D2R;}else{if(source.to_meter){point.x*=source.to_meter;point.y*=source.to_meter;}

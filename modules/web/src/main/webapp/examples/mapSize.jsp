@@ -13,10 +13,10 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         </head>
         <body>                   
-            <h:form id="form">               
-                <mf-model:Context id="owsContext" service="data/context/blueMarble.xml">                        
-                    <mf:MapPane id="mappane" navigation="true"></mf:MapPane>
-                    <mf:MapSize id="mapSize"  title=" Map size : " itemsLabels="300,150/300,300/600,300/600,600/1000,500/1000,1000" itemsValues="300,150/300,300/600,300/600,600/1000,500/1000,1000" ></mf:MapSize>
+            <h:form>               
+                <mf-model:Context service="data/context/blueMarble.xml">                        
+                    <mf:MapPane navigation="true"></mf:MapPane>
+                    <mf:MapSize title=" Map size : " itemsLabels="300,150/300,300/600,300/600,600/1000,500/1000,1000" itemsValues="300,150/300,300/600,300/600,600/1000,500/1000,1000" ></mf:MapSize>
                 </mf-model:Context>
             </h:form>
         </body>

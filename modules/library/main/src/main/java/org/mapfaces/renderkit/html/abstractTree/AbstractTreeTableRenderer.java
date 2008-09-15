@@ -47,6 +47,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
+    
+    private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
+    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
 
     private UIForm getForm(UIComponent component) {
         UIComponent parent = component.getParent();
@@ -258,11 +261,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
         writer.endElement("script");
 
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-        writer.endElement("script");
-
+       
     }
 
     /* ======================= ABSTRACT METHODS ==================================*/

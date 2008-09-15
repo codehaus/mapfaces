@@ -36,7 +36,7 @@ public class WidgetBaseRenderer extends Renderer {
 
     ResponseWriter writer;
     boolean debug;
-    String clientId;
+    private String clientId ;
     String style;
     String styleClass;
 
@@ -48,21 +48,17 @@ public class WidgetBaseRenderer extends Renderer {
         }
         assertValid(context, component);
         writer = context.getResponseWriter();
-        if (clientId == null) {
-            clientId = component.getClientId(context);
-        }
-        System.out.println(clientId);
-        UIWidgetBase comp = (UIWidgetBase) component;
-
+        clientId = component.getClientId(context);   
+        UIWidgetBase comp = (UIWidgetBase) component;  
         debug = comp.isDebug();
-        if (debug) {
-            System.out.println("    Le composant " + comp.getFamily() + " entre dans encodeBegin de widgetBaseRenderer");
-        }
-
-        if (comp.getParent() == null) {
+        if(debug){            
+            System.out.println("    Le composant "+comp.getFamily()+" entre dans encodeBegin de widgetBaseRenderer");
+        }        
+        if(FacesUtils.getParentUIModelBase(context, component)==null){
             throw new NullPointerException("UIModelBase should not be null");
+
         } else if (comp.getModel() == null) {
-            comp.setModel(((UIModelBase) comp.getParent()).getModel());        //UIModel = comp.getUIModel();
+            comp.setModel(FacesUtils.getParentUIModelBase(context, component).getModel());       
         }
         style = (String) comp.getAttributes().get("style");
 

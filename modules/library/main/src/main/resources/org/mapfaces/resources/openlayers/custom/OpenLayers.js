@@ -26,8 +26,9 @@
          * Property: _scriptName
          * {String} Relative path of this script.
          */
-        _scriptName: (!singleFile) ? "openlayers/lib/OpenLayers.js" : "OpenLayers.js",
-
+        _scriptName: (!singleFile) ? "openlayers/custom/OpenLayers.js" : "OpenLayers.js",
+        //_scriptName: (!singleFile) ? "openlayers/lib/OpenLayers.js" : "OpenLayers.js",
+        
         /**
          * Function: _getScriptLocation
          * Return the path to this script.
@@ -43,10 +44,11 @@
             var scripts = document.getElementsByTagName('script');
             for (var i = 0; i < scripts.length; i++) {
                 var src = scripts[i].getAttribute('src');
-                if (src) {
+                if (src) { 
+                    
                     var index = src.lastIndexOf(scriptName); 
                     // set path length for src up to a query string
-                    var pathLength = src.lastIndexOf('?');
+                    var pathLength = -1;
                     if (pathLength < 0) {
                         pathLength = src.length;
                     }
@@ -71,7 +73,6 @@
      * OpenLayers library code as it will be appended at the end of this file.
       */
     if(!singleFile) {
-        var host = "resource.jsf?r=/org/mapfaces/resources/";
         var jsfiles = new Array(
            "openlayers/lib/OpenLayers/Util.js",
            "openlayers/lib/OpenLayers/BaseTypes.js",
@@ -225,7 +226,7 @@
         if(docWrite) {
             var allScriptTags = new Array(jsfiles.length);
         }
-        //var host = OpenLayers._getScriptLocation()+"openlayers/lib/";    
+        var host = OpenLayers._getScriptLocation();     
         for (var i = 0; i < jsfiles.length; i++) {
             if (docWrite) {
                 allScriptTags[i] = "<script src='" + host + jsfiles[i] +"'></script>"; 

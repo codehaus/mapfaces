@@ -15,11 +15,10 @@
        <body>   
             <h1><h:outputText value="MapFaces" /></h1>                
             <br/>
-            <h:form>
-                <mf-model:Context id="owsContext" service="data/context/blueMarble.xml">
-                    <mf:Abstract id="abstract" styleClass="abstract"></mf:Abstract>
-                    <mf:MapPane id="mappane" styleClass="mappane" navigation="true" debug="true"></mf:MapPane>   
-                    <mf:ButtonBar id="bar" styleClass="mfButtonBar horizontal" debug="true"></mf:ButtonBar>                    
+            <h:form >
+                <mf-model:Context service="data/context/blueMarble.xml">
+                    <mf:MapPane  styleClass="mappane" navigation="true" debug="true" maxExtent="-180,-90,180,90"></mf:MapPane>                    
+                    <mf:ButtonBar styleClass="mfButtonBar horizontal"></mf:ButtonBar>
                 </mf-model:Context>
             </h:form>
         </body>

@@ -21,7 +21,7 @@ import org.mapfaces.models.tree.TreeNodeModel;
  *
  * @author kdelfour
  */
-public class Adapter {
+public class Adapter { 
 
     /**
      * 

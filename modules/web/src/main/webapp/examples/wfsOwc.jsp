@@ -18,29 +18,11 @@
                 <h1><h:outputText value="MapFaces" /></h1>
                 
                <br/>
-               <h:form id="idDuForm">
-               <h:outputText   value="Zoom to :"/>
-               <h:selectOneMenu id="bbox">
-                    <f:selectItem itemLabel="world" itemValue="-180,-90,180,90"></f:selectItem>
-                    <f:selectItem itemLabel="North West" itemValue="-180,0,0,90"></f:selectItem>
-                    <f:selectItem itemLabel="North East" itemValue="0,0,180,90"></f:selectItem>
-                    <f:selectItem itemLabel="South East" itemValue="0,-90,180,0"></f:selectItem>
-                       <f:selectItem itemLabel="South West" itemValue="-180,-90,0,0"></f:selectItem>
-                    <f:selectItem itemLabel="Tasmania" itemValue="143.83482400000003,-43.648056,148.47914100000003,-39.573891"></f:selectItem>
-                    <a4j:support event="onchange" reRender="mappanec"/> 
-               </h:selectOneMenu>
-               <h:outputText   value="Modify map title :"/>                    
-               <h:inputText id="title" value="World map">
-                    <a4j:support event="onkeyup" reRender="abstract"/> 
-               </h:inputText>
+               <h:form id="form">
                <mf-model:Context service="data/context/tasmaniaWfsOwc.xml">
                    <mf:Abstract id="abstract" styleClass="abstract"></mf:Abstract>
-                   <mf:MapPane id="mappane" styleClass="mappane" navigation="true" debug="true"></mf:MapPane>                   
-               </mf-model:Context>
-               <%--mf-model:Context service="data/context/worldWfsOwc.xml">
-                   <mf:Abstract id="abstractWorldWfsOwc" styleClass="abstract"></mf:Abstract>
-                   <mf:MapPane id="mappaneWorldWfsOwc" styleClass="mappane" navigation="true" debug="true"></mf:MapPane>                   
-               </mf-model:Context--%>               
+                   <mf:MapPane id="mappane" styleClass="mappane" debug="true"></mf:MapPane>                   
+               </mf-model:Context>        
            </h:form>
           </body>
        </html>

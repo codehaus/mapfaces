@@ -23,15 +23,11 @@ package org.mapfaces.models;
  * @author Mehdi Sidhoum.
  */
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.util.HashMap;
-import org.constellation.catalog.Database;
-//import org.constellation.provider.postgrid.PostGridMapLayer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
@@ -58,6 +54,7 @@ public class DefaultLayer implements Layer {
     private boolean hidden;
     private String opacity;
     private String outputFormat;
+    private String legendUrl;
     private String minScaleDenominator;
     private String maxScaleDenominator;
     //private List<Style> style;
@@ -336,7 +333,14 @@ public class DefaultLayer implements Layer {
     public String getTimes() {
         return getTime().getValue();
     }
-
+    
+    @Override
+    public String getUserValueDimRange() {
+        if(getDimension("dim_range") != null)
+            return getDimension("dim_range").getUserValue();
+        return null;
+    }
+    
     /**
      * 
      * 
@@ -405,6 +409,14 @@ public class DefaultLayer implements Layer {
         }
         return null;
     }
+
+    public String getLegendUrl() {
+        return legendUrl;
+    }
+
+    public void setLegendUrl(String legendUrl) {
+        this.legendUrl = legendUrl;
+    }
     
     private void writeObject(ObjectOutputStream out) throws IOException {
         System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeObject() ");
@@ -437,46 +449,6 @@ public class DefaultLayer implements Layer {
         }
         return singleton;
     }
-    
-    /*public static void main(String... args) {
-
-        try {
-            DefaultLayer layer = new DefaultLayer(true, true, 20);
-            Database db = new Database();
-            org.constellation.coverage.catalog.Layer l = null; 
-            PostGridMapLayer mapLayer = new PostGridMapLayer(db, l);
-            layer.setMapLayer(mapLayer);
-            System.out.println("1111111111 "+ layer + " : " + layer.getMapLayer() + " : " + layer.isEdit()+"  : "+layer.isLock()+"  :  "+layer.getGroupId());
-
-
-            FileOutputStream fos = new FileOutputStream("DefaultLayer.serial");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            try {
-                oos.writeObject(layer);
-                oos.flush();
-            } finally {
-                try {
-                    oos.close();
-                } finally {
-                    fos.close();
-                }
-            }
-            FileInputStream fis = new FileInputStream("DefaultLayer.serial");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            try {
-                layer = (DefaultLayer) ois.readObject();
-                System.out.println("222222222222 "+layer + " : " + layer.getMapLayer() + " : " + layer.isEdit()+"  : "+layer.isLock()+"  :  "+layer.getGroupId());
-            } finally {
-                ois.close();
-                fis.close();
-            }
-        } catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }*/
 
     public boolean isEdit() {
         return edit;

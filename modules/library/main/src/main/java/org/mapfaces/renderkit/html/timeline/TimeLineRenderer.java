@@ -219,31 +219,32 @@ public class TimeLineRenderer extends Renderer {
         //write scripts necessary for eras.
         writeScriptsEras(context, comp, erasZones);
 
-        writer.write(idjs + "_tl = Timeline.create(document.getElementById('form:" + idjs + "'), " + idjs + "_bandInfos);\n");
+        writer.write(idjs + "_tl = Timeline.create(document.getElementById('"+FacesUtils.getFormId(context, component)+":" + idjs + "'), " + idjs + "_bandInfos);\n");
 
         writeResizeFunction(context, comp);
-        writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
+        
+        //TO BE DELETED no reference to mapfaces components because the timelin should be works alone, without a context
+        if(FacesUtils.getParentUIModelBase(context, component) instanceof UIContext){
+            writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
                 "        var parameters = {    'synchronized': 'true',\n" +
-                "                             'org.mapfaces.ajax.AJAX_LAYER_ID': 'form:'+img.textContent.split(' ')[1],\n" +
-                "                             'refresh': img.textContent.split(' ')[1],\n" +
+                 "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '"+FacesUtils.getFormId(context, component)+":'+img.textContent.split(' ')[1],\n" +
+                 "                             'refresh': img.textContent.split(' ')[1],\n" +
                 "                              'Time': img.textContent.split(' ')[2],\n" +
                 "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
                 "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
                 "                         };" +
                 "parameters['" + ((UIContext) comp.getParent()).getAjaxCompId() + "'] =' " + ((UIContext) comp.getParent()).getAjaxCompId() + "';" +
                 "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','form',\n" +
-                "                        null,\n" +
-                "                        {   'control':this,\n" +
-                "                            'single':true,\n" +
-                "                            'parameters': parameters ,\n" +
-                //                 "                            'actionUrl':'mapfaces.jsf'\n" +
-                "                        } \n" +
+                 "                        null,\n" +
+                 "                        {   'control':this,\n" +
+                 "                            'single':true,\n" +
+                 "                            'parameters': parameters ,\n" +
+                 "                        } \n" +
                 "                      );\n" +
-                "    };\n");
-
+                "    };\n");    
+        }
         writer.endElement("script");
         writer.endElement("div"); //close the global div
-
         writer.flush();
     }
 

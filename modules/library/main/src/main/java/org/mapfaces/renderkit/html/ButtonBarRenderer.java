@@ -32,8 +32,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
                
         super.encodeBegin(context, component);
-        UIButtonBar comp = (UIButtonBar) component;     
-        
+        UIButtonBar comp = (UIButtonBar) component;             
+        String clientId= comp.getClientId(context);
         writer.startElement("div", comp);        
         writer.writeAttribute("id",clientId,"id");
         

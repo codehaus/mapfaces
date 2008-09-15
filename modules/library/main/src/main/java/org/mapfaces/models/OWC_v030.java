@@ -394,11 +394,10 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
 
                             /* Type */
                             layer.setType(layerType.getServer().get(0).getService().value());
-                            System.out.println("tyyyyyyyype" + layerType.getServer().get(0).getService().value());
-                            /* Id */
-                            if (layerType.getId() == null) {
-                                layerType.setId("MapFaces_Layer_WMS_" + i);
-                            }
+                            
+                             /* Id */
+                            if(layerType.getId()==null)
+                                layerType.setId("MapFaces_Layer_WMS_"+i);       
                             layer.setId(layerType.getId());
 
                             /* Name */
@@ -407,6 +406,9 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
                             /* Hidden */
                             layer.setHidden(layerType.isHidden());
 
+                            /* Group */
+                            if(layerType.getGroup()!=null)
+                                layer.setGroup(layerType.getGroup());
                             /* Opacity */
                             if (layerType.getOpacity() != null) {
                                 layer.setOpacity(layerType.getOpacity().toString());
@@ -431,32 +433,60 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
                             }
 
                             /*StyleList*/
-                            if (layerType.getStyleList() != null) {
+                            String sld_body = "";
+                            String sld = "";
+                            String test2 = "";
+                            if(layerType.getStyleList()!=null){
                                 for (StyleType style : layerType.getStyleList().getStyle()) {
-                                    if (style.isCurrent() != null && style.isCurrent()) {
-                                        if (style.getName() == null) {
-                                            if (style.getSLD().getOnlineResource() != null) {
-                                                ((WMSMapLayer) layer.getMapLayer()).setSld(URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8"));
-                                            } else if (style.getSLD().getStyledLayerDescriptor() != null) {
-                                                JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");
-                                                Marshaller marshaller = Jcontext.createMarshaller();
-                                                StringWriter test = new StringWriter();
-                                                marshaller.marshal(style.getSLD().getStyledLayerDescriptor(), test);
-                                                ((WMSMapLayer) layer.getMapLayer()).setSld_body(URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<", "><"), "UTF-8"));
-                                            } else if (style.getSLD().getFeatureTypeStyle() != null) {
-                                                //TODO transformFeatureTypeStyleToString
-                                                JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");
-                                                Marshaller marshaller = Jcontext.createMarshaller();
-                                                StringWriter test = new StringWriter();
-                                                marshaller.marshal(style.getSLD().getFeatureTypeStyle(), test);
-                                                ((WMSMapLayer) layer.getMapLayer()).setSld(URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<", "><"), "UTF-8"));
-                                            } else {
-                                                ((WMSMapLayer) layer.getMapLayer()).setStyles("");
+                                        if (style.isCurrent()!=null && style.isCurrent()) {  
+                                            if(style.getName()==null){
+                                                if(style.getSLD().getOnlineResource()!=null){
+                                                    sld = URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8");
+                                                    ((WMSMapLayer)layer.getMapLayer()).setSld(sld);                                                
+                                                }else if(style.getSLD().getStyledLayerDescriptor()!=null){                                                   
+                                                     JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");                                               
+                                                    Marshaller marshaller = Jcontext.createMarshaller();
+                                                    StringWriter test = new StringWriter();
+                                                    marshaller.marshal(style.getSLD().getStyledLayerDescriptor(),test);
+                                                    
+                                                    test2 = StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<","><");
+                                                    sld_body = URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<","><"), "UTF-8");
+                                                    ((WMSMapLayer)layer.getMapLayer()).setSld_body(sld_body); 
+                                                }else if(style.getSLD().getFeatureTypeStyle()!=null){
+                                                    //TODO transformFeatureTypeStyleToString
+                                                    JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");                                               
+                                                    Marshaller marshaller = Jcontext.createMarshaller();
+                                                    StringWriter test = new StringWriter();
+                                                    marshaller.marshal(style.getSLD().getFeatureTypeStyle(),test);
+                                                    sld_body = URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<","><"), "UTF-8");
+                                                    ((WMSMapLayer)layer.getMapLayer()).setSld_body(sld_body); 
+                                                }else{
+                                                    ((WMSMapLayer)layer.getMapLayer()).setStyles(""); 
+                                                }
+                                            }else{
+                                                 ((WMSMapLayer)layer.getMapLayer()).setStyles(style.getName());
+                                                 
+                                            } 
+                                            //Create legendUrl if not specified in the context
+                                            if(style.getLegendURL()!=null){
+                                                if(!sld_body.equals(""))
+                                                    layer.setLegendUrl(style.getLegendURL().getOnlineResource().getHref()+"&amp;sld_body="+sld_body);
+                                                else
+                                                    layer.setLegendUrl(style.getLegendURL().getOnlineResource().getHref());
+                                            }else{
+                                                String url = wmsUrl;
+                                                if(!wmsUrl.contains("?"))
+                                                    url += "?";
+                                                url +="REQUEST=GetLegendGraphic&amp;VERSION="+((WMSMapLayer)layer.getMapLayer()).getWMS_SERVER().getVersion()+"&amp;LAYER="+ layer.getName()+"&amp;WIDTH=50&amp;HEIGHT=30&amp;FORMAT=image/png";
+                                                if(!sld_body.equals(""))
+                                                    url +="&amp;SLD_BODY="+sld_body;
+                                                else if(!sld.equals(""))
+                                                    url +="&amp;SLD="+sld;
+                                                else if(!((WMSMapLayer)layer.getMapLayer()).getStyles().equals(""))
+                                                    url +="&amp;STYLE="+style.getName();
+                                                layer.setLegendUrl(url);
                                             }
-                                        } else {
-                                            ((WMSMapLayer) layer.getMapLayer()).setStyles(style.getName());
-                                        }
-                                        break;
+                                            break;
                                     }
                                     ((WMSMapLayer) layer.getMapLayer()).setStyles("");
                                     System.out.println("            Styles de la couche : " + ((WMSMapLayer) layer.getMapLayer()).getStyles());
@@ -562,210 +592,7 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
         }
         return null;
     }
-//    public MapLayer[] getMapLayers() {
-//        try {
-//            Double minx = getMinx();
-//            Double miny = getMiny();
-//            Double maxx = getMaxx();
-//            Double maxy = getMaxy();
-//            String srs = getSrs();
-//            ReferencedEnvelope refEnv = new ReferencedEnvelope(new Envelope(minx, maxx, miny, maxy), CRS.decode(srs));
-//            List<LayerType> layerList = getDoc().getResourceList().getLayer();
-//            MapLayer[] mapLayers = new MapLayer[layerList.size()];
-//            int i = 0;
-//            for (LayerType layerType : layerList) {
-//                try {
-//                    switch (layerType.getServer().get(0).getService()) {
-//                        case URN_OGC_SERVICE_TYPE_WMS:
-//                            if(wmsServers==null){
-//                                wmsServers=new HashMap<String,WebMapServer>(); 
-//                            }                             
-//                            String wmsUrl=layerType.getServer().get(0).getOnlineResource().get(0).getHref();
-//                            if(wmsServers.get(wmsUrl)==null){    
-//                                wmsServers.put(wmsUrl, new WebMapServer(new URL(wmsUrl),layerType.getServer().get(0).getVersion()));
-//                                
-//                            }             
-//                            WMSMapLayer wmsLayer = new WMSMapLayer(wmsServers.get(wmsUrl),refEnv);
-//                            
-//                             /* Id */
-//                            if(layerType.getId()==null)
-//                                layerType.setId("MapFaces_Layer_WMS_"+i);                           
-//                            wmsLayer.setId(layerType.getId());
-//                            /* Name */
-//                            wmsLayer.setName(layerType.getName());
-//                            
-//                            /* Hidden */
-//                            wmsLayer.setVisible(!layerType.isHidden());
-//                            
-//                            /* Opacity */
-//                            if(layerType.getOpacity()!=null)
-//                                wmsLayer.setOpacity(layerType.getOpacity().toString());
-//                            
-//                            /* Title */    
-//                            wmsLayer.setTitle(layerType.getTitle());
-//                            
-//                            /* Version */
-//                            wmsLayer.setVersion(layerType.getServer().get(0).getVersion());
-//                            
-//                             /*OutputFormat*/
-//                            for (String format : layerType.getOutputFormat()) {                                
-//                                if (format.isEmpty()) {
-//                                    wmsLayer.setOutputFormat("image/gif");
-//                                } else {
-//                                    wmsLayer.setOutputFormat(format);
-//                                    break;
-//                                }
-//                            }
-//                            
-//                            /*DimensionList*/                            
-//                            HashMap allDims = parseDimensionList(layerType);
-//                            if(allDims.size()>0){
-//                                wmsLayer.setDimensions(allDims);
-//                            }
-//                             
-//                            /*StyleList*/
-//                            if(layerType.getStyleList()!=null){
-//                                for (StyleType style : layerType.getStyleList().getStyle()) {
-//                                        if (style.isCurrent()!=null && style.isCurrent()) {  
-//                                            if(style.getName()==null){
-//                                                if(style.getSLD().getOnlineResource()!=null){
-//                                                    wmsLayer.setSld(URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8"));                                                
-//                                                }else if(style.getSLD().getStyledLayerDescriptor()!=null){                                                   
-//                                                     JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");                                               
-//                                                    Marshaller marshaller = Jcontext.createMarshaller();
-//                                                    StringWriter test = new StringWriter();
-//                                                    marshaller.marshal(style.getSLD().getStyledLayerDescriptor(),test);
-//                                                    wmsLayer.setSld_body(URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<","><"), "UTF-8")); 
-//                                                }else if(style.getSLD().getFeatureTypeStyle()!=null){
-//                                                    //TODO transformFeatureTypeStyleToString
-//                                                    JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");                                               
-//                                                    Marshaller marshaller = Jcontext.createMarshaller();
-//                                                    StringWriter test = new StringWriter();
-//                                                    marshaller.marshal(style.getSLD().getFeatureTypeStyle(),test);
-//                                                    wmsLayer.setSld(URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<","><"), "UTF-8")); 
-//                                                }else{
-//                                                     wmsLayer.setStyles(""); 
-//                                                }
-//                                            }else{
-//                                                wmsLayer.setStyles(style.getName());
-//                                            }   
-//                                            break;
-//                                        }
-//                                        wmsLayer.setStyles("");                    
-//                                        System.out.println("            Styles de la couche : "+wmsLayer.getStyles());
-//                                }
-//                            }else{
-//                                 wmsLayer.setStyles("");   
-//                            }
-//                            if (wmsLayer == null) {
-//                                break;
-//                            }
-//                            mapLayers[i] = wmsLayer;                        
-//                            break;
-//                        
-//                        case URN_OGC_SERVICE_TYPE_WFS:                           
-//                            DataStore data;
-//                            String wfsUrl=layerType.getServer().get(0).getOnlineResource().get(0).getHref();
-//                            String version =  layerType.getServer().get(0).getVersion();
-//                            if(wfsUrl.contains("?")){
-//                                wfsUrl+="SERVICE=WFS&REQUEST=GetCapabilities&VERSION="+version;
-//                            }else{
-//                                wfsUrl+="?SERVICE=WFS&REQUEST=GetCapabilities&VERSION="+version;
-//                            }
-//                            if(wfsDataStores==null){
-//                                wfsDataStores=new HashMap<String,DataStore>(); 
-//                            }
-//                            if( wfsDataStores.get(wfsUrl)==null){    
-//                                Map connectionParameters = new HashMap();
-//                                connectionParameters.put("WFSDataStoreFactory:GET_CAPABILITIES_URL", wfsUrl );
-//                                if(layerType.getMaxFeatures()!=null)
-//                                    connectionParameters.put("WFSDataStoreFactory:MAXFEATURES",layerType.getMaxFeatures());
-//                                // Step 2 - connection
-//                                data = DataStoreFinder.getDataStore( connectionParameters );
-//                                wfsDataStores.put(wfsUrl,data);
-//                            }else{
-//                                 data = wfsDataStores.get(wfsUrl);
-//                            }                                 
-//                           
-//                            // Step 3 - discouvery
-//                            String typeName = layerType.getName();
-//                            SimpleFeatureType schema = data.getSchema( typeName );
-//                            
-//                           /* Style style = getWfsLayerStyle(layerType,schema);
-//                            // Step 4 - target    
-//                            DefaultMapLayer wfsLayer = new DefaultMapLayer(data.getFeatureSource(typeName),style);  
-//                            
-//                            if(layerType.getId()==null)
-//                                layerType.setId(Utils.generateUniqueId("MapFaces_Layer_WFS_"));                            
-//                            wfsLayer.setId(layerType.getId());
-//                            
-//                            if(layerType.getOpacity()!=null)
-//                                wfsLayer.setOpacity(layerType.getOpacity().toString());
-//                             
-//                            if (wfsLayer == null) {
-//                                 break;
-//                            }
-//                            mapLayers[i] = wfsLayer;  */                     
-//                            break;
-//                        case URN_OGC_SERVICE_TYPE_GML:
-//                           
-//                           //create the parser with the gml 2.0 configuration
-//                          /* GML DataStore was not very efficient
-//                           
-//                           
-//                           Configuration configuration = new org.geotools.gml2.GMLConfiguration();
-//
-//                           Parser parser = new org.geotools.xml.Parser( configuration );
-//                            
-//                            //the xml instance document above
-//                            InputStream gml =new URL(layerType.getServer().get(0).getOnlineResource().get(0).getHref()).openStream();
-//                           
-//
-//                            //parse
-//                            FeatureCollection fc = (FeatureCollection) parser.parse( gml );
-//                            
-//                            // Step 3 - discouvery
-//                            String gmlName = layerType.getName();
-//                            SimpleFeatureType gmlSchema = (SimpleFeatureType) fc.getSchema();
-//                            Style gmlStyle = getWfsLayerStyle(layerType,gmlSchema);
-//                    
-//                            // Step 4 - target    
-//                            DefaultMapLayer gmlLayer = new DefaultMapLayer(fc, gmlStyle);
-//                            // wfsLayer.setSEStyle((org.opengis.style.Style) style);
-//                             
-//                            if (gmlLayer == null) {
-//                                 break;
-//                            }
-//                            mapLayers[i] = gmlLayer;  */      
-//                            break;
-//                        case URN_OGC_SERVICE_TYPE_KML:
-//                            break;
-//                        case URN_OGC_SERVICE_TYPE_WCS:
-//                            break;
-//                        case URN_OGC_SERVICE_TYPE_SLD:
-//                            break;
-//                        case URN_OGC_SERVICE_TYPE_FES:
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                    i++;
-//                } catch (SAXException ex) {
-//                    Logger.getLogger(OWC_v030.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (JAXBException ex) {
-//                    Logger.getLogger(OWC_v030.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(WMC_v110.class.getName()).log(Level.SEVERE, null, ex);
-//                } 
-//            }
-//            return mapLayers;
-//        } catch (NoSuchAuthorityCodeException ex) {
-//            Logger.getLogger(WMC_v110.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (FactoryException ex) {
-//            Logger.getLogger(WMC_v110.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    } 
+    
     public void setLayers(Layer[] layers) {
         this.setLayers(layers);
     }
@@ -845,7 +672,6 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
                 }
             }
         }
-        System.out.println("testttttttttttttt" + allDims.get("elevation"));
         return allDims;
     }
 
@@ -1001,12 +827,14 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
 
     @Override
     public String getLayerDimension(String layerId, String dimName, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getLayerDimensionNodeFromId(layerId, dimName).getValue();
     }
 
     @Override
-    public String getLayerAttrDimension(String layerId, String dimName, String attrName, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getLayerAttrDimension(String layerId, String dimName, String attrName) {
+        if(dimName.equals("userValue"))
+            return getLayerDimensionNodeFromId(layerId, dimName).getUserValue();
+        return "all attribute are not defined !";
     }
 
     @Override
@@ -1077,9 +905,6 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
         try {
             OWSContextType ctxtType = new OWSContextType();
             OWC_v030 owc = new OWC_v030(ctxtType);
-            System.out.println("11111111 "+owc + " : " + owc.getDoc());
-
-
             FileOutputStream fos = new FileOutputStream("OWC_v030.serial");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -1097,7 +922,6 @@ public class OWC_v030 extends AbstractOWC implements Serializable {
             ObjectInputStream ois = new ObjectInputStream(fis);
             try {
                 owc = (OWC_v030) ois.readObject();
-                System.out.println("22222222 "+owc + " : " + owc.getDoc());
             } finally {
                 ois.close();
                 fis.close();

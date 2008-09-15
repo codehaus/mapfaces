@@ -21,8 +21,18 @@
 			<ows:Title>AO_Coriolis_(Temp)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
-			</Server>                    
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+			</Server>      
+                        <StyleList>
+			    <Style current="1">
+                                <Name>dd</Name>
+                                <Title>dd</Title>
+                                <LegendURL hidden="1" width="135" height="20">
+				    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+						xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
+                                </LegendURL>
+			    </Style>
+			</StyleList> 
 		</Layer>      
 	</ResourceList>
 </OWSContext>

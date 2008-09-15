@@ -55,7 +55,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         UIMapPane comp = (UIMapPane) component;
         boolean debug = comp.isDebug();
-        
+        String clientId= comp.getClientId(context);
         AbstractContext model;        
         if (comp.getModel() != null && comp.getModel() instanceof AbstractContext) {
             model = (AbstractContext) comp.getModel();
@@ -67,32 +67,32 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         boolean isContextExist = true;
 
         BigInteger height = model.getWindowHeight();
-        BigInteger width = model.getWindowWidth();
-
-
-        String id = (String) comp.getAttributes().get("id");
-
-        if (style == null) {
-            style = "width:" + width.toString() + "px;height:" + height.toString() + "px;z-index:0;";
-        } else {
-            style = "width:" + width.toString() + "px;height:" + height.toString() + "px;z-index:0;" + style;
+        BigInteger width = model.getWindowWidth(); 
+        if(comp.getMaxExtent()==null){
+            comp.setMaxExtent(model.getMinx().toString()+","+model.getMiny().toString()+","+model.getMaxx().toString()+","+model.getMaxy().toString()) ;
         }
-        if (debug) {
-            System.out.println("        L'attribut style du MapPane est " + style);
+        String id = (String) comp.getAttributes().get("id");      
+        
+        if(style==null)
+            style ="width:"+width.toString()+"px;height:"+height.toString()+"px;z-index:0;";
+        else
+            style ="width:"+width.toString()+"px;height:"+height.toString()+"px;z-index:0;"+style;
+        
+        if(debug)
+            System.out.println("        L'attribut style du MapPane est "+style);
+        
+        
         /*MapPane General div*/
-        }
         writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
-
-        if (styleClass == null) {
-            writer.writeAttribute("class", "mfMapPane", "styleClass");
-        } else {
-            writer.writeAttribute("class", styleClass, "styleClass");
-        }
-        if (style != null) {
-            writer.writeAttribute("style", style, "style");
+        writer.writeAttribute("id",clientId,"id");  
+        if(styleClass == null)
+            writer.writeAttribute("class","mfMapPane","styleClass");
+        else            
+            writer.writeAttribute("class",styleClass,"styleClass");
+        if (style != null)
+            writer.writeAttribute("style",style,"style"); 
+                
         /*MapPane ViewPort div*/
-        }
         writer.startElement("div", comp);
 
         if (id != null) {
@@ -150,9 +150,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     comp.getChildren().add(layer);
 
                 }
-            /*MathTransform2D transform = (MathTransform2D) getDisplayToObjectiveTransform();
-            Shape bounds = getDisplayBounds();
-            transform.createTransformedShape(bounds);*/
             } catch (NoSuchAuthorityCodeException ex) {
                 Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FactoryException ex) {
@@ -184,35 +181,36 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
         ResponseWriter writer = context.getResponseWriter();
         // ... ending the started elements
-        writer.endElement("div");
-        writer.endElement("div");
-        /* Construct OpenLayers Map Object */
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", "text/javascript");
-
-        //suppression des ":" pour nommer l'objet javascript correspondant correctement      
-        String jsObject = contextComp.getClientId(context);
-        if (jsObject.contains(":")) {
-            jsObject = jsObject.replace(":", "");
-        }
-        String[] srsCode = model.getSrs().split(":");
-        writer.write("" +
-                "    var mapOptions = {\n" +
-                "                       id:'" + jsObject + "',\n" +
-                "                       controls:[],\n" +
-                "                       projection: new OpenLayers.Projection('EPSG:" + srsCode[srsCode.length - 1] + "'),\n" +
-                "                       size: new OpenLayers.Size('" + model.getWindowWidth() + "','" + model.getWindowHeight() + "'),\n" +
-                "                       maxExtent: new OpenLayers.Bounds(" + model.getMinx().toString() + "," + model.getMiny().toString() + "," + model.getMaxx().toString() + "," + model.getMaxy().toString() + "),\n" +
-                "                       maxResolution: 'auto',\n" +
-                "                       theme:  null ,\n" +
-                "                       fractionnalZoom:  true ,\n" +
-                "                       layersName:  '" + model.getLayersId() + "' ,\n" +
-                "                       mfAjaxCompId:'" + contextComp.getAjaxCompId() + "'\n" +
-                "                   };\n" +
-                "    window." + jsObject + " = new OpenLayers.Map('" + comp.getClientId(context) + "',mapOptions);\n" +
-                "   ");
-
-        writer.endElement("script");
+                writer.endElement("div");
+            writer.endElement("div");
+         /* Construct OpenLayers Map Object */
+                writer.startElement("script", comp);
+                writer.writeAttribute("type","text/javascript","text/javascript");
+        
+                //suppression des ":" pour nommer l'objet javascript correspondant correctement      
+                String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);        
+                if(jsObject.contains(":"))                 
+                    jsObject = jsObject.replace(":","");
+                String[] srsCode = model.getSrs().split(":");
+                writer.write("               " +
+                    "    var mapOptions = {\n" +                        
+                    "                       id:'"+jsObject+"',\n" +
+                    "                       controls:[],\n" +
+                    "                       projection: new OpenLayers.Projection('EPSG:"+srsCode[srsCode.length-1]+"'),\n" +
+                    "                       size: new OpenLayers.Size('"+model.getWindowWidth()+"','"+model.getWindowHeight() +"'),\n" +
+                    "                       maxExtent: new OpenLayers.Bounds("+comp.getMaxExtent()+"),\n" +
+                    "                       maxResolution: 'auto',\n" +
+                    "                       theme:  null ,\n" +
+                    "                       fractionnalZoom:  true ,\n" +
+                    "                       layersName:  '"+model.getLayersId()+"' ,\n" +
+                    "                       mfAjaxCompId:'"+FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()+"',\n"+
+                    "                       mfFormId:'"+FacesUtils.getFormId(context, component)+"',\n"+
+                    "                       mfRequestId:'updateBboxOrWindow'\n"+
+                    "                   };\n" +    
+                    "    window."+jsObject+" = new OpenLayers.Map('"+comp.getClientId(context)+"',mapOptions);\n" +
+                    "   ");
+            
+                writer.endElement("script");     
         writer.endElement("div");
         writer.flush();
     }
@@ -226,16 +224,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             Map params = context.getExternalContext().getRequestParameterMap();
-            String render = (String) params.get("render");
-            if (render == null || render.equals("true")) {
-                comp.setInitDisplay(true);
-            }
-            String win = (String) params.get("form:mapSizeSelect");
-            if (win != null) {
-                String[] window = win.split(",");
-                tmp.setWindowWidth(new BigInteger(window[0]));
-                tmp.setWindowHeight(new BigInteger(window[1]));
-            }
+            String  render = (String) params.get("render") ;
+            if(render==null || render.equals("true"))
+               comp.setInitDisplay(true);
         }
         //((UILayer) tmp).setMapPane((UIMapPane) component);
         contextComp.setModel(tmp);

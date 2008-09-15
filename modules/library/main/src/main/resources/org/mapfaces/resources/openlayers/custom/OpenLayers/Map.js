@@ -523,7 +523,7 @@ OpenLayers.Map = OpenLayers.Class({
                          };
         parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
         
-        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','form',
+        A4J.AJAX.Submit( this.mfRequestId,this.mfFormId,
                          null,
                          {   'control':this,
                              'single':true,

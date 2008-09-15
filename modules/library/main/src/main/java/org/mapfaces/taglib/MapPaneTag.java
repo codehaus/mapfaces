@@ -35,6 +35,8 @@ public class MapPaneTag extends WidgetBaseTag {
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.MapPane";
     private ValueExpression empty = null;
+    private ValueExpression maxExtent = null;
+    
     /**
      * OpenLayers.Control
      * */
@@ -73,26 +75,27 @@ public class MapPaneTag extends WidgetBaseTag {
     @Override
     protected void setProperties(UIComponent component) {
         // always call the superclass method
-        super.setProperties(component);
-        component.setValueExpression("empty", empty);
-        component.setValueExpression("panZoomBar", panZoomBar);
-        component.setValueExpression("panZoom", panZoom);
-        component.setValueExpression("navigation", navigation);
-        component.setValueExpression("keyboardDefaults", keyboardDefaults);
-        component.setValueExpression("layerSwitcher", layerSwitcher);
-        component.setValueExpression("mousePosition", mousePosition);
-        component.setValueExpression("navToolBar", navToolBar);
-
-
-        component.setValueExpression("imageBuffer", imageBuffer);
-        component.setValueExpression("singleTile", singleTile);
-        component.setValueExpression("fixedSize", fixedSize);
-        component.setValueExpression("fractionalZoom", fractionalZoom);
-        component.setValueExpression("numZoomLevels", numZoomLevels);
-
-        component.setValueExpression("google", google);
-        component.setValueExpression("yahoo", yahoo);
-        component.setValueExpression("virtualEarth", virtualEarth);
+        super.setProperties(component);        
+        component.setValueExpression("maxExtent",getMaxExtent());
+        component.setValueExpression("empty",empty);
+        component.setValueExpression("panZoomBar",panZoomBar);
+        component.setValueExpression("panZoom",panZoom);
+        component.setValueExpression("navigation",navigation);
+        component.setValueExpression("keyboardDefaults",keyboardDefaults);
+        component.setValueExpression("layerSwitcher",layerSwitcher);
+        component.setValueExpression("mousePosition",mousePosition);
+        component.setValueExpression("navToolBar",navToolBar);
+        
+        
+        component.setValueExpression("imageBuffer",imageBuffer);
+        component.setValueExpression("singleTile",singleTile);
+        component.setValueExpression("fixedSize",fixedSize);
+        component.setValueExpression("fractionalZoom",fractionalZoom);
+        component.setValueExpression("numZoomLevels",numZoomLevels);
+        
+        component.setValueExpression("google",google);
+        component.setValueExpression("yahoo",yahoo);
+        component.setValueExpression("virtualEarth",virtualEarth);
     }
 
     @Override
@@ -100,6 +103,7 @@ public class MapPaneTag extends WidgetBaseTag {
         // allways call the superclass method
         super.release();
         setempty(null);
+        setMaxExtent(null);
         panZoomBar = null;
         navigation = null;
         keyboardDefaults = null;
@@ -180,5 +184,13 @@ public class MapPaneTag extends WidgetBaseTag {
 
     public void setempty(ValueExpression empty) {
         this.empty = empty;
+    }
+    
+    public ValueExpression getMaxExtent() {
+        return maxExtent;
+    }
+
+    public void setMaxExtent(ValueExpression maxExtent) {
+        this.maxExtent = maxExtent;
     }
 }

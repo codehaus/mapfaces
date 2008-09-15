@@ -13,10 +13,10 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         </head>
         <body>                   
-            <h:form id="form">               
-                <mf-model:Context id="owsContext" service="data/context/owc030Cut.xml">                       
-                    <mf:MapPane id="mappane"></mf:MapPane>
-                    <mf:ButtonBar id="bar" styleClass="mfButtonBar horizontal"></mf:ButtonBar>
+            <h:form>               
+                <mf-model:Context service="data/context/owc030Cut.xml">                       
+                    <mf:MapPane ></mf:MapPane>
+                    <mf:ButtonBar styleClass="mfButtonBar horizontal"></mf:ButtonBar>
                 </mf-model:Context>
             </h:form>
         </body>

@@ -16,9 +16,6 @@
         
         <style>
             body{margin:0px; background:#f3f4e9;padding:10pt}
-            
-            
-            
         </style>
     </head>
     <body>

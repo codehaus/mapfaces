@@ -33,10 +33,11 @@ public class AbstractRenderer extends WidgetBaseRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 
         super.encodeBegin(context, component);
-        UIAbstract abstractComp = (UIAbstract) component;
-        AbstractContext model = (AbstractContext) abstractComp.getModel();
-
-        writer.startElement("div", abstractComp);
+        UIAbstract comp = (UIAbstract) component;
+        AbstractContext model = (AbstractContext) comp.getModel();
+        
+        String clientId= comp.getClientId(context);
+        writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "id");
         writer.writeAttribute("style", style, "style");
         if (styleClass == null) {
@@ -44,7 +45,7 @@ public class AbstractRenderer extends WidgetBaseRenderer {
         } else {
             writer.writeAttribute("class", styleClass, "styleClass");
         }
-        writer.startElement("h3", abstractComp);
+        writer.startElement("h3", comp);
 
         String title = model.getTitle();
         if (title != null) {

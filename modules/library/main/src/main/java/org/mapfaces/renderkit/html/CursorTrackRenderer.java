@@ -30,20 +30,23 @@ import org.mapfaces.taglib.CursorTrackTag;
 public class CursorTrackRenderer extends WidgetBaseRenderer {
 
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
+        
+        super.encodeBegin(context, component);     
+        UICursorTrack comp = (UICursorTrack) component;  
+        String clientId= comp.getClientId(context);
+        
+                    
+        writer.startElement("div", comp);        
+        writer.writeAttribute("id",clientId,"id");
+        
+        if (styleClass == null)
+            writer.writeAttribute("class","mf"+CursorTrackTag.COMP_TYPE.substring(CursorTrackTag.COMP_TYPE.lastIndexOf(".")+1,CursorTrackTag.COMP_TYPE.length()),"styleclass");
+        
+        if (style != null)
+            writer.writeAttribute("style",style,"style");
+        
 
-        super.encodeBegin(context, component);
-        UICursorTrack comp = (UICursorTrack) component;
-
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
-
-        if (styleClass == null) {
-            writer.writeAttribute("class", "mf" + CursorTrackTag.COMP_TYPE.substring(CursorTrackTag.COMP_TYPE.lastIndexOf(".") + 1, CursorTrackTag.COMP_TYPE.length()), "styleclass");
-        }
-        if (style != null) {
-            writer.writeAttribute("style", style, "style");
-        }
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 

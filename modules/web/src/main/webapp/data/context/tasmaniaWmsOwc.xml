@@ -12,129 +12,35 @@
 		<ows:Title>OWS Context version 0.3.0 tasmania WMS example</ows:Title>
 	</General>
 	
-	<ResourceList>
-	
-		<!-- WFS Example-->
-		<!--Layer name="topp:gnis_pop" hidden="false">
-			<ows:Title>GNIS Population</ows:Title>
-			<Server service="urn:ogc:serviceType:WFS" version="1.0.0">
-				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wfs?"/>
-			</Server>
-		</Layer-->
-		
+	<ResourceList>			
 		<!-- WMS Example -->
-                <Layer name="Bathymetry,Countries,Topography,Builtup areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot+elevations,Airports,Ocean+features" queryable="1" hidden="0">                        
-			<ows:Title>WMS1.0</ows:Title>
+                <Layer name="BlueMarble" queryable="1" hidden="0">                        
+			<ows:Title>Blue Marble</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
-			<Server service="urn:ogc:serviceType:WMS" version="1.0.0">
-                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
-			</Server>                        
-		</Layer>                 
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+			</Server>                    
+		</Layer>              
                 <Layer name="topp:tasmania_state_boundaries" queryable="1" hidden="0">
 			<ows:Title>Tasmania boundaries</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
 				<OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
 			</Server>
-                        <StyleList>
-                            <Style current="1"> 
-                                <Name>world</Name>
-                                <Title>world style</Title>
-                            </Style>
-                        </StyleList>  
 		</Layer>
 		<Layer name="topp:tasmania_water_bodies" queryable="1" hidden="0">
 			<ows:Title>Tasmania_water_bodies</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
 				<OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
-			</Server>                             
-                        <StyleList>
-                            <Style current="1"> 
-                                <Name></Name>
-                                <Title></Title>
-                            </Style>
-                            <Style> 
-                                <Name>world</Name>
-                                <Title>world style</Title>
-                            </Style>
-                            <Style> 
-                                <SLD>
-                                     <OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/data/styles/green.sld"/> 
-                                </SLD>
-                            </Style>
-                            <Style> 
-                                <SLD>
-                                    <StyledLayerDescriptor version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" xmlns="http://www.opengis.net/sld"  xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                      <NamedLayer>
-                                        <Name>topp:tasmania_water_bodies</Name>
-                                        <UserStyle>
-                                          <Name>water_bodies</Name>
-                                          <FeatureTypeStyle>
-                                            <Rule>
-                                              <Name>R</Name>
-                                              <PolygonSymbolizer>                                                  
-                                               <Fill>
-                                                  <CssParameter name="fill">#ff0000</CssParameter>
-                                                  <CssParameter name="stroke-width">3</CssParameter>
-                                                </Fill>
-                                               <Stroke>
-                                                  <CssParameter name="stroke">#1200ff</CssParameter>
-                                                  <CssParameter name="stroke-width">1</CssParameter>
-                                                </Stroke>
-                                              </PolygonSymbolizer>
-                                            </Rule>
-                                            </FeatureTypeStyle>
-                                        </UserStyle>
-                                      </NamedLayer>
-                                    </StyledLayerDescriptor>
-                                </SLD>
-                            </Style>
-                        </StyleList>  
+			</Server>  
 		</Layer>
-              <Layer name="topp:tasmania_roads" queryable="1" hidden="0">
+                <Layer name="topp:tasmania_roads" queryable="1" hidden="0">
 			<ows:Title>Tasmania_roads</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
 				<OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
 			</Server>
-                        <StyleList>
-                            <Style> 
-                                <Name></Name>
-                                <Title></Title>
-                            </Style>
-                            <Style> 
-                                <Name>green</Name>
-                                <Title>Green style</Title>
-                            </Style>
-                            <Style> 
-                                <SLD>
-                                     <OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/data/styles/green.sld"/> 
-                                </SLD>
-                            </Style>
-                            <Style current="1"> 
-                                <SLD>
-                                    <StyledLayerDescriptor version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" xmlns="http://www.opengis.net/sld"  xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                      <NamedLayer>
-                                        <Name>topp:tasmania_roads</Name>
-                                        <UserStyle>
-                                          <FeatureTypeStyle>
-                                            <Rule>
-                                              <Name>R</Name>
-                                              <LineSymbolizer>
-                                                <Stroke>
-                                                  <CssParameter name="stroke">#00abff</CssParameter>
-                                                  <CssParameter name="stroke-width">3</CssParameter>
-                                                </Stroke>
-                                              </LineSymbolizer>
-                                            </Rule>
-                                            </FeatureTypeStyle>
-                                        </UserStyle>
-                                      </NamedLayer>
-                                    </StyledLayerDescriptor>
-                                </SLD>
-                            </Style>
-                        </StyleList>  
 		</Layer>
                 <Layer name="topp:tasmania_cities" queryable="1" hidden="0">
 			<ows:Title>Tasmania_cities</ows:Title>
@@ -142,53 +48,6 @@
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
 				<OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
 			</Server>
-                        <StyleList>
-                            <Style> 
-                                <Name></Name>
-                                <Title></Title>
-                            </Style>
-                            <Style> 
-                                <Name>capitals</Name>
-                                <Title>capitals style</Title>
-                            </Style>
-                            <Style current="1"> 
-                                <SLD>
-                                     <OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/data/styles/tasmania_cities.sld"/> 
-                                </SLD>
-                            </Style>
-                             <Style> 
-                                <SLD>
-                                    <StyledLayerDescriptor version="1.0.0" xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                        <NamedLayer>
-                                            <Name>topp:tasmania_cities</Name>
-                                            <UserStyle>
-                                                <Name>cities</Name>
-                                                <FeatureTypeStyle>
-                                                    <Rule>
-                                                        <Name>R</Name>
-                                                        <PointSymbolizer>
-                                                            <Graphic>
-                                                                <wellknownname>circle</wellknownname>
-                                                                <Mark>
-                                                                    <Fill>
-                                                                        <CssParameter name="fill">#121112</CssParameter>
-                                                                    </Fill>                                                                    
-                                                                    <Stroke>
-                                                                      <CssParameter name="stroke">#00abff</CssParameter>
-                                                                      <CssParameter name="stroke-width">1</CssParameter>
-                                                                    </Stroke>
-                                                                </Mark>
-                                                                <Size>11</Size>
-                                                            </Graphic>
-                                                        </PointSymbolizer>                                                        
-                                                    </Rule>
-                                                 </FeatureTypeStyle>
-                                             </UserStyle>
-                                        </NamedLayer>
-                                    </StyledLayerDescriptor>
-                                </SLD>                                
-                            </Style>
-                        </StyleList>  
 		</Layer>
 	</ResourceList>
 </OWSContext>

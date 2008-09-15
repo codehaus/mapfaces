@@ -138,6 +138,10 @@ public interface Layer extends Serializable{
 
     void setType(String type);
 
+    String getLegendUrl();
+
+    void setLegendUrl(String legendUrl);
+    
     /*
      * These function are added to easily configure the layercontrol tag
      * */
@@ -147,12 +151,14 @@ public interface Layer extends Serializable{
     String getElevations();
 
     String getTimes();
-
+    
     String setElevations();
-
+    
     String getUserValueElevation();
 
     String getUserValueTime();
 
     String getUserValueDimension(String name);
+    
+    String getUserValueDimRange();
 }
