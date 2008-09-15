@@ -22,7 +22,6 @@ package org.mapfaces.models;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -33,9 +32,8 @@ import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 
 public class DefaultLayer implements Layer {
-    
-    private static final long serialVersionUID = 7526471155622776147L;
 
+    private static final long serialVersionUID = 7526471155622776147L;
     static private DefaultLayer singleton = null;
     private transient MapLayer mapLayer;
     private boolean edit;
@@ -44,7 +42,7 @@ public class DefaultLayer implements Layer {
     /**
      * bbox
      */
-    private  ReferencedEnvelope refEnv;
+    private ReferencedEnvelope refEnv;
     private String type;
     private String id;
     private String name;
@@ -333,14 +331,15 @@ public class DefaultLayer implements Layer {
     public String getTimes() {
         return getTime().getValue();
     }
-    
+
     @Override
     public String getUserValueDimRange() {
-        if(getDimension("dim_range") != null)
+        if (getDimension("dim_range") != null) {
             return getDimension("dim_range").getUserValue();
+        }
         return null;
     }
-    
+
     /**
      * 
      * 
@@ -417,7 +416,7 @@ public class DefaultLayer implements Layer {
     public void setLegendUrl(String legendUrl) {
         this.legendUrl = legendUrl;
     }
-    
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         // calling the default serialization.
         out.defaultWriteObject();
@@ -427,9 +426,9 @@ public class DefaultLayer implements Layer {
         // calling the default deserialization.
         in.defaultReadObject();
     }
-    
+
     Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
-        singleton = this;
+        singleton = (DefaultLayer) this.clone();
         DefaultLayer l = getSingleton();
         return l;
     }
@@ -438,7 +437,7 @@ public class DefaultLayer implements Layer {
         DefaultLayer l = getSingleton();
         return l;
     }
-    
+
     static public synchronized DefaultLayer getSingleton() {
         if (singleton == null) {
             singleton = new DefaultLayer();
