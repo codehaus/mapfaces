@@ -17,6 +17,7 @@
 
 package org.mapfaces.component.models;
 
+import javax.faces.component.StateHolder;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBElement;
@@ -26,7 +27,7 @@ import org.mapfaces.models.AbstractModelBase;
  *
  * @author Mehdi Sidhoum
  */
-public abstract class UIModelBase extends UICommand {
+public abstract class UIModelBase extends UICommand implements StateHolder {
 
     private String title;
     private String defaultModelUrl;
