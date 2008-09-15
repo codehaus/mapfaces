@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util;
 
 import java.io.IOException;
@@ -34,7 +35,6 @@ import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.mapfaces.component.UILayer;
 import org.mapfaces.component.models.UIContext;
 
 /**

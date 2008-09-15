@@ -210,7 +210,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
         if (context.getExternalContext().getRequestParameterMap() != null) {
             UIContext ctx = FacesUtils.getParentUIContext(context, comp);
             ExternalContext extContext = context.getExternalContext();
-            AbstractContext tmp = (AbstractContext) extContext.getApplicationMap().get("context_"+ctx.getClientId(context));
+            //AbstractContext tmp = (AbstractContext) extContext.getApplicationMap().get("context_"+ctx.getClientId(context));
+            AbstractContext tmp = (AbstractContext) comp.getModel();
             System.out.println("DECODE LAYER RENDERER  = "+tmp);
             
             Map params = context.getExternalContext().getRequestParameterMap();

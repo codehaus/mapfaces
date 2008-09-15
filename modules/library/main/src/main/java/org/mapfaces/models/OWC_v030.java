@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.models;
 
 import java.io.IOException;
@@ -30,7 +29,16 @@ import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 import org.geotools.referencing.CRS;
 import com.vividsolutions.jts.geom.Envelope;
+import java.io.Externalizable;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -57,19 +65,45 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.xml.sax.SAXException;
 
 /**
- *
  * @author Olivier Terral.
+ * @author Mehdi Sidhoum.
  */
-public class OWC_v030 extends AbstractOWC {
-    
-    private OWSContextType doc;
-    
-    
-    /*Context server used*/
-    private HashMap<String, WebMapServer> wmsServers;
-    /*Context server used*/
+public class OWC_v030 extends AbstractOWC implements Serializable {
+
+    /**
+     * Determines if a de-serialized file is compatible with this class.
+     *
+     * Maintainers must change this value if and only if the new version
+     * of this class is not compatible with old versions. See Sun docs
+     * for <a href=http://java.sun.com/products/jdk/1.1/docs/guide
+     * /serialization/spec/version.doc.html> details. </a>
+     *
+     * Not necessary to include in first version of the class, but
+     * included here as a reminder of its importance.
+     */
+    private static final long serialVersionUID = 7526471155622776147L;
+    /**
+     * This property is transient because his superclass cannot implements
+     * Serializable interface, the save state is implemented in the overrided
+     * methods.
+     */
+    private transient OWSContextType doc;
+    static private OWC_v030 singleton = null;
+    /**
+     * Context server used
+     */
+    private transient HashMap<String, WebMapServer> wmsServers;
+    /**
+     * Context server used
+     */
     private HashMap<String, DataStore> wfsDataStores;
 
+    /**
+     * Used only for Serialization
+     */
+    public OWC_v030 () {
+    }
+    
     public OWC_v030(Object JAXBValue) {
         this.doc = (OWSContextType) JAXBValue;
     }
@@ -197,25 +231,18 @@ public class OWC_v030 extends AbstractOWC {
     }
 
     /*private Style getStyleFromSLD(InputStream xmlin) { 
-    
     StyleFactory factory = CommonFactoryFinder.getStyleFactory(GeoTools.getDefaultHints());
     SLDParser sldparser = new SLDParser(factory, xmlin);
     Style[] sldstyles = sldparser.readXML();      
     return sldstyles[0];
     return null;
-    
     }
-    
     private Style getStyleFromSLD(URL surl) throws IOException {   
-    
     StyleFactory factory = CommonFactoryFinder.getStyleFactory(GeoTools.getDefaultHints());
     SLDParser sldparser = new SLDParser(factory, surl);
     Style[] sldstyles = sldparser.readXML();
     return sldstyles[0];
-    
     }
-    
-    
     private Style getWfsLayerDefaultStyle(LayerType layer, SimpleFeatureType schema) {
     String typeName=layer.getName();
     StyleFactory sf = CommonFactoryFinder.getStyleFactory( GeoTools.getDefaultHints() );
@@ -239,33 +266,24 @@ public class OWC_v030 extends AbstractOWC {
     type.addRule( rule );
     Style style = sf.createStyle();
     style.addFeatureTypeStyle(type);
-    
     return style;
     }*/
     /*Feature Style*/
     /*  private Style getWfsLayerStyle(LayerType layer,SimpleFeatureType schema) throws MalformedURLException, JAXBException, IOException{
     Style wfsStyle = null;
-    
     if(layer.getStyleList()!=null){
     for (StyleType style : layer.getStyleList().getStyle()) {
-    
     if (style.isCurrent()!=null && style.isCurrent()) {
-    
     if(style.getName()==null){
-    
     //create the parser with the sld configuration
     Configuration configuration = new SLDConfiguration();
     Parser parser = new Parser(configuration);
-    
     if(style.getSLD().getOnlineResource()!=null){
-    
     //TODO transformUrlSLDToStyleObject
     System.out.println(style.getSLD().getOnlineResource().getHref());
     wfsStyle= getStyleFromSLD(new URL(style.getSLD().getOnlineResource().getHref()));
     break;
-    
     }else if(style.getSLD().getStyledLayerDescriptor()!=null){ 
-    
     //TODO transformInlineSLDToStyleObject
     JAXBContext Jcontext = JAXBContext.newInstance("org.constellation.sld.v100");
     Marshaller marshaller = Jcontext.createMarshaller();
@@ -273,7 +291,6 @@ public class OWC_v030 extends AbstractOWC {
     marshaller.marshal(style.getSLD().getStyledLayerDescriptor(), xmlstr);
     wfsStyle= getStyleFromSLD(new ByteArrayInputStream(xmlstr.getBuffer().toString().getBytes()));
     break;
-    
     }else if(style.getSLD().getFeatureTypeStyle()!=null){
     //TODO transformInlineFeatureTypeStyleToStyleObject
     break;
@@ -485,14 +502,11 @@ public class OWC_v030 extends AbstractOWC {
                             /* Style style = getWfsLayerStyle(layerType,schema);
                             // Step 4 - target    
                             DefaultMapLayer wfsLayer = new DefaultMapLayer(data.getFeatureSource(typeName),style);  
-                            
                             if(layerType.getId()==null)
                             layerType.setId(Utils.generateUniqueId("MapFaces_Layer_WFS_"));                            
                             wfsLayer.setId(layerType.getId());
-                            
                             if(layerType.getOpacity()!=null)
                             wfsLayer.setOpacity(layerType.getOpacity().toString());
-                            
                             if (wfsLayer == null) {
                             break;
                             }
@@ -502,28 +516,19 @@ public class OWC_v030 extends AbstractOWC {
 
                             //create the parser with the gml 2.0 configuration
                           /* GML DataStore was not very efficient
-                            
-                            
                             Configuration configuration = new org.geotools.gml2.GMLConfiguration();
-                            
                             Parser parser = new org.geotools.xml.Parser( configuration );
-                            
                             //the xml instance document above
                             InputStream gml =new URL(layerType.getServer().get(0).getOnlineResource().get(0).getHref()).openStream();
-                            
-                            
                             //parse
                             FeatureCollection fc = (FeatureCollection) parser.parse( gml );
-                            
                             // Step 3 - discouvery
                             String gmlName = layerType.getName();
                             SimpleFeatureType gmlSchema = (SimpleFeatureType) fc.getSchema();
                             Style gmlStyle = getWfsLayerStyle(layerType,gmlSchema);
-                            
                             // Step 4 - target    
                             DefaultMapLayer gmlLayer = new DefaultMapLayer(fc, gmlStyle);
                             // wfsLayer.setSEStyle((org.opengis.style.Style) style);
-                            
                             if (gmlLayer == null) {
                             break;
                             }
@@ -870,7 +875,6 @@ public class OWC_v030 extends AbstractOWC {
     public void setLayerDimension(String layerName, String dimName, String value) {
         getLayerDimensionNodeFromName(layerName, dimName).setValue(value);
     }
-    ;
 
     @Override
     public void setLayerAttrDimension(String layerName, String dimName, String attrName, String value) {
@@ -878,14 +882,12 @@ public class OWC_v030 extends AbstractOWC {
             getLayerDimensionNodeFromName(layerName, dimName).setUserValue(value);
         }
     }
-    ;
 
     public void setLayerAttrDimensionFromId(String layerId, String dimName, String attrName, String value) {
         if (attrName.equals("userValue")) {
             getLayerDimensionNodeFromId(layerId, dimName).setUserValue(value);
         }
     }
-    ;
 
     private DimensionType getLayerDimensionNodeFromName(String layerName, String dimName) {
 
@@ -1025,5 +1027,85 @@ public class OWC_v030 extends AbstractOWC {
         tmp.setUnits(dim.getUnits());
         System.out.println(dim.getName() + " " + dim.getValue());
         return tmp;
+    }
+
+    /*//@Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        System.out.println(">>>>>>> Entered into writeExternal !!");
+        ((ObjectOutputStream)out).defaultWriteObject();
+    }
+    //@Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        System.out.println(">>>>>>> Entered into readExternal !!"); 
+        ((ObjectInputStream)in).defaultReadObject();
+    }*/
+    
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeObject() ");
+        // calling the default serialization.
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readObject() ");
+        // calling the default deserialization.
+        in.defaultReadObject();
+    }
+
+    Object writeReplace() throws ObjectStreamException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeReplace() ");
+        singleton = this;
+        OWC_v030 s = getSingleton();
+        return s;
+    }
+
+    Object readResolve() throws ObjectStreamException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readResolve() ");        
+        OWC_v030 s = getSingleton();
+        return s;
+    }
+
+    static public synchronized OWC_v030 getSingleton() {
+        if (singleton == null) {
+            singleton = new OWC_v030();
+        }
+        return singleton;
+    }
+
+    public static void main(String... args) {
+
+        try {
+            OWSContextType ctxtType = new OWSContextType();
+            OWC_v030 owc = new OWC_v030(ctxtType);
+            System.out.println("11111111 "+owc + " : " + owc.getDoc());
+
+
+            FileOutputStream fos = new FileOutputStream("OWC_v030.serial");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            try {
+                oos.writeObject(owc);
+                oos.flush();
+            } finally {
+                try {
+                    oos.close();
+                } finally {
+                    fos.close();
+                }
+            }
+            FileInputStream fis = new FileInputStream("OWC_v030.serial");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            try {
+                owc = (OWC_v030) ois.readObject();
+                System.out.println("22222222 "+owc + " : " + owc.getDoc());
+            } finally {
+                ois.close();
+                fis.close();
+            }
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }

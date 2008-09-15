@@ -23,17 +23,25 @@ package org.mapfaces.models;
  * @author Mehdi Sidhoum.
  */
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 import java.util.HashMap;
+import org.constellation.catalog.Database;
+//import org.constellation.provider.postgrid.PostGridMapLayer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 
 public class DefaultLayer implements Layer {
     
-    private static final long serialVersionUID = -1378795978545632191L;
+    private static final long serialVersionUID = 7526471155622776147L;
 
-    //@TODO this pproperty will be moved.
-    private static MapLayer mapLayer;
+    static private DefaultLayer singleton = null;
+    private transient MapLayer mapLayer;
     private boolean edit;
     private boolean lock;
     private int groupId;
@@ -72,7 +80,10 @@ public class DefaultLayer implements Layer {
         this.groupId = groupId;
     }
 
-    DefaultLayer() {
+    /**
+     * Used only for the serialization.
+     */
+    public DefaultLayer() {
     }
 
     public ReferencedEnvelope getRefEnv() {
@@ -393,5 +404,101 @@ public class DefaultLayer implements Layer {
             return dimensionList.get(name).getUserValue();
         }
         return null;
+    }
+    
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeObject() ");
+        // calling the default serialization.
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readObject() ");
+        // calling the default deserialization.
+        in.defaultReadObject();
+    }
+    
+    Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering writeReplace() ");
+        singleton = this;
+        DefaultLayer l = getSingleton();
+        return l;
+    }
+
+    Object readResolve() throws ObjectStreamException {
+        System.out.println("["+this.getClass().getSimpleName()+"] Serialization : entering readResolve() ");
+        DefaultLayer l = getSingleton();
+        return l;
+    }
+    
+    static public synchronized DefaultLayer getSingleton() {
+        if (singleton == null) {
+            singleton = new DefaultLayer();
+        }
+        return singleton;
+    }
+    
+    /*public static void main(String... args) {
+
+        try {
+            DefaultLayer layer = new DefaultLayer(true, true, 20);
+            Database db = new Database();
+            org.constellation.coverage.catalog.Layer l = null; 
+            PostGridMapLayer mapLayer = new PostGridMapLayer(db, l);
+            layer.setMapLayer(mapLayer);
+            System.out.println("1111111111 "+ layer + " : " + layer.getMapLayer() + " : " + layer.isEdit()+"  : "+layer.isLock()+"  :  "+layer.getGroupId());
+
+
+            FileOutputStream fos = new FileOutputStream("DefaultLayer.serial");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            try {
+                oos.writeObject(layer);
+                oos.flush();
+            } finally {
+                try {
+                    oos.close();
+                } finally {
+                    fos.close();
+                }
+            }
+            FileInputStream fis = new FileInputStream("DefaultLayer.serial");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            try {
+                layer = (DefaultLayer) ois.readObject();
+                System.out.println("222222222222 "+layer + " : " + layer.getMapLayer() + " : " + layer.isEdit()+"  : "+layer.isLock()+"  :  "+layer.getGroupId());
+            } finally {
+                ois.close();
+                fis.close();
+            }
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }*/
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+
+    public boolean isLock() {
+        return lock;
+    }
+
+    public void setLock(boolean lock) {
+        this.lock = lock;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }
