@@ -128,16 +128,17 @@ public class ContextRenderer extends Renderer {
             }
 
             /* Add a4j:support component */
+            
             HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
-            ajaxComp.setId("testAjax");
+            ajaxComp.setId(comp.getId()+"_Ajax");
             ajaxComp.setAjaxSingle(true);
             ajaxComp.setImmediate(true);
             
-            if (FacesUtils.findComponentById(context, comp, ajaxComp.getId()) == null) {
+            if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
                 comp.getChildren().add(ajaxComp);
+                comp.setAjaxCompId(ajaxComp.getClientId(context));
             }
-                        
-            comp.setAjaxCompId(ajaxComp.getClientId(context));
+            
 
         } catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
