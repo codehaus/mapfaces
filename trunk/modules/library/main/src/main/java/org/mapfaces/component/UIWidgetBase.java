@@ -17,6 +17,7 @@
 
 package org.mapfaces.component;
 
+import javax.faces.component.StateHolder;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.models.UIModelBase;
@@ -27,13 +28,16 @@ import org.mapfaces.models.AbstractModelBase;
  * @author Mehdi Sidhoum
  */
 
-public abstract class UIWidgetBase extends UICommand {
+public abstract class UIWidgetBase extends UICommand implements StateHolder {
 
     private String outputNodeId;
     private AbstractModelBase model;
     private AbstractModelBase targetModel;
     private String autoRefresh;
     private String toolId;
+    
+    private Object[] values;
+    
     /* 
      *  Debug property
      */
@@ -86,8 +90,12 @@ public abstract class UIWidgetBase extends UICommand {
         this.toolId = toolId;
     }
 
+    @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[7];
+        if (values == null) {
+            values = new Object[7];
+        }
+        
         values[0] = super.saveState(context);
         values[1] = outputNodeId;
         values[2] = model;
@@ -100,7 +108,7 @@ public abstract class UIWidgetBase extends UICommand {
 
     @Override
     public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+        values = (Object[]) state;
         super.restoreState(context, values[0]);
         outputNodeId = (String) values[1];
         model = (AbstractModelBase) values[2];

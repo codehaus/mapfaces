@@ -28,6 +28,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.xml.bind.JAXBException;
+import net.opengis.owc.v030.OWSContextType;
 import org.geotools.display.service.PortrayalException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.DefaultMapContext;
@@ -37,6 +38,7 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractContext;
 
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.OWC_v030;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
 import org.opengis.referencing.FactoryException;
@@ -217,10 +219,16 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             UIContext ctx = FacesUtils.getParentUIContext(context, comp);
-            ExternalContext extContext = context.getExternalContext();
-            //AbstractContext tmp = (AbstractContext) extContext.getApplicationMap().get("context_"+ctx.getClientId(context));
             AbstractContext tmp = (AbstractContext) comp.getModel();
-            System.out.println("DECODE LAYER RENDERER  = "+tmp);
+            System.out.println("========================================================================================");
+            System.out.println("%%%%%%%%%%%%%   Context.getDoc() = "+tmp.getDoc());
+            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList() = "+((OWSContextType)tmp.getDoc()).getResourceList());
+            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList().getLayer() = "+((OWSContextType)tmp.getDoc()).getResourceList().getLayer());
+            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList().getLayer().get(0) = "+((OWSContextType)tmp.getDoc()).getResourceList().getLayer().get(0));
+            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList().getLayer().size() = "+((OWSContextType)tmp.getDoc()).getResourceList().getLayer().size());
+            System.out.println("%%%%%%%%%%%%%   UILayer.getLayer()  = "+comp.getLayer());
+            System.out.println("%%%%%%%%%%%%%   Layer.getMapLayer()  = "+comp.getLayer().getMapLayer());
+            System.out.println("========================================================================================");
 
             Map params = context.getExternalContext().getRequestParameterMap();
             Layer layer = comp.getLayer();
@@ -301,7 +309,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             /*String  render = (String) params.get("render") ;
             if(render==null || render.equals("true"))
             comp.setInitDisplay(true);
-             */
+            */
             if (comp.isDebug()) {
                 System.out.println("            Nouveaux parametres du layer : " + tmp.getTitle() + " " + tmp.getWindowWidth() + " " + tmp.getWindowHeight() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }

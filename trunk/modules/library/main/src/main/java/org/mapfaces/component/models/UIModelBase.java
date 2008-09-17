@@ -33,6 +33,9 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
     private String defaultModelUrl;
     private String method;
     private String namespace;
+    
+    private Object[] values;
+    
     /* 
      *  Debug property
      */
@@ -90,12 +93,9 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
 
     @Override
     public Object saveState(FacesContext context) {
-        /*private String title;
-        private String defaultModelUrl;
-        private String method;
-        private String scriptFile;
-        private String namespace;;*/
-        Object values[] = new Object[8];
+        if (values == null) {
+            values = new Object[8];
+        }
         values[0] = super.saveState(context);
         values[1] = title;
         values[2] = defaultModelUrl;
@@ -109,7 +109,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
 
     @Override
     public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+        values = (Object[]) state;
         super.restoreState(context, values[0]);
         
         title           = (String) values[1];
