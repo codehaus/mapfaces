@@ -94,7 +94,7 @@ public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
      * Context server used
      */
     private HashMap<String, DataStore> wfsDataStores;
-
+    
     /**
      * Used only for Serialization
      */
@@ -329,7 +329,7 @@ public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
 
     @Override
     public void setId(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        getDoc().setId(id);
     }
 
     @Override
@@ -865,7 +865,7 @@ public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
         ((ObjectInputStream)in).defaultReadObject();
     }*/
     
-    private void writeObject(ObjectOutputStream out) throws IOException {
+    /*private void writeObject(ObjectOutputStream out) throws IOException {
         // calling the default serialization.
         out.defaultWriteObject();
     }
@@ -873,16 +873,30 @@ public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // calling the default deserialization.
         in.defaultReadObject();
-    }
+    }*/
 
     Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
-        singleton = (OWC_v030) this.clone();
-        OWC_v030 s = getSingleton();
+        OWSContextType doc_ = getDoc();
+        HashMap<String, WebMapServer> wmsserver_ = getWmsServers();
+        
+        OWC_v030 tmp = getSingleton();
+        tmp.setDoc(doc_);
+        tmp.setWmsServers(wmsserver_);
+        
+        OWC_v030 s = this;
         return s;
     }
 
-    Object readResolve() throws ObjectStreamException {
-        OWC_v030 s = getSingleton();
+    Object readResolve() throws ObjectStreamException, CloneNotSupportedException {
+        OWC_v030 s = this;
+        
+        OWSContextType doc_ = getSingleton().getInstance().getDoc().getInstance();
+        HashMap<String, WebMapServer> wmsserver_ = getSingleton().getInstance().getWmsServers();
+        
+        s.setDoc(doc_);
+        s.setWmsServers(wmsserver_);
+        
+        System.out.println("["+this.getClass().getSimpleName()+"]-readResolve:"+s);
         return s;
     }
 
@@ -891,6 +905,10 @@ public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
             singleton = new OWC_v030();
         }
         return singleton;
+    }
+    
+    public OWC_v030 getInstance() throws CloneNotSupportedException{
+        return (OWC_v030) this.clone();
     }
 
     public static void main(String... args) {
@@ -920,7 +938,7 @@ public class OWC_v030 extends AbstractOWC implements Serializable, Cloneable {
             ObjectInputStream ois = new ObjectInputStream(fis);
             try {
                 OWC_v030 owc2 = (OWC_v030) ois.readObject();
-                System.out.println("222222222222 "+owc2+"   ctx = "+owc2.getDoc()+"   wfs = "+owc.getWfsDataStores().keySet());
+                System.out.println("222222222222 "+owc2+"   ctx = "+owc2.getDoc()+"   wfs = "+owc2.getWfsDataStores().keySet());
             } finally {
                 ois.close();
                 fis.close();

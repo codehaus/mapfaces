@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
@@ -228,7 +227,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             if(render==null || render.equals("true"))
                comp.setInitDisplay(true);
         }
-        //((UILayer) tmp).setMapPane((UIMapPane) component);
+        
         contextComp.setModel(tmp);
         comp.setModel(tmp);
     }

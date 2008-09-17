@@ -87,7 +87,7 @@ public class UIContext extends UIModelBase {
      * @return
      * @throws javax.xml.bind.JAXBException
      */
-    public String saveModel(FacesContext context) throws JAXBException{        
+    public String saveModel(FacesContext context) throws JAXBException {
         ServletContext sc = (ServletContext) context.getExternalContext().getContext();
         String fileUrl = sc.getRealPath("tmp/owc.xml");
         File t = new File(fileUrl);

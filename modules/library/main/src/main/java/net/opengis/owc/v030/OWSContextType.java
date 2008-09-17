@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
     "resourceList"
 })        
 @XmlRootElement(name = "OWSContext", namespace = "http://www.opengis.net/ows-context")
-public class OWSContextType {
+public class OWSContextType implements Cloneable {
 
     @XmlElement(name = "General", required = true)
     protected GeneralType general;
@@ -164,4 +164,7 @@ public class OWSContextType {
         this.id = value;
     }
 
+    public OWSContextType getInstance() throws CloneNotSupportedException{
+        return (OWSContextType) this.clone();
+    }
 }
