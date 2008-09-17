@@ -208,7 +208,7 @@
            "openlayers/lib/OpenLayers/Format/SLD/v1_0_0.js",
            "openlayers/lib/OpenLayers/Format/Text.js",
            "openlayers/lib/OpenLayers/Format/JSON.js",
-           "openlayers/lib/OpenLayers/Format/GeoJSON.js",
+           "openlayers/custom/OpenLayers/Format/GeoJSON.js",
           /*/ "openlayers/lib/OpenLayers/Format/WMC.js",
            "openlayers/lib/OpenLayers/Format/WMC/v1.js",
            "openlayers/lib/OpenLayers/Format/WMC/v1_0_0.js",
