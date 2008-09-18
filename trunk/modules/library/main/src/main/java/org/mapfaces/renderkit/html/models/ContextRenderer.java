@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -50,7 +48,7 @@ public class ContextRenderer extends Renderer {
 
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
     private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";    
+    private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
     private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
     private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
 
@@ -61,11 +59,11 @@ public class ContextRenderer extends Renderer {
             if (comp.isDebug()) {
                 System.out.println("ContextRenderer encodeBegin");
             }
-            
+
             assertValid(context, component);
             ResponseWriter writer = context.getResponseWriter();
             ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-            
+
             //Add the context path varaible to load openlayers with the good url , see  custom/OpenLayers.js
             /*writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
@@ -86,14 +84,14 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");*/
 
-                writer.startElement("script", component);
-                writer.writeAttribute("type", "text/javascript", null);
-                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-                writer.endElement("script");
-            
-            
-           if (comp.isScriptaculous()) {
-               //Add Prototype script
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+            writer.endElement("script");
+
+
+            if (comp.isScriptaculous()) {
+                //Add Prototype script
                 writer.startElement("script", component);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
                 writer.writeAttribute("type", "text/javascript", null);
@@ -105,7 +103,7 @@ public class ContextRenderer extends Renderer {
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.endElement("script");
             }
-            
+
             //Add OpenLayers scripts
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
@@ -123,7 +121,7 @@ public class ContextRenderer extends Renderer {
                 Jcontext = JAXBContext.newInstance("net.opengis.owc.v030:net.opengis.context.v110");
                 Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
                 JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
-                comp.setJAXBElt(elt);                
+                comp.setJAXBElt(elt);
             } else {
                 if (comp.isDebug()) {
                     System.out.println("AbstractContext already exist");
@@ -131,17 +129,17 @@ public class ContextRenderer extends Renderer {
             }
 
             /* Add a4j:support component */
-            
+
             HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
-            ajaxComp.setId(comp.getId()+"_Ajax");
+            ajaxComp.setId(comp.getId() + "_Ajax");
             ajaxComp.setAjaxSingle(true);
             ajaxComp.setImmediate(true);
-            
+
             if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
                 comp.getChildren().add(ajaxComp);
                 comp.setAjaxCompId(ajaxComp.getClientId(context));
             }
-            
+
 
         } catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);

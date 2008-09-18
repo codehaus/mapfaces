@@ -118,7 +118,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             try {
                 Layer[] layers = model.getLayers();
                 ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+                
                 File dstDir = new File(sc.getRealPath("tmp"));
+                
+                if (! dstDir.exists()) {
+                    dstDir.mkdir();
+                }
+                
                 String ctxPath = sc.getContextPath();
                 String srs = model.getSrs();
                 DefaultMapContext defaultMapContext = new DefaultMapContext(CRS.decode(srs));
