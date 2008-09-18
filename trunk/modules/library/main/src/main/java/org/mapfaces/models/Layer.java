@@ -26,7 +26,7 @@ import org.geotools.map.MapLayer;
  *
  * @author Olivier Terral.
  */
-public interface Layer extends Serializable, Cloneable {
+public interface Layer extends Serializable {
 
     void setUserValue(String string, String value);
 

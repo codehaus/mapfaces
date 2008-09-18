@@ -22,21 +22,13 @@ package org.mapfaces.models;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.util.HashMap;
-import org.constellation.catalog.Database;
-//import org.constellation.provider.postgrid.PostGridMapLayer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.DefaultMapLayer;
 import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 
-public class DefaultLayer implements Layer, Cloneable {
+public class DefaultLayer implements Layer {
 
     private static final long serialVersionUID = 7526471155622776147L;
     static private DefaultLayer singleton = null;
@@ -422,35 +414,24 @@ public class DefaultLayer implements Layer, Cloneable {
         this.legendUrl = legendUrl;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // calling the default serialization.
-        out.defaultWriteObject();
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        // calling the default deserialization.
-        in.defaultReadObject();
-    }
-
     Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
         MapLayer maplayer_ = getMapLayer();
         DefaultLayer tmp = getSingleton();
         tmp.setMapLayer(maplayer_);
-        
+
         DefaultLayer l = this;
-        
+
         return l;
     }
 
     Object readResolve() throws ObjectStreamException, CloneNotSupportedException {
         DefaultLayer l = this;
-        
-        MapLayer maplayer_ = getSingleton().getInstance().getMapLayer();
-        
+
+        MapLayer maplayer_ = getSingleton().getMapLayer();
+
         l.setMapLayer(maplayer_);
-        
-        System.out.println("["+this.getClass().getSimpleName()+"]-readResolve:"+l);
-        return l;        
+
+        return l;
     }
 
     static public synchronized DefaultLayer getSingleton() {
@@ -458,10 +439,6 @@ public class DefaultLayer implements Layer, Cloneable {
             singleton = new DefaultLayer();
         }
         return singleton;
-    }
-    
-    public DefaultLayer getInstance() throws CloneNotSupportedException{
-        return (DefaultLayer) this.clone();
     }
 
     public boolean isEdit() {
@@ -487,44 +464,4 @@ public class DefaultLayer implements Layer, Cloneable {
     public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
-    
-    /*public static void main(String... args) {
-
-        try {
-            DefaultLayer layer = new DefaultLayer(true, true, 20);
-            Database db = new Database();
-            org.constellation.coverage.catalog.Layer l = null; 
-            PostGridMapLayer mapLayer = new PostGridMapLayer(db, l);
-            layer.setMapLayer(mapLayer);
-            System.out.println("1111111111 "+ layer + " : " + layer.getMapLayer() + " : " + layer.isEdit()+"  : "+layer.isLock()+"  :  "+layer.getGroupId());
-
-
-            FileOutputStream fos = new FileOutputStream("DefaultLayer.serial");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            try {
-                oos.writeObject(layer);
-                oos.flush();
-            } finally {
-                try {
-                    oos.close();
-                } finally {
-                    fos.close();
-                }
-            }
-            FileInputStream fis = new FileInputStream("DefaultLayer.serial");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            try {
-                layer = (DefaultLayer) ois.readObject();
-                System.out.println("222222222222 "+layer + " : " + layer.getMapLayer() + " : " + layer.isEdit()+"  : "+layer.isLock()+"  :  "+layer.getGroupId());
-            } finally {
-                ois.close();
-                fis.close();
-            }
-        } catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }*/
 }

@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.awt.Dimension;
@@ -24,11 +25,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.xml.bind.JAXBException;
-import net.opengis.owc.v030.OWSContextType;
 import org.geotools.display.service.PortrayalException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.DefaultMapContext;
@@ -38,7 +37,6 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractContext;
 
 import org.mapfaces.models.Layer;
-import org.mapfaces.models.OWC_v030;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
 import org.opengis.referencing.FactoryException;
@@ -123,60 +121,60 @@ public class LayerRenderer extends WidgetBaseRenderer {
 //                    writer.writeAttribute("id", clientId , "style");
 //                    writer.writeAttribute("class", "layerDiv", "style");
 //                    writer.writeAttribute("style","position: absolute; width: 100%; height: 100%; z-index: 100;"+styleImg, "style");
-                    //Add layer image if not the first page loads
-                    if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
-                        writer.startElement("div", comp);
-                        writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: "+width+"px; height: "+height+"px;", "style");
-                        File dst = File.createTempFile("img", ".png", comp.getDir());
-                        if(isDebug())
-                            System.out.println("            Layer updated " + dst.getName());
+                //Add layer image if not the first page loads
+                if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
+                    writer.startElement("div", comp);
+                    writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
+                    File dst = File.createTempFile("img", ".png", comp.getDir());
+                    if (isDebug()) {
+                        System.out.println("            Layer updated " + dst.getName());
+                    }
+                    try {
+                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, "image/png", new Dimension(width.intValue(), height.intValue()));
+                    } catch (PortrayalException ex) {
+                        Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                            try {
-                                FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, "image/png", new Dimension(width.intValue(), height.intValue()));
-                            } catch (PortrayalException ex) {
-                                Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    if (true) {
+                        /**
+                         * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
+                         * normally it doesn't
+                         */
+                        if (!defaultMapContext.getBounds().equals(env)) {
+                            if (comp.isDebug()) {
+                                System.out.println("            Aoi du context : " + env.toString());
+                                System.out.println("             != ");
+                                System.out.println("            Aoi affiché par le portrayal : " + defaultMapContext.getBounds().toString());
                             }
-                        
-                            if (true) {
-                            /**
-                             * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
-                             * normally it doesn't
-                             */
-                            if (!defaultMapContext.getBounds().equals(env)) {
-                                if (comp.isDebug()) {
-                                    System.out.println("            Aoi du context : " + env.toString());
-                                    System.out.println("             != ");
-                                    System.out.println("            Aoi affiché par le portrayal : " + defaultMapContext.getBounds().toString());
-                                }
-                                model.setMinx(env.getMinX());
-                                model.setMiny(env.getMinY());
-                                model.setMaxx(env.getMaxX());
-                                model.setMaxy(env.getMaxY());
-                            }
-
-                            writer.startElement("img", comp);
-                            writer.writeAttribute("id", id + "_Img", "style");
-                            writer.writeAttribute("class", "layerImg", "style");
-                            if (styleImg != null) {
-                                writer.writeAttribute("style", "position:relative;", "style");
-                            }
-                            writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
-                            writer.endElement("img");
-                        } else {
-                            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
-                            writer.startElement("img", comp);
-                            writer.writeAttribute("id", id + "_Img", "style");
-                            writer.writeAttribute("class", "layerImg", "style");
-                            if (styleImg != null) {
-                                writer.writeAttribute("style", styleImg, "style");
-                            }
-                            writer.writeAttribute("src", comp.getContextPath() + "/resource.jsf?r=/org/mapfaces/resources/img/Spacer.gif", "src");
-                            writer.endElement("img");
-                            System.out.println("            Layer not loaded");
+                            model.setMinx(env.getMinX());
+                            model.setMiny(env.getMinY());
+                            model.setMaxx(env.getMaxX());
+                            model.setMaxy(env.getMaxY());
                         }
 
+                        writer.startElement("img", comp);
+                        writer.writeAttribute("id", id + "_Img", "style");
+                        writer.writeAttribute("class", "layerImg", "style");
+                        if (styleImg != null) {
+                            writer.writeAttribute("style", "position:relative;", "style");
+                        }
+                        writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
+                        writer.endElement("img");
+                    } else {
+                        writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
+                        writer.startElement("img", comp);
+                        writer.writeAttribute("id", id + "_Img", "style");
+                        writer.writeAttribute("class", "layerImg", "style");
+                        if (styleImg != null) {
+                            writer.writeAttribute("style", styleImg, "style");
+                        }
+                        writer.writeAttribute("src", comp.getContextPath() + "/resource.jsf?r=/org/mapfaces/resources/img/Spacer.gif", "src");
+                        writer.endElement("img");
+                        System.out.println("            Layer not loaded");
                     }
-                    writer.endElement("div");
+
+                }
+                writer.endElement("div");
 //                } else {
 //                    if (comp.isDebug()) {
 //                        System.out.println("            Layer not added");
@@ -220,16 +218,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
         if (context.getExternalContext().getRequestParameterMap() != null) {
             UIContext ctx = FacesUtils.getParentUIContext(context, comp);
             AbstractContext tmp = (AbstractContext) comp.getModel();
-            System.out.println("========================================================================================");
-            System.out.println("%%%%%%%%%%%%%   Context.getDoc() = "+tmp.getDoc());
-            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList() = "+((OWSContextType)tmp.getDoc()).getResourceList());
-            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList().getLayer() = "+((OWSContextType)tmp.getDoc()).getResourceList().getLayer());
-            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList().getLayer().get(0) = "+((OWSContextType)tmp.getDoc()).getResourceList().getLayer().get(0));
-            System.out.println("%%%%%%%%%%%%%   Context.getDoc().getResourceList().getLayer().size() = "+((OWSContextType)tmp.getDoc()).getResourceList().getLayer().size());
-            System.out.println("%%%%%%%%%%%%%   UILayer.getLayer()  = "+comp.getLayer());
-            System.out.println("%%%%%%%%%%%%%   Layer.getMapLayer()  = "+comp.getLayer().getMapLayer());
-            System.out.println("========================================================================================");
-
             Map params = context.getExternalContext().getRequestParameterMap();
             Layer layer = comp.getLayer();
             String formId = FacesUtils.getFormId(context, comp);
@@ -239,7 +227,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 //layer.setDimension("elevation",elevation);
             }
             String bbox = (String) params.get("bbox");
-            if(bbox!=null && !bbox.equals(tmp.getMinx()+","+tmp.getMiny().toString()+","+tmp.getMaxx()+","+tmp.getMaxy())){               
+            if (bbox != null && !bbox.equals(tmp.getMinx() + "," + tmp.getMiny().toString() + "," + tmp.getMaxx() + "," + tmp.getMaxy())) {
                 tmp.setMinx(new Double(bbox.split(",")[0]));
                 tmp.setMiny(new Double(bbox.split(",")[1]));
                 tmp.setMaxx(new Double(bbox.split(",")[2]));
@@ -258,43 +246,47 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 tmp.setWindowHeight(new BigInteger(window[1]));
             }
 
-            String value = (String) params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE") ;  
-            String layerId = (String) params.get("org.mapfaces.ajax.AJAX_LAYER_ID") ; 
-            if(value==null && params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")!=null){
+            String value = (String) params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE");
+            String layerId = (String) params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
+            if (value == null && params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID") != null) {
                 value = (String) params.get((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
             //layerId = (String) params.get("refresh");
             }
 
-            if( value != null && layerId != null){     
+            if (value != null && layerId != null) {
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
                 if (layerId.equals(FacesUtils.getFormId(context, component) + ":" + layer.getId())) {
                     if (layerProperty.contains("Visible")) {
                         tmp.setHidden(layer.getId(), !Boolean.valueOf(value));
                         layer.setHidden(!Boolean.valueOf(value));
-                        if(isDebug())
-                            System.out.println("La propriété hidden du layer "+layer.getId()+" à été modifiée :"+ tmp.isHidden(layer.getId()));
-                    }else if(layerProperty.contains("Opacity")){
-                        tmp.setOpacity(layer.getId(),Double.valueOf(value));
-                        layer.setOpacity(value);
-                        if(isDebug())
-                            System.out.println("La propriété opacity du layer "+layer.getId()+" à été modifiée :"+ tmp.getOpacity(layer.getId()));
-                    }else if(layerProperty.contains("Time")){
-                        tmp.setLayerAttrDimensionFromId(layer.getId(),"time","userValue",value);
-                        layer.setUserValue("time",value);
-                        if(isDebug())
-                             System.out.println("La propriété time du layer "+layer.getId()+" à été modifiée :"+ tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
-                    }else if(layerProperty.contains("Elevation")){
-                        tmp.setLayerAttrDimensionFromId(layer.getId(),"elevation","userValue",value);
-                        layer.setUserValue("elevation",value);
-                        if(isDebug())
-                             System.out.println("La propriété elevation du layer "+layer.getId()+" à été modifiée :"+ tmp.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
-                    }else if(layerProperty.contains("DimRange")){
-                        tmp.setLayerAttrDimensionFromId(layer.getId(),"dim_range","userValue",value);
-                        layer.setUserValue("dim_range",value);
-                        if(isDebug())
-                             System.out.println("La propriété dim_range du layer "+layer.getId()+" à été modifiée :"+ tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
- 
+                        if (isDebug()) {
+                            System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + tmp.isHidden(layer.getId()));
                         }
+                    } else if (layerProperty.contains("Opacity")) {
+                        tmp.setOpacity(layer.getId(), Double.valueOf(value));
+                        layer.setOpacity(value);
+                        if (isDebug()) {
+                            System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
+                        }
+                    } else if (layerProperty.contains("Time")) {
+                        tmp.setLayerAttrDimensionFromId(layer.getId(), "time", "userValue", value);
+                        layer.setUserValue("time", value);
+                        if (isDebug()) {
+                            System.out.println("La propriété time du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
+                        }
+                    } else if (layerProperty.contains("Elevation")) {
+                        tmp.setLayerAttrDimensionFromId(layer.getId(), "elevation", "userValue", value);
+                        layer.setUserValue("elevation", value);
+                        if (isDebug()) {
+                            System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
+                        }
+                    } else if (layerProperty.contains("DimRange")) {
+                        tmp.setLayerAttrDimensionFromId(layer.getId(), "dim_range", "userValue", value);
+                        layer.setUserValue("dim_range", value);
+                        if (isDebug()) {
+                            System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
+                        }
+                    }
 
                 }
             }
@@ -309,7 +301,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             /*String  render = (String) params.get("render") ;
             if(render==null || render.equals("true"))
             comp.setInitDisplay(true);
-            */
+             */
             if (comp.isDebug()) {
                 System.out.println("            Nouveaux parametres du layer : " + tmp.getTitle() + " " + tmp.getWindowWidth() + " " + tmp.getWindowHeight() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }
