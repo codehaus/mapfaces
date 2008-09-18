@@ -208,7 +208,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     "                   };\n" +    
                     "    window."+jsObject+" = new OpenLayers.Map('"+comp.getClientId(context)+"',mapOptions);\n" +
                     "   ");
-            
                 writer.endElement("script");     
         writer.endElement("div");
         writer.flush();

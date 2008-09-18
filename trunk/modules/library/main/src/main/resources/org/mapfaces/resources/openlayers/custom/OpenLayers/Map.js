@@ -518,7 +518,8 @@ OpenLayers.Map = OpenLayers.Class({
                               'refresh': this.layersName,
                               'bbox': bbox,
                               'window': window.w+','+window.h,
-                              'render': 'true' //render the layers, always set to true after the first page loads
+                              'render': 'true', //render the layers, always set to true after the first page loads
+                              'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
                               
                          };
         parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
@@ -533,9 +534,9 @@ OpenLayers.Map = OpenLayers.Class({
                        );
         
         //Initialize the layer container origin
-        this.layerContainerOrigin = this.center.clone();
+        /*this.layerContainerOrigin = this.center.clone();
         this.layerContainerDiv.style.left = "0px";
-        this.layerContainerDiv.style.top  = "0px";
+        this.layerContainerDiv.style.top  = "0px";*/
        
     },  
     
