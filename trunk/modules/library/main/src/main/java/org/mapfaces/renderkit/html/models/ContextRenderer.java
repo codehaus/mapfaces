@@ -85,7 +85,7 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("href", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/openlayers/theme/default/style.css", null), null);
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");*/
-            
+
                 writer.startElement("script", component);
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
