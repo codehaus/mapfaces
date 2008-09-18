@@ -107,14 +107,12 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 }
             }
             String styleImg = "opacity:" + layer.getOpacity() + ";";
-
-
             //defaultMapContext.clearLayerList();
             if (defaultMapContext.layers().add(layer.getMapLayer())) {
                 writer.startElement("div", comp);
                 writer.writeAttribute("id", clientId, "style");
                 writer.writeAttribute("class", "layerDiv", "style");
-                writer.writeAttribute("style", "position: absolute; width: 100%; height: 100%; z-index: 100;" + styleImg, "style");
+                writer.writeAttribute("style", "position: absolute; width: 100%; height: 100%; z-index: 100;" + styleImg+comp.getStyle(), "style");
                 //Add layer image if not the first page loads
 //                if (((UIMapPane) comp.getParent()).getInitDisplay() && !layer.isHidden()) {
 //                    writer.startElement("div", comp);
@@ -172,14 +170,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         writer.endElement("img");
                         System.out.println("            Layer not loaded");
                     }
-
                 }
-                writer.endElement("div");
-//                } else {
-//                    if (comp.isDebug()) {
-//                        System.out.println("            Layer not added");
-//                    }
-//                }
                 writer.endElement("div");
                 if (defaultMapContext.layers().remove(layer.getMapLayer())) {
                     if (comp.isDebug()) {
@@ -252,10 +243,13 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 value = (String) params.get((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
             //layerId = (String) params.get("refresh");
             }
-
+           
             if (value != null && layerId != null) {
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
                 if (layerId.equals(FacesUtils.getFormId(context, component) + ":" + layer.getId())) {
+                    
+                     //Modify Context property
+                    
                     if (layerProperty.contains("Visible")) {
                         tmp.setHidden(layer.getId(), !Boolean.valueOf(value));
                         layer.setHidden(!Boolean.valueOf(value));
@@ -267,7 +261,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         layer.setOpacity(value);
                         if (isDebug()) {
                             System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
-                        }
+                    }
+                    
+                   
                     } else if (layerProperty.contains("Time")) {
                         tmp.setLayerAttrDimensionFromId(layer.getId(), "time", "userValue", value);
                         layer.setUserValue("time", value);
@@ -290,6 +286,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
                 }
             }
+            //Modify Compoennt property
+            if( (String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null ){
+                comp.setStyle((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
+            }
             ctx.setModel(tmp);
             try {
                 ctx.saveModel(context);
@@ -302,6 +302,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
             if(render==null || render.equals("true"))
             comp.setInitDisplay(true);
              */
+           
+            
+            
             if (comp.isDebug()) {
                 System.out.println("            Nouveaux parametres du layer : " + tmp.getTitle() + " " + tmp.getWindowWidth() + " " + tmp.getWindowHeight() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }

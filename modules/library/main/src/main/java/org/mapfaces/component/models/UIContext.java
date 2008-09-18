@@ -37,7 +37,7 @@ public class UIContext extends UIModelBase {
     public static final String FAMILIY = "org.mapfaces.model.Context";
     public final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
     
-    private boolean scriptaculous;
+    private boolean scriptaculous = true;
 
     /** Creates a new instance of UIAbstract */
     public UIContext(){

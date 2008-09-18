@@ -86,13 +86,13 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");*/
             
-            
-            if (comp.isScriptaculous()) {
                 writer.startElement("script", component);
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
                 writer.endElement("script");
-
+            
+            
+           if (comp.isScriptaculous()) {
                //Add Prototype script
                 writer.startElement("script", component);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
