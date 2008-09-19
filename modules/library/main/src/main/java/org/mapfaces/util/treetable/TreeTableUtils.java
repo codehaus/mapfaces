@@ -32,8 +32,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.component.tree.UITreeLines;
-import org.mapfaces.component.tree.UITreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.tree.TreePanelRenderer;
 import org.mapfaces.share.utils.Utils;
@@ -44,11 +44,13 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TreeTableUtils {
 
-    /**
-     * 
-     * @param list
-     * @param node
-     * @return
+  /**
+     * Duplicate method to clone a list Of UIComponent with specified value from
+     * a TreeNodeModel
+     * @param list a list to make copy of UIComponent to clone
+     * @param node a node who have values for duplicate the UIComponent 
+     * with specified values
+     * @return List<UIComponent> initiate with TreeNodeModels values
      */
     public List<UIComponent> duplicate(List<UIComponent> list, TreeNodeModel node) {
         List<UIComponent> backup = new ArrayList<UIComponent>();
@@ -74,11 +76,11 @@ public class TreeTableUtils {
      * @throws java.lang.InstantiationException
      * @throws java.lang.IllegalAccessException
      */
-    public UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
+    private UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent news = component.getClass().newInstance();
-        String treepanelId = Utils.getWrappedComponent(context, component, UITreePanel.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
 
         //Copy specific attributes from component to news
         copyAttributes(component, news);
@@ -120,17 +122,17 @@ public class TreeTableUtils {
      */
     public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list) throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
-        String treepanelId = Utils.getWrappedComponent(context, component, UITreePanel.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
-
-        if (!((UITreePanel) component).isInit()) {
+        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        System.out.println("Treepanel id :" + treepanelId);
+        if (!((UIAbstractTreePanel) component).isInit()) {
             for (int i = 0; i < node.getChildCount(); i++) {
                 TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
                 RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
 
                 //Create a new treeline and get all component to make a backup
                 UITreeLines treelines = new UITreeLines();
-                String id = treepanel.getId() + "_line_" + String.valueOf(currentNode.getId());
+                String id = treepanel.getId() + "_" + "line_" + String.valueOf(currentNode.getId());
                 treelines.setId(id);
                 treelines.setNodeInstance(currentNode);
 
@@ -139,9 +141,9 @@ public class TreeTableUtils {
                 treelines.getChildren().addAll(tocopy);
                 if (!currentNode.isLeaf()) {
                     treelines.setHasChildren(true);
-                    createTreeLinesRecurs(((UITreePanel) component), treelines, currentNode, list);
+                    createTreeLinesRecurs(((UIAbstractTreePanel) component), treelines, currentNode, list);
                 }
-                component.getChildren().add(treelines);
+                treepanel.getChildren().add(treelines);
             }
         }
     }
@@ -155,7 +157,7 @@ public class TreeTableUtils {
      * @throws java.io.IOException
      */
     @SuppressWarnings("unchecked")
-    public void createTreeLinesRecurs(UITreePanel treepanel, UIComponent component, TreeNodeModel node, List<UIComponent> list) throws IOException {
+    private void createTreeLinesRecurs(UIAbstractTreePanel treepanel, UIComponent component, TreeNodeModel node, List<UIComponent> list) throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         UITreeLines treelines = null;
         TreeTableConfig config = new TreeTableConfig();
@@ -188,7 +190,7 @@ public class TreeTableUtils {
                 treelines.setHasChildren(true);
                 createTreeLinesRecurs(treepanel, treelines, currentNode, list);
             }
-            component.getChildren().add(treelines);
+            treepanel.getChildren().add(treelines);
         }
 
     }
@@ -219,11 +221,11 @@ public class TreeTableUtils {
                                         resultGet = Getter.invoke(component);
                                         method.invoke(news, resultGet);
                                     } catch (IllegalAccessException ex) {
-                                        Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                                     } catch (IllegalArgumentException ex) {
-                                        Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                                     } catch (InvocationTargetException ex) {
-                                        Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
                                 if (oldClasse.getMethod("is" + Propertie) != null) {
@@ -232,18 +234,18 @@ public class TreeTableUtils {
                                         resultGet = Getter.invoke(component);
                                         method.invoke(news, resultGet);
                                     } catch (IllegalAccessException ex) {
-                                        Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                                     } catch (IllegalArgumentException ex) {
-                                        Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                                     } catch (InvocationTargetException ex) {
-                                        Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
                             }
                         } catch (NoSuchMethodException ex) {
-//                            Logger.getLogger(TreeTableUtils.class.getName()).log(Level.INFO, null, ex.getMessage());
+                            //Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.INFO, null, ex.getMessage());
                             } catch (SecurityException ex) {
-                            Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
