@@ -30,7 +30,7 @@ public class TreeNodeInfoTag extends UIComponentELTag {
     private ValueExpression header = null;
     private ValueExpression hide = null;
     private ValueExpression debug = null;
-    private final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.TreeNodeInfo";
+    private final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.TreeNodeInfo";
     private final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeNodeInfo";
 
     public ValueExpression getHeader() {

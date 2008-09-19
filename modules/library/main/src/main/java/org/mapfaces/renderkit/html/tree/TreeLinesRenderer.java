@@ -44,5 +44,10 @@ public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    @Override
+    public String addLinesEvent(FacesContext context, UIComponent component) {
+        return "";
+    }
+
   
 }

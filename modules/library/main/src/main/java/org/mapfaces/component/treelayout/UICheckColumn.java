@@ -7,7 +7,7 @@ public class UICheckColumn extends UIAbstractColumn {
 
     private String icon;
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLCheckColumn";
-    private final String FAMILY = "org.mapfaces.treelayout.Column";
+    private final String FAMILY = "org.mapfaces.treelayout.CheckColumn";
 
 
     /**

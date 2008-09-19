@@ -34,7 +34,7 @@ import org.mapfaces.component.treelayout.UITreeNodeInfo;
 import org.mapfaces.component.treelayout.UITreePanel;
 import org.mapfaces.component.treelayout.UITreeTable;
 import org.mapfaces.models.AbstractContext;
-import org.mapfaces.util.treelayout.TreeLayoutUtils;
+import org.mapfaces.models.tree.TreeModelsUtils;
 
 /**
  * @author Olivier Terral.
@@ -74,7 +74,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         }
         UITreeTable treeTable = new UITreeTable();
         treeTable.setId("TreeTable");
-        treeTable.setTree((new TreeLayoutUtils()).transformTree(tree));
+        treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
         treeTable.setVarName("layer");
         treeTable.setWidth(800);
 

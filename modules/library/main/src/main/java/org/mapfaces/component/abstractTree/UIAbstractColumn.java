@@ -14,22 +14,21 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component.abstractTree;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
-import java.io.Serializable;
-import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 
-public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface, Serializable {
+public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterface, Cloneable {
 
     // =========== ATTRIBUTES ================================================== //
     private String header;
     private String width;
     private String icon;
-    private boolean debug;
+
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -48,29 +47,24 @@ public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface
         this.width = width;
     }
 
-    /**
-     * @return the debug
-     */
-    public boolean getDebug() {
-        return debug;
+    public String getIcon() {
+        return icon;
     }
 
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(boolean debug) {
-        this.debug = debug;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
+
+
     // =========== FONCTIONS ======================================== //
     //Override methods
-
     @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[4];
         values[0] = super.saveState(context);
         values[1] = getHeader();
         values[2] = getWidth();
-        values[3] = getDebug();
+        values[3] = getIcon();
         return values;
     }
 
@@ -80,7 +74,7 @@ public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface
         super.restoreState(context, values[0]);
         setHeader((String) values[1]);
         setWidth((String) values[2]);
-        setDebug((Boolean) values[3]);
+        setIcon((String) values[3]);
     }
 
     @Override
@@ -90,18 +84,18 @@ public abstract class UIAbstractColumn extends UIOutput implements AjaxInterface
         renderer.handleAjaxRequest(context, this);
     }
 
+    public UIAbstractColumn getInstance() {
+        try {
+            return (UIAbstractColumn) this.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(UIAbstractColumn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     // =========== ABSTRACTS METHODS ================================== //
     @Override
     public abstract String getFamily();
 
     @Override
     public abstract String getRendererType();
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
 }

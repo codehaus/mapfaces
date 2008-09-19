@@ -24,6 +24,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,21 +33,25 @@ import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.component.abstractTree.UIAbstractTreeTable;
 
+import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.models.tree.TreeTableModel;
+import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.treetable.TreeTableConfig;
 
 /**
  *
  * @author kdelfour
  */
-public abstract class AbstractTreePanelRenderer extends Renderer {
+public abstract class AbstractTreePanelRenderer extends Renderer implements AjaxRendererInterface {
 
     private String EXPAND_TEXT = "Expand";
     private String COLLAPSE_TEXT = "Collapse";
     private boolean debug = false;
-    private static final transient Log log = LogFactory.getLog(AbstractTreePanelRenderer.class);
+    private static final Log log = LogFactory.getLog(AbstractTreePanelRenderer.class);
     private TreeTableConfig config = new TreeTableConfig();
 
     private UIAbstractTreeTable getForm(UIComponent component) {
@@ -94,10 +99,10 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
         }
         assertValid(context, component);
 
-       if (component.getAttributes().get("debug") != null) {
+        if (component.getAttributes().get("debug") != null) {
             debug = (Boolean) component.getAttributes().get("debug");
         }
-        
+
         if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
         }
@@ -110,10 +115,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
 
         ResponseWriter writer = context.getResponseWriter();
         UIAbstractTreeTable treetable = getForm(component);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) component;
 
         if (component != null) {
             String X_PANEL_HEADER_CLASS_STYLE = "x-panel-body x-panel-body-noheader";
-
+            writer.startElement("div", component);
+            writer.writeAttribute("id", "panel:" + component.getClientId(context), null);
+            writer.writeAttribute("style", "z-index:0; background :#CCCCCC", null);
             //HEADER Attribute
             if ((component.getAttributes().get("header") != null) && ((Boolean) (component.getAttributes().get("header"))) || (component.getAttributes().get("header") == null)) {
                 //FRAME Attribute
@@ -125,6 +133,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
                     writer.startElement("div", component);
                     writer.writeAttribute("class", "x-panel-tc", null);
                 }
+
 
                 // TITLE Attribute
                 if (component.getAttributes().get("title") != null) {
@@ -194,6 +203,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
 
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_lines:" + component.getClientId(context), null);
+            writer.writeAttribute("class", "droppable-holder", null);
             if ((component.getAttributes().get("frame") != null) && ((Boolean) (component.getAttributes().get("frame")))) {
                 writer.startElement("div", component);
                 writer.writeAttribute("class", "x-panel-ml", null);
@@ -203,30 +213,35 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
                 writer.writeAttribute("class", "x-panel-mc", null);
             }
 
-            TreeNodeModel root = treetable.getTree().getRoot();
+            if (treepanel.getView() == null) {
+                treepanel.setView(treetable.getTree());
+            }
 
-            List<UIComponent> backup = new ArrayList<UIComponent>();
-            List<UIComponent> children = component.getChildren();
-            for (UIComponent tmp : children) {
-                if (!(tmp instanceof UIAbstractTreeLines)) {
-                    tmp.setId(component.getId() + "_" + tmp.getId());
-                    backup.add(tmp);
-                } else {
-                    ((UIAbstractTreePanel) component).setInit(true);
+            TreeNodeModel root = treepanel.getView().getRoot();
+
+            if (!treepanel.isInit()) {
+                List<UIComponent> backup = new ArrayList<UIComponent>();
+                List<UIComponent> children = component.getChildren();
+                for (UIComponent tmp : children) {
+                    if (!(tmp instanceof UIAbstractTreeLines)) {
+                        tmp.setId(component.getId() + "_" + tmp.getId());
+                        backup.add(tmp);
+                    } else {
+                        ((UIAbstractTreePanel) component).setInit(true);
+                    }
+                }
+                /*            
+                 * Create all Treelines to the context
+                 */
+                long start = System.currentTimeMillis();
+                createTreeLines(((UIAbstractTreePanel) component), root, backup);
+                long duree = System.currentTimeMillis() - start;
+                if (debug) {
+                    log.info("createTreeLines times : " + duree + " mlls");
                 }
             }
 
-            /*            
-             * Create all Treelines to the context
-             */
-            long start = System.currentTimeMillis();
-            createTreeLines(((UIAbstractTreePanel) component), root, backup);
-            long duree = System.currentTimeMillis() - start;
-            if (debug) {
-                log.info("createTreeLines times : " + duree + " mlls");
-            }
             ((UIAbstractTreePanel) component).setInit(true);
-
 
             if (debug) {
                 log.info("afterEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
@@ -247,15 +262,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
         if (debug) {
             log.info("encodeChildren : " + AbstractTreePanelRenderer.class.getName());
         }
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) component;
 
-        if (component.getChildCount() != 0) {
-            List<UIComponent> children = component.getChildren();
-            for (UIComponent tmp : children) {
-                if (tmp instanceof UIAbstractTreeLines) {
-                    UIAbstractTreeLines line = (UIAbstractTreeLines) tmp;
-                    Utils.encodeRecursive(context, line);
-                }
-            }
+        TreeTableModel tree = treepanel.getView();
+        TreeNodeModel root = tree.getRoot();
+        for (int i = 0; i < root.getChildCount(); i++) {
+            TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
+            Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
         }
     }
 
@@ -271,7 +284,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
             log.info("beforeEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
-        
+
         if (debug) {
             log.info("encodeEnd : " + AbstractTreePanelRenderer.class.getName());
         }
@@ -292,10 +305,12 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
             writer.endElement("div");
             writer.endElement("div");
         }
+        writer.endElement("div");
+        writer.endElement("div");
+        writer.startElement("div", component);
+        writer.writeAttribute("class", "x-clear", null);
+        writer.endElement("div");
 
-        writer.endElement("div");
-        writer.endElement("div");
-        
         if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
         }
@@ -314,6 +329,61 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
         } else if (component == null) {
             throw new NullPointerException("component should not be null");
         }
+    }
+
+    @Override
+    public void handleAjaxRequest(FacesContext context, UIComponent component) {
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) component;
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
+
+
+        AjaxUtils ajaxtools = new AjaxUtils();
+        TreeModelsUtils treeTools = new TreeModelsUtils();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
+        String TreeLineNewParentId = request.getParameter(ajaxtools.getDND_NEW_PARENT_COMPONENT());
+        String TreeLineinDragId = request.getParameter(ajaxtools.getAJAX_COMPONENT_ID_KEY());
+        String Position = request.getParameter(ajaxtools.getDND_POSITION_LINE());
+        UIAbstractTreeLines treeLinesToDrag = (UIAbstractTreeLines) Utils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
+        UIAbstractTreeLines treeLinesToDragIn = (UIAbstractTreeLines) Utils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
+        TreeTableModel tree = treepanel.getView();
+
+        if (debug) {
+            System.out.println(AbstractTreePanelRenderer.class + " before move node");
+            treeTools.printTree(tree);
+        }
+
+        int targetNode = treeLinesToDragIn.getNodeInstance().getId();
+        int movedNode = treeLinesToDrag.getNodeInstance().getId();
+        int parentTargetNode = ((TreeNodeModel) tree.getById(targetNode).getParent()).getId();
+        int position;
+
+        if (Position.equals("lastitem")) {
+            System.out.println("lastitem");
+            position = treeLinesToDrag.getNodeInstance().getChildCount();
+            tree = treeTools.moveTo(tree, movedNode, targetNode, position+1);
+        } else if (Position.equals("before")) {
+            System.out.println("before");
+            tree = treeTools.insertBefore(tree, movedNode, targetNode);
+        } else if (Position.equals("after")) {
+            System.out.println("after");
+            tree = treeTools.insertAfter(tree, movedNode, targetNode);
+        } else if (Position.equals("firstitem")) {
+            System.out.println("firstitem");
+            tree = treeTools.moveTo(tree, movedNode, targetNode);
+        } else {
+            System.out.println("infolder");
+            tree = treeTools.moveTo(tree, movedNode, targetNode);
+        }
+
+        if (debug) {
+            System.out.println(AbstractTreePanelRenderer.class + " after move node");
+            treeTools.printTree(tree);
+        }
+
+        treepanel.setView(tree);
     }
 
     /* ======================= OTHERS METHODS ==================================*/
@@ -368,7 +438,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer {
             id++;
             if (!(uIComponent instanceof UIAbstractTreeLines)) {
                 if (!(uIComponent instanceof UIAbstractTreeNodeInfo)) {
-                    renderHeaders(context, uIComponent, id);
+                    if (!(uIComponent.getId().contains(component.getId()))) {
+                        renderHeaders(context, uIComponent, id);
+                    }
                 }
             }
         }

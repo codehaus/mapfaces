@@ -6,10 +6,10 @@
 /**
  *
  */
-function display(divId, methode, server, paramaters, viewstate){
-    thisDiv = document.getElementById("ul:"+divId);
-    thisSymbol = document.getElementById("symbol:"+divId);
-    thisTreenode = document.getElementById("treenode:"+divId);
+function display(divId, panelId, methode, server, paramaters, viewstate){
+    thisDiv = document.getElementById("ul:"+panelId+":"+divId);
+    thisSymbol = document.getElementById("symbol:"+panelId+":"+divId);
+    thisTreenode = document.getElementById("treenode:"+panelId+":"+divId);
 
     if (thisDiv.childNodes.length > 0){
         if (thisDiv.style.display == "none"){
@@ -20,9 +20,9 @@ function display(divId, methode, server, paramaters, viewstate){
             if (thisTreenode) {
                 thisTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
             }
-        } 
+        }
         else  {
-            thisDiv.style.display="none";		
+            thisDiv.style.display="none";
             if (thisSymbol) {
                 thisSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
             }
@@ -33,7 +33,7 @@ function display(divId, methode, server, paramaters, viewstate){
         return false;
     }
     else {
-        // Sending AJAX Request         
+        // Sending AJAX Request
         if (thisDiv.style.display == "none"){
             thisDiv.style.display="block";
             if (thisSymbol) {
@@ -42,9 +42,11 @@ function display(divId, methode, server, paramaters, viewstate){
             if (thisTreenode) {
                 thisTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
             }
-        } 
+        }
         
-        var req = new Request.HTML({method:methode, url:server,
+        var req = new Request.HTML({
+            method:methode,
+            url:server,
             //Our request will most likely succeed, but just in case, we'll add an
             //onFailure method which will let the user know what happened.
             onFailure: function(responseText) {
@@ -61,7 +63,7 @@ function display(divId, methode, server, paramaters, viewstate){
 /**
  *
  */
-function expandAll(){
+function expandAll(panelId){
     uls = document.getElementsByTagName("ul");
     for(i=1;i<uls.length;i++){
         str = uls[i].id.split(":",2);
@@ -81,13 +83,13 @@ function expandAll(){
 /**
  *
  */
-function collapseAll(){
+function collapseAll(panelId){
     uls = document.getElementsByTagName("ul");
     for(i=1;i<uls.length;i++){
         str = uls[i].id.split(":",2);
         div_id = str[1];
         if (document.getElementById("ul:"+div_id)) {
-            document.getElementById("ul:"+div_id).style.display="none";		
+            document.getElementById("ul:"+div_id).style.display="none";
         }
         if (document.getElementById("symbol:"+div_id)) {
             document.getElementById("symbol:"+div_id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
@@ -113,13 +115,13 @@ function checkall(){
 /**
  * Functions for collapse panel
  */
-function collapse(panel){
-    thisDiv = document.getElementById("panel:"+panel);
+function collapse(panelId){
+    thisDiv = document.getElementById("panel:"+panelId);
     if (thisDiv.style.display == "none") {
         thisDiv.style.display="block";
     }
     else {
-        thisDiv.style.display="none";		
+        thisDiv.style.display="none";
     }
 }
 
@@ -135,7 +137,7 @@ function showMore(div_id){
         thisAnchor.style.backgroundPosition = "50px";
     }
     else {
-        thisDiv.style.display="none";		
+        thisDiv.style.display="none";
         thisAnchor.style.backgroundPosition = "60px";
     }
 }

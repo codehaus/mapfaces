@@ -24,12 +24,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
@@ -91,7 +91,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         if (component.getAttributes().get("debug") != null) {
             debug = (Boolean) component.getAttributes().get("debug");
         }
-        
+
         if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
         }
@@ -106,7 +106,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
-
         /*
          * Get the node instance for rendering lines
          */
@@ -119,23 +118,68 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), "line_" + node.getId());
+        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), treepanelId + "_line_" + node.getId());
         ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
         String AJAX_SERVER = ajaxtools.getAjaxServer(request);
         String AJAX_PARAMETERS = ajaxtools.getAjaxParameters();
         String Request = ajaxtools.getRequestJs("get", AJAX_SERVER, AJAX_PARAMETERS);
 
-        Boolean FolderType = true;
-        if (node.isLeaf()) {
-            FolderType = false;
+        Boolean isFolder = !(node.isLeaf());
+        String classStyle;
+        if (!isFolder) {
+            classStyle = "dragable";
+        } else {
+            if (node.getId() > 2) {
+                classStyle = "droppable";
+            } else {
+                classStyle = "droppable locked";
+            }
         }
 
-        writer.startElement("li", component);
-        writer.writeAttribute("id", "li:" + node.getId(), null);
-        writer.writeAttribute("class", CLASS_NODE_LI, null);
+        TreeNodeModel root = treepanel.getView().getRoot();
+        if (node.getParent().equals(root)) {
+            writer.startElement("ul", component);
+            writer.writeAttribute("id", "ul:" + treepanelId + ":0", null);
+            writer.startElement("div", treeline);
+            writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
+            writer.writeAttribute("class", "droppable", null);
+            writer.writeAttribute("name", treeline.getId(), null);
+            writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+            writer.writeAttribute("dest", "ul:" + treepanelId + ":0", null);
+            writer.writeAttribute("pos", node.getId(), null);
+            writer.writeAttribute("depth", node.getDepth() + 1, null);
+            writer.writeAttribute("where", "firstitem", null);
+            writer.endElement("div");
+        }
 
-        if (FolderType) {
-            writer.writeAttribute("style", "background : LIGHTGRAY;", null);
+        writer.startElement("div", component);
+        writer.writeAttribute("id", "line:" + treepanelId + ":" + node.getId(), null);
+        writer.writeAttribute("name", treeline.getId(), null);
+        writer.writeAttribute("parent", treepanel.getId(), null);
+        writer.writeAttribute("depth", node.getDepth(), null);
+
+        //First zone to drop : before the folder with the same depth or before a node item
+        writer.startElement("div", treeline);
+        writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":before", null);
+        writer.writeAttribute("class", "droppable", null);
+        writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+        writer.writeAttribute("where", "before", null);
+        writer.writeAttribute("name", treeline.getId(), null);
+        writer.writeAttribute("pos", node.getId(), null);
+        writer.endElement("div");
+
+
+        writer.startElement("li", component);
+        writer.writeAttribute("id", "li:" + treepanelId + ":" + node.getId(), null);
+        writer.writeAttribute("depth", node.getDepth(), null);
+        writer.writeAttribute("class", CLASS_NODE_LI + " " + classStyle, null);
+        writer.writeAttribute("pos", node.getId(), null);
+        writer.writeAttribute("name", treeline.getId(), null);
+
+        if (isFolder) {
+            writer.writeAttribute("style", "position:relative;", null);
+        } else {
+            writer.writeAttribute("style", "background : #BBBBBB; position:absolute;", null);
         }
 
         if (treepanel.getAttributes().get("check") != null) {
@@ -182,34 +226,55 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         }
 
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) treeline.getParent();
+        TreeTableModel tree = treepanel.getView();
+        TreeNodeModel node = tree.getById(treeline.getNodeInstance().getId());
+
         ResponseWriter writer = context.getResponseWriter();
+        String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
 
-        TreeNodeModel node = treeline.getNodeInstance();
+        Boolean isFolder = !(node.isLeaf());
 
-        if (treeline.getChildCount() != 0) {
-            List<UIComponent> children = treeline.getChildren();
-            for (UIComponent tmp : children) {
-                if (!tmp.getFamily().equals(treeline.getFamily())) {
-                    Utils.encodeRecursive(context, tmp);
-                }
+        List<UIComponent> children = treeline.getChildren();
+        for (UIComponent tmp : children) {
+            if (!tmp.getFamily().equals(treeline.getFamily())) {
+                Utils.encodeRecursive(context, tmp);
             }
+        }
+        if (isFolder) {
+
             writer.startElement("div", treeline);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
 
 
-            if (treeline.getHaveTreelinesChildren()) {
+            if (treeline.hasChildren()) {
                 writer.startElement("ul", treeline);
-                writer.writeAttribute("id", "ul:" + node.getId(), null);
-                for (UIComponent tmp : children) {
-                    if (tmp.getFamily().equals(treeline.getFamily())) {
-                        tmp.encodeAll(context);
-                    }
+                writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
+
+                // Second zone to drop : in the list at first position
+                if (isFolder) {
+                    writer.startElement("div", treeline);
+                    writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
+                    writer.writeAttribute("class", "droppable", null);
+                    writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth() + 1) * 25 + "px", null);
+                    writer.writeAttribute("name", treeline.getId(), null);
+                    writer.writeAttribute("dest", "ul:" + treepanelId + ":" + node.getId(), null);
+                    writer.writeAttribute("pos", node.getId(), null);
+                    writer.writeAttribute("depth", node.getDepth() + 1, null);
+                    writer.writeAttribute("where", "firstitem", null);
+                    writer.endElement("div");
                 }
+
+                //Encode child
+                for (int i = 0; i < node.getChildCount(); i++) {
+                    TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
+                    Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
+                }
+
                 writer.endElement("ul");
             }
         }
-
     }
 
     @Override
@@ -219,21 +284,69 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         }
         beforeEncodeEnd(context, component);
 
+        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
+        String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        TreeNodeModel node = treeline.getNodeInstance();
+
+
+
+
+
+
         if (debug) {
             log.info("encodeEnd : " + AbstractTreeLinesRenderer.class.getName());
         }
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
         ResponseWriter writer = context.getResponseWriter();
+        Boolean isFolder = !(node.isLeaf());
 
         writer.startElement("div", treeline);
-        writer.writeAttribute("class", "x-clear", null);
-        writer.endElement("div");
+        writer.writeAttribute(
+                "class", "x-clear", null);
+        writer.endElement(
+                "div");
 
-        writer.endElement("li");
+        writer.endElement(
+                "li");
 
+        writer.startElement(
+                "script", component);
+        writer.write(addLinesEvent(context, component));
+        writer.endElement(
+                "script");
+
+
+        writer.startElement(
+                "div", treeline);
+        writer.writeAttribute(
+                "id", "dnd:" + treepanelId + ":" + node.getId() + ":after", null);
+        writer.writeAttribute(
+                "class", "droppable", null);
+        writer.writeAttribute(
+                "style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+        writer.writeAttribute(
+                "name", treeline.getId(), null);
+        writer.writeAttribute(
+                "where", "after", null);
+        writer.writeAttribute(
+                "pos", node.getId(), null);
+        writer.endElement(
+                "div");
+
+        writer.endElement(
+                "div");
+
+        TreeNodeModel root = treepanel.getView().getRoot();
+
+
+
+        if (node.getParent().equals(root)) {
+            writer.endElement("ul");
+        }
         if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeLinesRenderer.class.getName());
         }
+
         afterEncodeEnd(context, component);
     }
 
@@ -248,40 +361,11 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         } else if (component == null) {
             throw new NullPointerException("component should not be null");
         }
+
     }
 
+    @Override
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
-
-//        String AJAX_COMPONENT = ajaxtools.getAJAX_COMPONENT_ID_KEY();
-//        handleAjaxRequest(context, AJAX_COMPONENT);
-
-        List<UIComponent> list = treeline.getChildren();
-
-        HttpServletResponse response = null;
-        try {
-            response = (HttpServletResponse) context.getExternalContext().getResponse();
-            StringBuffer sb = new StringBuffer();
-            response.setContentType("text/xml;charset=UTF-8");
-            // need to set no cache or IE will not make future requests when same URL used.
-            response.setHeader("Pragma", "No-Cache");
-            response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
-            response.setDateHeader("Expires", 1);
-            sb.append("<from>");
-            sb.append(AbstractTreeLinesRenderer.class.toString());
-            sb.append("</from>");
-
-            for (UIComponent uIComponent : list) {
-                sb.append("<child>");
-                sb.append(uIComponent.getId());
-                sb.append("</child>/n");
-            }
-
-            response.getWriter().write(sb.toString());
-            System.out.println("Response : " + sb.toString());
-        } catch (IOException iox) {
-            iox.printStackTrace();
-        }
     }
 
     /**
@@ -300,4 +384,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
     public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 
     public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract String addLinesEvent(FacesContext context, UIComponent component);
 }

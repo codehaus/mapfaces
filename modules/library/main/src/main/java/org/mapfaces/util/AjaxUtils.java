@@ -41,7 +41,17 @@ public class AjaxUtils {
     private final String AJAX_RENDERCHILD_ID_KEY = "org.mapfaces.ajax.AJAX_RENDERCHILD_ID_ID";
     private final String AJAX_COMPONENT_VALUE_KEY = "org.mapfaces.ajax.AJAX_COMPONENT_VALUE";
     private final String AJAX_TARGET_ID_KEY = "org.mapfaces.ajax.AJAX_TARGET_ID";
+    
     private final String AJAX_LAYER_ID = "org.mapfaces.ajax.AJAX_LAYER_ID";
+    
+    /*
+     * Parameter's name for DND 
+     */
+    private final String DND_NEW_PARENT_COMPONENT = "org.mapfaces.ajax.DND_NEW_PARENT_COMPONENT";
+    private final String DND_NEW_PARENT_LINE = "org.mapfaces.ajax.DND_NEW_PARENT_LINE";
+    private final String DND_OLD_PARENT_COMPONENT = "org.mapfaces.ajax.DND_OLD_PARENT_COMPONENT";
+    private final String DND_OLD_PARENT_LINE = "org.mapfaces.ajax.DND_OLD_PARENT_LINE";
+    private final String DND_POSITION_LINE = "org.mapfaces.ajax.DND_POSITION_LINE";
     
     /**
      * Constructor
@@ -50,10 +60,7 @@ public class AjaxUtils {
         //Erase all previous parameters
         clearAjaxParameters();
     }
-
-    public String getAJAX_LAYER_ID() {
-        return AJAX_LAYER_ID;
-    }
+    
     /**
      * 
      * @param method
@@ -171,6 +178,10 @@ public class AjaxUtils {
     public String getAJAX_COMPONENT_VALUE_KEY() {
         return AJAX_COMPONENT_VALUE_KEY;
     }
+    
+    public String getAJAX_LAYER_ID() {
+        return AJAX_LAYER_ID;
+    }
 
     /**
      * 
@@ -187,5 +198,24 @@ public class AjaxUtils {
     public String getAJAX_TARGET_ID_KEY() {
         return AJAX_TARGET_ID_KEY;
     }
-    
+
+    public String getDND_NEW_PARENT_COMPONENT() {
+        return DND_NEW_PARENT_COMPONENT;
+    }
+
+    public String getDND_NEW_PARENT_LINE() {
+        return DND_NEW_PARENT_LINE;
+    }
+
+    public String getDND_OLD_PARENT_COMPONENT() {
+        return DND_OLD_PARENT_COMPONENT;
+    }
+
+    public String getDND_OLD_PARENT_LINE() {
+        return DND_OLD_PARENT_LINE;
+    }
+
+    public String getDND_POSITION_LINE() {
+        return DND_POSITION_LINE;
+    }
 }

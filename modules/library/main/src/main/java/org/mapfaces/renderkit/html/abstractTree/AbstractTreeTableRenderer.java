@@ -25,6 +25,7 @@ import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +35,8 @@ import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.component.abstractTree.UIAbstractTreeTable;
-import org.mapfaces.util.treetable.TreeTableUtils;
+import org.mapfaces.models.tree.TreeModelsUtils;
+import org.mapfaces.util.AjaxUtils;
 
 /**
  * 
@@ -45,11 +47,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
     private boolean debug = false;
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
-    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
+    private final String DRAGDROP_CSS = "/org/mapfaces/resources/treetable/css/dragndrop.css";
+    private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
+    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
+    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
-    
-    private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
-    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
 
     private UIForm getForm(UIComponent component) {
         UIComponent parent = component.getParent();
@@ -102,7 +104,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         if (component.getAttributes().get("debug") != null) {
             debug = (Boolean) component.getAttributes().get("debug");
         }
-        
+
         if (debug) {
             log.info("beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
@@ -110,7 +112,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
 
         UIAbstractTreeTable treetable = (UIAbstractTreeTable) component;
         ResponseWriter writer = context.getResponseWriter();
-        TreeTableUtils tabletools = new TreeTableUtils();
+        TreeModelsUtils treeModelsTools = new TreeModelsUtils();
 
         if (debug) {
             log.info("encodeBegin : " + AbstractTreeTableRenderer.class.getName());
@@ -138,7 +140,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
                 } else {
                     tree = (DefaultTreeModel) value;
                 }
-                treetable.setTree(tabletools.transformTree(tree));
+                treetable.setTree(treeModelsTools.transformTree(tree));
                 treetable.setNodeCount(treetable.getTree());
             } else {
                 TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);
@@ -212,9 +214,18 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
             log.info("encodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         ResponseWriter writer = context.getResponseWriter();
+        AjaxUtils ajaxtools = new AjaxUtils();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        String AJAX_SERVER = ajaxtools.getAjaxServer(request);
+        
         writer.endElement("div");
         writer.endElement("div");
-
+        writer.startElement("input", component);
+        writer.writeAttribute("type", "hidden", null);
+        writer.writeAttribute("value",AJAX_SERVER,null);
+        writer.writeAttribute("id", "ajax.server.request.URL", null);
+        writer.writeAttribute("name", "ajax.server.request.URL", null);
+        writer.endElement("div");
         if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
@@ -250,10 +261,28 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
             log.info("decode : " + AbstractTreeTableRenderer.class.getName());
         }
 
+        writer.writeComment("Mootools Javascript Library");
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+        writer.endElement("script");
+
+        writer.writeComment("Moo Javascript Library");
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOO_JS, null), null);
+        writer.endElement("script");
+
         writer.startElement("link", component);
         writer.writeAttribute("type", "text/css", null);
         writer.writeAttribute("rel", "stylesheet", null);
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TREETABLE_CSS, null), null);
+        writer.endElement("link");
+
+        writer.startElement("link", component);
+        writer.writeAttribute("type", "text/css", null);
+        writer.writeAttribute("rel", "stylesheet", null);
+        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, DRAGDROP_CSS, null), null);
         writer.endElement("link");
 
         writer.startElement("script", component);
@@ -261,7 +290,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
         writer.endElement("script");
 
-       
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
+        writer.endElement("script");
+
     }
 
     /* ======================= ABSTRACT METHODS ==================================*/
