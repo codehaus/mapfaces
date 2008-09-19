@@ -361,20 +361,15 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         int position;
 
         if (Position.equals("lastitem")) {
-            System.out.println("lastitem");
             position = treeLinesToDrag.getNodeInstance().getChildCount();
             tree = treeTools.moveTo(tree, movedNode, targetNode, position+1);
         } else if (Position.equals("before")) {
-            System.out.println("before");
             tree = treeTools.insertBefore(tree, movedNode, targetNode);
         } else if (Position.equals("after")) {
-            System.out.println("after");
             tree = treeTools.insertAfter(tree, movedNode, targetNode);
         } else if (Position.equals("firstitem")) {
-            System.out.println("firstitem");
             tree = treeTools.moveTo(tree, movedNode, targetNode);
         } else {
-            System.out.println("infolder");
             tree = treeTools.moveTo(tree, movedNode, targetNode);
         }
 
