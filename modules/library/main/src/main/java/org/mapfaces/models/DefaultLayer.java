@@ -393,7 +393,10 @@ public class DefaultLayer implements Layer {
 
     @Override
     public String getUserValueTime() {
-        if (getElevation() != null) {
+        if (getTime() != null) {
+            if(getTime().getUserValue()==null){
+                getTime().setUserValue(getTime().getValue().split(",")[0]);
+            }
             return getTime().getUserValue();
         }
         return null;

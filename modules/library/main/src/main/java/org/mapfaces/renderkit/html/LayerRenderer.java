@@ -120,9 +120,16 @@ public class LayerRenderer extends WidgetBaseRenderer {
 //                    writer.writeAttribute("class", "layerDiv", "style");
 //                    writer.writeAttribute("style","position: absolute; width: 100%; height: 100%; z-index: 100;"+styleImg, "style");
                 //Add layer image if not the first page loads
+                 String display;
+                    if(layer.isHidden())
+                        display="display:none;";
+                    else
+                        display="display:block;";
+                 System.out.println("debutLa propriété hidden du layer " + layer.getId() + " à été modifiée :" + layer.isHidden());
+                        
                 if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
                     writer.startElement("div", comp);
-                    writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
+                    writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;"+display, "style");
                     File dst = File.createTempFile("img", ".png", comp.getDir());
                     if (isDebug()) {
                         System.out.println("            Layer updated " + dst.getName());
@@ -132,7 +139,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     } catch (PortrayalException ex) {
                         Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
+                   
                     if (true) {
                         /**
                          * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
@@ -159,6 +166,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
                         writer.endElement("img");
                     } else {
+                               
                         writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;", "style");
                         writer.startElement("img", comp);
                         writer.writeAttribute("id", id + "_Img", "style");
@@ -244,24 +252,29 @@ public class LayerRenderer extends WidgetBaseRenderer {
             //layerId = (String) params.get("refresh");
             }
            
-            if (value != null && layerId != null) {
+            if (layerId != null) {
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
                 if (layerId.equals(FacesUtils.getFormId(context, component) + ":" + layer.getId())) {
                     
                      //Modify Context property
-                    
-                    if (layerProperty.contains("Visible")) {
-                        tmp.setHidden(layer.getId(), !Boolean.valueOf(value));
-                        layer.setHidden(!Boolean.valueOf(value));
-                        if (isDebug()) {
-                            System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + tmp.isHidden(layer.getId()));
-                        }
+                    System.out.println("layerproperty"+layerProperty);
+                     if (layerProperty.contains("Visible")) {
+                        boolean test;
+                        if(value!=null && value.equals("on"))
+                            test=false;
+                        else
+                            test=true;
+                        System.out.println("testLa propriété hidden du layer " + layer.getId() + " à été modifiée :" + test);
+                        
+                        tmp.setHidden(layer.getId(), test);
+                        layer.setHidden(test);
+                         System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + tmp.isHidden(layer.getId()));
+                        
                     } else if (layerProperty.contains("Opacity")) {
                         tmp.setOpacity(layer.getId(), Double.valueOf(value));
                         layer.setOpacity(value);
-                        if (isDebug()) {
                             System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
-                    }
+                    
                     
                    
                     } else if (layerProperty.contains("Time")) {
@@ -282,6 +295,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         if (isDebug()) {
                             System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
                         }
+                    } else{
+                         
                     }
 
                 }

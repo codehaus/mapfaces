@@ -76,21 +76,21 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setId("TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
         treeTable.setVarName("layer");
-        treeTable.setWidth(800);
+        treeTable.setWidth(438);
 
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
         treePanel.setId("TreePanel");
         treePanel.setHeader(true);
         treePanel.setTitle("List of layers");
-        treePanel.setRowId(true);
+        treePanel.setRowId(false);
 
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId("Layers");
         tc.setValue("#{layer.title}");
         tc.setHeader("Layers grouped");
-        tc.setWidth("400");
+        tc.setWidth("300");
 
         /* <mf:CheckColumn icon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif"   id="visible" 
         value="#{layer.visible}"
@@ -106,25 +106,25 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         vc.setId("Visible");
         vc.setValue("#{!layer.hidden}");
         vc.setIcon("/org/mapfaces/resources/img/eye.png");
-        vc.setWidth("30");
+        vc.setWidth("26");
 
         UIOpacityColumn oc = new UIOpacityColumn();
         oc.setId("Opacity");
         oc.setValue("#{layer.opacity}");
         oc.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-        oc.setWidth("90");
+        oc.setWidth("70");
 
-        UIElevationColumn ec = new UIElevationColumn();
+       /* UIElevationColumn ec = new UIElevationColumn();
         ec.setId("Elevation");
         ec.setValue("#{layer.userValueElevation}");
         ec.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-        ec.setWidth("100");
+        ec.setWidth("100");*/
 
         UITimeColumn tic = new UITimeColumn();
         tic.setId("Time");
-        ec.setValue("#{layer.userValueDate}");
+       // tic.setValue("#{layer.userValueDate}");
         tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
-        tic.setWidth("32");
+        tic.setWidth("26");
 
         UITreeNodeInfo tni = new UITreeNodeInfo();
         tni.setHeader("Info");
@@ -163,7 +163,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.getChildren().add(tc);
         treePanel.getChildren().add(vc);
         treePanel.getChildren().add(oc);
-        treePanel.getChildren().add(ec);
+//        treePanel.getChildren().add(ec);
 
         treePanel.getChildren().add(tic);
         treePanel.getChildren().add(tni);
