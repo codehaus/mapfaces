@@ -418,8 +418,36 @@
         </executions>
       </plugin>
     </plugins>
+     <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ssh-external</artifactId>
+         <version>1.0-alpha-5</version>
+      </extension>
+    </extensions>
   </build>
-  
+
+  <!--
+    Server where to deploy the web site.
+  -->
+  <distributionManagement>
+    <site>
+      <id>geomatys</id>
+      <name>Site geomatys</name>
+      <url>dav:https://maven.geomatys.fr/maven/reports</url>
+    </site>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>geomatys</id>
+      <name>Distribution geomatys</name>
+      <url>dav:https://maven.geomatys.fr/repository</url>
+    </repository>
+  </distributionManagement>
   
   <!-- =========================================================== -->
   <!--     Modules for the build in approximate dependency order   -->
