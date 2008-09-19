@@ -422,7 +422,8 @@ public class TimeLineBean {
                                         "This is the duration of the jsf implementation for the component TimeLine : "+sdf.format(crrt),
                                         sdf.format(crrt),
                                         sdf.format(crrt),
-                                        "http://demo.geomatys.fr/seagis/WS/wms?DIM_RANGE="+layer.getUserValueDimension("dim_range")+"&TIME="+sdf.format(crrt)+"&SERVICE=WMS&LAYERS="+layer.getName()+"&EXCEPTIONS=application/vnd.ogc.se_xml&ELEVATION="+layer.getUserValueElevation()+"&FORMAT=image/png&HEIGHT=25&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-3.0056260600743E7,-2.0037507067162E7,3.0056260600743E7,2.0037507067162E7&WIDTH=25&SRS=EPSG:3395&STYLES=&VERSION=1.1.1",
+                                        "",
+                                        //"http://solardev:8080/ifremerWS/WS/wms?DIM_RANGE="+layer.getUserValueDimension("dim_range")+"&TIME="+sdf.format(crrt)+"&SERVICE=WMS&LAYERS="+layer.getName()+"&EXCEPTIONS=application/vnd.ogc.se_xml&FORMAT=image/png&HEIGHT=25&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-180,-90,180,90&WIDTH=25&SRS=EPSG:4326&STYLES=&VERSION=1.1.1",
                                         Priority.NORMAL,
                                         "",
                                         Status.IN_PROGRESS,
@@ -433,8 +434,10 @@ public class TimeLineBean {
         }
         System.out.println("eveeeeentes"+events.size());
         System.out.println("  datebegin = "+dateBegin+"  date2 = "+sdf.parse("2007-06-29T12:00:00Z"));
-        
-        centerDate =PeriodUtilities.getDateFromString(layer.getUserValueTime());
+        if(layer.getUserValueTime()==null)
+            centerDate =PeriodUtilities.getDateFromString("2007-06-06T12:00:00Z");
+        else
+            centerDate =PeriodUtilities.getDateFromString(layer.getUserValueTime());
     }
     /*
      * In our case the varTreeProperty id the id of the layer

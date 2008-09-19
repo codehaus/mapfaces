@@ -39,6 +39,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * 
@@ -50,6 +51,13 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeBegin(context, component);
+             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(   context,
+                                                                                                (UIComponent) component.getChildren().get(0),
+                                                                                                "onchange",
+                                                                                                getVarId(context,(UIAbstractColumn) component),
+                                                                                                null)
+                                                                                             );
+            
         }
     }
 
@@ -84,12 +92,12 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
         writer.startElement("script", component);
 
-        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId));
-        writer.write("value = event.target.value;" +
-                "target = event.target.name;" +
-                "viewstate = document.getElementById('javax.faces.ViewState').value;" +
-                Request +
-                "});");
+        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId)+"});");
+//        writer.write("value = event.target.value;" +
+//                "target = event.target.name;" +
+//                "viewstate = document.getElementById('javax.faces.ViewState').value;" +
+//                Request +
+//                "});");
         writer.endElement("script");
     }
 
@@ -154,7 +162,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
     }
 
     public String addBeforeRequestScript(String layerId) {
-        return "document.getElementById('" + layerId + "').style.opacity=event.target.value;" //               +"var ieValue=event.target.value*100;" +
+        return "document.getElementById('" + layerId + "').style.opacity=event.target.value;return false;" //               +"var ieValue=event.target.value*100;" +
                 //               "document.getElementById('" + layerId + "').style.filter='alpha('+opacity=ieValue+')';event.target.value;"
                 ;
     }

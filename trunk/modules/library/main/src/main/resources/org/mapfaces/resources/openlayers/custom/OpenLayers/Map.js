@@ -532,12 +532,6 @@ OpenLayers.Map = OpenLayers.Class({
                              'actionUrl':window.location
                          } 
                        );
-        
-        //Initialize the layer container origin
-        /*this.layerContainerOrigin = this.center.clone();
-        this.layerContainerDiv.style.left = "0px";
-        this.layerContainerDiv.style.top  = "0px";*/
-       
     },  
     
      /**

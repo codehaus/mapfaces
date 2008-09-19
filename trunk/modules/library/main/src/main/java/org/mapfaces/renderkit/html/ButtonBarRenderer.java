@@ -62,7 +62,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             writer.write(jsObject+".addControl(nav);\n");
         }
         if(comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()){
-            writer.write(jsObject+".addControl(new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+comp.getClientId(context)+"')");
+            writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+comp.getId()+"')");
         
             if(comp.isZoomIn())
                 writer.write(",\nzoomIn: true");
@@ -82,7 +82,9 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if(comp.isPan() && comp.isPanEffect())
                 writer.write(",\npanEffect: true");
             
-            writer.write("\n}));\n");
+            writer.write("\n});\n");
+            
+        writer.write(jsObject+".addControl("+jsObject+comp.getId()+");");
         }
         writer.endElement("script");          
         writer.endElement("div");

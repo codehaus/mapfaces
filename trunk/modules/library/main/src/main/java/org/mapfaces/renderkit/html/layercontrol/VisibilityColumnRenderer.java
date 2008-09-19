@@ -40,6 +40,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * 
@@ -50,7 +51,13 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
-            super.encodeBegin(context, component);
+           super.encodeBegin(context, component);
+           component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(   context,
+                                                                                                (UIComponent) component.getChildren().get(0),
+                                                                                                "onclick",
+                                                                                                getVarId(context,(UIAbstractColumn) component),
+                                                                                                null)
+                                                                                             );
         }
     }
 

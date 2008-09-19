@@ -121,7 +121,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
         String size = config.getDEFAULT_SIZE_COLUMN();
         if (component.getAttributes().get("width") != null) {
-            size = String.valueOf(component.getAttributes().get("width")) + "px";
+            size = String.valueOf(Integer.parseInt((String) component.getAttributes().get("width"))+2) + "px";
         }
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);

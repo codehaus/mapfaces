@@ -352,11 +352,10 @@ public class PeriodUtilities {
      * @return
      */
     public static Date getDateFromString(String dateString) throws ParseException {
+        System.out.println(dateString);
         Date response = null;
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-        String DATE_FORMAT2 = "yyyy-MM-dd";
         SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        SimpleDateFormat sdf2 = new java.text.SimpleDateFormat(DATE_FORMAT2, Locale.ENGLISH);
 
         if (dateString.contains("T")) {
             //set the timezone if exists.
@@ -364,11 +363,7 @@ public class PeriodUtilities {
             sdf.setTimeZone(TimeZone.getTimeZone(timezone));
 
             response = sdf.parse(dateString);
-        } else {
-            if (dateString.contains("-")) {
-                response = sdf2.parse(dateString);
-            }
-        }
+        } 
         return response;
     }
 
