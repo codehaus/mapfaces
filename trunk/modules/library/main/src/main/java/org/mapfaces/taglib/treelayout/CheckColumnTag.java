@@ -33,7 +33,7 @@ public class CheckColumnTag extends UIComponentELTag {
     private ValueExpression width = null;
     private ValueExpression debug = null;
 
-    private final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.CheckColumn";
+    private final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.CheckColumn";
     private final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLCheckColumn";
 
     public ValueExpression getHeader() {

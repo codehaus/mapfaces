@@ -134,7 +134,7 @@
         <component-class>org.mapfaces.component.treelayout.UITreePanel</component-class>
     </component>
     <component>
-        <component-type>org.mapfaces.treelayout.TreeColumn</component-type>
+        <component-type>org.mapfaces.treelayout.treetable.treepanel.TreeColumn</component-type>
         <component-class>org.mapfaces.component.treelayout.UITreeColumn</component-class>
     </component>
     <component>

@@ -10,8 +10,15 @@ public class UIColumn extends UIAbstractColumn {
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLColumn";
     private final String FAMILY = "org.mapfaces.treelayout.Column";
+    private String varId;
+    
+     public String getVarId() {
+        return varId;
+    }
 
-
+    public void setVarId(String varId) {
+        this.varId = varId;
+    }
 //    // =========== ATTRIBUTES ACCESSORS ======================================== //
     @Override
     public String getFamily() {
@@ -22,6 +29,4 @@ public class UIColumn extends UIAbstractColumn {
     public String getRendererType() {
         return RENDERER_TYPE;
     }
-
-
 }

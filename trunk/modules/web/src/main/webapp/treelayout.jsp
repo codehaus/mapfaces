@@ -23,7 +23,7 @@
                             <mf:TreeLayoutPanel header="false" id="panel1" rowId="true" >
                                 
                                 <mf:TreeLayoutTColumn header="Tree Items" width="300" value="#{layer.name}"/>
-                                
+
                                 <mf:TreeLayoutCheckColumn
                                     icon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif" 
                                     id="visible" 

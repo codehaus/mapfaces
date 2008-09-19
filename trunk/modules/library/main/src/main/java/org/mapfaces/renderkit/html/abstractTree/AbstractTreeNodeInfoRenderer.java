@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
+import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.Utils;
 
 /**
@@ -98,13 +99,15 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
         //Start encoding
         UIAbstractTreeNodeInfo treenodeinfo = (UIAbstractTreeNodeInfo) component;
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) treenodeinfo.getParent();
+        TreeNodeModel node = treeline.getNodeInstance();
         ResponseWriter writer = context.getResponseWriter();
+        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
 
         UIAbstractTreePanel treetable = getForm(treenodeinfo);
         if (treetable != null) {
             writer.startElement("div", treenodeinfo);
             writer.writeAttribute("class", DESC_STYLE_CLASS, null);
-            writer.writeAttribute("id", "info:" + treeline.getRow(), null);
+            writer.writeAttribute("id", "info:" + treepanelId + ":" + node.getId(), null);
             if (treenodeinfo.getAttributes().get("hide") != null) {
                 if (!(Boolean) treenodeinfo.getAttributes().get("hide")) {
                     writer.writeAttribute("style", "display:block;", null);

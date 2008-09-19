@@ -17,20 +17,22 @@
 
 package org.mapfaces.component.abstractTree;
 
-import java.io.Serializable;
-import javax.faces.component.UIOutput;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
+import org.mapfaces.models.tree.TreeTableModel;
+import org.mapfaces.share.interfaces.AjaxInterface;
+import org.mapfaces.share.interfaces.AjaxRendererInterface;
 
 /**
  *
  * @author kdelfour
  */
-public abstract class UIAbstractTreePanel extends UIOutput implements Serializable {
+public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInterface, Cloneable {
 
-    private boolean init;
+    private boolean init = false;
     private boolean TREEPANEL_EXPAND_ALL = true;
-
-    // =========== ATTRIBUTES ================================================== //
+    private TreeTableModel view;    // =========== ATTRIBUTES ================================================== //
     private String border;
     private boolean check;
     private boolean collapsible;
@@ -40,7 +42,6 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
     private boolean rowId;
     private boolean showLines;
     private String title;
-    private boolean debug;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getBorder() {
@@ -115,21 +116,7 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
         this.title = title;
     }
 
-    /**
-     * @return the debug
-     */
-    public boolean getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
     // =========== FONCTIONS ======================================== //
-
     public boolean isTREEPANEL_EXPAND_ALL() {
         return TREEPANEL_EXPAND_ALL;
     }
@@ -146,6 +133,14 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
         this.init = init;
     }
 
+    public TreeTableModel getView() {
+        return view;
+    }
+
+    public void setView(TreeTableModel View) {
+        this.view = View;
+    }
+
     @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[12];
@@ -160,7 +155,7 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
         values[8] = isShowLines();
         values[9] = getTitle();
         values[10] = isInit();
-        values[11] = getDebug();
+        values[11] = getView();
         return values;
     }
 
@@ -177,9 +172,25 @@ public abstract class UIAbstractTreePanel extends UIOutput implements Serializab
         setRowId((boolean) (Boolean) values[7]);
         setShowLines((boolean) (Boolean) values[8]);
         setTitle((String) values[9]);
-        init = (Boolean) values[10];
+        setInit((Boolean) values[10]);
+        setView((TreeTableModel) values[11]);
     }
 
+    @Override
+    public void handleAjaxRequest(FacesContext context) {
+        //Delegate to the renderer
+        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
+        renderer.handleAjaxRequest(context, this);
+    }
+
+    public UIAbstractTreeNodeInfo getInstance() {
+        try {
+            return (UIAbstractTreeNodeInfo) this.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(UIAbstractTreeNodeInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     // =========== ABSTRACTS METHODS ================================== //
     @Override
     public abstract String getFamily();

@@ -30,16 +30,10 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
-import org.mapfaces.component.treelayout.UITreeColumn;
+import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.component.treelayout.UITreeLines;
-import org.mapfaces.component.treelayout.UITreeNodeInfo;
-import org.mapfaces.component.treelayout.UITreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
-import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.renderkit.html.treelayout.TreePanelRenderer;
 import org.mapfaces.share.utils.Utils;
 
@@ -49,105 +43,13 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TreeLayoutUtils {
 
-    private int count = 0;
-    private String NOVALUE = "No value found!";
-
-    /* ======================= TREE METHODS ====================================*/
     /**
-     * 
-     * @param tree a DefaultTreeModel or a TreeTableModel
-     * @return
-     */
-    public int getTreeNodeCount(TreeTableModel tree) {
-        TreeNodeModel leaf = tree.getRoot();
-        return SsTreeNodeCount(leaf);
-    }
-
-    /**
-     * 
-     * @param node
-     * @return
-     */
-    public int SsTreeNodeCount(TreeNodeModel node) {
-        int result = 0;
-        result += 1;
-        for (int i = 0; i < node.getChildCount(); i++) {
-            result += SsTreeNodeCount((TreeNodeModel) node.getChildAt(i));
-        }
-        return result;
-    }
-
-    /**
-     * Method to transform a DefaultMutableTreeNode to a TreeNodeModel
-     * @param node the DefaultMutableTreeNode  to change
-     * @param id the id give to identify the node as a String
-     * @param depth 
-     * @param row 
-     * @return a TreeNodeModel node with an id and a content
-     */
-    public TreeNodeModel transformNode(DefaultMutableTreeNode node, int id, int depth, int row) {
-        if (node.getUserObject() == null) {
-            node.setUserObject("NoName");
-        }
-        TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
-        return treenode;
-    }
-
-    /**
-     * Method to transform a DefaultTreeModel to a TreeTableModel
-     * @param tree Initial tree to transform
-     * @return a TreeTableModel
-     */
-    public TreeTableModel transformTree(DefaultTreeModel tree) {
-        count = 0;
-        DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
-
-        if (initial_root.getUserObject() == null) {
-            initial_root.setUserObject("NoValue");
-        }
-
-        TreeNodeModel root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-
-        int depthnode = root.getDepth() + 1;
-        count++;
-        for (int i = 0; i < initial_root.getChildCount(); i++) {
-            count++;
-            if (initial_root.getChildAt(i).isLeaf()) {
-                TreeNodeModel leaf = transformNode((DefaultMutableTreeNode) initial_root.getChildAt(i), count, depthnode, count);
-                root.add(leaf);
-            } else {
-                root.add(sstransformTree(root, (DefaultMutableTreeNode) initial_root.getChildAt(i)));
-            }
-        }
-
-        TreeTableModel treetablemodel = new TreeTableModel(root);
-        return treetablemodel;
-    }
-
-    /**
-     * 
-     * @param parent
-     * @param node
-     * @return
-     */
-    public TreeNodeModel sstransformTree(TreeNodeModel parent, DefaultMutableTreeNode node) {
-        TreeNodeModel leaf = transformNode(node, count++, parent.getDepth() + 1, count++);
-
-        if (!node.isLeaf()) {
-            for (int i = 0; i < node.getChildCount(); i++) {
-                leaf.add(sstransformTree(leaf, (DefaultMutableTreeNode) node.getChildAt(i)));
-            }
-        }
-
-        return leaf;
-    }
-
-    /* ======================= OTHERS METHODS ==================================*/
-    /**
-     * 
-     * @param list
-     * @param node
-     * @return
+     * Duplicate method to clone a list Of UIComponent with specified value from
+     * a TreeNodeModel
+     * @param list a list to make copy of UIComponent to clone
+     * @param node a node who have values for duplicate the UIComponent 
+     * with specified values
+     * @return List<UIComponent> initiate with TreeNodeModels values
      */
     public List<UIComponent> duplicate(List<UIComponent> list, TreeNodeModel node) {
         List<UIComponent> backup = new ArrayList<UIComponent>();
@@ -173,11 +75,11 @@ public class TreeLayoutUtils {
      * @throws java.lang.InstantiationException
      * @throws java.lang.IllegalAccessException
      */
-    public UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
+    private UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent news = component.getClass().newInstance();
-        String treepanelId = Utils.getWrappedComponent(context, component, UITreePanel.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
 
         //Copy specific attributes from component to news
         copyAttributes(component, news);
@@ -219,10 +121,10 @@ public class TreeLayoutUtils {
      */
     public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list) throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
-        String treepanelId = Utils.getWrappedComponent(context, component, UITreePanel.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
-
-        if (!((UITreePanel) component).isInit()) {
+        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        System.out.println("Treepanel id :" + treepanelId);
+        if (!((UIAbstractTreePanel) component).isInit()) {
             for (int i = 0; i < node.getChildCount(); i++) {
                 TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
                 RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
@@ -234,12 +136,13 @@ public class TreeLayoutUtils {
                 treelines.setNodeInstance(currentNode);
 
                 List<UIComponent> tocopy = duplicate(list, currentNode);
+
                 treelines.getChildren().addAll(tocopy);
                 if (!currentNode.isLeaf()) {
-                    treelines.setHaveTreelinesChildren(true);
-                    createTreeLinesRecurs(((UITreePanel) component), treelines, currentNode, list);
+                    treelines.setHasChildren(true);
+                    createTreeLinesRecurs(((UIAbstractTreePanel) component), treelines, currentNode, list);
                 }
-                component.getChildren().add(treelines);
+                treepanel.getChildren().add(treelines);
             }
         }
     }
@@ -253,7 +156,7 @@ public class TreeLayoutUtils {
      * @throws java.io.IOException
      */
     @SuppressWarnings("unchecked")
-    public void createTreeLinesRecurs(UITreePanel treepanel, UIComponent component, TreeNodeModel node, List<UIComponent> list) throws IOException {
+    private void createTreeLinesRecurs(UIAbstractTreePanel treepanel, UIComponent component, TreeNodeModel node, List<UIComponent> list) throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         UITreeLines treelines = null;
         TreeLayoutConfig config = new TreeLayoutConfig();
@@ -283,20 +186,20 @@ public class TreeLayoutUtils {
                 }
             }
             if (!currentNode.isLeaf()) {
-                treelines.setHaveTreelinesChildren(true);
+                treelines.setHasChildren(true);
                 createTreeLinesRecurs(treepanel, treelines, currentNode, list);
             }
-            component.getChildren().add(treelines);
+            treepanel.getChildren().add(treelines);
         }
 
     }
 
     /**
-     *
+     * 
      * @param component
      * @param news
      */
-   private void copyAttributes(UIComponent component, UIComponent news) {
+    private void copyAttributes(UIComponent component, UIComponent news) {
 
         Class newClasse = news.getClass();
         Class oldClasse = component.getClass();
@@ -339,7 +242,7 @@ public class TreeLayoutUtils {
                                 }
                             }
                         } catch (NoSuchMethodException ex) {
-                           // Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.INFO, null, ex.getMessage());
+                            //Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.INFO, null, ex.getMessage());
                             } catch (SecurityException ex) {
                             Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.SEVERE, null, ex);
                         }

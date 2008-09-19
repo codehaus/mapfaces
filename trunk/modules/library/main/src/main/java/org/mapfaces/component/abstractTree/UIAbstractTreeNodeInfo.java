@@ -17,20 +17,19 @@
 
 package org.mapfaces.component.abstractTree;
 
-import java.io.Serializable;
-import javax.faces.component.UIOutput;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 
 /**
  *
  * @author kevindelfour
  */
-public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Serializable {
+public abstract class UIAbstractTreeNodeInfo extends UITreeBase implements Cloneable {
 
     // =========== ATTRIBUTES ================================================== //
     private String header;
     private String hide;
-    private boolean debug;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -49,22 +48,13 @@ public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Seriali
         this.hide = hide;
     }
 
-    public boolean getDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
-
     // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[4];
+        Object values[] = new Object[3];
         values[0] = super.saveState(context);
         values[1] = getHeader();
         values[2] = getHide();
-        values[3] = getDebug();
         return values;
     }
 
@@ -74,15 +64,20 @@ public abstract class UIAbstractTreeNodeInfo extends UIOutput implements Seriali
         super.restoreState(context, values[0]);
         setHeader((String) values[1]);
         setHide((String) values[2]);
-        setDebug((Boolean)values[3]);
     }
 
+    public UIAbstractTreeNodeInfo getInstance() {
+        try {
+            return (UIAbstractTreeNodeInfo) this.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(UIAbstractTreeNodeInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     // =========== ABSTRACTS METHODS ================================== //
     @Override
     public abstract String getFamily();
 
     @Override
     public abstract String getRendererType();
-
-    
 }

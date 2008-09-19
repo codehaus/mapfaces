@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.treelayout.UIColumn;
 import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;

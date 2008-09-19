@@ -17,24 +17,22 @@
 
 package org.mapfaces.component.abstractTree;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
-import java.io.Serializable;
-import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 
 /**
  *
  * @author kevindelfour
  */
-public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInterface, Serializable {
+public abstract class UIAbstractTreeColumn extends UITreeBase implements AjaxInterface, Cloneable{
 
-    private boolean alreadyRender = false;
-    
-    // =========== ATTRIBUTES ================================================== //
+   // =========== ATTRIBUTES ================================================== //
     private String header;
     private String width;
-    private boolean debug;
+    private boolean alreadyRender = false;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -53,19 +51,6 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
         this.width = width;
     }
 
-      /**
-     * @return the debug
-     */
-    public boolean getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
     // =========== FONCTIONS ======================================== //
     public boolean isAlreadyRender() {
         return alreadyRender;
@@ -78,12 +63,11 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
     //Override methods
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[5];
+        Object values[] = new Object[4];
         values[0] = super.saveState(context);
         values[1] = isAlreadyRender();
         values[2] = getHeader();
         values[3] = getWidth();
-        values[4] = getDebug();
         return values;
     }
 
@@ -94,7 +78,6 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
         alreadyRender = (Boolean) values[1];
         header = ((String) values[2]);
         width = ((String) values[3]);
-        debug = ((Boolean) values[4]);
     }
 
     @Override
@@ -104,6 +87,14 @@ public abstract class UIAbstractTreeColumn extends UIOutput implements AjaxInter
         renderer.handleAjaxRequest(context, this);
     }
 
+    public UIAbstractTreeColumn getInstance() {
+        try {
+            return (UIAbstractTreeColumn) this.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(UIAbstractTreeColumn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     // =========== ABSTRACTS METHODS ================================== //
     @Override
     public abstract String getFamily();

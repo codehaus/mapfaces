@@ -3727,15 +3727,10 @@
             <name>length</name>
         </attribute>
     </tag>
-  <!-- =========== TREETABLE TAG ======================================== -->
+   <!-- =========== TREETABLE TAG ======================================== -->
     <tag>
         <name>TreeTable</name>
-        <description> org:treetable : This tag is used to create tree table on the page. The component is rendered as an
-            TreePanel component. UIColumn child components are responsible for rendering columns of the table. In these
-            columns you can put any type of component like input text box, output text, command button etc. org:column&gt;
-            tag is used to create column. There can be many column tags within dataTable tag. You can set header and footer 
-            in this table.
-        </description>
+        <description>Tree</description>
         <tag-class>org.mapfaces.taglib.tree.TreeTableTag</tag-class>
         <body-content>scriptless</body-content>
         <attribute>
@@ -3776,6 +3771,12 @@
             </deferred-value>
         </attribute>
         <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
             <name>width</name>
             <description>The width of this component in pixels (defaults to auto)</description>
             <required>false</required>
@@ -3795,7 +3796,7 @@
   <!-- =========== TREEPANEL TAG ======================================== -->
     <tag>
         <name>TreePanel</name>
-        <description> TreePanel is tree representation of the tree model used in treetable </description>
+        <description> TreePanel </description>
         <tag-class>org.mapfaces.taglib.tree.TreePanelTag</tag-class>
         <body-content>scriptless</body-content>
         <attribute>
@@ -3851,14 +3852,6 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-    <!--<attribute>
-            <name>height</name>
-            <description>The height of this component in pixels (defaults to auto)</description>
-            <required>false</required>
-            <deferred-value>
-                <type>int</type>
-            </deferred-value>
-        </attribute>-->
         <attribute>
             <name>rowId</name>
             <description>Enable to show rowId</description>
@@ -3884,19 +3877,11 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-    <!--<attribute>
-            <name>width</name>
-            <description>The width of this component in pixels (defaults to auto)</description>
-            <required>false</required>
-            <deferred-value>
-                <type>int</type>
-            </deferred-value>
-        </attribute>-->
     </tag>
   <!-- =========== TREECOLUMN TAG ======================================= -->
     <tag>
         <name>TreeColumn</name>
-        <description> Columns </description>
+        <description>TreeColumns</description>
         <tag-class>org.mapfaces.taglib.tree.TreeColumnTag</tag-class>
         <body-content>scriptless</body-content>
         <attribute>
@@ -3942,7 +3927,7 @@
             <description>The width of this component in pixels (defaults to auto)</description>
             <required>false</required>
             <deferred-value>
-                <type>int</type>
+                <type>java.lang.String</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -3987,61 +3972,11 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-    </tag>
-  <!-- =========== CHECKCOLUMN TAG ======================================== -->
-    <tag>
-        <name>CheckColumn</name>
-        <description>Check  Column </description>
-        <tag-class>org.mapfaces.taglib.tree.CheckColumnTag</tag-class>
-        <body-content>scriptless</body-content>
-        <attribute>
-            <name>id</name>
-            <rtexprvalue>true</rtexprvalue>
-            <required>true</required>
-        </attribute>
-        <attribute>
-            <name>binding</name>
-            <deferred-value>javax.faces.component.UIComponent</deferred-value>
-        </attribute>
-        <attribute>
-            <name>rendered</name>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
-            <name>debug</name>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
-            <name>header</name>
-            <required>false</required>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
+         <attribute>
             <name>icon</name>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
-            <name>value</name>
-            <description>The tree model value use for the component</description>
-            <required>true</required>
-            <deferred-value>
-                <type>java.lang.Object</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
-            <name>width</name>
-            <required>false</required>
-            <deferred-value>
-                <type>int</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -4055,7 +3990,7 @@
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
-            <required>true</required>
+            <required>false</required>
         </attribute>
         <attribute>
             <name>binding</name>
@@ -4072,7 +4007,7 @@
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
-        </attribute>        
+        </attribute>
         <attribute>
             <name>header</name>
             <required>false</required>
@@ -4088,7 +4023,8 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREELAYOUT TAG ======================================== -->
+  
+   <!-- =========== TREELAYOUT TAG ======================================== -->
     <tag>
         <name>TreeLayoutTable</name>
         <description> TreeLayout  </description>
@@ -4132,11 +4068,17 @@
             </deferred-value>
         </attribute>
         <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
             <name>width</name>
             <description>The width of this component in pixels (defaults to auto)</description>
             <required>false</required>
             <deferred-value>
-                <type>java.lang.Integer</type>
+                <type>int</type>
             </deferred-value>
         </attribute>
         <attribute>
@@ -4144,7 +4086,7 @@
             <description>The height of this component in pixels (defaults to auto)</description>
             <required>false</required>
             <deferred-value>
-                <type>java.lang.Integer</type>
+                <type>int</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -4321,6 +4263,13 @@
             </deferred-value>
         </attribute>
         <attribute>
+            <name>icon</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
             <name>width</name>
             <required>false</required>
             <deferred-value>
@@ -4361,7 +4310,7 @@
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
-        </attribute>
+        </attribute> 
         <attribute>
             <name>icon</name>
             <required>false</required>
@@ -4385,8 +4334,8 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREELINES TAG ======================================== -->
-  <!-- =========== TREENODEINFO TAG ===================================== -->
+  <!-- =========== TREELAYOUTLINES TAG ======================================== -->
+  <!-- =========== TREELAYOUTNODEINFO TAG ===================================== -->
     <tag>
         <name>TreeLayoutNodeInfo</name>
         <description> org:treenodeinfo </description>
@@ -4395,7 +4344,7 @@
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
-            <required>true</required>
+            <required>false</required>
         </attribute>
         <attribute>
             <name>binding</name>
@@ -4428,6 +4377,7 @@
             </deferred-value>
         </attribute>
     </tag>
+  
   <!-- =========== TABPANEL TAG ===================================== -->
     <tag>
         <name>TabPanel</name>

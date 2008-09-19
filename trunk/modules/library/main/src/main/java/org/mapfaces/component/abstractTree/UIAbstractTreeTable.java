@@ -18,25 +18,25 @@
 package org.mapfaces.component.abstractTree;
 
 import org.mapfaces.share.requestmap.RequestMapUtils;
-import java.io.Serializable;
 import java.util.Map;
-import javax.faces.component.UIComponentBase;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.component.StateHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.models.tree.TreeTableModel;
-import org.mapfaces.util.treetable.TreeTableUtils;
 
 /**
  *
  * @author kdelfour
  */
-public abstract class UIAbstractTreeTable extends UIComponentBase implements Serializable {
+public abstract class UIAbstractTreeTable extends UITreeBase implements StateHolder, Cloneable {
 
-    private TreeTableModel tree;
     private int nodeCount = 0;
     private int rowId = 0;
     private boolean RenderDefaultTree = true;
-
+    
     // =========== ATTRIBUTES ================================================== //
     private boolean debug;
     private int height;
@@ -81,8 +81,8 @@ public abstract class UIAbstractTreeTable extends UIComponentBase implements Ser
      * @param tree
      */
     public void setNodeCount(TreeTableModel tree) {
-        TreeTableUtils tabletools = new TreeTableUtils();
-        nodeCount = tabletools.getTreeNodeCount(tree);
+        TreeModelsUtils TreeModelsTools = new TreeModelsUtils();
+        nodeCount = TreeModelsTools.getTreeNodeCount(tree);
     }
 
     /**
@@ -135,40 +135,17 @@ public abstract class UIAbstractTreeTable extends UIComponentBase implements Ser
     public void setRenderDefaultTree(boolean aRenderDefaultTree) {
         RenderDefaultTree = aRenderDefaultTree;
     }
-
-    /**
-     * 
-     * @return
-     */
-    public TreeTableModel getTree() {
-        return tree;
-    }
-
-    /**
-     * 
-     * @param tree
-     */
-    public void setTree(TreeTableModel tree) {
-        this.tree = tree;
-    }
-
-    @Override
-    public abstract String getFamily();
-
-    @Override
-    public abstract String getRendererType();
-
+    // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[8];
+        Object values[] = new Object[7];
         values[0] = super.saveState(context);
-        values[1] = tree;
-        values[2] = nodeCount;
-        values[3] = rowId;
-        values[4] = RenderDefaultTree;
-        values[5] = getWidth();
-        values[6] = getHeight();
-        values[7] = getDebug();
+        values[1] = nodeCount;
+        values[2] = rowId;
+        values[3] = RenderDefaultTree;
+        values[4] = getWidth();
+        values[5] = getHeight();
+        values[6] = getDebug();
         return values;
     }
 
@@ -176,12 +153,26 @@ public abstract class UIAbstractTreeTable extends UIComponentBase implements Ser
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        tree = (TreeTableModel) values[1];
-        nodeCount = (Integer) values[2];
-        rowId = (Integer) values[3];
-        RenderDefaultTree = (Boolean) values[4];
-        width = (Integer) values[5];
-        height = (Integer) values[6];
-        debug = (Boolean) values[7];
+        nodeCount = (Integer) values[1];
+        rowId = (Integer) values[2];
+        RenderDefaultTree = (Boolean) values[3];
+        width = (Integer) values[4];
+        height = (Integer) values[5];
+        debug = (Boolean) values[6];
     }
+
+    public UIAbstractTreeNodeInfo getInstance() {
+        try {
+            return (UIAbstractTreeNodeInfo) this.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(UIAbstractTreeNodeInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    // =========== ABSTRACTS METHODS ================================== //
+    @Override
+    public abstract String getFamily();
+
+    @Override
+    public abstract String getRendererType();
 }

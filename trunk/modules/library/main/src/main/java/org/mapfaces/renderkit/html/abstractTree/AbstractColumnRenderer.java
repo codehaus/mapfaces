@@ -126,10 +126,12 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
         writer.writeAttribute("class", "x-tree-col", null);
-        writer.writeAttribute("style", "width:" + (size+2) + ";", null);
+        writer.writeAttribute("style", "width:" + size + ";", null);
         writer.startElement("div", component);
-        writer.writeAttribute("style", "", null);
-        
+        writer.writeAttribute("style", "padding-left:5px;", null);
+
+
+
         //Method to apply before encodeBegin
         if (debug) {
             log.info("afterEncodeBegin : " + AbstractColumnRenderer.class.getName());
@@ -346,15 +348,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
                 "});");
         writer.endElement("script");
     }
-
-    /**
-     * Extra fonction useful for layercontrol columns
-     * 
-     * 
-     * @param context
-     * @param comp
-     * @return
-     */
+    
     public String getVarId(FacesContext context, UIAbstractColumn comp) {
         if (((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().isLeaf()) {
             ((UIAbstractTreeLines) (comp.getParent())).setVarId(((Layer) (((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getId());
