@@ -17,7 +17,7 @@
 
 package org.mapfaces.renderkit.html;
 
-import adapter.owc.Adapter;
+import org.mapfaces.adapter.owc.Adapter;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
@@ -25,7 +25,6 @@ import javax.faces.context.FacesContext;
 import javax.swing.tree.DefaultTreeModel;
 import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UILayerControl;
-import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.layercontrol.UIVisibilityColumn;
@@ -114,7 +113,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         oc.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
         oc.setWidth("70");
 
-       /* UIElevationColumn ec = new UIElevationColumn();
+        /* UIElevationColumn ec = new UIElevationColumn();
         ec.setId("Elevation");
         ec.setValue("#{layer.userValueElevation}");
         ec.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
@@ -122,7 +121,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
         UITimeColumn tic = new UITimeColumn();
         tic.setId("Time");
-       // tic.setValue("#{layer.userValueDate}");
+        // tic.setValue("#{layer.userValueDate}");
         tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
         tic.setWidth("26");
 
