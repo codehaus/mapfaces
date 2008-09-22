@@ -183,7 +183,6 @@ public class Utils {
      */
     public static String getWrappedComponent(FacesContext faceContext, UIComponent component, Class c) {
         UIComponent parent = component;
-        System.out.println("C : " + c.toString());
         while (!(c.isInstance(parent))) {
             parent = parent.getParent();
         }
