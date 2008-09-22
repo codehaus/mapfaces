@@ -1,6 +1,6 @@
 package bean;
 
-import adapter.owc.Adapter;
+import org.mapfaces.adapter.owc.Adapter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
