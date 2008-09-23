@@ -1,4 +1,4 @@
-html, body, div, dl, dt, dd, ul, ol, li, h1 h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
     margin:0pt;
     padding:0pt;
 }
@@ -17,7 +17,9 @@ ol, ul {
 caption, th {
     text-align:left;
 }
-
+h1, h2, h3, h4, h5, h6 {
+    font-size:100%;
+}
 q:before, q:after {
     content:'';
 }
@@ -175,6 +177,7 @@ q:before, q:after {
 
 .x-tree .x-panel-body {
     background-color:#FFFFFF;
+    position :absolute;
 }
 .ext-strict .ext-ie .x-tree .x-panel-bwrap {
     overflow:hidden;
@@ -235,6 +238,10 @@ input.x-tree-node-cb {
 .ext-ie .x-tree-node-el input {
     height:15px;
     width:15px;
+}
+
+.x-tree-node-info-anchor{
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow.gif);
 }
 .x-tree-lines .x-tree-elbow {
     background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow.gif);
@@ -328,7 +335,7 @@ input.x-tree-node-cb {
     font-variant:normal;
     font-weight:normal;
     line-height:normal;
-    white-space:nowrap;
+    white-space:normal;
 }
 
 .x-tree-node-info {
@@ -567,10 +574,10 @@ input.x-tree-node-cb {
     line-height:0pt;
 }
 .x-panel-bwrap {
-    overflow:hidden;
+    
 }
 .x-panel-body {
-    overflow:hidden;
+
 }
 .x-panel-collapsed .x-resizable-handle {
     display:none;
@@ -607,7 +614,7 @@ input.x-tree-node-cb {
 
 .x-tree-col-text, .x-tree-hd-text {
     overflow:hidden;
-    padding:5px 5px 5px 5px;
+    padding:3px 3px 3px 5px;
     white-space: nowrap;
     height:1.2em;
     font:normal 11px arial, tahoma, helvetica, sans-serif;
