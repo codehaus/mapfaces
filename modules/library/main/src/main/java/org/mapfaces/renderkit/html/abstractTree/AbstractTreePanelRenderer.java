@@ -120,7 +120,19 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             String X_PANEL_HEADER_CLASS_STYLE = "x-panel-body x-panel-body-noheader";
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel:" + component.getClientId(context), null);
-            writer.writeAttribute("style", "z-index:0; background :#CCCCCC", null);
+            
+            String styleUser = "";
+            if (treepanel.getStyle() != null) {
+                styleUser = treepanel.getStyle();
+            }
+            writer.writeAttribute("style", "z-index:0; background :#CCCCCC;" + styleUser, null);
+            
+            if (treepanel.getStyleClass() != null) {
+                writer.writeAttribute("class", treepanel.getStyleClass(), null);
+            }
+
+
+
             //HEADER Attribute
             if ((component.getAttributes().get("header") != null) && ((Boolean) (component.getAttributes().get("header"))) || (component.getAttributes().get("header") == null)) {
                 //FRAME Attribute

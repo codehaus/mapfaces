@@ -104,13 +104,24 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
         String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
 
         UIAbstractTreePanel treetable = getForm(treenodeinfo);
+        String styleUser = "";
+        if (treenodeinfo.getStyle() !=null){
+            styleUser = treenodeinfo.getStyle();
+        }
+        
+        String classUser = "";
+        if (treenodeinfo.getStyleClass() !=null){
+            classUser = treenodeinfo.getStyleClass();
+        }
+        
         if (treetable != null) {
+            
             writer.startElement("div", treenodeinfo);
-            writer.writeAttribute("class", DESC_STYLE_CLASS, null);
+            writer.writeAttribute("class", DESC_STYLE_CLASS+" "+classUser, null);
             writer.writeAttribute("id", "info:" + treepanelId + ":" + node.getId(), null);
             if (treenodeinfo.getAttributes().get("hide") != null) {
                 if (!(Boolean) treenodeinfo.getAttributes().get("hide")) {
-                    writer.writeAttribute("style", "display:block;", null);
+                    writer.writeAttribute("style", "display:block;"+styleUser, null);
                 }
             } else {
                 writer.writeAttribute("style", "display:none;", null);

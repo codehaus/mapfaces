@@ -3727,7 +3727,7 @@
             <name>length</name>
         </attribute>
     </tag>
-   <!-- =========== TREETABLE TAG ======================================== -->
+  <!-- =========== TREETABLE TAG ======================================== -->
     <tag>
         <name>TreeTable</name>
         <description>Tree</description>
@@ -3790,6 +3790,24 @@
             <required>false</required>
             <deferred-value>
                 <type>int</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -3893,6 +3911,24 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREECOLUMN TAG ======================================= -->
     <tag>
@@ -3946,6 +3982,24 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== COLUMN TAG ======================================== -->
     <tag>
@@ -3995,6 +4049,24 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREELINES TAG ======================================== -->
   <!-- =========== TREENODEINFO TAG ===================================== -->
@@ -4034,6 +4106,24 @@
         <attribute>
             <name>hide</name>
             <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
@@ -4103,6 +4193,24 @@
             <required>false</required>
             <deferred-value>
                 <type>int</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -4206,6 +4314,24 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREELAYOUTTCOLUMN TAG ======================================= -->
     <tag>
@@ -4259,6 +4385,24 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== COLUMN TAG ======================================== -->
     <tag>
@@ -4304,6 +4448,24 @@
         <attribute>
             <name>width</name>
             <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
@@ -4365,6 +4527,24 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREELAYOUTLINES TAG ======================================== -->
   <!-- =========== TREELAYOUTNODEINFO TAG ===================================== -->
@@ -4404,6 +4584,24 @@
         <attribute>
             <name>hide</name>
             <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>

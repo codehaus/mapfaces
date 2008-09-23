@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib.treelayout;
 
 import javax.el.ValueExpression;
@@ -31,6 +30,8 @@ public class TreeColumnTag extends UIComponentELTag {
     private ValueExpression value = null;
     private ValueExpression width = null;
     private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
     private final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.TreeColumn";
     private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeColumn";
 
@@ -72,6 +73,22 @@ public class TreeColumnTag extends UIComponentELTag {
         this.debug = debug;
     }
 
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -79,6 +96,8 @@ public class TreeColumnTag extends UIComponentELTag {
         component.setValueExpression("value", getValue());
         component.setValueExpression("width", width);
         component.setValueExpression("debug", getDebug());
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     @Override
@@ -88,6 +107,8 @@ public class TreeColumnTag extends UIComponentELTag {
         setValue(null);
         setWidth(null);
         setDebug(null);
+        setStyle(null);
+        setStyleClass(null);
     }
 
     @Override

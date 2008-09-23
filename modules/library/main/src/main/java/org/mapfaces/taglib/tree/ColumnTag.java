@@ -27,10 +27,16 @@ import javax.faces.webapp.UIComponentELTag;
  */
 public class ColumnTag extends UIComponentELTag {
 
+    public static String getCOLUMN_COMP_TYPE() {
+        return COLUMN_COMP_TYPE;
+    }
+
     private ValueExpression header = null;
     private ValueExpression width = null;
     private ValueExpression icon = null;
     private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
     private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.Column";
     private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLColumn";
 
@@ -86,6 +92,22 @@ public class ColumnTag extends UIComponentELTag {
         this.debug = debug;
     }
 
+     public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+    
+     public ValueExpression getStyle() {
+        return style;
+    }
+
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+    
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -93,6 +115,8 @@ public class ColumnTag extends UIComponentELTag {
         component.setValueExpression("width", getWidth());
         component.setValueExpression("icon", getIcon());
         component.setValueExpression("debug", getDebug());
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     @Override
@@ -102,15 +126,19 @@ public class ColumnTag extends UIComponentELTag {
         setWidth(null);
         setIcon(null);
         setDebug(null);
+        setStyle(null);
+        setStyleClass(null);
     }
 
     @Override
     public String getComponentType() {
-        return COLUMN_COMP_TYPE;
+        return getCOLUMN_COMP_TYPE();
     }
 
     @Override
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;
     }
+
+   
 }

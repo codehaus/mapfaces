@@ -26,8 +26,6 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class TreeModelsUtils {
 
-    private int count = 0;
-
     /**
      * Get a count of treenode in a treetable
      * @param tree a TreeTableModel to explore
@@ -70,6 +68,7 @@ public class TreeModelsUtils {
      */
     public TreeTableModel transformTree(DefaultTreeModel tree) {
         DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
+        int count = 0;
 
         if (initial_root.getUserObject() == null) {
             initial_root.setUserObject("NoValue");
@@ -83,7 +82,7 @@ public class TreeModelsUtils {
                 TreeNodeModel leaf = transformNode((DefaultMutableTreeNode) initial_root.getChildAt(i), count, depthnode, count);
                 root.add(leaf);
             } else {
-                root.add(sstransformTree(root, (DefaultMutableTreeNode) initial_root.getChildAt(i)));
+                root.add(sstransformTree(root, (DefaultMutableTreeNode) initial_root.getChildAt(i), count));
             }
         }
 
@@ -91,13 +90,13 @@ public class TreeModelsUtils {
         return treetablemodel;
     }
 
-    private TreeNodeModel sstransformTree(TreeNodeModel parent, DefaultMutableTreeNode node) {
+    private TreeNodeModel sstransformTree(TreeNodeModel parent, DefaultMutableTreeNode node, int count) {
         count++;
         TreeNodeModel leaf = transformNode(node, count, parent.getDepth() + 1, count);
 
         if (!node.isLeaf()) {
             for (int i = 0; i < node.getChildCount(); i++) {
-                leaf.add(sstransformTree(leaf, (DefaultMutableTreeNode) node.getChildAt(i)));
+                leaf.add(sstransformTree(leaf, (DefaultMutableTreeNode) node.getChildAt(i), count));
             }
         }
 
