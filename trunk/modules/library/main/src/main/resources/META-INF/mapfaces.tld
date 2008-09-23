@@ -3877,6 +3877,14 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>showRoot</name>
+            <description>False to disable root render</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREECOLUMN TAG ======================================= -->
     <tag>
@@ -4172,6 +4180,14 @@
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>showRoot</name>
+            <description>False to disable root render</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
             </deferred-value>
         </attribute>
     </tag>

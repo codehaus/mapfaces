@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component.abstractTree;
 
 import java.util.logging.Level;
@@ -28,7 +27,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  *
  * @author kdelfour
  */
-public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInterface, Cloneable {
+public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInterface, Cloneable {
 
     private boolean init = false;
     private boolean TREEPANEL_EXPAND_ALL = true;
@@ -41,6 +40,7 @@ public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInt
     private String height;
     private boolean rowId;
     private boolean showLines;
+    private boolean showRoot;
     private String title;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
@@ -108,6 +108,14 @@ public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInt
         this.showLines = showLines;
     }
 
+    public boolean isShowRoot() {
+        return showRoot;
+    }
+
+    public void setShowRoot(boolean showRoot) {
+        this.showRoot = showRoot;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -143,7 +151,7 @@ public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInt
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[12];
+        Object values[] = new Object[13];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCheck();
@@ -156,6 +164,7 @@ public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInt
         values[9] = getTitle();
         values[10] = isInit();
         values[11] = getView();
+        values[12] = isShowRoot();
         return values;
     }
 
@@ -174,6 +183,7 @@ public abstract class UIAbstractTreePanel  extends UITreeBase implements AjaxInt
         setTitle((String) values[9]);
         setInit((Boolean) values[10]);
         setView((TreeTableModel) values[11]);
+        setShowRoot((Boolean) values[12]);
     }
 
     @Override

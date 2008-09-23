@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -136,87 +135,88 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             }
         }
 
-        TreeNodeModel root = treepanel.getView().getRoot();
-        if (node.getParent().equals(root)) {
-            writer.startElement("ul", component);
-            writer.writeAttribute("id", "ul:" + treepanelId + ":0", null);
-            writer.startElement("div", treeline);
-            writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
-            writer.writeAttribute("class", "droppable", null);
+        if (treeline.isToRender()) {
+            TreeNodeModel root = treepanel.getView().getRoot();
+            if (node.getParent().equals(root)) {
+                writer.startElement("ul", component);
+                writer.writeAttribute("id", "ul:" + treepanelId + ":0", null);
+                writer.startElement("div", treeline);
+                writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
+                writer.writeAttribute("class", "droppable", null);
+                writer.writeAttribute("name", treeline.getId(), null);
+                writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                writer.writeAttribute("dest", "ul:" + treepanelId + ":0", null);
+                writer.writeAttribute("pos", node.getId(), null);
+                writer.writeAttribute("depth", node.getDepth() + 1, null);
+                writer.writeAttribute("where", "firstitem", null);
+                writer.endElement("div");
+            }
+
+            writer.startElement("div", component);
+            writer.writeAttribute("id", "line:" + treepanelId + ":" + node.getId(), null);
             writer.writeAttribute("name", treeline.getId(), null);
+            writer.writeAttribute("parent", treepanel.getId(), null);
+            writer.writeAttribute("depth", node.getDepth(), null);
+
+            //First zone to drop : before the folder with the same depth or before a node item
+            writer.startElement("div", treeline);
+            writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":before", null);
+            writer.writeAttribute("class", "droppable", null);
             writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
-            writer.writeAttribute("dest", "ul:" + treepanelId + ":0", null);
+            writer.writeAttribute("where", "before", null);
+            writer.writeAttribute("name", treeline.getId(), null);
             writer.writeAttribute("pos", node.getId(), null);
-            writer.writeAttribute("depth", node.getDepth() + 1, null);
-            writer.writeAttribute("where", "firstitem", null);
             writer.endElement("div");
-        }
-
-        writer.startElement("div", component);
-        writer.writeAttribute("id", "line:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("name", treeline.getId(), null);
-        writer.writeAttribute("parent", treepanel.getId(), null);
-        writer.writeAttribute("depth", node.getDepth(), null);
-
-        //First zone to drop : before the folder with the same depth or before a node item
-        writer.startElement("div", treeline);
-        writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":before", null);
-        writer.writeAttribute("class", "droppable", null);
-        writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
-        writer.writeAttribute("where", "before", null);
-        writer.writeAttribute("name", treeline.getId(), null);
-        writer.writeAttribute("pos", node.getId(), null);
-        writer.endElement("div");
 
 
-        writer.startElement("li", component);
-        writer.writeAttribute("id", "li:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("depth", node.getDepth(), null);
-        writer.writeAttribute("class", CLASS_NODE_LI + " " + classStyle, null);
-        writer.writeAttribute("pos", node.getId(), null);
-        writer.writeAttribute("name", treeline.getId(), null);
+            writer.startElement("li", component);
+            writer.writeAttribute("id", "li:" + treepanelId + ":" + node.getId(), null);
+            writer.writeAttribute("depth", node.getDepth(), null);
+            writer.writeAttribute("class", CLASS_NODE_LI + " " + classStyle, null);
+            writer.writeAttribute("pos", node.getId(), null);
+            writer.writeAttribute("name", treeline.getId(), null);
 
-        if (isFolder) {
-            writer.writeAttribute("style", "position:relative;", null);
-        } else {
-            writer.writeAttribute("style", "background : #BBBBBB; position:absolute;", null);
-        }
+            if (isFolder) {
+                writer.writeAttribute("style", "position:relative;", null);
+            } else {
+                writer.writeAttribute("style", "background : #BBBBBB; position:absolute;", null);
+            }
 
-        if (treepanel.getAttributes().get("check") != null) {
-            if ((Boolean) treepanel.getAttributes().get("check")) {
-                writer.startElement("div", component);
-                writer.writeAttribute("style", "width: 30px;  margin-left: 5px; margin-top:3px; ", null);
-                writer.writeAttribute("class", CLASS_LEAF_DIV, null);
-                writer.startElement("input", component);
-                writer.writeAttribute("id", "check:" + node.getId(), null);
-                writer.writeAttribute("type", "checkbox", null);
-                if (node.isChecked()) {
-                    writer.writeAttribute("checked", "true", null);
+            if (treepanel.getAttributes().get("check") != null) {
+                if ((Boolean) treepanel.getAttributes().get("check")) {
+                    writer.startElement("div", component);
+                    writer.writeAttribute("style", "width: 30px;  margin-left: 5px; margin-top:3px; ", null);
+                    writer.writeAttribute("class", CLASS_LEAF_DIV, null);
+                    writer.startElement("input", component);
+                    writer.writeAttribute("id", "check:" + node.getId(), null);
+                    writer.writeAttribute("type", "checkbox", null);
+                    if (node.isChecked()) {
+                        writer.writeAttribute("checked", "true", null);
+                    }
+                    /*
+                     * Writing ajax request
+                     */
+                    writer.writeAttribute("onchange", "viewstate = document.getElementById('javax.faces.ViewState').value;" + Request, null);
+                    writer.endElement("input");
+                    writer.endElement("div");
                 }
-                /*
-                 * Writing ajax request
-                 */
-                writer.writeAttribute("onchange", "viewstate = document.getElementById('javax.faces.ViewState').value;" + Request, null);
-                writer.endElement("input");
-                writer.endElement("div");
             }
-        }
 
-        if (treepanel.getAttributes().get("rowId") != null) {
-            if ((Boolean) treepanel.getAttributes().get("rowId")) {
-                writer.startElement("div", component);
-                writer.writeAttribute("style", "width: 30px;  margin-left: 5px;", null);
-                writer.writeAttribute("class", CLASS_LEAF_DIV, null);
-                writer.write(node.getId() + "");
-                writer.endElement("div");
+            if (treepanel.getAttributes().get("rowId") != null) {
+                if ((Boolean) treepanel.getAttributes().get("rowId")) {
+                    writer.startElement("div", component);
+                    writer.writeAttribute("style", "width: 30px;  margin-left: 5px;", null);
+                    writer.writeAttribute("class", CLASS_LEAF_DIV, null);
+                    writer.write(node.getId() + "");
+                    writer.endElement("div");
+                }
             }
-        }
 
-        if (debug) {
-            log.info("afterEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
+            if (debug) {
+                log.info("afterEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
+            }
+            afterEncodeBegin(context, component);
         }
-        afterEncodeBegin(context, component);
-
     }
 
     @Override
@@ -236,9 +236,11 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         Boolean isFolder = !(node.isLeaf());
 
         List<UIComponent> children = treeline.getChildren();
-        for (UIComponent tmp : children) {
-            if (!tmp.getFamily().equals(treeline.getFamily())) {
-                Utils.encodeRecursive(context, tmp);
+        if (treeline.isToRender()) {
+            for (UIComponent tmp : children) {
+                if (!tmp.getFamily().equals(treeline.getFamily())) {
+                    Utils.encodeRecursive(context, tmp);
+                }
             }
         }
         if (isFolder) {
@@ -289,65 +291,44 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
         TreeNodeModel node = treeline.getNodeInstance();
 
-
-
-
-
-
         if (debug) {
             log.info("encodeEnd : " + AbstractTreeLinesRenderer.class.getName());
         }
         ResponseWriter writer = context.getResponseWriter();
         Boolean isFolder = !(node.isLeaf());
 
-        writer.startElement("div", treeline);
-        writer.writeAttribute(
-                "class", "x-clear", null);
-        writer.endElement(
-                "div");
+        if (treeline.isToRender()) {
+            writer.startElement("div", treeline);
+            writer.writeAttribute("class", "x-clear", null);
+            writer.endElement("div");
+            writer.endElement("li");
 
-        writer.endElement(
-                "li");
+            writer.startElement("script", component);
+            writer.write(addLinesEvent(context, component));
+            writer.endElement("script");
 
-        writer.startElement(
-                "script", component);
-        writer.write(addLinesEvent(context, component));
-        writer.endElement(
-                "script");
+            writer.startElement("div", treeline);
+            writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":after", null);
+            writer.writeAttribute("class", "droppable", null);
+            writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+            writer.writeAttribute("name", treeline.getId(), null);
+            writer.writeAttribute("where", "after", null);
+            writer.writeAttribute("pos", node.getId(), null);
+            writer.endElement("div");
 
+            writer.endElement("div");
 
-        writer.startElement(
-                "div", treeline);
-        writer.writeAttribute(
-                "id", "dnd:" + treepanelId + ":" + node.getId() + ":after", null);
-        writer.writeAttribute(
-                "class", "droppable", null);
-        writer.writeAttribute(
-                "style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
-        writer.writeAttribute(
-                "name", treeline.getId(), null);
-        writer.writeAttribute(
-                "where", "after", null);
-        writer.writeAttribute(
-                "pos", node.getId(), null);
-        writer.endElement(
-                "div");
+            TreeNodeModel root = treepanel.getView().getRoot();
 
-        writer.endElement(
-                "div");
+            if (node.getParent().equals(root)) {
+                writer.endElement("ul");
+            }
+            if (debug) {
+                log.info("afterEncodeEnd : " + AbstractTreeLinesRenderer.class.getName());
+            }
 
-        TreeNodeModel root = treepanel.getView().getRoot();
-
-
-
-        if (node.getParent().equals(root)) {
-            writer.endElement("ul");
+            afterEncodeEnd(context, component);
         }
-        if (debug) {
-            log.info("afterEncodeEnd : " + AbstractTreeLinesRenderer.class.getName());
-        }
-
-        afterEncodeEnd(context, component);
     }
 
     @Override

@@ -134,7 +134,7 @@ public class TreeLayoutUtils {
                 String id = treepanel.getId() + "_" + "line_" + String.valueOf(currentNode.getId());
                 treelines.setId(id);
                 treelines.setNodeInstance(currentNode);
-
+                treelines.setToRender(true);
                 List<UIComponent> tocopy = duplicate(list, currentNode);
 
                 treelines.getChildren().addAll(tocopy);
@@ -174,7 +174,7 @@ public class TreeLayoutUtils {
 
             treelines.setId(id);
             treelines.setNodeInstance(currentNode);
-
+            treelines.setToRender(true);
 
             List<UIComponent> tocopy = duplicate(list, currentNode);
             treelines.getChildren().addAll(tocopy);
