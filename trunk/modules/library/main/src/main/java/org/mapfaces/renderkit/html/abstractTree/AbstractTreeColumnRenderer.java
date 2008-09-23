@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import javax.el.ValueExpression;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
+import javax.faces.component.html.HtmlOutputText;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -222,8 +222,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 valueToWrite = (node.getText());
             }
             HtmlOutputLabel LinkNodeLabel = new HtmlOutputLabel();
-            LinkNodeLabel.setValue(valueToWrite);
-            LinkNode.getChildren().add(LinkNodeLabel);
+            HtmlOutputText LinkNodeText = new HtmlOutputText();
+            LinkNodeText.setValue(valueToWrite);
+            LinkNode.getChildren().add(LinkNodeText);
+            LinkNode.setStyle("position:relative;width:auto;white-space:normal;");
 
             HtmlGraphicImage ImgTreeNodeInfo = new HtmlGraphicImage();
             List<UIComponent> columns = treeline.getChildren();
@@ -250,7 +252,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             component.getChildren().add(1, ImgNodeRep);
             component.getChildren().add(2, ImgNodeIcon);
             component.getChildren().add(3, LinkNode);
-            if (treenodeinfo) component.getChildren().add(component.getChildCount(), ImgTreeNodeInfo);
+            if (treenodeinfo) {
+                component.getChildren().add(component.getChildCount(), ImgTreeNodeInfo);
+            }
             ImgNodeRep.getChildren().add(AjaxSupport);
             ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
             ((UIAbstractTreeColumn) component).setAlreadyRender(true);
