@@ -43,6 +43,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     private boolean showLines;
     private boolean showRoot;
     private String title;
+    private String styleLeaf;
+    private String styleNode;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getBorder() {
@@ -158,9 +160,25 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         this.view = View;
     }
 
+    public String getStyleLeaf() {
+        return styleLeaf;
+    }
+
+    public void setStyleLeaf(String styleLeaf) {
+        this.styleLeaf = styleLeaf;
+    }
+
+    public String getStyleNode() {
+        return styleNode;
+    }
+
+    public void setStyleNode(String styleNode) {
+        this.styleNode = styleNode;
+    }
+
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[14];
+        Object values[] = new Object[16];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCheck();
@@ -175,6 +193,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         values[11] = getView();
         values[12] = isShowRoot();
         values[13] = isEnableDragDrop();
+        values[14] = getStyleLeaf();
+        values[15] = getStyleNode();
         return values;
     }
 
@@ -195,6 +215,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         setView((TreeTableModel) values[11]);
         setShowRoot((Boolean) values[12]);
         setEnableDragDrop((Boolean) values[13]);
+        setStyleLeaf((String)values[14]);
+        setStyleNode((String)values[15]);
     }
 
     @Override

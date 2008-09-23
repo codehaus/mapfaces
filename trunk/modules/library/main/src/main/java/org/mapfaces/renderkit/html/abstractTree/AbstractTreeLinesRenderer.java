@@ -181,13 +181,25 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             writer.writeAttribute("pos", node.getId(), null);
             writer.writeAttribute("name", treeline.getId(), null);
 
+            String styleLeafUser= "";
+            if (treepanel.getStyleLeaf() !=null){
+                styleLeafUser = treepanel.getStyleLeaf();
+            }
+            
+            String styleNodeUser = "";
+            if (treepanel.getStyleNode() !=null){
+                styleNodeUser = treepanel.getStyleNode();
+            }
             if (isFolder) {
-                writer.writeAttribute("style", "position:relative;", null);
+                writer.writeAttribute("style", "position:relative;"+styleNodeUser, null);
             } else {
                 if (treepanel.isEnableDragDrop()) {
-                    writer.writeAttribute("style", "background : white; position:absolute;", null);
+                    writer.writeAttribute("style", "background : white; position:absolute;"+styleLeafUser, null);
+                }else{
+                    writer.writeAttribute("style", "position:relative;"+styleLeafUser, null);
                 }
             }
+            
 
             if (treepanel.getAttributes().get("check") != null) {
                 if ((Boolean) treepanel.getAttributes().get("check")) {

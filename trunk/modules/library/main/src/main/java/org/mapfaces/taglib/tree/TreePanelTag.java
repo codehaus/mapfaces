@@ -43,8 +43,10 @@ public class TreePanelTag extends UIComponentELTag {
     private ValueExpression title = null;
     private ValueExpression width = null;
     private ValueExpression debug = null;
-     private ValueExpression style = null;
+    private ValueExpression style = null;
     private ValueExpression styleClass = null;
+    private ValueExpression styleLeaf = null;
+    private ValueExpression styleNode = null;
     private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treetable.TreePanel";
     private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreePanel";
 
@@ -185,7 +187,23 @@ public class TreePanelTag extends UIComponentELTag {
     public void setStyleClass(ValueExpression styleClass) {
         this.styleClass = styleClass;
     }
-    
+
+    public ValueExpression getStyleLeaf() {
+        return styleLeaf;
+    }
+
+    public void setStyleLeaf(ValueExpression styleLeaf) {
+        this.styleLeaf = styleLeaf;
+    }
+
+    public ValueExpression getStyleNode() {
+        return styleNode;
+    }
+
+    public void setStyleNode(ValueExpression styleNode) {
+        this.styleNode = styleNode;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -213,8 +231,10 @@ public class TreePanelTag extends UIComponentELTag {
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("showRoot", showRoot);
         component.setValueExpression("enableDragDrop", enableDragDrop);
-         component.setValueExpression("style", getStyle());
+        component.setValueExpression("style", getStyle());
         component.setValueExpression("styleClass", getStyle());
+        component.setValueExpression("styleLeaf", getStyleLeaf());
+        component.setValueExpression("styleNode", getStyleNode());
     }
 
     @Override
@@ -235,5 +255,8 @@ public class TreePanelTag extends UIComponentELTag {
         setEnableDragDrop(null);
         setStyle(null);
         setStyleClass(null);
+        setStyleLeaf(null);
+        setStyleNode(null);
+
     }
 }
