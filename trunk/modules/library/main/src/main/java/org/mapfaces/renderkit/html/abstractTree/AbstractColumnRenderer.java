@@ -117,16 +117,27 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         ResponseWriter writer = context.getResponseWriter();
 
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
+        UIAbstractColumn column = (UIAbstractColumn) component;
         TreeNodeModel node = treeline.getNodeInstance();
 
         String size = config.getDEFAULT_SIZE_COLUMN();
         if (component.getAttributes().get("width") != null) {
             size = String.valueOf(Integer.parseInt((String) component.getAttributes().get("width"))+2) + "px";
         }
+        
+        String styleUser="";
+        if (column.getStyle()!=null){
+            styleUser = column.getStyle();
+        }
+        
+        String classUser="";
+        if (column.getStyleClass() != null){
+            classUser = column.getStyleClass();
+        }
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
-        writer.writeAttribute("class", "x-tree-col", null);
-        writer.writeAttribute("style", "width:" + size + ";", null);
+        writer.writeAttribute("class", "x-tree-col "+classUser, null);
+        writer.writeAttribute("style", "width:" + size + ";"+styleUser, null);
         writer.startElement("div", component);
         writer.writeAttribute("style", "padding-left:5px;", null);
 

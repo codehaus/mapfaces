@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -167,7 +166,17 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
 
         writer.startElement("div", component);
         writer.writeAttribute("id", "treetable:" + component.getClientId(context), null);
-        writer.writeAttribute("style", width + ";" + height + ";", null);
+        String styleUser = "";
+        if (treetable.getStyle() != null) {
+            styleUser = treetable.getStyle();
+        }
+        writer.writeAttribute("style", width + ";" + height + ";" + styleUser, null);
+        
+        if (treetable.getStyleClass() != null) {
+            writer.writeAttribute("class", treetable.getStyleClass(), null);
+        }
+        
+
 
         if (debug) {
             log.info("afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
@@ -217,12 +226,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         AjaxUtils ajaxtools = new AjaxUtils();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String AJAX_SERVER = ajaxtools.getAjaxServer(request);
-        
+
         writer.endElement("div");
         writer.endElement("div");
         writer.startElement("input", component);
         writer.writeAttribute("type", "hidden", null);
-        writer.writeAttribute("value",AJAX_SERVER,null);
+        writer.writeAttribute("value", AJAX_SERVER, null);
         writer.writeAttribute("id", "ajax.server.request.URL", null);
         writer.writeAttribute("name", "ajax.server.request.URL", null);
         writer.endElement("div");

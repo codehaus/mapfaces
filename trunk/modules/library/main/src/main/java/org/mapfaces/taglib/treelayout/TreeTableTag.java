@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib.treelayout;
 
 import java.util.Map;
@@ -35,6 +34,8 @@ public class TreeTableTag extends UIComponentELTag {
     private ValueExpression width = null;
     private ValueExpression height = null;
     private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
     private final String TREETABLE_COMP_TYPE = "org.mapfaces.treelayout.TreeTable";
     private final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeTable";
 
@@ -89,6 +90,22 @@ public class TreeTableTag extends UIComponentELTag {
         this.debug = debug;
     }
 
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+
     @Override
     public String getComponentType() {
         return TREETABLE_COMP_TYPE;
@@ -107,6 +124,8 @@ public class TreeTableTag extends UIComponentELTag {
         component.setValueExpression("width", width);
         component.setValueExpression("height", height);
         component.setValueExpression("debug", getDebug());
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     @Override
@@ -118,6 +137,8 @@ public class TreeTableTag extends UIComponentELTag {
         setWidth(null);
         setHeight(null);
         setDebug(null);
+        setStyle(null);
+        setStyleClass(null);
     }
 }
 

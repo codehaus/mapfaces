@@ -16,6 +16,8 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
 
     private TreeTableModel tree;
     private boolean debug;
+    private String style;
+    private String styleClass;
 
     public TreeTableModel getTree() {
         return tree;
@@ -32,14 +34,32 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
+    
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
+    }
 
     // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+        Object values[] = new Object[5];
         values[0] = super.saveState(context);
         values[1] = isDebug();
         values[2] = getTree();
+        values[3] = getStyle();
+        values[4] = getStyleClass();
         return values;
     }
 
@@ -49,6 +69,8 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
         super.restoreState(context, values[0]);
         setDebug((Boolean) values[1]);
         setTree((TreeTableModel) values[2]);
+        setStyle((String) values[3]);
+         setStyleClass((String) values[4]);
     }
 
     @Override

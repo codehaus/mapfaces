@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib.treelayout;
 
 import javax.el.ValueExpression;
@@ -30,6 +29,8 @@ public class TreeNodeInfoTag extends UIComponentELTag {
     private ValueExpression header = null;
     private ValueExpression hide = null;
     private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
     private final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.TreeNodeInfo";
     private final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeNodeInfo";
 
@@ -63,12 +64,30 @@ public class TreeNodeInfoTag extends UIComponentELTag {
         this.debug = debug;
     }
 
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("header", getHeader());
         component.setValueExpression("hide", getHide());
         component.setValueExpression("debug", getDebug());
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     @Override
@@ -77,6 +96,8 @@ public class TreeNodeInfoTag extends UIComponentELTag {
         setHeader(null);
         setHide(null);
         setDebug(null);
+        setStyle(null);
+        setStyleClass(null);
     }
 
     @Override

@@ -38,6 +38,8 @@ public class TreePanelTag extends UIComponentELTag {
     private ValueExpression showRoot = null;
     private ValueExpression title = null;
     private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
     private final String TREEPANEL_COMP_TYPE = "org.mapfaces.treelayout.treetable.TreePanel";
     private final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.HTMLTreePanel";
 
@@ -155,6 +157,22 @@ public class TreePanelTag extends UIComponentELTag {
         this.enableDragDrop = enableDragDrop;
     }
 
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -170,6 +188,8 @@ public class TreePanelTag extends UIComponentELTag {
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("showRoot", showRoot);
         component.setValueExpression("enableDragDrop", enableDragDrop);
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     @Override
@@ -187,5 +207,7 @@ public class TreePanelTag extends UIComponentELTag {
         setDebug(null);
         setShowRoot(null);
         setEnableDragDrop(null);
+        setStyle(null);
+        setStyleClass(null);
     }
 }
