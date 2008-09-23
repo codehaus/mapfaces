@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib.treelayout;
 
 import javax.el.ValueExpression;
@@ -35,6 +34,7 @@ public class TreePanelTag extends UIComponentELTag {
     private ValueExpression height = null;
     private ValueExpression rowId = null;
     private ValueExpression showLines = null;
+    private ValueExpression showRoot = null;
     private ValueExpression title = null;
     private ValueExpression debug = null;
     private final String TREEPANEL_COMP_TYPE = "org.mapfaces.treelayout.treetable.TreePanel";
@@ -138,6 +138,14 @@ public class TreePanelTag extends UIComponentELTag {
         this.debug = debug;
     }
 
+    public ValueExpression getShowRoot() {
+        return showRoot;
+    }
+
+    public void setShowRoot(ValueExpression showRoot) {
+        this.showRoot = showRoot;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -151,6 +159,7 @@ public class TreePanelTag extends UIComponentELTag {
         component.setValueExpression("showLines", showLines);
         component.setValueExpression("title", title);
         component.setValueExpression("debug", getDebug());
+        component.setValueExpression("showRoot", showRoot);
     }
 
     @Override
@@ -166,5 +175,6 @@ public class TreePanelTag extends UIComponentELTag {
         setShowLines(null);
         setTitle(null);
         setDebug(null);
+        setShowRoot(null);
     }
 }

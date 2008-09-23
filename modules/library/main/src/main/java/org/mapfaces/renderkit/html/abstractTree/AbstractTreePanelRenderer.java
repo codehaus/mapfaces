@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -268,6 +267,10 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         TreeNodeModel root = tree.getRoot();
         for (int i = 0; i < root.getChildCount(); i++) {
             TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
+            if (!treepanel.isShowRoot()) {
+                ((UIAbstractTreeLines) (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId()))).setToRender(false);
+            }
+
             Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
         }
     }
@@ -362,7 +365,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         if (Position.equals("lastitem")) {
             position = treeLinesToDrag.getNodeInstance().getChildCount();
-            tree = treeTools.moveTo(tree, movedNode, targetNode, position+1);
+            tree = treeTools.moveTo(tree, movedNode, targetNode, position + 1);
         } else if (Position.equals("before")) {
             tree = treeTools.insertBefore(tree, movedNode, targetNode);
         } else if (Position.equals("after")) {

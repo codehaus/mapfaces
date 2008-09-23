@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.util.treetable;
 
 import org.mapfaces.share.requestmap.RequestMapUtils;
@@ -44,7 +43,7 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TreeTableUtils {
 
-  /**
+    /**
      * Duplicate method to clone a list Of UIComponent with specified value from
      * a TreeNodeModel
      * @param list a list to make copy of UIComponent to clone
@@ -135,7 +134,7 @@ public class TreeTableUtils {
                 String id = treepanel.getId() + "_" + "line_" + String.valueOf(currentNode.getId());
                 treelines.setId(id);
                 treelines.setNodeInstance(currentNode);
-
+                treelines.setToRender(true);
                 List<UIComponent> tocopy = duplicate(list, currentNode);
 
                 treelines.getChildren().addAll(tocopy);
@@ -179,6 +178,7 @@ public class TreeTableUtils {
 
             List<UIComponent> tocopy = duplicate(list, currentNode);
             treelines.getChildren().addAll(tocopy);
+            treelines.setToRender(true);
 
             if (!treepanel.isInit()) {
                 if (node.getDepth() > config.getDEFAULT_DEPTH_VIEW()) {
