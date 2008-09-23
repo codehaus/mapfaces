@@ -35,6 +35,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     private String border;
     private boolean check;
     private boolean collapsible;
+    private boolean enableDragDrop;
     private boolean frame;
     private boolean header;
     private String height;
@@ -124,6 +125,14 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         this.title = title;
     }
 
+    public boolean isEnableDragDrop() {
+        return enableDragDrop;
+    }
+
+    public void setEnableDragDrop(boolean enableDragDrop) {
+        this.enableDragDrop = enableDragDrop;
+    }
+
     // =========== FONCTIONS ======================================== //
     public boolean isTREEPANEL_EXPAND_ALL() {
         return TREEPANEL_EXPAND_ALL;
@@ -151,7 +160,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[13];
+        Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCheck();
@@ -165,6 +174,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         values[10] = isInit();
         values[11] = getView();
         values[12] = isShowRoot();
+        values[13] = isEnableDragDrop();
         return values;
     }
 
@@ -184,6 +194,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         setInit((Boolean) values[10]);
         setView((TreeTableModel) values[11]);
         setShowRoot((Boolean) values[12]);
+        setEnableDragDrop((Boolean) values[13]);
     }
 
     @Override

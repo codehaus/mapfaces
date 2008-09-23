@@ -33,6 +33,7 @@ public class TreePanelTag extends UIComponentELTag {
     private ValueExpression border = null;
     private ValueExpression check = null;
     private ValueExpression collapsible = null;
+    private ValueExpression enableDragDrop = null;
     private ValueExpression frame = null;
     private ValueExpression header = null;
     private ValueExpression height = null;
@@ -159,6 +160,14 @@ public class TreePanelTag extends UIComponentELTag {
         this.showRoot = showRoot;
     }
 
+    public ValueExpression getEnableDragDrop() {
+        return enableDragDrop;
+    }
+
+    public void setEnableDragDrop(ValueExpression enableDragDrop) {
+        this.enableDragDrop = enableDragDrop;
+    }
+
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -185,6 +194,7 @@ public class TreePanelTag extends UIComponentELTag {
         component.setValueExpression("width", width);
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("showRoot", showRoot);
+        component.setValueExpression("enableDragDrop", enableDragDrop);
     }
 
     @Override
@@ -202,5 +212,6 @@ public class TreePanelTag extends UIComponentELTag {
         setWidth(null);
         setDebug(null);
         setShowRoot(null);
+        setEnableDragDrop(null);
     }
 }
