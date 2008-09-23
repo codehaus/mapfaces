@@ -124,14 +124,16 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         String Request = ajaxtools.getRequestJs("get", AJAX_SERVER, AJAX_PARAMETERS);
 
         Boolean isFolder = !(node.isLeaf());
-        String classStyle;
-        if (!isFolder) {
-            classStyle = "dragable";
-        } else {
-            if (node.getId() > 2) {
-                classStyle = "droppable";
+        String classStyle = "";
+        if (treepanel.isEnableDragDrop()) {
+            if (!isFolder) {
+                classStyle = "dragable";
             } else {
-                classStyle = "droppable locked";
+                if (node.getId() > 2) {
+                    classStyle = "droppable";
+                } else {
+                    classStyle = "droppable locked";
+                }
             }
         }
 
@@ -140,16 +142,18 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             if (node.getParent().equals(root)) {
                 writer.startElement("ul", component);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":0", null);
-                writer.startElement("div", treeline);
-                writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
-                writer.writeAttribute("class", "droppable", null);
-                writer.writeAttribute("name", treeline.getId(), null);
-                writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
-                writer.writeAttribute("dest", "ul:" + treepanelId + ":0", null);
-                writer.writeAttribute("pos", node.getId(), null);
-                writer.writeAttribute("depth", node.getDepth() + 1, null);
-                writer.writeAttribute("where", "firstitem", null);
-                writer.endElement("div");
+                if (treepanel.isEnableDragDrop()) {
+                    writer.startElement("div", treeline);
+                    writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
+                    writer.writeAttribute("class", "droppable", null);
+                    writer.writeAttribute("name", treeline.getId(), null);
+                    writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                    writer.writeAttribute("dest", "ul:" + treepanelId + ":0", null);
+                    writer.writeAttribute("pos", node.getId(), null);
+                    writer.writeAttribute("depth", node.getDepth() + 1, null);
+                    writer.writeAttribute("where", "firstitem", null);
+                    writer.endElement("div");
+                }
             }
 
             writer.startElement("div", component);
@@ -158,16 +162,17 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             writer.writeAttribute("parent", treepanel.getId(), null);
             writer.writeAttribute("depth", node.getDepth(), null);
 
-            //First zone to drop : before the folder with the same depth or before a node item
-            writer.startElement("div", treeline);
-            writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":before", null);
-            writer.writeAttribute("class", "droppable", null);
-            writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
-            writer.writeAttribute("where", "before", null);
-            writer.writeAttribute("name", treeline.getId(), null);
-            writer.writeAttribute("pos", node.getId(), null);
-            writer.endElement("div");
-
+            if (treepanel.isEnableDragDrop()) {
+                //First zone to drop : before the folder with the same depth or before a node item
+                writer.startElement("div", treeline);
+                writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":before", null);
+                writer.writeAttribute("class", "droppable", null);
+                writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                writer.writeAttribute("where", "before", null);
+                writer.writeAttribute("name", treeline.getId(), null);
+                writer.writeAttribute("pos", node.getId(), null);
+                writer.endElement("div");
+            }
 
             writer.startElement("li", component);
             writer.writeAttribute("id", "li:" + treepanelId + ":" + node.getId(), null);
@@ -179,7 +184,9 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             if (isFolder) {
                 writer.writeAttribute("style", "position:relative;", null);
             } else {
-                writer.writeAttribute("style", "background : #BBBBBB; position:absolute;", null);
+                if (treepanel.isEnableDragDrop()) {
+                    writer.writeAttribute("style", "background : white; position:absolute;", null);
+                }
             }
 
             if (treepanel.getAttributes().get("check") != null) {
@@ -255,17 +262,19 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
 
                 // Second zone to drop : in the list at first position
-                if (isFolder) {
-                    writer.startElement("div", treeline);
-                    writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
-                    writer.writeAttribute("class", "droppable", null);
-                    writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth() + 1) * 25 + "px", null);
-                    writer.writeAttribute("name", treeline.getId(), null);
-                    writer.writeAttribute("dest", "ul:" + treepanelId + ":" + node.getId(), null);
-                    writer.writeAttribute("pos", node.getId(), null);
-                    writer.writeAttribute("depth", node.getDepth() + 1, null);
-                    writer.writeAttribute("where", "firstitem", null);
-                    writer.endElement("div");
+                if (treepanel.isEnableDragDrop()) {
+                    if (isFolder) {
+                        writer.startElement("div", treeline);
+                        writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
+                        writer.writeAttribute("class", "droppable", null);
+                        writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth() + 1) * 25 + "px", null);
+                        writer.writeAttribute("name", treeline.getId(), null);
+                        writer.writeAttribute("dest", "ul:" + treepanelId + ":" + node.getId(), null);
+                        writer.writeAttribute("pos", node.getId(), null);
+                        writer.writeAttribute("depth", node.getDepth() + 1, null);
+                        writer.writeAttribute("where", "firstitem", null);
+                        writer.endElement("div");
+                    }
                 }
 
                 //Encode child
@@ -307,15 +316,16 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             writer.write(addLinesEvent(context, component));
             writer.endElement("script");
 
-            writer.startElement("div", treeline);
-            writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":after", null);
-            writer.writeAttribute("class", "droppable", null);
-            writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
-            writer.writeAttribute("name", treeline.getId(), null);
-            writer.writeAttribute("where", "after", null);
-            writer.writeAttribute("pos", node.getId(), null);
-            writer.endElement("div");
-
+            if (treepanel.isEnableDragDrop()) {
+                writer.startElement("div", treeline);
+                writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":after", null);
+                writer.writeAttribute("class", "droppable", null);
+                writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                writer.writeAttribute("name", treeline.getId(), null);
+                writer.writeAttribute("where", "after", null);
+                writer.writeAttribute("pos", node.getId(), null);
+                writer.endElement("div");
+            }
             writer.endElement("div");
 
             TreeNodeModel root = treepanel.getView().getRoot();

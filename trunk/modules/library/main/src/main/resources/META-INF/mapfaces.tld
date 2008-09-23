@@ -3885,6 +3885,14 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>enableDragDrop</name>
+            <description>Enable or disable Drag and drop utilities in a treepanel</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREECOLUMN TAG ======================================= -->
     <tag>
@@ -3980,7 +3988,7 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>icon</name>
             <required>false</required>
             <deferred-value>
@@ -4190,6 +4198,14 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>enableDragDrop</name>
+            <description>Enable or disable Drag and drop utilities in a treepanel</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== TREELAYOUTTCOLUMN TAG ======================================= -->
     <tag>
@@ -4326,7 +4342,7 @@
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
-        </attribute> 
+        </attribute>
         <attribute>
             <name>icon</name>
             <required>false</required>
