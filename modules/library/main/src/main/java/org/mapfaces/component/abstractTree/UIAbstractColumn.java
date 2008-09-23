@@ -28,7 +28,7 @@ public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterfa
     private String header;
     private String width;
     private String icon;
-
+    private String styleHeader;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getHeader() {
@@ -55,16 +55,24 @@ public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterfa
         this.icon = icon;
     }
 
+    public String getStyleHeader() {
+        return styleHeader;
+    }
+
+    public void setStyleHeader(String styleHeader) {
+        this.styleHeader = styleHeader;
+    }
 
     // =========== FONCTIONS ======================================== //
     //Override methods
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[4];
+        Object values[] = new Object[5];
         values[0] = super.saveState(context);
         values[1] = getHeader();
         values[2] = getWidth();
         values[3] = getIcon();
+        values[4] = getStyleHeader();
         return values;
     }
 
@@ -75,6 +83,7 @@ public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterfa
         setHeader((String) values[1]);
         setWidth((String) values[2]);
         setIcon((String) values[3]);
+        setStyleHeader((String) values[4]);
     }
 
     @Override

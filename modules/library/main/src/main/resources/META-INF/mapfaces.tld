@@ -4435,6 +4435,14 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+         <attribute>
+            <name>styleHeader</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- =========== COLUMN TAG ======================================== -->
     <tag>
@@ -4496,6 +4504,14 @@
         <attribute>
             <name>styleClass</name>
             <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleHeader</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
