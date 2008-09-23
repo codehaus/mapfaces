@@ -27,11 +27,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIAbstractTreeColumn;
 import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.component.abstractTree.UIAbstractTreeTable;
 
+import org.mapfaces.component.treelayout.UITreeColumn;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
@@ -469,7 +472,16 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      */
     public void renderHeaders(FacesContext context, UIComponent component, int idnumbers) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-
+        String styleHeader="";
+        if (component instanceof UIAbstractTreeColumn){
+            if (((UIAbstractTreeColumn)component).getStyleHeader() !=null){
+                styleHeader = ((UITreeColumn)component).getStyleHeader();
+            }
+        }else if (component instanceof UIAbstractColumn){
+            if (((UIAbstractColumn)component).getStyleHeader() !=null){
+                styleHeader = ((UITreeColumn)component).getStyleHeader();
+            }
+        }
         writer.startElement("div", component);
         writer.writeAttribute("id", "x-tree-hd:" + idnumbers, null);
         writer.writeAttribute("class", "x-tree-hd", null);
@@ -481,7 +493,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             sizeInt -= 1;
             size = String.valueOf(sizeInt);
         }
-        writer.writeAttribute("style", "width:" + size + "px;", null);
+        writer.writeAttribute("style", "width:" + size + "px;"+styleHeader, null);
         writer.startElement("div", component);
         writer.writeAttribute("id", "x-tree-hd-text:" + idnumbers, null);
         writer.writeAttribute("class", "x-tree-hd-text", null);
