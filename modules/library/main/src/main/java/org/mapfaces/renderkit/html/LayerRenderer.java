@@ -135,7 +135,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         System.out.println("            Layer updated " + dst.getName());
                     }
                     try {
-                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, "image/png", new Dimension(width.intValue(), height.intValue()));
+                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, "image/png", new Dimension(width.intValue(), height.intValue()), false);
                     } catch (PortrayalException ex) {
                         Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
                     }

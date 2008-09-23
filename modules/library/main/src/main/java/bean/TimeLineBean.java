@@ -42,6 +42,8 @@ import org.opengis.temporal.IndeterminateValue;
 import org.opengis.temporal.Instant;
 import org.opengis.temporal.Period;
 import org.opengis.temporal.Position;
+import org.opengis.temporal.RelativePosition;
+import org.opengis.temporal.TemporalPrimitive;
 
 public class TimeLineBean {
     
@@ -539,6 +541,32 @@ public class TimeLineBean {
 
     public void setTest(boolean test) {
         this.test = test;
+    }
+    
+    public static int compareTo(Instant current, Instant that) {
+        if (that==null)
+            throw new IllegalArgumentException("Provided temporal object is null");
+        final RelativePosition pos= current.relativePosition(that);
+        if(pos==null)
+            throw new ClassCastException("The provided object cannot be compared to this one");
+        if(pos==RelativePosition.AFTER)
+            return +1;
+        if(pos==RelativePosition.BEFORE)
+            return -1;
+       
+        else return 0;
+    }
+    
+    public static void main(String ...s){
+        Date time1 = new Date(1000L);
+        Date time2 = new Date(0L);
+        Date time3 = new Date(2000L);
+        
+        Instant instant1 = new DefaultInstant(new DefaultPosition(time1));
+        Instant instant2 = new DefaultInstant(new DefaultPosition(time2));
+        Instant instant3 = new DefaultInstant(new DefaultPosition(time3));
+        
+        System.out.println(">>>> "+TimeLineBean.compareTo(instant2, instant1));
     }
 
 }
