@@ -36,19 +36,19 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         String clientId= comp.getClientId(context);
         writer.startElement("div", comp);        
         writer.writeAttribute("id",clientId,"id");
-        
-        String style = (String) comp.getAttributes().get("style");
-        if (style != null)
-            writer.writeAttribute("style",style,"style");
-        else
-            writer.writeAttribute("style","position:absolute;z-index:1000;","style");
-        
-        String styleclass = (String) comp.getAttributes().get("styleClass");
-        if (styleclass != null)
-            writer.writeAttribute("class",styleclass,"styleclass");
-        else
-             writer.writeAttribute("class","mfButtonBar","styleclass");
-        
+            
+            String style = (String) comp.getAttributes().get("style");
+            if (style != null)
+                writer.writeAttribute("style",style,"style");
+            else
+                writer.writeAttribute("style","position:absolute;z-index:1000;","style");
+
+            String styleclass = (String) comp.getAttributes().get("styleClass");
+            if (styleclass != null)
+                writer.writeAttribute("class",styleclass,"styleclass");
+            else
+                 writer.writeAttribute("class","mfButtonBar","styleclass");
+
         writer.startElement("script", comp);
         writer.writeAttribute("type","text/javascript","text/javascript");
        
@@ -62,7 +62,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             writer.write(jsObject+".addControl(nav);\n");
         }
         if(comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()){
-            writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+comp.getId()+"')");
+            writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+comp.getClientId(context)+"')");
         
             if(comp.isZoomIn())
                 writer.write(",\nzoomIn: true");

@@ -14,7 +14,7 @@ public class TreetableBean {
     private DefaultTreeModel tree, tmp;
 
     public TreetableBean() {
-        String fileUrl = "data/context/owc030.xml";
+        String fileUrl = "data/context/owc030Cut.xml";
         tree = Adapter.OWC2Tree(fileUrl);
     }
 

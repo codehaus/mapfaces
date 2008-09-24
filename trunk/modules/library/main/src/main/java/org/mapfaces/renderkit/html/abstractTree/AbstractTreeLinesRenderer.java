@@ -194,7 +194,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 writer.writeAttribute("style", "position:relative;"+styleNodeUser, null);
             } else {
                 if (treepanel.isEnableDragDrop()) {
-                    writer.writeAttribute("style", "background : white; position:absolute;"+styleLeafUser, null);
+                    writer.writeAttribute("style", "background : white; position:relative;"+styleLeafUser, null);
                 }else{
                     writer.writeAttribute("style", "position:relative;"+styleLeafUser, null);
                 }

@@ -55,6 +55,7 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
+        System.out.println("show PX " +comp.isShowPX());
         writer.write("var mp = new OpenLayers.Control.MousePosition({'div':OpenLayers.Util.getElement('" + clientId + "')");
 
         if (comp.isShowPX()) {

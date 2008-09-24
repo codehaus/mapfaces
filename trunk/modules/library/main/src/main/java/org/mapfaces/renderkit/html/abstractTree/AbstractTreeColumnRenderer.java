@@ -57,7 +57,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static String DEFAULT_HEADER_COLUMN = "Tree";
     private static int LINES_SHOW = 1;
     private static int DEFAULT_FIRST_COLUMN_SIZE = 250;
-    private static String NODE_IDENT = "resource.jsf?r=/org/mapfaces/resources/treetable/images/default/s.gif";
+    private static String NODE_IDENT = "/resource.jsf?r=/org/mapfaces/resources/treetable/images/default/s.gif";
     private static String CLASS_NODE_DIV = "x-tree-node-el x-tree-node-expanded x-tree-col";
     private static String CLASS_NODE_INDENT = "x-tree-node-indent";
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";

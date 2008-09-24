@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.swing.tree.DefaultTreeModel;
 import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UILayerControl;
+import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.layercontrol.UIVisibilityColumn;
@@ -76,20 +77,20 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
         treeTable.setVarName("layer");
         treeTable.setWidth(438);
-
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
         treePanel.setId("TreePanel");
         treePanel.setHeader(true);
         treePanel.setTitle("List of layers");
         treePanel.setRowId(false);
-
+        treePanel.setEnableDragDrop(false);
+        treePanel.setShowRoot(true);
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId("Layers");
         tc.setValue("#{layer.title}");
         tc.setHeader("Layers grouped");
-        tc.setWidth("300");
+        tc.setWidth("200");
 
         /* <mf:CheckColumn icon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif"   id="visible" 
         value="#{layer.visible}"
@@ -113,11 +114,11 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         oc.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
         oc.setWidth("70");
 
-        /* UIElevationColumn ec = new UIElevationColumn();
+        UIElevationColumn ec = new UIElevationColumn();
         ec.setId("Elevation");
         ec.setValue("#{layer.userValueElevation}");
         ec.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-        ec.setWidth("100");*/
+        ec.setWidth("100");
 
         UITimeColumn tic = new UITimeColumn();
         tic.setId("Time");
@@ -137,10 +138,10 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         o5.setValue("Format : #{layer.outputFormat}");
         UIOutput o6 = new UIOutput();
         o6.setValue("Legende : #{layer.legendUrl}");
-        UIDimRange dr = new UIDimRange();
+       // UIDimRange dr = new UIDimRange();
         //dr.setUIModel(getUIModel());
-        dr.setValue("#{layer.userValueDimRange}");
-        dr.setLayerCompId("#{layer.id}");
+       /* dr.setValue("#{layer.userValueDimRange}");
+        dr.setLayerCompId("#{layer.id}");*/
         //dr.setDebug(true);
 //            HtmlGraphicImage img = new HtmlGraphicImage();
 //            img.setId("img_" + comp.getId());
@@ -153,16 +154,16 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 //            img.setValue("#{layer.legendUrl}");
         tni.getChildren().add(o4);
         tni.getChildren().add(o1);
-//            tni.getChildren().add(o2);
+  //         tni.getChildren().add(o2);
         tni.getChildren().add(o3);
         tni.getChildren().add(o5);
         tni.getChildren().add(o6);
 //            tni.getChildren().add(img);
-        tni.getChildren().add(dr);
+//        tni.getChildren().add(dr);
         treePanel.getChildren().add(tc);
         treePanel.getChildren().add(vc);
         treePanel.getChildren().add(oc);
-//        treePanel.getChildren().add(ec);
+        treePanel.getChildren().add(ec);
 
         treePanel.getChildren().add(tic);
         treePanel.getChildren().add(tni);

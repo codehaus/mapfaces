@@ -47,7 +47,8 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     private boolean debug = false;
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
     private final String DRAGDROP_CSS = "/org/mapfaces/resources/treetable/css/dragndrop.css";
-    private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
+    //private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
+      private final String MOO_JS = "";
     private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";

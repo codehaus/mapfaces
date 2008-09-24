@@ -15,7 +15,7 @@ public class UIImgColumn extends UIAbstractColumn {
 
     // =========== ATTRIBUTES ================================================== //
     private String icon;
-    private String defaultImg = "/org/mapfaces/resources/img/calendar.png";
+    private String defaultImg = "/resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
     private String alt = "No image";
     
     // =========== ATTRIBUTES ACCESSORS ======================================== //

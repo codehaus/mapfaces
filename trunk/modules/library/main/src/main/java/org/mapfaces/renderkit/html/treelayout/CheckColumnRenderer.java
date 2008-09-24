@@ -43,7 +43,7 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
         HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
         checkbox.setId("check_" + comp.getId());
         checkbox.setValue(comp.getValue());
-        
+        //checkbox.setStyle("cursor:pointer;position: absolute; margin-left:-7px;left: 50%; margin-top: -7px; top: 50%; ");
         comp.getChildren().add(checkbox);
 
         writer.startElement("center", comp);

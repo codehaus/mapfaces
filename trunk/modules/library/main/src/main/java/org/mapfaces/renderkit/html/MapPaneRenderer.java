@@ -204,6 +204,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     "                       projection: new OpenLayers.Projection('EPSG:"+srsCode[srsCode.length-1]+"'),\n" +
                     "                       size: new OpenLayers.Size('"+model.getWindowWidth()+"','"+model.getWindowHeight() +"'),\n" +
                     "                       maxExtent: new OpenLayers.Bounds("+comp.getMaxExtent()+"),\n" +
+                    "                       currentExtent: new OpenLayers.Bounds("+model.getMinx().toString()+","+model.getMiny().toString()+","+model.getMaxx().toString()+","+model.getMaxy().toString()+"),\n" +
                     "                       maxResolution: 'auto',\n" +
                     "                       theme:  null ,\n" +
                     "                       fractionnalZoom:  true ,\n" +

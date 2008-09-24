@@ -126,35 +126,35 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
      * If set to true, the outputFormat display the Pixel coords of the cursor
      * 
      **/
-     PX: true,     
+     PX: false,     
      
     /**
      * Property: XY
      * If set to true, the outputFormat displaying is the XY coords of the current projection
      * 
      **/
-     XY: true,
+     XY: false,
      
     /**
      * Property: LatLon
      * If set to true, the outputFormat displaying is the LatLon coords with the EPSG:4326 system
      * 
      **/
-     LatLon: true,
+     LatLon: false,
      
     /**
      * Property: DMS
      * If set to true, the outputFormat displaying is the LatLon coords in DD MM SS.S format  (EPSG:4326 system)
      * 
      **/
-     DMS: true,
+     DMS: false,
      
     /**
      * Property: DM
      * If set to true, the outputFormat displaying is the LatLon coords in DD MM.MMMM format  (EPSG:4326 system)
      * 
      **/
-     DM: true,
+     DM: false,
           
     /**
      * Constructor: OpenLayers.Control.MousePosition
