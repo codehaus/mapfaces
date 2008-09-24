@@ -66,16 +66,19 @@ function display(divId, panelId, methode, server, paramaters, viewstate){
 function expandAll(panelId){
     uls = document.getElementsByTagName("ul");
     for(i=1;i<uls.length;i++){
-        str = uls[i].id.split(":",2);
-        div_id = str[1];
-        if (document.getElementById("ul:"+div_id)) {
-            document.getElementById("ul:"+div_id).style.display="block";
+       str = uls[i].id.split(":",4);
+        jsf_id = str[1];
+        panel_id = str[2];
+        line_id = str[3];
+        id = jsf_id + ":" + panel_id + ":" + line_id;
+        if (document.getElementById("ul:"+id)) {
+            document.getElementById("ul:"+id).style.display="block";
         }
-        if (document.getElementById("symbol:"+div_id)) {
-            document.getElementById("symbol:"+div_id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+        if (document.getElementById("symbol:"+id)) {
+            document.getElementById("symbol:"+id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
         }
-        if (document.getElementById("treenode:"+div_id)) {
-            document.getElementById("treenode:"+div_id).setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
+        if (document.getElementById("treenode:"+id)) {
+            document.getElementById("treenode:"+id).setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
         }
     }
 }
@@ -86,16 +89,19 @@ function expandAll(panelId){
 function collapseAll(panelId){
     uls = document.getElementsByTagName("ul");
     for(i=1;i<uls.length;i++){
-        str = uls[i].id.split(":",2);
-        div_id = str[1];
-        if (document.getElementById("ul:"+div_id)) {
-            document.getElementById("ul:"+div_id).style.display="none";
+        str = uls[i].id.split(":",4);
+        jsf_id = str[1];
+        panel_id = str[2];
+        line_id = str[3];
+        id = jsf_id + ":" + panel_id + ":" + line_id;
+        if (document.getElementById("ul:"+id)) {
+            document.getElementById("ul:"+id).style.display="none";
         }
-        if (document.getElementById("symbol:"+div_id)) {
-            document.getElementById("symbol:"+div_id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+        if (document.getElementById("symbol:"+id)) {
+            document.getElementById("symbol:"+id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
         }
-        if (document.getElementById("treenode:"+div_id)) {
-            document.getElementById("treenode:"+div_id).setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col");
+        if (document.getElementById("treenode:"+id)) {
+            document.getElementById("treenode:"+id).setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col");
         }
     }
 }
