@@ -123,13 +123,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             String X_PANEL_HEADER_CLASS_STYLE = "x-panel-body x-panel-body-noheader";
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel:" + component.getClientId(context), null);
-            
+
             String styleUser = "";
             if (treepanel.getStyle() != null) {
                 styleUser = treepanel.getStyle();
             }
             writer.writeAttribute("style", "z-index:0; background :#CCCCCC;" + styleUser, null);
-            
+
             if (treepanel.getStyleClass() != null) {
                 writer.writeAttribute("class", treepanel.getStyleClass(), null);
             }
@@ -472,14 +472,14 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      */
     public void renderHeaders(FacesContext context, UIComponent component, int idnumbers) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        String styleHeader="";
-        if (component instanceof UIAbstractTreeColumn){
-            if (((UIAbstractTreeColumn)component).getStyleHeader() !=null){
-                styleHeader = ((UIAbstractTreeColumn)component).getStyleHeader();
+        String styleHeader = "";
+        if (component instanceof UIAbstractTreeColumn) {
+            if (((UIAbstractTreeColumn) component).getStyleHeader() != null) {
+                styleHeader = ((UIAbstractTreeColumn) component).getStyleHeader();
             }
-        }else if (component instanceof UIAbstractColumn){
-            if (((UIAbstractColumn)component).getStyleHeader() !=null){
-                styleHeader = ((UIAbstractColumn)component).getStyleHeader();
+        } else if (component instanceof UIAbstractColumn) {
+            if (((UIAbstractColumn) component).getStyleHeader() != null) {
+                styleHeader = ((UIAbstractColumn) component).getStyleHeader();
             }
         }
         writer.startElement("div", component);
@@ -492,8 +492,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             int sizeInt = Integer.valueOf(size);
             sizeInt -= 1;
             size = String.valueOf(sizeInt);
+            styleHeader += "width:" + size + "px";
         }
-        writer.writeAttribute("style", "width:" + size + "px;"+styleHeader, null);
+
+        writer.writeAttribute("style", styleHeader, null);
+
         writer.startElement("div", component);
         writer.writeAttribute("id", "x-tree-hd-text:" + idnumbers, null);
         writer.writeAttribute("class", "x-tree-hd-text", null);
