@@ -243,6 +243,9 @@ input.x-tree-node-cb {
 .x-tree-node-info-anchor{
     background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif);
 }
+.x-tree-lines{
+    padding:2px;
+}
 .x-tree-lines .x-tree-elbow {
     background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow.gif);
 }

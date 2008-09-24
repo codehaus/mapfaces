@@ -26,7 +26,7 @@ public class UITimeColumn extends UIImgColumn {
     private final String FAMILY = "org.mapfaces.treelayout.Column";
     private String layerId;
     private final String layerProperty = "Time";
-    private String imgData = "resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
+    private String imgData = "/resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
 
     public String getLayerId() {
         return layerId;

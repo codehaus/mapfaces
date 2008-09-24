@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.treelayout.UIImgColumn;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
+import org.mapfaces.share.listener.ResourcePhaseListener;
 
 
 
@@ -45,7 +46,8 @@ public class ImgColumnRenderer extends AbstractColumnRenderer{
          * 
          */
         //System.out.println(ResourcePhaseListener.getURL(context,comp.getImg(), null));
-        img.setUrl(comp.getImg());
+        img.setUrl(comp.getImg()); 
+        //img.setStyle("cursor:pointer;position: absolute; margin-left:-13px;left: 50%; margin-top: -13px; top: 50%; ");
         img.setStyle("cursor:pointer;");
         comp.getChildren().add(img);
 

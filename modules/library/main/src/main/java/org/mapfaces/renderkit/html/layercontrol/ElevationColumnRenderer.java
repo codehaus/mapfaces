@@ -35,27 +35,22 @@ import org.mapfaces.util.FacesUtils;
 public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
 
     @Override
-    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
-        ((UIElevationColumn) component).setSeparator(",");
-        super.beforeEncodeBegin(context, component);
-        ((UIElevationColumn) component).setItemsLabels(getElevations(context, (UIElevationColumn) component));
-        ((UIElevationColumn) component).setItemsValues(getElevations(context, (UIElevationColumn) component));
+    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {     
+            ((UIElevationColumn) component).setSeparator(",");
+            super.beforeEncodeBegin(context, component);
+            ((UIElevationColumn) component).setItemsLabels(getElevations(context, (UIElevationColumn) component));
+            ((UIElevationColumn) component).setItemsValues(getElevations(context, (UIElevationColumn) component));
+            
     }
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+       super.encodeBegin(context, component);
        if(((UITreeLines)(component.getParent())).getNodeInstance().isLeaf() &&  getElevations(context,(UIElevationColumn) component) != null){
-           super.encodeBegin(context, component);
            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,(UIComponent) component.getChildren().get(0),"onchange",getVarId(context, (UIAbstractColumn) component),null));
        }
     }
 
-    @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getElevations(context, (UIElevationColumn) component) != null) {
-            super.encodeEnd(context, component);
-        }
-    }
 
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {

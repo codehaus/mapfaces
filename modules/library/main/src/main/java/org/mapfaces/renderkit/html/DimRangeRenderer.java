@@ -20,9 +20,13 @@ import org.mapfaces.component.abstractTree.UIAbstractColumn;
 import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
+import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 
 public class DimRangeRenderer extends WidgetBaseRenderer {
+    
+    private static String HANDLE_SLIDER_IMG = "/org/mapfaces/resources/img/slider-handle.png";
+    private static String TRACK_SLIDER_IMG = "/org/mapfaces/resources/img/slider-track.png";
     
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
@@ -43,14 +47,14 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.writeAttribute("style",style,"style");
         writer.startElement("div",comp);
         writer.writeAttribute("id","track"+layerId, "id");
-        writer.writeAttribute("style","width: 256px; background-image: url('resource.jsf?r=/org/mapfaces/resources/img/slider-track.png');",style);
+        writer.writeAttribute("style","width: 256px; background-image: url('"+ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null)+"');",style);
         writer.writeAttribute("class","track","class");
             writer.startElement("div",comp);
             writer.writeAttribute("id","handle1"+layerId, "id");
             writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 60px; width: 20px; height: 19px; ;cursor:move;",style);
             writer.writeAttribute("class","","class");    
                 writer.startElement("img",comp);
-                writer.writeAttribute("src","resource.jsf?r=/org/mapfaces/resources/img/slider-handle.png", "src");
+                writer.writeAttribute("src",ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
                 writer.writeAttribute("class","imgHandle","class");
                 writer.endElement("img");
             writer.endElement("div");
@@ -59,7 +63,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 150px; width: 20px; height: 19px; cursor:move;",style);
             writer.writeAttribute("class","selected","class");
                 writer.startElement("img",comp);
-                writer.writeAttribute("src","resource.jsf?r=/org/mapfaces/resources/img/slider-handle.png", "src");
+                writer.writeAttribute("src",ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
                 writer.writeAttribute("class","imgHandle","class");
                 writer.endElement("img");
             writer.endElement("div");

@@ -130,14 +130,18 @@ public class ResourcePhaseListener implements PhaseListener {
         if (POOL.containsKey(resourcePath)) {
             return getURLvalue(resourcePath);
         }
+        System.out.println("getuuuuuuuuuuuuuuuuuuuuuuuuuuuuuurl"+getURLvalue(resourcePath));
         ViewHandler handler = context.getApplication().getViewHandler();
         String url = handler.getActionURL(context, RESOURCE_PREFIX);
+        
         StringBuilder r = new StringBuilder(url);
         r.append("?" + RESOURCE_LOCATION_PARAM + "=").append(resourcePath);
         if (contentType != null) {
             r.append("," + CONTENT_TYPE_PARAM + "=").append(contentType);
         }
         POOL.put(resourcePath, r.toString());
+        
+        System.out.println("getuuuuuuuuuuuuuuuuuuuuuuuuuuuuuurl"+r);
         return r.toString();
     }
 

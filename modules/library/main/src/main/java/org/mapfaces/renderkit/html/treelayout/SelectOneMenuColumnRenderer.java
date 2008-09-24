@@ -35,28 +35,31 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
 
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
+        
         UISelectOneMenuColumn comp = (UISelectOneMenuColumn) component;
-        ResponseWriter writer = context.getResponseWriter();
+        ResponseWriter writer = context.getResponseWriter(); 
+        if(comp.getValue() != null && comp.getItemsLabels()!=null){
 
-        UISelectOne selectOneMenu = new UISelectOne();
-        selectOneMenu.setId("select_" + comp.getId());
-        selectOneMenu.setValue(comp.getValue());
-        String itemsLabels = comp.getItemsLabels();
-        String[] labelsArray = itemsLabels.split(comp.getSeparator());
-        String[] valuesArray = itemsLabels.split(comp.getSeparator());
+            UISelectOne selectOneMenu = new UISelectOne();
+            selectOneMenu.setId("select_" + comp.getId());
+            selectOneMenu.setValue(comp.getValue());
+            String itemsLabels = comp.getItemsLabels();
+            String[] labelsArray = itemsLabels.split(comp.getSeparator());
+            String[] valuesArray = itemsLabels.split(comp.getSeparator());
 
-        if (labelsArray.length > 0 && valuesArray.length > 0) {
-            if (labelsArray.length != valuesArray.length) {
-                //TODO if length are not equals, add missing values or labels                
+            if (labelsArray.length > 0 && valuesArray.length > 0) {
+                if (labelsArray.length != valuesArray.length) {
+                    //TODO if length are not equals, add missing values or labels                
+                }
+                for (int i = 0; i < labelsArray.length; i++) {
+                    UISelectItem selectItem = new UISelectItem();
+                    selectItem.setItemLabel(labelsArray[i]);
+                    selectItem.setItemValue(valuesArray[i]);
+                    selectOneMenu.getChildren().add(selectItem);
+                }
             }
-            for (int i = 0; i < labelsArray.length; i++) {
-                UISelectItem selectItem = new UISelectItem();
-                selectItem.setItemLabel(labelsArray[i]);
-                selectItem.setItemValue(valuesArray[i]);
-                selectOneMenu.getChildren().add(selectItem);
-            }
+            comp.getChildren().add(selectOneMenu);
         }
-        comp.getChildren().add(selectOneMenu);
         writer.startElement("center", comp);
 
     }

@@ -54,7 +54,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         try {
             if (comp.isDebug()) {
-                System.out.println("[LayerRenderer] encodeBegin");
+                System.out.println("        [LayerRenderer] encodeBegin");
             }
             // suppress rendering if "rendered" property on the component is false.
             if (!component.isRendered()) {
@@ -120,12 +120,12 @@ public class LayerRenderer extends WidgetBaseRenderer {
 //                    writer.writeAttribute("class", "layerDiv", "style");
 //                    writer.writeAttribute("style","position: absolute; width: 100%; height: 100%; z-index: 100;"+styleImg, "style");
                 //Add layer image if not the first page loads
-                 String display;
+                String display;
                     if(layer.isHidden())
                         display="display:none;";
                     else
                         display="display:block;";
-                 System.out.println("debutLa propriété hidden du layer " + layer.getId() + " à été modifiée :" + layer.isHidden());
+                System.out.println("debutLa propriété hidden du layer " + layer.getId() + " à été modifiée :" + layer.isHidden());
                         
                 if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
                     writer.startElement("div", comp);
@@ -221,10 +221,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             Layer layer = comp.getLayer();
             String formId = FacesUtils.getFormId(context, comp);
             AjaxUtils ajaxtools = new AjaxUtils();
-            String elevation = (String) params.get(formId + ":elevation");
-            if (elevation != null && layer.getDimensionList() != null && layer.getDimensionList().containsKey("elevation") && !layer.getDimensionList().get("elevation").equals(elevation)) {
-                //layer.setDimension("elevation",elevation);
-            }
+           
             String bbox = (String) params.get("bbox");
             if (bbox != null && !bbox.equals(tmp.getMinx() + "," + tmp.getMiny().toString() + "," + tmp.getMaxx() + "," + tmp.getMaxy())) {
                 tmp.setMinx(new Double(bbox.split(",")[0]));
@@ -274,9 +271,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         tmp.setOpacity(layer.getId(), Double.valueOf(value));
                         layer.setOpacity(value);
                             System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
-                    
-                    
-                   
                     } else if (layerProperty.contains("Time")) {
                         tmp.setLayerAttrDimensionFromId(layer.getId(), "time", "userValue", value);
                         layer.setUserValue("time", value);

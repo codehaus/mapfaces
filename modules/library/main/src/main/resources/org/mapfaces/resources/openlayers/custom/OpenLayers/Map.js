@@ -501,7 +501,9 @@ OpenLayers.Map = OpenLayers.Class({
         //TODO worrks for multiple mappane on the page
         var sc = document.createElement("script");
         sc.setAttribute("type", "text/javascript");
-        sc.innerHTML="function zoom(){"+this.id+".zoomToMaxExtent();};"+
+        sc.innerHTML="function zoom(){"+
+                          this.id+".zoomToMaxExtent();"+
+                     "};"+       //"+this.id+"getCurrentExtent());};"+
                      "window.onload=zoom;";
         document.getElementsByTagName('head')[0].appendChild(sc);
         
@@ -513,25 +515,27 @@ OpenLayers.Map = OpenLayers.Class({
     sendAjaxRequest: function() {
         var window = this.getSize();
         var bbox=this.getExtent().toBBOX();
-        
-        var parameters = {    'synchronized': 'true',
-                              'refresh': this.layersName,
-                              'bbox': bbox,
-                              'window': window.w+','+window.h,
-                              'render': 'true', //render the layers, always set to true after the first page loads
-                              'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
-                              
-                         };
-        parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
-        
-        A4J.AJAX.Submit( this.mfRequestId,this.mfFormId,
-                         null,
-                         {   'control':this,
-                             'single':true,
-                             'parameters': parameters ,
-                             'actionUrl':window.location
-                         } 
-                       );
+       // if(this.getCurrentExtent() == null || bbox != this.getCurrentExtent().toBBOX()){
+            var parameters = {    'synchronized': 'true',
+                                  'refresh': this.layersName,
+                                  'bbox': bbox,
+                                  'window': window.w+','+window.h,
+                                  'render': 'true', //render the layers, always set to true after the first page loads
+                                  'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
+
+                             };
+            parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
+
+            A4J.AJAX.Submit( this.mfRequestId,this.mfFormId,
+                             null,
+                             {   
+                                 'control':this,
+                                 'single':true,
+                                 'parameters': parameters ,
+                                 'actionUrl':window.location
+                             } 
+                           );
+       // }
     },  
     
      /**

@@ -41,6 +41,9 @@
             <li>
                 <a href="./multipleWmsLayers.jsf">21 WMS layers from 3 different servers (Demis, Openplans, Geomatys)</a>
             </li>         
+            <li>
+                <a href="./foss4g2008/index.jsf">FOSS4G South Africa 2008 demo</a>
+            </li>         
         </ul>
         <br/>
        

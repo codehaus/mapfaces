@@ -17,8 +17,10 @@
             <br/>
             <h:form>
                 <mf-model:Context service="data/context/blueMarble.xml">
-                    <mf:MapPane></mf:MapPane>
-                    <mf:ButtonBar></mf:ButtonBar>
+                    <div id='test'>
+                        <mf:MapPane></mf:MapPane>
+                    </div>
+                    <mf:ButtonBar styleClass="mfButtonBar horizontal"></mf:ButtonBar>
                 </mf-model:Context>
             </h:form>
         </body>
