@@ -475,11 +475,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         String styleHeader="";
         if (component instanceof UIAbstractTreeColumn){
             if (((UIAbstractTreeColumn)component).getStyleHeader() !=null){
-                styleHeader = ((UITreeColumn)component).getStyleHeader();
+                styleHeader = ((UIAbstractTreeColumn)component).getStyleHeader();
             }
         }else if (component instanceof UIAbstractColumn){
             if (((UIAbstractColumn)component).getStyleHeader() !=null){
-                styleHeader = ((UITreeColumn)component).getStyleHeader();
+                styleHeader = ((UIAbstractColumn)component).getStyleHeader();
             }
         }
         writer.startElement("div", component);

@@ -19,7 +19,7 @@
                 <mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500">
                 <mf:TreePanel header="true" id="panel1" title="My tree" rowId="true" >
                         
-                        <mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/>
+                        <mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}" />
                                                    
                             <mf:TreeNodeInfo header="title" >
                             <h:outputLabel value="TITLE : #{layer.title}"/>
