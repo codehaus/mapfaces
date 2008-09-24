@@ -8,7 +8,7 @@
  */
 function display(divId, panelId, methode, server, paramaters, viewstate){
     thisDiv = document.getElementById("ul:"+panelId+":"+divId);
-    thisSymbol = document.getElementById("symbol:"+panelId+":"+divId);
+    thisSymbol = document.getElementById(panelId+"_symbol_"+divId);
     thisTreenode = document.getElementById("treenode:"+panelId+":"+divId);
 
     if (thisDiv.childNodes.length > 0){
@@ -16,7 +16,7 @@ function display(divId, panelId, methode, server, paramaters, viewstate){
             thisDiv.style.display="block";
             if (thisSymbol) {
                 thisSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
-            }
+            }s
             if (thisTreenode) {
                 thisTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
             }
