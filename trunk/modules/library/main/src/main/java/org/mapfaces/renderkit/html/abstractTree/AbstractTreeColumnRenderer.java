@@ -243,7 +243,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 }
             }
             ImgTreeNodeInfo.setId(treepanel.getId() + "_" + "anchor_info_" + node.getId());
-            ImgTreeNodeInfo.setOnclick("showMore("+treepanel.getClientId(context)+":"+ node.getId() + ");");
+            ImgTreeNodeInfo.setOnclick("showMore('"+treepanel.getClientId(context)+":"+ node.getId() + "');");
             ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO);
             ImgTreeNodeInfo.setStyle("margin-left : 5px;");
             ImgTreeNodeInfo.setUrl(NODE_IDENT);

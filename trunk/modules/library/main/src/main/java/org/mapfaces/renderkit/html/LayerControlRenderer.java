@@ -85,7 +85,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
         treePanel.setShowRoot(true);
-        treePanel.setStyle("height:400px;overflow:scroll;");
+       // treePanel.setStyle("height:400px;overflow:scroll;");
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId("Layers");
