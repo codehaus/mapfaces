@@ -218,6 +218,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_lines:" + component.getClientId(context), null);
             writer.writeAttribute("class", "droppable-holder", null);
+            writer.writeAttribute("style", "overflow-y:auto;", null);
             if ((component.getAttributes().get("frame") != null) && ((Boolean) (component.getAttributes().get("frame")))) {
                 writer.startElement("div", component);
                 writer.writeAttribute("class", "x-panel-ml", null);
