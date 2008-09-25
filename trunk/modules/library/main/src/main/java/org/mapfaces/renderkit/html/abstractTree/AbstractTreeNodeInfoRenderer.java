@@ -117,7 +117,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
         if (treetable != null) {
             
             writer.startElement("div", treenodeinfo);
-            writer.writeAttribute("class", DESC_STYLE_CLASS+" "+classUser, null);
+            writer.writeAttribute("class",classUser, null);
             writer.writeAttribute("id", "info:" + treepanelId + ":" + node.getId(), null);
             if (treenodeinfo.getAttributes().get("hide") != null) {
                 if (!(Boolean) treenodeinfo.getAttributes().get("hide")) {
