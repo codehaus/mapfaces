@@ -47,7 +47,7 @@
                        <mf:ButtonBar id="bar" styleClass="mfButtonBar horizontal"  style="left:550px;"></mf:ButtonBar>                            
                        <mf:CursorTrack id="cursorTrack" style="position:absolute;left:500px; top:300px; background-color:white;padding:5px;opacity:0.7;margin:5px;" showDMS="true" showLatLon="false" ></mf:CursorTrack>
                        <mf:LayerControl id="lcc" style="position: absolute;left:0px;width:auto;"></mf:LayerControl>
-                       <mf:TimeLine id="timeline" style="left:500px;width:69%;height: 300px;top:83%;border: 1px solid #aaa;display:none;width:100%;position: absolute; font-size:0.8em;" >
+                       <mf:TimeLine id="timeline" style="left:500px;width:69%;height: 300px;top:83%;border: 1px solid #aaa;position: absolute; font-size:0.8em;" >
                            <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" date="#{timelineBean.centerDate}" timeZone="-5" theme="OLanceTheme" inputInterval="true"/>
                            <mf:HotZoneBandInfo id="band1" width="25" intervalUnit="YEAR" intervalPixels="200" date="#{timelineBean.centerDate}" showEventText="false" trackGap="0.2" trackHeight="0.5" inputInterval="true"/>
                        </mf:TimeLine>
