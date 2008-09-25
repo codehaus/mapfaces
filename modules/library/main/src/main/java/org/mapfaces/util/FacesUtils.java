@@ -73,7 +73,12 @@ public class FacesUtils {
     public static UIModelBase getParentUIModelBase(FacesContext context, UIComponent component) {
         UIComponent parent = component;
         while (!(parent instanceof UIModelBase)) {
-            parent = parent.getParent();
+            if (parent != null) {
+                parent = parent.getParent();
+            }
+            else {
+                return null;
+            }
         }
         return (UIModelBase)  parent;
     }

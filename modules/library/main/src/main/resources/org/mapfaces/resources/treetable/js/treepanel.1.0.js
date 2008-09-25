@@ -60,9 +60,6 @@ function display(divId, panelId, methode, server, paramaters, viewstate){
     }
 }
 
-/**
- *
- */
 function expandAll(panelId){
     uls = document.getElementsByTagName("ul");
     for(i=1;i<uls.length;i++){
@@ -83,7 +80,7 @@ function expandAll(panelId){
         }
     }
 }
-
+ 
 /**
  *
  */
