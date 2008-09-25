@@ -85,6 +85,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
         treePanel.setShowRoot(true);
+        treePanel.setStyle("height:400px;overflow:scroll;");
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId("Layers");
@@ -138,10 +139,10 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         o5.setValue("Format : #{layer.outputFormat}");
         UIOutput o6 = new UIOutput();
         o6.setValue("Legende : #{layer.legendUrl}");
-       // UIDimRange dr = new UIDimRange();
+        UIDimRange dr = new UIDimRange();
         //dr.setUIModel(getUIModel());
-       /* dr.setValue("#{layer.userValueDimRange}");
-        dr.setLayerCompId("#{layer.id}");*/
+        dr.setValue("#{layer.userValueDimRange}");
+        dr.setLayerCompId("#{layer.id}");
         //dr.setDebug(true);
 //            HtmlGraphicImage img = new HtmlGraphicImage();
 //            img.setId("img_" + comp.getId());
@@ -159,7 +160,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         tni.getChildren().add(o5);
         tni.getChildren().add(o6);
 //            tni.getChildren().add(img);
-//        tni.getChildren().add(dr);
+        tni.getChildren().add(dr);
         treePanel.getChildren().add(tc);
         treePanel.getChildren().add(vc);
         treePanel.getChildren().add(oc);
