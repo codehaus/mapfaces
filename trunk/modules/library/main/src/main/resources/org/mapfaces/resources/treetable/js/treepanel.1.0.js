@@ -71,11 +71,12 @@ function expandAll(panelId){
         panel_id = str[2];
         line_id = str[3];
         id = jsf_id + ":" + panel_id + ":" + line_id;
+        idsymbol = jsf_id + ":" +panel_id+"_symbol_"+line_id;
         if (document.getElementById("ul:"+id)) {
             document.getElementById("ul:"+id).style.display="block";
         }
-        if (document.getElementById("symbol:"+id)) {
-            document.getElementById("symbol:"+id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+        if (document.getElementById(idsymbol)) {
+            document.getElementById(idsymbol).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
         }
         if (document.getElementById("treenode:"+id)) {
             document.getElementById("treenode:"+id).setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
@@ -94,11 +95,12 @@ function collapseAll(panelId){
         panel_id = str[2];
         line_id = str[3];
         id = jsf_id + ":" + panel_id + ":" + line_id;
+        idsymbol = jsf_id + ":" +panel_id+"_symbol_"+line_id;
         if (document.getElementById("ul:"+id)) {
             document.getElementById("ul:"+id).style.display="none";
         }
-        if (document.getElementById("symbol:"+id)) {
-            document.getElementById("symbol:"+id).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+        if (document.getElementById(idsymbol)) {
+            document.getElementById(idsymbol).setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
         }
         if (document.getElementById("treenode:"+id)) {
             document.getElementById("treenode:"+id).setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col");

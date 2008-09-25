@@ -109,7 +109,7 @@ public class TreeColumnTag extends UIComponentELTag {
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("style", getStyle());
         component.setValueExpression("styleClass", getStyleClass());
-        component.setValueExpression("styleHeader", getStyleClass());
+        component.setValueExpression("styleHeader", getStyleHeader());
     }
 
     @Override
