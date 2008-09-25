@@ -80,9 +80,11 @@ public class Compress {
 				 
                                  }
                                  System.out.println(cmd);
-				 System.out.println(libPath + files[i]+" >> "+outputPath);
+				 //System.out.println(libPath + files[i]+" >> "+outputPath);
 				 tmp = run.exec(cmd);
-				 tmp.waitFor();//si l'application doit attendre a ce que ce process fini
+                                  tmp.waitFor();//si l'application doit attendre a ce que ce process fini
+                                  
+                                  //System.out.println(tmp.exitValue());
 				 
 			 }
 			
@@ -105,14 +107,18 @@ public class Compress {
 //		String mbPath = args[3];
 //		String olPath = args[4];
                 
-		String rhinoPath ="/home/olivier/custom_rhino.jar";
-		String olCompressFilePath ="/home/olivier/public/test.js";
-		String olPath ="/home/olivier/svn/mapfaces/trunk/modules/library/main/src/main/resources/org/mapfaces/resources/";
-		//String mbPath = "c:\\www\\geomatys\\trunk\\mapbuilder\\mapbuilder\\lib";                
+//		String rhinoPath ="/home/olivier/custom_rhino.jar";
+//		String olCompressFilePath ="/home/olivier/zip.js";
+//		String olPath ="/home/olivier/svn/mapfaces/trunk/modules/library/main/src/main/resources/org/mapfaces/resources/";
+		String rhinoPath ="D:\\custom_rhino.jar";
+		String olCompressFilePath ="D:\\zip.js";
+		String olPath ="D:\\svn/mapfaces/trunk/modules/library/main/src/main/resources/org/mapfaces/resources/";
+		
+                //String mbPath = "c:\\www\\geomatys\\trunk\\mapbuilder\\mapbuilder\\lib";                
 		//String olPath = args[4];
 		String[] olFiles = new String[] {
 				 "openlayers/lib/OpenLayers/SingleFile.js",
-				 "openlayers/custom/OpenLayers/OpenLayers.js",
+				 "openlayers/custom/OpenLayers.js",
 				 "openlayers/lib/OpenLayers/Util.js",
            "openlayers/lib/OpenLayers/BaseTypes.js",
            "openlayers/lib/OpenLayers/BaseTypes/Class.js",
@@ -192,19 +198,13 @@ public class Compress {
            "openlayers/custom/OpenLayers/Control/Navigation.js",
            "openlayers/lib/OpenLayers/Control/MouseDefaults.js",
            "openlayers/custom/OpenLayers/Control/MousePosition.js",
-           "openlayers/lib/OpenLayers/Control/OverviewMap.js",
            "openlayers/lib/OpenLayers/Control/KeyboardDefaults.js",
            "openlayers/custom/OpenLayers/Control/MouseWheelDefaults.js",
            "openlayers/lib/OpenLayers/Control/PanZoom.js",
-           "openlayers/lib/OpenLayers/Control/PanZoomBar.js",
            "openlayers/lib/OpenLayers/Control/ArgParser.js",
            "openlayers/lib/OpenLayers/Control/Permalink.js",
            "openlayers/lib/OpenLayers/Control/Scale.js",
            "openlayers/lib/OpenLayers/Control/ScaleLine.js",
-           "openlayers/lib/OpenLayers/Control/LayerSwitcher.js",
-           "openlayers/lib/OpenLayers/Control/DrawFeature.js",
-           "openlayers/lib/OpenLayers/Control/DragFeature.js",
-           "openlayers/lib/OpenLayers/Control/ModifyFeature.js",
            "openlayers/lib/OpenLayers/Control/Panel.js",
            "openlayers/lib/OpenLayers/Control/SelectFeature.js",
            "openlayers/lib/OpenLayers/Control/NavigationHistory.js",
