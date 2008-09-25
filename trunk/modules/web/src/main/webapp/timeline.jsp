@@ -25,17 +25,25 @@
                 <h1><h:outputText value="JSF Component TimeLine Demo" /></h1>                      
                 
                 <h:commandButton value="Submit"/>
-                <mf:TimeLine id="mytimeline" style="height: 500px; border: 1px solid #aaa;width:1200px;margin:0pt auto;" value="#{mybean.events}">
 
-                    <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" timeZone="-5" theme="OLanceTheme" date="#{mybean.centerDate}" inputInterval="true"/>
-                    <mf:HotZoneBandInfo id="band1" width="25" intervalUnit="YEAR" intervalPixels="200" showEventText="false" trackGap="0.2" trackHeight="0.5" date="#{mybean.centerDate}" inputInterval="true"/>
+<mf-model:Context id="owsContext" debug="true" service="data/context/wedsat.xml">
+
+                <mf:TimeLine id="mytimeline" style="height: 500px; border: 1px solid #aaa;width:1200px;margin:0pt auto;" value="#{timelineBean.events}">
+
+                    <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" timeZone="-5" theme="OLanceTheme" date="#{timelineBean.centerDate}" inputInterval="true"/>
+                    <mf:HotZoneBandInfo id="band1" width="25" intervalUnit="YEAR" intervalPixels="200" showEventText="false" trackGap="0.2" trackHeight="0.5" date="#{timelineBean.centerDate}" inputInterval="true"/>
 
                 </mf:TimeLine>
+
+</mf-model:Context>
+
+
+
                 <br/>
                 <br/>
                 <%--mf:TimeLine style="height: 300px; border: 1px solid #aaa;width:600px;margin:0pt auto;" value="#{mybean.events}" >
-                    <mf:BandInfo width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" timeZone="0" theme="OLanceTheme" date="#{mybean.centerDate}" inputInterval="#{mybean.test}"/>
-                    <mf:BandInfo width="25" intervalUnit="YEAR" intervalPixels="200" showEventText="false" trackGap="0.2" trackHeight="0.5" date="#{mybean.centerDate}" inputInterval="#{mybean.test}"/>
+                    <mf:BandInfo width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" timeZone="0" theme="OLanceTheme" date="#{timelineBean.centerDate}" inputInterval="#{timelineBean.test}"/>
+                    <mf:BandInfo width="25" intervalUnit="YEAR" intervalPixels="200" showEventText="false" trackGap="0.2" trackHeight="0.5" date="#{timelineBean.centerDate}" inputInterval="#{timelineBean.test}"/>
                 </mf:TimeLine--%>
 
 
