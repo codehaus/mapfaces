@@ -70,8 +70,9 @@ public class TreeModelsUtils {
      */
     public TreeTableModel transformTree(DefaultTreeModel tree) {
         DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
-        if (initial_root.getUserObject() == null) {
-            initial_root.setUserObject("NoValue");
+        if (initial_root == null || initial_root.getUserObject() == null) {
+            
+            initial_root = new DefaultMutableTreeNode("NoValue");
         }
 
         TreeNodeModel root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
