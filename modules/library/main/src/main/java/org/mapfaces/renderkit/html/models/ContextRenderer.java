@@ -49,8 +49,8 @@ public class ContextRenderer extends Renderer {
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
     //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
     
-    //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/OpenLayers.js";
-    private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
+    private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/OpenLayers.js";
+    //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
     private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
     private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
