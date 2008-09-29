@@ -136,24 +136,28 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     System.out.println("        Le MapPane contient " + layers.length + " layers");
                 }
                 for (Layer temp : layers) {
-                    UILayer layer = new UILayer(comp, temp);
-                    layer.setModel(model);
-                    if (temp.getId() != null) {
-                        layer.getAttributes().put("id", temp.getId());
-                    } else {
-                        temp.setId(layer.getClientId(context));
+                    
+                    if (temp != null) {
+                    
+                        UILayer layer = new UILayer(comp, temp);
+                        layer.setModel(model);
+                        if (temp.getId() != null) {
+                            layer.getAttributes().put("id", temp.getId());
+                        } else {
+                            temp.setId(layer.getClientId(context));
+                        }
+                        if (debug) {
+                            layer.getAttributes().put("debug", true);
+                        }
+                        layer.setLayer(temp);
+                        if (debug) {
+                            System.out.println("        Y à t'il  des dimensioons pour le layer : " + temp.getTitle() + " provenant du server " + ((WMSMapLayer) temp.getMapLayer()).getWMS_SERVER().getServerURL() + " ? " + temp.getDimensionList());
+                        }
+                        layer.setDir(dstDir);
+                        layer.setContextPath(ctxPath);
+                        comp.getChildren().add(layer);
                     }
-                    if (debug) {
-                        layer.getAttributes().put("debug", true);
-                    }
-                    layer.setLayer(temp);
-                    if (debug) {
-                        System.out.println("        Y à t'il  des dimensioons pour le layer : " + temp.getTitle() + " provenant du server " + ((WMSMapLayer) temp.getMapLayer()).getWMS_SERVER().getServerURL() + " ? " + temp.getDimensionList());
-                    }
-                    layer.setDir(dstDir);
-                    layer.setContextPath(ctxPath);
-                    comp.getChildren().add(layer);
-
+                    
                 }
             } catch (NoSuchAuthorityCodeException ex) {
                 Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.SEVERE, null, ex);

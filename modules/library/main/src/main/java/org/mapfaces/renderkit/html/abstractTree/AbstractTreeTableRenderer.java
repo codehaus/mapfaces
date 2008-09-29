@@ -17,6 +17,7 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
@@ -52,7 +53,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
-
+    
     private UIForm getForm(UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
