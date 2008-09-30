@@ -16,7 +16,7 @@
     <body>
         <f:view>
             <h:form>
-                <mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500">
+                <mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500" debug="true">
                 <mf:TreePanel header="true" id="panel1" title="My tree" rowId="true" >
                         
                         <mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}" />

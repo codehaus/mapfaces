@@ -87,7 +87,7 @@ public class TreeNodeInfoTag extends UIComponentELTag {
         component.setValueExpression("hide", getHide());
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     @Override

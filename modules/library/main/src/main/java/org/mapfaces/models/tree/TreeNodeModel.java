@@ -43,6 +43,7 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
         this.id = id;
         this.row= row;
         this.depth = depth;
+        this.checked = true;
     }
 
     /**

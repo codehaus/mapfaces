@@ -181,25 +181,25 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             writer.writeAttribute("pos", node.getId(), null);
             writer.writeAttribute("name", treeline.getId(), null);
 
-            String styleLeafUser= "";
-            if (treepanel.getStyleLeaf() !=null){
+            String styleLeafUser = "";
+            if (treepanel.getStyleLeaf() != null) {
                 styleLeafUser = treepanel.getStyleLeaf();
             }
-            
+
             String styleNodeUser = "";
-            if (treepanel.getStyleNode() !=null){
+            if (treepanel.getStyleNode() != null) {
                 styleNodeUser = treepanel.getStyleNode();
             }
             if (isFolder) {
-                writer.writeAttribute("style", "position:relative;"+styleNodeUser, null);
+                writer.writeAttribute("style", "position:relative;" + styleNodeUser, null);
             } else {
                 if (treepanel.isEnableDragDrop()) {
-                    writer.writeAttribute("style", "background : white; position:relative;"+styleLeafUser, null);
-                }else{
-                    writer.writeAttribute("style", "position:relative;"+styleLeafUser, null);
+                    writer.writeAttribute("style", "background : white; position:relative;" + styleLeafUser, null);
+                } else {
+                    writer.writeAttribute("style", "position:relative;" + styleLeafUser, null);
                 }
             }
-            
+
 
             if (treepanel.getAttributes().get("check") != null) {
                 if ((Boolean) treepanel.getAttributes().get("check")) {
@@ -262,8 +262,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 }
             }
         }
-        if (isFolder) {
 
+        if (isFolder) {
             writer.startElement("div", treeline);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
@@ -292,7 +292,9 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 //Encode child
                 for (int i = 0; i < node.getChildCount(); i++) {
                     TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
-                    Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
+                    if (child.isChecked()) {
+                        Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
+                    }
                 }
 
                 writer.endElement("ul");
