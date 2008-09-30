@@ -182,6 +182,7 @@ public class TreeTableUtils {
 
             if (!treepanel.isInit()) {
                 if (node.getDepth() > config.getDEFAULT_DEPTH_VIEW()) {
+                    treelines.getNodeInstance().setChecked(false);
                     treelines.setToRender(false);
                     treelines.setRendered(false);
                 }

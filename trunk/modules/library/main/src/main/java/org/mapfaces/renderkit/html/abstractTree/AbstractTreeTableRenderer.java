@@ -53,6 +53,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
+    Date dstart,dend;
     
     private UIForm getForm(UIComponent component) {
         UIComponent parent = component.getParent();
@@ -103,6 +104,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         assertValid(context, component);
 
         if (component.getAttributes().get("debug") != null) {
+            dstart = new Date();
             debug = (Boolean) component.getAttributes().get("debug");
         }
 
@@ -216,6 +218,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     @Override
     public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
+        if (component.getAttributes().get("debug") != null) {
+            debug = (Boolean) component.getAttributes().get("debug");
+        }
         if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
@@ -238,7 +243,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         writer.writeAttribute("name", "ajax.server.request.URL", null);
         writer.endElement("div");
         if (debug) {
+            dend = new Date();
+            long time = dend.getTime() - dstart.getTime();
             log.info("afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("Time render in "+time+"mlls");
         }
         afterEncodeEnd(context, component);
     }

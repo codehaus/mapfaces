@@ -19,6 +19,7 @@ package org.mapfaces.models.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.mapfaces.util.treetable.TreeTableConfig;
 
 /**
  * Tools for create and manipulate TreeTableModel and TreeNodeModel
@@ -60,6 +61,9 @@ public class TreeModelsUtils {
             node.setUserObject("NoName");
         }
         TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
+        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()){
+            treenode.setChecked(false);
+        }
         return treenode;
     }
 

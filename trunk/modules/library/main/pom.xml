@@ -64,6 +64,7 @@
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-display</artifactId>
+      <version>2.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>

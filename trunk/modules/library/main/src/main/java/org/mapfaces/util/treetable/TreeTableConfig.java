@@ -26,7 +26,7 @@ public class TreeTableConfig {
      * Values by default
      */
      private String DEFAULT_SIZE_COLUMN = "100px";
-     private int DEFAULT_DEPTH_VIEW = 20;
+     private static int DEFAULT_DEPTH_VIEW = 20;
 
      /**
       * Access Methods
@@ -39,9 +39,10 @@ public class TreeTableConfig {
         this.DEFAULT_SIZE_COLUMN = DEFAULT_SIZE_COLUMN;
     }
 
-    public int getDEFAULT_DEPTH_VIEW() {
+    public static int getDEFAULT_DEPTH_VIEW() {
         return DEFAULT_DEPTH_VIEW;
     }
+    
     public void setDEFAULT_DEPTH_VIEW(int DEFAULT_DEPTH_VIEW) {
         this.DEFAULT_DEPTH_VIEW = DEFAULT_DEPTH_VIEW;
     }

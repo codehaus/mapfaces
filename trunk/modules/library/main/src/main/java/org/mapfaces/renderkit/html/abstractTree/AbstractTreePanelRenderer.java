@@ -218,7 +218,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_lines:" + component.getClientId(context), null);
             writer.writeAttribute("class", "droppable-holder", null);
-            writer.writeAttribute("style", "overflowauto;", null);
+            writer.writeAttribute("style", "overflow:auto;", null);
             if ((component.getAttributes().get("frame") != null) && ((Boolean) (component.getAttributes().get("frame")))) {
                 writer.startElement("div", component);
                 writer.writeAttribute("class", "x-panel-ml", null);
@@ -284,7 +284,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         for (int i = 0; i < root.getChildCount(); i++) {
             TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
             if (!treepanel.isShowRoot()) {
-                ((UIAbstractTreeLines) (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId()))).setToRender(false);
+                if (child.isChecked()) {
+                    ((UIAbstractTreeLines) (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId()))).setToRender(false);
+                }
             }
 
             Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
