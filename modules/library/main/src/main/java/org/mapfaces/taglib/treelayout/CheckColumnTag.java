@@ -18,119 +18,67 @@ package org.mapfaces.taglib.treelayout;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentELTag;
 
 /**
- *
+  *<p>CheckColumnTag is an example of ColumnTag extension to make a specified column with checkbox in a treelayout</p>
  * @author kdelfour
  */
-public class CheckColumnTag extends UIComponentELTag {
+public class CheckColumnTag extends ColumnTag {
 
-    private ValueExpression header = null;
-    private ValueExpression icon = null;
+    /* Fields */
     private ValueExpression value = null;
-    private ValueExpression width = null;
-    private ValueExpression debug = null;
-    private ValueExpression style = null;
-    private ValueExpression styleClass = null;
     private final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.CheckColumn";
     private final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLCheckColumn";
 
-    public ValueExpression getHeader() {
-        return header;
-    }
-
     /**
-     * 
-     * @param header
+     * Accessor for value
+     * @return the value
      */
-    public void setHeader(ValueExpression header) {
-        this.header = header;
-    }
-
     public ValueExpression getValue() {
         return value;
     }
 
+    /**
+     * Mutator for value
+     * @param value New value for value
+     */
     public void setValue(ValueExpression value) {
         this.value = value;
     }
 
-    public ValueExpression getIcon() {
-        return icon;
-    }
-
-    public void setIcon(ValueExpression icon) {
-        this.icon = icon;
-    }
-
-    public ValueExpression getWidth() {
-        return width;
-    }
-
-    public void setWidth(ValueExpression width) {
-        this.width = width;
-    }
-
+    /* Methods*/
     /**
-     * @return the debug
+     * @override setProperties in class ColumnTag 
+     * @param component
      */
-    public ValueExpression getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(ValueExpression debug) {
-        this.debug = debug;
-    }
-
-    public ValueExpression getStyle() {
-        return style;
-    }
-
-    public void setStyle(ValueExpression style) {
-        this.style = style;
-    }
-
-    public ValueExpression getStyleClass() {
-        return styleClass;
-    }
-
-    public void setStyleClass(ValueExpression styleClass) {
-        this.styleClass = styleClass;
-    }
-
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        component.setValueExpression("header", getHeader());
-        component.setValueExpression("icon", getIcon());
         component.setValueExpression("value", getValue());
-        component.setValueExpression("width", getWidth());
-        component.setValueExpression("debug", getDebug());
-        component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyleClass());
     }
 
+    /**
+     * @override release in class ColumnTag 
+     */
     @Override
     public void release() {
         super.release();
         setValue(null);
-        setIcon(null);
-        setHeader(null);
-        setWidth(null);
-        setDebug(null);
-        setStyle(null);
-        setStyleClass(null);
     }
 
+    /**
+     * @override getComponentType in class ColumnTag
+     * @return component type
+     */
     @Override
     public String getComponentType() {
         return COLUMN_COMP_TYPE;
     }
 
+    /**
+     * @override getRendererType in class ColumnTag
+     * @return renderer type
+     */
     @Override
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;

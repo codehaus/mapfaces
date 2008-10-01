@@ -16,129 +16,53 @@
  */
 package org.mapfaces.taglib.treelayout;
 
-import java.util.Map;
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.webapp.UIComponentELTag;
+import org.mapfaces.taglib.abstractTree.UITreeTableELTag;
 
 /**
- *
+ * <p>TreeTableTag is the base class for all JSP tags that correspond to a Tree table Component instance in the treelayout.</p>
  * @author kdelfour
  */
-public class TreeTableTag extends UIComponentELTag {
+public class TreeTableTag extends UITreeTableELTag {
 
-    private ValueExpression value = null;
-    private ValueExpression var = null;
-    private ValueExpression width = null;
-    private ValueExpression height = null;
-    private ValueExpression debug = null;
-    private ValueExpression style = null;
-    private ValueExpression styleClass = null;
+    /* Fields */
     private final String TREETABLE_COMP_TYPE = "org.mapfaces.treelayout.TreeTable";
     private final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeTable";
 
-    public ValueExpression getValue() {
-        return value;
-    }
-
-    public void setValue(ValueExpression value) {
-        this.value = value;
-    }
-
-    public ValueExpression getVar() {
-        return var;
-    }
-
-    public void setVar(ValueExpression var) {
-        if (var != null) {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            Map requestMap = ec.getRequestMap();
-            requestMap.put("org.treetable.varName", var);
-        }
-        this.var = var;
-    }
-
-    public ValueExpression getWidth() {
-        return width;
-    }
-
-    public void setWidth(ValueExpression width) {
-        this.width = width;
-    }
-
-    public ValueExpression getHeight() {
-        return height;
-    }
-
-    public void setHeight(ValueExpression height) {
-        this.height = height;
-    }
-
+    /* Methods*/
     /**
-     * @return the debug
+     * @see getComponentType in class UITreeTableELTag
+     * @return component type
      */
-    public ValueExpression getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(ValueExpression debug) {
-        this.debug = debug;
-    }
-
-    public ValueExpression getStyle() {
-        return style;
-    }
-
-    public void setStyle(ValueExpression style) {
-        this.style = style;
-    }
-
-    public ValueExpression getStyleClass() {
-        return styleClass;
-    }
-
-    public void setStyleClass(ValueExpression styleClass) {
-        this.styleClass = styleClass;
-    }
-
     @Override
     public String getComponentType() {
         return TREETABLE_COMP_TYPE;
     }
 
+    /**
+     * @see getComponentType in class UITreeTableELTag
+     * @return component type
+     */
     @Override
     public String getRendererType() {
         return TREETABLE_RENDERER_TYPE;
     }
 
+    /**
+     * @override setProperties in class UITreeTableELTag 
+     * @param component
+     */
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        component.setValueExpression("value", value);
-        component.setValueExpression("var", var);
-        component.setValueExpression("width", width);
-        component.setValueExpression("height", height);
-        component.setValueExpression("debug", getDebug());
-        component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyleClass());
     }
 
+    /**
+     * @override release in class UITreeTableELTag 
+     */
     @Override
     public void release() {
         super.release();
-        setId(null);
-        setValue(null);
-        setVar(null);
-        setWidth(null);
-        setHeight(null);
-        setDebug(null);
-        setStyle(null);
-        setStyleClass(null);
     }
 }
 
