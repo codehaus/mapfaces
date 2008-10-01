@@ -55,7 +55,7 @@ public  class XMLContextUtilities {
         if(elt.getDeclaredType().toString().equals("class net.opengis.owc.v030.OWSContextType")){
                  return (new OWCv030toMFTransformer()).visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
         }else
-            throw new NullPointerException("Bad file version, versions available are : owc v030 and wmc 1.1.0");
+            throw new NullPointerException("Bad file version, versions available are : owc 0.3.0 and wmc 1.1.0");
         
     }
 
@@ -63,7 +63,7 @@ public  class XMLContextUtilities {
         if(elt.getDeclaredType().toString().equals("class net.opengis.context.v110.ViewContextType")){
                  return (new WMCv110toMFTransformer()).visit( (net.opengis.context.v110.ViewContextType) elt.getValue());
         }else
-            throw new NullPointerException("Bad file version, versions available are : owc v030 and wmc 1.1.0");
+            throw new NullPointerException("Bad file version, versions available are : owc 0.3.0 and wmc 1.1.0");
     }
 
     public  JAXBElement unmarshal(FileReader fileReader) throws JAXBException {
