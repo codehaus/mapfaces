@@ -16,247 +16,52 @@
  */
 package org.mapfaces.taglib.tree;
 
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.webapp.UIComponentELTag;
-
-import org.mapfaces.component.tree.UITreePanel;
+import org.mapfaces.taglib.abstractTree.UITreePanelELTag;
 
 /**
- *
+ * <p>TreePanelTag is the base class for all JSP tags that correspond to a Tree panel Component instance in the view.</p>
  * @author kdelfour
  */
-public class TreePanelTag extends UIComponentELTag {
+public class TreePanelTag extends UITreePanelELTag {
 
-    private ValueExpression border = null;
-    private ValueExpression check = null;
-    private ValueExpression collapsible = null;
-    private ValueExpression enableDragDrop = null;
-    private ValueExpression frame = null;
-    private ValueExpression header = null;
-    private ValueExpression height = null;
-    private ValueExpression rowId = null;
-    private ValueExpression showLines = null;
-    private ValueExpression showRoot = null;
-    private ValueExpression title = null;
-    private ValueExpression width = null;
-    private ValueExpression debug = null;
-    private ValueExpression style = null;
-    private ValueExpression styleClass = null;
-    private ValueExpression styleLeaf = null;
-    private ValueExpression styleNode = null;
+    /* Fields */
     private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treetable.TreePanel";
     private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreePanel";
 
+    /* Methods*/
+    /**
+     * @see getComponentType in class UITreePanelELTag
+     * @return component type
+     */
     @Override
     public String getComponentType() {
         return TREEPANEL_COMP_TYPE;
     }
 
+    /**
+     * @see getComponentType in class UITreePanelELTag
+     * @return component type
+     */
     @Override
     public String getRendererType() {
         return TREEPANEL_RENDERER_TYPE;
     }
 
-    public ValueExpression getBorder() {
-        return border;
-    }
-
-    public void setBorder(ValueExpression border) {
-        this.border = border;
-    }
-
-    public ValueExpression getCheck() {
-        return check;
-    }
-
-    public void setCheck(ValueExpression checked) {
-        this.check = checked;
-    }
-
-    public ValueExpression getCollapsible() {
-        return collapsible;
-    }
-
-    public void setCollapsible(ValueExpression collapsible) {
-        this.collapsible = collapsible;
-    }
-
-    public ValueExpression getFrame() {
-        return frame;
-    }
-
-    public void setFrame(ValueExpression frame) {
-        this.frame = frame;
-    }
-
-    public ValueExpression getHeader() {
-        return header;
-    }
-
-    public void setHeader(ValueExpression header) {
-        this.header = header;
-    }
-
-    public ValueExpression getHeight() {
-        return height;
-    }
-
-    public void setHeight(ValueExpression height) {
-        this.height = height;
-    }
-
-    public ValueExpression getRowId() {
-        return rowId;
-    }
-
-    public void setRowId(ValueExpression rowId) {
-        this.rowId = rowId;
-    }
-
-    public ValueExpression getShowLines() {
-        return showLines;
-    }
-
-    public void setShowLines(ValueExpression showLines) {
-        this.showLines = showLines;
-    }
-
-    public ValueExpression getTitle() {
-        return title;
-    }
-
-    public void setTitle(ValueExpression title) {
-        if (title != null) {
-            this.title = title;
-        }
-    }
-
-    public ValueExpression getWidth() {
-        return width;
-    }
-
-    public void setWidth(ValueExpression width) {
-        this.width = width;
-    }
-
     /**
-     * @return the debug
+     * @override setProperties in class UITreePanelELTag 
+     * @param component
      */
-    public ValueExpression getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(ValueExpression debug) {
-        this.debug = debug;
-    }
-
-    public ValueExpression getShowRoot() {
-        return showRoot;
-    }
-
-    public void setShowRoot(ValueExpression showRoot) {
-        this.showRoot = showRoot;
-    }
-
-    public ValueExpression getEnableDragDrop() {
-        return enableDragDrop;
-    }
-
-    public void setEnableDragDrop(ValueExpression enableDragDrop) {
-        this.enableDragDrop = enableDragDrop;
-    }
-
-    public ValueExpression getStyle() {
-        return style;
-    }
-
-    public void setStyle(ValueExpression style) {
-        this.style = style;
-    }
-
-    public ValueExpression getStyleClass() {
-        return styleClass;
-    }
-
-    public void setStyleClass(ValueExpression styleClass) {
-        this.styleClass = styleClass;
-    }
-
-    public ValueExpression getStyleLeaf() {
-        return styleLeaf;
-    }
-
-    public void setStyleLeaf(ValueExpression styleLeaf) {
-        this.styleLeaf = styleLeaf;
-    }
-
-    public ValueExpression getStyleNode() {
-        return styleNode;
-    }
-
-    public void setStyleNode(ValueExpression styleNode) {
-        this.styleNode = styleNode;
-    }
-
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-
-        UITreePanel treepanel = (UITreePanel) component;
-        if (title != null) {
-            if (!title.isLiteralText()) {
-                component.setValueExpression("title", title);
-            } else {
-                FacesContext context = FacesContext.getCurrentInstance();
-                ExpressionFactory ef = context.getApplication().getExpressionFactory();
-                ValueExpression vex = ef.createValueExpression(context.getELContext(), title.getExpressionString(), java.lang.String.class);
-                treepanel.setTitle((String) vex.getValue(context.getELContext()));
-            }
-        }
-        component.setValueExpression("border", border);
-        component.setValueExpression("check", check);
-        component.setValueExpression("collapsible", collapsible);
-        component.setValueExpression("frame", frame);
-        component.setValueExpression("header", header);
-        component.setValueExpression("height", height);
-        component.setValueExpression("rowId", rowId);
-        component.setValueExpression("showLines", showLines);
-        component.setValueExpression("width", width);
-        component.setValueExpression("debug", getDebug());
-        component.setValueExpression("showRoot", showRoot);
-        component.setValueExpression("enableDragDrop", enableDragDrop);
-        component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyle());
-        component.setValueExpression("styleLeaf", getStyleLeaf());
-        component.setValueExpression("styleNode", getStyleNode());
     }
 
+    /**
+     * @override release in class UITreePanelELTag 
+     */
     @Override
     public void release() {
         super.release();
-        setBorder(null);
-        setCheck(null);
-        setCollapsible(null);
-        setFrame(null);
-        setHeader(null);
-        setHeight(null);
-        setRowId(null);
-        setShowLines(null);
-        setTitle(null);
-        setWidth(null);
-        setDebug(null);
-        setShowRoot(null);
-        setEnableDragDrop(null);
-        setStyle(null);
-        setStyleClass(null);
-        setStyleLeaf(null);
-        setStyleNode(null);
-
     }
 }

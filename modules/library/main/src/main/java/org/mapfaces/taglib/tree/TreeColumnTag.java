@@ -14,121 +14,72 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib.tree;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentELTag;
+import org.mapfaces.taglib.abstractTree.UITreeColumnELTag;
 
 /**
- *
+ * <p>TreeColumnTag is the base class for all JSP tags that correspond to a TreeColumn Component instance in the view.</p>
  * @author kdelfour
  */
-public class TreeColumnTag extends UIComponentELTag {
+public class TreeColumnTag extends UITreeColumnELTag {
 
-    private ValueExpression header = null;
+    /* Fields */
     private ValueExpression value = null;
-    private ValueExpression width = null;
-    private ValueExpression debug = null;
-    private ValueExpression style = null;
-    private ValueExpression styleClass = null;
-    private ValueExpression styleHeader = null;
     private static final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.TreeColumn";
     private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn";
 
-    public ValueExpression getHeader() {
-        return header;
-    }
-
-    public void setHeader(ValueExpression aHeader) {
-        header = aHeader;
-    }
-
-    public ValueExpression getWidth() {
-        return width;
-    }
-
-    public void setWidth(ValueExpression Width) {
-        width = Width;
-    }
-
+    /**
+     * Accessor for value
+     * @return the value
+     */
     public ValueExpression getValue() {
         return value;
     }
 
+    /**
+     * Mutator for value
+     * @param value New value for value
+     */
     public void setValue(ValueExpression value) {
         this.value = value;
     }
 
+    /* Methods*/
     /**
-     * @return the debug
+     * @override setProperties in class UITreeColumnELTag 
+     * @param component
      */
-    public ValueExpression getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(ValueExpression debug) {
-        this.debug = debug;
-    }
-    
-    public ValueExpression getStyle() {
-        return style;
-    }
-
-    public void setStyle(ValueExpression style) {
-        this.style = style;
-    }
-
-    public ValueExpression getStyleClass() {
-        return styleClass;
-    }
-
-    public void setStyleClass(ValueExpression styleClass) {
-        this.styleClass = styleClass;
-    }
-    
-    
-    public ValueExpression getStyleHeader() {
-        return styleHeader;
-    }
-
-    public void setStyleHeader(ValueExpression styleHeader) {
-        this.styleHeader = styleHeader;
-    }
-
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        component.setValueExpression("header", getHeader());
         component.setValueExpression("value", getValue());
-        component.setValueExpression("width", getWidth());
-        component.setValueExpression("debug", getDebug());
-        component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyleClass());
-        component.setValueExpression("styleHeader", getStyleHeader());
     }
 
+    /**
+     * @override release in class UITreeColumnELTag 
+     */
     @Override
     public void release() {
         super.release();
-        setHeader(null);
         setValue(null);
-        setWidth(null);
-        setDebug(null);
-        setStyle(null);
-        setStyleClass(null);
-        setStyleHeader(null);
     }
 
+    /**
+     * @see getComponentType in class UITreeColumnELTag
+     * @return component type
+     */
     @Override
     public String getComponentType() {
         return TREECOLUMN_COMP_TYPE;
     }
 
+    /**
+     * @see getRendererType in class UITreeColumnELTag
+     * @return Renderer type
+     */
     @Override
     public String getRendererType() {
         return TREECOLUMN_RENDERER_TYPE;
