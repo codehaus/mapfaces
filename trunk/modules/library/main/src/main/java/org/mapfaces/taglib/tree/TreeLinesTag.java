@@ -14,39 +14,55 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib.tree;
 
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentELTag;
+import org.mapfaces.taglib.abstractTree.UITreeLinesELTag;
 
 /**
- *
+ * <p>TreeLinesTag is the base class for all JSP tags that correspond to a Tree Lines Component instance in the view.</p>
  * @author kevindelfour
  */
-public class TreeLinesTag extends UIComponentELTag {
+public class TreeLinesTag extends UITreeLinesELTag {
 
+    /* Fields */
     private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.TreeLines";
     private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeLines";
 
-    @Override
-    public void setProperties(UIComponent component) {
-        super.setProperties(component);
-    }
-
-    @Override
-    public void release() {
-        super.release();
-    }
-
+    /* Methods*/
+    /**
+     * @see getComponentType in class UITreeLinesELTag
+     * @return component type
+     */
     @Override
     public String getComponentType() {
         return COLUMN_COMP_TYPE;
     }
 
+    /**
+     * @see getComponentType in class UITreeLinesELTag
+     * @return component type
+     */
     @Override
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;
+    }
+
+    /**
+     * @override setProperties in class UITreeLinesELTag 
+     * @param component
+     */
+    @Override
+    public void setProperties(UIComponent component) {
+        super.setProperties(component);
+    }
+
+    /**
+     * @override release in class UITreeLinesELTag 
+     */
+    @Override
+    public void release() {
+        super.release();
     }
 }
 

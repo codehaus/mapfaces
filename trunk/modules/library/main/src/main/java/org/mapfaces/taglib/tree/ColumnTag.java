@@ -16,134 +16,50 @@
  */
 package org.mapfaces.taglib.tree;
 
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.webapp.UIComponentELTag;
+import org.mapfaces.taglib.abstractTree.UIColumnELTag;
 
 /**
- *
+ * <p>ColumnTag is the base class for all JSP tags that correspond to a Tree column Component instance in the view.</p>
  * @author kdelfour
  */
-public class ColumnTag extends UIComponentELTag {
+public class ColumnTag extends UIColumnELTag {
 
-    public static String getCOLUMN_COMP_TYPE() {
-        return COLUMN_COMP_TYPE;
-    }
-    private ValueExpression header = null;
-    private ValueExpression width = null;
-    private ValueExpression icon = null;
-    private ValueExpression debug = null;
-    private ValueExpression style = null;
-    private ValueExpression styleClass = null;
-    private ValueExpression styleHeader = null;
+    /* Fields */
     private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.Column";
     private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLColumn";
 
-    public ValueExpression getHeader() {
-        return header;
-    }
-
+    /* Methods*/
     /**
-     * 
-     * @param header
+     * @override setProperties in class UIColumnELTag 
+     * @param component
      */
-    public void setHeader(ValueExpression header) {
-        this.header = header;
-    }
-
-    public ValueExpression getWidth() {
-        return width;
-    }
-
-    /**
-     * 
-     * @param width
-     */
-    public void setWidth(ValueExpression width) {
-        this.width = width;
-    }
-
-    /**
-     * @return the icon
-     */
-    public ValueExpression getIcon() {
-        return icon;
-    }
-
-    /**
-     * @param icon the icon to set
-     */
-    public void setIcon(ValueExpression icon) {
-        this.icon = icon;
-    }
-
-    /**
-     * @return the debug
-     */
-    public ValueExpression getDebug() {
-        return debug;
-    }
-
-    /**
-     * @param debug the debug to set
-     */
-    public void setDebug(ValueExpression debug) {
-        this.debug = debug;
-    }
-
-    public ValueExpression getStyleClass() {
-        return styleClass;
-    }
-
-    public void setStyleClass(ValueExpression styleClass) {
-        this.styleClass = styleClass;
-    }
-
-    public ValueExpression getStyle() {
-        return style;
-    }
-
-    public void setStyle(ValueExpression style) {
-        this.style = style;
-    }
-
-    public ValueExpression getStyleHeader() {
-        return styleHeader;
-    }
-
-    public void setStyleHeader(ValueExpression styleHeader) {
-        this.styleHeader = styleHeader;
-    }
-
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        component.setValueExpression("header", getHeader());
-        component.setValueExpression("width", getWidth());
-        component.setValueExpression("icon", getIcon());
-        component.setValueExpression("debug", getDebug());
-        component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyleClass());
-        component.setValueExpression("styleHeader", getStyleHeader());
     }
 
+    /**
+     * @override release in class UIColumnELTag 
+     */
     @Override
     public void release() {
         super.release();
-        setHeader(null);
-        setWidth(null);
-        setIcon(null);
-        setDebug(null);
-        setStyle(null);
-        setStyleClass(null);
-        setStyleHeader(null);
     }
 
+    /**
+     * @see getComponentType in class UIColumnELTag
+     * @return component type
+     */
     @Override
     public String getComponentType() {
-        return getCOLUMN_COMP_TYPE();
+        return COLUMN_COMP_TYPE;
     }
 
+    /**
+     * @see getRendererType in class UIColumnELTag
+     * @return renderer type
+     */
     @Override
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;
