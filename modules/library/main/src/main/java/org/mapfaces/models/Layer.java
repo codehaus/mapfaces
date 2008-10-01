@@ -28,6 +28,7 @@ import org.geotools.map.MapLayer;
  */
 public interface Layer extends Serializable {
 
+
     void setUserValue(String string, String value);
 
     String getDataUrl();
@@ -56,7 +57,7 @@ public interface Layer extends Serializable {
 
     String getOutputFormat();
 
-    boolean getQueryable();
+    boolean isQueryable();
 
     ReferencedEnvelope getRefEnv();
 
@@ -78,8 +79,6 @@ public interface Layer extends Serializable {
     void setDataUrl(String dataUrl);
 
     void setDepth(String depth);
-
-    void setDimensionList(HashMap<String, Dimension> dimensionList);
 
     void setGroup(String group);
 
@@ -114,25 +113,12 @@ public interface Layer extends Serializable {
     void setResZ(String resZ);
 
     void setResponseCRS(String responseCRS);
-
-    // void setServer(Server server);
-
-    //void setStyle(List<Style> style);
+    
     void setTitle(String title);
-
-    MapLayer getMapLayer();
-
-    void setMapLayer(MapLayer mapLayer);
-
-    void get(MapLayer mapLayer);
-
-    Dimension getElevation();
-
-    Dimension getTime();
-
-    Dimension getDimension(String name);
-
-    void setDimension(String name, String value);
+    
+    void setServer(Server server);
+    
+    Server getServer();
 
     String getType();
 
@@ -143,16 +129,13 @@ public interface Layer extends Serializable {
     void setLegendUrl(String legendUrl);
     
     /*
-     * These function are added to easily configure the layercontrol tag
-     * */
-    /*
-     * Elevations is the dimension node value for elevation dimension
+     * Getters and setters for dimensions parameters
      * */
     String getElevations();
 
     String getTimes();
     
-    String setElevations();
+    void setElevations(String value);
     
     String getUserValueElevation();
 
@@ -161,4 +144,36 @@ public interface Layer extends Serializable {
     String getUserValueDimension(String name);
     
     String getUserValueDimRange();
+    
+    Dimension getElevation();
+
+    Dimension getTime();
+
+    Dimension getDimension(String name);
+    
+    String getAttrDimension(String name, String attrName);
+
+    void setDimension(String name, String value);
+    
+    void setDimension(Dimension dim);
+    
+    void setAttrDimension(String name, String attrName, String attrValue);
+    
+    void setDimensionList(HashMap<String, Dimension> dimensionList);
+    
+    /* *
+     * Getters and setters for styles parameters
+     * 
+     * */
+    String getStyles();
+    
+    String getSld();
+    
+    String getSldBody();
+    
+    void setStyles(String styles);
+    
+    void setSld(String sld);
+    
+    void setSldBody(String sldBody);
 }

@@ -16,10 +16,8 @@
             <h1><h:outputText value="MapFaces" /></h1>                
             <br/>
             <h:form>
-                <mf-model:Context service="data/context/blueMarble.xml">
-                    <div id='test'>
-                        <mf:MapPane></mf:MapPane>
-                    </div>
+                <mf-model:Context debug="true" service="data/context/blueMarble.xml">
+                    <mf:MapPane debug="true"></mf:MapPane>
                     <mf:ButtonBar styleClass="mfButtonBar horizontal"></mf:ButtonBar>
                 </mf-model:Context>
             </h:form>

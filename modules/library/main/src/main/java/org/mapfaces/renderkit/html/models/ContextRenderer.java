@@ -35,9 +35,11 @@ import javax.xml.bind.Unmarshaller;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
+import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.models.AbstractContext;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.models.Context;
+import org.mapfaces.util.XMLContextUtilities;
 
 /**
  *
@@ -53,7 +55,8 @@ public class ContextRenderer extends Renderer {
     //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
     private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
-    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
+    //private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
+    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -119,15 +122,11 @@ public class ContextRenderer extends Renderer {
                 if (fileUrl == null || fileUrl.length() < 1) {
                     throw new IllegalArgumentException("You must indicate a path to file to read");
                 }
-                // Unmarshalles the given XML file to objects
-                JAXBContext Jcontext;
-                Jcontext = JAXBContext.newInstance("net.opengis.owc.v030:net.opengis.context.v110");
-                Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
-                JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
-                comp.setJAXBElt(elt);
+                Context ctx = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
+                comp.setModel((AbstractModelBase)ctx);
             } else {
                 if (comp.isDebug()) {
-                    System.out.println("AbstractContext already exist");
+                    System.out.println("Context already exist");
                 }
             }
 
@@ -190,7 +189,7 @@ public class ContextRenderer extends Renderer {
             System.out.println("ContextRenderer decode");
         }
         if (context.getExternalContext().getRequestParameterMap() != null) {
-            AbstractContext tmp = (AbstractContext) comp.getModel();
+            Context tmp = (Context) comp.getModel();
 
             //tmp.setI
             Map params = context.getExternalContext().getRequestParameterMap();
@@ -198,7 +197,7 @@ public class ContextRenderer extends Renderer {
             if (title != null && !title.equals(tmp.getTitle())) {
                 tmp.setTitle(title);
             }
-            comp.setModel(tmp);
+            comp.setModel((AbstractModelBase)tmp);
             if (comp.isDebug()) {
                 System.out.println("    Nouveaux parametres du context : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }

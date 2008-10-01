@@ -25,7 +25,7 @@ import javax.faces.component.UISelectOne;
 import javax.faces.context.FacesContext;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIMapSize;
-import org.mapfaces.models.AbstractContext;
+import org.mapfaces.models.Context;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -39,7 +39,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
 
         UIMapSize comp = (UIMapSize) component;
-        AbstractContext model = (AbstractContext) comp.getModel();
+        Context model = (Context) comp.getModel();
 
         getWriter().startElement("div", comp);
         getWriter().writeAttribute("id", getClientId(), "id");

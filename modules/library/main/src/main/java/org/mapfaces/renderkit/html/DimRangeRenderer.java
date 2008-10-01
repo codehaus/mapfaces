@@ -47,7 +47,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.writeAttribute("style",style,"style");
         writer.startElement("div",comp);
         writer.writeAttribute("id","track"+layerId, "id");
-        writer.writeAttribute("style","width: 256px; background-image: url('"+ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null)+"');",style);
+        writer.writeAttribute("style","width: 256px; background-image: url('"+ResourcePhaseListener.getURL(context,TRACK_SLIDER_IMG, null)+"');",style);
         writer.writeAttribute("class","track","class");
             writer.startElement("div",comp);
             writer.writeAttribute("id","handle1"+layerId, "id");

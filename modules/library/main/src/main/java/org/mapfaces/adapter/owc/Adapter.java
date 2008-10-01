@@ -2,6 +2,7 @@ package org.mapfaces.adapter.owc;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
@@ -12,9 +13,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.mapfaces.models.AbstractContext;
+import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
-import org.mapfaces.models.OWC_v030;
 import org.mapfaces.models.tree.TreeNodeModel;
 
 /**
@@ -30,7 +30,7 @@ public class Adapter {
      */
    public static DefaultTreeModel OWC2Tree(String fileUrl) {
 
-        AbstractContext model = null;
+        Context model = null;
         FacesContext context = FacesContext.getCurrentInstance();
 
         //First we get the OWC model
@@ -40,7 +40,7 @@ public class Adapter {
             Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
             ServletContext sc = (ServletContext) context.getExternalContext().getContext();
             JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
-            model = new OWC_v030(elt.getValue());
+//            model = new OWC_v030(elt.getValue());
         } catch (JAXBException ex) {
             Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, "JAXBException" + ex);
         } catch (FileNotFoundException ex) {
@@ -56,10 +56,10 @@ public class Adapter {
         int id = 0;
         int depth = 1;
         //Then we get a list layers to construct the tree
-        Layer[] listLayers = model.getLayers();
+        List<Layer> listLayers = model.getLayers();
         for (Layer layer : listLayers) {
             id++;
-            TreeNodeModel item = new TreeNodeModel(layer.getMapLayer(), id, depth, id, false);
+            TreeNodeModel item = new TreeNodeModel(layer, id, depth, id, false);
             contextOwc.add(item);
         }
 
@@ -72,7 +72,7 @@ public class Adapter {
      * @param form
      * @return
      */
-    public static DefaultTreeModel abstractContext2Tree(FacesContext context, AbstractContext model) {
+    public static DefaultTreeModel context2Tree(FacesContext context, Context model) {
 
         DefaultTreeModel tree = new DefaultTreeModel(null);
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
@@ -83,7 +83,7 @@ public class Adapter {
         int id = 0;
         int depth = 1;
         //Then we get a list layers to construct the tree
-        Layer[] listLayers = model.getLayers();
+        List<Layer> listLayers = model.getLayers();
         for (Layer layer : listLayers) {
             System.out.println("ID :" + id);
             id++;

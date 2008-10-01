@@ -11,7 +11,7 @@
  *
  *==================================================
  */
- 
+var timelineSingleFile = false;
 var Timeline = new Object();
 Timeline.Platform = new Object();
     /*
@@ -97,30 +97,33 @@ Timeline.Platform = new Object();
                     parseURLParameters(Timeline_parameters);
                 }
             } else {
-                var heads = document.documentElement.getElementsByTagName("body");
-                for (var h = 0; h < heads.length; h++) {
-                    var scripts = heads[h].getElementsByTagName("script");
-                    for (var s = 0; s < scripts.length; s++) {
-                        var url = scripts[s].src;
-                        var i = url.indexOf("timeline-api.js");
-                        if (i >= 0) {
-                            Timeline.urlPrefix = url.substr(0, i);
-                            var q = url.indexOf("?");
-                            if (q > 0) {
-                                parseURLParameters(url.substr(q + 1));
-                            }
-                            return;
-                        }
-                    }
+                /*GEOMATYS add the if*/
+                if(!timelineSingleFile){
+                  var heads = document.documentElement.getElementsByTagName("body");
+                  for (var h = 0; h < heads.length; h++) {
+                      var scripts = heads[h].getElementsByTagName("script");
+                      for (var s = 0; s < scripts.length; s++) {
+                          var url = scripts[s].src;
+                          var i = url.indexOf("timeline-api.js");
+                          if (i >= 0) {
+                              Timeline.urlPrefix = url.substr(0, i);
+                              var q = url.indexOf("?");
+                              if (q > 0) {
+                                  parseURLParameters(url.substr(q + 1));
+                              }
+                              return;
+                          }
+                      }
+                  }
+                  throw new Error("Failed to derive URL prefix for Timeline API code files");
                 }
-                throw new Error("Failed to derive URL prefix for Timeline API code files");
             }
         })();
         
         var includeJavascriptFiles;
         var includeCssFiles;
         if ("SimileAjax" in window) {
-            includeJavascriptFiles = function(urlPrefix, filenames) {
+            includeJavascriptFiles = function(urlPrefix, filenames) {f
                 SimileAjax.includeJavascriptFiles(document, urlPrefix, filenames);
             }
             includeCssFiles = function(urlPrefix, filenames) {
@@ -133,7 +136,10 @@ Timeline.Platform = new Object();
             var includeJavascriptFile = function(url) {
                 if (document.body == null) {
                     try {
-                        document.write("<script src='" + url + "' type='text/javascript'></script>");
+                        /*GEOMATYS add the if*/
+                        if(!timelineSingleFile){
+                          document.write("<script src='" + url + "' type='text/javascript'></script>");
+                        }
                         return;
                     } catch (e) {
                         // fall through
@@ -164,8 +170,12 @@ Timeline.Platform = new Object();
             }
             
             includeJavascriptFiles = function(urlPrefix, filenames) {
-                for (var i = 0; i < filenames.length; i++) {
-                    includeJavascriptFile(urlPrefix + filenames[i]);
+                
+                /*GEOMATYS add the if*/
+                if(!timelineSingleFile){
+                  for (var i = 0; i < filenames.length; i++) {
+                      includeJavascriptFile(urlPrefix + filenames[i]);
+                  }
                 }
             };
             includeCssFiles = function(urlPrefix, filenames) {

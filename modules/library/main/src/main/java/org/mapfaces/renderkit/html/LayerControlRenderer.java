@@ -33,7 +33,7 @@ import org.mapfaces.component.treelayout.UITreeColumn;
 import org.mapfaces.component.treelayout.UITreeNodeInfo;
 import org.mapfaces.component.treelayout.UITreePanel;
 import org.mapfaces.component.treelayout.UITreeTable;
-import org.mapfaces.models.AbstractContext;
+import org.mapfaces.models.Context;
 import org.mapfaces.models.tree.TreeModelsUtils;
 
 /**
@@ -48,14 +48,14 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
 
         UILayerControl comp = (UILayerControl) component;
-        AbstractContext model;
-        if (comp.getModel() != null && comp.getModel() instanceof AbstractContext) {
-            model = (AbstractContext) comp.getModel();
+        Context model;
+        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+            model = (Context) comp.getModel();
         } else {
-            //The model context is null or not an AbstractContext instance
+            //The model context is null or not an Context instance
             throw new UnsupportedOperationException("[LayerControlRenderer] The model context is null or not supported yet !");
         }
-        comp.setTree(Adapter.abstractContext2Tree(context, model));
+        comp.setTree(Adapter.context2Tree(context, model));
 
 
         getWriter().startElement("div", comp);
@@ -76,7 +76,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setId("TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
         treeTable.setVarName("layer");
-        treeTable.setWidth(438);
+        treeTable.setWidth(456);
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
         treePanel.setId("TreePanel");
@@ -85,6 +85,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
         treePanel.setShowRoot(true);
+        treeTable.setStyle("border: 1px outset rgb(170, 170, 170);");
        // treePanel.setStyle("height:400px;overflow:scroll;");
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
@@ -125,10 +126,11 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         tic.setId("Time");
         // tic.setValue("#{layer.userValueDate}");
         tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
-        tic.setWidth("26");
+        tic.setWidth("28");
 
         UITreeNodeInfo tni = new UITreeNodeInfo();
         tni.setHeader("Info");
+        tni.setStyle("border:none;");
         UIOutput o4 = new UIOutput();
         o4.setValue("Id : #{layer.id}");
         UIOutput o1 = new UIOutput();
@@ -137,8 +139,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         o3.setValue("Group : #{layer.group}");
         UIOutput o5 = new UIOutput();
         o5.setValue("Format : #{layer.outputFormat}");
-        UIOutput o6 = new UIOutput();
-        o6.setValue("Legende : #{layer.legendUrl}");
+//        UIOutput o6 = new UIOutput();
+//        o6.setValue("Legende : #{layer.legendUrl}");
         UIDimRange dr = new UIDimRange();
         //dr.setUIModel(getUIModel());
         dr.setValue("#{layer.userValueDimRange}");
@@ -158,7 +160,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
   //         tni.getChildren().add(o2);
         tni.getChildren().add(o3);
         tni.getChildren().add(o5);
-        tni.getChildren().add(o6);
+        //tni.getChildren().add(o6);
 //            tni.getChildren().add(img);
         tni.getChildren().add(dr);
         treePanel.getChildren().add(tc);

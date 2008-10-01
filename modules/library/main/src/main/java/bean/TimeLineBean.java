@@ -411,8 +411,8 @@ public class TimeLineBean {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+1"));
         sdf.setTimeZone(TimeZone.getDefault());
         Layer layer = uiLayer.getLayer();
-       SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription(layer.getTimes(),sdf);
-       // SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription("2004-06-06T12:00:00Z/2005-06-20T12:00:00Z/P1D,2007-06-04T12:00:00Z,2007-06-03T12:00:00Z",sdf);
+        SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription(layer.getTimes(),sdf);
+        // SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription("2004-06-06T12:00:00Z/2005-06-20T12:00:00Z/P1D,2007-06-04T12:00:00Z,2007-06-03T12:00:00Z",sdf);
         Date dateBegin = dates.first();
         Date dateEnd = dates.last();
         for (Iterator it = dates.iterator(); it.hasNext();){
@@ -421,8 +421,8 @@ public class TimeLineBean {
                                        null,
                                         null,
                                         false,
-                                        layer.getName()+" "+layer.getId()+" "+sdf.format(crrt),
-                                        "This is the duration of the jsf implementation for the component TimeLine : "+sdf.format(crrt),
+                                        layer.getId()+" "+sdf.format(crrt),//layer.getName()+" "+layer.getId()+" "+sdf.format(crrt),
+                                        layer.getTitle(),//This is the duration of the jsf implementation for the component TimeLine : "+sdf.format(crrt),
                                         sdf.format(crrt),
                                         sdf.format(crrt),
                                         "",
@@ -431,12 +431,12 @@ public class TimeLineBean {
                                         "",
                                         Status.IN_PROGRESS,
                                         "",
-                                        layer.getMapLayer());
-            System.out.println(">> Event = "+e);
+                                        layer);
+           // System.out.println(">> Event = "+e);
                     events.add(e);
         }
-        System.out.println("eveeeeentes"+events.size());
-        System.out.println("  datebegin = "+dateBegin+"  date2 = "+sdf.parse("2007-06-29T12:00:00Z"));
+       // System.out.println("eveeeeentes"+events.size());
+       // System.out.println("  datebegin = "+dateBegin+"  date2 = "+sdf.parse("2007-06-29T12:00:00Z"));
         if(layer.getUserValueTime()==null)
             centerDate =PeriodUtilities.getDateFromString("2007-06-06T12:00:00Z");
         else
@@ -464,16 +464,18 @@ public class TimeLineBean {
                                        null,
                                         null,
                                         false,
-                                        layer.getName(),
-                                        "This is the duration of the jsf implementation for the component TimeLine : "+sdf.format(crrt),
+                                        "",//layer.getName(),
+                                        "",//This is the duration of the jsf implementation for the component TimeLine : "+sdf.format(crrt),
                                         sdf.format(crrt),
-                                        "http://demo.geomatys.fr/seagis/WS/wms?DIM_RANGE=-3.0,40.0&TIME=2007-06-20T12:00:00Z&SERVICE=WMS&LAYERS="+layer.getName()+"&EXCEPTIONS=application/vnd.ogc.se_xml&ELEVATION=5.0&FORMAT=image/png&HEIGHT=25&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-3.0056260600743E7,-2.0037507067162E7,3.0056260600743E7,2.0037507067162E7&WIDTH=25&SRS=EPSG:3395&STYLES=&VERSION=1.1.1",
-                                        "http://demo.geomatys.fr/seagis/WS/wms?DIM_RANGE=-3.0,40.0&TIME=2007-06-20T12:00:00Z&SERVICE=WMS&LAYERS="+layer.getName()+"&EXCEPTIONS=application/vnd.ogc.se_xml&ELEVATION=5.0&FORMAT=image/png&HEIGHT=25&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-3.0056260600743E7,-2.0037507067162E7,3.0056260600743E7,2.0037507067162E7&WIDTH=25&SRS=EPSG:3395&STYLES=&VERSION=1.1.1",
+//                                        "http://demo.geomatys.fr/seagis/WS/wms?DIM_RANGE=-3.0,40.0&TIME=2007-06-20T12:00:00Z&SERVICE=WMS&LAYERS="+layer.getName()+"&EXCEPTIONS=application/vnd.ogc.se_xml&ELEVATION=5.0&FORMAT=image/png&HEIGHT=25&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-3.0056260600743E7,-2.0037507067162E7,3.0056260600743E7,2.0037507067162E7&WIDTH=25&SRS=EPSG:3395&STYLES=&VERSION=1.1.1",
+//                                        "http://demo.geomatys.fr/seagis/WS/wms?DIM_RANGE=-3.0,40.0&TIME=2007-06-20T12:00:00Z&SERVICE=WMS&LAYERS="+layer.getName()+"&EXCEPTIONS=application/vnd.ogc.se_xml&ELEVATION=5.0&FORMAT=image/png&HEIGHT=25&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=-3.0056260600743E7,-2.0037507067162E7,3.0056260600743E7,2.0037507067162E7&WIDTH=25&SRS=EPSG:3395&STYLES=&VERSION=1.1.1",
+                                        "",
+                                        "",
                                         Priority.NORMAL,
                                         "",
                                         Status.IN_PROGRESS,
                                         "",
-                                        layer.getMapLayer());
+                                        layer);
              events.add(e);
         }
         

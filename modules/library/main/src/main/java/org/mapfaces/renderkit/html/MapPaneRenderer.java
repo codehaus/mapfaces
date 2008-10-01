@@ -29,13 +29,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
 import org.geotools.map.DefaultMapContext;
-import org.geotools.map.WMSMapLayer;
 import org.geotools.referencing.CRS;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
-import org.mapfaces.models.AbstractContext;
+import org.mapfaces.models.AbstractModelBase;
+import org.mapfaces.models.Context;
+import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.Layer;
 import org.mapfaces.util.FacesUtils;
 import org.opengis.referencing.FactoryException;
@@ -55,20 +56,20 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         UIMapPane comp = (UIMapPane) component;
         boolean debug = comp.isDebug();
         String clientId= comp.getClientId(context);
-        AbstractContext model;        
-        if (comp.getModel() != null && comp.getModel() instanceof AbstractContext) {
-            model = (AbstractContext) comp.getModel();
+        Context model;        
+        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+            model = (Context) comp.getModel();
         } else {
-            //The model context is null or not an AbstractContext instance
+            //The model context is null or not an Context instance
             throw new UnsupportedOperationException("The model context is null or not supported yet !");
         }
 
         boolean isContextExist = true;
 
-        BigInteger height = model.getWindowHeight();
-        BigInteger width = model.getWindowWidth(); 
+        String height = model.getWindowHeight();
+        String width = model.getWindowWidth(); 
         if(comp.getMaxExtent()==null){
-            comp.setMaxExtent(model.getMinx().toString()+","+model.getMiny().toString()+","+model.getMaxx().toString()+","+model.getMaxy().toString()) ;
+            comp.setMaxExtent(model.getMinx()+","+model.getMiny()+","+model.getMaxx()+","+model.getMaxy()) ;
         }
         String id = (String) comp.getAttributes().get("id");      
         
@@ -116,7 +117,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         if (isContextExist) {
             try {
-                Layer[] layers = model.getLayers();
+                List<Layer> layers = model.getLayers();
                 ServletContext sc = (ServletContext) context.getExternalContext().getContext();
                 
                 File dstDir = new File(sc.getRealPath("tmp"));
@@ -133,14 +134,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     removeChildren(context, component);
                 }
                 if (debug) {
-                    System.out.println("        Le MapPane contient " + layers.length + " layers");
+                    System.out.println("        Le MapPane contient " + layers.size() + " layers");
                 }
                 for (Layer temp : layers) {
-                    
                     if (temp != null) {
                     
                         UILayer layer = new UILayer(comp, temp);
-                        layer.setModel(model);
+                        layer.setModel((AbstractModelBase) model);
                         if (temp.getId() != null) {
                             layer.getAttributes().put("id", temp.getId());
                         } else {
@@ -150,14 +150,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                             layer.getAttributes().put("debug", true);
                         }
                         layer.setLayer(temp);
-                        if (debug) {
-                            System.out.println("        Y à t'il  des dimensioons pour le layer : " + temp.getTitle() + " provenant du server " + ((WMSMapLayer) temp.getMapLayer()).getWMS_SERVER().getServerURL() + " ? " + temp.getDimensionList());
-                        }
                         layer.setDir(dstDir);
                         layer.setContextPath(ctxPath);
                         comp.getChildren().add(layer);
                     }
-                    
                 }
             } catch (NoSuchAuthorityCodeException ex) {
                 Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,7 +167,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         List<UIComponent> childrens = comp.getChildren();
         for (UIComponent tmp : childrens) {
             if (tmp instanceof UIWidgetBase) {
-                ((UIWidgetBase) tmp).setModel(model);
+                ((UIWidgetBase) tmp).setModel((AbstractModelBase)model);
             }
         }
     }
@@ -181,11 +177,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         super.encodeEnd(context, component);
         UIMapPane comp = (UIMapPane) component;
         UIContext contextComp = (UIContext) comp.getParent();
-        AbstractContext model;
-        if (comp.getModel() != null && comp.getModel() instanceof AbstractContext) {
-            model = (AbstractContext) comp.getModel();
+        Context model;
+        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+            model = (Context) comp.getModel();
         } else {
-            //The model context is null or not an AbstractContext instance
+            //The model context is null or not an Context instance
             throw new UnsupportedOperationException("The model context is null or not supported yet !");
         }
         ResponseWriter writer = context.getResponseWriter();
@@ -229,7 +225,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         super.decode(context, component);
         UIMapPane comp = (UIMapPane) component;
         UIContext contextComp = (UIContext) comp.getParent();
-        AbstractContext tmp = (AbstractContext) contextComp.getModel();
+        Context tmp = (Context) contextComp.getModel();
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             Map params = context.getExternalContext().getRequestParameterMap();
@@ -238,7 +234,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                comp.setInitDisplay(true);
         }
         
-        contextComp.setModel(tmp);
-        comp.setModel(tmp);
+        contextComp.setModel((AbstractModelBase)tmp);
+        comp.setModel((AbstractModelBase)tmp);
     }
 }

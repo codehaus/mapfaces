@@ -21,6 +21,6 @@ package org.mapfaces.models;
  *
  * @author Olivier Terral.
  */
-public abstract class AbstractOWC extends AbstractContext{
+public class DefaultOWC extends DefaultContext {
 
 }

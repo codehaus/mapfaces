@@ -18,107 +18,141 @@
 package org.mapfaces.models;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
- interface Context extends Serializable {
+public interface Context extends Serializable {
 
-   
-      String getId();
+    String getId();
+
+    void setId(String id);
+
+    String getType();
+
+    void setType(String type);
+
+    String getVersion();
+
+    void setVersion(String version);
+
+    String getTitle();
+
+    void setTitle(String title);
+
+    String getWindowSize();
+
+    void setWindowSize(String width, String height);
+
+    String getWindowWidth();
+
+    void setWindowWidth(String windowWidth);
+
+    String getWindowHeight();
+
+    void setWindowHeight(String windowHeight); 
+
+    String getBoundingBox();
+
+    void setBoundingBox(String minx, String miny, String maxx, String maxy);
+
+    String getMinx();
+
+    void setMinx(String minx);
+
+    String getMiny();
+
+    void setMiny(String miny);
+
+    String getMaxx();
+
+    void setMaxx(String maxx);
+
+    String getMaxy();
+
+    void setMaxy(String maxy);
+
+    String getSrs();
+
+    void setSrs(String srs);
+
+/*******************************Layers functions*******************************/
     
-      void setId(String id);
+    List<Layer> getLayers();
+
+    void setLayers(List<Layer> layers);
+
+    List<Layer> getHiddenLayers();
+
+    List<Layer> getVisibleLayers();
+
+    List<Layer> getQueryableLayers();
+
+    List<Layer> getNoQueryableLayers();
+
+    List<Layer> getGroupLayers(String nameOfGroup);
+
+
+/*********************************** Layer functions***************************/
     
-      String getVersion();
+    Layer getLayerFromId(String id);    
+
+    String getOpacity(String id);
+
+    void setOpacity(String id, String value);
     
-      void setVersion(String version);
+    boolean isHidden(String id);
 
-      String getTitle();
+    void setHidden(String id, boolean test);
     
-      void setTitle(String title);
+    void addLayer(Layer layer);
 
-      String getWindowWidth();
-
-      void setWindowWidth(BigInteger windowWidth);
-
-      String getWindowHeight();
-
-      void setWindowHeight(BigInteger windowHeight);
-
-      String getMinx();
-
-      void setMinx(Double minx);
-
-      String getMiny();
-
-      void setMiny(Double miny);
-
-      String getMaxx();
-
-      void setMaxx(Double maxx);
-
-      String getMaxy();
-
-      void setMaxy(Double maxy);
-
-      String getSrs();
-
-      void setSrs(String srs);
-      
-/*********************************** Layers functions*******************************/
-      Layer[] getLayers();
-
-      void setLayers(Layer[] layers);
-      
-      Layer[] getHiddenLayers();
-
-      Layer[] getVisibleLayers();
-      
-      Layer[] getQueryableLayers();
-      
-      Layer[] getNoQueryableLayers();
-      
-      Layer[] getGroupLayers(String nameOfGroup);
-      
-      
-/*********************************** Layer functions*******************************/
-      Layer getLayerFromId(String id);
+    void removeLayerFromId(String layerId);
     
-      void addLayer(Layer layer);
+/**************************** Layer Dimension functions ***********************/
     
-      void removeLayerFromId(String layerId);
-      
- 
-/*********************************** LayersId functions*******************************/   
-/*
- * These functions are used to pass all the layers ids to the javascript
- * */
-     String getLayersId();
-      
-     String getHiddenLayersId();
+    Dimension getLayerDimension(String layerId, String dimName);
+    
+    void setLayerDimension(String layerId, Dimension dim);
+    
+    String getLayerAttrDimension(String layerId, String dimName, String attrDimName);
+    
+    void setLayerAttrDimension(String layerId, String dimName, String attrDimName, String attrValue);
+    
 
-     String getVisibleLayersId();
-      
-     String getQueryableLayersId();
-      
-     String getNoQueryableLayersId();
-      
-     String getGroupLayersId(String nameOfGroup);
-     
-      
- /*********************************** Servers functions*******************************/
-      HashMap<String, Server> getWmsServers();
+/*********************************** LayersId functions*******************************/  
+    
+    /*
+    * These functions are used to pass all the layers ids to the javascript
+    * */
+    
+    String getLayersId();
 
-      void setWmsServers(HashMap<String, Server> servers);
+    String getHiddenLayersId();
 
-      HashMap<String, Server> getWfsServers();
+    String getVisibleLayersId();
 
-      void setWfsServers(HashMap<String, Server> servers);
-      
-      String save();    
+    String getQueryableLayersId();
+
+    String getNoQueryableLayersId();
+
+    String getGroupLayersId(String nameOfGroup);
+
+
+/*********************************** Servers functions*******************************/
+    
+    HashMap<String, Server> getWmsServers();
+
+    void setWmsServers(HashMap<String, Server> servers);
+
+    HashMap<String, Server> getWfsServers();
+
+    void setWfsServers(HashMap<String, Server> servers);
+
+    String save();    
 
 }

@@ -48,11 +48,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
     private boolean debug = false;
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
     private final String DRAGDROP_CSS = "/org/mapfaces/resources/treetable/css/dragndrop.css";
-    //private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
-      private final String MOO_JS = "";
+    private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
     private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
-    private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
+    private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
+    private final String TREETABLE_MINIFY_JS = "/org/mapfaces/resources/treetable/minify/zip.js";
     Date dstart,dend;
     
     private UIForm getForm(UIComponent component) {
@@ -280,17 +280,17 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
             log.info("decode : " + AbstractTreeTableRenderer.class.getName());
         }
 
-        writer.writeComment("Mootools Javascript Library");
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-        writer.endElement("script");
-
-        writer.writeComment("Moo Javascript Library");
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOO_JS, null), null);
-        writer.endElement("script");
+//        writer.writeComment("Mootools Javascript Library");
+//        writer.startElement("script", component);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+//        writer.endElement("script");
+//
+//        writer.writeComment("Moo Javascript Library");
+//        writer.startElement("script", component);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOO_JS, null), null);
+//        writer.endElement("script");
 
         writer.startElement("link", component);
         writer.writeAttribute("type", "text/css", null);
@@ -304,15 +304,21 @@ public abstract class AbstractTreeTableRenderer extends Renderer {
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, DRAGDROP_CSS, null), null);
         writer.endElement("link");
 
+//        writer.startElement("script", component);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
+//        writer.endElement("script");
+//
+//        writer.startElement("script", component);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
+//        writer.endElement("script");
+        
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_MINIFY_JS, null), null);
         writer.endElement("script");
 
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
-        writer.endElement("script");
 
     }
 

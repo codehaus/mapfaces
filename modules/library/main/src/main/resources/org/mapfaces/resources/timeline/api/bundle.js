@@ -3650,7 +3650,8 @@ doc,icon!=null?icon:eventTheme.instant.icon
 );
 div.appendChild(img);
 div.style.cursor="pointer";
-
+/*GEOMATYS*/
+div.style.height="1em";
 Timeline.DOM.registerEvent(div,"mousedown",function(elmt,domEvt,target){
 p._onClickInstantEvent(img,domEvt,evt);
 /*GEOMATYS MAPFACES*/
@@ -3722,8 +3723,12 @@ length=1;
 appendIcon(evt,div);
 }
 }
-
-div.style.top=streamOffset;
+//Geomatys Mapfaces//
+if(div.style.cursor=="pointer"){
+  div.style.top="4em"; //streamOffset;
+}else{
+    div.style.top=streamOffset;
+}
 div.style.height=trackHeight+"em";
 div.style.left=(startPixel+realign)+"px";
 

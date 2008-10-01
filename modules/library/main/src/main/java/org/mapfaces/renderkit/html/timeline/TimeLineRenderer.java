@@ -78,7 +78,7 @@ import org.opengis.temporal.TemporalPrimitive;
 public class TimeLineRenderer extends Renderer {
 
     Date centerDate;
-
+    boolean singleFile=false;
     @Override
     @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -114,7 +114,7 @@ public class TimeLineRenderer extends Renderer {
             writer.writeAttribute("style", style, "style");
         }
 
-        writeSliderZoom(context, comp, writer, extContext);
+        //writeSliderZoom(context, comp, writer, extContext);
 
         style = style.concat(" width:100%;");
 
@@ -149,14 +149,13 @@ public class TimeLineRenderer extends Renderer {
 
         if (value != null) {
             if (value.getClass().toString().contains("java.lang.String")) {
-
-                System.out.println("===== [Tomcat] :  String detected for BandInfo attribute value = " + value);
+//                System.out.println("===== [Tomcat] :  String detected for BandInfo attribute value = " + value);
 
                 ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                 events = (List<Event>) ve.getValue(context.getELContext());
 
             } else {
-                System.out.println("=====  [Glassfish] : BandInfo value getclass = " + value.getClass().toString());
+//                System.out.println("=====  [Glassfish] : BandInfo value getclass = " + value.getClass().toString());
                 events = (List<Event>) value;
             }
         }
@@ -189,13 +188,13 @@ public class TimeLineRenderer extends Renderer {
             for (UIComponent child : children) {
                 if (child.getClass().toString().contains("UIBandInfo")) {
                     UIBandInfo bandInfo = (UIBandInfo) child;
-                    System.out.println("=========  bandInfo id = " + bandInfo.getId());
+//                    System.out.println("=========  bandInfo id = " + bandInfo.getId());
                     writer.write(separator);
                     writeScriptBandsInfo(context, comp, bandInfo);
                     separator = ",\n";
                 } else if (child.getClass().toString().contains("UIHotZoneBandInfo")) {
                     UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) child;
-                    System.out.println("=========  HotZonebandInfo id = " + bandInfo.getId());
+//                    System.out.println("=========  HotZonebandInfo id = " + bandInfo.getId());
                     writer.write(separator);
                     writeScriptHotZoneBandsInfo(context, comp, bandInfo, indexBand, zones);
                     separator = ",\n";
@@ -212,7 +211,7 @@ public class TimeLineRenderer extends Renderer {
             }
             if (comp.getChildCount() > 1) {
                 i--;
-                writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
+               // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
             }
         }
 
@@ -224,17 +223,18 @@ public class TimeLineRenderer extends Renderer {
         writeResizeFunction(context, comp);
         
         //TO BE DELETED no reference to mapfaces components because the timelin should be works alone, without a context
-        if(FacesUtils.getParentUIModelBase(context, component) instanceof UIContext){
+        if(FacesUtils.getParentUIModelBase(context, component)!=null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)){
+            
             writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
                 "        var parameters = {    'synchronized': 'true',\n" +
-                 "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '"+FacesUtils.getFormId(context, component)+":'+img.textContent.split(' ')[1],\n" +
-                 "                             'refresh': img.textContent.split(' ')[1],\n" +
-                "                              'Time': img.textContent.split(' ')[2],\n" +
+                 "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '"+FacesUtils.getFormId(context, component)+":'+img.textContent.split(' ')[0],\n" +
+                 "                             'refresh': img.textContent.split(' ')[0],\n" +
+                "                              'Time': img.textContent.split(' ')[1],\n" +
                 "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
                 "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
                 "                         };" +
                 "parameters['" + ((UIContext) comp.getParent()).getAjaxCompId() + "'] =' " + ((UIContext) comp.getParent()).getAjaxCompId() + "';" +
-                "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','form',\n" +
+                "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','"+FacesUtils.getFormId(context, component)+"',\n" +
                  "                        null,\n" +
                  "                        {   'control':this,\n" +
                  "                            'single':true,\n" +
@@ -333,7 +333,7 @@ public class TimeLineRenderer extends Renderer {
         String timeZoneString = "";
         Integer timeZone = bandInfo.getTimeZone();
         if (timeZone != null) {
-            System.out.println("========= timeZone = " + timeZone);
+//            System.out.println("========= timeZone = " + timeZone);
             timeZoneString = "timeZone:    " + timeZone + ",\n";
         }
 
@@ -341,7 +341,7 @@ public class TimeLineRenderer extends Renderer {
         String dateString = "";
         Date date = bandInfo.getDate();
         if (date != null) {
-            System.out.println("========= date = " + date);
+//            System.out.println("========= date = " + date);
             dateString = "date: \"" + sdf.format(date) + "\",\n";
         }
 
@@ -349,7 +349,7 @@ public class TimeLineRenderer extends Renderer {
         String showEventTextString = "";
         boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
         if (!showEventText) {
-            System.out.println("========= showEventText = " + showEventText);
+//            System.out.println("========= showEventText = " + showEventText);
             showEventTextString = "showEventText:  " + showEventText + ",\n";
         }
 
@@ -357,7 +357,7 @@ public class TimeLineRenderer extends Renderer {
         String trackHeightString = "";
         Double trackHeight = bandInfo.getTrackHeight();
         if (trackHeight != null) {
-            System.out.println("========= trackHeight = " + trackHeight);
+//            System.out.println("========= trackHeight = " + trackHeight);
             trackHeightString = "trackHeight:    " + trackHeight + ",\n";
         }
 
@@ -365,7 +365,7 @@ public class TimeLineRenderer extends Renderer {
         String trackGapString = "";
         Double trackGap = bandInfo.getTrackGap();
         if (trackGap != null) {
-            System.out.println("========= trackGap = " + trackGap);
+//            System.out.println("========= trackGap = " + trackGap);
             trackGapString = "trackGap:    " + trackGap + ",\n";
         }
 
@@ -373,7 +373,7 @@ public class TimeLineRenderer extends Renderer {
         String widthString = "";
         Integer width = bandInfo.getWidth();
         if (width != null) {
-            System.out.println("========= width = " + width);
+//            System.out.println("========= width = " + width);
             widthString = "width:    \"" + width + "%\",\n";
         }
 
@@ -381,7 +381,7 @@ public class TimeLineRenderer extends Renderer {
         String intervalUnitString = "";
         String intervalUnit = bandInfo.getIntervalUnit();
         if (intervalUnit != null) {
-            System.out.println("========= intervalUnit = " + intervalUnit);
+//            System.out.println("========= intervalUnit = " + intervalUnit);
             intervalUnitString = "intervalUnit:     Timeline.DateTime." + intervalUnit + ",\n";
         } else {
             // default is YEAR.
@@ -392,7 +392,7 @@ public class TimeLineRenderer extends Renderer {
         String themeString = "";
         String theme = bandInfo.getTheme();
         if (theme != null) {
-            System.out.println("========= theme = " + theme);
+//            System.out.println("========= theme = " + theme);
             themeString = "theme:    Timeline." + theme + ".create(),\n";
         }
 
@@ -400,7 +400,7 @@ public class TimeLineRenderer extends Renderer {
         String intervalPixelsString = "";
         Integer intervalPixels = bandInfo.getIntervalPixels();
         if (intervalPixels != null) {
-            System.out.println("========= intervalPixels = " + intervalPixels);
+//            System.out.println("========= intervalPixels = " + intervalPixels);
             intervalPixelsString = "intervalPixels:    " + intervalPixels + "\n";
         } else {
             //default is 100.
@@ -436,7 +436,7 @@ public class TimeLineRenderer extends Renderer {
         String timeZoneString = "";
         Integer timeZone = bandInfo.getTimeZone();
         if (timeZone != null) {
-            System.out.println("========= timeZone = " + timeZone);
+//            System.out.println("========= timeZone = " + timeZone);
             timeZoneString = "timeZone:    " + timeZone + ",\n";
         }
 
@@ -444,7 +444,7 @@ public class TimeLineRenderer extends Renderer {
         String dateString = "";
         Date date = bandInfo.getDate();
         if (date != null) {
-            System.out.println("========= date = " + date);
+//            System.out.println("========= date = " + date);
             dateString = "date: \"" + sdf.format(date) + "\",\n";
         }
 
@@ -452,7 +452,7 @@ public class TimeLineRenderer extends Renderer {
         String showEventTextString = "";
         boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
         if (!showEventText) {
-            System.out.println("========= showEventText = " + showEventText);
+//            System.out.println("========= showEventText = " + showEventText);
             showEventTextString = "showEventText:  " + showEventText + ",\n";
         }
 
@@ -460,7 +460,7 @@ public class TimeLineRenderer extends Renderer {
         String trackHeightString = "";
         Double trackHeight = bandInfo.getTrackHeight();
         if (trackHeight != null) {
-            System.out.println("========= trackHeight = " + trackHeight);
+//            System.out.println("========= trackHeight = " + trackHeight);
             trackHeightString = "trackHeight:    " + trackHeight + ",\n";
         }
 
@@ -468,7 +468,7 @@ public class TimeLineRenderer extends Renderer {
         String trackGapString = "";
         Double trackGap = bandInfo.getTrackGap();
         if (trackGap != null) {
-            System.out.println("========= trackGap = " + trackGap);
+//            System.out.println("========= trackGap = " + trackGap);
             trackGapString = "trackGap:    " + trackGap + ",\n";
         }
 
@@ -476,7 +476,7 @@ public class TimeLineRenderer extends Renderer {
         String widthString = "";
         Integer width = bandInfo.getWidth();
         if (width != null) {
-            System.out.println("========= width = " + width);
+//            System.out.println("========= width = " + width);
             widthString = "width:    \"" + width + "%\",\n";
         }
 
@@ -484,7 +484,7 @@ public class TimeLineRenderer extends Renderer {
         String intervalUnitString = "";
         String intervalUnit = bandInfo.getIntervalUnit();
         if (intervalUnit != null) {
-            System.out.println("========= intervalUnit = " + intervalUnit);
+//            System.out.println("========= intervalUnit = " + intervalUnit);
             intervalUnitString = "intervalUnit:     Timeline.DateTime." + intervalUnit + ",\n";
         } else {
             // default is YEAR.
@@ -495,7 +495,7 @@ public class TimeLineRenderer extends Renderer {
         String themeString = "";
         String theme = bandInfo.getTheme();
         if (theme != null) {
-            System.out.println("========= theme = " + theme);
+//            System.out.println("========= theme = " + theme);
             themeString = "theme:    Timeline." + theme + ".create(),\n";
         }
 
@@ -503,7 +503,7 @@ public class TimeLineRenderer extends Renderer {
         String intervalPixelsString = "";
         Integer intervalPixels = bandInfo.getIntervalPixels();
         if (intervalPixels != null) {
-            System.out.println("========= intervalPixels = " + intervalPixels);
+//            System.out.println("========= intervalPixels = " + intervalPixels);
             intervalPixelsString = "intervalPixels:    " + intervalPixels + "\n";
         } else {
             //default is 100.
@@ -530,7 +530,7 @@ public class TimeLineRenderer extends Renderer {
                 }
                 writer.write("],\n");
             } else {
-                System.out.println("%%%%%%%%%%%%%%%");
+//                System.out.println("%%%%%%%%%%%%%%%");
                 writer.write("zones: [],\n");
             }
         } else {
@@ -796,38 +796,44 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/timeline-api.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
-
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/en/timeline.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/en/labellers.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/fr/timeline.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/fr/labellers.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
-
+        
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
+        if(!singleFile){
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/timeline-api.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
 
-        writer.startElement("script", component);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/styles/theme.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/en/timeline.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/en/labellers.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/fr/timeline.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/scripts/l10n/fr/labellers.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/styles/theme.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+        }else{
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/minify/zip.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+        } 
     }
 
     /**
@@ -1013,10 +1019,12 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        writer.startElement("script", comp);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/slider/js/JSSlider.js", null), null);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
+        if(!singleFile){
+            writer.startElement("script", comp);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/slider/js/JSSlider.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+        }
     }
 
     public void writeSliderZoom(FacesContext context, UITimeLine comp, ResponseWriter writer, ExternalContext extContext) throws IOException {

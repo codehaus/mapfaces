@@ -18,9 +18,9 @@
 package org.mapfaces.models.timeline;
 
 import java.util.Date;
-import org.geotools.map.MapLayer;
 import org.geotools.temporal.object.DefaultPeriod;
 import org.geotools.temporal.object.DefaultTemporalObject;
+import org.mapfaces.models.Layer;
 import org.opengis.temporal.Duration;
 import org.opengis.temporal.Period;
 
@@ -38,7 +38,7 @@ public class Event {
     private String image;
     private String link;
     private String icon;
-    private MapLayer owner;
+    private Layer owner;
     
     /**
      * This is a geometric primitive in the temporal dimension, it can be an instant or a period. see ISO19108 specificatios.
@@ -72,7 +72,7 @@ public class Event {
      */
     public Event(Date dateBegin, Date dateEnd, Duration duration, boolean isTopological, String title,
             String description, String image, String link, String icon, Priority priority,
-            String color, Status status, String textColor, MapLayer owner) {
+            String color, Status status, String textColor, Layer owner) {
 
         this.dateBegin = dateBegin;
         this.dateEnd = dateEnd;
@@ -95,7 +95,7 @@ public class Event {
      */
     public Event(DefaultTemporalObject temporalObject, boolean isTopological, String title,
             String description, String image, String link, String icon, Priority priority,
-            String color, Status status, String textColor, MapLayer owner) {
+            String color, Status status, String textColor, Layer owner) {
 
         this.temporalObject = temporalObject;
         this.topological = isTopological;
@@ -113,7 +113,7 @@ public class Event {
     
     public Event(Period period, Duration duration, boolean isTopological, String title,
             String description, String image, String link, String icon, Priority priority,
-            String color, Status status, String textColor, MapLayer owner) {
+            String color, Status status, String textColor, Layer owner) {
         this.temporalObject = (DefaultPeriod) period;
         this.duration = duration;
         this.topological = isTopological;
@@ -241,11 +241,11 @@ public class Event {
         this.duration = duration;
     }
 
-    public MapLayer getOwner() {
+    public Layer getOwner() {
         return owner;
     }
 
-    public void setOwner(MapLayer owner) {
+    public void setOwner(Layer owner) {
         this.owner = owner;
     }
 }
