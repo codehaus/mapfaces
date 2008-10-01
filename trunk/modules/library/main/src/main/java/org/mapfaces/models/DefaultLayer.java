@@ -26,13 +26,11 @@ import java.io.ObjectStreamException;
 import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapLayer;
-import org.geotools.map.WMSMapLayer;
 
 public class DefaultLayer implements Layer {
 
     private static final long serialVersionUID = 7526471155622776147L;
-    static private DefaultLayer singleton = null;
-    private transient MapLayer mapLayer;
+    //static private DefaultLayer singleton = null;
     private boolean edit;
     private boolean lock;
     private int groupId;
@@ -65,6 +63,10 @@ public class DefaultLayer implements Layer {
     private String resX;
     private String resY;
     private String resZ;
+    private String styles;
+    private String sldBody;
+    private String sld;
+    private Server server;
 
     public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
@@ -100,16 +102,12 @@ public class DefaultLayer implements Layer {
 
     public void setName(String name) {
         this.name = name;
-        mapLayer.setName(name);
     }
 
-    public boolean getQueryable() {
+    public boolean isQueryable() {
         return queryable;
     }
 
-    public void setQueryable(boolean queryable) {
-        this.queryable = queryable;
-    }
 
     public String getGroup() {
         return group;
@@ -149,9 +147,6 @@ public class DefaultLayer implements Layer {
 
     public void setOutputFormat(String outputFormat) {
         this.outputFormat = outputFormat;
-        if (type.contains("WMS")) {
-            ((WMSMapLayer) mapLayer).setOutputFormat(outputFormat);
-        }
     }
 
     public String getMinScaleDenominator() {
@@ -183,15 +178,8 @@ public class DefaultLayer implements Layer {
 
     @Override
     public void setDimensionList(HashMap<String, Dimension> dimensionList) {
-
         if (this.dimensionList == null) {
             this.dimensionList = new HashMap<String, Dimension>(dimensionList);
-        }
-        for (String tmp : dimensionList.keySet()) {
-            if (type.contains("WMS")) {
-                ((WMSMapLayer) mapLayer).setDimension(tmp, dimensionList.get(tmp).getUserValue());
-            }
-            System.out.println(tmp + " : " + this.dimensionList.get(tmp));
         }
     }
 
@@ -274,19 +262,6 @@ public class DefaultLayer implements Layer {
         this.resZ = resZ;
     }
 
-    public MapLayer getMapLayer() {
-        return mapLayer;
-    }
-
-    public void setMapLayer(MapLayer mapLayer) {
-        this.mapLayer = mapLayer;
-    }
-
-    @Override
-    public void get(MapLayer mapLayer) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     @Override
     public Dimension getElevation() {
         if (dimensionList != null) {
@@ -352,9 +327,6 @@ public class DefaultLayer implements Layer {
             dimensionList.remove(name);
         }
         dimensionList.put(name, dim);
-        if (type.contains("WMS")) {
-            ((WMSMapLayer) mapLayer).setDimension(name, dim.getUserValue());
-        }
     }
 
     public String getType() {
@@ -376,19 +348,33 @@ public class DefaultLayer implements Layer {
         if (dimensionList.get(dimName) != null) {
             dimensionList.get(dimName).setUserValue(value);
         }
-        if (type.contains("WMS")) {
-            ((WMSMapLayer) mapLayer).setDimension(dimName, dimensionList.get(dimName).getUserValue());
-        }
     }
 
     @Override
     public void setDimension(String name, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        getDimension(name).setValue(value);
+    }
+    
+    public void setDimension(Dimension dim) {
+        HashMap<String, Dimension> dimList = getDimensionList();
+        if( dimList != null){
+            Dimension oldDim= dimList.get(dim.getName());
+            if (oldDim != null)
+                dimList.remove(oldDim);
+            dimList.put(dim.getName(), dim);
+        }
+    }
+    
+    public String getAttrDimension(String name, String attrName) {
+        return getDimension(name).getAttribute(attrName);
     }
 
+    public void setAttrDimension(String name, String attrName, String attrValue) {
+        getDimension(name).setAttribute(attrName, attrValue);
+    }
     @Override
-    public String setElevations() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setElevations(String value) {
+        getDimension("elevation").setValue(value);
     }
 
     @Override
@@ -417,32 +403,32 @@ public class DefaultLayer implements Layer {
         this.legendUrl = legendUrl;
     }
 
-    Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
-        MapLayer maplayer_ = getMapLayer();
-        DefaultLayer tmp = getSingleton();
-        tmp.setMapLayer(maplayer_);
-
-        DefaultLayer l = this;
-
-        return l;
-    }
-
-    Object readResolve() throws ObjectStreamException, CloneNotSupportedException {
-        DefaultLayer l = this;
-
-        MapLayer maplayer_ = getSingleton().getMapLayer();
-
-        l.setMapLayer(maplayer_);
-
-        return l;
-    }
-
-    static public synchronized DefaultLayer getSingleton() {
-        if (singleton == null) {
-            singleton = new DefaultLayer();
-        }
-        return singleton;
-    }
+//    Object writeReplace() throws ObjectStreamException, CloneNotSupportedException {
+//        MapLayer maplayer_ = getMapLayer();
+//        DefaultLayer tmp = getSingleton();
+//        tmp.setMapLayer(maplayer_);
+//
+//        DefaultLayer l = this;
+//
+//        return l;
+//    }
+//
+//    Object readResolve() throws ObjectStreamException, CloneNotSupportedException {
+//        DefaultLayer l = this;
+//
+//        MapLayer maplayer_ = getSingleton().getMapLayer();
+//
+//        l.setMapLayer(maplayer_);
+//
+//        return l;
+//    }
+//
+//    static public synchronized DefaultLayer getSingleton() {
+//        if (singleton == null) {
+//            singleton = new DefaultLayer();
+//        }
+//        return singleton;
+//    }
 
     public boolean isEdit() {
         return edit;
@@ -467,4 +453,40 @@ public class DefaultLayer implements Layer {
     public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
+
+    public String getStyles() {
+        return this.styles;
+    }
+
+    public String getSld() {
+        return this.sld;
+    }
+
+    public String getSldBody() {
+       return this.sldBody;
+    }
+
+    public void setStyles(String styles) {
+       this.styles = styles;
+    }
+
+    public void setSld(String sld) {
+        this.sld = sld;
+    }
+
+    public void setSldBody(String sldBody) {
+        this.sldBody = sldBody;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
+    public Server getServer(){
+        return this.server;
+    }
+
+    public void setQueryable(boolean queryable) {
+        this.queryable = queryable;
+    }
+
 }

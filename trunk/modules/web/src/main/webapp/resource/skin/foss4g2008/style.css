@@ -2,8 +2,7 @@
 
 /* HTML Elements */
 body {
-	font : 80%/1.5em Verdana, Tahoma, arial, sans-serif;
-}
+	}
 
 /* Header Styles */
 
@@ -69,6 +68,7 @@ h3 {
 	letter-spacing : -2px;
 	text-align : right;
 	color : #333333;
+        font-size:1em;
 }
 
 

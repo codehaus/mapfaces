@@ -82,7 +82,7 @@ Timeline.OLanceTheme._Impl = function() {
         label: {
             insideColor:    "white",
             outsideColor:   "black",
-            width:          200 // px
+            width:         14 // px
         },
         highlightColors: [
             "#FFFF00",
@@ -91,8 +91,8 @@ Timeline.OLanceTheme._Impl = function() {
             "#0000FF"
         ],
         bubble: {
-            width:          300, // px
-            height:         250, // px
+            width:          250, // px
+            height:         50, // px
             titleStyler: function(elmt) {
                 elmt.className = "timeline-event-bubble-title";
             },

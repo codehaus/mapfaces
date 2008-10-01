@@ -13,46 +13,52 @@
 			<ows:Title>Blue Marble</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
-			</Server>                    
+                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
+			</Server>   
+                        <StyleList>
+			    <Style current="1">
+                                <Name></Name>
+                                <Title></Title>
+			    </Style>
+			</StyleList> 
 		</Layer>   
-                <Layer name="Ortho2000" queryable="1" hidden="1" group="Autres">                        
+                <!--Layer name="Ortho2000" queryable="1" hidden="1" group="Autres">                        
 			<ows:Title>Ortho2000</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>                    
-		</Layer>
-		<Layer name="AO_Coriolis_(Sal)" queryable="1" hidden="1" opacity="0.6" group="Coriolis">                        
+		</Layer-->
+		<!--Layer name="AO_Coriolis_(Sal)" queryable="1" hidden="1" opacity="0.6" group="Coriolis">                        
 			<ows:Title>AO Coriolis (Sal)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>     
                         <StyleList>
 				<Style current="1">
-                                    <Name>dd</Name>
-                                    <Title>dd</Title>
+                                    <Name></Name>
+                                    <Title></Title>
                                     <LegendURL hidden="1" width="135" height="20">
 					<OnlineResource xlink:type="simple"
-							xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Sal)" />
+							xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Sal)" />
                                     </LegendURL>
 				</Style>
 			</StyleList>
-		</Layer>
-                 <Layer name="AO_Coriolis_(Temp)" queryable="1" hidden="1" opacity="0.6" group="Coriolis">                  
+		</Layer-->
+                 <Layer name="AO_Coriolis_(Temp)" queryable="1" hidden="0" opacity="0.6" group="Coriolis">                  
 			<ows:Title>AO_Coriolis_(Temp)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
 				    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-						xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
+						xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
                                 </LegendURL>
 			    </Style>
 			</StyleList> 
@@ -61,34 +67,34 @@
 			<ows:Title>OpenDAP (SST)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
                                     <OnlineResource
 							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-							xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
+							xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
                                 </LegendURL>
 			    </Style>
 			</StyleList> 
-		</Layer> 
-                <Layer name="Mars3D_Gascogne_(XE)" queryable="1" hidden="1" opacity="0.6" group="Prévimer">                  
+		</Layer--> 
+                <!--Layer name="Mars3D_Gascogne_(XE)" queryable="1" hidden="1" opacity="0.6" group="Prévimer">                  
 			<ows:Title>Mars3D gascogne (Xe)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
                                    <OnlineResource
 							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-									xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
+									xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
                                 </LegendURL>
 			    </Style>
 			</StyleList> 
@@ -97,16 +103,16 @@
 			<ows:Title>Mars3D gascogne (Sal)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
                                   <OnlineResource
 							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-							xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;request=GetLegendGraphic&amp;VERSION=1.1.0&amp;FORMAT=image/png&amp;LAYER=Mars3D_Gascogne_(Sal)" />
+							xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;request=GetLegendGraphic&amp;VERSION=1.1.0&amp;FORMAT=image/png&amp;LAYER=Mars3D_Gascogne_(Sal)" />
 					</LegendURL>
 			    </Style>
 			</StyleList> 
@@ -115,16 +121,16 @@
 			<ows:Title>Mars3D gascogne (Temp)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
                                      <OnlineResource
 							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-							xlink:href="http://demo.geomatys.fr/seagis/WS/wms?request=GetLegendGraphic&amp;VERSION=1.1.0&amp;FORMAT=image/png&amp;WIDTH=135&amp;HEIGHT=20&amp;LAYER=Mars3D_Gascogne_(Temp)" />
+							xlink:href="http://demo.geomatys.fr/constellation/WS/wms?request=GetLegendGraphic&amp;VERSION=1.1.0&amp;FORMAT=image/png&amp;WIDTH=135&amp;HEIGHT=20&amp;LAYER=Mars3D_Gascogne_(Temp)" />
                                 </LegendURL>
 			    </Style>
 			</StyleList> 
@@ -133,16 +139,16 @@
 			<ows:Title>Mars3D iroise (Xe)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
                                     	<OnlineResource
 							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-							xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Mars3D_Iroise_(XE)" />
+							xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Mars3D_Iroise_(XE)" />
 					  </LegendURL>
 			    </Style>
 			</StyleList> 
@@ -151,14 +157,14 @@
 			<ows:Title>Mars3D iroise (Temp)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
-                                    	<OnlineResource	xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"	xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Mars3D_Iroise_(Temp)" />
+                                    	<OnlineResource	xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"	xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Mars3D_Iroise_(Temp)" />
 				</LegendURL>
 			    </Style>
 			</StyleList> 
@@ -167,16 +173,16 @@
 			<ows:Title>Mars2D (Xe)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
                                     	<OnlineResource
 							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-							xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Mars2D_(XE)" />
+							xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Mars2D_(XE)" />
 				</LegendURL>
 			    </Style>
 			</StyleList> 
@@ -186,46 +192,57 @@
 			<ows:Title>Caraibes</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/seagis/WS/wms"/>
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
 			</Server>      
                         <StyleList>
 			    <Style current="1">
-                                <Name>dd</Name>
-                                <Title>dd</Title>
+                                <Name></Name>
+                                <Title></Title>
                                 <LegendURL hidden="1" width="135" height="20">
-                                    	<OnlineResource	xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"	xlink:href="http://demo.geomatys.fr/seagis/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Caraibes" />
+                                    	<OnlineResource	xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"	xlink:href="http://demo.geomatys.fr/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=Caraibes" />
 			</LegendURL>
 			    </Style>
 			</StyleList> 
-		</Layer>
-                
-		<Layer name="geom:Continents_mercator" queryable="1" hidden="1" opacity="1" group="Données statiques">                  
-			<ows:Title>world</ows:Title>
-			<ows:OutputFormat>image/png</ows:OutputFormat>
-			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
-			</Server> 
-                        <StyleList>
-				<Style current="1">
-					<Name>world</Name>
-					<Title>world</Title>
-				</Style>
-			</StyleList>
-		</Layer>
-		<Layer name="geom:Country_Boundaries_mercator" queryable="1" hidden="1" opacity="1" group="Données statiques">                  
-			<ows:Title>Frontières</ows:Title>
-			<ows:OutputFormat>image/png</ows:OutputFormat>
-			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
-			</Server> 
-                        <StyleList>
-				<Style current="1">
-					<Name>lineBlack</Name>
-					<Title>lineBlack</Title>
-				</Style>
-			</StyleList>
 		</Layer-->
-		
+                <!--Layer name="ROADL" queryable="1" hidden="0" opacity="1" group="Courants">                  
+			<ows:Title>Roads</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
+			</Server>   
+                        <StyleList>
+			    <Style current="1">
+                                <Name></Name>
+                                <Title></Title>
+			    </Style>
+			</StyleList>
+		</Layer-->  
+                <Layer name="Mars3D_Gascogne_(UZ-VZ)" queryable="1" hidden="0" opacity="1" group="Courants">                  
+			<ows:Title>Mars3D Gasc UZ-VZ</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
+			</Server>  
+                         <StyleList>
+			    <Style current="1">
+                                <Name></Name>
+                                <Title></Title>
+			    </Style>
+			</StyleList>
+		</Layer> 
+                <Layer name="Mars3D_Iroise_(UZ-VZ)" queryable="1" hidden="1" opacity="1" group="Courants">                  
+			<ows:Title>Mars3D Iroise UZ-VZ</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                            <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/constellation/WS/wms"/>
+			</Server> 
+                         <StyleList>
+			    <Style current="1">
+                                <Name></Name>
+                                <Title></Title>
+			    </Style>
+			</StyleList>
+		</Layer> 
 	</ResourceList>
 </OWSContext>
 

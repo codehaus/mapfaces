@@ -18,8 +18,13 @@
 package org.mapfaces.models;
 
 import java.io.Serializable;
+import org.geotools.data.ows.WMSCapabilities;
 
 public interface  Server  extends Serializable{
+
+    public void setGTCapabilities(WMSCapabilities capabilities);
+    
+    public WMSCapabilities getGTCapabilities();
     
     String getHref();
     
@@ -32,5 +37,9 @@ public interface  Server  extends Serializable{
     String getVersion();
     
     void setVersion(String version);
+    
+//    String getCpabilities();
+//    
+//    void setGetCapabilities(String caps);
 
 }

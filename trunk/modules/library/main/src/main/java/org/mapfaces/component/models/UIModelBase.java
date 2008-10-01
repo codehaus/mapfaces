@@ -45,11 +45,6 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
      *
      */
     private String ajaxCompId;
-    /*
-     * JAXB rootElement
-     * 
-     */
-    private JAXBElement JAXBElt;
     /**
      * This is the model context of this UIcomponent.
      */
@@ -129,13 +124,6 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         this.ajaxCompId = ajaxCompId;
     }
 
-    public JAXBElement getJAXBElt() {
-        return JAXBElt;
-    }
-
-    public void setJAXBElt(JAXBElement JAXBElt) {
-        this.JAXBElt = JAXBElt;
-    }
 
     public boolean isDebug() {
         return debug;

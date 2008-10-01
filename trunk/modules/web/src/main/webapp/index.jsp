@@ -8,11 +8,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>MapFaces Welcome Page</title>
-        <!--script>window.location="./mapfaces.jsf"</script-->
+        <script>window.location="examples/foss4g2008/index.jsf"</script>
     </head>
     <body style="background-image:url(resources/img/mf_bg.jpg)">
         <br/>
-        <ul>
+        <%--ul>
             <li>
                 <a href="./examples/index.jsf">MapFaces examples page</a>
             </li>
@@ -28,7 +28,7 @@
             <li>
                 <a href="./treelayout.jsf">TreeLayout page</a>
             </li>
-        </ul>
+        </ul--%>
         <br/>
     </body>
 </html>

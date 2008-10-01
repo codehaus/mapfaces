@@ -21,7 +21,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIWidget;
-import org.mapfaces.models.AbstractContext;
+import org.mapfaces.models.Context;
 
 /**
  * @author Olivier Terral.
@@ -35,7 +35,7 @@ public class WidgetRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
 
         UIWidget comp = (UIWidget) component;
-        AbstractContext model = (AbstractContext) comp.getModel();
+        Context model = (Context) comp.getModel();
 
         getWriter().startElement("div", comp);
         getWriter().writeAttribute("id", getClientId(), "id");

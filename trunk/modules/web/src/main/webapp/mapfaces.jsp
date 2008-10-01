@@ -109,7 +109,7 @@
            </mf-model:Context--%>
            
            <div id="bar" class="olControlNavToolbar"></div>
-           <mf-model:Context id="owsContext" debug="true" service="data/context/wedsat.xml">
+           <mf-model:Context id="owsContext" debug="true" service="data/context/ifremer.xml">
                    <%--mf:Abstract id="abstract" debug="true" ></mf:Abstract--%>
                    <mf:MapPane id="mappane"  debug="true"  navigation="true" style="left:450px;width:55%;position:absolute;" ></mf:MapPane>
                    <mf:ButtonBar id="bar" debug="true" styleClass="mfButtonBar horizontal"  style="left:550px;"></mf:ButtonBar>
@@ -118,7 +118,7 @@
                    --%>
                    <mf:LayerControl id="lcc" debug="true" style="position: absolute;" ></mf:LayerControl>
                    <mf:TimeLine id="timeline" style="height: 300px; border: 1px solid #aaa;width:55%;position: relative; font-size:0.8em;top: 505px;left:450px;" >
-                        <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" date="#{timelineBean.centerDate}" timeZone="-5" theme="OLanceTheme" inputInterval="true"/>
+                        <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="false" date="#{timelineBean.centerDate}" timeZone="-5" theme="OLanceTheme" inputInterval="true"/>
                         <mf:HotZoneBandInfo id="band1" width="25" intervalUnit="YEAR" intervalPixels="200" date="#{timelineBean.centerDate}" showEventText="false" trackGap="0.2" trackHeight="0.5" inputInterval="true"/>
                    </mf:TimeLine>
             </mf-model:Context>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<xs:schema targetNamespace="http://www.opengis.net/ows-context" elementFormDefault="qualified" version="0.3.0" xmlns:owc="http://www.opengis.net/ows-context" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:ogc="http://www.opengis.net/ogc" xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:kml="http://www.opengis.net/kml/2.2">
+<xs:schema targetNamespace="http://www.opengis.net/ows-context" elementFormDefault="qualified" version="0.3.0" 
+xmlns:owc="http://www.opengis.net/ows-context"
+xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:gml="http://www.opengis.net/gml" 
+xmlns:ows="http://www.opengis.net/ows" 
+xmlns:ogc="http://www.opengis.net/ogc" 
+xmlns:sld="http://www.opengis.net/sld" 
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+xmlns:kml="http://www.opengis.net/kml/2.2">
 	<xs:annotation>
 		<xs:appinfo>context.xsd 2008/03/10</xs:appinfo>
 		<xs:documentation>This XML Schema defines the encoding of an OWS Context Document. Primary

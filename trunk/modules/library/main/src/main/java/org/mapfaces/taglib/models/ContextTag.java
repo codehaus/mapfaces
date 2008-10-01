@@ -102,20 +102,6 @@ public class ContextTag extends UIComponentELTag {
         //setting the abstract model for the UIContext.
         if (service != null) {
             String fileUrl = service.getExpressionString();
-            // Unmarshalles the given XML file to objects
-            JAXBContext Jcontext;
-            try {
-                Jcontext = JAXBContext.newInstance("net.opengis.owc.v030:net.opengis.context.v110");
-                Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
-                ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-                JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
-                compContext.setJAXBElt(elt);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(ContextTag.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (JAXBException ex) {
-                Logger.getLogger(ContextTag.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
         } else {
             throw new IllegalArgumentException("You must indicate a path to file to read");
         }

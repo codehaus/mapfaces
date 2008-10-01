@@ -17,11 +17,16 @@
            <body>   
                 <h1><h:outputText value="MapFaces" /></h1>                
                <br/>
-               <h:form id="form">              
-                   <mf-model:Context id="owsContext" service="data/context/owc030Cut.xml">
-                       <mf:MapPane id="mappane"  ></mf:MapPane>                   
+               <h:form >              
+                   <mf-model:Context service="data/context/tasmaniaStyledWmsOwc.xml">
+                       <mf:MapPane></mf:MapPane>                   
                    </mf-model:Context>
                </h:form>
+               <%--h:form >              
+                   <mf-model:Context  service="data/context/tasmaniaWmsOwc.xml">
+                       <mf:MapPane ></mf:MapPane>                   
+                   </mf-model:Context>
+               </h:form--%>
           </body>
        </html>
    </f:view>

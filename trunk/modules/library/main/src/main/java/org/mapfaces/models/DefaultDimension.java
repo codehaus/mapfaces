@@ -99,6 +99,10 @@ public class DefaultDimension implements Dimension{
     public String getDefault() {
         return Default;
     }
+ 
+    public void setDefault(String Default) {
+        this.Default = Default;
+    }
     
     @Override
     public String getValue() {
@@ -110,9 +114,46 @@ public class DefaultDimension implements Dimension{
         this.value = value;
     }
 
-    public void setDefault(String Default) {
-        this.Default = Default;
+
+    public void setAttribute(String attrName, String value) {
+        if(attrName.equalsIgnoreCase("userValue")){
+            setUserValue(value);
+        }else if(attrName.equalsIgnoreCase("default")){
+            setDefault(value);
+        }else if(attrName.equalsIgnoreCase("units")){
+            setUnits(value);
+        }else if(attrName.equalsIgnoreCase("unitSymbol")){
+            setUnitSymbol(value);
+        }
     }
-   
+    
+    public void setAttribute(String attrName, boolean bool) {
+        if(attrName.equalsIgnoreCase("multipleValues")){
+            setMultipleValues(Boolean.valueOf(bool));
+        }else if(attrName.equalsIgnoreCase("nearestValues")){
+            setNearestValues(Boolean.valueOf(bool));
+        }else if(attrName.equalsIgnoreCase("current")){
+            setCurrent(Boolean.valueOf(bool));
+        }
+    }
+    
+    public String getAttribute(String attrName) {
+        
+        if(attrName.equalsIgnoreCase("userValue")){
+            return getUserValue();
+        }else if(attrName.equalsIgnoreCase("default")){
+            return getDefault();
+        }else if(attrName.equalsIgnoreCase("units")){
+            return getUnits();
+        }else if(attrName.equalsIgnoreCase("unitSymbol")){
+            return getUnitSymbol();
+        }else if(attrName.equalsIgnoreCase("multipleValues")){
+            return String.valueOf(isMultipleValues());
+        }else if(attrName.equalsIgnoreCase("nearestValues")){
+            return  String.valueOf(isNearestValues());
+        }else if(attrName.equalsIgnoreCase("current")){
+            return String.valueOf(isCurrent());
+        }else   return null;
+    }
 
 }

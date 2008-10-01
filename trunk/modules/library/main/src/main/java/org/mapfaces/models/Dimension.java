@@ -58,5 +58,12 @@ public interface Dimension {
     void setUserValue(String userValue);
 
     void setValue(String value);
+    
+    void setAttribute(String attrName, String value);
+    
+    String getAttribute(String attrName);
+    
+    void setAttribute(String attrName, boolean bool);
+    
 
 }

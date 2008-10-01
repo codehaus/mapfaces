@@ -139,7 +139,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         writer.writeAttribute("class", "x-tree-col "+classUser, null);
         writer.writeAttribute("style", "width:" + size + ";"+styleUser, null);
         writer.startElement("div", component);
-        writer.writeAttribute("style", "padding-left:5px;", null);
+        writer.writeAttribute("style", "", null);
 
 
 

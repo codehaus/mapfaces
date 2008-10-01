@@ -23,9 +23,7 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import org.mapfaces.models.AbstractContext;
-import org.mapfaces.models.OWC_v030;
-//import org.mapfaces.models.WMC_v110;
+import org.mapfaces.models.Context;
 
 /**
  *
@@ -37,8 +35,9 @@ public class UIContext extends UIModelBase {
     public static final String FAMILIY = "org.mapfaces.model.Context";
     public final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
     
+    
+    
     private boolean scriptaculous = true;
-
     /** Creates a new instance of UIAbstract */
     public UIContext(){
         super();
@@ -51,20 +50,6 @@ public class UIContext extends UIModelBase {
         return FAMILIY;
     }
 
-    @Override
-    public void setJAXBElt(JAXBElement JAXBElt) {
-            super.setJAXBElt(JAXBElt);
-            if((JAXBElt.getName().getLocalPart()).equalsIgnoreCase("ViewContext")){
-            if(isDebug())
-            System.out.println("Le fichier de context est de type : "+JAXBElt.getDeclaredType()+" "+JAXBElt.getName()+" "+(JAXBElt.getName().getLocalPart()).equalsIgnoreCase("ViewContext"));
-            //            this.model = new WMC_v110(JAXBElt.getValue());
-            }
-            else if((JAXBElt.getName().getLocalPart()).equalsIgnoreCase("OWSContext")){
-            if(isDebug())
-            System.out.println("Le fichier de context est de type : "+JAXBElt.getDeclaredType()+" "+JAXBElt.getName()+" "+(JAXBElt.getName().getLocalPart()).equalsIgnoreCase("OWSContext"));
-            setModel(new OWC_v030(JAXBElt.getValue()));
-            }
-    }
 
      @Override
     public Object saveState(FacesContext context) {
@@ -88,14 +73,15 @@ public class UIContext extends UIModelBase {
      * @throws javax.xml.bind.JAXBException
      */
     public String saveModel(FacesContext context) throws JAXBException {
-        ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-        String fileUrl = sc.getRealPath("tmp/owc.xml");
-        File t = new File(fileUrl);
-        
-        //casting the model to AbstractContext for this UIContext component.
-        AbstractContext modelContext = (AbstractContext) getModel();
-        JAXBContext.newInstance(jaxbInstance).createMarshaller().marshal(modelContext.getDoc(),new File(fileUrl)); 
-        return fileUrl;
+//        ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+//        String fileUrl = sc.getRealPath("tmp/owc.xml");
+//        File t = new File(fileUrl);
+//        
+//        //casting the model to Context for this UIContext component.
+//        Context modelContext = (Context) getModel();
+//        JAXBContext.newInstance(jaxbInstance).createMarshaller().marshal(modelContext.getDoc(),new File(fileUrl)); 
+//        return fileUrl;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public boolean isScriptaculous() {
