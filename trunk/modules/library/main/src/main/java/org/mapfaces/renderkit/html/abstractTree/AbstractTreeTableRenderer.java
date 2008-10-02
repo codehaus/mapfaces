@@ -47,17 +47,17 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
     /* Local fields */
     private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
-    private boolean debug = true;
-    private Date dstart, dend;
-    
+    private boolean debug;
+    private Date renderStart,  renderEnd;
+    private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
+
     /* Script Js and Css Style link */
     //private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
-    
+    //private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
+    //private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
+    //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
     private final String DRAGDROP_CSS = "/org/mapfaces/resources/treetable/css/dragndrop.css";
-    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
-    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
-    private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
     private final String TREETABLE_MINIFY_JS = "/org/mapfaces/resources/treetable/minify/zip.js";
 
     /**
@@ -78,6 +78,14 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         ResponseWriter writer = context.getResponseWriter();
         TreeModelsUtils treeModelsTools = new TreeModelsUtils();
         String width, height;
+        Date phaseStart, phaseEnd;
+
+        /* Initialisation */
+        phaseStart = new Date();
+        renderStart = new Date();
+        width = "width:auto";
+        height = "height:auto";
+
 
         /* 
          * Tests
@@ -94,13 +102,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         assertValid(context, component);
 
         /* GetAttributes from the UIComponent  */
-        if (treetable.getDebug()) {
-            dstart = new Date();
-            debug = (Boolean) treetable.getDebug();
+        if (treetable.isDebug()) {
+            debug = (Boolean) treetable.isDebug();
         }
 
-        width = "width:auto";
-        height = "height:auto";
 
         if (component.getAttributes().get("width") != null) {
             width = "width :" + treetable.getAttributes().get("width") + "px";
@@ -115,7 +120,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
         beforeEncodeBegin(context, component);
 
-
+        /* Start encoding */
         if (debug) {
             log.info("encodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
@@ -169,6 +174,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             log.info("afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
+
+        phaseEnd = new Date();
+        encodeBeginTime = phaseStart.getTime() - phaseEnd.getTime();
     }
 
     /**
@@ -181,6 +189,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      */
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+        Date phaseStart, phaseEnd;
+        
+        /* Initialisation */
+        phaseStart = new Date();
+        
         if (debug) {
             log.info("encodeChildren : " + AbstractTreeTableRenderer.class.getName());
         }
@@ -191,6 +204,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
                 Utils.encodeRecursive(context, tmp);
             }
         }
+
+        phaseEnd = new Date();
+        encodeChildrenTime = phaseStart.getTime() - phaseEnd.getTime();
     }
 
     /**
@@ -206,6 +222,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         AjaxUtils ajaxtools = new AjaxUtils();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String AJAX_SERVER = ajaxtools.getAjaxServer(request);
+        Date phaseStart,phaseEnd ;
+
+        /* Initialisation */
+        phaseStart = new Date();
 
         /* Before encodeEnd, any method declared in a component extends this class can be launch here*/
         if (debug) {
@@ -229,11 +249,20 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         /* After encodeEnd, any method declared in a component extends this class can be launch here*/
         if (debug) {
-            dend = new Date();
-            long time = dend.getTime() - dstart.getTime();
-            log.info("afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName() + "have been rendered in " + time + " mlls");
+            log.info("afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
+
+        phaseEnd = new Date();
+        if (debug) {
+            renderEnd = new Date();
+            long timeEncode = renderEnd.getTime() - renderStart.getTime();
+            encodeEndTime = phaseStart.getTime() - phaseEnd.getTime();
+            log.info("encodeBegin have been rendered in " + encodeBeginTime + " mlls");
+            log.info("encodeChildren have been rendered in " + encodeChildrenTime + " mlls");
+            log.info("encodeEnd have been rendered in " + encodeEndTime + " mlls");
+            log.info("encode TreeTable have been rendered in " + timeEncode + " mlls");
+        }
     }
 
     /**
@@ -284,7 +313,6 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         return true;
     }
 
-    
     private void assertValid(FacesContext context, UIComponent component) {
         if (context == null) {
             throw new NullPointerException("FacesContext should not be null");
@@ -338,7 +366,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 //        writer.writeAttribute("type", "text/javascript", null);
 //        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
 //        writer.endElement("script");
-        
+
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_MINIFY_JS, null), null);

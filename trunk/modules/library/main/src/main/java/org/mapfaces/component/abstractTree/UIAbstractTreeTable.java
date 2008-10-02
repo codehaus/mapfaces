@@ -38,19 +38,10 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
     private boolean RenderDefaultTree = true;
     
     // =========== ATTRIBUTES ================================================== //
-    private boolean debug;
     private int height;
     private int width;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
-    public boolean getDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean width) {
-        this.debug = width;
-    }
-
     public int getWidth() {
         return width;
     }
@@ -138,14 +129,13 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
     // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[7];
+        Object values[] = new Object[6];
         values[0] = super.saveState(context);
         values[1] = nodeCount;
         values[2] = rowId;
         values[3] = RenderDefaultTree;
         values[4] = getWidth();
         values[5] = getHeight();
-        values[6] = getDebug();
         return values;
     }
 
@@ -158,7 +148,6 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         RenderDefaultTree = (Boolean) values[3];
         width = (Integer) values[4];
         height = (Integer) values[5];
-        debug = (Boolean) values[6];
     }
 
     public UIAbstractTreeNodeInfo getInstance() {
