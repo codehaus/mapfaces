@@ -31,7 +31,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
 
     private boolean init = false;
     private boolean TREEPANEL_EXPAND_ALL = true;
-    private TreeTableModel view;    // =========== ATTRIBUTES ================================================== //
+    private TreeTableModel view;    
+    // =========== ATTRIBUTES ================================================== //
     private String border;
     private boolean check;
     private boolean collapsible;
@@ -215,8 +216,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         setView((TreeTableModel) values[11]);
         setShowRoot((Boolean) values[12]);
         setEnableDragDrop((Boolean) values[13]);
-        setStyleLeaf((String)values[14]);
-        setStyleNode((String)values[15]);
+        setStyleLeaf((String) values[14]);
+        setStyleNode((String) values[15]);
     }
 
     @Override
