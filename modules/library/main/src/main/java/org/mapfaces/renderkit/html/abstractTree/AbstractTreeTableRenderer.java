@@ -46,7 +46,7 @@ import org.mapfaces.util.AjaxUtils;
 public abstract class AbstractTreeTableRenderer extends Renderer implements CustomizeTreeComponentRenderer {
 
     /* Local fields */
-    private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
+    //private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
     private boolean debug;
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
@@ -116,13 +116,13 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         /* Before encodeBegin, any method declared in a component extends this class can be launch here*/
         if (debug) {
-            log.info("beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
         beforeEncodeBegin(context, component);
 
         /* Start encoding */
         if (debug) {
-            log.info("encodeBegin : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] encodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
 
         /* Get DefaultTreeModel value and  convert toTreeTable Model for jsf treetable component */
@@ -171,7 +171,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         /* After encodeBegin, any method declared in a component extends this class can be launch here*/
         if (debug) {
-            log.info("afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
         }
         afterEncodeBegin(context, component);
 
@@ -195,7 +195,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         phaseStart = new Date();
         
         if (debug) {
-            log.info("encodeChildren : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] encodeChildren : " + AbstractTreeTableRenderer.class.getName());
         }
 
         if (component.getChildCount() != 0) {
@@ -229,12 +229,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         /* Before encodeEnd, any method declared in a component extends this class can be launch here*/
         if (debug) {
-            log.info("beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
 
         if (debug) {
-            log.info("encodeEnd : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] encodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
 
 
@@ -249,7 +249,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         /* After encodeEnd, any method declared in a component extends this class can be launch here*/
         if (debug) {
-            log.info("afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
         }
         afterEncodeEnd(context, component);
 
@@ -258,10 +258,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             renderEnd = new Date();
             long timeEncode = renderEnd.getTime() - renderStart.getTime();
             encodeEndTime = phaseStart.getTime() - phaseEnd.getTime();
-            log.info("encodeBegin have been rendered in " + encodeBeginTime + " mlls");
-            log.info("encodeChildren have been rendered in " + encodeChildrenTime + " mlls");
-            log.info("encodeEnd have been rendered in " + encodeEndTime + " mlls");
-            log.info("encode TreeTable have been rendered in " + timeEncode + " mlls");
+            System.out.println("[INFO] encodeBegin have been rendered in " + encodeBeginTime + " mlls");
+            System.out.println("[INFO] encodeChildren have been rendered in " + encodeChildrenTime + " mlls");
+            System.out.println("[INFO] encodeEnd have been rendered in " + encodeEndTime + " mlls");
+            System.out.println("[INFO] encode TreeTable have been rendered in " + timeEncode + " mlls");
         }
     }
 
@@ -277,7 +277,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     @Override
     public void decode(FacesContext context, UIComponent component) throws NullPointerException {
         if (debug) {
-            log.info("decode : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
         }
         return;
     }
@@ -330,7 +330,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     private void writeHeaders(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         if (debug) {
-            log.info("decode : " + AbstractTreeTableRenderer.class.getName());
+            System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
         }
 
 //        writer.writeComment("Mootools Javascript Library");
