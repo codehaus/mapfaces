@@ -62,7 +62,14 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             writer.write(jsObject+".addControl(nav);\n");
         }
         if(comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()){
-            writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+comp.getClientId(context)+"')");
+            
+            String idDivbar = "";
+            if (comp.isFloatingBar()) {
+                idDivbar = comp.getId();
+            }else {
+                idDivbar = comp.getClientId(context);
+            }
+            writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+idDivbar+"')");
         
             if(comp.isZoomIn())
                 writer.write(",\nzoomIn: true");

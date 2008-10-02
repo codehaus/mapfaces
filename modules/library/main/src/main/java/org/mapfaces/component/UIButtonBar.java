@@ -32,6 +32,7 @@ public class UIButtonBar extends UIWidgetBase {
     private boolean zoomMaxExtent = true;
     private boolean history = true;
     private boolean panEffect = false;
+    private boolean floatingBar = false;
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -48,7 +49,7 @@ public class UIButtonBar extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[7];
+        Object values[] = new Object[8];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -56,6 +57,7 @@ public class UIButtonBar extends UIWidgetBase {
         values[4] = zoomMaxExtent;
         values[5] = history;
         values[6] = panEffect;
+        values[7] = floatingBar;
         return values;
     }
 
@@ -69,6 +71,7 @@ public class UIButtonBar extends UIWidgetBase {
         zoomMaxExtent = (Boolean) values[4];
         history = (Boolean) values[5];
         panEffect = (Boolean) values[6];
+        floatingBar = (Boolean) values[7];
     }
 
     public boolean isZoomIn() {
@@ -117,5 +120,13 @@ public class UIButtonBar extends UIWidgetBase {
 
     public void setPanEffect(boolean panEffect) {
         this.panEffect = panEffect;
+    }
+    
+    public boolean isFloatingBar() {
+        return floatingBar;
+    }
+
+    public void setFloatingBar(boolean floatingbar) {
+        this.floatingBar = floatingbar;
     }
 }

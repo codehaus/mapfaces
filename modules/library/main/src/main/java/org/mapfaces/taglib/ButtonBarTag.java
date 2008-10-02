@@ -44,6 +44,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression zoomMaxExtent = null;
     private ValueExpression history = null;
     private ValueExpression panEffect = null;
+    private ValueExpression floatingBar = null;
 
     @Override
     public String getComponentType() {
@@ -66,6 +67,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("zoomMaxExtent", zoomMaxExtent);
         component.setValueExpression("history", history);
         component.setValueExpression("panEffect", panEffect);
+        component.setValueExpression("floatingBar",getFloatingBar());
 
     }
 
@@ -80,6 +82,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         setZoomMaxExtent(null);
         setHistory(null);
         setPanEffect(null);
+        setFloatingBar(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -132,5 +135,13 @@ public class ButtonBarTag extends WidgetBaseTag {
 
     public void setPanEffect(ValueExpression panEffect) {
         this.panEffect = panEffect;
+    }
+
+    public ValueExpression getFloatingBar() {
+        return floatingBar;
+    }
+
+    public void setFloatingBar(ValueExpression floatingBar) {
+        this.floatingBar = floatingBar;
     }
 }

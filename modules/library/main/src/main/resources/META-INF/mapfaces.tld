@@ -322,6 +322,17 @@
                 Add a smooth slide effect on single Click handler   when  DragPan button selected .
             </description>
         </attribute>
+        <attribute>
+            <name>floatingBar</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the tool bar can be floating or not. i.e : true means the div is outside the component. otherwise the false value means inside.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>CursorTrack</name>
