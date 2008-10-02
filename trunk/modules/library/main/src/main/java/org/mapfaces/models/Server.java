@@ -20,7 +20,7 @@ package org.mapfaces.models;
 import java.io.Serializable;
 import org.geotools.data.ows.WMSCapabilities;
 
-public interface  Server  extends Serializable{
+public interface  Server  extends Serializable {
 
     public void setGTCapabilities(WMSCapabilities capabilities);
     
