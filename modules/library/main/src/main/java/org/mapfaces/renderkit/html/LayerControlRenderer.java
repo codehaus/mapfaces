@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
 
 import org.mapfaces.adapter.owc.Adapter;
@@ -35,6 +34,7 @@ import org.mapfaces.component.treelayout.UITreePanel;
 import org.mapfaces.component.treelayout.UITreeTable;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.tree.TreeModelsUtils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Olivier Terral.
@@ -72,6 +72,9 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             throw new NullPointerException("L'arbre est vide");
         //<mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500">                    
         }
+
+
+
         UITreeTable treeTable = new UITreeTable();
         treeTable.setId("TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
@@ -85,8 +88,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
         treePanel.setShowRoot(true);
-        treeTable.setStyle("border: 1px outset rgb(170, 170, 170);");
-       // treePanel.setStyle("height:400px;overflow:scroll;");
+        treeTable.setStyle("border: 1px outset rgb(214, 227, 242);");
+        // treePanel.setStyle("height:400px;overflow:scroll;");
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId("Layers");
@@ -157,7 +160,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 //            img.setValue("#{layer.legendUrl}");
         tni.getChildren().add(o4);
         tni.getChildren().add(o1);
-  //         tni.getChildren().add(o2);
+        //         tni.getChildren().add(o2);
         tni.getChildren().add(o3);
         tni.getChildren().add(o5);
         //tni.getChildren().add(o6);
@@ -171,7 +174,15 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.getChildren().add(tic);
         treePanel.getChildren().add(tni);
         treeTable.getChildren().add(treePanel);
-        comp.getChildren().add(treeTable);
+
+        UIComponent treetableTmp = FacesUtils.findComponentById(context, component, treeTable.getId());
+
+        if (treetableTmp != null) {
+            comp.getChildren().set(component.getChildren().indexOf(treetableTmp), treeTable);
+        } else {
+            comp.getChildren().add(0, treeTable);
+        }
+
         getWriter().flush();
 
     }

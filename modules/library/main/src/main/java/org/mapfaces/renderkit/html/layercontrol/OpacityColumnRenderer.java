@@ -51,13 +51,12 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeBegin(context, component);
-             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(   context,
-                                                                                                (UIComponent) component.getChildren().get(0),
-                                                                                                "onchange",
-                                                                                                getVarId(context,(UIAbstractColumn) component),
-                                                                                                null)
-                                                                                             );
-            
+            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
+                    (UIComponent) component.getChildren().get(0),
+                    "onchange",
+                    getVarId(context, (UIAbstractColumn) component),
+                    null));
+
         }
     }
 
@@ -92,7 +91,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
         writer.startElement("script", component);
 
-        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId)+"});");
+        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId) + "});");
 //        writer.write("value = event.target.value;" +
 //                "target = event.target.name;" +
 //                "viewstate = document.getElementById('javax.faces.ViewState').value;" +

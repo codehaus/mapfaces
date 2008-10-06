@@ -19,10 +19,8 @@ package org.mapfaces.renderkit.html.layercontrol;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.abstractTree.UIAbstractColumn;
 import org.mapfaces.component.layercontrol.UITimeColumn;
@@ -39,16 +37,15 @@ import org.mapfaces.util.FacesUtils;
 public class TimeColumnRenderer extends ImgColumnRenderer {
 
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException { 
-       if(((UITreeLines)(component.getParent())).getNodeInstance().isLeaf() &&  getTimes(context,(UITimeColumn) component) != null){
-           super.encodeBegin(context, component);
-           component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(   context,
-                                                                                                (UIComponent) component.getChildren().get(0),
-                                                                                                "onclick",
-                                                                                                getVarId(context,(UIAbstractColumn) component),
-                                                                                                FacesUtils.getFormId(context, component)+":timeline")
-                                                                                             );
-       }
+    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
+            super.encodeBegin(context, component);
+            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
+                    (UIComponent) component.getChildren().get(0),
+                    "onclick",
+                    getVarId(context, (UIAbstractColumn) component),
+                    FacesUtils.getFormId(context, component) + ":timeline"));
+        }
     }
 
     @Override

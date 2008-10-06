@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -139,7 +140,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             // DIV Start
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel:" + clientId, null);
-            writer.writeAttribute("style", "z-index:0; background :#CCCCCC;" + styleUser, null);
+            writer.writeAttribute("style", "z-index:0; background :#ECF1F8;" + styleUser, null);
             if (!styleClass.isEmpty()) {
                 writer.writeAttribute("class", styleClass, null);
             }
@@ -253,7 +254,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             }
             TreeNodeModel root = treepanel.getView().getRoot();
 
-            if (!treepanel.isInit()) {
+            
+            ExternalContext extContext = context.getExternalContext();
+
+            if (! extContext.getRequestMap().containsKey("treePanelRendered_"+component.getClientId(context))) {
+                extContext.getRequestMap().put("treePanelRendered_"+component.getClientId(context), Boolean.TRUE);
                 List<UIComponent> backup = new ArrayList<UIComponent>();
                 List<UIComponent> children = component.getChildren();
                 for (UIComponent tmp : children) {

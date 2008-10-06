@@ -14,32 +14,18 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 
-import org.mapfaces.component.UILayer;
 import org.mapfaces.component.abstractTree.UIAbstractColumn;
-import org.mapfaces.component.layercontrol.UIVisibilityColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
-import org.mapfaces.component.treelayout.UITreeTable;
-import org.mapfaces.models.Layer;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
-import org.mapfaces.share.utils.Utils;
-import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -51,14 +37,13 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
-           super.encodeBegin(context, component);
-           
-           component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(   context,
-                                                                                                (UIComponent) component.getChildren().get(0),
-                                                                                                "onclick",
-                                                                                                getVarId(context,(UIAbstractColumn) component),
-                                                                                                null)
-                                                                                             );
+            super.encodeBegin(context, component);
+
+            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
+                    (UIComponent) component.getChildren().get(0),
+                    "onclick",
+                    getVarId(context, (UIAbstractColumn) component),
+                    null));
         }
     }
 
@@ -84,6 +69,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
         writer.write("});");
         writer.endElement("script");
     }
+
     private String addBeforeRequestScript(String varId) {
         return "event.target.checked?document.getElementById('" + varId + "').style.display='block':document.getElementById('" + varId + "').style.display='none';";
     }
