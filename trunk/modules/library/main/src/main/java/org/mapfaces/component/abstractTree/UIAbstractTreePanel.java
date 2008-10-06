@@ -29,7 +29,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  */
 public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInterface, Cloneable {
 
-    private boolean init = false;
+    private boolean init;
     private boolean TREEPANEL_EXPAND_ALL = true;
     private TreeTableModel view;    
     // =========== ATTRIBUTES ================================================== //

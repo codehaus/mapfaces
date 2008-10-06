@@ -54,7 +54,6 @@ public class UIDimRange extends UIWidgetBase implements StateHolder {
             FacesContext context = FacesContext.getCurrentInstance();
             ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), layerCompId, String.class);
             this.layerCompId = (String) ve.getValue(context.getELContext());
-            System.out.println("%%%%%%%% "+this.layerCompId);
         }else
             this.layerCompId = layerCompId;
     }
