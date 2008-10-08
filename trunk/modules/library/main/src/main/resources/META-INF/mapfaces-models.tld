@@ -47,6 +47,10 @@
     </attribute>
     <attribute>
       <name>binding</name>
+      <deferred-value>
+                <type>javax.faces.component.UIComponent</type>
+      </deferred-value>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
       <name>rendered</name>

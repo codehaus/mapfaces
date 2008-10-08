@@ -124,7 +124,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 DefaultMapContext defaultMapContext = new DefaultMapContext(CRS.decode(srs));
                 ReferencedEnvelope env = new ReferencedEnvelope(new Double(model.getMinx()), new Double(model.getMaxx()), new Double(model.getMiny()), new Double(model.getMaxy()), CRS.decode(srs));
                 MapLayer mapLayer = LayerToWMSMapLayer(context, component, layer, env);
-                if (defaultMapContext.layers().add(mapLayer)) {  
+                if (defaultMapContext.layers().add(mapLayer)) {
                     /**
                      * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
                      * normally it doesn't
