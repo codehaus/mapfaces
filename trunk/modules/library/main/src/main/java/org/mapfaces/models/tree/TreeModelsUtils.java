@@ -61,6 +61,7 @@ public class TreeModelsUtils {
             node.setUserObject("NoName");
         }
         TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
+//        System.out.println("NODE "+id +" with value :"+node.getUserObject());
         if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()){
             treenode.setChecked(false);
         }
@@ -74,12 +75,18 @@ public class TreeModelsUtils {
      */
     public TreeTableModel transformTree(DefaultTreeModel tree) {
         DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
+        TreeNodeModel root = null;
         if (initial_root == null || initial_root.getUserObject() == null) {
-            
             initial_root = new DefaultMutableTreeNode("NoValue");
         }
-
-        TreeNodeModel root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
+        else if (! initial_root.toString().equals("root")){
+            root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
+            TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
+            root.add(child);
+        }else{
+            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);    
+        }
+        
 
         int depthnode = root.getDepth() + 1;
         for (int i = 0; i < initial_root.getChildCount(); i++) {

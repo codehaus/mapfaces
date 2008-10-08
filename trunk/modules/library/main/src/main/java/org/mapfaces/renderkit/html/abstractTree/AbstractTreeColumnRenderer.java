@@ -51,6 +51,7 @@ import org.mapfaces.util.AjaxUtils;
  */
 public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface {
 
+    /* Local Fields */
     private static final transient Log log = LogFactory.getLog(AbstractTreeColumnRenderer.class);
     private boolean debug = false;
     private static String DEFAULT_SIZE_COLUMN = "250";
@@ -252,7 +253,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             AjaxSupport.setId(treepanel.getId() + "_" + "ajax_" + node.getId());
             AjaxSupport.setReRender(component.getParent().getClientId(context) + ":line_" + node.getId());
             AjaxSupport.setEvent("onclick");
-            AjaxSupport.setOnsubmit("viewstate = document.getElementById('javax.faces.ViewState').value; return display(" + node.getId() + ",'" + treepanelId + "','get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);");
+            AjaxSupport.setOnsubmit("viewstate = document.getElementById('javax.faces.ViewState').value; " +
+//                    "return display(" + node.getId() + ",'" + treepanelId + "','get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);" +
+                    "A4J.AJAX.Submit(" + AJAX_SERVER + "','" + AJAX_PARAMETERS + ");");
 
             //Adding Components to TreeColumn
             component.getChildren().add(0, ImgNodeIdent);
