@@ -47,7 +47,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
     /* Local fields */
     //private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
-    private boolean debug;
+    private boolean debug = true;
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
@@ -287,7 +287,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     /**
      * <p>Get container form of the UIComponent</p>
      * @param component UIComponent to be rendered 
-     * @return UIForm the form container of the component
+     * @return UIForm the form container of the component if exist else return null
      */
     private UIForm getForm(UIComponent component) {
         UIComponent parent = component.getParent();
@@ -314,6 +314,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         return true;
     }
 
+    /**
+     * Test if context or the UICompoent exist and are not null
+     * @param context FacesContext for the request we are processing
+     * @param component UIComponent to be tested
+     */
     private void assertValid(FacesContext context, UIComponent component) {
         if (context == null) {
             throw new NullPointerException("FacesContext should not be null");

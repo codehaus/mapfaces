@@ -123,7 +123,7 @@ public class TreeTableUtils {
         FacesContext context = FacesContext.getCurrentInstance();
         String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
-        System.out.println("Treepanel id :" + treepanelId);
+//        System.out.println("Treepanel id :" + treepanelId);
         if (!((UIAbstractTreePanel) component).isInit()) {
             for (int i = 0; i < node.getChildCount(); i++) {
                 TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
