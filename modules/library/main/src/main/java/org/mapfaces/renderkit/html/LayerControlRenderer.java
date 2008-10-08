@@ -76,13 +76,13 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
 
         UITreeTable treeTable = new UITreeTable();
-        treeTable.setId(component.getId()+":TreeTable");
+        treeTable.setId(component.getId()+"TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
         treeTable.setVarName("layer");
         treeTable.setWidth(456);
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
-        treePanel.setId(component.getId()+":TreePanel");
+        treePanel.setId(component.getId()+"TreePanel");
         treePanel.setHeader(true);
         treePanel.setTitle("List of layers");
         treePanel.setRowId(false);
@@ -92,7 +92,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         // treePanel.setStyle("height:400px;overflow:scroll;");
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
-        tc.setId(component.getId()+":Layers");
+        tc.setId(component.getId()+"Layers");
         tc.setValue("#{layer.title}");
         tc.setHeader("Layers grouped");
         tc.setWidth("200");
@@ -108,25 +108,25 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         value="#{layer.visible}"
         width="30"/>*/
         UIVisibilityColumn vc = new UIVisibilityColumn();
-        vc.setId(component.getId()+":Visible");
+        vc.setId(component.getId()+"Visible");
         vc.setValue("#{!layer.hidden}");
         vc.setIcon("/org/mapfaces/resources/img/eye.png");
         vc.setWidth("26");
 
         UIOpacityColumn oc = new UIOpacityColumn();
-        oc.setId(component.getId()+":Opacity");
+        oc.setId(component.getId()+"Opacity");
         oc.setValue("#{layer.opacity}");
         oc.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
         oc.setWidth("70");
 
         UIElevationColumn ec = new UIElevationColumn();
-        ec.setId(component.getId()+":Elevation");
+        ec.setId(component.getId()+"Elevation");
         ec.setValue("#{layer.userValueElevation}");
         ec.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
         ec.setWidth("100");
 
         UITimeColumn tic = new UITimeColumn();
-        tic.setId(component.getId()+":Time");
+        tic.setId(component.getId()+"Time");
         // tic.setValue("#{layer.userValueDate}");
         tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
         tic.setWidth("28");
