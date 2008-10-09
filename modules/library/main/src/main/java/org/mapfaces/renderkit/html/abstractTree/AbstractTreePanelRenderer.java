@@ -86,6 +86,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         String title, styleUser, styleClass, clientId;
 
         /* Initialisation */
+        
         clientId = component.getClientId(context);
         renderHeader = treepanel.isHeader();
         renderFrame = treepanel.isFrame();
@@ -95,6 +96,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         renderStart = new Date();
         styleUser = "";
         styleClass = "";
+        treepanel.setTransient(true);
 
         /* 
          * Tests
@@ -313,11 +315,20 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         TreeTableModel tree = treepanel.getView();
         TreeNodeModel root = tree.getRoot();
+        
+        if (treepanel.getChildCount() != 0){
+            List<UIComponent> list = treepanel.getChildren();
+            for (UIComponent uIComponent : list) {
+                System.out.println(" [DEBUG] encodeChildren see Children of treepanel : "+uIComponent.getId());
+            }
+        }
         for (int i = 0; i < root.getChildCount(); i++) {
             TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
             if (!treepanel.isShowRoot()) {
                 if (child.isChecked()) {
-                    ((UIAbstractTreeLines) (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId()))).setToRender(false);
+                    System.out.println("[DEBUG] encodeChildren of "+ treepanel.getId() + "_line_" + child.getId() +" try to setToRender(false)");
+//                    ((UIAbstractTreeLines) (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId()))).setToRender(false);
+                    ((UIAbstractTreeLines) (Utils.findComponentById(context, component, treepanel.getId() + "_line_" + child.getId()))).setToRender(false);
                 }
             }
 

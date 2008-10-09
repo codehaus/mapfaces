@@ -49,10 +49,11 @@ public class AjaxListener implements PhaseListener {
     @Override
     public void afterPhase(PhaseEvent event) {
         AjaxUtils ajaxtools = new AjaxUtils();
-//        FacesContext context = event.getFacesContext();
-        FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = event.getFacesContext();
+//        FacesContext context = FacesContext.getCurrentInstance();
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        String a4jrequest = request.getParameter("AJAXREQUEST");
         String ajaxParam = request.getParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY());
         String ajaxRenderChild = request.getParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY());
         // Check for the existence of the Ajax param
@@ -71,6 +72,10 @@ public class AjaxListener implements PhaseListener {
             //Save the state of the page
             context.getApplication().getStateManager().saveView(context);
 
+        }else if(a4jrequest!=null){
+            System.out.println("A4J request !!!");
+            System.out.println("Une clé?");   
+            
         }
     }
 
