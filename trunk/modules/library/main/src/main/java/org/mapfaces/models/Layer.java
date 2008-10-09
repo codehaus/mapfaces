@@ -20,14 +20,12 @@ package org.mapfaces.models;
 import java.io.Serializable;
 import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.MapLayer;
 
 /**
  *
  * @author Olivier Terral.
  */
 public interface Layer extends Serializable {
-
 
     void setUserValue(String string, String value);
 
@@ -113,11 +111,11 @@ public interface Layer extends Serializable {
     void setResZ(String resZ);
 
     void setResponseCRS(String responseCRS);
-    
+
     void setTitle(String title);
-    
+
     void setServer(Server server);
-    
+
     Server getServer();
 
     String getType();
@@ -127,53 +125,53 @@ public interface Layer extends Serializable {
     String getLegendUrl();
 
     void setLegendUrl(String legendUrl);
-    
+
     /*
      * Getters and setters for dimensions parameters
      * */
     String getElevations();
 
     String getTimes();
-    
+
     void setElevations(String value);
-    
+
     String getUserValueElevation();
 
     String getUserValueTime();
 
     String getUserValueDimension(String name);
-    
+
     String getUserValueDimRange();
-    
+
     Dimension getElevation();
 
     Dimension getTime();
 
     Dimension getDimension(String name);
-    
+
     String getAttrDimension(String name, String attrName);
 
     void setDimension(String name, String value);
-    
+
     void setDimension(Dimension dim);
-    
+
     void setAttrDimension(String name, String attrName, String attrValue);
-    
+
     void setDimensionList(HashMap<String, Dimension> dimensionList);
-    
+
     /* *
      * Getters and setters for styles parameters
      * 
      * */
     String getStyles();
-    
+
     String getSld();
-    
+
     String getSldBody();
-    
+
     void setStyles(String styles);
-    
+
     void setSld(String sld);
-    
+
     void setSldBody(String sldBody);
 }
