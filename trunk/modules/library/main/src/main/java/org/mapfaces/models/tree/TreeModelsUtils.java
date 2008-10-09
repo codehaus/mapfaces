@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.models.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -26,7 +25,7 @@ import org.mapfaces.util.treetable.TreeTableConfig;
  * @author kdelfour
  */
 public class TreeModelsUtils {
-    
+
     private int count = 0;
 
     /**
@@ -62,7 +61,7 @@ public class TreeModelsUtils {
         }
         TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
 //        System.out.println("NODE "+id +" with value :"+node.getUserObject());
-        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()){
+        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()) {
             treenode.setChecked(false);
         }
         return treenode;
@@ -78,16 +77,16 @@ public class TreeModelsUtils {
         TreeNodeModel root = null;
         if (initial_root == null || initial_root.getUserObject() == null) {
             initial_root = new DefaultMutableTreeNode("NoValue");
-        }
-        else if (! initial_root.toString().equals("root")){
+        } else if (!initial_root.toString().equals("root")) {
             root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
             TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
             root.add(child);
-        }else{
-            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);    
+        } else {
+            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
         }
-        
 
+        count++;
+        
         int depthnode = root.getDepth() + 1;
         for (int i = 0; i < initial_root.getChildCount(); i++) {
             if (initial_root.getChildAt(i).isLeaf()) {
@@ -96,6 +95,7 @@ public class TreeModelsUtils {
             } else {
                 root.add(sstransformTree(root, (DefaultMutableTreeNode) initial_root.getChildAt(i)));
             }
+            count++;
         }
 
         TreeTableModel treetablemodel = new TreeTableModel(root);
@@ -103,11 +103,12 @@ public class TreeModelsUtils {
     }
 
     private TreeNodeModel sstransformTree(TreeNodeModel parent, DefaultMutableTreeNode node) {
-        count++;
+
         TreeNodeModel leaf = transformNode(node, count, parent.getDepth() + 1, count);
 
         if (!node.isLeaf()) {
             for (int i = 0; i < node.getChildCount(); i++) {
+                count++;
                 leaf.add(sstransformTree(leaf, (DefaultMutableTreeNode) node.getChildAt(i)));
             }
         }
@@ -201,12 +202,12 @@ public class TreeModelsUtils {
         TreeNodeModel MovedNode = tree.getById(movedNode);
         TreeNodeModel NodeBefore = tree.getById(nodeBefore);
         TreeNodeModel ParentNode = (TreeNodeModel) NodeBefore.getParent();
-        
+
         int position = ParentNode.getIndex(NodeBefore);
-        
+
         tree.getById(movedNode).removeFromParent();
         int targetNode = ((TreeNodeModel) tree.getById(nodeBefore).getParent()).getId();
-        
+
         if (targetNode == tree.getRoot().getId()) {
             tree.getRoot().insert(MovedNode, position);
         } else {
@@ -214,17 +215,17 @@ public class TreeModelsUtils {
         }
         return tree;
     }
-    
+
     public TreeTableModel insertAfter(TreeTableModel tree, int movedNode, int nodeAfter) {
         TreeNodeModel MovedNode = tree.getById(movedNode);
         TreeNodeModel NodeBefore = tree.getById(nodeAfter);
         TreeNodeModel ParentNode = (TreeNodeModel) NodeBefore.getParent();
-        
+
         int position = ParentNode.getIndex(NodeBefore) + 1;
-        
+
         tree.getById(movedNode).removeFromParent();
         int targetNode = ((TreeNodeModel) tree.getById(nodeAfter).getParent()).getId();
-        
+
         if (targetNode == tree.getRoot().getId()) {
             tree.getRoot().insert(MovedNode, position);
         } else {

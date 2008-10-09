@@ -131,8 +131,12 @@ public class TreeTableUtils {
 
                 //Create a new treeline and get all component to make a backup
                 UITreeLines treelines = new UITreeLines();
-                String id = treepanel.getId() + "_" + "line_" + String.valueOf(currentNode.getId());
-                treelines.setId(id);
+                
+                String id = treepanel.getId() + "_line_";
+                int idnode = currentNode.getId();
+//                System.out.println("[DEBUG] createTreeLines ID to add " + id + idnode);
+                
+                treelines.setId(id+idnode);
                 treelines.setNodeInstance(currentNode);
                 treelines.setToRender(true);
                 List<UIComponent> tocopy = duplicate(list, currentNode);
@@ -170,9 +174,10 @@ public class TreeTableUtils {
             RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
 
             treelines = new UITreeLines();
-            String id = treepanel.getId() + "_" + "line_" + String.valueOf(currentNode.getId());
-
-            treelines.setId(id);
+            String id = treepanel.getId() + "_line_";
+            int idnode = currentNode.getId();
+//            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + id + idnode);
+            treelines.setId(id + idnode);
             treelines.setNodeInstance(currentNode);
 
 

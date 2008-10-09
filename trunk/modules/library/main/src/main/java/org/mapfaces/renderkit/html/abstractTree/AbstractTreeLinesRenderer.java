@@ -39,7 +39,7 @@ import org.mapfaces.util.AjaxUtils;
 public abstract class AbstractTreeLinesRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
 
     /* Local Fields */
-    private boolean debug;
+    private boolean debug = true;
     //private static final transient Log log = LogFactory.getLog(AbstractTreeLinesRenderer.class);
     private AjaxUtils ajaxtools = new AjaxUtils();
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";

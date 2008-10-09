@@ -157,23 +157,23 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
 
         String styleUser = "";
-        if (treecolumn.getStyle() != null){
+        if (treecolumn.getStyle() != null) {
             styleUser = treecolumn.getStyle();
         }
         int indentStyle = node.getDepth() * 12;
         int width = Integer.valueOf(size) - indentStyle;
         writer.startElement("div", component);
         writer.writeAttribute("id", "treenode:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("style", "width:" + width + "px; padding-left :" + indentStyle + "px;"+styleUser, null);
-        String classUser ="";
-        if (treecolumn.getStyleClass() != null){
+        writer.writeAttribute("style", "width:" + width + "px; padding-left :" + indentStyle + "px;" + styleUser, null);
+        String classUser = "";
+        if (treecolumn.getStyleClass() != null) {
             classUser = treecolumn.getStyleClass();
         }
         if (FolderType) {
-            writer.writeAttribute("class", CLASS_NODE_DIV+" "+classUser, null);
+            writer.writeAttribute("class", CLASS_NODE_DIV + " " + classUser, null);
 //            writer.writeAttribute("onclick", "viewstate = document.getElementById('javax.faces.ViewState').value; display(" + node.getId() + ",'get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);", null);
         } else {
-            writer.writeAttribute("class", CLASS_LEAF_DIV+" "+classUser, null);
+            writer.writeAttribute("class", CLASS_LEAF_DIV + " " + classUser, null);
         }
 
 
@@ -244,19 +244,22 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 }
             }
             ImgTreeNodeInfo.setId(treepanel.getId() + "_" + "anchor_info_" + node.getId());
-            ImgTreeNodeInfo.setOnclick("showMore('"+treepanel.getClientId(context)+":"+ node.getId() + "');");
+            ImgTreeNodeInfo.setOnclick("showMore('" + treepanel.getClientId(context) + ":" + node.getId() + "');");
             ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO);
             ImgTreeNodeInfo.setStyle("margin-left : 5px;");
             ImgTreeNodeInfo.setUrl(NODE_IDENT);
 
             HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();
             AjaxSupport.setId(treepanel.getId() + "_" + "ajax_" + node.getId());
-            AjaxSupport.setReRender(component.getParent().getClientId(context) + ":line_" + node.getId());
+            AjaxSupport.setReRender(treepanel.getClientId(context));
             AjaxSupport.setEvent("onclick");
-            AjaxSupport.setOnsubmit("viewstate = document.getElementById('javax.faces.ViewState').value; " +
+            AjaxSupport.setEventsQueue("alert('hello');");
+            AjaxSupport.setLimitToList(true);
+//            AjaxSupport.setOnsubmit("" +
+//                    "viewstate = document.getElementById('javax.faces.ViewState').value; " +
 //                    "return display(" + node.getId() + ",'" + treepanelId + "','get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);" +
-                    "A4J.AJAX.Submit(" + AJAX_SERVER + "','" + AJAX_PARAMETERS + ");");
-
+//                    "A4J.AJAX.Submit(null,"+treepanelId+",null,null,{'parameters':{'org.mapfaces.ajax.AJAX_REQUEST':'true'}},null)" +
+//                    "");
             //Adding Components to TreeColumn
             component.getChildren().add(0, ImgNodeIdent);
             component.getChildren().add(1, ImgNodeRep);
