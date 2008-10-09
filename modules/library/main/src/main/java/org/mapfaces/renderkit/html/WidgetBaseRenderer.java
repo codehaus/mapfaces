@@ -24,7 +24,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -101,8 +100,6 @@ public class WidgetBaseRenderer extends Renderer {
     }
 
     private void assertValid(FacesContext context, UIComponent component) {
-        /*if(isDebug())   
-        System.out.println("     Le composant "+component.getFamily()+" entre dans AssertValid");*/
         if (context == null) {
             throw new NullPointerException("context should not be null");
         } else if (component == null) {
@@ -111,9 +108,9 @@ public class WidgetBaseRenderer extends Renderer {
     }
 
     void removeChildren(FacesContext context, UIComponent component) {
-        List<UIComponent> childrens = component.getChildren();
-        for (int i = childrens.size() - 1; i >= 0; i--) {
-            childrens.remove(i);
+        List<UIComponent> children = component.getChildren();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            children.remove(i);
         }
     }
 
