@@ -57,7 +57,6 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         }
         comp.setTree(Adapter.context2Tree(context, model));
 
-
         getWriter().startElement("div", comp);
         getWriter().writeAttribute("id", getClientId(), "id");
         getWriter().writeAttribute("style", getStyle(), "style");
@@ -73,7 +72,13 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         //<mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500">                    
         }
 
-
+        String styleTreetable = comp.getStyleTreeTable();
+        String styleTreePanel = comp.getStyleTreePanel();
+        String widthTreeColumn = comp.getWidthTreeColumn();
+        String widthVisibilityColumn = comp.getWidthVisibilityColumn();
+        String widthOpacityColumn = comp.getWidthOpacityColumn();
+        String widthElevationColumn = comp.getWidthElevationColumn();
+        String widthTimeColumn = comp.getWidthTimeColumn();
 
         UITreeTable treeTable = new UITreeTable();
         treeTable.setId(component.getId()+"TreeTable");
@@ -88,14 +93,21 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
         treePanel.setShowRoot(true);
-        treeTable.setStyle("border: 1px outset rgb(214, 227, 242);");
+        treePanel.setStyle(styleTreePanel);
+        treeTable.setStyle("border: 1px outset rgb(214, 227, 242);"+styleTreetable);
         // treePanel.setStyle("height:400px;overflow:scroll;");
         //<mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}"/> 
         UITreeColumn tc = new UITreeColumn();
         tc.setId(component.getId()+"Layers");
         tc.setValue("#{layer.title}");
         tc.setHeader("Layers grouped");
-        tc.setWidth("200");
+        
+        if (widthTreeColumn == null || widthTreeColumn.equals("")) {
+            tc.setWidth("200");
+        } else {
+            tc.setWidth(widthTreeColumn);
+        }
+        
 
         /* <mf:CheckColumn icon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif"   id="visible" 
         value="#{layer.visible}"
@@ -111,25 +123,41 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         vc.setId(component.getId()+"Visible");
         vc.setValue("#{!layer.hidden}");
         vc.setIcon("/org/mapfaces/resources/img/eye.png");
-        vc.setWidth("26");
+        if (widthVisibilityColumn == null || widthVisibilityColumn.equals("")) {
+            vc.setWidth("26");
+        } else {
+            vc.setWidth(widthVisibilityColumn);
+        }
 
         UIOpacityColumn oc = new UIOpacityColumn();
         oc.setId(component.getId()+"Opacity");
         oc.setValue("#{layer.opacity}");
         oc.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-        oc.setWidth("70");
+        if (widthOpacityColumn == null || widthOpacityColumn.equals("")) {
+            oc.setWidth("70");
+        } else {
+            oc.setWidth(widthOpacityColumn);
+        }
 
         UIElevationColumn ec = new UIElevationColumn();
         ec.setId(component.getId()+"Elevation");
         ec.setValue("#{layer.userValueElevation}");
         ec.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-        ec.setWidth("100");
+        if (widthElevationColumn == null || widthElevationColumn.equals("")) {
+            ec.setWidth("100");
+        } else {
+            ec.setWidth(widthElevationColumn);
+        }
 
         UITimeColumn tic = new UITimeColumn();
         tic.setId(component.getId()+"Time");
         // tic.setValue("#{layer.userValueDate}");
         tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
-        tic.setWidth("28");
+        if (widthTimeColumn == null || widthTimeColumn.equals("")) {
+            tic.setWidth("28");
+        } else {
+            tic.setWidth(widthTimeColumn);
+        }
 
         UITreeNodeInfo tni = new UITreeNodeInfo();
         tni.setHeader("Info");
