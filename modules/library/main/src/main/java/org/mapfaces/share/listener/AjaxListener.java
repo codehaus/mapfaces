@@ -71,11 +71,6 @@ public class AjaxListener implements PhaseListener {
 
             //Save the state of the page
             context.getApplication().getStateManager().saveView(context);
-
-        }else if(a4jrequest!=null){
-            System.out.println("A4J request !!!");
-            System.out.println("Une clé?");   
-            
         }
     }
 

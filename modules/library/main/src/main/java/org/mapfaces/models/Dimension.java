@@ -17,11 +17,13 @@
 
 package org.mapfaces.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Olivier Terral.
  */
-public interface Dimension {
+public interface Dimension extends Serializable {
 
     String getDefault();
 

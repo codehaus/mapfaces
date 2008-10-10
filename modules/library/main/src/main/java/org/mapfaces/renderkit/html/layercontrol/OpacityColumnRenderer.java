@@ -56,7 +56,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
                     "onchange",
                     getVarId(context, (UIAbstractColumn) component),
                     null));
-
+            
         }
     }
 

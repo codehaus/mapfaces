@@ -40,6 +40,7 @@ import org.apache.commons.lang.StringUtils;
 import org.mapfaces.component.abstractTree.UIAbstractColumn;
 import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
+import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.AjaxUtils;
@@ -368,7 +369,19 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
     
     public String getVarId(FacesContext context, UIAbstractColumn comp) {
         if (((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().isLeaf()) {
-            ((UIAbstractTreeLines) (comp.getParent())).setVarId(((Layer) (((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getId());
+            String idresult="";
+            Object obj = ((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().getUserObject();
+            if (obj instanceof Layer) {
+                Layer tmpLayer = (Layer) obj;
+                idresult = tmpLayer.getId();
+            } else {
+                if (obj instanceof Context) {
+                    Context tmpctx = (Context) obj;
+                    idresult = tmpctx.getId();
+                }
+            }
+            
+            ((UIAbstractTreeLines) (comp.getParent())).setVarId(idresult);
             if (((UIAbstractTreeLines) (comp.getParent())).getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }

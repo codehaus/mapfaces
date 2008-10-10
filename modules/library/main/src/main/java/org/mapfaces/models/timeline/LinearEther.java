@@ -16,13 +16,14 @@
  */
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Sidhoum Mehdi.
  */
-public class LinearEther {
+public class LinearEther implements Serializable {
     /**
      *  the number of milliseconds for example Timeline.DateTime.MONTH.
      */

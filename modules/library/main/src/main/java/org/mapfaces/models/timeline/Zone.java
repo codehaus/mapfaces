@@ -17,6 +17,7 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
 import java.util.Date;
 import org.geotools.util.Utilities;
 
@@ -24,7 +25,7 @@ import org.geotools.util.Utilities;
  *
  * @author Mehdi Sidhoum
  */
-public class Zone {
+public class Zone implements Serializable {
     private Date begin;
     private Date end;
     private String unit;

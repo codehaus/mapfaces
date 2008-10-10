@@ -17,11 +17,13 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mehdi Sidhoum.
  */
-public class Status {
+public class Status implements Serializable {
     
     /**
      * The constant attribute that defines the In Progress status.

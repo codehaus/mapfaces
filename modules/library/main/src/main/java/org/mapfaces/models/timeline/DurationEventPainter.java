@@ -17,11 +17,13 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mehdi Sidhoum.
  */
-public class DurationEventPainter {
+public class DurationEventPainter implements Serializable {
     
     private boolean showText;
     

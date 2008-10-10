@@ -17,6 +17,7 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
 import java.util.Date;
 import org.geotools.temporal.object.DefaultPeriod;
 import org.geotools.temporal.object.DefaultTemporalObject;
@@ -28,7 +29,7 @@ import org.opengis.temporal.Period;
  *
  * @author Mehdi Sidhoum.
  */
-public class Event {
+public class Event implements Serializable {
 
     private Date dateBegin;
     private Date dateEnd;

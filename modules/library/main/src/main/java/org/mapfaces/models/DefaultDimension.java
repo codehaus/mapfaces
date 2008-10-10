@@ -21,7 +21,7 @@ package org.mapfaces.models;
  *
  * @author Olivier Terral.
  */
-public class DefaultDimension implements Dimension{
+public class DefaultDimension implements Dimension {
     
     private String name;
     private String units;
