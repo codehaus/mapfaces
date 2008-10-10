@@ -661,6 +661,83 @@
                 The style of the overall div that surrounds this component.
             </description>
         </attribute>
+        <attribute>
+            <name>styleTreeTable</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the TreeTable subcomponent.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleTreePanel</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the TreePanel subcomponent.
+            </description>
+        </attribute>
+         <attribute>
+            <name>widthTreeColumn</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The width of the TreeColumn subcomponent.
+            </description>
+        </attribute>
+         <attribute>
+            <name>widthVisibilityColumn</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The width of the VisibilityColumn subcomponent.
+            </description>
+        </attribute>
+         <attribute>
+            <name>widthOpacityColumn</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The width of the OpacityColumn subcomponent.
+            </description>
+        </attribute>
+         <attribute>
+            <name>widthElevationColumn</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The width of the ElevationColumn subcomponent.
+            </description>
+        </attribute>
+         <attribute>
+            <name>widthTimeColumn</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The width of the TimeColumn subcomponent.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>MapPane</name>

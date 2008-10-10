@@ -17,6 +17,7 @@
 
 package org.mapfaces.taglib;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 public class LayerControlTag extends WidgetBaseTag {
@@ -29,12 +30,35 @@ public class LayerControlTag extends WidgetBaseTag {
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.LayerControl";
-
     /**
-     * Add extra parameter like this
-     * 
+     * The style of the treeTable sub component.
      */
-    //private ValueExpression value = null;
+    private ValueExpression styleTreeTable = null;
+    /**
+     * The style of the treePanel sub component.
+     */
+    private ValueExpression styleTreePanel = null;
+    /**
+     * The width of the treeColumn sub component.
+     */
+    private ValueExpression widthTreeColumn = null;
+    /**
+     * The width of the VisibilityColumn sub component.
+     */
+    private ValueExpression widthVisibilityColumn = null;
+    /**
+     * The width of the OpacityColumn sub component.
+     */
+    private ValueExpression widthOpacityColumn = null;
+    /**
+     * The width of the ElevationColumn sub component.
+     */
+    private ValueExpression widthElevationColumn = null;
+    /**
+     * The width of the TimeColumn sub component.
+     */
+    private ValueExpression widthTimeColumn = null;
+
     @Override
     public String getComponentType() {
         return COMP_TYPE;
@@ -48,15 +72,81 @@ public class LayerControlTag extends WidgetBaseTag {
     @Override
     public void release() {
         super.release();
+        setStyleTreeTable(null);
+        setStyleTreePanel(null);
+        setWidthTreeColumn(null);
+        setWidthElevationColumn(null);
+        setWidthOpacityColumn(null);
+        setWidthTimeColumn(null);
+        setWidthVisibilityColumn(null);
     //value = null;
     }
 
     @Override
     protected void setProperties(UIComponent component) {
         super.setProperties(component);
-    //component.setValueExpression("value",value);
+        component.setValueExpression("styleTreeTable", styleTreeTable);
+        component.setValueExpression("styleTreePanel", styleTreePanel);
+        component.setValueExpression("widthTreeColumn", widthTreeColumn);
+        component.setValueExpression("widthVisibilityColumn", widthVisibilityColumn);
+        component.setValueExpression("widthOpacityColumn", widthOpacityColumn);
+        component.setValueExpression("widthElevationColumn", widthElevationColumn);
+        component.setValueExpression("widthTimeColumn", widthTimeColumn);
     }
-    /**
-     *Add setters for extra parameters here 
-     */
+
+    public ValueExpression getStyleTreeTable() {
+        return styleTreeTable;
+    }
+
+    public void setStyleTreeTable(ValueExpression styleTreeTable) {
+        this.styleTreeTable = styleTreeTable;
+    }
+
+    public ValueExpression getStyleTreePanel() {
+        return styleTreePanel;
+    }
+
+    public void setStyleTreePanel(ValueExpression styleTreePanel) {
+        this.styleTreePanel = styleTreePanel;
+    }
+
+    public ValueExpression getWidthTreeColumn() {
+        return widthTreeColumn;
+    }
+
+    public void setWidthTreeColumn(ValueExpression widthTreeColumn) {
+        this.widthTreeColumn = widthTreeColumn;
+    }
+
+    public ValueExpression getWidthVisibilityColumn() {
+        return widthVisibilityColumn;
+    }
+
+    public void setWidthVisibilityColumn(ValueExpression widthVisibilityColumn) {
+        this.widthVisibilityColumn = widthVisibilityColumn;
+    }
+
+    public ValueExpression getWidthOpacityColumn() {
+        return widthOpacityColumn;
+    }
+
+    public void setWidthOpacityColumn(ValueExpression widthOpacityColumn) {
+        this.widthOpacityColumn = widthOpacityColumn;
+    }
+
+    public ValueExpression getWidthElevationColumn() {
+        return widthElevationColumn;
+    }
+
+    public void setWidthElevationColumn(ValueExpression widthElevationColumn) {
+        this.widthElevationColumn = widthElevationColumn;
+    }
+
+    public ValueExpression getWidthTimeColumn() {
+        return widthTimeColumn;
+    }
+
+    public void setWidthTimeColumn(ValueExpression widthTimeColumn) {
+        this.widthTimeColumn = widthTimeColumn;
+    }
 }

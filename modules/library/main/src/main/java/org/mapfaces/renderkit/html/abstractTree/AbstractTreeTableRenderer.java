@@ -240,13 +240,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
 
         writer.endElement("div");
-        writer.endElement("div");
         writer.startElement("input", component);
         writer.writeAttribute("type", "hidden", null);
         writer.writeAttribute("value", AJAX_SERVER, null);
         writer.writeAttribute("id", "ajax.server.request.URL", null);
         writer.writeAttribute("name", "ajax.server.request.URL", null);
-        writer.endElement("div");
+        writer.endElement("input");
 
         /* After encodeEnd, any method declared in a component extends this class can be launch here*/
         if (debug) {

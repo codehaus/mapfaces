@@ -25,24 +25,31 @@ import javax.swing.tree.DefaultTreeModel;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-public class UILayerControl extends UIWidgetBase{
-    
+public class UILayerControl extends UIWidgetBase {
+
     public static final String FAMILIY = "org.mapfaces.LayerControl";
-    
     /**
      * Add tree parameters
      * 
      */
     private DefaultMutableTreeNode rootnode,  node,  child,  children;
-    private DefaultTreeModel tree, tmp;
-    
+    private DefaultTreeModel tree,  tmp;
+    private String styleTreeTable;
+    private String styleTreePanel;
+    private String widthTreeColumn;
+    private String widthVisibilityColumn;
+    private String widthOpacityColumn;
+    private String widthElevationColumn;
+    private String widthTimeColumn;
+
     public UILayerControl() {
         super();
-        if(isDebug())
-            System.out.println( "[UILayerControl] constructor----------------------");
+        if (isDebug()) {
+            System.out.println("[UILayerControl] constructor----------------------");
+        }
         setRendererType("org.mapfaces.renderkit.html.LayerControl"); // this component has a renderer
     }
-    
+
     public DefaultTreeModel getTree() {
         return this.tree;
     }
@@ -57,23 +64,93 @@ public class UILayerControl extends UIWidgetBase{
         System.out.println("Node modfied !");
         tree.setRoot(root);
     }
-    
+
     @Override
     public String getFamily() {
         return FAMILIY;
     }
-    
+
     @Override
-     public Object saveState(FacesContext context) {
-        Object values[] = new Object[1];
-        values[0] = super.saveState(context); 
+    public Object saveState(FacesContext context) {
+        Object values[] = new Object[9];
+        values[0] = super.saveState(context);
+        values[1] = styleTreeTable;
+        values[2] = styleTreePanel;
+        values[3] = widthTreeColumn;
+        values[4] = widthVisibilityColumn;
+        values[5] = widthOpacityColumn;
+        values[6] = widthElevationColumn;
+        values[7] = widthTimeColumn;
         return values;
     }
 
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
-        super.restoreState(context, values[0]); 
+        super.restoreState(context, values[0]);
+        styleTreeTable = (String) values[1];
+        styleTreePanel = (String) values[2];
+        widthTreeColumn = (String) values[3];
+        widthVisibilityColumn = (String) values[4];
+        widthOpacityColumn = (String) values[5];
+        widthElevationColumn = (String) values[6];
+        widthTimeColumn = (String) values[7];
+        
     }
-    
+
+    public String getStyleTreeTable() {
+        return styleTreeTable;
+    }
+
+    public void setStyleTreeTable(String styleTreeTable) {
+        this.styleTreeTable = styleTreeTable;
+    }
+
+    public String getStyleTreePanel() {
+        return styleTreePanel;
+    }
+
+    public void setStyleTreePanel(String styleTreePanel) {
+        this.styleTreePanel = styleTreePanel;
+    }
+
+    public String getWidthTreeColumn() {
+        return widthTreeColumn;
+    }
+
+    public void setWidthTreeColumn(String widthTreeColumn) {
+        this.widthTreeColumn = widthTreeColumn;
+    }
+
+    public String getWidthVisibilityColumn() {
+        return widthVisibilityColumn;
+    }
+
+    public void setWidthVisibilityColumn(String widthVisibilityColumn) {
+        this.widthVisibilityColumn = widthVisibilityColumn;
+    }
+
+    public String getWidthOpacityColumn() {
+        return widthOpacityColumn;
+    }
+
+    public void setWidthOpacityColumn(String widthOpacityColumn) {
+        this.widthOpacityColumn = widthOpacityColumn;
+    }
+
+    public String getWidthElevationColumn() {
+        return widthElevationColumn;
+    }
+
+    public void setWidthElevationColumn(String widthElevationColumn) {
+        this.widthElevationColumn = widthElevationColumn;
+    }
+
+    public String getWidthTimeColumn() {
+        return widthTimeColumn;
+    }
+
+    public void setWidthTimeColumn(String widthTimeColumn) {
+        this.widthTimeColumn = widthTimeColumn;
+    }
 }
