@@ -17,11 +17,13 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mehdi Sidhoum.
  */
-public class Priority {
+public class Priority implements Serializable {
     
     /**
      * The constant attribute that defines the Low priority.

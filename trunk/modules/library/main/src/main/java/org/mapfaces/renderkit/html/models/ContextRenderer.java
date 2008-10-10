@@ -17,7 +17,6 @@
 
 package org.mapfaces.renderkit.html.models;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.ServletContext;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
@@ -50,7 +46,6 @@ public class ContextRenderer extends Renderer {
 
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
     //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    
     private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/OpenLayers.js";
     //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
     private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
@@ -123,7 +118,7 @@ public class ContextRenderer extends Renderer {
                     throw new IllegalArgumentException("You must indicate a path to file to read");
                 }
                 Context ctx = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
-                comp.setModel((AbstractModelBase)ctx);
+                comp.setModel((AbstractModelBase) ctx);
             } else {
                 if (comp.isDebug()) {
                     System.out.println("Context already exist");
@@ -197,7 +192,7 @@ public class ContextRenderer extends Renderer {
             if (title != null && !title.equals(tmp.getTitle())) {
                 tmp.setTitle(title);
             }
-            comp.setModel((AbstractModelBase)tmp);
+            comp.setModel((AbstractModelBase) tmp);
             if (comp.isDebug()) {
                 System.out.println("    Nouveaux parametres du context : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }

@@ -17,11 +17,13 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mehdi Sidhoum.
  */
-public class StaticTrackBasedLayout {
+public class StaticTrackBasedLayout implements Serializable {
     
     private Event eventSource;
     

@@ -17,11 +17,13 @@
 
 package org.mapfaces.models.timeline;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mehdi Sidhoum.
  */
-public class GregorianEtherPainter {
+public class GregorianEtherPainter implements Serializable {
     
     private String theme;
     

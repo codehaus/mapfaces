@@ -22,10 +22,8 @@ package org.mapfaces.models;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-import java.io.ObjectStreamException;
 import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.MapLayer;
 
 public class DefaultLayer implements Layer {
 
@@ -107,7 +105,6 @@ public class DefaultLayer implements Layer {
     public boolean isQueryable() {
         return queryable;
     }
-
 
     public String getGroup() {
         return group;
@@ -354,17 +351,18 @@ public class DefaultLayer implements Layer {
     public void setDimension(String name, String value) {
         getDimension(name).setValue(value);
     }
-    
+
     public void setDimension(Dimension dim) {
         HashMap<String, Dimension> dimList = getDimensionList();
-        if( dimList != null){
-            Dimension oldDim= dimList.get(dim.getName());
-            if (oldDim != null)
+        if (dimList != null) {
+            Dimension oldDim = dimList.get(dim.getName());
+            if (oldDim != null) {
                 dimList.remove(oldDim);
+            }
             dimList.put(dim.getName(), dim);
         }
     }
-    
+
     public String getAttrDimension(String name, String attrName) {
         return getDimension(name).getAttribute(attrName);
     }
@@ -372,6 +370,7 @@ public class DefaultLayer implements Layer {
     public void setAttrDimension(String name, String attrName, String attrValue) {
         getDimension(name).setAttribute(attrName, attrValue);
     }
+
     @Override
     public void setElevations(String value) {
         getDimension("elevation").setValue(value);
@@ -380,7 +379,7 @@ public class DefaultLayer implements Layer {
     @Override
     public String getUserValueTime() {
         if (getTime() != null) {
-            if(getTime().getUserValue()==null){
+            if (getTime().getUserValue() == null) {
                 getTime().setUserValue(getTime().getValue().split(",")[0]);
             }
             return getTime().getUserValue();
@@ -429,7 +428,6 @@ public class DefaultLayer implements Layer {
 //        }
 //        return singleton;
 //    }
-
     public boolean isEdit() {
         return edit;
     }
@@ -463,11 +461,11 @@ public class DefaultLayer implements Layer {
     }
 
     public String getSldBody() {
-       return this.sldBody;
+        return this.sldBody;
     }
 
     public void setStyles(String styles) {
-       this.styles = styles;
+        this.styles = styles;
     }
 
     public void setSld(String sld) {
@@ -481,12 +479,12 @@ public class DefaultLayer implements Layer {
     public void setServer(Server server) {
         this.server = server;
     }
-    public Server getServer(){
+
+    public Server getServer() {
         return this.server;
     }
 
     public void setQueryable(boolean queryable) {
         this.queryable = queryable;
     }
-
 }
