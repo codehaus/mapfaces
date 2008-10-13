@@ -392,12 +392,24 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public Dimension getElevation() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return null;
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getElevation();
+        }
+        return null;
     }
 
     @Override
     public Dimension getTime() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return null;
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getTime();
+        }
+        return null;
     }
 
     @Override
