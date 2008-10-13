@@ -118,8 +118,13 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         model.setMaxy(String.valueOf(env.getMaxY()));
                     }
                     System.out.println("=============== portraying " + env);
+                    
+                    try {
                     FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
-
+                    }
+                    catch (org.geotools.factory.RecursiveSearchException e){
+                        System.out.println("Catched Exception : "+e.getMessage());
+                    }
                     System.out.println("            Layer generate file finish " + layer.getName());
                     writer.startElement("img", comp);
                     writer.writeAttribute("id", id + "_Img", "style");

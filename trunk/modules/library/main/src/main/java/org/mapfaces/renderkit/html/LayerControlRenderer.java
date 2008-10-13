@@ -79,7 +79,9 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         String widthOpacityColumn = comp.getWidthOpacityColumn();
         String widthElevationColumn = comp.getWidthElevationColumn();
         String widthTimeColumn = comp.getWidthTimeColumn();
-
+        String titlePanel = comp.getTitlePanel();
+        String headerTreeColumn = comp.getHeaderTreeColumn();
+        
         UITreeTable treeTable = new UITreeTable();
         treeTable.setId(component.getId()+"TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
@@ -89,7 +91,12 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         UITreePanel treePanel = new UITreePanel();
         treePanel.setId(component.getId()+"TreePanel");
         treePanel.setHeader(true);
-        treePanel.setTitle("List of layers");
+        if (titlePanel == null || titlePanel.equals("")) {
+            treePanel.setTitle("List of layers");
+        }else {
+            treePanel.setTitle(titlePanel);
+        }
+        
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
         treePanel.setShowRoot(true);
@@ -100,8 +107,12 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         UITreeColumn tc = new UITreeColumn();
         tc.setId(component.getId()+"Layers");
         tc.setValue("#{layer.title}");
-        tc.setHeader("Layers grouped");
         
+        if (headerTreeColumn == null || headerTreeColumn.equals("")) {
+            tc.setHeader("Layers grouped");
+        }else {
+            tc.setHeader(headerTreeColumn);
+        }
         if (widthTreeColumn == null || widthTreeColumn.equals("")) {
             tc.setWidth("200");
         } else {

@@ -63,17 +63,38 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public HashMap<String, Dimension> getDimensionList() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return null;
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getDimensionList();
+        }
+        return null;
     }
 
     @Override
     public String getGroup() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getGroup();
+        }
+        return "";
     }
 
     @Override
     public String getId() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null ) {
+            return "";
+        }
+        if (object instanceof Context){
+            return ((Context) object).getId();
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getId();
+        }
+        return "";
     }
 
     @Override
@@ -103,17 +124,35 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getName();
+        }
+        return "";
     }
 
     @Override
     public String getOpacity() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getOpacity();
+        }
+        return "";
     }
 
     @Override
     public String getOutputFormat() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getOutputFormat();
+        }
+        return "";
     }
 
     @Override
@@ -148,14 +187,32 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getTitle() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null) {
+            return "";
+        }
+        if (object instanceof Context) {
+            return ((Context) object).getTitle();
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getTitle();
+        }
+        return "";
     }
 
     @Override
     public boolean isHidden() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null) {
+            return false;
+        }
+        if (object instanceof Context) {
+            return ((Context) object).isHidden(null);
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).isHidden();
+        }
+        return false;
     }
-
+    
     @Override
     public void setDataUrl(String dataUrl) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -303,7 +360,13 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getUserValueElevation() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getUserValueElevation();
+        }
+        return "";
     }
 
     @Override
@@ -318,7 +381,13 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getUserValueDimRange() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getUserValueDimRange();
+        }
+        return "";
     }
 
     @Override

@@ -19,6 +19,7 @@ package org.mapfaces.component.timeline;
 
 import java.util.List;
 import javax.faces.component.UICommand;
+import javax.faces.context.FacesContext;
 import org.mapfaces.models.timeline.Event;
 
 /**
@@ -27,14 +28,23 @@ import org.mapfaces.models.timeline.Event;
  */
 public class UITimeLine extends UICommand {
 
+    public static final String FAMILIY = "org.mapfaces.component.TimeLine";
+    /**
+     * List of the events for the timeline.
+     */
     private List<Event> events;
     /**
-     * Name of the js object wher the timeline is defined
-     * 
+     * Name of the js object when the timeline is defined
      */
     private String jsObject;
-    
-    public static final String FAMILIY = "org.mapfaces.component.TimeLine";
+    /**
+     * Flag that indicates if the slider zoom subcomponent will be displayed or not.
+     */
+    private boolean sliderZoom;
+    /**
+     * Flag that indicates if the input date subcomponent will be rendered or not.
+     */
+    private boolean inputDate;
 
     public String getFamily() {
         return FAMILIY;
@@ -53,10 +63,49 @@ public class UITimeLine extends UICommand {
     public String getJsObject() {
         return jsObject;
     }
+
     public void setJsObject(String jsObject) {
         this.jsObject = jsObject;
     }
+
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public boolean isSliderZoom() {
+        return sliderZoom;
+    }
+
+    public void setSliderZoom(boolean sliderZoom) {
+        this.sliderZoom = sliderZoom;
+    }
+
+    @Override
+    public Object saveState(FacesContext context) {
+        Object values[] = new Object[6];
+        values[0] = super.saveState(context);
+        values[1] = events;
+        values[2] = jsObject;
+        values[3] = sliderZoom;
+        values[4] = inputDate;
+        return values;
+    }
+
+    @Override
+    public void restoreState(FacesContext context, Object state) {
+        Object values[] = (Object[]) state;
+        super.restoreState(context, values[0]);
+        events = (List<Event>) values[1];
+        jsObject = (String) values[2];
+        sliderZoom = (Boolean) values[3];
+        inputDate = (Boolean) values[4];
+    }
+
+    public boolean isInputDate() {
+        return inputDate;
+    }
+
+    public void setInputDate(boolean inputDate) {
+        this.inputDate = inputDate;
     }
 }

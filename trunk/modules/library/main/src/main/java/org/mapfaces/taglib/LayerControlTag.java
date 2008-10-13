@@ -58,6 +58,14 @@ public class LayerControlTag extends WidgetBaseTag {
      * The width of the TimeColumn sub component.
      */
     private ValueExpression widthTimeColumn = null;
+    /**
+     * The panel title.
+     */
+    private ValueExpression titlePanel = null;
+    /**
+     * The header title of the treeColumn sub component.
+     */
+    private ValueExpression headerTreeColumn = null;
 
     @Override
     public String getComponentType() {
@@ -79,7 +87,8 @@ public class LayerControlTag extends WidgetBaseTag {
         setWidthOpacityColumn(null);
         setWidthTimeColumn(null);
         setWidthVisibilityColumn(null);
-    //value = null;
+        setTitlePanel(null);
+        setHeaderTreeColumn(null);
     }
 
     @Override
@@ -92,6 +101,8 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("widthOpacityColumn", widthOpacityColumn);
         component.setValueExpression("widthElevationColumn", widthElevationColumn);
         component.setValueExpression("widthTimeColumn", widthTimeColumn);
+        component.setValueExpression("titlePanel", titlePanel);
+        component.setValueExpression("headerTreeColumn", headerTreeColumn);
     }
 
     public ValueExpression getStyleTreeTable() {
@@ -148,5 +159,21 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setWidthTimeColumn(ValueExpression widthTimeColumn) {
         this.widthTimeColumn = widthTimeColumn;
+    }
+
+    public ValueExpression getTitlePanel() {
+        return titlePanel;
+    }
+
+    public void setTitlePanel(ValueExpression titlePanel) {
+        this.titlePanel = titlePanel;
+    }
+
+    public ValueExpression getHeaderTreeColumn() {
+        return headerTreeColumn;
+    }
+
+    public void setHeaderTreeColumn(ValueExpression headerTreeColumn) {
+        this.headerTreeColumn = headerTreeColumn;
     }
 }

@@ -738,6 +738,28 @@
                 The width of the TimeColumn subcomponent.
             </description>
         </attribute>
+        <attribute>
+            <name>titlePanel</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The panel title.
+            </description>
+        </attribute>
+        <attribute>
+            <name>headerTreeColumn</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+               The header title of the treeColumn sub component.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>MapPane</name>
@@ -3413,6 +3435,28 @@
             <rtexprvalue>false</rtexprvalue>
             <description>
                 The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>sliderZoom</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if this timeline component will contains a slider for zoom.
+            </description>
+        </attribute>
+        <attribute>
+            <name>inputDate</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if this timeline component will contains an input date.
             </description>
         </attribute>
     </tag>
