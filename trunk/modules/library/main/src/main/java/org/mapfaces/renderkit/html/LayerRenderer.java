@@ -17,9 +17,12 @@
 
 package org.mapfaces.renderkit.html;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Robot;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -38,7 +41,6 @@ import org.geotools.referencing.CRS;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
-
 import org.mapfaces.models.Layer;
 import org.mapfaces.util.FacesUtils;
 import org.opengis.referencing.FactoryException;
@@ -117,22 +119,35 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         model.setMaxx(String.valueOf(env.getMaxX()));
                         model.setMaxy(String.valueOf(env.getMaxY()));
                     }
-                    System.out.println("=============== portraying " + env);
-
+                    System.out.println("[PORTRAYING] for envelope " + env);
+                    Dimension dim = new Dimension(new Integer(width), new Integer(height));
                     try {
-                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
+                        
+                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), dim, false);
                     } catch (org.geotools.factory.RecursiveSearchException e) {
-                        System.out.println("Catched Exception : " + e.getMessage());
-                        org.geotools.factory.RecursiveSearchException exp = e;
-                        while (exp != null) {
-                            try {
-                                System.out.println("======== doing a reportay process while the exception is occured ! ");
-                                FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
-                                exp = null;
-                            } catch (org.geotools.factory.RecursiveSearchException exception) {
-                                exp = exception;
-                                System.out.println(">>>>> "+exp.getMessage());
+                        try {
+                            System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());
+                            org.geotools.factory.RecursiveSearchException exp = e;
+                            Date begin = new Date();
+                            Robot robocop = new Robot();
+                            while (exp != null) {
+                                try {                                    
+                                    robocop.delay(1000);
+                                    FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
+                                    exp = null;
+                                } catch (org.geotools.factory.RecursiveSearchException exception) {
+                                    exp = exception;
+                                    System.out.println("[PORTRAYING] Exception : " + exp.getMessage());
+                                }
+                                Date end = new Date();
+                                Long timeout = end.getTime() - begin.getTime();
+                                System.out.println("[PORTRAYING] timeout = " + timeout);
+                                if (timeout > 10000) {
+                                    break;
+                                }
                             }
+                        } catch (AWTException ex) {
+                            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                     System.out.println("            Layer generate file finish " + layer.getName());
@@ -284,7 +299,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
                 }
             }
-            //Modify Compoennt property
+            //Modify Component property
             if ((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null) {
                 comp.setStyle((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
             }

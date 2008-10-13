@@ -19,6 +19,9 @@ package org.mapfaces.component.layercontrol;
 
 import org.mapfaces.component.treelayout.UIImgColumn;
 
+/**
+ * @author Olivier Terral.
+ */
 public class UITimeColumn extends UIImgColumn {
 
     private static final long serialVersionUID = -1878798978545632171L;

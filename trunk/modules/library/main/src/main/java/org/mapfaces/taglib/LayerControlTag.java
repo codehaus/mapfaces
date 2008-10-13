@@ -66,6 +66,10 @@ public class LayerControlTag extends WidgetBaseTag {
      * The header title of the treeColumn sub component.
      */
     private ValueExpression headerTreeColumn = null;
+    /**
+     * Flag that indicates if the Elevation columns must be displayed or not.
+     */
+    private ValueExpression hideElevationColumn = null;
 
     @Override
     public String getComponentType() {
@@ -89,6 +93,7 @@ public class LayerControlTag extends WidgetBaseTag {
         setWidthVisibilityColumn(null);
         setTitlePanel(null);
         setHeaderTreeColumn(null);
+        setHideElevationColumn(null);
     }
 
     @Override
@@ -103,6 +108,7 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("widthTimeColumn", widthTimeColumn);
         component.setValueExpression("titlePanel", titlePanel);
         component.setValueExpression("headerTreeColumn", headerTreeColumn);
+        component.setValueExpression("hideElevationColumn", hideElevationColumn);
     }
 
     public ValueExpression getStyleTreeTable() {
@@ -175,5 +181,13 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setHeaderTreeColumn(ValueExpression headerTreeColumn) {
         this.headerTreeColumn = headerTreeColumn;
+    }
+
+    public ValueExpression getHideElevationColumn() {
+        return hideElevationColumn;
+    }
+
+    public void setHideElevationColumn(ValueExpression hideElevationColumn) {
+        this.hideElevationColumn = hideElevationColumn;
     }
 }

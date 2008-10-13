@@ -43,6 +43,7 @@ public class UILayerControl extends UIWidgetBase {
     private String widthTimeColumn;
     private String titlePanel;
     private String headerTreeColumn;
+    private boolean hideElevationColumn;
 
     public UILayerControl() {
         super();
@@ -74,7 +75,7 @@ public class UILayerControl extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[11];
+        Object values[] = new Object[12];
         values[0] = super.saveState(context);
         values[1] = styleTreeTable;
         values[2] = styleTreePanel;
@@ -85,6 +86,7 @@ public class UILayerControl extends UIWidgetBase {
         values[7] = widthTimeColumn;
         values[8] = titlePanel;
         values[9] = headerTreeColumn;
+        values[10] = hideElevationColumn;
         return values;
     }
 
@@ -101,6 +103,7 @@ public class UILayerControl extends UIWidgetBase {
         widthTimeColumn = (String) values[7];
         titlePanel = (String) values[8];
         headerTreeColumn = (String) values[9];
+        hideElevationColumn = (Boolean) values[10];
         
     }
 
@@ -174,5 +177,13 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setHeaderTreeColumn(String headerTreeColumn) {
         this.headerTreeColumn = headerTreeColumn;
+    }
+
+    public boolean isHideElevationColumn() {
+        return hideElevationColumn;
+    }
+
+    public void setHideElevationColumn(boolean hideElevationColumn) {
+        this.hideElevationColumn = hideElevationColumn;
     }
 }

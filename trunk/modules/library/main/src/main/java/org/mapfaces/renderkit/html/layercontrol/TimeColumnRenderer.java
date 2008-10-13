@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
@@ -38,8 +39,10 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        UITimeColumn comp = (UITimeColumn) component;
+        comp.setTitle("Display or hide temporal information in the timeline.");
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
-            super.encodeBegin(context, component);
+            super.encodeBegin(context, component);           
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onclick",

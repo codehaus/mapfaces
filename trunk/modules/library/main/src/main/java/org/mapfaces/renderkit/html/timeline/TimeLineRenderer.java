@@ -17,7 +17,6 @@
 
 package org.mapfaces.renderkit.html.timeline;
 
-import bean.TimeLineBean;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,11 +57,13 @@ import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.component.timeline.UITimeLine;
+import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.models.timeline.HighlightDecorator;
 import org.mapfaces.models.timeline.Priority;
 import org.mapfaces.models.timeline.Status;
 import org.mapfaces.models.timeline.Zone;
+import org.mapfaces.util.timeline.TimeLineUtils;
 import org.opengis.temporal.Duration;
 import org.opengis.temporal.Instant;
 import org.opengis.temporal.OrdinalPosition;
@@ -74,12 +75,13 @@ import org.opengis.temporal.TemporalPrimitive;
 /**
  *
  * @author Mehdi Sidhoum.
+ * @author Olivier Terral.
  */
 public class TimeLineRenderer extends Renderer {
 
     Date centerDate;
-    boolean singleFile=false;
-    
+    boolean singleFile = false;
+
     @Override
     @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -221,7 +223,7 @@ public class TimeLineRenderer extends Renderer {
 
         writeResizeFunction(context, comp);
 
-        //TO BE DELETED no reference to mapfaces components because the timelin should be works alone, without a context
+        //TO BE DELETED no reference to mapfaces components because the timeline should be works alone, without a context
         if (FacesUtils.getParentUIModelBase(context, component) != null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)) {
 
             writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
@@ -257,9 +259,10 @@ public class TimeLineRenderer extends Renderer {
                 ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
             try {
                 UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
-                TimeLineBean tlb = (new TimeLineBean(uiLayer));
-                centerDate = tlb.getCenterDate();
-                comp.setValue(tlb.getEvents());
+                Layer layer = uiLayer.getLayer();
+                List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                comp.setValue(layerEvents);
             } catch (ParseException ex) {
                 Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (DatatypeConfigurationException ex) {
@@ -781,7 +784,7 @@ public class TimeLineRenderer extends Renderer {
      */
     private void writeTimeLineScriptInHeader(FacesContext context)
             throws IOException {
-    //AddResourceFactory.getInstance(context).addJavaScriptAtPosition(context, AddResource.HEADER_BEGIN, ResourcePhaseListener.getURLForHeader(context, "/timeline/resources/api/timeline-api.js", null));
+        //AddResourceFactory.getInstance(context).addJavaScriptAtPosition(context, AddResource.HEADER_BEGIN, ResourcePhaseListener.getURLForHeader(context, "/timeline/resources/api/timeline-api.js", null));
     }
 
     /**

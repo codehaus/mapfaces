@@ -296,7 +296,7 @@ public class OWCv030toMFTransformer {
         dim.setNearestValues(true);
         dim.setUnitSymbol(dimType.getUnitSymbol());
         dim.setUnits(dimType.getUnits());
-        dim.setUserValue(dimType.getDefault());
+        dim.setUserValue("");
         dim.setValue(dimType.getValue());
         return dim;
     }
