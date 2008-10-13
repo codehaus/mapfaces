@@ -118,12 +118,22 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         model.setMaxy(String.valueOf(env.getMaxY()));
                     }
                     System.out.println("=============== portraying " + env);
-                    
+
                     try {
-                    FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
-                    }
-                    catch (org.geotools.factory.RecursiveSearchException e){
-                        System.out.println("Catched Exception : "+e.getMessage());
+                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
+                    } catch (org.geotools.factory.RecursiveSearchException e) {
+                        System.out.println("Catched Exception : " + e.getMessage());
+                        org.geotools.factory.RecursiveSearchException exp = e;
+                        while (exp != null) {
+                            try {
+                                System.out.println("======== doing a reportay process while the exception is occured ! ");
+                                FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
+                                exp = null;
+                            } catch (org.geotools.factory.RecursiveSearchException exception) {
+                                exp = exception;
+                                System.out.println(">>>>> "+exp.getMessage());
+                            }
+                        }
                     }
                     System.out.println("            Layer generate file finish " + layer.getName());
                     writer.startElement("img", comp);
