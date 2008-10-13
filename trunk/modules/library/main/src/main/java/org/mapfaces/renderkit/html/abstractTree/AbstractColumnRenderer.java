@@ -42,6 +42,7 @@ import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.treetable.TreeTableConfig;
@@ -371,16 +372,10 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         if (((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().isLeaf()) {
             String idresult="";
             Object obj = ((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().getUserObject();
-            if (obj instanceof Layer) {
-                Layer tmpLayer = (Layer) obj;
-                idresult = tmpLayer.getId();
-            } else {
-                if (obj instanceof Context) {
-                    Context tmpctx = (Context) obj;
-                    idresult = tmpctx.getId();
-                }
-            }
-            
+            if (obj instanceof TreeItem) {
+                TreeItem treeitem = (TreeItem) obj;
+                idresult = treeitem.getId();
+            }            
             ((UIAbstractTreeLines) (comp.getParent())).setVarId(idresult);
             if (((UIAbstractTreeLines) (comp.getParent())).getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
