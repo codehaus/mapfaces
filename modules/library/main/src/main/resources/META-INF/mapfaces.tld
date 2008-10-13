@@ -760,6 +760,17 @@
                The header title of the treeColumn sub component.
             </description>
         </attribute>
+        <attribute>
+            <name>hideElevationColumn</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the Elevation columns must be displayed or not.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>MapPane</name>
