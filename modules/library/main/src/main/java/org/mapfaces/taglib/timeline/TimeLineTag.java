@@ -51,6 +51,14 @@ public class TimeLineTag extends UIComponentELTag {
      * The style of the overall div that surrounds this component.
      */
     private ValueExpression style = null;
+    /**
+     * flag that indicates if this timeline component will contains a slider for zoom.
+     */
+    private ValueExpression sliderZoom = null;
+    /**
+     * flag that indicates if this timeline component will contains an input date.
+     */
+    private ValueExpression inputDate = null;
         
     public String getComponentType() {
         return COMP_TYPE;
@@ -68,6 +76,8 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("value",value);
         component.setValueExpression("styleClass",styleClass);
         component.setValueExpression("style",style);
+        component.setValueExpression("sliderZoom",sliderZoom);
+        component.setValueExpression("inputDate",inputDate);
     }
     
     @Override
@@ -78,6 +88,8 @@ public class TimeLineTag extends UIComponentELTag {
         value = null;
         styleClass = null;
         style = null;
+        sliderZoom = null;
+        inputDate = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -90,5 +102,21 @@ public class TimeLineTag extends UIComponentELTag {
 
     public void setStyle(ValueExpression style) {
         this.style = style;
-    }    
+    }
+
+    public ValueExpression getSliderZoom() {
+        return sliderZoom;
+    }
+
+    public void setSliderZoom(ValueExpression sliderZoom) {
+        this.sliderZoom = sliderZoom;
+    }
+
+    public ValueExpression getInputDate() {
+        return inputDate;
+    }
+
+    public void setInputDate(ValueExpression inputDate) {
+        this.inputDate = inputDate;
+    }
 }

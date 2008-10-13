@@ -15,6 +15,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 
 /**
@@ -76,8 +77,8 @@ public class Adapter {
 
         DefaultTreeModel tree = new DefaultTreeModel(null);
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
-
-        DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);
+        TreeItem treeItemRoot = new TreeItem(model);
+        DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(treeItemRoot);
         root.add(contextOwc);
 
         int id = 0;
@@ -87,7 +88,8 @@ public class Adapter {
         for (Layer layer : listLayers) {
             System.out.println("ID :" + id);
             id++;
-            TreeNodeModel item = new TreeNodeModel(layer, id, depth, id, false);
+            TreeItem treeItem = new TreeItem(layer);
+            TreeNodeModel item = new TreeNodeModel(treeItem, id, depth, id, false);
             contextOwc.add(item);
         }
 

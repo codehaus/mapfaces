@@ -79,6 +79,7 @@ public class TimeLineRenderer extends Renderer {
 
     Date centerDate;
     boolean singleFile=false;
+    
     @Override
     @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -114,16 +115,19 @@ public class TimeLineRenderer extends Renderer {
             writer.writeAttribute("style", style, "style");
         }
 
-        //writeSliderZoom(context, comp, writer, extContext);
+        if (comp.isSliderZoom()) {
+            writeSliderZoom(context, comp, writer, extContext);
+        }
 
         style = style.concat(" width:100%;");
 
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId + "_Container", "id");
-        writer.writeAttribute("style", style + "left:0px;top:0px;position:relative;", "style");
+        writer.writeAttribute("style", style + " border:none; margin:0pt auto; left:0px;top:0px;position:relative;", "style");
         writer.endElement("div"); //close the tm-widget
-
-        writeInputDateText(writer, comp, context);
+        if (comp.isInputDate()) {
+            writeInputDateText(writer, comp, context);
+        }
     }
 
     @Override
@@ -149,17 +153,12 @@ public class TimeLineRenderer extends Renderer {
 
         if (value != null) {
             if (value.getClass().toString().contains("java.lang.String")) {
-//                System.out.println("===== [Tomcat] :  String detected for BandInfo attribute value = " + value);
-
                 ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                 events = (List<Event>) ve.getValue(context.getELContext());
-
             } else {
-//                System.out.println("=====  [Glassfish] : BandInfo value getclass = " + value.getClass().toString());
                 events = (List<Event>) value;
             }
         }
-
         events = buildAllTemporalEvents(events);
 
         List<Event> specialEvents = writeScriptEvents(context, comp, events);
@@ -211,37 +210,37 @@ public class TimeLineRenderer extends Renderer {
             }
             if (comp.getChildCount() > 1) {
                 i--;
-               // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
+            // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
             }
         }
 
         //write scripts necessary for eras.
         writeScriptsEras(context, comp, erasZones);
 
-        writer.write(idjs + "_tl = Timeline.create(document.getElementById('"+FacesUtils.getFormId(context, component)+":" + idjs + "'), " + idjs + "_bandInfos);\n");
+        writer.write(idjs + "_tl = Timeline.create(document.getElementById('" + FacesUtils.getFormId(context, component) + ":" + idjs + "'), " + idjs + "_bandInfos);\n");
 
         writeResizeFunction(context, comp);
-        
+
         //TO BE DELETED no reference to mapfaces components because the timelin should be works alone, without a context
-        if(FacesUtils.getParentUIModelBase(context, component)!=null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)){
-            
+        if (FacesUtils.getParentUIModelBase(context, component) != null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)) {
+
             writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
-                "        var parameters = {    'synchronized': 'true',\n" +
-                 "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '"+FacesUtils.getFormId(context, component)+":'+img.textContent.split(' ')[0],\n" +
-                 "                             'refresh': img.textContent.split(' ')[0],\n" +
-                "                              'Time': img.textContent.split(' ')[1],\n" +
-                "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
-                "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
-                "                         };" +
-                "parameters['" + ((UIContext) comp.getParent()).getAjaxCompId() + "'] =' " + ((UIContext) comp.getParent()).getAjaxCompId() + "';" +
-                "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','"+FacesUtils.getFormId(context, component)+"',\n" +
-                 "                        null,\n" +
-                 "                        {   'control':this,\n" +
-                 "                            'single':true,\n" +
-                 "                            'parameters': parameters ,\n" +
-                 "                        } \n" +
-                "                      );\n" +
-                "    };\n");    
+                    "        var parameters = {    'synchronized': 'true',\n" +
+                    "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '" + FacesUtils.getFormId(context, component) + ":'+img.textContent.split(' ')[0],\n" +
+                    "                             'refresh': img.textContent.split(' ')[0],\n" +
+                    "                              'Time': img.textContent.split(' ')[1],\n" +
+                    "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
+                    "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
+                    "                         };" +
+                    "parameters['" + ((UIContext) comp.getParent()).getAjaxCompId() + "'] =' " + ((UIContext) comp.getParent()).getAjaxCompId() + "';" +
+                    "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','" + FacesUtils.getFormId(context, component) + "',\n" +
+                    "                        null,\n" +
+                    "                        {   'control':this,\n" +
+                    "                            'single':true,\n" +
+                    "                            'parameters': parameters ,\n" +
+                    "                        } \n" +
+                    "                      );\n" +
+                    "    };\n");
         }
         writer.endElement("script");
         writer.endElement("div"); //close the global div
@@ -782,7 +781,7 @@ public class TimeLineRenderer extends Renderer {
      */
     private void writeTimeLineScriptInHeader(FacesContext context)
             throws IOException {
-        //AddResourceFactory.getInstance(context).addJavaScriptAtPosition(context, AddResource.HEADER_BEGIN, ResourcePhaseListener.getURLForHeader(context, "/timeline/resources/api/timeline-api.js", null));
+    //AddResourceFactory.getInstance(context).addJavaScriptAtPosition(context, AddResource.HEADER_BEGIN, ResourcePhaseListener.getURLForHeader(context, "/timeline/resources/api/timeline-api.js", null));
     }
 
     /**
@@ -796,9 +795,9 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        
+
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
-        if(!singleFile){
+        if (!singleFile) {
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/timeline-api.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
@@ -828,12 +827,12 @@ public class TimeLineRenderer extends Renderer {
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/styles/theme.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
-        }else{
+        } else {
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/minify/zip.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
-        } 
+        }
     }
 
     /**
@@ -977,7 +976,7 @@ public class TimeLineRenderer extends Renderer {
                 "var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n" +
                 "if (dateInput instanceof Date) {\n" +
                 idjs + "_tl.getBand(0).setCenterVisibleDate(dateInput);\n" +
-                "}}\n" +
+                "} return false;}\n" +
                 "</script>\n");
     }
 
@@ -1019,7 +1018,7 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        if(!singleFile){
+        if (!singleFile) {
             writer.startElement("script", comp);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/slider/js/JSSlider.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);

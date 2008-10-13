@@ -41,6 +41,8 @@ public class UILayerControl extends UIWidgetBase {
     private String widthOpacityColumn;
     private String widthElevationColumn;
     private String widthTimeColumn;
+    private String titlePanel;
+    private String headerTreeColumn;
 
     public UILayerControl() {
         super();
@@ -72,7 +74,7 @@ public class UILayerControl extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[9];
+        Object values[] = new Object[11];
         values[0] = super.saveState(context);
         values[1] = styleTreeTable;
         values[2] = styleTreePanel;
@@ -81,6 +83,8 @@ public class UILayerControl extends UIWidgetBase {
         values[5] = widthOpacityColumn;
         values[6] = widthElevationColumn;
         values[7] = widthTimeColumn;
+        values[8] = titlePanel;
+        values[9] = headerTreeColumn;
         return values;
     }
 
@@ -95,6 +99,8 @@ public class UILayerControl extends UIWidgetBase {
         widthOpacityColumn = (String) values[5];
         widthElevationColumn = (String) values[6];
         widthTimeColumn = (String) values[7];
+        titlePanel = (String) values[8];
+        headerTreeColumn = (String) values[9];
         
     }
 
@@ -152,5 +158,21 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setWidthTimeColumn(String widthTimeColumn) {
         this.widthTimeColumn = widthTimeColumn;
+    }
+
+    public String getTitlePanel() {
+        return titlePanel;
+    }
+
+    public void setTitlePanel(String titlePanel) {
+        this.titlePanel = titlePanel;
+    }
+
+    public String getHeaderTreeColumn() {
+        return headerTreeColumn;
+    }
+
+    public void setHeaderTreeColumn(String headerTreeColumn) {
+        this.headerTreeColumn = headerTreeColumn;
     }
 }
