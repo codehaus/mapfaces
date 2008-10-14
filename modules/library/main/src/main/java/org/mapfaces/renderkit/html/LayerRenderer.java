@@ -124,10 +124,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     try {
                         
                         FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), dim, false);
-                    } catch (org.geotools.factory.RecursiveSearchException e) {
+                    } catch (Exception e) {
                         try {
                             System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());
-                            org.geotools.factory.RecursiveSearchException exp = e;
+                            Exception exp = e;
                             Date begin = new Date();
                             Robot robocop = new Robot();
                             while (exp != null) {
@@ -135,7 +135,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                                     robocop.delay(1000);
                                     FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
                                     exp = null;
-                                } catch (org.geotools.factory.RecursiveSearchException exception) {
+                                } catch (Exception exception) {
                                     exp = exception;
                                     System.out.println("[PORTRAYING] Exception : " + exp.getMessage());
                                 }
@@ -168,8 +168,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
             }
             writer.endElement("div");
             writer.flush();
-        } catch (PortrayalException ex) {
-            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ServiceException ex) {
             Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAuthorityCodeException ex) {
@@ -181,7 +179,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
     }
 
     public MapLayer LayerToWMSMapLayer(FacesContext context, UIComponent component, Layer layer, ReferencedEnvelope env) throws IOException, ServiceException {
-        System.out.println("=============== " + layer.getServer().getGTCapabilities().getRequest().getGetCapabilities().getGet());
+        System.out.println("LayerToWMSMapLayer=============== " + layer.getServer().getGTCapabilities().getRequest().getGetCapabilities().getGet());
         WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), env);
         HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
         HashMap<String, String> dims2 = new HashMap<String, String>();
