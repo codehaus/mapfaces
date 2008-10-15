@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.models.tree;
 
 import java.util.HashMap;
@@ -30,7 +29,9 @@ import org.mapfaces.models.Server;
  * @author Mehdi Sidhoum
  */
 public class TreeItem implements Layer, Context {
+
     Object object;
+
     public TreeItem(Object obj) {
         object = obj;
         if (obj != null) {
@@ -49,7 +50,7 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getDataUrl() {
-        if (object == null || ! (object instanceof Context)) {
+        if (object == null || !(object instanceof Context)) {
             return "";
         }
         //@TODO by reflection.
@@ -85,10 +86,10 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getId() {
-        if (object == null ) {
+        if (object == null) {
             return "";
         }
-        if (object instanceof Context){
+        if (object instanceof Context) {
             return ((Context) object).getId();
         }
         if (object instanceof Layer) {
@@ -212,7 +213,7 @@ public class TreeItem implements Layer, Context {
         }
         return false;
     }
-    
+
     @Override
     public void setDataUrl(String dataUrl) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -335,7 +336,13 @@ public class TreeItem implements Layer, Context {
 
     @Override
     public String getLegendUrl() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getLegendUrl();
+        }
+        return "";
     }
 
     @Override
@@ -716,6 +723,4 @@ public class TreeItem implements Layer, Context {
     public String save() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-
 }

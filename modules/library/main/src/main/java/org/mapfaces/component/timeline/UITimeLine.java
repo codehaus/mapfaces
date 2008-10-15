@@ -50,9 +50,9 @@ public class UITimeLine extends UICommand {
      */
     private String theme;
     /**
-     * Flag that indicates if the timeline must be synchronized or not between bandinfos components.
+     * Flag that indicates if the timeline must be synchronized or not between bandinfos components. Default is true.
      */
-    private boolean synchronizeBands;
+    private boolean synchronizeBands = true;
     /**
      * Flag that indicates if the timeline should load the band components dynamically from a context or not.
      */

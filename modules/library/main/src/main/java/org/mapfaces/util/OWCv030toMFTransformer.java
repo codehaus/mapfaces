@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.mapfaces.util;
 
 import java.io.IOException;
@@ -25,8 +24,10 @@ import net.opengis.owc.v030.StyleListType;
 import net.opengis.owc.v030.StyleType;
 import org.apache.commons.lang.StringUtils;
 import org.constellation.ows.v100.BoundingBoxType;
+import org.constellation.ows.v100.KeywordsType;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.data.wms.backend.AbstractDimension;
+import org.geotools.data.wms.backend.AbstractKeyword;
 import org.geotools.data.wms.backend.AbstractLayer;
 import org.geotools.data.wms.backend.AbstractWMSCapabilities;
 import org.mapfaces.models.Context;
@@ -45,33 +46,32 @@ import org.xml.sax.SAXException;
  */
 public class OWCv030toMFTransformer {
 
-    
     protected final ContextFactory contextFactory = new DefaultContextFactory();
-    
+
     public Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
         Context ctx = contextFactory.createDefaultContext();
         ctx.setType(doc.getClass().toString());
-        ctx.setVersion(doc.getVersion());        
+        ctx.setVersion(doc.getVersion());
         ctx.setId(doc.getId());
         ctx.setTitle(doc.getGeneral().getTitle());
         BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
         ctx.setSrs(bbox.getCrs());
         System.out.println(bbox.toString());
         ctx.setBoundingBox(String.valueOf(bbox.getLowerCorner().get(0).doubleValue()),
-                            String.valueOf(bbox.getLowerCorner().get(1).doubleValue()),
-                            String.valueOf(bbox.getUpperCorner().get(0).doubleValue()),
-                            String.valueOf(bbox.getUpperCorner().get(1).doubleValue()));
-        ctx.setWindowSize(doc.getGeneral().getWindow().getWidth().toString(),doc.getGeneral().getWindow().getHeight().toString());
-        List array= visitResourceList(doc.getResourceList().getLayer());
+                String.valueOf(bbox.getLowerCorner().get(1).doubleValue()),
+                String.valueOf(bbox.getUpperCorner().get(0).doubleValue()),
+                String.valueOf(bbox.getUpperCorner().get(1).doubleValue()));
+        ctx.setWindowSize(doc.getGeneral().getWindow().getWidth().toString(), doc.getGeneral().getWindow().getHeight().toString());
+        List array = visitResourceList(doc.getResourceList().getLayer());
         ctx.setLayers((List<Layer>) array.get(0));
         ctx.setWmsServers((HashMap<String, Server>) array.get(1));
         return ctx;
     }
-    
-    public List visitResourceList(List<LayerType> layerList) throws UnsupportedEncodingException, JAXBException{
-       List<Layer> layers = new ArrayList<Layer>();
-       HashMap<String, Server> servers = new HashMap<String, Server>();
-       HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
+
+    public List visitResourceList(List<LayerType> layerList) throws UnsupportedEncodingException, JAXBException {
+        List<Layer> layers = new ArrayList<Layer>();
+        HashMap<String, Server> servers = new HashMap<String, Server>();
+        HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
         int i = 0;
         for (LayerType layerType : layerList) {
             try {
@@ -81,9 +81,7 @@ public class OWCv030toMFTransformer {
                             webMapServers = new HashMap<String, WebMapServer>();
                         }
                         String wmsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
-                        if(!wmsUrl.contains("http://")){
-
-                            //TODO
+                        if (!wmsUrl.contains("http://")) {                            //TODO
 //                                if(wmsUrl.startsWith("/")){
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
 //                                    System.out.println(wmsUrl);
@@ -103,11 +101,11 @@ public class OWCv030toMFTransformer {
                         wms.setService(layerType.getServer().get(0).getService().value());
                         wms.setVersion(layerType.getServer().get(0).getVersion());
                         wms.setGTCapabilities(webMapServers.get(wmsUrl).getCapabilities());
-                        if(servers.get(wmsUrl) != null)
+                        if (servers.get(wmsUrl) != null) {
                             servers.put(wmsUrl, wms);
-                        
+                        }
                         Layer layer = new DefaultLayer();
-                        
+
                         /* Server */
                         layer.setServer(wms);
 
@@ -155,7 +153,7 @@ public class OWCv030toMFTransformer {
 
                         /*StyleList*/
                         HashMap<String, String> allStyles = visitStyleList(layerType.getStyleList());
-                        if(allStyles.get("legendUrl") == null){
+                        if (allStyles.get("legendUrl") == null) {
                             String url = wmsUrl;
                             if (!wmsUrl.contains("?")) {
                                 url += "?";
@@ -165,13 +163,13 @@ public class OWCv030toMFTransformer {
                                     layer.getName() + "&amp;WIDTH=50&amp;HEIGHT=30&amp;FORMAT=image/png";
                             if (allStyles.get("sldBody") != null && !allStyles.get("sldBody").equals("")) {
                                 url += "&amp;SLD_BODY=" + allStyles.get("sldBody");
-                            } else if (allStyles.get("sld") != null &&  !allStyles.get("sld").equals("")) {
+                            } else if (allStyles.get("sld") != null && !allStyles.get("sld").equals("")) {
                                 url += "&amp;SLD=" + allStyles.get("sld");
-                            } else if (allStyles.get("styles") != null ) {
+                            } else if (allStyles.get("styles") != null) {
                                 url += "&amp;STYLE=" + allStyles.get("styles");
                             }
                             layer.setLegendUrl(url);
-                        }else{
+                        } else {
                             layer.setLegendUrl(allStyles.get("legendUrl"));
                         }
                         layer.setStyles(allStyles.get("styles"));
@@ -266,8 +264,8 @@ public class OWCv030toMFTransformer {
                 Logger.getLogger(OWC_v030.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-       
-        List<Object> result = new ArrayList(); 
+
+        List<Object> result = new ArrayList();
         result.add(layers);
         result.add(servers);
         return result;
@@ -287,7 +285,13 @@ public class OWCv030toMFTransformer {
         return dim;
     }
 
-    private Dimension visitDimensionFromGetCaps(AbstractDimension dimType) {
+    /**
+     * This method returns a dimension mapfaces model from an AbstractDimension.
+     * @param dimType the AbstractDimension object
+     * @param postgisflag this is a flag for postgis layers, if true the time parameter should be a null string in the initialization.
+     * @return
+     */
+    private Dimension visitDimensionFromGetCaps(AbstractDimension dimType, boolean postgisflag) {
         Dimension dim = new DefaultDimension();
         dim.setCurrent(true);
         dim.setDefault(dimType.getDefault());
@@ -296,20 +300,26 @@ public class OWCv030toMFTransformer {
         dim.setNearestValues(true);
         dim.setUnitSymbol(dimType.getUnitSymbol());
         dim.setUnits(dimType.getUnits());
-        dim.setUserValue("");
+
+        if (postgisflag) {
+            dim.setUserValue("");
+        } else {
+            dim.setUserValue(dimType.getDefault());
+        }
         dim.setValue(dimType.getValue());
         return dim;
     }
 
-    private HashMap visitDimensionList(LayerType layerType,HashMap<String, WebMapServer> webMapServers) {
+    private HashMap visitDimensionList(LayerType layerType, HashMap<String, WebMapServer> webMapServers) {
         HashMap allDims = new HashMap<String, Dimension>();
         HashMap tmp;
         String wmsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
         if (layerType.getDimensionList() == null) {
             //TODO find dimension into getcapabilities
             tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
-            if( tmp != null )
+            if (tmp != null) {
                 allDims.putAll(tmp);
+            }
         }
         if (layerType.getDimensionList() != null && layerType.getDimensionList().getDimension().size() > 0) {
             for (DimensionType dim : layerType.getDimensionList().getDimension()) {
@@ -317,9 +327,10 @@ public class OWCv030toMFTransformer {
                     if (dim.getDefault() == null) {
                         if (dim.getValue() == null) {
                             //TODO find dimension into getcapabilities
-                           tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
-                            if( tmp != null )
+                            tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
+                            if (tmp != null) {
                                 allDims.putAll(tmp);
+                            }
                         } else {
                             /* select the first value and add it as default and userValue value*/
                             String val = (dim.getValue().split("/")[0]).split(",")[0];
@@ -341,14 +352,22 @@ public class OWCv030toMFTransformer {
     }
 
     private HashMap<String, Dimension> visitDimensionListFromGetCaps(LayerType layerType, AbstractWMSCapabilities jaxbCapabilities) {
-         HashMap allDims = new HashMap<String, Dimension>();
-         if (jaxbCapabilities != null) {
+        HashMap allDims = new HashMap<String, Dimension>();
+        if (jaxbCapabilities != null) {
             AbstractLayer layer = jaxbCapabilities.getLayerFromName(layerType.getName());
             if (layer != null) {
+
+                //From the getCapabilities we can see if the layer is a postgis type by the keyword "Vector datas".
+                boolean postgisflag = false;
+                if (layer != null && FacesUtils.matchesKeywordfromList(layer.getKeywordList().getKeyword(), "Vector datas")) {
+                    postgisflag = true;
+                    System.out.println("[" + layerType.getName() + "] postgis layer detected ! ");
+                }
+
                 List<AbstractDimension> dims = layer.getAbstractDimension();
                 if (dims.size() > 0) {
                     for (AbstractDimension tmp : dims) {
-                        allDims.put(tmp.getName(),visitDimensionFromGetCaps(tmp));
+                        allDims.put(tmp.getName(), visitDimensionFromGetCaps(tmp, postgisflag));
                     }
                     return allDims;
                 }
@@ -358,13 +377,13 @@ public class OWCv030toMFTransformer {
     }
 
     private HashMap<String, String> visitStyleList(StyleListType styleListType) throws UnsupportedEncodingException, JAXBException {
-         HashMap<String, String> allStyles = new HashMap<String, String>();
+        HashMap<String, String> allStyles = new HashMap<String, String>();
 
-         if (styleListType != null) {
+        if (styleListType != null) {
             for (StyleType style : styleListType.getStyle()) {
                 if (style.isCurrent() != null && style.isCurrent()) {
                     if (style.getName() == null) {
-                        if(style.getSLD() != null){
+                        if (style.getSLD() != null) {
                             if (style.getSLD().getOnlineResource() != null) {
                                 allStyles.put("sld", URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8"));
                             } else if (style.getSLD().getStyledLayerDescriptor() != null) {
@@ -381,30 +400,29 @@ public class OWCv030toMFTransformer {
                                 marshaller.marshal(style.getSLD().getFeatureTypeStyle(), test);
                                 allStyles.put("sldBody", URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<", "><"), "UTF-8"));
                             } else {
-                                allStyles.put("styles","");
+                                allStyles.put("styles", "");
                             }
-                        }else {
-                            allStyles.put("styles","");  
+                        } else {
+                            allStyles.put("styles", "");
                         }
                     } else {
-                        allStyles.put("styles",style.getName());
+                        allStyles.put("styles", style.getName());
                     }
                     //Create legendUrl if not specified in the context
                     if (style.getLegendURL() != null) {
                         if (allStyles.get("sldBody") != null && !allStyles.get("sldBody").equals("")) {
-                            allStyles.put("legendUrl",style.getLegendURL().getOnlineResource().getHref() + "&amp;sld_body=" + allStyles.get("sldBody"));
+                            allStyles.put("legendUrl", style.getLegendURL().getOnlineResource().getHref() + "&amp;sld_body=" + allStyles.get("sldBody"));
                         } else {
-                            allStyles.put("legendUrl",style.getLegendURL().getOnlineResource().getHref());
+                            allStyles.put("legendUrl", style.getLegendURL().getOnlineResource().getHref());
                         }
                     }
                     break;
                 }
-                allStyles.put("styles","");
+                allStyles.put("styles", "");
             }
         } else {
-            allStyles.put("styles","");
+            allStyles.put("styles", "");
         }
         return allStyles;
     }
-
 }

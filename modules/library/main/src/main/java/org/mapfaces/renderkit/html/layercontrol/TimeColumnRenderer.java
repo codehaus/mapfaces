@@ -47,7 +47,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
                     (UIComponent) component.getChildren().get(0),
                     "onclick",
                     getVarId(context, (UIAbstractColumn) component),
-                    FacesUtils.getFormId(context, component)));
+                    FacesUtils.getFormId(context, component) + ":timeline"));
         }
     }
 
