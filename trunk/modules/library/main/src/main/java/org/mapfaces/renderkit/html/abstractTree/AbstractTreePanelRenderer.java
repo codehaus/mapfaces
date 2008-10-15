@@ -42,6 +42,7 @@ import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.listener.ResourcePhaseListener;
+import org.mapfaces.share.request.requestUtils;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.treetable.TreeTableConfig;
@@ -85,11 +86,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         Boolean renderHeader, renderFrame, makeCollapsible, loadAll;
         String title, styleUser, styleClass, clientId;
 
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String user_agent = request.getHeader("user-agent");
         
         /* Look client Browser */
-        if (user_agent.contains("Opera")){
+        if (requestUtils.isOpera()){
             loadAll = true;
         }else{
             loadAll = treepanel.isLoadAll();
