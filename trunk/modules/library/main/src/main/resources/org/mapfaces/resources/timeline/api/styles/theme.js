@@ -1,31 +1,46 @@
 /*==================================================
- *  Classic Theme
+ *  Custom Themes
  *==================================================
  */
 
 
-Timeline.OLanceTheme = Timeline.ClassicTheme;
+Timeline.ArcheoTheme = new Object();
 
-Timeline.OLanceTheme._Impl = function() {
+Timeline.ArcheoTheme.implementations = [];
+
+Timeline.ArcheoTheme.create = function(locale) {
+    if (locale == null) {
+        locale = Timeline.Platform.getDefaultLocale();
+    }
+    
+    var f = Timeline.ArcheoTheme.implementations[locale];
+    if (f == null) {
+        f = Timeline.ArcheoTheme._Impl;
+    }
+    return new f();
+};
+
+
+Timeline.ArcheoTheme._Impl = function() {
     this.firstDayOfWeek = 0; // Sunday
     
     this.ether = {
         backgroundColors: [
-            "#f6fbfe",
-            "#e6ebed",
+            "#C3E7F3",
+            "#BAD3E8",
             "#CCC",
             "#AAA"
         ],
-        highlightColor:     "#f6fbfe",
+        highlightColor:     "#FFF887",
         highlightOpacity:   50,
         interval: {
             line: {
                 show:       true,
-                color:      "#90a2b3",
+                color:      "blue",
                 opacity:    25
             },
             weekend: {
-                color:      "#FFFFE0",
+                color:      "white",
                 opacity:    30
             },
             marker: {
@@ -112,28 +127,43 @@ Timeline.OLanceTheme._Impl = function() {
     };
 };
 
-Timeline.ArcheoTheme = Timeline.ClassicTheme;
 
-Timeline.ArcheoTheme._Impl = function() {
+Timeline.OLanceTheme = new Object();
+
+Timeline.OLanceTheme.implementations = [];
+
+Timeline.OLanceTheme.create = function(locale) {
+    if (locale == null) {
+        locale = Timeline.Platform.getDefaultLocale();
+    }
+    
+    var f = Timeline.OLanceTheme.implementations[locale];
+    if (f == null) {
+        f = Timeline.OLanceTheme._Impl;
+    }
+    return new f();
+};
+
+Timeline.OLanceTheme._Impl = function() {
     this.firstDayOfWeek = 0; // Sunday
     
     this.ether = {
         backgroundColors: [
-            "#C3E7F3",
-            "#BAD3E8",
+            "#f6fbfe",
+            "#e6ebed",
             "#CCC",
             "#AAA"
         ],
-        highlightColor:     "#FFF887",
+        highlightColor:     "#f6fbfe",
         highlightOpacity:   50,
         interval: {
             line: {
                 show:       true,
-                color:      "blue",
+                color:      "#90a2b3",
                 opacity:    25
             },
             weekend: {
-                color:      "white",
+                color:      "#FFFFE0",
                 opacity:    30
             },
             marker: {

@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -37,6 +39,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.constellation.ows.v100.KeywordsType;
+import org.geotools.data.wms.backend.AbstractKeyword;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
@@ -351,6 +355,41 @@ public class FacesUtils {
     }
     
     /**
+     * Returns true if the list contains a string in one of the list elements.
+     * @param list
+     * @param str
+     * @return
+     */
+    public static boolean matchesStringfromList(List<String> list, String str) {        
+        boolean str_available = false;
+        for (String s : list) {
+            Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
+            Matcher matcher = pattern.matcher(s);
+            if (matcher.find()) {
+                str_available = true;
+            }
+        }
+        return str_available;
+    }
+    /**
+     * Returns true if the list contains a string in one of the list elements.
+     * @param list
+     * @param str
+     * @return
+     */
+    public static boolean matchesKeywordfromList(List<? extends AbstractKeyword> list, String str) {        
+        boolean str_available = false;
+        for (AbstractKeyword k : list) {
+            Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
+            Matcher matcher = pattern.matcher(k.getValue());
+            if (matcher.find()) {
+                str_available = true;
+            }
+        }
+        return str_available;
+    }
+    
+    /**
      * This method returns the number of temporal layers in a list.
      * @param layers
      * @return
@@ -358,7 +397,7 @@ public class FacesUtils {
     public static int getCountTemporalLayers(List<Layer> layers) {
         int result = 0;
         for (Layer layer : layers) {
-            if (layer.getDimensionList() != null) {
+            if (layer.getDimensionList() != null && layer.getTime() != null) {
                 result++;
             }
         }
