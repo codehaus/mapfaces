@@ -85,10 +85,18 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         Boolean renderHeader, renderFrame, makeCollapsible, loadAll;
         String title, styleUser, styleClass, clientId;
 
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        String user_agent = request.getHeader("user-agent");
+        
+        /* Look client Browser */
+        if (user_agent.contains("Opera")){
+            loadAll = true;
+        }else{
+            loadAll = treepanel.isLoadAll();
+        }
+        
         /* Initialisation */
-
         clientId = component.getClientId(context);
-        loadAll = treepanel.isLoadAll();
         renderHeader = treepanel.isHeader();
         renderFrame = treepanel.isFrame();
         makeCollapsible = treepanel.isCollapsible();

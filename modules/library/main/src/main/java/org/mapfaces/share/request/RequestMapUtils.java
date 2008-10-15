@@ -15,7 +15,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.share.requestmap;
+package org.mapfaces.share.request;
 
 import java.util.Enumeration;
 import java.util.Map;

@@ -16,7 +16,7 @@
  */
 package org.mapfaces.util.treetable;
 
-import org.mapfaces.share.requestmap.RequestMapUtils;
+import org.mapfaces.share.request.RequestMapUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +43,7 @@ public class TreeTableUtils {
      * @param list
      * @throws java.io.IOException
      */
-    public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {
-        System.out.println("Loading =" + LoadingOption);
+    public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {   
         FacesContext context = FacesContext.getCurrentInstance();
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) component;
 
