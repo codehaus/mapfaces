@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.timeline;
 
 import java.text.ParseException;
@@ -53,10 +52,13 @@ import org.geotools.temporal.object.Utils;
 import org.geotools.temporal.reference.DefaultOrdinalEra;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.models.UIContext;
+import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.component.timeline.UITimeLine;
+import org.mapfaces.models.AbstractModelBase;
+import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.models.timeline.HighlightDecorator;
@@ -129,6 +131,36 @@ public class TimeLineRenderer extends Renderer {
         writer.endElement("div"); //close the tm-widget
         if (comp.isInputDate()) {
             writeInputDateText(writer, comp, context);
+        }
+
+        //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
+        UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
+        if (parentContext != null && (parentContext instanceof UIContext) && comp.isDynamicBands()) {
+            AbstractModelBase modelbase = ((UIContext) parentContext).getModel();
+            if (modelbase instanceof Context) {
+                List<Layer> layers = ((Context) modelbase).getLayers();
+                int i = 0;
+                int proportinalwidth = Math.round(100 / FacesUtils.getCountTemporalLayers(layers));
+                for (Layer layer : layers) {
+                    if (layer.getDimensionList() != null) {
+                        UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
+                        bandinfo.setLayer(layer);
+                        bandinfo.setId(comp.getId() + "band" + i);
+                        bandinfo.setWidth(proportinalwidth);
+                        bandinfo.setSliderInput(false);
+                        bandinfo.setInputInterval(true);
+                        bandinfo.setIntervalPixels(80);
+                        bandinfo.setIntervalUnit("WEEK");
+                        bandinfo.setShowEventText(false);
+                        bandinfo.setTrackHeight(1.0);
+                        bandinfo.setTheme(comp.getTheme());
+                        if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "band" + i) == null) {
+                            comp.getChildren().add(bandinfo);
+                        }
+                        i++;
+                    }
+                }
+            }
         }
     }
 
@@ -203,16 +235,20 @@ public class TimeLineRenderer extends Renderer {
                 indexBand++;
             }
             writer.write("];\n");
-            int i = 0;
-            for (i = 0; i < comp.getChildCount(); i++) {
-                if (i > 0) {
-                    writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
-                    writer.write("" + idjs + "_bandInfos[" + i + "].highlight = true;\n");
+            
+            //if the timeline have synchronizeBands flag fixed to true then the bands subcomponent will be synchronized with the main band.
+            if (comp.isSynchronizeBands()) {
+                int i = 0;
+                for (i = 0; i < comp.getChildCount(); i++) {
+                    if (i > 0) {
+                        writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
+                        writer.write("" + idjs + "_bandInfos[" + i + "].highlight = true;\n");
+                    }
                 }
-            }
-            if (comp.getChildCount() > 1) {
-                i--;
-            // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
+                if (comp.getChildCount() > 1) {
+                    i--;
+                // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
+                }
             }
         }
 
@@ -224,7 +260,8 @@ public class TimeLineRenderer extends Renderer {
         writeResizeFunction(context, comp);
 
         //TO BE DELETED no reference to mapfaces components because the timeline should be works alone, without a context
-        if (FacesUtils.getParentUIModelBase(context, component) != null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)) {
+        UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
+        if (parentContext != null && (parentContext instanceof UIContext)) {
 
             writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
                     "        var parameters = {    'synchronized': 'true',\n" +
@@ -234,7 +271,7 @@ public class TimeLineRenderer extends Renderer {
                     "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
                     "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
                     "                         };" +
-                    "parameters['" + ((UIContext) comp.getParent()).getAjaxCompId() + "'] =' " + ((UIContext) comp.getParent()).getAjaxCompId() + "';" +
+                    "parameters['" + ((UIContext) parentContext).getAjaxCompId() + "'] =' " + ((UIContext) parentContext).getAjaxCompId() + "';" +
                     "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','" + FacesUtils.getFormId(context, component) + "',\n" +
                     "                        null,\n" +
                     "                        {   'control':this,\n" +
@@ -254,21 +291,26 @@ public class TimeLineRenderer extends Renderer {
         UITimeLine comp = (UITimeLine) component;
         Map requestMap = context.getExternalContext().getRequestParameterMap();
 
-        if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
-                requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
-                ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
-            try {
-                UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
-                Layer layer = uiLayer.getLayer();
-                List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
-                comp.setValue(layerEvents);
-            } catch (ParseException ex) {
-                Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DatatypeConfigurationException ex) {
-                Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+        if (FacesUtils.getParentUIModelBase(context, component) != null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)) {
+            if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
+                    requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
+                    ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
+                try {
+                    UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                    Layer layer = uiLayer.getLayer();
+                    List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                    centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                    comp.setValue(layerEvents);
+                    System.out.println("[Timeline decode] centerDate = " + centerDate + "   events size = " + layerEvents.size());
+                } catch (ParseException ex) {
+                    Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DatatypeConfigurationException ex) {
+                    Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
+
+        //setting the intervalUnit of children from theire selectOneMenu component.
         for (UIComponent child : comp.getChildren()) {
             if (child instanceof UIBandInfo) {
                 UIBandInfo bandInfo = (UIBandInfo) child;
@@ -532,7 +574,6 @@ public class TimeLineRenderer extends Renderer {
                 }
                 writer.write("],\n");
             } else {
-//                System.out.println("%%%%%%%%%%%%%%%");
                 writer.write("zones: [],\n");
             }
         } else {
@@ -1043,7 +1084,6 @@ public class TimeLineRenderer extends Renderer {
 
         String idjs = comp.getJsObject();
         writer.startElement("script", comp);
-        System.out.println("iiiiiiddd js" + idjs);
         writer.write("\nvar " + idjs + "zoomSlider = document.getElementById(\"" + idjs + "-zoom\");\n" +
                 idjs + "zoomSlider.appendChild(JSSlider.getInstance(\"" + idjs + "zoom\", false, 10, 150, 45, undefined, undefined, \"" + idjs + "_valChangeHandlerzoomslider\", false).render());\n" +
                 "function " + idjs + "_valChangeHandlerzoomslider(newStartPercent0To100, newEndPercent0To100) {\n" +

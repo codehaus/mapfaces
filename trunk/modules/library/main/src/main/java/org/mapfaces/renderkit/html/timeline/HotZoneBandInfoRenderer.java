@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.timeline;
 
 import java.io.IOException;
@@ -29,6 +28,7 @@ import javax.faces.render.Renderer;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.component.timeline.UITimeLine;
+import org.mapfaces.util.FacesUtils;
 
 /**
  *
@@ -75,16 +75,18 @@ public class HotZoneBandInfoRenderer extends Renderer {
         //begin to render the component.
         ResponseWriter writer = context.getResponseWriter();
 
-        UISliderInput sliderInput = new UISliderInput();
-        sliderInput.setId(component.getId() + "slider");
-        sliderInput.setForid(String.valueOf(index));
-        sliderInput.setHorizontal("true");
-        sliderInput.setLength("250");
-        sliderInput.setMaxval("22");
-        component.setTransient(true);
+        if (bandInfoComp.isSliderInput()) {
+            UISliderInput sliderInput = new UISliderInput();
+            sliderInput.setId(component.getId() + "slider");
+            sliderInput.setForid(String.valueOf(index));
+            sliderInput.setHorizontal("true");
+            sliderInput.setLength("250");
+            sliderInput.setMaxval("22");
 
-        component.getChildren().add(sliderInput);
-
+            if (FacesUtils.findComponentById(context, context.getViewRoot(), component.getId() + "slider") == null) {
+                component.getChildren().add(sliderInput);
+            }
+        }
         writeChangeIntervalJS(context, bandInfoComp, writer);
         if (bandInfoComp.isInputInterval()) {
             writeSelectOneMenu(writer, context, bandInfoComp, index);
@@ -122,7 +124,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
             writer.startElement("option", bandInfo);
             writer.writeAttribute("value", "Timeline.DateTime." + intervalNames[i], null);
 
-            if (bandInfo.getIntervalUnit().equals(intervalNames[i])) {
+            if (bandInfo.getIntervalUnit() != null && bandInfo.getIntervalUnit().equals(intervalNames[i])) {
                 writer.writeAttribute("selected", Boolean.TRUE, null);
             }
             writer.writeText(intervalNames[i], null);

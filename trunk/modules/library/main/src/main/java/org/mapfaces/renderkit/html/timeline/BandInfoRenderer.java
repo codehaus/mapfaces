@@ -47,7 +47,7 @@ public class BandInfoRenderer extends Renderer {
     @Override
     @SuppressWarnings("empty-statement")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        System.out.println(">>>> BandInfoRenderer encodeBegin");
+//        System.out.println(">>>> BandInfoRenderer encodeBegin");
         if (!component.isRendered()) {
             return;
         }
@@ -94,7 +94,7 @@ public class BandInfoRenderer extends Renderer {
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        System.out.println("BandInfoRenderer encodeEnd");
+//        System.out.println("BandInfoRenderer encodeEnd");
         ResponseWriter writer = context.getResponseWriter();
 
         writer.flush();

@@ -42,12 +42,12 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         UITimeColumn comp = (UITimeColumn) component;
         comp.setTitle("Display or hide temporal information in the timeline.");
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
-            super.encodeBegin(context, component);           
+            super.encodeBegin(context, component);
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onclick",
                     getVarId(context, (UIAbstractColumn) component),
-                    FacesUtils.getFormId(context, component) + ":timeline"));
+                    FacesUtils.getFormId(context, component)));
         }
     }
 

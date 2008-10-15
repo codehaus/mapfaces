@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
@@ -40,6 +41,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.component.treelayout.UITreeLines;
+import org.mapfaces.models.Layer;
 
 /**
  * @author Mehdi Sidhoum.
@@ -346,5 +348,20 @@ public class FacesUtils {
         fParam.setName(name);
         fParam.setValue(value);
         return fParam;
+    }
+    
+    /**
+     * This method returns the number of temporal layers in a list.
+     * @param layers
+     * @return
+     */
+    public static int getCountTemporalLayers(List<Layer> layers) {
+        int result = 0;
+        for (Layer layer : layers) {
+            if (layer.getDimensionList() != null) {
+                result++;
+            }
+        }
+        return result;
     }
 }

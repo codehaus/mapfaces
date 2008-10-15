@@ -59,6 +59,18 @@ public class TimeLineTag extends UIComponentELTag {
      * flag that indicates if this timeline component will contains an input date.
      */
     private ValueExpression inputDate = null;
+    /**
+     * This is a name of a theme for the bandinfos subcomponents.
+     */
+    private ValueExpression theme = null;
+    /**
+     * Flag that indicates if the timeline must be synchronized or not between bandinfos components.
+     */
+    private ValueExpression synchronizeBands = null;
+    /**
+     * Flag that indicates if the timeline should load the band components dynamically from a context or not.
+     */
+    private ValueExpression dynamicBands = null;
         
     public String getComponentType() {
         return COMP_TYPE;
@@ -78,6 +90,9 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("style",style);
         component.setValueExpression("sliderZoom",sliderZoom);
         component.setValueExpression("inputDate",inputDate);
+        component.setValueExpression("theme",theme);
+        component.setValueExpression("synchronizeBands",synchronizeBands);
+        component.setValueExpression("dynamicBands",dynamicBands);
     }
     
     @Override
@@ -90,6 +105,9 @@ public class TimeLineTag extends UIComponentELTag {
         style = null;
         sliderZoom = null;
         inputDate = null;
+        theme = null;
+        synchronizeBands = null;
+        dynamicBands = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -118,5 +136,29 @@ public class TimeLineTag extends UIComponentELTag {
 
     public void setInputDate(ValueExpression inputDate) {
         this.inputDate = inputDate;
+    }
+
+    public ValueExpression getTheme() {
+        return theme;
+    }
+
+    public void setTheme(ValueExpression theme) {
+        this.theme = theme;
+    }
+
+    public ValueExpression getSynchronizeBands() {
+        return synchronizeBands;
+    }
+
+    public void setSynchronizeBands(ValueExpression synchronizeBands) {
+        this.synchronizeBands = synchronizeBands;
+    }
+
+    public ValueExpression getDynamicBands() {
+        return dynamicBands;
+    }
+
+    public void setDynamicBands(ValueExpression dynamicBands) {
+        this.dynamicBands = dynamicBands;
     }
 }
