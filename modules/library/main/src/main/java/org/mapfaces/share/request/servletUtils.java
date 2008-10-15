@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author kdelfour
  */
-public class requestUtils {
+public class servletUtils {
 
     public static String getUserAgent() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
