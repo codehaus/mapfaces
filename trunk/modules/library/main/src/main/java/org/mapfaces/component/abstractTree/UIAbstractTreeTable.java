@@ -17,7 +17,7 @@
 
 package org.mapfaces.component.abstractTree;
 
-import org.mapfaces.share.requestmap.RequestMapUtils;
+import org.mapfaces.share.request.RequestMapUtils;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;

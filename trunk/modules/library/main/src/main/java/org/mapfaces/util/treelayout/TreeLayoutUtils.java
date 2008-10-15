@@ -16,7 +16,7 @@
  */
 package org.mapfaces.util.treelayout;
 
-import org.mapfaces.share.requestmap.RequestMapUtils;
+import org.mapfaces.share.request.RequestMapUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,6 @@ public class TreeLayoutUtils {
      * @throws java.io.IOException
      */
     public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {
-        System.out.println("Loading =" + LoadingOption);
         FacesContext context = FacesContext.getCurrentInstance();
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) component;
 

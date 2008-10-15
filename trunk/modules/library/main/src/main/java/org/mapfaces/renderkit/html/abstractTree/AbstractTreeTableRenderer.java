@@ -18,6 +18,7 @@ package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
@@ -28,6 +29,7 @@ import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.apache.tools.ant.taskdefs.optional.junit.Enumerations;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
@@ -194,7 +196,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      */
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        Date phaseStart, phaseEnd;
+        Date phaseStart,phaseEnd ;
 
         /* Initialisation */
         phaseStart = new Date();
@@ -228,7 +230,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         AjaxUtils ajaxtools = new AjaxUtils();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String AJAX_SERVER = ajaxtools.getAjaxServer(request);
-        Date phaseStart, phaseEnd;
+        Date phaseStart,phaseEnd ;
 
         /* Initialisation */
         phaseStart = new Date();
