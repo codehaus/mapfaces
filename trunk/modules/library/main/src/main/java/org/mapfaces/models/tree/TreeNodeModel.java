@@ -29,7 +29,7 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
     private int id;
     private int depth = 0;
     private int row = 0;
-    private boolean checked = false;
+    private boolean checked;
 
     /**
      * 

@@ -683,7 +683,7 @@
                 The style of the TreePanel subcomponent.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>widthTreeColumn</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -694,7 +694,7 @@
                 The width of the TreeColumn subcomponent.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>widthVisibilityColumn</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -705,7 +705,7 @@
                 The width of the VisibilityColumn subcomponent.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>widthOpacityColumn</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -716,7 +716,7 @@
                 The width of the OpacityColumn subcomponent.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>widthElevationColumn</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -727,7 +727,7 @@
                 The width of the ElevationColumn subcomponent.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>widthTimeColumn</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -4124,12 +4124,18 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>styleNode</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>loadAll</name>
+            <deferred-value>
+                <type>boolean</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -4559,12 +4565,18 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>styleNode</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>loadAll</name>
+            <deferred-value>
+                <type>boolean</type>
             </deferred-value>
         </attribute>
     </tag>
@@ -4638,7 +4650,7 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>styleHeader</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>

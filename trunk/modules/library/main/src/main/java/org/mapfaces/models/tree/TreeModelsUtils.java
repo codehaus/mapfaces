@@ -61,9 +61,9 @@ public class TreeModelsUtils {
         }
         TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
 //        System.out.println("NODE "+id +" with value :"+node.getUserObject());
-        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()) {
-            treenode.setChecked(false);
-        }
+//        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()) {
+//            treenode.setChecked(false);
+//        }
         return treenode;
     }
 

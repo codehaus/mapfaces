@@ -24,6 +24,13 @@ import javax.faces.context.FacesContext;
 
 /**
  * <p>UITreeTableELTag is the base class for all JSP tags that correspond to a Tree Component instance in the view.</p>
+ * <p> Attributes are :<ul>
+ * <li>value</li>
+ * <li>var</li>
+ * <li>collapsible</li>
+ * <li>width</li>
+ * <li>height</li>
+ * </ul>
  * @author kdelfour
  */
 public abstract class UITreeTableELTag extends UITreeComponentELTag {
@@ -33,6 +40,7 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
     private ValueExpression var = null;
     private ValueExpression width = null;
     private ValueExpression height = null;
+    
 
     /* Abstracts methods*/
     /**
@@ -135,6 +143,7 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
         component.setValueExpression("var", var);
         component.setValueExpression("width", width);
         component.setValueExpression("height", height);
+        
     }
 
     /**

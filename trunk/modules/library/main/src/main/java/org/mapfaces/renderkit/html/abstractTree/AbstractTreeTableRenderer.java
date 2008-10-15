@@ -27,8 +27,6 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
@@ -47,7 +45,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
     /* Local fields */
     //private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
-    private boolean debug = true;
+    private boolean debug;
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
@@ -79,14 +77,14 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         ResponseWriter writer = context.getResponseWriter();
         TreeModelsUtils treeModelsTools = new TreeModelsUtils();
         String width, height;
-        Date phaseStart, phaseEnd;
+        Date phaseStart, phaseEnd, getValueStart, getValueEnd;
 
         /* Initialisation */
         phaseStart = new Date();
         renderStart = new Date();
+
         width = "width:auto";
         height = "height:auto";
-
 
         /* 
          * Tests
@@ -106,7 +104,6 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         if (treetable.isDebug()) {
             debug = (Boolean) treetable.isDebug();
         }
-
 
         if (component.getAttributes().get("width") != null) {
             width = "width :" + treetable.getAttributes().get("width") + "px";
@@ -136,6 +133,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             treetable.setVarName(var);
         }
 
+        getValueStart = new Date();
         Object value = component.getAttributes().get("value");
         /* Getting the defaultTreeModel pointed by the value */
         if (treetable.getTree() == null) {
@@ -153,6 +151,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
                 treetable.setTree(new TreeTableModel(node));
             }
         }
+        getValueEnd = new Date();
+        long timeToGetValue = getValueEnd.getTime() - getValueStart.getTime();
+        if (debug) {
+            System.out.println("[INFO] Time to Get Value : " + timeToGetValue + " ms");
+        }
+
         // treetable.setNodeCount(treetable.getTree());
 
         /* Writing Javascript header and Css styles, the style by default : treetable.css */
@@ -191,16 +195,17 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
         Date phaseStart, phaseEnd;
-        
+
         /* Initialisation */
         phaseStart = new Date();
-        
+
         if (debug) {
             System.out.println("[INFO] encodeChildren : " + AbstractTreeTableRenderer.class.getName());
         }
 
         if (component.getChildCount() != 0) {
             List<UIComponent> children = component.getChildren();
+
             for (UIComponent tmp : children) {
                 Utils.encodeRecursive(context, tmp);
             }
@@ -223,7 +228,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         AjaxUtils ajaxtools = new AjaxUtils();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String AJAX_SERVER = ajaxtools.getAjaxServer(request);
-        Date phaseStart,phaseEnd ;
+        Date phaseStart, phaseEnd;
 
         /* Initialisation */
         phaseStart = new Date();
@@ -276,6 +281,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      */
     @Override
     public void decode(FacesContext context, UIComponent component) throws NullPointerException {
+        context.getApplication().getStateManager().saveView(context);
         if (debug) {
             System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
         }

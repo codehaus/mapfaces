@@ -126,6 +126,7 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
     public void setRenderDefaultTree(boolean aRenderDefaultTree) {
         RenderDefaultTree = aRenderDefaultTree;
     }
+    
     // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
@@ -134,8 +135,8 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         values[1] = nodeCount;
         values[2] = rowId;
         values[3] = RenderDefaultTree;
-        values[4] = getWidth();
-        values[5] = getHeight();
+        values[4] = width;
+        values[5] = height;
         return values;
     }
 
@@ -150,9 +151,9 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         height = (Integer) values[5];
     }
 
-    public UIAbstractTreeNodeInfo getInstance() {
+    public UIAbstractTreeTable getInstance() {
         try {
-            return (UIAbstractTreeNodeInfo) this.clone();
+            return (UIAbstractTreeTable) this.clone();
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(UIAbstractTreeNodeInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
