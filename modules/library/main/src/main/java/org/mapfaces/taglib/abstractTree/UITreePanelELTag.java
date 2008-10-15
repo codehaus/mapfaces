@@ -56,6 +56,7 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
     private ValueExpression title = null;
     private ValueExpression styleLeaf = null;
     private ValueExpression styleNode = null;
+    private ValueExpression loadAll = null;
 
     /* Abstracts methods*/
     /**
@@ -295,10 +296,26 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
 
     /**
      * Mutator for styleNode
-     * @param header New value for styleNode
+     * @param styleNode New value for styleNode
      */
     public void setStyleNode(ValueExpression styleNode) {
         this.styleNode = styleNode;
+    }
+
+      /**
+     * Accessor for loadAll
+     * @return loadAll value
+     */
+    public ValueExpression getLoadAll() {
+        return loadAll;
+    }
+
+    /**
+     * Mutator for loadAll
+     * @param loadAll New value for loadAll
+     */
+    public void setLoadAll(ValueExpression loadAll) {
+        this.loadAll = loadAll;
     }
 
     /* Methods*/
@@ -325,8 +342,9 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         component.setValueExpression("width", width);
         component.setValueExpression("showRoot", showRoot);
         component.setValueExpression("enableDragDrop", enableDragDrop);
-        component.setValueExpression("styleLeaf", getStyleLeaf());
-        component.setValueExpression("styleNode", getStyleNode());
+        component.setValueExpression("styleLeaf", styleLeaf);
+        component.setValueExpression("styleNode", styleNode);
+        component.setValueExpression("loadAll", loadAll);
     }
 
     /**
@@ -349,6 +367,7 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         setEnableDragDrop(null);
         setStyleLeaf(null);
         setStyleNode(null);
+        setLoadAll(null);
 
     }
 }

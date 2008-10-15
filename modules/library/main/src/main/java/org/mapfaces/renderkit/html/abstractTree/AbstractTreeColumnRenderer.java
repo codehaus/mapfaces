@@ -17,6 +17,7 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,6 +27,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import java.util.List;
 import javax.el.ValueExpression;
+import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
@@ -53,7 +55,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
     /* Local Fields */
     private static final transient Log log = LogFactory.getLog(AbstractTreeColumnRenderer.class);
-    private boolean debug = false;
+    private boolean debug;
     private static String DEFAULT_SIZE_COLUMN = "250";
     private static String DEFAULT_HEADER_COLUMN = "Tree";
     private static int LINES_SHOW = 1;
@@ -250,16 +252,32 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             ImgTreeNodeInfo.setUrl(NODE_IDENT);
 
             HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();
-            AjaxSupport.setId(treepanel.getId() + "_" + "ajax_" + node.getId());
-            AjaxSupport.setReRender(treepanel.getClientId(context));
+            AjaxSupport.setId(treepanel.getId() + "_ajax_" + node.getId());
+            AjaxSupport.setReRender(treeline.getParent().getClientId(context));
             AjaxSupport.setEvent("onclick");
-            AjaxSupport.setEventsQueue("alert('hello');");
+            AjaxSupport.setAjaxSingle(true);
             AjaxSupport.setLimitToList(true);
-//            AjaxSupport.setOnsubmit("" +
-//                    "viewstate = document.getElementById('javax.faces.ViewState').value; " +
-//                    "return display(" + node.getId() + ",'" + treepanelId + "','get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);" +
-//                    "A4J.AJAX.Submit(null,"+treepanelId+",null,null,{'parameters':{'org.mapfaces.ajax.AJAX_REQUEST':'true'}},null)" +
-//                    "");
+            String formId = Utils.getWrappedComponent(context, component, UIForm.class);
+            AjaxSupport.setOnsubmit("if(disp('" + formId + "'," +
+                    "'" + treepanelId + "'," +
+                    "'" + node.getId() + "')==false){return false;}");
+
+//                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
+//                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
+//                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
+//                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
+
+//                    "A4J.AJAX.SubmitRequest('','"+formId+"',null,{'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
+//                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
+//                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
+//                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
+//                    formId+".reset(); return false;" +
+
+//            AjaxSupport.setOncomplete("disp('"+formId+"'," +
+//                    "'"+treepanelId+"'," +
+//                    "'"+node.getId()+"'," +
+//                    "'"+request.getRequestURI()+"');");
+
             //Adding Components to TreeColumn
             component.getChildren().add(0, ImgNodeIdent);
             component.getChildren().add(1, ImgNodeRep);
@@ -269,7 +287,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 component.getChildren().add(component.getChildCount(), ImgTreeNodeInfo);
             }
             ImgNodeRep.getChildren().add(AjaxSupport);
-            ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
+            ImgNodeRep.getFacets().put("a4jsupport_" + node.getId(), AjaxSupport);
             ((UIAbstractTreeColumn) component).setAlreadyRender(true);
         }
 
@@ -339,13 +357,13 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         String nodeId = request.getParameter(ajaxtools.getAJAX_NODE_ID_KEY());
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
 
-        List<UIComponent> children = treeline.getChildren();
-        for (UIComponent child : children) {
-            if (child instanceof UIAbstractTreeLines) {
-                ((UIAbstractTreeLines) child).setToRender(true);
-                child.setRendered(true);
-            }
-        }
+//        List<UIComponent> children = treeline.getChildren();
+//        for (UIComponent child : children) {
+//            if (child instanceof UIAbstractTreeLines) {
+//                ((UIAbstractTreeLines) child).setToRender(true);
+//                child.setRendered(true);
+//            }
+//        }
 
         StringBuffer sb = new StringBuffer();
         sb.append("");

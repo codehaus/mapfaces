@@ -14,10 +14,11 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.share.listener;
 
+import java.util.Enumeration;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -49,8 +50,8 @@ public class AjaxListener implements PhaseListener {
     @Override
     public void afterPhase(PhaseEvent event) {
         AjaxUtils ajaxtools = new AjaxUtils();
-        FacesContext context = event.getFacesContext();
-//        FacesContext context = FacesContext.getCurrentInstance();
+//        FacesContext context = event.getFacesContext();
+        FacesContext context = FacesContext.getCurrentInstance();
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String a4jrequest = request.getParameter("AJAXREQUEST");
@@ -60,10 +61,12 @@ public class AjaxListener implements PhaseListener {
         if (ajaxParam != null && ajaxParam.equals("true")) {
             context.responseComplete();// Let JSF know to skip the rest of the lifecycle
             String componentId = request.getParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY());
-            log.info("Component ID. " + componentId);
+            System.out.println("[INFO] Component ID. " + componentId);
             if (componentId == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("No client ID found under key : " + componentId);
+                } else {
+                    System.out.println("[WARN] No client ID found under key : " + componentId);
                 }
             } else {
                 handleAjaxRequest(context, componentId);
@@ -71,7 +74,10 @@ public class AjaxListener implements PhaseListener {
 
             //Save the state of the page
             context.getApplication().getStateManager().saveView(context);
+
         }
+
+
     }
 
     /**
@@ -80,17 +86,24 @@ public class AjaxListener implements PhaseListener {
      * @param componentId
      */
     private void handleAjaxRequest(FacesContext context, String componentId) {
+
         UIViewRoot viewroot = context.getViewRoot();
         AjaxInterface ajaxcomponent = null;
-        System.out.println(componentId);
+
+        /* findComponentById */
         try {
+            System.out.println("[TRY] ajaxcomponent = (AjaxInterface) Utils.findComponentById(context, viewroot, componentId);");
             ajaxcomponent = (AjaxInterface) Utils.findComponentById(context, viewroot, componentId);
+            if (ajaxcomponent == null) {
+                System.out.println("[TRY] ajaxcomponent = (AjaxInterface) Utils.findComponent(context, componentId);");
+                ajaxcomponent = (AjaxInterface) Utils.findComponent(context, componentId);
+            }
         } catch (ClassCastException cce) {
-            throw new IllegalArgumentException("Component foud under Ajax key was not of expected type");
+            throw new IllegalArgumentException("Component found under Ajax key was not of expected type");
         }
 
         if (ajaxcomponent == null) {
-            throw new NullPointerException("No component found under specified client Id; " + componentId);
+            throw new NullPointerException("No component found under specified client Id : " + componentId);
         }
         ajaxcomponent.handleAjaxRequest(context);
 

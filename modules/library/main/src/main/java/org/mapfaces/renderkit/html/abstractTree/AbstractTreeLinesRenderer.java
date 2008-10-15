@@ -17,12 +17,15 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
 import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
@@ -39,7 +42,7 @@ import org.mapfaces.util.AjaxUtils;
 public abstract class AbstractTreeLinesRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
 
     /* Local Fields */
-    private boolean debug = true;
+    private boolean debug;
     //private static final transient Log log = LogFactory.getLog(AbstractTreeLinesRenderer.class);
     private AjaxUtils ajaxtools = new AjaxUtils();
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";
@@ -64,7 +67,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
-        
+
         if (!component.isRendered()) {
             return;
         }
@@ -73,7 +76,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         if (treeline.isDebug()) {
             debug = treeline.isDebug();
         }
-
+       
         if (debug) {
             System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
         }
@@ -81,9 +84,9 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         //Start encoding
         if (debug) {
-            System.out.println("[INFO] encodeBegin : " + AbstractTreeLinesRenderer.class.getName());
+            System.out.println("[INFO] encodeBegin : " + AbstractTreeLinesRenderer.class.getName() +" Component Id : "+component.getId());
         }
-        
+
         /* Get the node instance for rendering lines */
         TreeNodeModel node = treeline.getNodeInstance();
         treeline.setRow(node.getId());
@@ -165,12 +168,12 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 styleNodeUser = treepanel.getStyleNode();
             }
             if (isFolder) {
-                writer.writeAttribute("style", "position:relative;" + styleNodeUser, null);
+                writer.writeAttribute("style", "position:relative;list-style-type:none;" + styleNodeUser, null);
             } else {
                 if (treepanel.isEnableDragDrop()) {
-                    writer.writeAttribute("style", "background : white; position:relative;" + styleLeafUser, null);
+                    writer.writeAttribute("style", "background : white; position:relative;list-style-type:none;" + styleLeafUser, null);
                 } else {
-                    writer.writeAttribute("style", "position:relative;" + styleLeafUser, null);
+                    writer.writeAttribute("style", "position:relative;list-style-type:none;" + styleLeafUser, null);
                 }
             }
 
@@ -221,19 +224,19 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
      */
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
+        ResponseWriter writer = context.getResponseWriter();
+        String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        TreeTableModel tree = treepanel.getView();
+        TreeNodeModel node = tree.getById(treeline.getNodeInstance().getId());
+        
+        /* Initialisation */
+        Boolean isFolder = !(node.isLeaf());        
+        
         if (debug) {
             System.out.println("[INFO] encodeChildren : " + AbstractTreeLinesRenderer.class.getName());
         }
-
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
-        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) treeline.getParent();
-        TreeTableModel tree = treepanel.getView();
-        TreeNodeModel node = tree.getById(treeline.getNodeInstance().getId());
-
-        ResponseWriter writer = context.getResponseWriter();
-        String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
-
-        Boolean isFolder = !(node.isLeaf());
 
         List<UIComponent> children = treeline.getChildren();
         if (treeline.isToRender()) {
@@ -248,7 +251,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             writer.startElement("div", treeline);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
-
 
             if (treeline.hasChildren()) {
                 writer.startElement("ul", treeline);
@@ -274,7 +276,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 for (int i = 0; i < node.getChildCount(); i++) {
                     TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
                     if (child.isChecked()) {
-                        Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId())));
+                        Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
                     }
                 }
 
@@ -354,7 +356,47 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
      */
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        return;
+        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
+        String treepanelId = Utils.getWrappedComponent(context, treeline, UIAbstractTreePanel.class);
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        String treelineParent = null;
+
+        /*
+         * Get id of Ajax component who launch the request
+         */
+        Enumeration<String> listParameters = request.getParameterNames();
+        while (listParameters.hasMoreElements()) {
+            String param = listParameters.nextElement();
+            if (!((param.equals("AJAXREQUEST")) || (param.equals("ajax.server.request.URL")) || (param.equals("javax.ViewState")) || (param.contains("SUBMIT")))) {
+                ExternalContext extContext = context.getExternalContext();
+                extContext.getRequestMap().put("ajaxSupportOn", param);
+            }
+        }
+
+        /*  */
+        TreeNodeModel node = treeline.getNodeInstance();
+        node.setChecked(true);
+        treeline.setToRender(true);
+        ExternalContext extContext = context.getExternalContext();
+
+        if (extContext.getRequestMap().containsKey("ajaxSupportOn")) {
+            HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) Utils.findComponent(context, (String) extContext.getRequestMap().get("ajaxSupportOn"));
+            if (ajaxSupport != null) {
+                treelineParent = Utils.getWrappedComponent(context, ajaxSupport, UIAbstractTreeLines.class);
+            }
+            if (component.getClientId(context).equals(treelineParent)) {
+                treeline.getNodeInstance().setChecked(true);
+                for (int i = 0; i < node.getChildCount(); i++) {
+                    TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
+                    UIAbstractTreeLines treelineChild = ((UIAbstractTreeLines) Utils.findComponent(context, treepanel.getClientId(context) + "_line_" + child.getId()));
+                    treelineChild.getNodeInstance().setChecked(true);
+                    treelineChild.setRendered(true);
+                    treelineChild.setToRender(true);
+                }
+            }
+        }
+
     }
 
     /**
@@ -410,6 +452,9 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
      */
     @Override
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
+        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component;
+        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) treeline.getParent();
+
     }
 
     /**

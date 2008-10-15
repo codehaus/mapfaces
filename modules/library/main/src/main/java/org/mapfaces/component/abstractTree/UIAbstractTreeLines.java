@@ -19,13 +19,16 @@ package org.mapfaces.component.abstractTree;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
+import org.ajax4jsf.framework.ajax.AjaxListener;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.share.interfaces.AjaxInterface;
+import org.mapfaces.share.interfaces.AjaxRendererInterface;
 
 /**
  *
  * @author kevindelfour
  */
-public abstract class UIAbstractTreeLines extends UITreeBase implements Cloneable {
+public abstract class UIAbstractTreeLines extends UITreeBase implements AjaxInterface, Cloneable {
 
     private TreeNodeModel nodeinstance;    // Store id of the treelines 
     private int nodeId;
@@ -94,16 +97,22 @@ public abstract class UIAbstractTreeLines extends UITreeBase implements Cloneabl
         this.varId = varId;
     }
 
+    @Override
+    public void setRendered(boolean arg0) {
+        super.setRendered(arg0);
+    }
     // =========== FONCTIONS ======================================== //
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[6];
+        Object values[] = new Object[8];
         values[0] = super.saveState(context);
         values[1] = getNodeInstance();
         values[2] = getNodeId();
         values[3] = getRow();
         values[4] = getDepth();
         values[5] = hasChildren();
+        values[6] = isToRender();
+        values[7] = isRendered();
         return values;
     }
 
@@ -116,6 +125,15 @@ public abstract class UIAbstractTreeLines extends UITreeBase implements Cloneabl
         setRow((Integer) values[3]);
         setDepth((Integer) values[4]);
         setHasChildren((Boolean) values[5]);
+        setToRender((Boolean) values[6]);
+        setRendered((Boolean) values[7]);
+    }
+
+    @Override
+    public void handleAjaxRequest(FacesContext context) {
+        //Delegate to the renderer
+        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
+        renderer.handleAjaxRequest(context, this);
     }
 
     public UIAbstractTreeLines getInstance() {

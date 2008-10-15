@@ -31,7 +31,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
 
     private boolean init;
     private boolean TREEPANEL_EXPAND_ALL = true;
-    private TreeTableModel view;    
+    private TreeTableModel view;
+
     // =========== ATTRIBUTES ================================================== //
     private String border;
     private boolean check;
@@ -46,6 +47,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     private String title;
     private String styleLeaf;
     private String styleNode;
+    private boolean loadAll;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     public String getBorder() {
@@ -135,6 +137,14 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     public void setEnableDragDrop(boolean enableDragDrop) {
         this.enableDragDrop = enableDragDrop;
     }
+    
+    public boolean isLoadAll() {
+        return loadAll;
+    }
+
+    public void setLoadAll(boolean loadAll) {
+        this.loadAll = loadAll;
+    }
 
     // =========== FONCTIONS ======================================== //
     public boolean isTREEPANEL_EXPAND_ALL() {
@@ -179,7 +189,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[16];
+        Object values[] = new Object[17];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCheck();
@@ -196,6 +206,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         values[13] = isEnableDragDrop();
         values[14] = getStyleLeaf();
         values[15] = getStyleNode();
+        values[16] = loadAll;
         return values;
     }
 
@@ -218,6 +229,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         setEnableDragDrop((Boolean) values[13]);
         setStyleLeaf((String) values[14]);
         setStyleNode((String) values[15]);
+        loadAll = (Boolean) values[16];
     }
 
     @Override
@@ -227,11 +239,11 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         renderer.handleAjaxRequest(context, this);
     }
 
-    public UIAbstractTreeNodeInfo getInstance() {
+    public UIAbstractTreePanel getInstance() {
         try {
-            return (UIAbstractTreeNodeInfo) this.clone();
+            return (UIAbstractTreePanel) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UIAbstractTreeNodeInfo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UIAbstractTreePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

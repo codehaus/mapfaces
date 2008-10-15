@@ -57,7 +57,7 @@ import org.mapfaces.util.FacesUtils;
 public abstract class AbstractColumnRenderer extends Renderer implements AjaxRendererInterface {
 
     private TreeTableConfig config = new TreeTableConfig();
-    private boolean debug = false;
+    private boolean debug;
     private static final transient Log log = LogFactory.getLog(AbstractColumnRenderer.class);
 
     /**
