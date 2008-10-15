@@ -87,6 +87,11 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
      * flag that indicates if this bandInfo component will contains an input component to choice intervals.
      */
     private ValueExpression inputInterval = null;
+    /**
+     * flag that indicates if this bandInfo component will contains a slider Input component to choice intervals.
+     */
+    private ValueExpression sliderInput = null;
+    
 
     public String getComponentType() {
         return COMP_TYPE;
@@ -125,6 +130,7 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
         component.setValueExpression("width", width);
         component.setValueExpression("theme", theme);
         component.setValueExpression("inputInterval", inputInterval);
+        component.setValueExpression("sliderInput", sliderInput);
 
         if (inputInterval != null) {
             bandInfo.setInputInterval((Boolean) inputInterval.getValue(FacesContext.getCurrentInstance().getELContext()));
@@ -149,6 +155,7 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
         setTimeZone(null);
         setTheme(null);
         setInputInterval(null);
+        setSliderInput(null);
     }
 
     public void setDate(ValueExpression date) {
@@ -207,5 +214,13 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
 
     public void setInputInterval(ValueExpression inputInterval) {
         this.inputInterval = inputInterval;
+    }
+
+    public ValueExpression getSliderInput() {
+        return sliderInput;
+    }
+
+    public void setSliderInput(ValueExpression sliderInput) {
+        this.sliderInput = sliderInput;
     }
 }

@@ -3470,6 +3470,39 @@
                 Flag that indicates if this timeline component will contains an input date.
             </description>
         </attribute>
+        <attribute>
+            <name>theme</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is a name of a theme for the bandinfos subcomponents.
+            </description>
+        </attribute>
+        <attribute>
+            <name>synchronizeBands</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the timeline must be synchronized or not between bandinfos components.
+            </description>
+        </attribute>
+        <attribute>
+            <name>dynamicBands</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the timeline should load the band components dynamically from a context or not.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>BandInfo</name>
@@ -3828,6 +3861,17 @@
             <rtexprvalue>false</rtexprvalue>
             <description>
                 The flag that indicates if the component will display an input component to change the intervalUnit.
+            </description>
+        </attribute>
+        <attribute>
+            <name>sliderInput</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if this bandInfo component will contains a slider Input component to choice intervals.
             </description>
         </attribute>
     </tag>

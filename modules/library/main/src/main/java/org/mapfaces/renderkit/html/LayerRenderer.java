@@ -31,7 +31,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.geotools.data.wms.WebMapServer;
-import org.geotools.display.exception.PortrayalException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.DefaultMapContext;
 import org.geotools.map.MapLayer;
@@ -179,7 +178,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
     }
 
     public MapLayer LayerToWMSMapLayer(FacesContext context, UIComponent component, Layer layer, ReferencedEnvelope env) throws IOException, ServiceException {
-        System.out.println("LayerToWMSMapLayer=============== " + layer.getServer().getGTCapabilities().getRequest().getGetCapabilities().getGet());
+//        System.out.println("=============== " + layer.getServer().getGTCapabilities().getRequest().getGetCapabilities().getGet());
         WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), env);
         HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
         HashMap<String, String> dims2 = new HashMap<String, String>();

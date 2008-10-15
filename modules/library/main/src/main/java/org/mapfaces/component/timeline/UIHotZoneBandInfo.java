@@ -22,6 +22,7 @@ import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
+import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.models.timeline.Zone;
 
@@ -45,6 +46,9 @@ public class UIHotZoneBandInfo extends UICommand {
     public static final String FAMILIY = "org.mapfaces.component.Timeline.HotZoneBandInfo";
     private boolean inputInterval;
     private List<Zone> zones;
+    private boolean sliderInput;
+    private Layer layer;
+    
     /**
      * Name of the js object wher the timeline is defined
      * 
@@ -240,7 +244,7 @@ public class UIHotZoneBandInfo extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[15];
+        Object values[] = new Object[17];
         values[0] = super.saveState(context);
         values[1] = date;
         values[2] = eventSource;
@@ -255,6 +259,8 @@ public class UIHotZoneBandInfo extends UICommand {
         values[11] = widthPercentage;
         values[12] = inputInterval;
         values[13] = zones;
+        values[14] = sliderInput;
+        values[15] = layer;
         return values;
     }
 
@@ -275,5 +281,23 @@ public class UIHotZoneBandInfo extends UICommand {
         widthPercentage = (String) values[11];
         inputInterval = (Boolean) values[12];
         zones = (List<Zone>) values[13];
+        sliderInput = (Boolean) values[14];
+        layer = (Layer) values[15];
+    }
+
+    public boolean isSliderInput() {
+        return sliderInput;
+    }
+
+    public void setSliderInput(boolean sliderInput) {
+        this.sliderInput = sliderInput;
+    }
+
+    public Layer getLayer() {
+        return layer;
+    }
+
+    public void setLayer(Layer layer) {
+        this.layer = layer;
     }
 }
