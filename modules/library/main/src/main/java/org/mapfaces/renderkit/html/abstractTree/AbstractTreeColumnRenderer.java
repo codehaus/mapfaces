@@ -213,7 +213,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             //WRITING NODE NAME
             HtmlOutputLink LinkNode = new HtmlOutputLink();
-            LinkNode.setId(treepanel.getId() + "_" + "anchor_" + node.getId());
+            LinkNode.setId(treepanel.getId() + "_anchor_" + node.getId());
             LinkNode.setStyleClass(CLASS_ANCHOR);
             LinkNode.setStyle("margin-top:2px;");
             LinkNode.setValue("#");
@@ -246,7 +246,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 }
             }
             ImgTreeNodeInfo.setId(treepanel.getId() + "_" + "anchor_info_" + node.getId());
-            ImgTreeNodeInfo.setOnclick("showMore('" + treepanel.getClientId(context) + ":" + node.getId() + "');");
+            ImgTreeNodeInfo.setOnclick("showInfo('" + treepanel.getClientId(context) + "','" + node.getId() + "');");
             ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO);
             ImgTreeNodeInfo.setStyle("margin-left : 5px;");
             ImgTreeNodeInfo.setUrl(NODE_IDENT);
