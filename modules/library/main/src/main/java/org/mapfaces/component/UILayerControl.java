@@ -44,6 +44,8 @@ public class UILayerControl extends UIWidgetBase {
     private String titlePanel;
     private String headerTreeColumn;
     private boolean hideElevationColumn;
+    private String styleOddLines;
+    private String styleEvenLines;
 
     public UILayerControl() {
         super();
@@ -75,7 +77,7 @@ public class UILayerControl extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[12];
+        Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = styleTreeTable;
         values[2] = styleTreePanel;
@@ -87,6 +89,8 @@ public class UILayerControl extends UIWidgetBase {
         values[8] = titlePanel;
         values[9] = headerTreeColumn;
         values[10] = hideElevationColumn;
+        values[11] = styleOddLines;
+        values[12] = styleEvenLines;
         return values;
     }
 
@@ -104,7 +108,8 @@ public class UILayerControl extends UIWidgetBase {
         titlePanel = (String) values[8];
         headerTreeColumn = (String) values[9];
         hideElevationColumn = (Boolean) values[10];
-        
+        styleOddLines = (String) values[11];
+        styleEvenLines = (String) values[12];
     }
 
     public String getStyleTreeTable() {
@@ -185,5 +190,21 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setHideElevationColumn(boolean hideElevationColumn) {
         this.hideElevationColumn = hideElevationColumn;
+    }
+
+    public String getStyleOddLines() {
+        return styleOddLines;
+    }
+
+    public void setStyleOddLines(String styleOddLines) {
+        this.styleOddLines = styleOddLines;
+    }
+
+    public String getStyleEvenLines() {
+        return styleEvenLines;
+    }
+
+    public void setStyleEvenLines(String styleEvenLines) {
+        this.styleEvenLines = styleEvenLines;
     }
 }

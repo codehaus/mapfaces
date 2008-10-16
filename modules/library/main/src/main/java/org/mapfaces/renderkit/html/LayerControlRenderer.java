@@ -82,6 +82,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         String titlePanel = comp.getTitlePanel();
         String headerTreeColumn = comp.getHeaderTreeColumn();
         boolean hideElevationColumn = comp.isHideElevationColumn();
+        String styleOddLines = comp.getStyleOddLines();
+        String styleEvenLines = comp.getStyleEvenLines();
 
         UITreeTable treeTable = new UITreeTable();
         treeTable.setId(component.getId() + "TreeTable");
@@ -91,6 +93,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
         treePanel.setId(component.getId() + "TreePanel");
+        treePanel.setStyleEven(styleEvenLines);
+        treePanel.setStyleOdd(styleOddLines);
         treePanel.setHeader(true);
         if (titlePanel == null || titlePanel.equals("")) {
             treePanel.setTitle("List of layers");

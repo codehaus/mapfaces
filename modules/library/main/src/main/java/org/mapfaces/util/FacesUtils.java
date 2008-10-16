@@ -39,7 +39,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
-import org.constellation.ows.v100.KeywordsType;
 import org.geotools.data.wms.backend.AbstractKeyword;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
@@ -70,6 +69,7 @@ public class FacesUtils {
         }
         component.encodeEnd(context);
     }
+
     /**
      * Returns the UIModelBase of the mapfaces component.
      * @param context
@@ -81,13 +81,13 @@ public class FacesUtils {
         while (!(parent instanceof UIModelBase)) {
             if (parent != null) {
                 parent = parent.getParent();
-            }
-            else {
+            } else {
                 return null;
             }
         }
-        return (UIModelBase)  parent;
+        return (UIModelBase) parent;
     }
+
     /**
      * Returns the UIMapPane of the mapfaces component.
      * @param context
@@ -99,8 +99,9 @@ public class FacesUtils {
         while (!(parent instanceof UIMapPane)) {
             parent = parent.getParent();
         }
-        return (UIMapPane)  parent;
+        return (UIMapPane) parent;
     }
+
     /**
      * Returns the UITreeLines of the mapfaces component.
      * @param context
@@ -109,11 +110,12 @@ public class FacesUtils {
      */
     public static UITreeLines getParentUITreeLines(FacesContext context, UIComponent component) {
         UIComponent parent = component;
-        while (!(parent instanceof  UITreeLines)) {
+        while (!(parent instanceof UITreeLines)) {
             parent = parent.getParent();
         }
-        return ( UITreeLines)  parent;
+        return (UITreeLines) parent;
     }
+
     /**
      * Returns the UIContext of the mapfaces component.
      * @param context
@@ -127,6 +129,7 @@ public class FacesUtils {
         }
         return (UIContext) parent;
     }
+
     public static PrintWriter getResponseWriter(FacesContext fc) {
         PrintWriter writer = null;
         try {
@@ -258,7 +261,7 @@ public class FacesUtils {
         return lifecycleId != null ? lifecycleId
                 : LifecycleFactory.DEFAULT_LIFECYCLE;
     }
-    
+
     /**
      * Function to create a <a4j:support> component with extra parameters based on the "var" attribute of the treepanel component 
      * This function should used only on a child of treePanel component (see LayerControl component for details).
@@ -269,20 +272,20 @@ public class FacesUtils {
      * @param idsToReRender     String  id of components to reRender , if null the varId is set
      * @return  ajaxComp        the <a4j:support> component 
      */
-     
     public static HtmlAjaxSupport createTreeAjaxSupport(FacesContext context, UIComponent comp, String event, String varId, String idsToReRender) {
-        
+
         /* To use the synchronized parameter the reRender attribute must be null*/
         AjaxUtils ajaxUtils = new AjaxUtils();
-        HashMap<String,String> extraParams = new HashMap<String, String>();
+        HashMap<String, String> extraParams = new HashMap<String, String>();
         extraParams.put(ajaxUtils.getAJAX_LAYER_ID(), varId);
         extraParams.put(ajaxUtils.getAJAX_CONTAINER_ID_KEY(), comp.getClientId(context));
         /*if we don't want to reRender another component than the "var" component */
-        if(idsToReRender == null)
+        if (idsToReRender == null) {
             idsToReRender = varId;
+        }
         return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);
     }
-    
+
     /**
      * Function to create a <a4j:support> component with extra parameters, where components would be refreshed synchronously
      * 
@@ -293,15 +296,15 @@ public class FacesUtils {
      * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request 
      * @return  ajaxComp        the <a4j:support> component 
      */
-    public static HtmlAjaxSupport createSynchronizedAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender, HashMap<String,String> extraParams) {
-        
+    public static HtmlAjaxSupport createSynchronizedAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender, HashMap<String, String> extraParams) {
+
         /* To use the synchronized parameter the reRender attribute must be null*/
         extraParams.put("synchronized", "true");
         extraParams.put("refresh", idsToReRender);
         idsToReRender = null;
         return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);
     }
-    
+
     /**
      * Function to create a <a4j:support> component with extra parameters
      * 
@@ -312,16 +315,16 @@ public class FacesUtils {
      * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request 
      * @return  ajaxComp        the <a4j:support> component 
      */
-    public static HtmlAjaxSupport createExtraAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender, HashMap<String,String> extraParams) {
+    public static HtmlAjaxSupport createExtraAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender, HashMap<String, String> extraParams) {
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = createBasicAjaxSupport(context, comp, event , idsToReRender);
-        for(String tmp : extraParams.keySet()){            
-             ajaxComp.getChildren().add(createFParam(tmp,extraParams.get(tmp)));
+        HtmlAjaxSupport ajaxComp = createBasicAjaxSupport(context, comp, event, idsToReRender);
+        for (String tmp : extraParams.keySet()) {
+            ajaxComp.getChildren().add(createFParam(tmp, extraParams.get(tmp)));
         }
         return ajaxComp;
     }
-    
+
     /**
      * Function to create a classic <a4j:support> component 
      * 
@@ -343,8 +346,7 @@ public class FacesUtils {
         ajaxComp.setReRender(idsToReRender);
         return ajaxComp;
     }
-    
-    
+
     private static UIParameter createFParam(String name, String value) {
 
         /* Add <f:param> component */
@@ -353,14 +355,14 @@ public class FacesUtils {
         fParam.setValue(value);
         return fParam;
     }
-    
+
     /**
      * Returns true if the list contains a string in one of the list elements.
      * @param list
      * @param str
      * @return
      */
-    public static boolean matchesStringfromList(List<String> list, String str) {        
+    public static boolean matchesStringfromList(List<String> list, String str) {
         boolean str_available = false;
         for (String s : list) {
             Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
@@ -371,13 +373,14 @@ public class FacesUtils {
         }
         return str_available;
     }
+
     /**
      * Returns true if the list contains a string in one of the list elements.
      * @param list
      * @param str
      * @return
      */
-    public static boolean matchesKeywordfromList(List<? extends AbstractKeyword> list, String str) {        
+    public static boolean matchesKeywordfromList(List<? extends AbstractKeyword> list, String str) {
         boolean str_available = false;
         for (AbstractKeyword k : list) {
             Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
@@ -388,7 +391,7 @@ public class FacesUtils {
         }
         return str_available;
     }
-    
+
     /**
      * This method returns the number of temporal layers in a list.
      * @param layers

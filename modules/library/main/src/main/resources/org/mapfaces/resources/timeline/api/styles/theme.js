@@ -28,8 +28,8 @@ Timeline.ArcheoTheme._Impl = function() {
         backgroundColors: [
             "#C3E7F3",
             "#BAD3E8",
-            "#CCC",
-            "#AAA"
+            "#FFF1C7",
+            "#FFFFFF"
         ],
         highlightColor:     "#FFF887",
         highlightOpacity:   50,
