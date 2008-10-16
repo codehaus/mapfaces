@@ -32,7 +32,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     private boolean init;
     private boolean TREEPANEL_EXPAND_ALL = true;
     private TreeTableModel view;
-
+    private int oddEvenCountLine;
+    
     // =========== ATTRIBUTES ================================================== //
     private String border;
     private boolean check;
@@ -47,6 +48,8 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     private String title;
     private String styleLeaf;
     private String styleNode;
+    private String styleOdd;
+    private String styleEven;
     private boolean loadAll;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
@@ -137,7 +140,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     public void setEnableDragDrop(boolean enableDragDrop) {
         this.enableDragDrop = enableDragDrop;
     }
-    
+
     public boolean isLoadAll() {
         return loadAll;
     }
@@ -187,9 +190,33 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         this.styleNode = styleNode;
     }
 
+    public String getStyleOdd() {
+        return styleOdd;
+    }
+
+    public void setStyleOdd(String styleOdd) {
+        this.styleOdd = styleOdd;
+    }
+
+    public String getStyleEven() {
+        return styleEven;
+    }
+
+    public void setStyleEven(String styleEven) {
+        this.styleEven = styleEven;
+    }
+
+    public int getOddEvenCountLine() {
+        return oddEvenCountLine;
+    }
+
+    public void setOddEvenCountLine(int oddEvenCountLine) {
+        this.oddEvenCountLine = oddEvenCountLine;
+    }
+
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[17];
+        Object values[] = new Object[20];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCheck();
@@ -206,7 +233,10 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         values[13] = isEnableDragDrop();
         values[14] = getStyleLeaf();
         values[15] = getStyleNode();
-        values[16] = loadAll;
+        values[16] = isLoadAll();
+        values[17] = getStyleOdd();
+        values[18] = getStyleEven();
+        values[19] = getOddEvenCountLine();
         return values;
     }
 
@@ -229,7 +259,10 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         setEnableDragDrop((Boolean) values[13]);
         setStyleLeaf((String) values[14]);
         setStyleNode((String) values[15]);
-        loadAll = (Boolean) values[16];
+        setLoadAll((Boolean) values[16]);
+        setStyleOdd((String) values[17]);
+        setStyleEven((String) values[18]);
+        setOddEvenCountLine((Integer) values[19]);
     }
 
     @Override

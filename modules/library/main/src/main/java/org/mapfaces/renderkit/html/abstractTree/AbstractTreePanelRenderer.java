@@ -85,6 +85,8 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         Date phaseStart, phaseEnd;
         Boolean renderHeader, renderFrame, makeCollapsible, loadAll;
         String title, styleUser, styleClass, clientId;
+        
+        treepanel.setOddEvenCountLine(1);
 
         
         /* Look client Browser */

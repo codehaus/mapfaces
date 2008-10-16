@@ -36,6 +36,8 @@ import javax.faces.component.UIComponent;
  * <li>title</li>
  * <li>styleLeaf</li>
  * <li>styleNode</li>
+ * <li>styleOdd</li>
+ * <li>styleEven</li>
  * </ul>
  * @author kdelfour
  */
@@ -56,6 +58,8 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
     private ValueExpression title = null;
     private ValueExpression styleLeaf = null;
     private ValueExpression styleNode = null;
+    private ValueExpression styleOdd = null;
+    private ValueExpression styleEven = null;
     private ValueExpression loadAll = null;
 
     /* Abstracts methods*/
@@ -302,7 +306,39 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         this.styleNode = styleNode;
     }
 
-      /**
+    /**
+     * Accessor for styleOdd
+     * @return styleOdd value
+     */
+    public ValueExpression getStyleOdd() {
+        return styleOdd;
+    }
+
+    /**
+     * Mutator for styleOdd
+     * @param styleOdd New value for styleOdd
+     */
+    public void setStyleOdd(ValueExpression styleOdd) {
+        this.styleOdd = styleOdd;
+    }
+
+    /**
+     * Accessor for styleEven
+     * @return styleEven value
+     */
+    public ValueExpression getStyleEven() {
+        return styleEven;
+    }
+
+    /**
+     * Mutator for styleEven
+     * @param styleEven New value for styleEven
+     */
+    public void setStyleEven(ValueExpression styleEven) {
+        this.styleEven = styleEven;
+    }
+
+    /**
      * Accessor for loadAll
      * @return loadAll value
      */
@@ -344,6 +380,8 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         component.setValueExpression("enableDragDrop", enableDragDrop);
         component.setValueExpression("styleLeaf", styleLeaf);
         component.setValueExpression("styleNode", styleNode);
+        component.setValueExpression("styleOdd", styleOdd);
+        component.setValueExpression("styleEven", styleEven);
         component.setValueExpression("loadAll", loadAll);
     }
 
@@ -368,6 +406,7 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         setStyleLeaf(null);
         setStyleNode(null);
         setLoadAll(null);
-
+        setStyleOdd(null);
+        setStyleEven(null);
     }
 }

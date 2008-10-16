@@ -4133,6 +4133,22 @@
             </deferred-value>
         </attribute>
         <attribute>
+            <name>styleOdd</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleEven</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
             <name>loadAll</name>
             <deferred-value>
                 <type>boolean</type>
@@ -4567,6 +4583,22 @@
         </attribute>
         <attribute>
             <name>styleNode</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleOdd</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleEven</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
