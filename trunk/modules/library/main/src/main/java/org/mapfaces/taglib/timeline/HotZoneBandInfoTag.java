@@ -92,6 +92,11 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
      */
     private ValueExpression sliderInput = null;
     
+    /**
+     * A list of events : List<Event>.
+     */
+    private ValueExpression value = null;
+    
 
     public String getComponentType() {
         return COMP_TYPE;
@@ -131,6 +136,7 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
         component.setValueExpression("theme", theme);
         component.setValueExpression("inputInterval", inputInterval);
         component.setValueExpression("sliderInput", sliderInput);
+        component.setValueExpression("value",value);
 
         if (inputInterval != null) {
             bandInfo.setInputInterval((Boolean) inputInterval.getValue(FacesContext.getCurrentInstance().getELContext()));
@@ -156,6 +162,7 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
         setTheme(null);
         setInputInterval(null);
         setSliderInput(null);
+        setValue(null);
     }
 
     public void setDate(ValueExpression date) {
@@ -222,5 +229,13 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
 
     public void setSliderInput(ValueExpression sliderInput) {
         this.sliderInput = sliderInput;
+    }
+
+    public ValueExpression getValue() {
+        return value;
+    }
+
+    public void setValue(ValueExpression value) {
+        this.value = value;
     }
 }

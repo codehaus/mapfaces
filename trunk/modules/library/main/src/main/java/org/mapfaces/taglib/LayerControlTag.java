@@ -70,6 +70,14 @@ public class LayerControlTag extends WidgetBaseTag {
      * Flag that indicates if the Elevation columns must be displayed or not.
      */
     private ValueExpression hideElevationColumn = null;
+    /**
+     * This is the style for odd treeLines sub components.
+     */
+    private ValueExpression styleOddLines = null;
+    /**
+     * This is the style for even treeLines sub components.
+     */
+    private ValueExpression styleEvenLines = null;
 
     @Override
     public String getComponentType() {
@@ -94,6 +102,8 @@ public class LayerControlTag extends WidgetBaseTag {
         setTitlePanel(null);
         setHeaderTreeColumn(null);
         setHideElevationColumn(null);
+        setStyleEvenLines(null);
+        setStyleOddLines(null);
     }
 
     @Override
@@ -109,6 +119,8 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("titlePanel", titlePanel);
         component.setValueExpression("headerTreeColumn", headerTreeColumn);
         component.setValueExpression("hideElevationColumn", hideElevationColumn);
+        component.setValueExpression("styleOddLines", styleOddLines);
+        component.setValueExpression("styleEvenLines", styleEvenLines);
     }
 
     public ValueExpression getStyleTreeTable() {
@@ -189,5 +201,21 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setHideElevationColumn(ValueExpression hideElevationColumn) {
         this.hideElevationColumn = hideElevationColumn;
+    }
+
+    public ValueExpression getStyleOddLines() {
+        return styleOddLines;
+    }
+
+    public void setStyleOddLines(ValueExpression styleOddLines) {
+        this.styleOddLines = styleOddLines;
+    }
+
+    public ValueExpression getStyleEvenLines() {
+        return styleEvenLines;
+    }
+
+    public void setStyleEvenLines(ValueExpression styleEvenLines) {
+        this.styleEvenLines = styleEvenLines;
     }
 }

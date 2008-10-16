@@ -139,26 +139,51 @@ public class TimeLineRenderer extends Renderer {
             AbstractModelBase modelbase = ((UIContext) parentContext).getModel();
             if (modelbase instanceof Context) {
                 List<Layer> layers = ((Context) modelbase).getLayers();
+                List<Event> events = new ArrayList<Event>();
                 int i = 0;
-                int proportinalwidth = Math.round(100 / FacesUtils.getCountTemporalLayers(layers));
+                int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
                 for (Layer layer : layers) {
-                    if (layer.getDimensionList() != null) {
+                    if (layer.getDimensionList() != null && layer.getTime() != null) {
                         UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
                         bandinfo.setLayer(layer);
-                        bandinfo.setId(comp.getId() + "band" + i);
+                        bandinfo.setId(comp.getId() + "_band" + i);
                         bandinfo.setWidth(proportinalwidth);
                         bandinfo.setSliderInput(false);
                         bandinfo.setInputInterval(true);
+                        bandinfo.setShowEventText(true);
                         bandinfo.setIntervalPixels(80);
-                        bandinfo.setIntervalUnit("WEEK");
-                        bandinfo.setShowEventText(false);
+                        bandinfo.setIntervalUnit("MONTH");
                         bandinfo.setTrackHeight(1.0);
                         bandinfo.setTheme(comp.getTheme());
-                        if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "band" + i) == null) {
+                        if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
                             comp.getChildren().add(bandinfo);
                         }
                         i++;
+                        try {
+
+                            List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                            events.addAll(layerEvents);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (DatatypeConfigurationException ex) {
+                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
                     }
+                }
+                UIHotZoneBandInfo mainBandinfo = new UIHotZoneBandInfo();
+                mainBandinfo.setId(comp.getId() + "_mainband");
+                mainBandinfo.setValue(events);
+                mainBandinfo.setWidth(40);
+                mainBandinfo.setSliderInput(false);
+                mainBandinfo.setIntervalPixels(50);
+                mainBandinfo.setIntervalUnit("YEAR");
+                mainBandinfo.setShowEventText(false);
+                mainBandinfo.setInputInterval(true);
+                mainBandinfo.setTrackHeight(0.5);
+                mainBandinfo.setTheme(comp.getTheme());
+                if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband") == null) {
+                    comp.getChildren().add(mainBandinfo);
                 }
             }
         }
@@ -171,7 +196,6 @@ public class TimeLineRenderer extends Renderer {
             writer = FacesUtils.getResponseWriter2(context);
         }
         UITimeLine comp = (UITimeLine) component;
-        String clientId = component.getClientId(context);
         String idjs = comp.getJsObject();
 
         //begin the javascript declarations
@@ -195,9 +219,9 @@ public class TimeLineRenderer extends Renderer {
         }
         events = buildAllTemporalEvents(events);
 
-        List<Event> specialEvents = writeScriptEvents(context, comp, events);
+        List<Event> specialEvents = writeScriptEvents(context, comp, events, idjs);
 
-        //split the list erasZone to extract te events defined with Duration object to creates the HotzoneBandinfos components.
+        //split the list erasZone to extract the events defined with Duration object to creates the HotzoneBandinfos components.
         List<Event> durationEventsCopy = new ArrayList<Event>();
         List<HighlightDecorator> erasZones = new ArrayList<HighlightDecorator>();
         for (Event event : specialEvents) {
@@ -221,13 +245,11 @@ public class TimeLineRenderer extends Renderer {
             for (UIComponent child : children) {
                 if (child.getClass().toString().contains("UIBandInfo")) {
                     UIBandInfo bandInfo = (UIBandInfo) child;
-//                    System.out.println("=========  bandInfo id = " + bandInfo.getId());
                     writer.write(separator);
                     writeScriptBandsInfo(context, comp, bandInfo);
                     separator = ",\n";
                 } else if (child.getClass().toString().contains("UIHotZoneBandInfo")) {
                     UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) child;
-//                    System.out.println("=========  HotZonebandInfo id = " + bandInfo.getId());
                     writer.write(separator);
                     writeScriptHotZoneBandsInfo(context, comp, bandInfo, indexBand, zones);
                     separator = ",\n";
@@ -235,14 +257,24 @@ public class TimeLineRenderer extends Renderer {
                 indexBand++;
             }
             writer.write("];\n");
-            
-            //if the timeline have synchronizeBands flag fixed to true then the bands subcomponent will be synchronized with the main band.
+
+            //if the timeline have synchronizeBands flag fixed to true then the bands subcomponent will be synchronized.
             if (comp.isSynchronizeBands()) {
+                //if not dynamic bands then all bannds will be sync with the first band with index 0
                 int i = 0;
                 for (i = 0; i < comp.getChildCount(); i++) {
-                    if (i > 0) {
+                    if (i > 0 && !comp.isDynamicBands()) {
+                        //if not dynamic bands then all bannds will be sync with the first band with index 0
                         writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
                         writer.write("" + idjs + "_bandInfos[" + i + "].highlight = true;\n");
+                    }
+                    if (comp.isDynamicBands() && i != comp.getChildCount() - 1) {
+                        //if there is a dynamicBands then all bands will be sync with the main band component.
+                        int diff = comp.getChildCount() - 1;
+                        if (i > 0) {
+                            diff = i - 1;
+                        }
+                        writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (diff) + ";\n");
                     }
                 }
                 if (comp.getChildCount() > 1) {
@@ -291,7 +323,10 @@ public class TimeLineRenderer extends Renderer {
         UITimeLine comp = (UITimeLine) component;
         Map requestMap = context.getExternalContext().getRequestParameterMap();
 
-        if (FacesUtils.getParentUIModelBase(context, component) != null && (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext)) {
+        //if the dynamicbands property is False the entire timeline is set to one layer. Else each band have its own layer.
+        if (FacesUtils.getParentUIModelBase(context, component) != null &&
+                (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
+                !comp.isDynamicBands()) {
             if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
                     requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
                     ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
@@ -435,8 +470,12 @@ public class TimeLineRenderer extends Renderer {
         // proceed to get the theme property.
         String themeString = "";
         String theme = bandInfo.getTheme();
+        if (theme == null || theme.equals("")) {
+            if (comp.getTheme() != null && !comp.getTheme().equals("")) {
+                theme = comp.getTheme();
+            }
+        }
         if (theme != null) {
-//            System.out.println("========= theme = " + theme);
             themeString = "theme:    Timeline." + theme + ".create(),\n";
         }
 
@@ -538,8 +577,12 @@ public class TimeLineRenderer extends Renderer {
         // proceed to get the theme property.
         String themeString = "";
         String theme = bandInfo.getTheme();
+        if (theme == null || theme.equals("")) {
+            if (comp.getTheme() != null && !comp.getTheme().equals("")) {
+                theme = comp.getTheme();
+            }
+        }
         if (theme != null) {
-//            System.out.println("========= theme = " + theme);
             themeString = "theme:    Timeline." + theme + ".create(),\n";
         }
 
@@ -554,7 +597,13 @@ public class TimeLineRenderer extends Renderer {
             intervalPixelsString = "intervalPixels:    100\n";
         }
 
+        //If the dynamicband property is set to True then we have one eventSource js object per bandInfo, 
+        //else there is only one for the global timeline component.
         String idjs = comp.getJsObject();
+        if (comp.isDynamicBands()) {
+            idjs = bandInfo.getJsObject();
+        }
+
         writer.write("Timeline.createHotZoneBandInfo({\n");
 
         // write the hotZone only on the first HotZoneBandInfo to preseve the performances.
@@ -606,8 +655,7 @@ public class TimeLineRenderer extends Renderer {
      * @param comp
      * @param events
      */
-    private List<Event> writeScriptEvents(FacesContext context, UITimeLine comp, List<Event> events) throws IOException {
-        String idjs = comp.getJsObject();
+    private List<Event> writeScriptEvents(FacesContext context, UITimeLine comp, List<Event> events, String idjs) throws IOException {
         List<Event> erasZones = new ArrayList<Event>();
         ResponseWriter writer = context.getResponseWriter();
 
@@ -616,7 +664,7 @@ public class TimeLineRenderer extends Renderer {
 
                 if (!(event instanceof HighlightDecorator)) {
                     if (event.getDuration() == null) {
-                        addEvent(context, event, comp);
+                        addEvent(context, event, comp, idjs);
                     } else {
                         erasZones.add(event);
                     }
@@ -639,7 +687,7 @@ public class TimeLineRenderer extends Renderer {
      * @param event
      * @throws java.io.IOException
      */
-    private void addEvent(FacesContext context, Event event, UITimeLine comp) throws IOException {
+    private void addEvent(FacesContext context, Event event, UITimeLine comp, String idjs) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String pathUrl = request.getRequestURL().toString();
@@ -733,7 +781,7 @@ public class TimeLineRenderer extends Renderer {
             if (event.getTextColor() != null && (!event.getTextColor().equals(""))) {
                 textColor = "'" + event.getTextColor() + "' \n";
             }
-            String idjs = comp.getJsObject();
+            
             writer.write(idjs + "_eventSource.add(new Timeline.DefaultEventSource.Event(\n");
             writer.write(start +
                     end +

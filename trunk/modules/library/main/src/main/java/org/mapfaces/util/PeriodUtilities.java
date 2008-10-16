@@ -447,52 +447,62 @@ public class PeriodUtilities {
         }
         return time;
     }
-
-    public static void main(String[] args) throws DatatypeConfigurationException, ParseException {
-
-        /*PeriodUtilities pu = new PeriodUtilities(null);
-        long response = pu.getTimeFromDuration("PT1M", new Date());
-        System.out.println(">>>>>>>>>>>>>>>>> response = " + response);
-        
-        
-        String begin = "2003-02-13T12:28:55.456-0800";
-        String end = "2004-02-13T12:28:55.456-0800";
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(PeriodUtilities.getTimeZone(begin)));
-        SortedSet dates = pu.getDatesFromPeriodDescription(begin+"/"+end+"/P1DT23H", dateFormat);
-        System.out.println(">>>>> dates size = " + dates.size());
-        
-        Date d = PeriodUtilities.getDateFromString(begin);
-        System.out.println(">>>>>>>>> begin = "+d.toString());
-        
-        
-        System.out.println(">>>>>>>> long = "+PeriodUtilities.getTimeInMillis("P1MT1M"));
-         */
+    
+    public static Date getFirstDateFromPeriodDescription (String periodDescription) throws ParseException, DatatypeConfigurationException {
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        Date d = new Date();
-        SortedSet dates = PeriodUtilities.getDatesFromPeriodDescription("2007-06-06T10:00:00Z/2007-06-20T10:00:00Z/P1D", dateFormat);
-        System.out.println(">>>>>> " + dateFormat.format(d));
-        System.out.println("dates = " + dates.size());
-        for (Iterator it = dates.iterator(); it.hasNext();) {
-            // System.out.println("ici"+((Date)it).toString());
-            Date crrt = (Date) it.next();
-        /* events.add(new Event((Date)it.next(),
-        (Date)it.next(),
-        null,
-        false,
-        "Developpement of the TimeLine components renderers",
-        "This is the duration of the jsf implementation for the component TimeLine",
-        "http://simile.mit.edu/images/csail-logo.gif",
-        "http://travel.yahoo.com/",
-        "",
-        Priority.NORMAL,
-        "",
-        Status.IN_PROGRESS,
-        "",
-        null));
-        }*/
+        Date result = new Date();
+        SortedSet dates = getDatesFromPeriodDescription(periodDescription, dateFormat);
+        if (dates.first() != null) {
+            return (Date) dates.first();
         }
+        return result;
     }
+
+//    public static void main(String[] args) throws DatatypeConfigurationException, ParseException {
+//
+//        /*PeriodUtilities pu = new PeriodUtilities(null);
+//        long response = pu.getTimeFromDuration("PT1M", new Date());
+//        System.out.println(">>>>>>>>>>>>>>>>> response = " + response);
+//        
+//        String begin = "2003-02-13T12:28:55.456-0800";
+//        String end = "2004-02-13T12:28:55.456-0800";
+//        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+//        SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+//        dateFormat.setTimeZone(TimeZone.getTimeZone(PeriodUtilities.getTimeZone(begin)));
+//        SortedSet dates = pu.getDatesFromPeriodDescription(begin+"/"+end+"/P1DT23H", dateFormat);
+//        System.out.println(">>>>> dates size = " + dates.size());
+//        
+//        Date d = PeriodUtilities.getDateFromString(begin);
+//        System.out.println(">>>>>>>>> begin = "+d.toString());
+//        
+//        
+//        System.out.println(">>>>>>>> long = "+PeriodUtilities.getTimeInMillis("P1MT1M"));
+//         */
+//        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+//        SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+//        Date d = new Date();
+//        SortedSet dates = PeriodUtilities.getDatesFromPeriodDescription("2007-06-06T10:00:00Z/2007-06-20T10:00:00Z/P1D", dateFormat);
+//        System.out.println(">>>>>> " + dateFormat.format(d));
+//        System.out.println("dates = " + dates.size()+"   get(0) = "+dates.first());
+//        for (Iterator it = dates.iterator(); it.hasNext();) {
+//            // System.out.println("ici"+((Date)it).toString());
+//            Date crrt = (Date) it.next();
+//        /* events.add(new Event((Date)it.next(),
+//        (Date)it.next(),
+//        null,
+//        false,
+//        "Developpement of the TimeLine components renderers",
+//        "This is the duration of the jsf implementation for the component TimeLine",
+//        "http://simile.mit.edu/images/csail-logo.gif",
+//        "http://travel.yahoo.com/",
+//        "",
+//        Priority.NORMAL,
+//        "",
+//        Status.IN_PROGRESS,
+//        "",
+//        null));
+//        }*/
+//        }
+//    }
 }
