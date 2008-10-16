@@ -125,10 +125,10 @@ function showInfo(panelId,nodeId){
     thisAnchor = document.getElementById(panelId+"_anchor_info_"+nodeId);
     if (thisDiv.style.display == "none") {
         thisDiv.style.display="block";
-        thisAnchor.style.backgroundPosition = "-15px";
+        thisAnchor.setAttribute("class","x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-minus");
     }
     else {
         thisDiv.style.display="none";
-        thisAnchor.style.backgroundPosition = "0";
+        thisAnchor.setAttribute("class","x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus");
     }
 }

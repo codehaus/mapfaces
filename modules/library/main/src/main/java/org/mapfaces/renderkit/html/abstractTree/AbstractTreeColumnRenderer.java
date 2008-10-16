@@ -71,7 +71,8 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static String CLASS_LEAF_ELBOW = "x-tree-ec-icon x-tree-elbow";
     private static String CLASS_LEAF_ELBOW_END = "x-tree-ec-icon x-tree-elbow-end";
     private static String CLASS_ANCHOR = "x-tree-node-anchor";
-    private static String CLASS_ANCHOR_INFO = "x-tree-ec-icon x-tree-node-info-anchor ";
+    private static String CLASS_ANCHOR_INFO = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus";
+    private static String SHOW_MORE_INFORMATION_TITLE = "Show more informations";
 
     /**
      * This method returns the parent form of this element.
@@ -238,17 +239,21 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             LinkNode.setStyle("position:relative;width:auto;white-space:normal;");
 
             HtmlGraphicImage ImgTreeNodeInfo = new HtmlGraphicImage();
-            List<UIComponent> columns = treeline.getChildren();
+            UIAbstractTreeNodeInfo treenodeInfo;
+            List<UIComponent> components = treeline.getChildren();
             Boolean treenodeinfo = false;
-            for (UIComponent column : columns) {
-                if (column instanceof UIAbstractTreeNodeInfo) {
+            for (UIComponent comp : components) {
+                if (comp instanceof UIAbstractTreeNodeInfo) {
                     treenodeinfo = true;
+                    treenodeInfo = (UIAbstractTreeNodeInfo) comp;
+
                 }
             }
             ImgTreeNodeInfo.setId(treepanel.getId() + "_" + "anchor_info_" + node.getId());
+            ImgTreeNodeInfo.setTitle(SHOW_MORE_INFORMATION_TITLE);
             ImgTreeNodeInfo.setOnclick("showInfo('" + treepanel.getClientId(context) + "','" + node.getId() + "');");
             ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO);
-            ImgTreeNodeInfo.setStyle("margin-left : 5px;");
+            ImgTreeNodeInfo.setStyle("margin-left:5px;");
             ImgTreeNodeInfo.setUrl(NODE_IDENT);
 
             HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();

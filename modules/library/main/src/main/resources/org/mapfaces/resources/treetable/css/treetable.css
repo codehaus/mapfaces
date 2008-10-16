@@ -239,10 +239,27 @@ input.x-tree-node-cb {
     height:15px;
     width:15px;
 }
-
 .x-tree-node-info-anchor{
-    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif);
+background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif);
 }
+
+.x-tree-node-info-anchor-plus{
+    background-position:0px;
+}
+
+.x-tree-node-info-anchor-minus{
+    background-position:-15px;
+}
+
+.x-tree-node-info-anchor-minus:hover{
+    background-position:-48px;
+}
+
+.x-tree-node-info-anchor-plus:hover{
+    background-position:-32px;
+}
+
+
 .x-tree-lines{
     padding:2px;
 }
