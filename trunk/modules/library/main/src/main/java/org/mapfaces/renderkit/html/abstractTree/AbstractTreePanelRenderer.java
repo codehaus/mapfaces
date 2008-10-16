@@ -85,17 +85,17 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         Date phaseStart, phaseEnd;
         Boolean renderHeader, renderFrame, makeCollapsible, loadAll;
         String title, styleUser, styleClass, clientId;
-        
+
         treepanel.setOddEvenCountLine(1);
 
-        
+
         /* Look client Browser */
-        if (servletUtils.isOpera()){
+        if (servletUtils.isOpera()) {
             loadAll = true;
-        }else{
+        } else {
             loadAll = treepanel.isLoadAll();
         }
-        
+
         /* Initialisation */
         clientId = component.getClientId(context);
         renderHeader = treepanel.isHeader();
@@ -634,6 +634,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         if (component.getAttributes().get("icon") != null) {
             writer.startElement("img", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, (String) component.getAttributes().get("icon"), null), null);
+            if (component.getAttributes().get("header") != null) {
+                writer.writeAttribute("title", (String) component.getAttributes().get("header"), null);
+            }
             writer.endElement("img");
         } else if (component.getAttributes().get("header") != null) {
             writer.write((String) component.getAttributes().get("header"));
