@@ -14,12 +14,28 @@ try{
  * Add Events
  */
 
-
-
 /* Fonctions*/
 /**
  *
  */
+
+var dispEffectNone = function(div){
+	div.setStyles({
+		display:'block',
+		opacity: 0
+	});
+	div.tween('opacity',1);
+};
+
+var dispEffectBlock = function(div){
+	div.setStyles({
+		display:'none',
+		opacity: 1
+	});
+	div.tween('opacity',0);
+};
+
+
 function disp(formId, panelId, nodeId){
     var lineUl = document.getElementById("ul:"+panelId+":"+nodeId);
     var lineSymbol = document.getElementById(panelId+"_symbol_"+nodeId);
@@ -27,7 +43,7 @@ function disp(formId, panelId, nodeId){
             
     if (lineUl.childNodes.length > 0){
         if (lineUl.style.display == "none"){
-            lineUl.tween('display','block');
+            dispEffectNone(lineUl);
             if (lineSymbol) {
                 lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
             }
@@ -37,7 +53,7 @@ function disp(formId, panelId, nodeId){
             
         }
         else  {
-            lineUl.tween('display','none');
+            dispEffectBlock(lineUl);
             if (lineSymbol) {
                 lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
             }
@@ -101,5 +117,18 @@ function collAll(panelId){
                 }
             }
         }
+    }
+}
+
+function showInfo(panelId,nodeId){
+    thisDiv = document.getElementById("info:"+panelId+":"+nodeId);
+    thisAnchor = document.getElementById(panelId+"_anchor_info_"+nodeId);
+    if (thisDiv.style.display == "none") {
+        thisDiv.style.display="block";
+        thisAnchor.style.backgroundPosition = "-15px";
+    }
+    else {
+        thisDiv.style.display="none";
+        thisAnchor.style.backgroundPosition = "0";
     }
 }

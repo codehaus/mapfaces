@@ -136,7 +136,7 @@ function collapse(panelId){
  */
 function showMore(div_id){
     thisDiv = document.getElementById("info:"+div_id);
-    thisAnchor = document.getElementById("anchor:info:"+div_id);
+    thisAnchor = document.getElementById("anchor_info_"+div_id);
     if (thisDiv.style.display == "none") {
         thisDiv.style.display="block";
         thisAnchor.style.backgroundPosition = "50px";
