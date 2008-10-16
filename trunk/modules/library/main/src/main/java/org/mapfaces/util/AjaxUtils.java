@@ -87,7 +87,7 @@ public class AjaxUtils {
      * @param params
      * @return
      */
-    public String getAjaxParameters(){
+    public synchronized String getAjaxParameters(){
         String AjaxParameters = "";
         if (AjaxParam != null){
             for (String parameter : AjaxParam){
@@ -102,7 +102,7 @@ public class AjaxUtils {
      * @param key
      * @param value
      */
-    public void addAjaxParameter(String key, String value){
+    public synchronized void addAjaxParameter(String key, String value){
         AjaxParam.add(key+"="+value);
     }
     
