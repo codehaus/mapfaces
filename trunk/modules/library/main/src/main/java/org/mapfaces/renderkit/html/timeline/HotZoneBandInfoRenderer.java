@@ -243,7 +243,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     "var size = " + idjs + "_bandInfos[bandId].etherPainter._zones.length;\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n" +
-                    centerdateScript +
+//                    centerdateScript +
                     idjs + "_eventSource._fire(\"onAddMany\", []);\n" +
                     idjs + "_tl.getBand(bandId).layout();\n" +
                     idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +

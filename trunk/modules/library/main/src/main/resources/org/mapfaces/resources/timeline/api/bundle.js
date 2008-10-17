@@ -3725,7 +3725,7 @@ appendIcon(evt,div);
 }
 //Geomatys Mapfaces//
 if(div.style.cursor=="pointer"){
-  div.style.top="4em"; //streamOffset;
+  div.style.top="50%"; //streamOffset;
 }else{
     div.style.top=streamOffset;
 }

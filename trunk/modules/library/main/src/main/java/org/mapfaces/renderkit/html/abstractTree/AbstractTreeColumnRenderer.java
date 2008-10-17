@@ -129,7 +129,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (debug) {
             log.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
         }
-        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        String treepanelId = Utils.getWrappedComponentId(context, component, UIAbstractTreePanel.class);
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
         ResponseWriter writer = context.getResponseWriter();
         UIAbstractTreeColumn treecolumn = (UIAbstractTreeColumn) component;
@@ -270,7 +270,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             AjaxSupport.setEvent("onclick");
             AjaxSupport.setAjaxSingle(true);
             AjaxSupport.setLimitToList(true);
-            String formId = Utils.getWrappedComponent(context, component, UIForm.class);
+            String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
             AjaxSupport.setOnsubmit("if(disp('" + formId + "'," +
                     "'" + treepanelId + "'," +
                     "'" + node.getId() + "')==false){return false;}");

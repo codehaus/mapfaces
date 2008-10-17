@@ -48,6 +48,7 @@ public class UIHotZoneBandInfo extends UICommand {
     private List<Zone> zones;
     private boolean sliderInput;
     private Layer layer;
+    private List<Event> events;
     
     /**
      * Name of the js object wher the timeline is defined
@@ -244,7 +245,7 @@ public class UIHotZoneBandInfo extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[17];
+        Object values[] = new Object[18];
         values[0] = super.saveState(context);
         values[1] = date;
         values[2] = eventSource;
@@ -261,6 +262,7 @@ public class UIHotZoneBandInfo extends UICommand {
         values[13] = zones;
         values[14] = sliderInput;
         values[15] = layer;
+        values[16] = events;
         return values;
     }
 
@@ -283,6 +285,7 @@ public class UIHotZoneBandInfo extends UICommand {
         zones = (List<Zone>) values[13];
         sliderInput = (Boolean) values[14];
         layer = (Layer) values[15];
+        events = (List<Event>) values[16];
     }
 
     public boolean isSliderInput() {
@@ -299,5 +302,13 @@ public class UIHotZoneBandInfo extends UICommand {
 
     public void setLayer(Layer layer) {
         this.layer = layer;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

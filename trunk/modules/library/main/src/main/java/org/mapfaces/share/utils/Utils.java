@@ -180,7 +180,7 @@ public class Utils {
      * @param c
      * @return
      */
-    public static String getWrappedComponent(FacesContext faceContext, UIComponent component, Class c) {
+    public static String getWrappedComponentId(FacesContext faceContext, UIComponent component, Class c) {
         UIComponent parent = component;
         while (!(c.isInstance(parent))) {
             parent = parent.getParent();
