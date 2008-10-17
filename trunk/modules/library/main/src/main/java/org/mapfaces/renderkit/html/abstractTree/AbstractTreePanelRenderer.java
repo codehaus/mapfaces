@@ -201,28 +201,28 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 writer.writeAttribute("id", "panel_toolbar:" + clientId, null);
                 writer.writeAttribute("class", "x-toolbar", null);
 
-                writer.startElement("div", component);
-                writer.startElement("tr", component);
-                writer.startElement("td", component);
-                writer.startElement("a", component);
-                writer.writeAttribute("id", "panel_anchor:" + clientId + ":expand", null);
-                writer.writeAttribute("class", "x-btn", null);
-                writer.writeAttribute("onclick", "expAll(this)", null);
-                writer.write(EXPAND_TEXT);
-                writer.endElement("a");
-                writer.endElement("td");
-                writer.write("/");
-                writer.startElement("td", component);
-                writer.startElement("a", component);
-                writer.writeAttribute("id", "panel_anchor:" + clientId + ":collapse", null);
-                writer.writeAttribute("class", "x-btn", null);
-                writer.writeAttribute("onclick", "collAll(this)", null);
-                writer.write(COLLAPSE_TEXT);
-                writer.endElement("a");
-                writer.endElement("td");
-                writer.endElement("tr");
-                writer.endElement("div");
-                writer.endElement("div");
+//                writer.startElement("div", component);
+//                writer.startElement("tr", component);
+//                writer.startElement("td", component);
+//                writer.startElement("a", component);
+//                writer.writeAttribute("id", "panel_anchor:" + clientId + ":expand", null);
+//                writer.writeAttribute("class", "x-btn", null);
+//                writer.writeAttribute("onclick", "expAll(this)", null);
+//                writer.write(EXPAND_TEXT);
+//                writer.endElement("a");
+//                writer.endElement("td");
+//                writer.write("/");
+//                writer.startElement("td", component);
+//                writer.startElement("a", component);
+//                writer.writeAttribute("id", "panel_anchor:" + clientId + ":collapse", null);
+//                writer.writeAttribute("class", "x-btn", null);
+//                writer.writeAttribute("onclick", "collAll(this)", null);
+//                writer.write(COLLAPSE_TEXT);
+//                writer.endElement("a");
+//                writer.endElement("td");
+//                writer.endElement("tr");
+//                writer.endElement("div");
+//                writer.endElement("div");
             }
 
             //DIV Content
@@ -568,12 +568,8 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         List<UIComponent> components = component.getChildren();
         for (UIComponent child : components) {
             id++;
-            if (!(child instanceof UIAbstractTreeLines)) {
-                if (!(child instanceof UIAbstractTreeNodeInfo)) {
-                    if (!(child.getId().contains(component.getId()))) {
+            if ((child instanceof UIAbstractTreeColumn)||(child instanceof UIAbstractColumn)) {
                         renderHeaders(context, child, id);
-                    }
-                }
             }
         }
 
@@ -596,11 +592,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
          * we get it and we apply it
          */
         String styleHeader = "";
-        if (component instanceof UIAbstractTreeColumn) {
-            if (((UIAbstractTreeColumn) component).getStyleHeader() != null) {
-                styleHeader = ((UIAbstractTreeColumn) component).getStyleHeader();
-            }
-        } else if (component instanceof UIAbstractColumn) {
+        if (component instanceof UIAbstractColumn) {
             if (((UIAbstractColumn) component).getStyleHeader() != null) {
                 styleHeader = ((UIAbstractColumn) component).getStyleHeader();
             }
@@ -631,15 +623,15 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         writer.startElement("center", component);
 
         /* If an icon is declared, we put in priority the icon, else we put the text header */
-        if (component.getAttributes().get("icon") != null) {
+        if (component.getAttributes().get("headerIcon") != null) {
             writer.startElement("img", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, (String) component.getAttributes().get("icon"), null), null);
-            if (component.getAttributes().get("header") != null) {
-                writer.writeAttribute("title", (String) component.getAttributes().get("header"), null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, (String) component.getAttributes().get("headerIcon"), null), null);
+            if (component.getAttributes().get("headerTitle") != null) {
+                writer.writeAttribute("title", (String) component.getAttributes().get("headerTitle"), null);
             }
             writer.endElement("img");
-        } else if (component.getAttributes().get("header") != null) {
-            writer.write((String) component.getAttributes().get("header"));
+        } else if (component.getAttributes().get("headerTitle") != null) {
+            writer.write((String) component.getAttributes().get("headerTitle"));
         }
         writer.endElement("center");
         writer.endElement("div");

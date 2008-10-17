@@ -43,11 +43,11 @@ public class UIImgColumn extends UIAbstractColumn {
         return RENDERER_TYPE;
     }
 
-    public String getIcon() {
+    public String getHeaderIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setHeaderIcon(String icon) {
         this.icon = icon;
     }
     // =========== FONCTIONS ======================================== //
@@ -89,11 +89,11 @@ public class UIImgColumn extends UIAbstractColumn {
         this.alt = alt;
     }
 
-    public String getTitle() {
+    public String getHeaderTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setHeaderTitle(String title) {
         this.title = title;
     }
 }

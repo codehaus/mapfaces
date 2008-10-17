@@ -28,16 +28,16 @@ import javax.faces.context.FacesContext;
 public abstract class UIAbstractTreeNodeInfo extends UITreeBase implements Cloneable {
 
     // =========== ATTRIBUTES ================================================== //
-    private String header;
+    private String title;
     private String hide;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
-    public String getHeader() {
-        return header;
+    public String getTitle() {
+        return title;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getHide() {
@@ -53,7 +53,7 @@ public abstract class UIAbstractTreeNodeInfo extends UITreeBase implements Clone
     public Object saveState(FacesContext context) {
         Object values[] = new Object[3];
         values[0] = super.saveState(context);
-        values[1] = getHeader();
+        values[1] = getTitle();
         values[2] = getHide();
         return values;
     }
@@ -62,7 +62,7 @@ public abstract class UIAbstractTreeNodeInfo extends UITreeBase implements Clone
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        setHeader((String) values[1]);
+        setTitle((String) values[1]);
         setHide((String) values[2]);
     }
 

@@ -239,18 +239,26 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             LinkNode.setStyle("position:relative;width:auto;white-space:normal;");
 
             HtmlGraphicImage ImgTreeNodeInfo = new HtmlGraphicImage();
-            UIAbstractTreeNodeInfo treenodeInfo;
+            UIAbstractTreeNodeInfo treenodeInfoComp = null;
             List<UIComponent> components = treeline.getChildren();
             Boolean treenodeinfo = false;
             for (UIComponent comp : components) {
                 if (comp instanceof UIAbstractTreeNodeInfo) {
                     treenodeinfo = true;
-                    treenodeInfo = (UIAbstractTreeNodeInfo) comp;
+                    treenodeInfoComp = (UIAbstractTreeNodeInfo) comp;
 
                 }
             }
-            ImgTreeNodeInfo.setId(treepanel.getId() + "_" + "anchor_info_" + node.getId());
-            ImgTreeNodeInfo.setTitle(SHOW_MORE_INFORMATION_TITLE);
+            ImgTreeNodeInfo.setId(treepanel.getId() + "_anchor_info_" + node.getId());
+            if (treenodeinfo) {
+                if (treenodeInfoComp.getTitle() != null) {
+                    ImgTreeNodeInfo.setTitle(treenodeInfoComp.getTitle());
+                }
+                else {
+                    ImgTreeNodeInfo.setTitle(SHOW_MORE_INFORMATION_TITLE);
+                }
+            }
+
             ImgTreeNodeInfo.setOnclick("showInfo('" + treepanel.getClientId(context) + "','" + node.getId() + "');");
             ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO);
             ImgTreeNodeInfo.setStyle("margin-left:5px;");

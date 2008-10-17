@@ -27,26 +27,26 @@ import org.mapfaces.taglib.abstractTree.UITreeComponentELTag;
 public abstract class UIColumnELTag extends UITreeComponentELTag {
 
     /* Fields */
-    private ValueExpression header = null;
+    private ValueExpression headerTitle = null;
+    private ValueExpression headerIcon = null;
     private ValueExpression width = null;
-    private ValueExpression icon = null;
     private ValueExpression styleHeader = null;
 
     /* Accessors */
     /**
-     * Accessor for header
-     * @return the header title
+     * Accessor for title
+     * @return the title value
      */
-    public ValueExpression getHeader() {
-        return header;
+    public ValueExpression getHeaderTitle() {
+        return headerTitle;
     }
 
     /**
-     * Mutator for header
-     * @param header New value for header
+     * Mutator for title
+     * @param title New value for title
      */
-    public void setHeader(ValueExpression header) {
-        this.header = header;
+    public void setHeaderTitle(ValueExpression title) {
+        this.headerTitle = title;
     }
 
     /**
@@ -69,16 +69,16 @@ public abstract class UIColumnELTag extends UITreeComponentELTag {
      * Accessor for icon
      * @return the icon href
      */
-    public ValueExpression getIcon() {
-        return icon;
+    public ValueExpression getHeaderIcon() {
+        return headerIcon;
     }
 
     /**
      * Mutator for icon
      * @param icon New value for icon href
      */
-    public void setIcon(ValueExpression icon) {
-        this.icon = icon;
+    public void setHeaderIcon(ValueExpression icon) {
+        this.headerIcon = icon;
     }
 
     /**
@@ -105,9 +105,9 @@ public abstract class UIColumnELTag extends UITreeComponentELTag {
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        component.setValueExpression("header", getHeader());
+        component.setValueExpression("headerTitle", getHeaderTitle());
         component.setValueExpression("width", getWidth());
-        component.setValueExpression("icon", getIcon());
+        component.setValueExpression("headerIcon", getHeaderIcon());
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("style", getStyle());
         component.setValueExpression("styleClass", getStyleClass());
@@ -120,9 +120,9 @@ public abstract class UIColumnELTag extends UITreeComponentELTag {
     @Override
     public void release() {
         super.release();
-        setHeader(null);
+        setHeaderTitle(null);
         setWidth(null);
-        setIcon(null);
+        setHeaderIcon(null);
         setDebug(null);
         setStyle(null);
         setStyleClass(null);

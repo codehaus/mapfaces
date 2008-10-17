@@ -114,9 +114,9 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         tc.setValue("#{layer.title}");
 
         if (headerTreeColumn == null || headerTreeColumn.equals("")) {
-            tc.setHeader("Layers grouped");
+            tc.setHeaderTitle("Layers grouped");
         } else {
-            tc.setHeader(headerTreeColumn);
+            tc.setHeaderTitle(headerTreeColumn);
         }
         if (widthTreeColumn == null || widthTreeColumn.equals("")) {
             tc.setWidth("200");
@@ -138,7 +138,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         UIVisibilityColumn vc = new UIVisibilityColumn();
         vc.setId(component.getId() + "Visible");
         vc.setValue("#{!layer.hidden}");
-        vc.setIcon("/org/mapfaces/resources/img/eye.png");
+        vc.setHeaderIcon("/org/mapfaces/resources/img/eye.png");
         if (widthVisibilityColumn == null || widthVisibilityColumn.equals("")) {
             vc.setWidth("26");
         } else {
@@ -148,7 +148,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         UIOpacityColumn oc = new UIOpacityColumn();
         oc.setId(component.getId() + "Opacity");
         oc.setValue("#{layer.opacity}");
-        oc.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
+        oc.setHeaderIcon("/org/mapfaces/resources/img/weather_cloudy.png");
         if (widthOpacityColumn == null || widthOpacityColumn.equals("")) {
             oc.setWidth("70");
         } else {
@@ -159,7 +159,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         if ( ! hideElevationColumn ) {
             ec.setId(component.getId() + "Elevation");
             ec.setValue("#{layer.userValueElevation}");
-            ec.setIcon("/org/mapfaces/resources/img/weather_cloudy.png");
+            ec.setHeaderIcon("/org/mapfaces/resources/img/weather_cloudy.png");
             if (widthElevationColumn == null || widthElevationColumn.equals("")) {
                 ec.setWidth("100");
             } else {
@@ -170,7 +170,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         UITimeColumn tic = new UITimeColumn();
         tic.setId(component.getId() + "Time");
         // tic.setValue("#{layer.userValueDate}");
-        tic.setIcon("/org/mapfaces/resources/img/calendar_select.png");
+        tic.setHeaderIcon("/org/mapfaces/resources/img/calendar_select.png");
         if (widthTimeColumn == null || widthTimeColumn.equals("")) {
             tic.setWidth("28");
         } else {
@@ -178,7 +178,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         }
 
         UITreeNodeInfo tni = new UITreeNodeInfo();
-        tni.setHeader("Info");
+        tni.setTitle("Info");
         tni.setStyle("border:none;");
         UIOutput o4 = new UIOutput();
         o4.setValue("Id : #{layer.id}");
