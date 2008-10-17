@@ -359,7 +359,7 @@ public class OWCv030toMFTransformer {
 
                 //From the getCapabilities we can see if the layer is a postgis type by the keyword "Vector datas".
                 boolean postgisflag = false;
-                if (layer != null && FacesUtils.matchesKeywordfromList(layer.getKeywordList().getKeyword(), "Vector datas")) {
+                if (layer != null && layer.getKeywordList() != null && FacesUtils.matchesKeywordfromList(layer.getKeywordList().getKeyword(), "Vector datas")) {
                     postgisflag = true;
                     System.out.println("[" + layerType.getName() + "] postgis layer detected ! ");
                 }

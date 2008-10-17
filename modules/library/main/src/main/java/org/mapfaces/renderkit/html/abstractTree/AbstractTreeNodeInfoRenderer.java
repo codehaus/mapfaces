@@ -101,7 +101,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
         UIAbstractTreeLines treeline = (UIAbstractTreeLines) treenodeinfo.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
         ResponseWriter writer = context.getResponseWriter();
-        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        String treepanelId = Utils.getWrappedComponentId(context, component, UIAbstractTreePanel.class);
 
         UIAbstractTreePanel treetable = getForm(treenodeinfo);
         String styleUser = "";

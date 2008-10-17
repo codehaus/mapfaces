@@ -453,7 +453,7 @@ public class PeriodUtilities {
         SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
         Date result = new Date();
         SortedSet dates = getDatesFromPeriodDescription(periodDescription, dateFormat);
-        if (dates.first() != null) {
+        if (dates != null && dates.first() != null) {
             return (Date) dates.first();
         }
         return result;

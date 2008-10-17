@@ -264,7 +264,7 @@ public class TimeLineRenderer extends Renderer {
                 int i = 0;
                 for (i = 0; i < comp.getChildCount(); i++) {
                     if (i > 0 && !comp.isDynamicBands()) {
-                        //if not dynamic bands then all bannds will be sync with the first band with index 0
+                        //if not dynamic bands then all bands will be sync with the first band with index 0
                         writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
                         writer.write("" + idjs + "_bandInfos[" + i + "].highlight = true;\n");
                     }
@@ -274,7 +274,7 @@ public class TimeLineRenderer extends Renderer {
                         if (i > 0) {
                             diff = i - 1;
                         }
-                        writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (diff) + ";\n");
+                        writer.write( idjs + "_bandInfos[" + i + "].syncWith = " + (diff) + ";\n");
                     }
                 }
                 if (comp.getChildCount() > 1) {
@@ -887,7 +887,7 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-
+        
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
         if (!singleFile) {
             writer.startElement("script", component);

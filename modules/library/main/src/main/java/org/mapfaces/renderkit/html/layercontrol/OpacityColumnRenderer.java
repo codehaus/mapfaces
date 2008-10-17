@@ -110,7 +110,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
         Layer useExtend;
         String nodeId = String.valueOf(treelines.getNodeInstance().getId());
 
-        String TreeTableId = Utils.getWrappedComponent(context, comp, UITreeTable.class);
+        String TreeTableId = Utils.getWrappedComponentId(context, comp, UITreeTable.class);
         UITreeTable TreeTable = (UITreeTable) Utils.findComponent(context, TreeTableId);
         Object item = TreeTable.getTree().getById(Integer.valueOf(nodeId)).getUserObject();
 

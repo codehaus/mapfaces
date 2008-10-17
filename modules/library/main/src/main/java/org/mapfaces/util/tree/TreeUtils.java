@@ -64,7 +64,7 @@ public class TreeUtils {
     private static UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent news = component.getClass().newInstance();
-        String treepanelId = Utils.getWrappedComponent(context, component, UIAbstractTreePanel.class);
+        String treepanelId = Utils.getWrappedComponentId(context, component, UIAbstractTreePanel.class);
         UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
 
         //Copy specific attributes from component to news
