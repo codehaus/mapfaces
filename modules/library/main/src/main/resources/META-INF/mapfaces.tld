@@ -4205,7 +4205,16 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>header</name>
+            <name>headerTitle</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerIcon</name>
             <description/>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
@@ -4283,22 +4292,26 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-        <attribute>
-            <name>header</name>
+         <attribute>
+            <name>headerTitle</name>
+            <description/>
             <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerIcon</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
         <attribute>
             <name>width</name>
-            <required>false</required>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
-            <name>icon</name>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -4360,7 +4373,7 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>header</name>
+            <name>title</name>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -4662,7 +4675,16 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>header</name>
+            <name>headerTitle</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerIcon</name>
             <description/>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
@@ -4740,16 +4762,20 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-        <attribute>
-            <name>header</name>
+         <attribute>
+            <name>headerTitle</name>
+            <description/>
             <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
         <attribute>
-            <name>icon</name>
+            <name>headerIcon</name>
+            <description/>
             <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
@@ -4815,16 +4841,20 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-        <attribute>
-            <name>header</name>
+         <attribute>
+            <name>headerTitle</name>
+            <description/>
             <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
         <attribute>
-            <name>icon</name>
+            <name>headerIcon</name>
+            <description/>
             <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
@@ -4892,7 +4922,7 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>header</name>
+            <name>title</name>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>

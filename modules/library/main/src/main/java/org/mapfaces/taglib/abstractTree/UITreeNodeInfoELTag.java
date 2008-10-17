@@ -22,7 +22,7 @@ import javax.faces.component.UIComponent;
 /**
  * <p>UITreeNodeInfoELTag is the base class for all JSP tags that correspond to a Tree Node Info Component instance in the view.</p>
  * <p> Attributes are :<ul>
- * <li>header</li>
+ * <li>headerTitle</li>
  * <li>hide</li>
  * </ul>
  * @author kdelfour
@@ -30,7 +30,7 @@ import javax.faces.component.UIComponent;
 public abstract class UITreeNodeInfoELTag extends UITreeComponentELTag {
 
     /* Fields */
-    private ValueExpression header = null;
+    private ValueExpression title = null;
     private ValueExpression hide = null;
 
     /* Abstracts methods*/
@@ -61,7 +61,7 @@ public abstract class UITreeNodeInfoELTag extends UITreeComponentELTag {
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        component.setValueExpression("header", getHeader());
+        component.setValueExpression("title", getTitle());
         component.setValueExpression("hide", getHide());
     }
 
@@ -71,25 +71,25 @@ public abstract class UITreeNodeInfoELTag extends UITreeComponentELTag {
     @Override
     public void release() {
         super.release();
-        setHeader(null);
+        setTitle(null);
         setHide(null);
     }
 
     /* Accessors */
     /**
-     * Accessor for header.
-     * @return header value
+     * Accessor for title.
+     * @return title value
      */
-    public ValueExpression getHeader() {
-        return header;
+    public ValueExpression getTitle() {
+        return title;
     }
 
     /**
-     * Mutator for header.
-     * @param header New value for header.
+     * Mutator for title.
+     * @param title New value for title.
      */
-    public void setHeader(ValueExpression header) {
-        this.header = header;
+    public void setTitle(ValueExpression title) {
+        this.title = title;
     }
 
     /**

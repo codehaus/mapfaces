@@ -61,11 +61,11 @@ public class UIOpacityColumn extends UISelectOneMenuColumn {
 
     
 
-    public String getTitle() {
+    public String getHeaderTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setHeaderTitle(String title) {
         this.title = title;
     }
 

@@ -47,7 +47,7 @@ public class ImgColumnRenderer extends AbstractColumnRenderer {
          */
         //System.out.println(ResourcePhaseListener.getURL(context,comp.getImg(), null));
         img.setUrl(comp.getImg());
-        img.setTitle(comp.getTitle());
+        img.setTitle(comp.getHeaderTitle());
         //img.setStyle("cursor:pointer;position: absolute; margin-left:-13px;left: 50%; margin-top: -13px; top: 50%; ");
         img.setStyle("cursor:pointer;");
         comp.getChildren().add(img);

@@ -40,7 +40,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         UITimeColumn comp = (UITimeColumn) component;
-        comp.setTitle("Display or hide temporal information in the timeline.");
+        comp.setHeaderTitle("Display or hide temporal information in the timeline.");
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
             super.encodeBegin(context, component);
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,

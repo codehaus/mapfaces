@@ -26,38 +26,13 @@ import javax.faces.context.FacesContext;
  *
  * @author kevindelfour
  */
-public abstract class UIAbstractTreeColumn extends UITreeBase implements AjaxInterface, Cloneable {
+public abstract class UIAbstractTreeColumn extends UIAbstractColumn implements AjaxInterface, Cloneable {
 
-    // =========== ATTRIBUTES ================================================== //
-    private String header;
-    private String width;
+    // =========== ATTRIBUTES ================================================== // 
     private boolean alreadyRender = false;
-    private String styleHeader;
-
+    
     // =========== ATTRIBUTES ACCESSORS ======================================== //
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getWidth() {
-        return width;
-    }
-
-    public void setWidth(String width) {
-        this.width = width;
-    }
-
-    public String getStyleHeader() {
-        return styleHeader;
-    }
-
-    public void setStyleHeader(String styleHeader) {
-        this.styleHeader = styleHeader;
-    }
+    
     // =========== FONCTIONS ======================================== //
     public boolean isAlreadyRender() {
         return alreadyRender;
@@ -70,12 +45,9 @@ public abstract class UIAbstractTreeColumn extends UITreeBase implements AjaxInt
     //Override methods
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[5];
+        Object values[] = new Object[2];
         values[0] = super.saveState(context);
         values[1] = isAlreadyRender();
-        values[2] = getHeader();
-        values[3] = getWidth();
-        values[4] = getStyleHeader();
         return values;
     }
 
@@ -84,9 +56,6 @@ public abstract class UIAbstractTreeColumn extends UITreeBase implements AjaxInt
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         alreadyRender = (Boolean) values[1];
-        header = ((String) values[2]);
-        width = ((String) values[3]);
-        styleHeader = ((String)values[4]);
     }
 
     @Override

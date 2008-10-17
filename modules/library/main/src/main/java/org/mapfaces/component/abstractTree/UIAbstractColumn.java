@@ -25,18 +25,18 @@ import javax.faces.context.FacesContext;
 public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterface, Cloneable {
 
     // =========== ATTRIBUTES ================================================== //
-    private String header;
+    private String headerTitle;
+    private String headerIcon;
     private String width;
-    private String icon;
     private String styleHeader;
 
     // =========== ATTRIBUTES ACCESSORS ======================================== //
-    public String getHeader() {
-        return header;
+    public String getHeaderTitle() {
+        return headerTitle;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setHeaderTitle(String title) {
+        this.headerTitle = title;
     }
 
     public String getWidth() {
@@ -47,12 +47,12 @@ public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterfa
         this.width = width;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getHeaderIcon() {
+        return headerIcon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setHeaderIcon(String icon) {
+        this.headerIcon = icon;
     }
 
     public String getStyleHeader() {
@@ -69,9 +69,9 @@ public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterfa
     public Object saveState(FacesContext context) {
         Object values[] = new Object[5];
         values[0] = super.saveState(context);
-        values[1] = getHeader();
+        values[1] = getHeaderTitle();
         values[2] = getWidth();
-        values[3] = getIcon();
+        values[3] = getHeaderIcon();
         values[4] = getStyleHeader();
         return values;
     }
@@ -80,9 +80,9 @@ public abstract class UIAbstractColumn extends UITreeBase implements AjaxInterfa
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        setHeader((String) values[1]);
+        setHeaderTitle((String) values[1]);
         setWidth((String) values[2]);
-        setIcon((String) values[3]);
+        setHeaderIcon((String) values[3]);
         setStyleHeader((String) values[4]);
     }
 
