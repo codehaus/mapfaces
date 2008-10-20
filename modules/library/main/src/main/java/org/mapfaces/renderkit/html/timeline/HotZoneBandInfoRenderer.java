@@ -114,7 +114,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
         UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
 
         if (parentTimeline.isDynamicBands()) {
-
+            //writing js code for this component events list.
             writer.startElement("script", comp);
             writer.writeAttribute("type", "text/javascript", "text/javascript");
             writer.write("var " + idjs + "_eventSource = new Timeline.DefaultEventSource();\n");
@@ -144,10 +144,8 @@ public class HotZoneBandInfoRenderer extends Renderer {
         UIHotZoneBandInfo comp = (UIHotZoneBandInfo) component;
         UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
         Layer attachedLayer = comp.getLayer();
-        
-        Date centerDate;
         Map requestMap = context.getExternalContext().getRequestParameterMap();
-
+        
         //if the dynamicbands property is True then each bandInfo component have its own layer.
         if (FacesUtils.getParentUIModelBase(context, component) != null &&
                 (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
@@ -156,20 +154,21 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
                     ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
                 
+                //getting the layer id from a requestMap to identify if it is the layer attached to this component.
                 String ajaxlayerId = (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID");
                 if (ajaxlayerId != null) {
                     ajaxlayerId = ajaxlayerId.substring(ajaxlayerId.indexOf(":")+1);
                 }
                 
-                if (attachedLayer != null && ajaxlayerId.equals(attachedLayer.getId())) {
-
+                //if the layer id correspond to this component layer then proceed to refresh the bandInfo comp.
+                if (attachedLayer != null && ajaxlayerId.equals(attachedLayer.getId()) && comp.isRendered()) {
                     try {
                         UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
                         Layer layer = uiLayer.getLayer();
                         List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                        centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                        Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
                         comp.setValue(layerEvents);
-                        System.out.println("[HotZoneBandInfo decode] centerDate = " + centerDate + "   events size = " + layerEvents.size());
+                        comp.setCenterDate(centerDate);
                     } catch (ParseException ex) {
                         Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (DatatypeConfigurationException ex) {
