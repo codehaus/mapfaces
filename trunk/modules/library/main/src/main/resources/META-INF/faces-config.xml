@@ -269,6 +269,12 @@
             <renderer-type>org.mapfaces.renderkit.Timeline.HTMLHotZoneBandInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.timeline.HotZoneBandInfoRenderer</renderer-class>
         </renderer>
+        <renderer>
+            <description>SliderInput a component slider input to change the interval unit of a band info component</description>
+            <component-family>org.mapfaces.component.TimeLine.SliderInput</component-family>
+            <renderer-type>org.mapfaces.renderkit.TimeLine.HTMLSliderInput</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.timeline.SliderInputRenderer</renderer-class>
+        </renderer>
         
          <!-- Tabbedpane Renderers -->
         <renderer>

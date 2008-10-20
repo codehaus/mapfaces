@@ -149,7 +149,7 @@ public class TimeLineRenderer extends Renderer {
                             bandinfo.setLayer(layer);                            
                             bandinfo.setId(comp.getId() + "_band" + i);
                             bandinfo.setWidth(proportinalwidth);
-                            bandinfo.setSliderInput(false);
+                            bandinfo.setSliderInput(true);
                             bandinfo.setInputInterval(true);
                             bandinfo.setShowEventText(true);
                             bandinfo.setIntervalPixels(80);
@@ -346,9 +346,7 @@ public class TimeLineRenderer extends Renderer {
                             bandinfo.setLayer(layer);
                         }
                     }
-                    
                     comp.setValue(layerEvents);
-                    System.out.println("[Timeline decode] centerDate = " + centerDate + "   events size = " + layerEvents.size());
                 } catch (ParseException ex) {
                     Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (DatatypeConfigurationException ex) {
@@ -376,9 +374,6 @@ public class TimeLineRenderer extends Renderer {
         }
         List<UIComponent> children = component.getChildren();
         for (UIComponent tmp : children) {
-//            if (tmp instanceof UIHotZoneBandInfo) {
-//                ((UIHotZoneBandInfo) tmp).setDate(centerDate);
-//            }
             FacesUtils.encodeRecursive(context, tmp);
         }
     }
@@ -424,7 +419,6 @@ public class TimeLineRenderer extends Renderer {
         String timeZoneString = "";
         Integer timeZone = bandInfo.getTimeZone();
         if (timeZone != null) {
-//            System.out.println("========= timeZone = " + timeZone);
             timeZoneString = "timeZone:    " + timeZone + ",\n";
         }
 
@@ -432,7 +426,6 @@ public class TimeLineRenderer extends Renderer {
         String dateString = "";
         Date date = bandInfo.getDate();
         if (date != null) {
-//            System.out.println("========= date = " + date);
             dateString = "date: \"" + sdf.format(date) + "\",\n";
         }
 
@@ -440,7 +433,6 @@ public class TimeLineRenderer extends Renderer {
         String showEventTextString = "";
         boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
         if (!showEventText) {
-//            System.out.println("========= showEventText = " + showEventText);
             showEventTextString = "showEventText:  " + showEventText + ",\n";
         }
 
@@ -448,7 +440,6 @@ public class TimeLineRenderer extends Renderer {
         String trackHeightString = "";
         Double trackHeight = bandInfo.getTrackHeight();
         if (trackHeight != null) {
-//            System.out.println("========= trackHeight = " + trackHeight);
             trackHeightString = "trackHeight:    " + trackHeight + ",\n";
         }
 
@@ -456,7 +447,6 @@ public class TimeLineRenderer extends Renderer {
         String trackGapString = "";
         Double trackGap = bandInfo.getTrackGap();
         if (trackGap != null) {
-//            System.out.println("========= trackGap = " + trackGap);
             trackGapString = "trackGap:    " + trackGap + ",\n";
         }
 
@@ -464,7 +454,6 @@ public class TimeLineRenderer extends Renderer {
         String widthString = "";
         Integer width = bandInfo.getWidth();
         if (width != null) {
-//            System.out.println("========= width = " + width);
             widthString = "width:    \"" + width + "%\",\n";
         }
 
@@ -472,7 +461,6 @@ public class TimeLineRenderer extends Renderer {
         String intervalUnitString = "";
         String intervalUnit = bandInfo.getIntervalUnit();
         if (intervalUnit != null) {
-//            System.out.println("========= intervalUnit = " + intervalUnit);
             intervalUnitString = "intervalUnit:     Timeline.DateTime." + intervalUnit + ",\n";
         } else {
             // default is YEAR.
@@ -495,7 +483,6 @@ public class TimeLineRenderer extends Renderer {
         String intervalPixelsString = "";
         Integer intervalPixels = bandInfo.getIntervalPixels();
         if (intervalPixels != null) {
-//            System.out.println("========= intervalPixels = " + intervalPixels);
             intervalPixelsString = "intervalPixels:    " + intervalPixels + "\n";
         } else {
             //default is 100.
@@ -531,14 +518,12 @@ public class TimeLineRenderer extends Renderer {
         String timeZoneString = "";
         Integer timeZone = bandInfo.getTimeZone();
         if (timeZone != null) {
-//            System.out.println("========= timeZone = " + timeZone);
             timeZoneString = "timeZone:    " + timeZone + ",\n";
         }
 
         // proceed to get the date property to center this bandInfo component.
         String dateString = "";
         Date date = bandInfo.getCenterDate();
-        System.out.println("========= date = " + date);
         if (date != null) {
             
             dateString = "date: \"" + sdf.format(date) + "\",\n";
@@ -548,7 +533,6 @@ public class TimeLineRenderer extends Renderer {
         String showEventTextString = "";
         boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
         if (!showEventText) {
-//            System.out.println("========= showEventText = " + showEventText);
             showEventTextString = "showEventText:  " + showEventText + ",\n";
         }
 
@@ -556,7 +540,6 @@ public class TimeLineRenderer extends Renderer {
         String trackHeightString = "";
         Double trackHeight = bandInfo.getTrackHeight();
         if (trackHeight != null) {
-//            System.out.println("========= trackHeight = " + trackHeight);
             trackHeightString = "trackHeight:    " + trackHeight + ",\n";
         }
 
@@ -564,7 +547,6 @@ public class TimeLineRenderer extends Renderer {
         String trackGapString = "";
         Double trackGap = bandInfo.getTrackGap();
         if (trackGap != null) {
-//            System.out.println("========= trackGap = " + trackGap);
             trackGapString = "trackGap:    " + trackGap + ",\n";
         }
 
@@ -572,7 +554,6 @@ public class TimeLineRenderer extends Renderer {
         String widthString = "";
         Integer width = bandInfo.getWidth();
         if (width != null) {
-//            System.out.println("========= width = " + width);
             widthString = "width:    \"" + width + "%\",\n";
         }
 
@@ -580,7 +561,6 @@ public class TimeLineRenderer extends Renderer {
         String intervalUnitString = "";
         String intervalUnit = bandInfo.getIntervalUnit();
         if (intervalUnit != null) {
-//            System.out.println("========= intervalUnit = " + intervalUnit);
             intervalUnitString = "intervalUnit:     Timeline.DateTime." + intervalUnit + ",\n";
         } else {
             // default is YEAR.
@@ -603,7 +583,6 @@ public class TimeLineRenderer extends Renderer {
         String intervalPixelsString = "";
         Integer intervalPixels = bandInfo.getIntervalPixels();
         if (intervalPixels != null) {
-//            System.out.println("========= intervalPixels = " + intervalPixels);
             intervalPixelsString = "intervalPixels:    " + intervalPixels + "\n";
         } else {
             //default is 100.
@@ -655,7 +634,6 @@ public class TimeLineRenderer extends Renderer {
                 intervalUnitString +
                 themeString +
                 intervalPixelsString);
-
 
         writer.write("})\n");
     }
@@ -1080,7 +1058,7 @@ public class TimeLineRenderer extends Renderer {
                 "var valdate = document.getElementById('" + idjs + "_inputdate').value;\n" +
                 "var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n" +
                 "if (dateInput instanceof Date) {\n" +
-                idjs + "_tl.getBand(0).setCenterVisibleDate(dateInput);\n" +
+                idjs + "_tl.getBand(0).scrollToCenter(dateInput);\n" +
                 "} return false;}\n" +
                 "</script>\n");
     }

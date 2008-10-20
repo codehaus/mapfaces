@@ -93,8 +93,9 @@ public class HotZoneBandInfoRenderer extends Renderer {
             sliderInput.setId(component.getId() + "slider");
             sliderInput.setForid(String.valueOf(index));
             sliderInput.setHorizontal("true");
-            sliderInput.setLength("250");
+            sliderInput.setLength("200");
             sliderInput.setMaxval("22");
+            sliderInput.setTransient(true);
 
             if (FacesUtils.findComponentById(context, context.getViewRoot(), component.getId() + "slider") == null) {
                 component.getChildren().add(sliderInput);
@@ -131,7 +132,6 @@ public class HotZoneBandInfoRenderer extends Renderer {
             }
 
             List<Event> specialEvents = TimeLineUtils.writeScriptEvents(context, parentTimeline, events, idjs);
-
 
             //add events from the attached layer of this component
             writer.endElement("script");
@@ -222,7 +222,12 @@ public class HotZoneBandInfoRenderer extends Renderer {
         Date centerDate = bandInfo.getDate();
         final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        String centerdateScript = "";
+        
+        String savedate = idjs + "_tl.getBand(bandId).getCenterVisibleDate();\n";
+        String reloadDate = idjs + "_tl.getBand(bandId).setCenterVisibleDate(savedate);\n";
+        String scrolltocenter = idjs + "_tl.getBand(bandId).scrollToCenter(savedate);\n";
+        
+        String centerdateScript="";
         if (centerDate == null) {
             centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());\n";
         } else {
@@ -236,6 +241,9 @@ public class HotZoneBandInfoRenderer extends Renderer {
             writer.writeAttribute("type", "text/javascript", null);
             writer.write("function " + idbandjs + "_changeIntervalUnit(bandId,val){\n" +
                     "var ms = Timeline.DateTime.gregorianUnitLengths[eval(val)];\n" +
+                    
+                    "var savedate = "+savedate +
+                    
                     idjs + "_bandInfos[bandId].ether._interval=ms;\n" +
                     idjs + "_bandInfos[bandId].ether._params.interval=ms;\n" +
                     idjs + "_bandInfos[bandId].etherPainter._params.unit=eval(val);\n" +
@@ -246,6 +254,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     idjs + "_eventSource._fire(\"onAddMany\", []);\n" +
                     idjs + "_tl.getBand(bandId).layout();\n" +
                     idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
+                    reloadDate +
                     "}");
             writer.endElement("script");
         }
