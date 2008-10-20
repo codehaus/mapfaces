@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OWSContext version="0.3.0" id="ows-context-ex-1-v3" xmlns="http://www.opengis.net/ows-context" xmlns:gml="http://www.opengis.net/gml" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/ows-context http://www.ogcnetwork.net/schemas/owc/0.3.0/owsContext.xsd">
+	<General>                
+		<Window width="600" height="300"/>
+		<ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:4326">
+			<!--ows:LowerCorner>-117.44667178362664 32.57086210449395</ows:LowerCorner>
+			<ows:UpperCorner>-116.74066794885977 32.921986352104064</ows:UpperCorner-->
+			<ows:LowerCorner>-180 -90</ows:LowerCorner>
+			<ows:UpperCorner>180 90</ows:UpperCorner>
+		</ows:BoundingBox>
+		<ows:Title>OWS Context version 0.3.0 examples</ows:Title>
+	</General>
+	
+	<ResourceList>
+	
+		
+		<!-- WMS Example -->
+                 <Layer name="Bathymetry,Countries,Topography,Builtup areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot+elevations,Airports,Ocean+features" queryable="1" hidden="0">                        
+			<ows:Title>WMS1.0</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                    
+		</Layer> 
+                <!--Layer name="topp:major_roads" queryable="1" hidden="0">
+			<ows:Title>Tiger 2005fe major roads</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wms?"/>
+			</Server> 
+		</Layer-->
+                
+		
+		<!--WFS Example-->
+		<!--Layer name="topp:gnis_pop" hidden="false">
+			<ows:Title>GNIS Population</ows:Title>
+			<Server service="urn:ogc:serviceType:WFS" version="1.0.0">
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wfs?"/>
+			</Server>
+		</Layer-->
+                
+		<!-- Example of defining a layer and letting the client decide whether to use the WMS or WFS resource for it -->
+		<!-- as discussed in KML Engineering Report (OGC doc#07-124r1) section 9.3-->
+		<!--Layer name="topp:major_roads" queryable="1" hidden="1">
+			<ows:Title>Tiger 2005fe major roads</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wms?SERVICE=WMS"/>
+			</Server>
+			<Server service="urn:ogc:serviceType:WFS" version="1.0.0">
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wfs?request=GetCapabilities"/>
+			</Server>
+		</Layer>
+		 -->
+		<!-- WCS Example
+		<Layer name="MOD_Grid_L2g_2d">
+			<ows:Title>Boston Indexed Geotiff imagery</ows:Title>
+			<ows:OutputFormat>image/tiff</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WCS" version="1.0.0">
+				<OnlineResource xlink:href="http://webservices.ionicsoft.com/ionicwcs/coverage/BOSTONPOOL"/>
+			</Server>
+			<DimensionList>
+				<Dimension name="time" units="ISO8601">2003-12-01T14:55:00Z/2003-12-03T20:50:00Z</Dimension>
+			</DimensionList>
+			<ParameterList>
+				<Parameter>
+					<param name="band" value="band1"/>
+				</Parameter>
+				<Parameter>
+					<param name="interpolation" value="nearest neighbor"/>
+				</Parameter>
+			</ParameterList>
+		</Layer>
+		 -->
+		<!-- Referenced GML Example 
+		<Layer name="Landuse">
+			<ows:Title>Boston Landuse Polygons</ows:Title>
+			<Server service="urn:ogc:serviceType:GML" version="2.1.2" title="Cadcorp GeognoSIS.NET Web Feature Service">
+				<OnlineResource xlink:href="http://www.cadcorpdev.co.uk/gml/MassGIS/LandUse.gml"/>
+			</Server>
+			<sld:MinScaleDenominator>5000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>50000</sld:MaxScaleDenominator>
+			<MaxFeatures>99</MaxFeatures>
+		</Layer>
+		-->
+		<!-- Referenced KML Example 
+		<Layer name="fakekml">
+			<ows:Title>Fake KML</ows:Title>
+			<Server service="urn:ogc:serviceType:KML" version="2.2" title="faketitle">
+				<OnlineResource xlink:href="http://example.com/fakekml.kml"/>
+			</Server>
+		</Layer>
+                -->
+	</ResourceList>
+</OWSContext>

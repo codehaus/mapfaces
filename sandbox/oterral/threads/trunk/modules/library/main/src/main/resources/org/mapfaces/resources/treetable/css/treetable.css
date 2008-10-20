@@ -1,0 +1,656 @@
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
+    margin:0pt;
+    padding:0pt;
+}
+img, body, html {
+    border:0pt none;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style:normal;
+    font-weight:normal;
+}
+ol, ul {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+}
+caption, th {
+    text-align:left;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size:100%;
+}
+q:before, q:after {
+    content:'';
+}
+
+.x-clear {
+    clear:both;
+    font-size:0pt;
+    height:0pt;
+    line-height:0pt;
+    overflow:hidden;
+}
+
+.x-btn {
+    cursor:pointer;
+    font-family:tahoma,verdana,helvetica;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    white-space:nowrap;
+}
+.x-btn button {
+    background:transparent none repeat scroll 0%;
+    border:0pt none;
+    cursor:pointer;
+    font-family:tahoma,verdana,helvetica;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    margin:0pt;
+    outline-color:invert;
+    outline-style:none;
+    outline-width:0pt;
+    overflow:visible;
+    padding-left:3px;
+    padding-right:3px;
+    width:auto;
+}
+
+.x-toolbar {
+    background:#D0DEF0 url('resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/bg.gif') repeat-x scroll left top;
+    border-color:#A9BFD3;
+    border-style:solid;
+    border-width:0pt 0pt 1px;
+    display:block;
+    padding:2px;
+    position:relative;
+    z-index:auto;
+}
+.x-toolbar .x-item-disabled .x-btn-icon {
+}
+.x-toolbar td {
+    vertical-align:middle;
+}
+.mso .x-toolbar, .x-grid-mso .x-toolbar {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/grid/mso-hd.gif) repeat scroll 0%;
+    border:0pt none;
+}
+.x-toolbar td, .x-toolbar span, .x-toolbar input, .x-toolbar div, .x-toolbar select, .x-toolbar label {
+    font-family:tahoma,arial,helvetica,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    white-space:nowrap;
+}
+.x-toolbar .x-item-disabled {
+    color:gray;
+    cursor:default;
+}
+.x-toolbar .x-item-disabled * {
+    color:gray;
+    cursor:default;
+}
+.x-toolbar .x-btn-left {
+    background:transparent none repeat scroll 0%;
+}
+.x-toolbar .x-btn-right {
+    background:transparent none repeat scroll 0%;
+}
+.x-toolbar .x-btn-center {
+    background:transparent none repeat scroll 0%;
+    padding:0pt;
+}
+.x-toolbar .x-btn-menu-text-wrap .x-btn-center button {
+    padding-right:2px;
+}
+.ext-gecko .x-toolbar .x-btn-menu-text-wrap .x-btn-center button {
+    padding-right:0pt;
+}
+.x-toolbar .x-btn-menu-arrow-wrap .x-btn-center button {
+    padding:0pt 2px;
+}
+.x-toolbar .x-btn-menu-arrow-wrap .x-btn-center button {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/btn-arrow.gif) no-repeat scroll 0pt 3px;
+    width:12px;
+}
+.x-toolbar .x-btn-text-icon .x-btn-menu-arrow-wrap .x-btn-center button {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/btn-arrow.gif) no-repeat scroll 0pt 3px;
+    width:12px;
+}
+.x-toolbar .x-btn-over .x-btn-menu-arrow-wrap .x-btn-center button {
+    background-position:0pt -47px;
+}
+.x-toolbar .x-btn-over .x-btn-left {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/tb-btn-sprite.gif) no-repeat scroll 0pt;
+}
+.x-toolbar .x-btn-over .x-btn-right {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/tb-btn-sprite.gif) no-repeat scroll 0pt -21px;
+}
+.x-toolbar .x-btn-over .x-btn-center {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/tb-btn-sprite.gif) repeat-x scroll 0pt -42px;
+}
+.x-toolbar .x-btn-click .x-btn-left, .x-toolbar .x-btn-pressed .x-btn-left, .x-toolbar .x-btn-menu-active .x-btn-left {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/tb-btn-sprite.gif) no-repeat scroll 0pt -63px;
+}
+.x-toolbar .x-btn-click .x-btn-right, .x-toolbar .x-btn-pressed .x-btn-right, .x-toolbar .x-btn-menu-active .x-btn-right {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/tb-btn-sprite.gif) no-repeat scroll 0pt -84px;
+}
+.x-toolbar .x-btn-click .x-btn-center, .x-toolbar .x-btn-pressed .x-btn-center, .x-toolbar .x-btn-menu-active .x-btn-center {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/toolbar/tb-btn-sprite.gif) repeat-x scroll 0pt -105px;
+}
+.x-toolbar .x-btn-with-menu .x-btn-center em {
+    padding-right:8px;
+}
+.x-toolbar .ytb-text {
+    padding:2px;
+}
+.x-toolbar .ytb-sep {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/grid/grid-blue-split.gif);
+    background-position:center;
+    background-repeat:no-repeat;
+    border:0pt none;
+    cursor:default;
+    display:block;
+    font-size:1px;
+    height:16px;
+    margin:0pt 2px;
+    overflow:hidden;
+    width:4px;
+}
+.x-toolbar .ytb-spacer {
+    width:2px;
+}
+
+.x-tree .x-panel-body {
+    background-color:#FFFFFF;
+    position :absolute;
+}
+.ext-strict .ext-ie .x-tree .x-panel-bwrap {
+    overflow:hidden;
+    position:relative;
+}
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    background-repeat:no-repeat;
+    border:0pt none;
+    height:18px;
+    margin:0pt;
+    padding:0pt;
+    vertical-align:top;
+    width:16px;
+}
+.x-tree-node-collapsed .x-tree-node-icon, .x-tree-node-expanded .x-tree-node-icon, .x-tree-node-leaf .x-tree-node-icon {
+    background-position:center;
+    background-repeat:no-repeat;
+    border:0pt none;
+    height:18px;
+    margin:0pt;
+    padding:0pt;
+    vertical-align:top;
+    width:16px;
+}
+.ext-ie .x-tree-node-indent img, .ext-ie .x-tree-node-icon, .ext-ie .x-tree-ec-icon {
+    vertical-align:middle !important;
+}
+.x-tree-node-expanded .x-tree-node-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/folder-open.gif);
+}
+.x-tree-node-leaf .x-tree-node-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/leaf.gif);
+}
+.x-tree-node-collapsed .x-tree-node-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/folder.gif);
+}
+.ext-ie input.x-tree-node-cb {
+    height:15px;
+    width:15px;
+}
+input.x-tree-node-cb {
+    margin-left:1px;
+}
+.ext-ie input.x-tree-node-cb {
+    margin-left:0pt;
+}
+.x-tree-noicon .x-tree-node-icon {
+    height:0pt;
+    width:0pt;
+}
+.x-tree-node-loading .x-tree-node-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/loading.gif) !important;
+}
+.x-tree-node-loading a span {
+    color:#444444;
+    font-style:italic;
+}
+.ext-ie .x-tree-node-el input {
+    height:15px;
+    width:15px;
+}
+.x-tree-node-info-anchor{
+background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif);
+}
+
+.x-tree-node-info-anchor-plus{
+    background-position:0px;
+}
+
+.x-tree-node-info-anchor-minus{
+    background-position:-15px;
+}
+
+.x-tree-node-info-anchor-minus:hover{
+    background-position:-48px;
+}
+
+.x-tree-node-info-anchor-plus:hover{
+    background-position:-32px;
+}
+
+
+.x-tree-lines{
+    padding:2px;
+}
+.x-tree-lines .x-tree-elbow {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow.gif);
+}
+.x-tree-lines .x-tree-elbow-plus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-plus.gif);
+}
+.x-tree-lines .x-tree-elbow-minus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-minus.gif);
+}
+.x-tree-lines .x-tree-elbow-end {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-end.gif);
+}
+.x-tree-lines .x-tree-elbow-end-plus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-end-plus.gif);
+}
+.x-tree-lines .x-tree-elbow-end-minus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-end-minus.gif);
+}
+.x-tree-lines .x-tree-elbow-line {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-line.gif);
+}
+.x-tree-no-lines .x-tree-elbow {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-no-lines .x-tree-elbow-plus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-plus-nl.gif);
+}
+.x-tree-no-lines .x-tree-elbow-minus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-minus-nl.gif);
+}
+.x-tree-no-lines .x-tree-elbow-end {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-no-lines .x-tree-elbow-end-plus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-end-plus-nl.gif);
+}
+.x-tree-no-lines .x-tree-elbow-end-minus {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/elbow-end-minus-nl.gif);
+}
+.x-tree-no-lines .x-tree-elbow-line {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-arrows .x-tree-elbow {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-arrows .x-tree-elbow-plus {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif) no-repeat scroll 0pt;
+}
+.x-tree-arrows .x-tree-elbow-minus {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif) no-repeat scroll -16px 0pt;
+}
+.x-tree-arrows .x-tree-elbow-end {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-arrows .x-tree-elbow-end-plus {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif) no-repeat scroll 0pt;
+}
+.x-tree-arrows .x-tree-elbow-end-minus {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/arrows.gif) no-repeat scroll -16px 0pt;
+}
+.x-tree-arrows .x-tree-elbow-line {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-arrows .x-tree-ec-over .x-tree-elbow-plus {
+    background-position:-32px 0pt;
+}
+.x-tree-arrows .x-tree-ec-over .x-tree-elbow-minus {
+    background-position:-48px 0pt;
+}
+.x-tree-arrows .x-tree-ec-over .x-tree-elbow-end-plus {
+    background-position:-32px 0pt;
+}
+.x-tree-arrows .x-tree-ec-over .x-tree-elbow-end-minus {
+    background-position:-48px 0pt;
+}
+.x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+    cursor:pointer;
+}
+.ext-ie ul.x-tree-node-ct {
+    font-size:0pt;
+    line-height:0pt;
+}
+.x-tree-node {
+    color:black;
+    font-family:arial,tahoma,helvetica,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    white-space:normal;
+}
+
+.x-tree-node-info {
+    color:black;
+    font-family:arial,tahoma,helvetica,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    white-space:nowrap;
+    border-style: solid;
+    border-width: 1px;
+    border-color: silver;
+    margin: 5px 5px 5px 5px;
+    padding:  5px 5px 5px 5px;
+}
+
+.x-tree-node-el {
+    cursor:pointer;
+    line-height:18px;
+}
+.x-tree-node a, .x-dd-drag-ghost a {
+    -moz-user-focus:normal;
+    -moz-user-select:none;
+    color:black;
+    outline-color:invert;
+    outline-style:none;
+    outline-width:0pt;
+    text-decoration:none;
+    padding-top:2px;
+}
+.x-tree-node a span, .x-dd-drag-ghost a span {
+    color:black;
+    padding:1px 3px 1px 2px;
+    text-decoration:none;
+}
+.x-tree-node .x-tree-node-disabled a span {
+    color:gray !important;
+}
+.x-tree-node .x-tree-node-disabled .x-tree-node-icon {
+    opacity:0.5;
+}
+.x-tree-node .x-tree-node-inline-icon {
+    background:transparent none repeat scroll 0%;
+}
+.x-tree-node a:hover, .x-dd-drag-ghost a:hover {
+    text-decoration:none;
+}
+.x-tree-node div.x-tree-drag-insert-below {
+    border-bottom:1px dotted #3366CC;
+}
+.x-tree-node div.x-tree-drag-insert-above {
+    border-top:1px dotted #3366CC;
+}
+.x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below {
+    border-bottom:0pt none;
+}
+.x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above {
+    border-top:0pt none;
+}
+.x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below a {
+    border-bottom:2px solid #3366CC;
+}
+.x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above a {
+    border-top:2px solid #3366CC;
+}
+.x-tree-node .x-tree-drag-append a span {
+    background:#DDDDDD none repeat scroll 0%;
+    border:1px dotted gray;
+}
+.x-tree-node .x-tree-node-over {
+    background-color:#EEEEEE;
+}
+.x-tree-node .x-tree-selected {
+    background-color:#D9E8FB;
+}
+.x-dd-drag-ghost .x-tree-node-indent, .x-dd-drag-ghost .x-tree-ec-icon {
+    display:none !important;
+}
+.x-tree-drop-ok-append .x-dd-drop-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/drop-add.gif);
+}
+.x-tree-drop-ok-above .x-dd-drop-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/drop-over.gif);
+}
+.x-tree-drop-ok-below .x-dd-drop-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/drop-under.gif);
+}
+.x-tree-drop-ok-between .x-dd-drop-icon {
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/tree/drop-between.gif);
+}
+
+.x-panel {
+    border:0pt solid #99BBE8;
+}
+.x-panel-header {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/white-top-bottom.gif) repeat-x scroll 0pt -1px;
+    border:1px solid #99BBE8;
+    color:#15428B;
+    font-family:tahoma,arial,verdana,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:bold;
+    line-height:15px;
+    overflow:hidden;
+    padding:5px 3px 4px 5px;
+}
+.x-panel-body {
+    background:white none repeat scroll 0%;
+    border-color:-moz-use-text-color #99BBE8 rgb(153, 187, 232);
+    border-style:none solid solid;
+    border-width:0pt 1px 1px;
+    overflow:hidden;
+    position:relative;
+}
+.x-panel-bbar .x-toolbar {
+    border-color:-moz-use-text-color #99BBE8 rgb(153, 187, 232);
+    border-style:none solid solid;
+    border-width:0pt 1px 1px;
+    overflow:hidden;
+    padding:2px;
+}
+.x-panel-tbar .x-toolbar {
+    border-color:-moz-use-text-color #99BBE8 rgb(153, 187, 232);
+    border-style:none solid solid;
+    border-width:0pt 1px 1px;
+    overflow:hidden;
+    padding:2px;
+}
+.x-panel-tbar-noheader .x-toolbar, .x-panel-mc .x-panel-tbar .x-toolbar {
+    border-bottom:0pt none;
+    border-top:1px solid #99BBE8;
+}
+.x-panel-body-noheader, .x-panel-mc .x-panel-body {
+    border-top:1px solid #99BBE8;
+}
+.x-panel-header {
+    overflow:hidden;
+}
+.x-panel-tl .x-panel-header {
+    background:transparent none repeat scroll 0%;
+    border:0pt none;
+    color:#15428B;
+    font-family:tahoma,arial,verdana,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:bold;
+    line-height:normal;
+    padding:5px 0pt 4px;
+}
+.x-panel-tl .x-panel-icon, .x-window-tl .x-panel-icon {
+    background-position:0pt 4px;
+    background-repeat:no-repeat;
+    padding-left:20px !important;
+}
+.x-panel-inline-icon {
+    background-position:0pt;
+    background-repeat:no-repeat;
+    height:16px;
+    margin-bottom:-1px;
+    margin-right:4px;
+    margin-top:-1px;
+    vertical-align:middle;
+    width:16px;
+}
+.x-panel-tc {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/top-bottom.gif) repeat-x scroll 0pt;
+    overflow:hidden;
+}
+.ext-strict .ext-ie7 .x-panel-tc {
+    overflow:visible;
+}
+.x-panel-tl {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/corners-sprite.gif) no-repeat scroll 0pt;
+    border-bottom:1px solid #99BBE8;
+    padding-left:6px;
+}
+.x-panel-tr {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/corners-sprite.gif) no-repeat scroll right 0pt;
+    padding-right:6px;
+}
+.x-panel-bc {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/top-bottom.gif) repeat-x scroll 0pt bottom;
+}
+.x-panel-bc .x-panel-footer {
+}
+.x-panel-bl {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/corners-sprite.gif) no-repeat scroll 0pt bottom;
+    padding-left:6px;
+}
+.x-panel-br {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/corners-sprite.gif) no-repeat scroll right bottom;
+    padding-right:6px;
+}
+.x-panel-mc {
+    background:#DFE8F6 none repeat scroll 0%;
+    border:0pt none;
+    font-family:tahoma,arial,helvetica,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    margin:0pt;
+    padding:6px 0pt 0pt;
+}
+.x-panel-mc .x-panel-body {
+    background:transparent none repeat scroll 0%;
+    border:0pt none;
+}
+.x-panel-ml {
+    background:#FFFFFF url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/left-right.gif) repeat-y scroll 0pt;
+    padding-left:6px;
+}
+.x-panel-mr {
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/left-right.gif) repeat-y scroll right 0pt;
+    padding-right:6px;
+}
+.x-panel-bc .x-panel-footer {
+    padding-bottom:6px;
+}
+.x-panel-nofooter .x-panel-bc {
+    font-size:0pt;
+    height:6px;
+    line-height:0pt;
+}
+.x-panel-bwrap {
+    
+}
+.x-panel-body {
+
+}
+.x-panel-collapsed .x-resizable-handle {
+    display:none;
+}
+.ext-gecko .x-panel-animated div {
+    overflow:hidden !important;
+}
+
+.x-column-tree .x-tree-node {
+}
+.x-column-tree .x-tree-node-el {
+    /* border-bottom:1px solid #eee; borders? */
+    border-bottom:1px solid #eee; 
+}
+.x-column-tree .x-tree-selected {
+    background: #d9e8fb;
+}
+.x-column-tree  .x-tree-node a {
+    /* line-height:18px; */
+    vertical-align:middle;
+}
+.x-column-tree  .x-tree-node a span{
+    
+}
+.x-column-tree  .x-tree-node .x-tree-selected a span{
+    background:transparent;
+    color:#000;
+}
+.x-tree-col {
+    float:left;
+    overflow:hidden;
+    padding-left:0px -1px 0px 0px;
+}
+
+.x-tree-col-text, .x-tree-hd-text {
+    overflow:hidden;
+    padding:3px 3px 3px 5px;
+    white-space: nowrap;
+    height:1.2em;
+    font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+.x-tree-hd-text {
+    height:1.3em;
+}
+
+.x-tree-headers {
+    background: #f9f9f9 url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/grid/grid3-hrow.gif) repeat-x 0 bottom;
+    cursor:default;
+}
+
+.x-tree-hd {
+    float:left;
+    overflow:hidden;
+    border-left:1px solid #eee;
+    border-right:1px solid #d0d0d0;
+}

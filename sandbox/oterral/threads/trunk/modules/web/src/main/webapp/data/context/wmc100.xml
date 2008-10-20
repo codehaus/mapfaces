@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewContext version="1.0.0" id="atlas_world" xmlns="http://www.opengis.net/context" xmlns:sld="http://www.opengis.net/sld"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
+	<General>
+		<Window width="1000" height="500"/>
+		<BoundingBox SRS="EPSG:4326" minx="-180" miny="-90" maxx="180" maxy="90"/>
+		<Title xml:lang="en">WMC 1.0.0 examples</Title>
+		<KeywordList>
+			<Keyword>world</Keyword>
+			<Keyword>atlas</Keyword>
+		</KeywordList>
+		<Abstract xml:lang="en">World Base Map</Abstract>
+                
+               <!--mf-model:Context service="wmc100.xml">
+                   <mf:Abstract id="abstractwmc" styleClass="abstract"></mf:Abstract>
+                   <mf:MapPane id="mappanewmc" styleClass="mappane" navigation="true" debug="true"></mf:MapPane>                   
+               </mf-model:Context-->
+	</General>
+	<LayerList> 
+                <Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>
+			<Name>Bathymetry,Countries,Topography</Name>
+			<Title>WMS1.0</Title>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer> 
+                <Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>
+			<Name>Builtup areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot+elevations,Airports,Ocean+features</Name>
+			<Title>WMS2.0</Title>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			<StyleList>
+                                <Style current="1">
+                                    <SLD>
+                                        <OnlineResource xlink:href="data/sld/test.xml"/>
+                                    </SLD>
+                                </Style>
+			</StyleList>
+		</Layer> 
+                <Layer queryable="1" hidden="0">
+                        <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
+                                <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
+			</Server>
+			<Name>topp:states</Name>
+			<Title>USA</Title>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>               
+	</LayerList>
+</ViewContext>
+
+

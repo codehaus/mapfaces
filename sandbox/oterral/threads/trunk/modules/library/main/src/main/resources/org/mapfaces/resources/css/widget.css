@@ -1,0 +1,187 @@
+.mfAbstract{
+    border: 2px solid blue ; 
+    color: red; 
+    font-size: 12px; 
+    width: 420px;
+    position:relative;
+}
+.mfMapPane{
+    background-color:white;
+    position:relative;
+    border:1px solid #CCCCCC;
+    
+}
+.mfLayerControl{
+    width:600px;
+}
+
+.mfLayerControl select{
+    font-size: 1em;
+}
+.mfMapViewport{
+    overflow: hidden; 
+    position: relative;
+}
+
+.layerDiv{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    
+}
+.layerImg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    
+}
+
+.mfButtonBar {
+    width:300px;
+    heigth:24px;
+    position:absolute;
+    margin:5px;
+}
+.mfButtonBar div{
+    width:24px;
+    height:24px;
+    position:relative;
+    margin:2px;
+}
+.horizontal div{
+    top:0px;
+    float:left;   
+}
+.mfButtonBar .olControlNavigationItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/PanEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/PanDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlZoomBoxItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomInEnable.png");
+    background-repeat: no-repeat;
+}
+.mfButtonBar .olControlZoomBoxItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomInDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlZoomBoxOutItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomOutEnable.png");
+    background-repeat: no-repeat;
+}
+.mfButtonBar .olControlZoomBoxOutItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomOutDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.olControlZoomToMaxExtentItemInactive{
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ResetExtentDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationHistory {
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/navigation_history.png");
+    background-repeat: no-repeat;
+    width:  24px;
+    height: 24px;
+}
+.mfButtonBar .olControlNavigationHistoryPreviousItemActive { 
+    background-position: 0px 0px;
+    background-color:white;        
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationHistoryPreviousItemInactive { 
+    background-position: 0px -24px;
+    background-color:white;
+    background-color:white;
+}
+.mfButtonBar .olControlNavigationHistoryNextItemActive { 
+    background-position: -24px 0px;
+    background-color:white;
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationHistoryNextItemInactive { 
+    background-position: -24px -24px;
+    background-color:white;
+}
+
+.olHandlerBoxZoomBox {
+    border: 2px solid white;
+    position: absolute;
+    background-color: blue;
+    opacity: 0.50;
+    font-size: 1px;
+    filter: alpha(opacity=50);
+}   
+
+.mfCursorTrack{
+    font-size:0.8em;    
+}
+.mfCursorTrack .mfCursorTrackPrefix{
+    font-weight:bold;    
+}
+/*DimRange*/
+.special { background-color: #50ea70; color: red; }
+
+.track{
+height:10px;
+left:125px;
+margin-left:-75px;
+position:relative;
+top:25px;
+width:256px;
+z-index:20000;
+ }
+.mfDimRange{
+        height:100px;
+        position:relative;
+}
+/*Coloramp*/
+.mfDimRange .range{
+	font-size:12px;
+	font-weight:bold;
+	position:absolute;
+
+	
+	
+}
+.mfDimRange .range input{
+	width:50px;
+	text-align:right;
+	height:19px;
+}
+.mfDimRange .minRange{
+	left:10px;
+
+	
+}
+.mfDimRange .maxRange{
+	/*right:10px;*/
+    left:250px;
+        
+}
+.mfDimRange .colorRamp{
+	position : absolute;
+	left : 100px;
+	
+}
+.mfDimRange .colorRamp img{
+	height : 20px;
+	width:135px;
+}
+.mfDimRange .colorDiv{
+	
+}
+.mfDimRange .colorDivSpan{
+	
+}
