@@ -81,7 +81,6 @@ import org.opengis.temporal.TemporalPrimitive;
  */
 public class TimeLineRenderer extends Renderer {
 
-    Date centerDate;
     boolean singleFile = false;
 
     @Override
@@ -141,34 +140,36 @@ public class TimeLineRenderer extends Renderer {
                 List<Layer> layers = ((Context) modelbase).getLayers();
                 List<Event> events = new ArrayList<Event>();
                 int i = 0;
-                int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
-                for (Layer layer : layers) {
-                    if (layer.getDimensionList() != null && layer.getTime() != null) {
-                        UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
-                        bandinfo.setLayer(layer);
-                        bandinfo.setId(comp.getId() + "_band" + i);
-                        bandinfo.setWidth(proportinalwidth);
-                        bandinfo.setSliderInput(false);
-                        bandinfo.setInputInterval(true);
-                        bandinfo.setShowEventText(true);
-                        bandinfo.setIntervalPixels(80);
-                        bandinfo.setIntervalUnit("MONTH");
-                        bandinfo.setTrackHeight(1.0);
-                        bandinfo.setTheme(comp.getTheme());
-                        if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
-                            comp.getChildren().add(bandinfo);
-                        }
-                        i++;
-                        try {
 
-                            List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                            events.addAll(layerEvents);
-                        } catch (ParseException ex) {
-                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (DatatypeConfigurationException ex) {
-                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                if (FacesUtils.getCountTemporalLayers(layers) != 0) {
+                    int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
+                    for (Layer layer : layers) {
+                        if (layer.getDimensionList() != null && layer.getTime() != null) {
+                            UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
+                            bandinfo.setLayer(layer);                            
+                            bandinfo.setId(comp.getId() + "_band" + i);
+                            bandinfo.setWidth(proportinalwidth);
+                            bandinfo.setSliderInput(false);
+                            bandinfo.setInputInterval(true);
+                            bandinfo.setShowEventText(true);
+                            bandinfo.setIntervalPixels(80);
+                            bandinfo.setIntervalUnit("MONTH");
+                            bandinfo.setTrackHeight(1.0);
+                            bandinfo.setTheme(comp.getTheme());
+                            if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
+                                comp.getChildren().add(bandinfo);
+                            }
+                            i++;
+                            try {
+
+                                List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                                events.addAll(layerEvents);
+                            } catch (ParseException ex) {
+                                Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (DatatypeConfigurationException ex) {
+                                Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                        
                     }
                 }
                 UIHotZoneBandInfo mainBandinfo = new UIHotZoneBandInfo();
@@ -250,7 +251,7 @@ public class TimeLineRenderer extends Renderer {
                     separator = ",\n";
                 } else if (child.getClass().toString().contains("UIHotZoneBandInfo")) {
                     UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) child;
-                    writer.write(separator);
+                    writer.write(separator);                    
                     writeScriptHotZoneBandsInfo(context, comp, bandInfo, indexBand, zones);
                     separator = ",\n";
                 }
@@ -274,7 +275,7 @@ public class TimeLineRenderer extends Renderer {
                         if (i > 0) {
                             diff = i - 1;
                         }
-                        writer.write( idjs + "_bandInfos[" + i + "].syncWith = " + (diff) + ";\n");
+                        writer.write(idjs + "_bandInfos[" + i + "].syncWith = " + (diff) + ";\n");
                     }
                 }
                 if (comp.getChildCount() > 1) {
@@ -334,7 +335,18 @@ public class TimeLineRenderer extends Renderer {
                     UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
                     Layer layer = uiLayer.getLayer();
                     List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                    centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                    Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                    
+                    List<UIComponent> children = component.getChildren();
+                    for (UIComponent tmp : children) {
+                        if (tmp instanceof UIHotZoneBandInfo) {
+                            UIHotZoneBandInfo bandinfo = (UIHotZoneBandInfo) tmp;
+                            bandinfo.setDate(centerDate);
+                            bandinfo.setCenterDate(centerDate);
+                            bandinfo.setLayer(layer);
+                        }
+                    }
+                    
                     comp.setValue(layerEvents);
                     System.out.println("[Timeline decode] centerDate = " + centerDate + "   events size = " + layerEvents.size());
                 } catch (ParseException ex) {
@@ -364,9 +376,9 @@ public class TimeLineRenderer extends Renderer {
         }
         List<UIComponent> children = component.getChildren();
         for (UIComponent tmp : children) {
-            if (tmp instanceof UIHotZoneBandInfo) {
-                ((UIHotZoneBandInfo) tmp).setDate(centerDate);
-            }
+//            if (tmp instanceof UIHotZoneBandInfo) {
+//                ((UIHotZoneBandInfo) tmp).setDate(centerDate);
+//            }
             FacesUtils.encodeRecursive(context, tmp);
         }
     }
@@ -525,9 +537,10 @@ public class TimeLineRenderer extends Renderer {
 
         // proceed to get the date property to center this bandInfo component.
         String dateString = "";
-        Date date = bandInfo.getDate();
+        Date date = bandInfo.getCenterDate();
+        System.out.println("========= date = " + date);
         if (date != null) {
-//            System.out.println("========= date = " + date);
+            
             dateString = "date: \"" + sdf.format(date) + "\",\n";
         }
 
@@ -781,7 +794,7 @@ public class TimeLineRenderer extends Renderer {
             if (event.getTextColor() != null && (!event.getTextColor().equals(""))) {
                 textColor = "'" + event.getTextColor() + "' \n";
             }
-            
+
             writer.write(idjs + "_eventSource.add(new Timeline.DefaultEventSource.Event(\n");
             writer.write(start +
                     end +
@@ -887,7 +900,7 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        
+
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
         if (!singleFile) {
             writer.startElement("script", component);
