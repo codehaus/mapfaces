@@ -15,7 +15,6 @@
  *    Lesser General Public License for more details.
  */
 
-
 package org.mapfaces.component.timeline;
 
 import java.util.Date;
