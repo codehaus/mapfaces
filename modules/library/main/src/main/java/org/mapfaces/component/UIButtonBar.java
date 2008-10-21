@@ -33,6 +33,7 @@ public class UIButtonBar extends UIWidgetBase {
     private boolean history = true;
     private boolean panEffect = false;
     private boolean floatingBar = false;
+    private boolean graticule = false;
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -49,7 +50,7 @@ public class UIButtonBar extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[8];
+        Object values[] = new Object[9];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -58,6 +59,7 @@ public class UIButtonBar extends UIWidgetBase {
         values[5] = history;
         values[6] = panEffect;
         values[7] = floatingBar;
+        values[8] = graticule;
         return values;
     }
 
@@ -72,6 +74,7 @@ public class UIButtonBar extends UIWidgetBase {
         history = (Boolean) values[5];
         panEffect = (Boolean) values[6];
         floatingBar = (Boolean) values[7];
+        graticule = (Boolean) values[8];
     }
 
     public boolean isZoomIn() {
@@ -129,4 +132,13 @@ public class UIButtonBar extends UIWidgetBase {
     public void setFloatingBar(boolean floatingbar) {
         this.floatingBar = floatingbar;
     }
+    
+    public boolean isGraticule() {
+       return graticule;
+    }
+    
+    public void setGraticule(boolean graticule) {
+       this.graticule = graticule;
+    }
+
 }

@@ -333,6 +333,17 @@
                 Flag that indicates if the tool bar can be floating or not. i.e : true means the div is outside the component. otherwise the false value means inside.
             </description>
         </attribute>
+        <attribute>
+            <name>graticule</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add graticules on the map , works only for certain projection.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>CursorTrack</name>

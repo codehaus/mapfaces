@@ -148,6 +148,7 @@
            "openlayers/lib/OpenLayers/Control/Button.js",
            "openlayers/lib/OpenLayers/Control/ZoomBox.js",
            "openlayers/custom/OpenLayers/Control/ZoomBoxOut.js",
+           "openlayers/custom/OpenLayers/Control/Graticule.js",
            "openlayers/lib/OpenLayers/Control/ZoomToMaxExtent.js",
            "openlayers/lib/OpenLayers/Control/DragPan.js",
            "openlayers/custom/OpenLayers/Control/Navigation.js",
