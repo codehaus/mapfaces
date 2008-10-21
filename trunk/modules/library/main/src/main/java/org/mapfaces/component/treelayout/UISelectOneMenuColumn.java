@@ -1,8 +1,8 @@
 package org.mapfaces.component.treelayout;
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 
-public class UISelectOneMenuColumn extends UIAbstractColumn{
+public class UISelectOneMenuColumn extends UIColumnBase{
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLSelectOneMenuColumn";
     private final String FAMILY = "org.mapfaces.treelayout.Column";

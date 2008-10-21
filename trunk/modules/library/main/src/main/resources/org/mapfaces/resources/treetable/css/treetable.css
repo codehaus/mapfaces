@@ -654,3 +654,18 @@ background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/def
     border-left:1px solid #eee;
     border-right:1px solid #d0d0d0;
 }
+
+.x-tree-builder{
+    width:49%;
+}
+
+.x-tree-builder-left{
+    float:left;
+    position:absolute;
+}
+
+.x-tree-builder-right{
+    float:right;
+    position:relative;
+}
+

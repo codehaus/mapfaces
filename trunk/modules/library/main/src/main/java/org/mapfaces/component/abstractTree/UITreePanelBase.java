@@ -27,14 +27,13 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  *
  * @author kdelfour
  */
-public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInterface, Cloneable {
+public abstract class UITreePanelBase extends UITreeBase implements AjaxInterface, Cloneable {
 
+    /* Fields */
     private boolean init;
     private boolean TREEPANEL_EXPAND_ALL = true;
     private TreeTableModel view;
     private int oddEvenCountLine;
-    
-    // =========== ATTRIBUTES ================================================== //
     private String border;
     private boolean check;
     private boolean collapsible;
@@ -52,7 +51,7 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
     private String styleEven;
     private boolean loadAll;
 
-    // =========== ATTRIBUTES ACCESSORS ======================================== //
+    /* Accessors */
     public String getBorder() {
         return border;
     }
@@ -149,7 +148,6 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         this.loadAll = loadAll;
     }
 
-    // =========== FONCTIONS ======================================== //
     public boolean isTREEPANEL_EXPAND_ALL() {
         return TREEPANEL_EXPAND_ALL;
     }
@@ -214,6 +212,16 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         this.oddEvenCountLine = oddEvenCountLine;
     }
 
+    /* Methods */
+    /**
+     * <p>Gets the state of the instance as a Serializable Object.</p>
+     * <p>If the class that implements this interface has references to instances that implement StateHolder
+     * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
+     * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
+     * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
+     * @param context The FacesContext for the current request 
+     * @return a Serializable Object
+     */
     @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[20];
@@ -240,6 +248,14 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         return values;
     }
 
+    /**
+     * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
+     * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
+     * @param context The FacesContext for the current request 
+     * @param state the state Object
+     */
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
@@ -265,25 +281,44 @@ public abstract class UIAbstractTreePanel extends UITreeBase implements AjaxInte
         setOddEvenCountLine((Integer) values[19]);
     }
 
+    /**
+     * <p>Delegate to the renderer</p>
+     * @param context The FacesContext for the current request 
+     * @param component 
+     */
     @Override
     public void handleAjaxRequest(FacesContext context) {
-        //Delegate to the renderer
         AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
 
-    public UIAbstractTreePanel getInstance() {
+    /**
+     * UIAbstractTreePanel class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
+     * for that method to make a field-for-field copy of instances of that class. 
+     * @return a clone of this component
+     */
+    public UITreePanelBase getInstance() {
         try {
-            return (UIAbstractTreePanel) this.clone();
+            return (UITreePanelBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UIAbstractTreePanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UITreePanelBase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    // =========== ABSTRACTS METHODS ================================== //
+
+    /* Abstracts methods*/
+    /**
+     * <p>Return the identifier of the component family to which this component belongs.</p>
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * appropriate Renderer for this component instance.</p>
+     * @return the identifier of the component family as a String
+     */
     @Override
     public abstract String getFamily();
 
+    /**
+     * @return the Renderer type for this UIComponent  (if any)
+     */
     @Override
     public abstract String getRendererType();
 }

@@ -17,13 +17,13 @@
 
 package org.mapfaces.component.tree;
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 
 /**
  *
  * @author kevindelfour
  */
-public class UIColumn extends UIAbstractColumn {
+public class UIColumn extends UIColumnBase {
 
     private final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLColumn";
     private final String COLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.Column";

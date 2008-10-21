@@ -132,3 +132,13 @@ function showInfo(panelId,nodeId){
         thisAnchor.setAttribute("class","x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus");
     }
 }
+
+
+function checkAllInputs(panelId){
+    var inputs = document.getElementsByTagName("input");
+    for (i = 0; i < inputs.length; i++) {
+        if ((inputs[i].id).split("_", "1")[0] == panelId){
+            inputs[i].checked = !inputs[i].checked;
+        }
+    }
+}

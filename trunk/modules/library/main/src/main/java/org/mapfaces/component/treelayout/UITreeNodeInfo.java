@@ -1,12 +1,12 @@
 package org.mapfaces.component.treelayout;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
+import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 
 /**
  *
  * @author kevindelfour
  */
-public class UITreeNodeInfo extends UIAbstractTreeNodeInfo{
+public class UITreeNodeInfo extends UITreeNodeInfoBase{
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeNodeInfo";
     private final String FAMILY = "org.mapfaces.treelayout.TreeNodeInfo";

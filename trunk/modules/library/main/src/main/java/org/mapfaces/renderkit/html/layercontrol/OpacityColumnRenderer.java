@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 
 import org.mapfaces.component.UILayer;
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.component.treelayout.UITreeTable;
@@ -54,7 +54,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onchange",
-                    getVarId(context, (UIAbstractColumn) component),
+                    getVarId(context, (UIColumnBase) component),
                     null));
             
         }
@@ -76,7 +76,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
         ResponseWriter writer = context.getResponseWriter();
         AjaxUtils ajaxtools = new AjaxUtils();
-        String varId = getVarId(context, (UIAbstractColumn) component);
+        String varId = getVarId(context, (UIColumnBase) component);
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY(), "'+value+'");

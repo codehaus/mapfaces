@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
 import org.mapfaces.util.FacesUtils;
@@ -42,7 +42,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onclick",
-                    getVarId(context, (UIAbstractColumn) component),
+                    getVarId(context, (UIColumnBase) component),
                     null));
         }
     }
@@ -62,7 +62,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
          */
 
         ResponseWriter writer = context.getResponseWriter();
-        String varId = getVarId(context, (UIAbstractColumn) component);
+        String varId = getVarId(context, (UIColumnBase) component);
         writer.endElement("center");
         writer.startElement("script", component);
         writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId));

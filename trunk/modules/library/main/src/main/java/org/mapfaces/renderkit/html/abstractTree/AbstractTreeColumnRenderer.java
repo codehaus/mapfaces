@@ -17,7 +17,6 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -38,12 +37,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeColumn;
-import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
-import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
-import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
+import org.mapfaces.component.abstractTree.UITreeColumnBase;
+import org.mapfaces.component.abstractTree.UITreeLinesBase;
+import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
+import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
+import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
 
@@ -51,7 +51,7 @@ import org.mapfaces.util.AjaxUtils;
  *
  * @author kevindelfour
  */
-public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface {
+public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
 
     /* Local Fields */
     private static final transient Log log = LogFactory.getLog(AbstractTreeColumnRenderer.class);
@@ -80,10 +80,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      * @param component - 
      * @return
      */
-    private static UIAbstractTreePanel getForm(UIComponent component) {
+    private static UITreePanelBase getForm(UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
-            if (parent instanceof UIAbstractTreePanel) {
+            if (parent instanceof UITreePanelBase) {
                 break;
             }
             parent = parent.getParent();
@@ -91,7 +91,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (parent == null) {
             throw new IllegalStateException("Not nested inside a tree panel!");
         }
-        return (UIAbstractTreePanel) parent;
+        return (UITreePanelBase) parent;
     }
 
     /**
@@ -100,7 +100,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      * @return
      */
     private String getPostbackFunctionName(UIComponent component) {
-        UIAbstractTreeColumn treecolumn = (UIAbstractTreeColumn) component;
+        UITreeColumnBase treecolumn = (UITreeColumnBase) component;
         return treecolumn.getId() + "PostBack";
     }
 
@@ -129,11 +129,11 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (debug) {
             log.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
         }
-        String treepanelId = Utils.getWrappedComponentId(context, component, UIAbstractTreePanel.class);
-        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
         ResponseWriter writer = context.getResponseWriter();
-        UIAbstractTreeColumn treecolumn = (UIAbstractTreeColumn) component;
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
+        UITreeColumnBase treecolumn = (UITreeColumnBase) component;
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -185,7 +185,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         }
 
 
-        if (!((UIAbstractTreeColumn) component).isAlreadyRender()) {
+        if (!((UITreeColumnBase) component).isAlreadyRender()) {
 
             HtmlOutputLabel NodeIdent = new HtmlOutputLabel();
             NodeIdent.setStyleClass(CLASS_NODE_INDENT);
@@ -200,7 +200,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             ImgNodeRep.setUrl(NODE_IDENT);
 
             if (FolderType) {
-                ImgNodeRep.setId(treepanel.getId() + "_" + "symbol_" + node.getId());
+                ImgNodeRep.setId(treepanel.getId() + "_symbol_" + node.getId());
                 ImgNodeRep.setStyleClass(CLASS_SYMBOL);
             } else {
                 if (((DefaultMutableTreeNode) node.getParent()).getLastLeaf() == node) {
@@ -214,7 +214,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             ImgNodeIcon.setUrl(NODE_IDENT);
             ImgNodeIcon.setStyleClass(CLASS_NODE_ICON);
             if (FolderType) {
-                ImgNodeIcon.setId(treepanel.getId() + "_" + "img_" + node.getId());
+                ImgNodeIcon.setId(treepanel.getId() + "_img_" + node.getId());
             }
 
             //WRITING NODE NAME
@@ -244,13 +244,13 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             LinkNode.setStyle("position:relative;width:auto;white-space:normal;");
 
             HtmlGraphicImage ImgTreeNodeInfo = new HtmlGraphicImage();
-            UIAbstractTreeNodeInfo treenodeInfoComp = null;
+            UITreeNodeInfoBase treenodeInfoComp = null;
             List<UIComponent> components = treeline.getChildren();
             Boolean treenodeinfo = false;
             for (UIComponent comp : components) {
-                if (comp instanceof UIAbstractTreeNodeInfo) {
+                if (comp instanceof UITreeNodeInfoBase) {
                     treenodeinfo = true;
-                    treenodeInfoComp = (UIAbstractTreeNodeInfo) comp;
+                    treenodeInfoComp = (UITreeNodeInfoBase) comp;
 
                 }
             }
@@ -306,7 +306,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             }
             ImgNodeRep.getChildren().add(AjaxSupport);
             ImgNodeRep.getFacets().put("a4jsupport_" + node.getId(), AjaxSupport);
-            ((UIAbstractTreeColumn) component).setAlreadyRender(true);
+            ((UITreeColumnBase) component).setAlreadyRender(true);
         }
 
         if (debug) {
@@ -322,7 +322,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             log.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
         }
 
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
         ResponseWriter writer = context.getResponseWriter();
 
@@ -373,7 +373,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         AjaxUtils ajaxtools = new AjaxUtils();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String nodeId = request.getParameter(ajaxtools.getAJAX_NODE_ID_KEY());
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
+        UITreeLinesBase treeline = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
 
 //        List<UIComponent> children = treeline.getChildren();
 //        for (UIComponent child : children) {
@@ -412,12 +412,4 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         }
     }
 
-    /* ======================= ABSTRACT METHODS ==================================*/
-    public abstract void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 }

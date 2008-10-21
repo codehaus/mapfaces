@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.share.utils;
 
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class Utils {
      * @throws java.io.IOException
      */
     public static void encodeRecursive(FacesContext context, UIComponent component) throws IOException {
-            if (!component.isRendered()) {
+        if (!component.isRendered()) {
             Logger.getLogger(Utils.class.getName()).log(Level.INFO, component + " not rendered !");
             return;
         }

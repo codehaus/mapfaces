@@ -1,12 +1,12 @@
 package org.mapfaces.component.treelayout;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeTable;
+import org.mapfaces.component.abstractTree.UITreeTableBase;
 
 /**
  *
  * @author kdelfour
  */
-public class UITreeTable extends UIAbstractTreeTable {
+public class UITreeTable extends UITreeTableBase {
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeTable";
     private final String FAMILY = "javax.faces.Output";
 

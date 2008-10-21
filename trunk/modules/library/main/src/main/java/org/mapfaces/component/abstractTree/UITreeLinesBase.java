@@ -28,8 +28,9 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  *
  * @author kevindelfour
  */
-public abstract class UIAbstractTreeLines extends UITreeBase implements AjaxInterface, Cloneable {
+public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterface, Cloneable {
 
+    /* Fields */
     private TreeNodeModel nodeinstance;    // Store id of the treelines 
     private int nodeId;
     private int row;
@@ -37,7 +38,8 @@ public abstract class UIAbstractTreeLines extends UITreeBase implements AjaxInte
     private Boolean hasChildren = false;
     private Boolean toRender = false;
     private String varId;
-    // =========== METHODS ======================================== //
+
+    /* Accessors */
     public TreeNodeModel getNodeInstance() {
         return nodeinstance;
     }
@@ -101,7 +103,17 @@ public abstract class UIAbstractTreeLines extends UITreeBase implements AjaxInte
     public void setRendered(boolean arg0) {
         super.setRendered(arg0);
     }
-    // =========== FONCTIONS ======================================== //
+    
+    /* Methods */
+    /**
+     * <p>Gets the state of the instance as a Serializable Object.</p>
+     * <p>If the class that implements this interface has references to instances that implement StateHolder
+     * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
+     * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
+     * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
+     * @param context The FacesContext for the current request 
+     * @return a Serializable Object
+     */
     @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[8];
@@ -116,6 +128,14 @@ public abstract class UIAbstractTreeLines extends UITreeBase implements AjaxInte
         return values;
     }
 
+    /**
+     * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
+     * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
+     * @param context The FacesContext for the current request 
+     * @param state the state Object
+     */
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
@@ -129,26 +149,44 @@ public abstract class UIAbstractTreeLines extends UITreeBase implements AjaxInte
         setRendered((Boolean) values[7]);
     }
 
+     /**
+     * <p>Delegate to the renderer</p>
+     * @param context The FacesContext for the current request 
+     * @param component 
+     */
     @Override
     public void handleAjaxRequest(FacesContext context) {
-        //Delegate to the renderer
         AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
 
-    public UIAbstractTreeLines getInstance() {
+    /**
+     * UIAbstractTreeLines class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
+     * for that method to make a field-for-field copy of instances of that class. 
+     * @return a clone of this component
+     */
+    public UITreeLinesBase getInstance() {
         try {
-            return (UIAbstractTreeLines) this.clone();
+            return (UITreeLinesBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UIAbstractTreeLines.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UITreeLinesBase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    // =========== ABSTRACTS METHODS ================================== //
+    /* Abstracts methods*/
+    /**
+     * <p>Return the identifier of the component family to which this component belongs.</p>
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * appropriate Renderer for this component instance.</p>
+     * @return the identifier of the component family as a String
+     */
     @Override
     public abstract String getFamily();
 
+    /**
+     * @return the Renderer type for this UIComponent  (if any)
+     */
     @Override
     public abstract String getRendererType();
 }

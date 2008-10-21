@@ -16,8 +16,8 @@ import javax.faces.context.FacesContext;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
-import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
+import org.mapfaces.component.abstractTree.UIColumnBase;
+import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
 import org.mapfaces.share.listener.ResourcePhaseListener;
@@ -187,12 +187,12 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
      */
     public String getVarId(FacesContext context, UIWidgetBase component) {
         UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
-        if (((UIAbstractTreeLines) (comp)).getNodeInstance().isLeaf()) {
-            ((UIAbstractTreeLines) (comp)).setVarId(((Layer) (((UIAbstractTreeLines) (comp)).getNodeInstance().getUserObject())).getId());
-            if (((UIAbstractTreeLines) (comp)).getVarId() == null) {
+        if (((UITreeLinesBase) (comp)).getNodeInstance().isLeaf()) {
+            ((UITreeLinesBase) (comp)).setVarId(((Layer) (((UITreeLinesBase) (comp)).getNodeInstance().getUserObject())).getId());
+            if (((UITreeLinesBase) (comp)).getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }
-            return FacesUtils.getFormId(context, comp) + ":" + ((UIAbstractTreeLines) (comp)).getVarId();
+            return FacesUtils.getFormId(context, comp) + ":" + ((UITreeLinesBase) (comp)).getVarId();
         }
         return null;
     }

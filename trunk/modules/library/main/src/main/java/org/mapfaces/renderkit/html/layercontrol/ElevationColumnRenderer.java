@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
@@ -45,7 +45,7 @@ public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         super.encodeBegin(context, component);
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getElevations(context, (UIElevationColumn) component) != null) {
-            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context, (UIComponent) component.getChildren().get(0), "onchange", getVarId(context, (UIAbstractColumn) component), null));
+            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context, (UIComponent) component.getChildren().get(0), "onchange", getVarId(context, (UIColumnBase) component), null));
         }
     }
 
