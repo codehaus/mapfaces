@@ -89,6 +89,16 @@
     background-repeat: no-repeat;
     cursor:pointer;
 }
+.mfButtonBar .olControlGraticuleItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/Graticule.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGraticuleItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/Graticule.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
 .mfButtonBar .olControlNavigationHistory {
     background-image: url("resource.jsf?r=/org/mapfaces/resources/img/navigation_history.png");
     background-repeat: no-repeat;
@@ -135,8 +145,8 @@
 
 .track{
 height:10px;
-left:125px;
-margin-left:-75px;
+left:50%;
+margin-left:-128px;
 position:relative;
 top:25px;
 width:256px;
@@ -161,18 +171,21 @@ z-index:20000;
 	height:19px;
 }
 .mfDimRange .minRange{
-	left:10px;
-
+   left:50%;
+   margin-left:-125px;
+   margin-top:-15px;
 	
 }
 .mfDimRange .maxRange{
-	/*right:10px;*/
-    left:250px;
+   left:50%;
+   margin-left:80px;
+   margin-top:-15px;
         
 }
 .mfDimRange .colorRamp{
-	position : absolute;
-	left : 100px;
+  position : absolute;
+  left:50%;   
+  margin-left:-62.5px;
 	
 }
 .mfDimRange .colorRamp img{

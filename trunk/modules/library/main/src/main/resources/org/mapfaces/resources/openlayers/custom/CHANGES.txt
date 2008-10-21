@@ -35,6 +35,9 @@ Map.js :
 ####################################################################
 package org.mapfaces.resources.openlayers.custom.OpenLayers.Control:
 ####################################################################
+Graticule.js:
+    
+    *Add new control to see Graticules on the map (control of mapbuilder)
 
 NavToolbar.js :
     

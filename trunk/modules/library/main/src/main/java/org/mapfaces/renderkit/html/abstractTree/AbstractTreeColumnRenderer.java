@@ -163,7 +163,12 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (treecolumn.getStyle() != null) {
             styleUser = treecolumn.getStyle();
         }
-        int indentStyle = node.getDepth() * 12;
+        int indentStyle;
+        if (!treepanel.isShowRoot()) {
+            indentStyle = (node.getDepth() - 2) * 12;
+        } else {
+            indentStyle = (node.getDepth() - 1) * 12;
+        }
         int width = Integer.valueOf(size) - indentStyle;
         writer.startElement("div", component);
         writer.writeAttribute("id", "treenode:" + treepanelId + ":" + node.getId(), null);
@@ -253,8 +258,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             if (treenodeinfo) {
                 if (treenodeInfoComp.getTitle() != null) {
                     ImgTreeNodeInfo.setTitle(treenodeInfoComp.getTitle());
-                }
-                else {
+                } else {
                     ImgTreeNodeInfo.setTitle(SHOW_MORE_INFORMATION_TITLE);
                 }
             }
@@ -292,10 +296,11 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 //                    "'"+request.getRequestURI()+"');");
 
             //Adding Components to TreeColumn
-            component.getChildren().add(0, ImgNodeIdent);
-            component.getChildren().add(1, ImgNodeRep);
-            component.getChildren().add(2, ImgNodeIcon);
-            component.getChildren().add(3, LinkNode);
+            if(treepanel.isShowRoot() && node.getDepth()>1)
+                component.getChildren().add(ImgNodeIdent);
+            component.getChildren().add(ImgNodeRep);
+            component.getChildren().add(ImgNodeIcon);
+            component.getChildren().add(LinkNode);
             if (treenodeinfo) {
                 component.getChildren().add(component.getChildCount(), ImgTreeNodeInfo);
             }

@@ -280,7 +280,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             if (treeline.hasChildren()) {
                 writer.startElement("ul", treeline);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
-                writer.writeAttribute("style", "margin-left: 0.2em;",null);
                 // Second zone to drop : in the list at first position
                 if (treepanel.isEnableDragDrop()) {
                     if (isFolder) {

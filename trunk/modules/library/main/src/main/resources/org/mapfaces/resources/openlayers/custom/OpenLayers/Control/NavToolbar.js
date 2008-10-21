@@ -27,25 +27,42 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
     initialize: function(options) {
         OpenLayers.Control.Panel.prototype.initialize.apply(this, [options]);
         var tab =[];
+        
+        
+        //Add zoomIn button
         if(options.zoomIn){
            tab.push(new OpenLayers.Control.ZoomBox());
         }
+        
+        //Add zoomOut button
         if(options.zoomOut){
            tab.push(new OpenLayers.Control.ZoomBoxOut());
         }
+                
+        //Add pan button
         if(options.pan){
             if(options.panEffect)
                 tab.push(new OpenLayers.Control.Navigation({'animatedPanEnabled':true}));
             else
                 tab.push(new OpenLayers.Control.Navigation());
         }
+        
+        //Add zoom to MaxExtent button
         if(options.zoomMaxExtent){
            tab.push(new OpenLayers.Control.ZoomToMaxExtent());
         }
+        
+        //Add next and previous zoom buttons
         if(options.history){
           tab.push(nav.previous);
           tab.push(nav.next);
         }
+        
+        //Add graticules button
+        if(options.graticule){
+          tab.push(new OpenLayers.Control.Graticule());
+        }
+        
         if(tab.length > 0)
           this.addControls(tab);
     },

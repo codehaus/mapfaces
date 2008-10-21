@@ -121,8 +121,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     System.out.println("[PORTRAYING] for envelope " + env);
                     Dimension dim = new Dimension(new Integer(width), new Integer(height));
                     try {
-                        
+                        Date testBegin = new Date();
                         FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), dim, false);
+                        Date testEnd = new Date();
+                        Long timeout = testEnd.getTime() - testBegin.getTime();
                     } catch (Exception e) {
                         try {
                             System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());

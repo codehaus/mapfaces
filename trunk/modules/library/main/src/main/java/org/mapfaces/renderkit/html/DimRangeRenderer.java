@@ -84,7 +84,10 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.startElement("div",comp);
             writer.writeAttribute("id",layerId+"_maxRange", "id");
             writer.writeAttribute("class","maxRange range","class");
-                 writer.write("Max : ");
+                 writer.startElement("div",comp);
+                writer.writeAttribute("class","textRange","class");
+                    writer.write("Max : ");
+                 writer.endElement("div");
                  UIInput maxRange = new UIInput();
                  maxRange.setId(layerId+"_inputMaxRange");
                  maxRange.setValue(((String) comp.getValue()).split(",")[1]);
@@ -94,7 +97,10 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.startElement("div",comp);
             writer.writeAttribute("id",layerId+"_minRange", "id");
             writer.writeAttribute("class","minRange range","class");
-                 writer.write("Min : ");
+                 writer.startElement("div",comp);
+                 writer.writeAttribute("class","textRange","class");
+                     writer.write("Min : ");
+                 writer.endElement("div");
                  UIInput minRange = new UIInput();
                  minRange.setId(layerId+"_inputMinRange");
                  minRange.setValue(((String) comp.getValue()).split(",")[0]);
