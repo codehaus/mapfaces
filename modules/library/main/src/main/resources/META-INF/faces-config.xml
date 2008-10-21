@@ -162,6 +162,35 @@
         <component-class>org.mapfaces.component.treelayout.UITreeNodeInfo</component-class>
     </component>
     
+    <!-- TreeBuilder component -->
+     <component>
+        <component-type>org.mapfaces.TreeBuilder</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UITreeTable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.TreePanel</component-type>
+        <component-class>org.mapfaces.component.tree.UITreePanel</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.treepanel.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UITreeColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.treepanel.Column</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UIColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.treepanel.CheckColumn</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UICheckColumn</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.treepanel.TreeLines</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UITreeLines</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.treepanel.TreeNodeInfo</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UITreeNodeInfo</component-class>
+    </component>
     
     <!-- *************************************************************** -->
     <!-- ******************** RENDER-KIT ******************************* -->
@@ -398,6 +427,44 @@
              <component-family>org.mapfaces.treelayout.TreeNodeInfo</component-family>
             <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treelayout.TreeNodeInfoRenderer</renderer-class>
+        </renderer>
+        
+        <!-- TreeBuilder Renderers -->
+        <renderer>
+            <description>TreeBuilder</description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLTreeBuilder</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeTableRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treepanel </description>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.HTMLTreePanel</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treecolumn </description>
+            <component-family>org.mapfaces.treebuilder.treepanel.TreeColumn</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Column </description>
+            <component-family>org.mapfaces.treebuilder.treepanel.Column</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.ColumnRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treelines </description>
+            <component-family>org.mapfaces.treebuilder.treepanel.TreeLines</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeLines</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeLinesRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Treenodeinfo </description>
+             <component-family>org.mapfaces.treebuilder.treepanel.treelines.TreeNodeInfo</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeNodeInfoRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>

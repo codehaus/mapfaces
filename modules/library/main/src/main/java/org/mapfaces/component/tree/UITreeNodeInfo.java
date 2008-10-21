@@ -17,13 +17,13 @@
 
 package org.mapfaces.component.tree;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
+import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 
 /**
  *
  * @author kevindelfour
  */
-public class UITreeNodeInfo extends UIAbstractTreeNodeInfo {
+public class UITreeNodeInfo extends UITreeNodeInfoBase {
 
     private final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeNodeInfo";
     private final String TREENODEINFO_COMP_FAMILY = "org.mapfaces.treetable.treepanel.treelines.TreeNodeInfo";

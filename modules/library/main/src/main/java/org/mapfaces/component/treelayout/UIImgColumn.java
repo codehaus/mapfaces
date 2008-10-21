@@ -18,12 +18,12 @@
 package org.mapfaces.component.treelayout;
 
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 
 /**
  * @author Olivier Terral.
  */
-public class UIImgColumn extends UIAbstractColumn {
+public class UIImgColumn extends UIColumnBase {
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLImgColumn";
     private final String FAMILY = "org.mapfaces.treelayout.Column";    

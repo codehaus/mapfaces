@@ -26,17 +26,18 @@ import javax.faces.render.Renderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
-import org.mapfaces.component.abstractTree.UIAbstractTreeNodeInfo;
-import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
+import org.mapfaces.component.abstractTree.UITreeLinesBase;
+import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
+import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 
 /**
  *
  * @author kdelfour
  */
-public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
+public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements CustomizeTreeComponentRenderer{
 
     private static final transient Log log = LogFactory.getLog(AbstractTreeNodeInfoRenderer.class);
     private static String DESC_STYLE_CLASS = "x-tree-node-info";
@@ -48,10 +49,10 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
      * @param component - 
      * @return
      */
-    private static UIAbstractTreePanel getForm(UIComponent component) {
+    private static UITreePanelBase getForm(UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
-            if (parent instanceof UIAbstractTreePanel) {
+            if (parent instanceof UITreePanelBase) {
                 break;
             }
             parent = parent.getParent();
@@ -59,7 +60,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
         if (parent == null) {
             throw new IllegalStateException("Not nested inside a tree panel!");
         }
-        return (UIAbstractTreePanel) parent;
+        return (UITreePanelBase) parent;
     }
 
     /**
@@ -68,7 +69,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
      * @return
      */
     private String getPostbackFunctionName(UIComponent component) {
-        UIAbstractTreeNodeInfo treenodeinfo = (UIAbstractTreeNodeInfo) component;
+        UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
         return treenodeinfo.getId() + "PostBack";
     }
 
@@ -97,13 +98,13 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
             log.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
         }
         //Start encoding
-        UIAbstractTreeNodeInfo treenodeinfo = (UIAbstractTreeNodeInfo) component;
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) treenodeinfo.getParent();
+        UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
+        UITreeLinesBase treeline = (UITreeLinesBase) treenodeinfo.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
         ResponseWriter writer = context.getResponseWriter();
-        String treepanelId = Utils.getWrappedComponentId(context, component, UIAbstractTreePanel.class);
+        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
 
-        UIAbstractTreePanel treetable = getForm(treenodeinfo);
+        UITreePanelBase treetable = getForm(treenodeinfo);
         String styleUser = "";
         if (treenodeinfo.getStyle() !=null){
             styleUser = treenodeinfo.getStyle();
@@ -188,13 +189,4 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer {
             throw new NullPointerException("component should not be null");
         }
     }
-
-    /* ======================= ABSTRACT METHODS ==================================*/
-    public abstract void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
 }

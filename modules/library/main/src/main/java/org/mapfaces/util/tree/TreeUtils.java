@@ -17,7 +17,7 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
+import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.treetable.TreeTableConfig;
@@ -64,8 +64,8 @@ public class TreeUtils {
     private static UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent news = component.getClass().newInstance();
-        String treepanelId = Utils.getWrappedComponentId(context, component, UIAbstractTreePanel.class);
-        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) Utils.findComponent(context, treepanelId);
+        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
 
         //Copy specific attributes from component to news
         copyAttributes(component, news);

@@ -55,6 +55,7 @@ public class AjaxListener implements PhaseListener {
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String a4jrequest = request.getParameter("AJAXREQUEST");
+        
         String ajaxParam = request.getParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY());
         String ajaxRenderChild = request.getParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY());
         // Check for the existence of the Ajax param
@@ -75,6 +76,9 @@ public class AjaxListener implements PhaseListener {
             //Save the state of the page
             context.getApplication().getStateManager().saveView(context);
 
+        }
+        else if(a4jrequest!=null){
+            System.out.println("[PHASE EVENT] A4J Request have been detected !");
         }
 
 

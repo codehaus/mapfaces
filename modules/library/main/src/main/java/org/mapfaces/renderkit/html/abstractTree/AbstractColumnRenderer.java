@@ -37,16 +37,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
-import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
-import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
-import org.mapfaces.models.Context;
-import org.mapfaces.models.Layer;
+import org.mapfaces.component.abstractTree.UIColumnBase;
+import org.mapfaces.component.abstractTree.UITreeLinesBase;
+import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.treetable.TreeTableConfig;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
+import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 
@@ -54,7 +53,7 @@ import org.mapfaces.util.FacesUtils;
  *
  * @author Kevin Delfour.
  */
-public abstract class AbstractColumnRenderer extends Renderer implements AjaxRendererInterface {
+public abstract class AbstractColumnRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
 
     private TreeTableConfig config = new TreeTableConfig();
     private boolean debug;
@@ -66,10 +65,10 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      * @param component - 
      * @return
      */
-    private static UIAbstractTreePanel getForm(UIComponent component) {
+    private static UITreePanelBase getForm(UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
-            if (parent instanceof UIAbstractTreePanel) {
+            if (parent instanceof UITreePanelBase) {
                 break;
             }
             parent = parent.getParent();
@@ -77,7 +76,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         if (parent == null) {
             throw new IllegalStateException("Not nested inside a tree panel!");
         }
-        return (UIAbstractTreePanel) parent;
+        return (UITreePanelBase) parent;
     }
 
     /**
@@ -86,7 +85,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      * @return
      */
     private String getPostbackFunctionName(UIComponent component) {
-        UIAbstractColumn column = (UIAbstractColumn) component;
+        UIColumnBase column = (UIColumnBase) component;
         return column.getId() + "PostBack";
     }
 
@@ -118,8 +117,8 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         }
         ResponseWriter writer = context.getResponseWriter();
 
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
-        UIAbstractColumn column = (UIAbstractColumn) component;
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        UIColumnBase column = (UIColumnBase) component;
         TreeNodeModel node = treeline.getNodeInstance();
 
         String size = config.getDEFAULT_SIZE_COLUMN();
@@ -157,7 +156,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
         ResponseWriter writer = context.getResponseWriter();
 
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
 
         if (component.getChildCount() != 0) {
@@ -175,7 +174,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
         ResponseWriter writer = context.getResponseWriter();
 
@@ -236,7 +235,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
     @Override
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        UIAbstractTreeLines treeline = (UIAbstractTreeLines) component.getParent();
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         Object userObject = treeline.getNodeInstance().getUserObject();
         AjaxUtils ajaxtools = new AjaxUtils();
         TreeNodeModel node = treeline.getNodeInstance();
@@ -368,32 +367,24 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         writer.endElement("script");
     }
     
-    public String getVarId(FacesContext context, UIAbstractColumn comp) {
-        if (((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().isLeaf()) {
+    public String getVarId(FacesContext context, UIColumnBase comp) {
+        if (((UITreeLinesBase) (comp.getParent())).getNodeInstance().isLeaf()) {
             String idresult="";
-            Object obj = ((UIAbstractTreeLines) (comp.getParent())).getNodeInstance().getUserObject();
+            Object obj = ((UITreeLinesBase) (comp.getParent())).getNodeInstance().getUserObject();
             if (obj instanceof TreeItem) {
                 TreeItem treeitem = (TreeItem) obj;
                 idresult = treeitem.getId();
             }            
-            ((UIAbstractTreeLines) (comp.getParent())).setVarId(idresult);
-            if (((UIAbstractTreeLines) (comp.getParent())).getVarId() == null) {
+            ((UITreeLinesBase) (comp.getParent())).setVarId(idresult);
+            if (((UITreeLinesBase) (comp.getParent())).getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }
-            return FacesUtils.getFormId(context, comp) + ":" + ((UIAbstractTreeLines) (comp.getParent())).getVarId();
+            return FacesUtils.getFormId(context, comp) + ":" + ((UITreeLinesBase) (comp.getParent())).getVarId();
         }
         return null;
     }
 
     /* ======================= ABSTRACT METHODS ==================================*/
-    public abstract void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
-    public abstract void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException;
-
     public abstract String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException;
 
     public abstract String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException;

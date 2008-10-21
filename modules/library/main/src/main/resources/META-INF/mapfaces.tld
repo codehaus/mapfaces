@@ -6,6 +6,7 @@
     <uri>http://mapfaces.org/taglib</uri>
     <display-name>Mapfaces Components</display-name>
     <description>Mapfaces Components</description>
+    <!-- Abstract -->
     <tag>
         <name>Abstract</name>
         <tag-class>org.mapfaces.taglib.AbstractTag</tag-class>
@@ -86,6 +87,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- DimRange -->
     <tag>
         <name>DimRange</name>
         <tag-class>org.mapfaces.taglib.DimRangeTag</tag-class>
@@ -177,6 +179,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- ButtonBar -->
     <tag>
         <name>ButtonBar</name>
         <tag-class>org.mapfaces.taglib.ButtonBarTag</tag-class>
@@ -345,6 +348,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- CursorTrack -->
     <tag>
         <name>CursorTrack</name>
         <tag-class>org.mapfaces.taglib.CursorTrackTag</tag-class>
@@ -480,6 +484,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- MapSize -->
     <tag>
         <name>MapSize</name>
         <tag-class>org.mapfaces.taglib.MapSizeTag</tag-class>
@@ -3947,7 +3952,8 @@
             <name>length</name>
         </attribute>
     </tag>
-  <!-- =========== TREETABLE TAG ======================================== -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  <!--TreeTable -->
     <tag>
         <name>TreeTable</name>
         <description>Tree</description>
@@ -4031,7 +4037,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREEPANEL TAG ======================================== -->
+  <!-- TreePanel -->
     <tag>
         <name>TreePanel</name>
         <description> TreePanel </description>
@@ -4188,7 +4194,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREECOLUMN TAG ======================================= -->
+  <!-- TreeColumn -->
     <tag>
         <name>TreeColumn</name>
         <description>TreeColumns</description>
@@ -4276,7 +4282,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== COLUMN TAG ======================================== -->
+  <!-- Column -->
     <tag>
         <name>Column</name>
         <description> Columns </description>
@@ -4303,7 +4309,7 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>headerTitle</name>
             <description/>
             <required>false</required>
@@ -4355,8 +4361,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREELINES TAG ======================================== -->
-  <!-- =========== TREENODEINFO TAG ===================================== -->
+  <!-- TreeNodeInfo -->
     <tag>
         <name>TreeNodeInfo</name>
         <description> org:treenodeinfo </description>
@@ -4416,8 +4421,8 @@
             </deferred-value>
         </attribute>
     </tag>
-  
-   <!-- =========== TREELAYOUT TAG ======================================== -->
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+   <!-- TreeLayout -->
     <tag>
         <name>TreeLayoutTable</name>
         <description> TreeLayout  </description>
@@ -4501,7 +4506,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREELAYOUTPANEL TAG ======================================== -->
+  <!-- TreeLayoutPanel -->
     <tag>
         <name>TreeLayoutPanel</name>
         <description> TreeLayoutPanel </description>
@@ -4658,7 +4663,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREELAYOUTTCOLUMN TAG ======================================= -->
+  <!-- TreeLayoutTColumn -->
     <tag>
         <name>TreeLayoutTColumn</name>
         <description> TreeColumns </description>
@@ -4746,7 +4751,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== COLUMN TAG ======================================== -->
+  <!-- TreeLayoutColumn  -->
     <tag>
         <name>TreeLayoutColumn</name>
         <description> Columns </description>
@@ -4773,7 +4778,7 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>headerTitle</name>
             <description/>
             <required>false</required>
@@ -4825,7 +4830,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== CHECKCOLUMN TAG ======================================== -->
+  <!-- TreeLayoutCheckColumn -->
     <tag>
         <name>TreeLayoutCheckColumn</name>
         <description>Check Column </description>
@@ -4852,7 +4857,7 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>headerTitle</name>
             <description/>
             <required>false</required>
@@ -4904,8 +4909,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TREELAYOUTLINES TAG ======================================== -->
-  <!-- =========== TREELAYOUTNODEINFO TAG ===================================== -->
+  <!-- TreeLayoutNodeInfo -->
     <tag>
         <name>TreeLayoutNodeInfo</name>
         <description> org:treenodeinfo </description>
@@ -4965,8 +4969,8 @@
             </deferred-value>
         </attribute>
     </tag>
-  
-  <!-- =========== TABPANEL TAG ===================================== -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  <!-- TabPanel -->
     <tag>
         <name>TabPanel</name>
         <tag-class>org.mapfaces.taglib.tabbedpane.TabPanelTag</tag-class>
@@ -5014,7 +5018,7 @@
             </deferred-value>
         </attribute>
     </tag>
-  <!-- =========== TABITEM TAG ===================================== -->
+  <!-- TabItem -->
     <tag>
         <name>TabItem</name>
         <tag-class>org.mapfaces.taglib.tabbedpane.TabItemTag</tag-class>
@@ -5048,4 +5052,474 @@
             </deferred-value>
         </attribute>
     </tag>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  <!--TreeBuilder -->
+    <tag>
+        <name>TreeBuilder</name>
+        <description>Tree</description>
+        <tag-class>org.mapfaces.taglib.treebuilder.TreeTableTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <description>The tree model value use for the component</description>
+            <required>true</required>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <description>Type of the node use in the TreeModel</description>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <description>The width of this component in pixels (defaults to auto)</description>
+            <required>false</required>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>height</name>
+            <description>The height of this component in pixels (defaults to auto)</description>
+            <required>false</required>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+  <!-- BuilderPanel -->
+    <tag>
+        <name>BuilderPanel</name>
+        <description> TreePanel </description>
+        <tag-class>org.mapfaces.taglib.treebuilder.TreePanelTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>check</name>
+            <description>True to add to the panel, a column who allow to check node</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>collapsible</name>
+            <description>True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults to false)</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>frame</name>
+            <description>True to render the panel with custom rounded borders, false to render with plain 1px square borders (defaults to false)</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>header</name>
+            <description>True to create the header element explicitly, false to skip creating it. By default, when header is not specified, if a title is set the header will be created automatically, otherwise it will not. If a title is set but header is explicitly set to false, the header will not be rendered</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>rowId</name>
+            <description>Enable to show rowId</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>showLines</name>
+            <description>False to disable tree lines (defaults to true)</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <description>The title text to display in the panel header (defaults to ''). When a title is specified the header element will automatically be created and displayed unless header is explicitly set to false. If you don't want to specify a title at config time, but you may want one later, you must either specify a non-empty title (a blank space ' ' will do) or header:true so that the container element will get created.</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>showRoot</name>
+            <description>False to disable root render</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>enableDragDrop</name>
+            <description>Enable or disable Drag and drop utilities in a treepanel</description>
+            <required>false</required>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleLeaf</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleNode</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleOdd</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleEven</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>loadAll</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+  <!-- BuilderTreeColumn -->
+    <tag>
+        <name>BuilderTreeColumn</name>
+        <description>TreeColumns</description>
+        <tag-class>org.mapfaces.taglib.treebuilder.TreeColumnTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerTitle</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerIcon</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <description>The tree model value use for the component</description>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <description>The width of this component in pixels (defaults to auto)</description>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleHeader</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+  <!-- BuilderColumn -->
+    <tag>
+        <name>BuilderColumn</name>
+        <description> Columns </description>
+        <tag-class>org.mapfaces.taglib.treebuilder.ColumnTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerTitle</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerIcon</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleHeader</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+  <!-- BuilderNodeInfo -->
+    <tag>
+        <name>BuilderNodeInfo</name>
+        <description> org:treenodeinfo </description>
+        <tag-class>org.mapfaces.taglib.treebuilder.TreeNodeInfoTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>hide</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 </taglib>

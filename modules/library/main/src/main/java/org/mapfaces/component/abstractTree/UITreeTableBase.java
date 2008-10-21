@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component.abstractTree;
 
 import org.mapfaces.share.request.RequestMapUtils;
@@ -31,17 +30,16 @@ import org.mapfaces.models.tree.TreeTableModel;
  *
  * @author kdelfour
  */
-public abstract class UIAbstractTreeTable extends UITreeBase implements StateHolder, Cloneable {
+public abstract class UITreeTableBase extends UITreeBase implements StateHolder, Cloneable {
 
+    /* Fields */
     private int nodeCount = 0;
     private int rowId = 0;
     private boolean RenderDefaultTree = true;
-    
-    // =========== ATTRIBUTES ================================================== //
     private int height;
     private int width;
 
-    // =========== ATTRIBUTES ACCESSORS ======================================== //
+    /* Accessors */
     public int getWidth() {
         return width;
     }
@@ -58,36 +56,19 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         this.height = height;
     }
 
-    // =========== FONCTIONS ======================================== //
-    /**
-     * 
-     * @return
-     */
     public int getNodeCount() {
         return nodeCount;
     }
 
-    /**
-     * 
-     * @param tree
-     */
     public void setNodeCount(TreeTableModel tree) {
         TreeModelsUtils TreeModelsTools = new TreeModelsUtils();
         nodeCount = TreeModelsTools.getTreeNodeCount(tree);
     }
 
-    /**
-     * 
-     * @return
-     */
     public int getRowId() {
         return rowId;
     }
 
-    /**
-     * 
-     * @param aRowId
-     */
     public void setRowId(int aRowId) {
         rowId = aRowId;
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -95,39 +76,32 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         requestMap.put("org.treetable.rowId", aRowId);
     }
 
-    /**
-     * 
-     * @return
-     */
     public String getVarName() {
         return (String) RequestMapUtils.getbyKey("org.treetable.varName");
     }
 
-    /**
-     * 
-     * @param aVarName
-     */
     public void setVarName(String aVarName) {
         RequestMapUtils.put("org.treetable.varName", aVarName);
     }
 
-    /**
-     * 
-     * @return
-     */
     public boolean isRenderDefaultTree() {
         return RenderDefaultTree;
     }
 
-    /**
-     * 
-     * @param aRenderDefaultTree
-     */
     public void setRenderDefaultTree(boolean aRenderDefaultTree) {
         RenderDefaultTree = aRenderDefaultTree;
     }
-    
-    // =========== FONCTIONS ======================================== //
+
+    /* Methods */
+    /**
+     * <p>Gets the state of the instance as a Serializable Object.</p>
+     * <p>If the class that implements this interface has references to instances that implement StateHolder
+     * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
+     * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
+     * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
+     * @param context The FacesContext for the current request 
+     * @return a Serializable Object
+     */
     @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[6];
@@ -140,6 +114,14 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         return values;
     }
 
+    /**
+     * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
+     * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
+     * @param context The FacesContext for the current request 
+     * @param state the state Object
+     */
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
@@ -151,18 +133,33 @@ public abstract class UIAbstractTreeTable extends UITreeBase implements StateHol
         height = (Integer) values[5];
     }
 
-    public UIAbstractTreeTable getInstance() {
+    /**
+     * UIAbstractTreeTable class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
+     * for that method to make a field-for-field copy of instances of that class. 
+     * @return a clone of this component
+     */
+    public UITreeTableBase getInstance() {
         try {
-            return (UIAbstractTreeTable) this.clone();
+            return (UITreeTableBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UIAbstractTreeNodeInfo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UITreeNodeInfoBase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    // =========== ABSTRACTS METHODS ================================== //
+
+    /* Abstracts methods*/
+    /**
+     * <p>Return the identifier of the component family to which this component belongs.</p>
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * appropriate Renderer for this component instance.</p>
+     * @return the identifier of the component family as a String
+     */
     @Override
     public abstract String getFamily();
 
+    /**
+     * @return the Renderer type for this UIComponent  (if any)
+     */
     @Override
     public abstract String getRendererType();
 }

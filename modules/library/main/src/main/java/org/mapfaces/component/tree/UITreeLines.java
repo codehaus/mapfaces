@@ -17,13 +17,13 @@
 
 package org.mapfaces.component.tree;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
+import org.mapfaces.component.abstractTree.UITreeLinesBase;
 
 /**
  *
  * @author kevindelfour
  */
-public class UITreeLines extends UIAbstractTreeLines {
+public class UITreeLines extends UITreeLinesBase {
 
     private final String TREELINES_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeLines";
     private final String TREELINES_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeLines";

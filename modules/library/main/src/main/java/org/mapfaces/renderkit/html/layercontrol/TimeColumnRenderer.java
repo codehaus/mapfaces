@@ -23,7 +23,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
@@ -46,7 +46,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onclick",
-                    getVarId(context, (UIAbstractColumn) component),
+                    getVarId(context, (UIColumnBase) component),
                     FacesUtils.getFormId(context, component) + ":timeline"));
         }
     }

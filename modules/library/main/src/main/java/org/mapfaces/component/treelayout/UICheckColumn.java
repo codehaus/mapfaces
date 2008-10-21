@@ -1,9 +1,9 @@
 package org.mapfaces.component.treelayout;
 
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 
-public class UICheckColumn extends UIAbstractColumn {
+public class UICheckColumn extends UIColumnBase {
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLCheckColumn";
     private final String FAMILY = "org.mapfaces.treelayout.CheckColumn";

@@ -17,13 +17,13 @@
 
 package org.mapfaces.component.tree;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeTable;
+import org.mapfaces.component.abstractTree.UITreeTableBase;
 
 /**
  *
  * @author kdelfour
  */
-public class UITreeTable extends UIAbstractTreeTable {
+public class UITreeTable extends UITreeTableBase {
 
     private final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeTable";
     private final String TREETABLE_COMP_FAMILY = "javax.faces.Output";

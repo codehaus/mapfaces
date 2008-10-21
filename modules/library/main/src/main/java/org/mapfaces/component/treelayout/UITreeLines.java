@@ -1,12 +1,12 @@
 package org.mapfaces.component.treelayout;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreeLines;
+import org.mapfaces.component.abstractTree.UITreeLinesBase;
 
 /**
  *
  * @author kevindelfour
  */
-public class UITreeLines extends UIAbstractTreeLines {
+public class UITreeLines extends UITreeLinesBase {
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeLines";
     private final String FAMILY = "org.mapfaces.treelayout.TreeLines";

@@ -25,7 +25,7 @@ import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.mapfaces.component.abstractTree.UIAbstractTreePanel;
+import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.tree.TreeUtils;
@@ -45,9 +45,9 @@ public class TreeTableUtils {
      */
     public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {   
         FacesContext context = FacesContext.getCurrentInstance();
-        UIAbstractTreePanel treepanel = (UIAbstractTreePanel) component;
+        UITreePanelBase treepanel = (UITreePanelBase) component;
 
-        if (!((UIAbstractTreePanel) component).isInit()) {
+        if (!((UITreePanelBase) component).isInit()) {
             for (int i = 0; i < node.getChildCount(); i++) {
                 TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
                 RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
@@ -89,7 +89,7 @@ public class TreeTableUtils {
      * @throws java.io.IOException
      */
     @SuppressWarnings("unchecked")
-    private void createTreeLinesRecurs(UIAbstractTreePanel treepanel, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {
+    private void createTreeLinesRecurs(UITreePanelBase treepanel, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         UITreeLines treelines = null;
 

@@ -18,7 +18,6 @@ package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
@@ -29,12 +28,11 @@ import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.apache.tools.ant.taskdefs.optional.junit.Enumerations;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
-import org.mapfaces.component.abstractTree.UIAbstractTreeTable;
+import org.mapfaces.component.abstractTree.UITreeTableBase;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.util.AjaxUtils;
@@ -75,7 +73,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UIAbstractTreeTable treetable = (UIAbstractTreeTable) component;
+        UITreeTableBase treetable = (UITreeTableBase) component;
         ResponseWriter writer = context.getResponseWriter();
         TreeModelsUtils treeModelsTools = new TreeModelsUtils();
         String width, height;
@@ -247,6 +245,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
 
         writer.endElement("div");
+        
         writer.startElement("input", component);
         writer.writeAttribute("type", "hidden", null);
         writer.writeAttribute("value", AJAX_SERVER, null);
@@ -351,7 +350,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 //        writer.writeAttribute("type", "text/javascript", null);
 //        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
 //        writer.endElement("script");
-//
+
 //        writer.writeComment("Moo Javascript Library");
 //        writer.startElement("script", component);
 //        writer.writeAttribute("type", "text/javascript", null);
@@ -374,7 +373,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_JS, null), null);
         writer.endElement("script");
-//
+
 //        writer.startElement("script", component);
 //        writer.writeAttribute("type", "text/javascript", null);
 //        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);

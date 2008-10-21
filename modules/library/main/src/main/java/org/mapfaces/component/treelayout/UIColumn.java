@@ -1,12 +1,12 @@
 package org.mapfaces.component.treelayout;
 
-import org.mapfaces.component.abstractTree.UIAbstractColumn;
+import org.mapfaces.component.abstractTree.UIColumnBase;
 
 /**
  *
  * @author kevindelfour
  */
-public class UIColumn extends UIAbstractColumn {
+public class UIColumn extends UIColumnBase {
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLColumn";
     private final String FAMILY = "org.mapfaces.treelayout.Column";
