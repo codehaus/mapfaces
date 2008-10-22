@@ -68,7 +68,7 @@
         <component-type>org.mapfaces.component.MapSize</component-type>
         <component-class>org.mapfaces.component.UIMapSize</component-class>
     </component>
-     <!-- TimeLine component -->
+     <!-- TimeLine components -->
         <component>
             <component-type>org.mapfaces.component.TimeLine</component-type>
             <component-class>org.mapfaces.component.timeline.UITimeLine</component-class>
@@ -84,6 +84,10 @@
         <component>
             <component-type>SliderInput</component-type>
             <component-class>org.mapfaces.component.timeline.UISliderInput</component-class>
+        </component>
+        <component>
+            <component-type>org.mapfaces.component.TimeLine.TimeLineControl</component-type>
+            <component-class>org.mapfaces.component.timeline.UITimeLineControl</component-class>
         </component>
      <!-- Tabbedpane component -->
      <component>
@@ -303,6 +307,12 @@
             <component-family>org.mapfaces.component.TimeLine.SliderInput</component-family>
             <renderer-type>org.mapfaces.renderkit.TimeLine.HTMLSliderInput</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.timeline.SliderInputRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>TimelineControl is a panel which contains all input components to control the timeline component located in the same context</description>
+            <component-family>org.mapfaces.component.TimeLine.TimeLineControl</component-family>
+            <renderer-type>org.mapfaces.renderkit.TimeLine.HTMLTimeLineControl</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.timeline.TimeLineControlRenderer</renderer-class>
         </renderer>
         
          <!-- Tabbedpane Renderers -->

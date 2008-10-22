@@ -103,8 +103,10 @@ public class SliderInputRenderer extends Renderer {
         writer.write(intervalUnit);
         writer.endElement("label");
 
-
-        String idjs = bandInfo.getId().replace("-", "_");
+        String idjs = "";
+        if (bandInfo != null) {
+            idjs = bandInfo.getId().replace("-", "_");
+        } 
         writer.write("<script>var " + destinationDiv + " = document.getElementById(\"" + destinationDiv + "\"); " +
                 destinationDiv + ".appendChild(JSSlider.getInstance(\"" +
                 comp_id + "\", " + comp.getHorizontal() + ", " +

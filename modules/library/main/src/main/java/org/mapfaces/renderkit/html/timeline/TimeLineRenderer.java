@@ -150,7 +150,8 @@ public class TimeLineRenderer extends Renderer {
                             bandinfo.setId(comp.getId() + "_band" + i);
                             bandinfo.setWidth(proportinalwidth);
                             bandinfo.setSliderInput(true);
-                            bandinfo.setInputInterval(true);
+                            bandinfo.setSliderWidth("150");
+                            bandinfo.setInputInterval(false);
                             bandinfo.setShowEventText(true);
                             bandinfo.setIntervalPixels(80);
                             bandinfo.setIntervalUnit("MONTH");

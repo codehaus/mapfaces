@@ -278,6 +278,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
                             System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
                         }
                     } else if (layerProperty.contains("Time")) {
+                        if (value == null)
+                            value = "";
                         tmp.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
                         System.out.println(tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                         if (isDebug()) {
