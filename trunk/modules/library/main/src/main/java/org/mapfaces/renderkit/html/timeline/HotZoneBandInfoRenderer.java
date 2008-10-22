@@ -38,6 +38,7 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.component.timeline.UITimeLine;
+import org.mapfaces.component.timeline.UITimeLineControl;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.util.FacesUtils;
@@ -87,13 +88,27 @@ public class HotZoneBandInfoRenderer extends Renderer {
 
         //begin to render the component.
         ResponseWriter writer = context.getResponseWriter();
-
-        if (bandInfoComp.isSliderInput()) {
+        
+        
+        boolean timelineControlFlag = false;
+        for (UIComponent child : FacesUtils.getParentUIModelBase(context, component).getChildren()) {
+            if (child instanceof UITimeLineControl) {
+                timelineControlFlag = true;
+            }
+        }
+        
+        if (bandInfoComp.isSliderInput() && ! timelineControlFlag) {
             UISliderInput sliderInput = new UISliderInput();
             sliderInput.setId(component.getId() + "slider");
             sliderInput.setForid(String.valueOf(index));
             sliderInput.setHorizontal("true");
-            sliderInput.setLength("200");
+            
+            String sliderWidth = bandInfoComp.getSliderWidth();
+            if (sliderWidth != null && ! sliderWidth.equals("")) {
+                sliderInput.setLength(sliderWidth);
+            } else {
+                sliderInput.setLength("250");
+            }
             sliderInput.setMaxval("22");
             sliderInput.setTransient(true);
 
@@ -190,10 +205,13 @@ public class HotZoneBandInfoRenderer extends Renderer {
 
     public void writeSelectOneMenu(ResponseWriter writer, FacesContext context, UIHotZoneBandInfo bandInfo, int index) throws IOException {
         String idjs = bandInfo.getJsObject();
+        writer.startElement("div", bandInfo);
+        writer.writeAttribute("id", idjs+"-inputdate-div", null);
         writer.startElement("select", bandInfo);
         writer.writeAttribute("size", "1", null);
         writer.writeAttribute("onchange", idjs + "_changeIntervalUnit(" + index + ",this.value);", null);
         writer.writeAttribute("name", bandInfo.getClientId(context) + "selectone", "clientId");
+        writer.writeAttribute("id", bandInfo.getClientId(context) + "selectone", "id");
 
         for (int i = 0; i < 11; i++) {
             writer.startElement("option", bandInfo);
@@ -206,6 +224,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
             writer.endElement("option");
         }
         writer.endElement("select");
+        writer.endElement("div");
     }
 
     /**
@@ -251,10 +270,11 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     idjs + "_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n" +
 //                    centerdateScript +
+                    reloadDate +
                     idjs + "_eventSource._fire(\"onAddMany\", []);\n" +
                     idjs + "_tl.getBand(bandId).layout();\n" +
                     idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
-                    reloadDate +
+                    
                     "}");
             writer.endElement("script");
         }

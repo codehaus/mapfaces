@@ -50,6 +50,7 @@ public class UIHotZoneBandInfo extends UICommand {
     private Layer layer;
     private List<Event> events;
     private Date centerDate;
+    private String sliderWidth;
     
     /**
      * Name of the js object wher the timeline is defined
@@ -246,7 +247,7 @@ public class UIHotZoneBandInfo extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[19];
+        Object values[] = new Object[20];
         values[0] = super.saveState(context);
         values[1] = date;
         values[2] = eventSource;
@@ -265,6 +266,7 @@ public class UIHotZoneBandInfo extends UICommand {
         values[15] = layer;
         values[16] = events;
         values[17] = centerDate;
+        values[18] = sliderWidth;
         return values;
     }
 
@@ -289,6 +291,7 @@ public class UIHotZoneBandInfo extends UICommand {
         layer = (Layer) values[15];
         events = (List<Event>) values[16];
         centerDate = (Date) values[17];
+        sliderWidth = (String) values[18];
     }
 
     public boolean isSliderInput() {
@@ -321,5 +324,13 @@ public class UIHotZoneBandInfo extends UICommand {
 
     public void setCenterDate(Date centerDate) {
         this.centerDate = centerDate;
+    }
+
+    public String getSliderWidth() {
+        return sliderWidth;
+    }
+
+    public void setSliderWidth(String sliderWidth) {
+        this.sliderWidth = sliderWidth;
     }
 }

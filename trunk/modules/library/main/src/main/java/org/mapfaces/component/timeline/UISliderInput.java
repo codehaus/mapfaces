@@ -90,4 +90,25 @@ public class UISliderInput extends UICommand {
         }
         return -1;
     }
+    
+    @Override
+    public Object saveState(FacesContext context) {
+        Object values[] = new Object[14];
+        values[0] = super.saveState(context);
+        values[1] = maxval;
+        values[2] = forid;
+        values[3] = horizontal;
+        values[4] = length;
+        return values;
+    }
+
+    @Override
+    public void restoreState(FacesContext context, Object state) {
+        Object values[] = (Object[]) state;
+        super.restoreState(context, values[0]);
+        maxval = (String) values[1];
+        forid = (String) values[2];
+        horizontal = (String) values[3];
+        length = (String) values[4];
+    }
 }

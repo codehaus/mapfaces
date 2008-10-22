@@ -19,6 +19,7 @@ package org.mapfaces.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +44,8 @@ import org.geotools.data.wms.backend.AbstractKeyword;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
+import org.mapfaces.component.timeline.UIHotZoneBandInfo;
+import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
 
@@ -402,6 +405,24 @@ public class FacesUtils {
         for (Layer layer : layers) {
             if (layer.getDimensionList() != null && layer.getTime() != null) {
                 result++;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Returns a list that contains all bandinfos components as child of a timeline component.
+     * @param context
+     * @param timeline
+     * @return
+     */
+    public static List<UIHotZoneBandInfo> getBandInfoTimelineChildren(FacesContext context, UITimeLine timeline) {
+        List<UIHotZoneBandInfo> result = new ArrayList<UIHotZoneBandInfo>();
+        if (context != null && timeline != null) {
+            for (UIComponent child : timeline.getChildren()) {
+                if (child instanceof UIHotZoneBandInfo) {
+                    result.add((UIHotZoneBandInfo) child);
+                }
             }
         }
         return result;
