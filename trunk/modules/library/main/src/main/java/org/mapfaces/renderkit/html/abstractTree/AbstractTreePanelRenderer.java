@@ -184,10 +184,10 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                     if (makeCollapsible) {
                         writer.writeAttribute("onclick", "collapse('" + component.getId() + "');", null);
                     }
-                    writer.startElement("span", component);
-                    writer.writeAttribute("class", "x-panel-header-text", null);
+                    //writer.startElement("span", component);
+                    //writer.writeAttribute("class", "x-panel-header-text", null);
                     writer.write(title);
-                    writer.endElement("span");
+                    //writer.endElement("span");
                     writer.endElement("div");
                     X_PANEL_HEADER_CLASS_STYLE = "x-panel-body";
                 }

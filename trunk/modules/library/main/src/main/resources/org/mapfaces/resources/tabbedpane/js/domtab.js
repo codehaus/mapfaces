@@ -1,11 +1,12 @@
 function display(divContainer, toActivate){
     var toDesactivate = whosActivated(divContainer);
+    //Remove "item:" from the id
+    var idToDesactivate = toDesactivate.id.substring(5, toDesactivate.id.length);
+    document.getElementById(idToDesactivate).className="tabs_panel";
+    toDesactivate.className="";
     
-    document.getElementById(toDesactivate).setAttribute("class","tabs_panel");
-    document.getElementById("item:"+toDesactivate).setAttribute("class", "");
-    
-    document.getElementById(toActivate).setAttribute("class", "tabs_panel active");
-    document.getElementById("item:"+toActivate).setAttribute("class", "active");
+    document.getElementById(toActivate).className="tabs_panel active";
+    document.getElementById("item:"+toActivate).className="active";
 }
 
 function whosActivated(divContainer){
@@ -13,11 +14,9 @@ function whosActivated(divContainer){
     var Ul = Container.getElementsByTagName("li");
     for(i=0;i<Ul.length;i++){
         var li = Ul[i];
-      if (li.hasAttribute("class")){
-          if(li.getAttribute("class") == "active"){
-              return li.innerHTML;
-          }
-      }
+        if(li.className == "active"){
+              return li;
+        }
     }
     return false;
 }
