@@ -55,7 +55,7 @@ public class TabItemRenderer extends Renderer {
 
     private String getPostbackFunctionName(UIComponent component) {
         UITabItem tabitem = (UITabItem) component;
-        return tabitem.getId() + "PostBack";
+        return tabitem.getId() + "_PostBack";
     }
 
     /**
@@ -91,13 +91,12 @@ public class TabItemRenderer extends Renderer {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("div", tabitem);
-        writer.writeAttribute("id", tabitem.getTitle(), null);
+        writer.writeAttribute("id", tabitem.getClientId(context), null);
         if (tabitem.isActive()) {
             writer.writeAttribute("class", "tabs_panel active", null);
         } else {
             writer.writeAttribute("class", "tabs_panel", null);
         }
-        writer.startElement("p", tabitem);
     }
 
     /**
@@ -130,7 +129,6 @@ public class TabItemRenderer extends Renderer {
         log.info("encodeEnd : " + TabItemRenderer.class.getName());
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.endElement("p");
         writer.endElement("div");
 
     }

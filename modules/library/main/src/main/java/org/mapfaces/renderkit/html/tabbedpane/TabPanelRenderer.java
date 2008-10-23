@@ -110,12 +110,12 @@ public class TabPanelRenderer extends Renderer {
         boolean active = true;
         List<UIComponent> children = tabpanel.getChildren();
         writer.startElement("ul", tabpanel);
-        writer.writeAttribute("id", tabpanel.getTitle(), null);
+        writer.writeAttribute("id", tabpanel.getClientId(context), null);
         writer.writeAttribute("class", "tabs_title", null);
         for (UIComponent child : children) {
             writer.startElement("li", tabpanel);
-            writer.writeAttribute("id", "item:"+((UITabItem) child).getTitle(), null);
-            writer.writeAttribute("onclick", "display('"+"tabs:" +tabpanel.getClientId(context)+"','"+((UITabItem) child).getTitle()+"');", null);
+            writer.writeAttribute("id", "item:"+((UITabItem) child).getClientId(context), null);
+            writer.writeAttribute("onclick", "display('"+"tabs:" +tabpanel.getClientId(context)+"','"+((UITabItem) child).getClientId(context)+"');", null);
             if (active) {
                 writer.writeAttribute("class", "active", null);
                 ((UITabItem) child).setActive(true);
