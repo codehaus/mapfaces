@@ -16,7 +16,7 @@
             <body>
     <h:form>
  
-                    <mf-model:Context id="owsContext" debug="true" service="data/context/blueMarble.xml">                              
+                    <mf-model:Context id="owsContext" debug="true" minifyJS="false"  service="data/context/blueMarble.xml">                              
                         <mf:MapPane id="mappane"></mf:MapPane>
 			<%/*mf:ButtonBar id="buttonsbars"/*/%>
                     </mf-model:Context>

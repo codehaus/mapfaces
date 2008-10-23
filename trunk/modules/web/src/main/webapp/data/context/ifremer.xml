@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <OWSContext version="0.3.0" id="ows-context" xmlns="http://www.opengis.net/ows-context" xmlns:gml="http://www.opengis.net/gml" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/ows-context http://www.ogcnetwork.net/schemas/owc/0.3.0/owsContext.xsd">
 	<General>                
-		<Window width="600" height="400"/>
+		<Window width="600" height="300"/>
 		<ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:3395">
 			<ows:LowerCorner>-20037507.067161847 -20037507.067161847</ows:LowerCorner>
 			<ows:UpperCorner>20037507.067161847 20037507.067161847</ows:UpperCorner>
@@ -46,7 +46,7 @@
 				</Style>
 			</StyleList>
 		</Layer-->
-                 <Layer name="AO_Coriolis_(Temp)" queryable="1" hidden="0" opacity="0.6" group="Coriolis">                  
+                <Layer name="AO_Coriolis_(Temp)" queryable="1" hidden="0" opacity="0.6" group="Coriolis">                  
 			<ows:Title>AO_Coriolis_(Temp)</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
@@ -217,7 +217,7 @@
 			    </Style>
 			</StyleList>
 		</Layer-->  
-                <Layer name="Mars3D_Gascogne_(UZ-VZ)" queryable="1" hidden="0" opacity="1" group="Courants">                  
+                <!--Layer name="Mars3D_Gascogne_(UZ-VZ)" queryable="1" hidden="0" opacity="1" group="Courants">                  
 			<ows:Title>Mars3D Gasc UZ-VZ</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
@@ -242,7 +242,7 @@
                                 <Title></Title>
 			    </Style>
 			</StyleList>
-		</Layer> 
+		</Layer--> 
 	</ResourceList>
 </OWSContext>
 
