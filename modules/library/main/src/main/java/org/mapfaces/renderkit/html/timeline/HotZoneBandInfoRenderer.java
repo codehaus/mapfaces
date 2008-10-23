@@ -91,12 +91,13 @@ public class HotZoneBandInfoRenderer extends Renderer {
         
         
         boolean timelineControlFlag = false;
-        for (UIComponent child : FacesUtils.getParentUIModelBase(context, component).getChildren()) {
-            if (child instanceof UITimeLineControl) {
-                timelineControlFlag = true;
+        if(FacesUtils.getParentUIModelBase(context, component ) != null){
+            for (UIComponent child : FacesUtils.getParentUIModelBase(context, component).getChildren()) {
+                if (child instanceof UITimeLineControl) {
+                    timelineControlFlag = true;
+                }
             }
         }
-        
         if (bandInfoComp.isSliderInput() && ! timelineControlFlag) {
             UISliderInput sliderInput = new UISliderInput();
             sliderInput.setId(component.getId() + "slider");

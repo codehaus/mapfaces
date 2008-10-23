@@ -192,8 +192,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 "                       mfFormId:'" + FacesUtils.getFormId(context, component) + "',\n" +
                 "                       mfRequestId:'updateBboxOrWindow'\n" +
                 "                   };\n" +
-                "    window." + jsObject + " = new OpenLayers.Map('" + comp.getClientId(context) + "',mapOptions);\n" +
-                "   ");
+                "    window."+jsObject+" = new OpenLayers.Map('"+comp.getClientId(context)+"',mapOptions);\n" +
+                "    if(!window.maps){window.maps = {};}" +
+                "    window.maps."+jsObject+" = window."+jsObject+";"+
+                "");
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

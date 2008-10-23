@@ -57,7 +57,11 @@ public class UITimeLine extends UICommand {
      * Flag that indicates if the timeline should load the band components dynamically from a context or not.
      */
     private boolean dynamicBands;
-
+    /**
+     * Flag that indicates if we want use th compressed scripts or the uncompressed.
+     */
+    private boolean minifyJS = true;
+    
     public String getFamily() {
         return FAMILIY;
     }
@@ -103,6 +107,7 @@ public class UITimeLine extends UICommand {
         values[5] = theme;
         values[6] = synchronizeBands;
         values[7] = dynamicBands;
+        values[8] = minifyJS;
         return values;
     }
 
@@ -117,6 +122,8 @@ public class UITimeLine extends UICommand {
         theme = (String) values[5];
         synchronizeBands = (Boolean) values[6];
         dynamicBands = (Boolean) values[7];
+        minifyJS = (Boolean) values[8];
+        
     }
 
     public boolean isInputDate() {
@@ -149,5 +156,13 @@ public class UITimeLine extends UICommand {
 
     public void setDynamicBands(boolean dynamicBands) {
         this.dynamicBands = dynamicBands;
+    }
+
+    public boolean isMinifyJS() {
+        return minifyJS;
+    }
+
+    public void setMinifyJS(boolean minifyJS) {
+        this.minifyJS = minifyJS;
     }
 }

@@ -28,6 +28,7 @@ import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.mapfaces.component.abstractTree.UITreeBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
@@ -50,15 +51,16 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
     /* Script Js and Css Style link */
-    //private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
-    //private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
-    //private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
+    private final String MOO_JS = "/org/mapfaces/resources/treetable/js/moo1.2.js";
+    
     private final String LOAD_JS = "/org/mapfaces/resources/treetable/js/load.js";
     //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
     private final String TREETABLE_CSS = "/org/mapfaces/resources/treetable/css/treetable.css";
     private final String DRAGDROP_CSS = "/org/mapfaces/resources/treetable/css/dragndrop.css";
-    private final String TREETABLE_MINIFY_JS = "/org/mapfaces/resources/treetable/minify/zip.js";
 
+    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
+    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
+    private final String TREE_MINIFY_JS = "/org/mapfaces/resources/treetable/minify/zip.js";
     /**
      * <p> Render the beginning specified TreeTable Component to the output stream or writer associated 
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
@@ -341,6 +343,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      */
     private void writeHeaders(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
+        UITreeBase comp = (UITreeBase) component;
         if (debug) {
             System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
         }
@@ -351,11 +354,6 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 //        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
 //        writer.endElement("script");
 
-//        writer.writeComment("Moo Javascript Library");
-//        writer.startElement("script", component);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOO_JS, null), null);
-//        writer.endElement("script");
 
         writer.startElement("link", component);
         writer.writeAttribute("type", "text/css", null);
@@ -373,16 +371,31 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_JS, null), null);
         writer.endElement("script");
+        
+        if(comp.isMootools()){
+            writer.writeComment("Moo Javascript Library");
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOO_JS, null), null);
+            writer.endElement("script");
+        }
+        
+        if(comp.isMinifyJS()){        
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREE_MINIFY_JS, null), null);
+            writer.endElement("script");            
+        }else{
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
+            writer.endElement("script");
 
-//        writer.startElement("script", component);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
-//        writer.endElement("script");
-
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_MINIFY_JS, null), null);
-        writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
+            writer.endElement("script");
+        }
 
     }
 }

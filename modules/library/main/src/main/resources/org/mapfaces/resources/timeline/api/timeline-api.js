@@ -11,7 +11,6 @@
  *
  *==================================================
  */
-var timelineSingleFile = false;
 var Timeline = new Object();
 Timeline.Platform = new Object();
     /*
@@ -97,8 +96,8 @@ Timeline.Platform = new Object();
                     parseURLParameters(Timeline_parameters);
                 }
             } else {
-                /*GEOMATYS add the if*/
-                if(!timelineSingleFile){
+                /*MAPFACES the variable TIMELINE_SINGLE_FILE is created in the jsf component*/
+                if(!window.TIMELINE_SINGLE_FILE){
                   var heads = document.documentElement.getElementsByTagName("body");
                   for (var h = 0; h < heads.length; h++) {
                       var scripts = heads[h].getElementsByTagName("script");
@@ -136,8 +135,8 @@ Timeline.Platform = new Object();
             var includeJavascriptFile = function(url) {
                 if (document.body == null) {
                     try {
-                        /*GEOMATYS add the if*/
-                        if(!timelineSingleFile){
+                        /*MAPFACES the variable TIMELINE_SINGLE_FILE is created in the jsf component*/
+                        if(!window.TIMELINE_SINGLE_FILE){
                           document.write("<script src='" + url + "' type='text/javascript'></script>");
                         }
                         return;
@@ -171,8 +170,8 @@ Timeline.Platform = new Object();
             
             includeJavascriptFiles = function(urlPrefix, filenames) {
                 
-                /*GEOMATYS add the if*/
-                if(!timelineSingleFile){
+                /*MAPFACES the variable TIMELINE_SINGLE_FILE is created in the jsf component*/
+                if(!window.TIMELINE_SINGLE_FILE){
                   for (var i = 0; i < filenames.length; i++) {
                       includeJavascriptFile(urlPrefix + filenames[i]);
                   }

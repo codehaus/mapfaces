@@ -40,6 +40,8 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
     private ValueExpression var = null;
     private ValueExpression width = null;
     private ValueExpression height = null;
+    private ValueExpression mootools = null;
+    private ValueExpression minifyJS = null;
     
 
     /* Abstracts methods*/
@@ -126,7 +128,38 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
     public void setHeight(ValueExpression height) {
         this.height = height;
     }
-
+    /**
+     * Accessor for mootools .
+     * @return mootools value
+     */
+    public ValueExpression getMootools() {
+        return mootools;
+    }
+    
+    /**
+     * Mutator for mootools
+     * @param mootools New value for mootools
+     */
+    public void setMootools(ValueExpression mootools) {
+        this.mootools = mootools;
+    }
+    
+    /**
+     * Accessor for minifyJS
+     * @return minifyJS value
+     */
+    public ValueExpression getMinifyJS() {
+        return minifyJS;
+    }
+    
+    /**
+     * Mutator for minifyJS
+     * @param minifyJS New value for minifyJS
+     */
+    public void setMinifyJS(ValueExpression minifyJS) {
+        this.minifyJS = minifyJS;
+    }
+    
     /* Methods*/
     /**
      * <p>Override properties and attributes of the specified component, 
@@ -143,6 +176,8 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
         component.setValueExpression("var", var);
         component.setValueExpression("width", width);
         component.setValueExpression("height", height);
+        component.setValueExpression("mootools", mootools);
+        component.setValueExpression("minifyJS", minifyJS);
         
     }
 
@@ -156,6 +191,10 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
         setVar(null);
         setWidth(null);
         setHeight(null);
+        setMootools(null);
+        setMinifyJS(null);
     }
+    
+    
 }
 

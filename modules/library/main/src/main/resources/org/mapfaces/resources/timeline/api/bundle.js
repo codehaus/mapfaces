@@ -3655,7 +3655,9 @@ div.style.height="1em";
 Timeline.DOM.registerEvent(div,"mousedown",function(elmt,domEvt,target){
 p._onClickInstantEvent(img,domEvt,evt);
 /*GEOMATYS MAPFACES*/
-Timeline.sendAjaxRequest(elmt,domEvt,target);    
+if(Timeline.sendAjaxRequest)
+    Timeline.sendAjaxRequest(elmt,domEvt,target); 
+/*END GEOMATYS MAPFACES*/   
 });
 };
 var createHighlightDiv=function(highlightIndex,startPixel,length,highlightOffset,highlightWidth){

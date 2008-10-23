@@ -3541,6 +3541,15 @@
                 Flag that indicates if the timeline should load the band components dynamically from a context or not.
             </description>
         </attribute>
+        <attribute>
+            <name>minifyJS</name>
+            <description>Allow to load the minify JavaScript library or the uncompressed library , default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
     </tag>
     <tag>
         <name>BandInfo</name>
@@ -3952,8 +3961,7 @@
             <name>length</name>
         </attribute>
     </tag>
-    
-  <!-- TimeLineControl component -->
+    <!-- TimeLineControl component -->
   <tag>
         <name>TimeLineControl</name>
         <tag-class>org.mapfaces.taglib.timeline.TimeLineControlTag</tag-class>
@@ -4023,9 +4031,7 @@
             </description>
         </attribute>
     </tag>
-
-  <!-- =========== TREETABLE TAG ======================================== -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->  
   <!--TreeTable -->
     <tag>
         <name>TreeTable</name>
@@ -4576,6 +4582,24 @@
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>mootools</name>
+            <description>Allow to load mootools library or not, default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>minifyJS</name>
+            <description>Allow to load the minify JavaScript library or the uncompressed library , default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
             </deferred-value>
         </attribute>
     </tag>

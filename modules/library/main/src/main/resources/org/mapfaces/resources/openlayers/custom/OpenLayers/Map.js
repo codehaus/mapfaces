@@ -498,12 +498,16 @@ OpenLayers.Map = OpenLayers.Class({
         //this.zoomToMaxExtent();
         
         //Add onload function to window to zoom the map to the maxExtent" 
-        //TODO worrks for multiple mappane on the page
+        //TODO should works for multiple mappane on the page
         var sc = document.createElement("script");
         sc.setAttribute("type", "text/javascript");
-        sc.innerHTML="function zoom(){"+
-                          this.id+".zoomToMaxExtent();"+
-                     "};"+       //"+this.id+"getCurrentExtent());};"+
+        sc.innerHTML="function zoom(){\n"+
+                      "    if(window.maps){\n"+
+                      "        for(var map in window.maps){\n"+
+                      "            window.maps[map].zoomToMaxExtent();\n"+
+                      "        }"+
+                      "    }\n"+
+                      "};\n"+      
                      "window.onload=zoom;";
         document.getElementsByTagName('head')[0].appendChild(sc);
         
