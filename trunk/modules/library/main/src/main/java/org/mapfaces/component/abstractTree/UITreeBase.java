@@ -36,7 +36,9 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
     private boolean debug;
     private String style;
     private String styleClass;
-
+    private boolean mootools = true;
+    private boolean minifyJS = true;
+    
     /* Accessors */
     public TreeTableModel getTree() {
         return tree;
@@ -135,4 +137,20 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
      */
     @Override
     public abstract String getRendererType();
+
+    public boolean isMootools() {
+        return mootools;
+    }
+
+    public void setMootools(boolean mootools) {
+        this.mootools = mootools;
+    }
+
+    public boolean isMinifyJS() {
+        return minifyJS;
+    }
+
+    public void setMinifyJS(boolean minifyJS) {
+        this.minifyJS = minifyJS;
+    }
 }

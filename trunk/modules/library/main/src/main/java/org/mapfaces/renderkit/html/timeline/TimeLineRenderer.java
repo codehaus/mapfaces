@@ -80,9 +80,7 @@ import org.opengis.temporal.TemporalPrimitive;
  * @author Olivier Terral.
  */
 public class TimeLineRenderer extends Renderer {
-
-    boolean singleFile = false;
-
+    
     @Override
     @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -876,17 +874,28 @@ public class TimeLineRenderer extends Renderer {
      */
     private void writeTimeLineScripts(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
+        UITimeLine comp = (UITimeLine) component;
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
 
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
-        if (!singleFile) {
+        if (comp.isMinifyJS()){
+            
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.write("var TIMELINE_SINGLE_FILE = true;");
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/minify/zip.js", null), null);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
+            
+        } else {
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/timeline-api.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
-
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
@@ -909,11 +918,6 @@ public class TimeLineRenderer extends Renderer {
             writer.endElement("script");
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/styles/theme.js", null), null);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.endElement("script");
-        } else {
-            writer.startElement("script", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/minify/zip.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
         }
@@ -1102,7 +1106,7 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        if (!singleFile) {
+        if (!comp.isMinifyJS()) {
             writer.startElement("script", comp);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/slider/js/JSSlider.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
@@ -1138,4 +1142,5 @@ public class TimeLineRenderer extends Renderer {
                 "}\n");
         writer.endElement("script");
     }
+
 }

@@ -27,6 +27,7 @@ public class UITreeTable extends UITreeTableBase {
 
     private final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeTable";
     private final String TREETABLE_COMP_FAMILY = "javax.faces.Output";
+    
 
     @Override
     public String getFamily() {

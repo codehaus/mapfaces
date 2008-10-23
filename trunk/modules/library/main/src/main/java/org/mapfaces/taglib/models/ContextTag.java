@@ -68,6 +68,14 @@ public class ContextTag extends UIComponentELTag {
      * This is a flag that indicates if the scripts prototype, scruptaculous and mootools must be loaded.
      */
     private ValueExpression scriptaculous = null;
+    /**
+     * This is a flag that indicates if the scripts mootools must be loaded.
+     */
+    private ValueExpression mootools= null;
+    /**
+     * This is a flag that indicates if we must load compressed scripts or uncompressed.
+     */
+    private ValueExpression minifyJS = null;
 
     @Override
     public String getComponentType() {
@@ -93,6 +101,8 @@ public class ContextTag extends UIComponentELTag {
         component.setValueExpression("style", style);
         component.setValueExpression("debug", debug);
         component.setValueExpression("scriptaculous", scriptaculous);
+        component.setValueExpression("mootools", mootools);
+        component.setValueExpression("minifyJS", minifyJS);
         
         //setting the flag to load or not the prototype and scriptaculous js libs
         if (scriptaculous != null) {
@@ -117,6 +127,8 @@ public class ContextTag extends UIComponentELTag {
         style = null;
         debug = null;
         scriptaculous = null;
+        mootools = null;
+        minifyJS = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -149,5 +161,21 @@ public class ContextTag extends UIComponentELTag {
 
     public void setScriptaculous(ValueExpression scriptaculous) {
         this.scriptaculous = scriptaculous;
+    }
+
+    public ValueExpression getMootools() {
+        return mootools;
+    }
+
+    public void setMootools(ValueExpression mootools) {
+        this.mootools = mootools;
+    }
+
+    public ValueExpression getMinifyJS() {
+        return minifyJS;
+    }
+
+    public void setMinifyJS(ValueExpression minifyJS) {
+        this.minifyJS = minifyJS;
     }
 }

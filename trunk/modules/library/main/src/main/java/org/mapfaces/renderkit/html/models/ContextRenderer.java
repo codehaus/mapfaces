@@ -45,13 +45,15 @@ import org.mapfaces.util.XMLContextUtilities;
 public class ContextRenderer extends Renderer {
 
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
+    
     private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/OpenLayers.js";
-    //private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
-    private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";
+    private final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
+    
+    private final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools.1.2.js";    
     private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
-    //private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
-    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
+    
+    private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
+    private final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -77,40 +79,55 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
             writer.writeAttribute("type", "text/css", null);
 
-            //Add OpenLayers css
-            /*writer.endElement("link");
-            writer.startElement("link", component);
-            writer.writeAttribute("rel","stylesheet","rel");
-            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/openlayers/theme/default/style.css", null), null);
-            writer.writeAttribute("type", "text/css", null);
-            writer.endElement("link");*/
-
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-            writer.endElement("script");
-
+            if (comp.isMootools()){
+                writer.startElement("script", component);
+                writer.writeAttribute("type", "text/javascript", null);
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+                writer.endElement("script");
+            }
 
             if (comp.isScriptaculous()) {
+                
                 //Add Prototype script
                 writer.startElement("script", component);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.endElement("script");
-
+                
                 //Add Scriptaculous scripts
+                if(comp.isMinifyJS()){
+                    writer.startElement("script", component);
+                    writer.writeAttribute("type", "text/javascript", null);
+                    writer.write("window.SCRIPTACULOUS_SINGLE_FILE = true;");
+                    writer.endElement("script");           
+                }
                 writer.startElement("script", component);
-                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
+                if(comp.isMinifyJS()){
+                    writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_MINIFY_JS, null), null);
+                }else{                
+                    writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
+                }
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.endElement("script");
             }
-
+            
             //Add OpenLayers scripts
+            if(comp.isMinifyJS()){
+                    writer.startElement("script", component);
+                    writer.writeAttribute("type", "text/javascript", null);
+                    writer.write("var OpenLayers = { singleFile: true };");
+                    writer.endElement("script");           
+            }    
             writer.startElement("script", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
+            if(comp.isMinifyJS()){                
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
+            }else{
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
+            }
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
-
+            
+            
             //Loading the context file if the model is null.
             if (comp.getModel() == null) {
                 String fileUrl = (String) component.getAttributes().get("service");

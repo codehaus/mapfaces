@@ -71,6 +71,10 @@ public class TimeLineTag extends UIComponentELTag {
      * Flag that indicates if the timeline should load the band components dynamically from a context or not.
      */
     private ValueExpression dynamicBands = null;
+    /**
+     * This is a flag that indicates if we must load compressed scripts or uncompressed.
+     */
+    private ValueExpression minifyJS = null;
         
     public String getComponentType() {
         return COMP_TYPE;
@@ -93,6 +97,7 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("theme",theme);
         component.setValueExpression("synchronizeBands",synchronizeBands);
         component.setValueExpression("dynamicBands",dynamicBands);
+        component.setValueExpression("minifyJS",minifyJS);
     }
     
     @Override
@@ -108,6 +113,7 @@ public class TimeLineTag extends UIComponentELTag {
         theme = null;
         synchronizeBands = null;
         dynamicBands = null;
+        minifyJS = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -160,5 +166,13 @@ public class TimeLineTag extends UIComponentELTag {
 
     public void setDynamicBands(ValueExpression dynamicBands) {
         this.dynamicBands = dynamicBands;
+    }
+
+    public ValueExpression getMinifyJS() {
+        return minifyJS;
+    }
+
+    public void setMinifyJS(ValueExpression minifyJS) {
+        this.minifyJS = minifyJS;
     }
 }

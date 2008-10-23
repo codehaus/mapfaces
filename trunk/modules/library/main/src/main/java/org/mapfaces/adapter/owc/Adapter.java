@@ -2,6 +2,7 @@ package org.mapfaces.adapter.owc;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.util.XMLContextUtilities;
 
 /**
  *
@@ -36,18 +38,16 @@ public class Adapter {
 
         //First we get the OWC model
         try {
-            JAXBContext Jcontext;
-            Jcontext = JAXBContext.newInstance("net.opengis.owc.v030:net.opengis.context.v110");
-            Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
             ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-            JAXBElement elt = (JAXBElement) unmarshaller.unmarshal(new FileReader(sc.getRealPath(fileUrl)));
-//            model = new OWC_v030(elt.getValue());
+            model = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
         } catch (JAXBException ex) {
-            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, "JAXBException" + ex);
+            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, "FileNotFoundException" + ex);
+            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         DefaultTreeModel tree = new DefaultTreeModel(null);
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
 
