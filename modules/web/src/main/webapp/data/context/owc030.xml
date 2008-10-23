@@ -5,8 +5,8 @@
 		<ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:4326">
 			<!--ows:LowerCorner>-117.44667178362664 32.57086210449395</ows:LowerCorner>
 			<ows:UpperCorner>-116.74066794885977 32.921986352104064</ows:UpperCorner-->
-			<ows:LowerCorner>-180 -10</ows:LowerCorner>
-			<ows:UpperCorner>180 10</ows:UpperCorner>
+			<ows:LowerCorner>-180 -90</ows:LowerCorner>
+			<ows:UpperCorner>180 90</ows:UpperCorner>
 		</ows:BoundingBox>
 		<ows:Title>OWS Context version 0.3.0 examples</ows:Title>
 	</General>

@@ -18,7 +18,7 @@
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                  
 		</Layer> 
-                <Layer name="Countries" queryable="1" hidden="1" opacity="0.6" group="World/USA">                        
+                <Layer name="Countries" queryable="1" hidden="0" opacity="0.6" group="World/USA">                        
 			<ows:Title>Countries</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
@@ -32,13 +32,13 @@
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                 
 		</Layer> 
-                 <Layer name="topp:states" queryable="1" hidden="0" group="States">
+                <!--Layer name="topp:states" queryable="1" hidden="0" opacity="0.5" group="States">
 			<ows:Title>States</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
-				<OnlineResource xlink:href="http://demo.geomatys.fr/geoserver/wms"/>
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver"/>
 			</Server>
-		</Layer>
+		</Layer-->
                 <Layer name="Builtup+areas" queryable="1" hidden="0" group="World">                        
 			<ows:Title>Builtup+areas</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
@@ -67,7 +67,7 @@
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                  
 		</Layer> 
-                <Layer name="Rivers" queryable="1" hidden="1">                        
+                <Layer name="Rivers" queryable="1" hidden="0">                        
 			<ows:Title>Rivières</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
@@ -102,7 +102,7 @@
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                   
 		</Layer> 
-                <Layer name="Trails" queryable="1" hidden="1" group="World">                        
+                <Layer name="Trails" queryable="1" hidden="0" group="World">                        
 			<ows:Title>Rails</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
@@ -123,41 +123,41 @@
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                   
 		</Layer> 
-                <Layer name="Settlements" queryable="1" hidden="1" group="World">                        
+                <Layer name="Settlements" queryable="1" hidden="0" group="World">                        
 			<ows:Title>Settlements</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                   
 		</Layer>
-                <Layer name="Spot+elevations" queryable="1" hidden="1" group="World">                        
+                <Layer name="Spot+elevations" queryable="1" hidden="0" group="World">                        
 			<ows:Title>Points culminant</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                   
 		</Layer>
-                <Layer name="Airports" queryable="1" hidden="1" group="World">                        
+                <Layer name="Airports" queryable="1" hidden="0" group="World">                        
 			<ows:Title>Aéroports</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                   
 		</Layer>
-                <Layer name="Ocean+features" queryable="1" hidden="1" group="World">                        
+                <Layer name="Ocean+features" queryable="1" hidden="0" group="World">                        
 			<ows:Title>Ocean+features</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
                                 <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
 			</Server>                   
 		</Layer>
-                <Layer name="topp:major_roads" queryable="1" hidden="0" group="States">
+                <!--Layer name="topp:major_roads" queryable="1" hidden="0" group="States">
 			<ows:Title>Tiger 2005fe major roads</ows:Title>
 			<ows:OutputFormat>image/png</ows:OutputFormat>
 			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
 				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wms?"/>
 			</Server>
                         
-		</Layer>
+		</Layer-->
 	</ResourceList>
 </OWSContext>
