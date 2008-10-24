@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>TimeLine example</title>
         
-        <style>
+        <style type="text/css">
             body{margin:0px; background:#f3f4e9;padding:10pt}
         </style>
     </head>
@@ -26,20 +26,10 @@
                 
                 <h:commandButton value="Submit"/>
 
-<mf-model:Context id="owsContext" debug="true" service="data/context/wedsat.xml">
-
-                <%--mf:TimeLine id="mytimeline" style="height: 500px; border: 1px solid #aaa;width:1200px;margin:0pt auto;" value="#{timelineBean.events}">
-
-                    <mf:HotZoneBandInfo id="band0" width="75" intervalUnit="WEEK" intervalPixels="100" showEventText="true" timeZone="-5" theme="OLanceTheme" date="#{timelineBean.centerDate}" inputInterval="true"/>
-                    <mf:HotZoneBandInfo id="band1" width="25" intervalUnit="YEAR" intervalPixels="200" showEventText="false" trackGap="0.2" trackHeight="0.5" date="#{timelineBean.centerDate}" inputInterval="true"/>
-
-                </mf:TimeLine--%>
                 <mf:TimeLine id="timeline" minifyJS="false" style="top: 100px;width:100%;height: 150px;border: 1px solid #aaa;position: absolute; font-size:0.8em;" value="#{timelineBean.events}" >
                            <mf:HotZoneBandInfo id="band0" width="70" intervalUnit="WEEK" intervalPixels="100" showEventText="true" date="#{timelineBean.centerDate}" timeZone="-5" theme="OLanceTheme" inputInterval="true"/>
                            <mf:HotZoneBandInfo id="band1" width="30" intervalUnit="YEAR" style="height:100px;" intervalPixels="200" date="#{timelineBean.centerDate}" showEventText="false" trackGap="0.2" trackHeight="0.5" inputInterval="true"/>
                 </mf:TimeLine>
-
-</mf-model:Context>
 
 
 

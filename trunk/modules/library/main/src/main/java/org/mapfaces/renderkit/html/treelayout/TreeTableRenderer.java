@@ -48,15 +48,5 @@ public class TreeTableRenderer extends AbstractTreeTableRenderer{
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         return;
     }
-    @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-          
-        beforeEncodeEnd(context, component);
-        ResponseWriter writer = context.getResponseWriter();
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div");        
-        afterEncodeEnd(context, component);
-     }
 
 }

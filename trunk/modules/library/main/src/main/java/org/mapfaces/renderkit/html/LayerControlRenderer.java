@@ -89,6 +89,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setId(component.getId() + "TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
         treeTable.setVarName("layer");
+        treeTable.setMootools(comp.isMootools());
+        treeTable.setMinifyJS(comp.isMinifyJS());
         treeTable.setWidth(400);
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();

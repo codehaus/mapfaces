@@ -48,7 +48,7 @@ public class UITimeLine extends UICommand {
     /**
      * Name of the theme for the bands sub components.
      */
-    private String theme;
+    private String theme ="ClassicTheme";
     /**
      * Flag that indicates if the timeline must be synchronized or not between bandinfos components. Default is true.
      */
