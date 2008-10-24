@@ -308,7 +308,7 @@ public class TimeLineRenderer extends Renderer {
                     "                        null,\n" +
                     "                        {   'control':this,\n" +
                     "                            'single':true,\n" +
-                    "                            'parameters': parameters ,\n" +
+                    "                            'parameters': parameters \n" +
                     "                        } \n" +
                     "                      );\n" +
                     "    };\n");
