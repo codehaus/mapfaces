@@ -775,18 +775,7 @@
             <description>
                The header title of the treeColumn sub component.
             </description>
-        </attribute>
-        <attribute>
-            <name>hideElevationColumn</name>
-            <deferred-value>
-                <type>java.lang.Boolean</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description>
-                Flag that indicates if the Elevation columns must be displayed or not.
-            </description>
-        </attribute>
+        </attribute>       
         <attribute>
             <name>styleOddLines</name>
             <deferred-value>
@@ -826,6 +815,72 @@
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
+        </attribute>
+         <attribute>
+            <name>elevationColumn</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the elevation column must be displayed or not.
+            </description>
+        </attribute>
+         <attribute>
+            <name>visibilityColumn</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the visibility column must be displayed or not.
+            </description>
+        </attribute>
+         <attribute>
+            <name>opacityColumn</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the opacity column must be displayed or not.
+            </description>
+        </attribute>
+         <attribute>
+            <name>timeColumn</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the time column must be displayed or not.
+            </description>
+        </attribute>
+         <attribute>
+            <name>layerInfo</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the layerInfo component must be displayed or not.
+            </description>
+        </attribute>
+         <attribute>
+            <name>colorMapEditor</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the colorMapEditoe component must be displayed or not.
+            </description>
         </attribute>
     </tag>
     <tag>

@@ -10,19 +10,18 @@
 "http://www.w3.org/TR/html4/loose.dtd">
  
 <f:view>
-<html>
-         <head>
+    <html>
+        <head>
 	</head>
-            <body>
-    <h:form>
- 
-                    <mf-model:Context minifyJS="false"  service="data/context/blueMarble.xml">                              
-                        <mf:MapPane></mf:MapPane>
+        <body>
+            <h:form>
+                <mf-model:Context minifyJS="false"  service="data/context/blueMarble.xml">                              
+                        <mf:MapPane ></mf:MapPane>
 			<mf:ButtonBar styleClass="mfButtonBar horizontal" style="top:350px"/>
-                    </mf-model:Context>
- 
-        <h:commandButton value="submit" style="margin-left:60px;z-index:1000;position:relative;"/>
- 
-    </h:form>
+                </mf-model:Context>
+                <h:commandButton value="submit" style="margin-left:60px;z-index:1000;position:relative;"/>
+            </h:form>
 	</body>
+    </html>
 </f:view>
+ 

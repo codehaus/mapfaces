@@ -160,6 +160,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     }
                     writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
                     writer.endElement("img");
+                    writer.endElement("div");
                 }
                 if (defaultMapContext.layers().remove(mapLayer)) {
                     if (comp.isDebug()) {
