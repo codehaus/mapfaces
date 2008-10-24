@@ -39,7 +39,6 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
         UICheckColumn comp = (UICheckColumn) component;
         ResponseWriter writer = context.getResponseWriter();
 
-
         HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
         checkbox.setId("check_" + comp.getId());
         checkbox.setValue(comp.getValue());

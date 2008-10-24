@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.share.elresolver;
 
 import java.beans.FeatureDescriptor;
@@ -101,7 +100,8 @@ public class CustomELResolver extends ELResolver {
                 } catch (IllegalAccessException ex) {
                     logger.log(Level.SEVERE, null, ex);
                 } catch (IllegalArgumentException ex) {
-                    logger.log(Level.SEVERE, null, ex);
+                    System.out.println("[WARNING] " + Level.SEVERE + " - " + ex);
+                // logger.log(Level.SEVERE, null, ex);
                 } catch (InvocationTargetException ex) {
                     logger.log(Level.SEVERE, null, ex);
                 }
@@ -146,7 +146,7 @@ public class CustomELResolver extends ELResolver {
             elContext.setPropertyResolved(true);
             try {
                 if (property instanceof Name) {
-                    context.rebind(((Name)property).toString(), value);
+                    context.rebind(((Name) property).toString(), value);
                 } else {
                     context.rebind(property.toString(), value);
                 }

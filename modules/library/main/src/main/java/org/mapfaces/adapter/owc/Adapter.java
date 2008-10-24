@@ -52,7 +52,7 @@ public class Adapter {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
 
         DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);
-        root.add(contextOwc);
+        
 
         int id = 0;
         int depth = 1;
@@ -64,6 +64,7 @@ public class Adapter {
             contextOwc.add(item);
         }
 
+        root.add(contextOwc);
         tree.setRoot(root);
         return tree;
     }
@@ -86,7 +87,6 @@ public class Adapter {
         //Then we get a list layers to construct the tree
         List<Layer> listLayers = model.getLayers();
         for (Layer layer : listLayers) {
-            System.out.println("ID :" + id);
             id++;
             TreeItem treeItem = new TreeItem(layer);
             TreeNodeModel item = new TreeNodeModel(treeItem, id, depth, id, false);
@@ -96,6 +96,7 @@ public class Adapter {
         tree.setRoot(root);
         return tree;
     }
+    
 //public static TimeLineBean string2TimeLineBean(FacesContext context, AbstractContext model) {
 //     Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 //        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
