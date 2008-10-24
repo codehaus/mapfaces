@@ -19,7 +19,7 @@
                 <mf:TreeLayoutTable value="#{treebean.tree}" minifyJS="false" var="layer" id="Treetable" width="700" style="background-color:#fff;">
                     <mf:TabPanel width="700" >
                         <mf:TabItem title="Tree Vue 1" >
-                            <mf:TreeLayoutPanel header="true" id="panel1" rowId="true" title="Vue 1 de la treetable..." >
+                            <mf:TreeLayoutPanel header="true" id="panel1" rowId="true" title="Vue 1 de la treetable..."  showRoot="true" >
                                 
                                 <mf:TreeLayoutTColumn headerTitle="Tree Items" width="300" value="#{layer.name}"/>
 
