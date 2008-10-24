@@ -1,47 +1,56 @@
 .tabs_title {
-	list-style-image: none;
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
-	height: 24px;
-	
+    list-style-image: none;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    height: 24px;
+    
 }
 
 .tabs_title li {
-	float: left;
-	background-color: #3975BD;
-	padding: 2px 8px 2px 8px;
-	margin-right: 2px;
-	cursor: pointer;
-	color: #fff;
-	font-family: "Trebuchet MS";
-	font-size: 12px;
-	height: 24px;
-	line-height: 24px;
+    float: left;
+    background-color: #3975BD;
+    padding: 2px 8px 2px 8px;
+    margin-right: 2px;
+    cursor: pointer;
+    color: #fff;
+    font-family: "Trebuchet MS";
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    background:transparent url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/panel/white-top-bottom.gif) repeat-x scroll 0 -1px;
+    color:black;
+    opacity:0.5;
 }
 
 .tabs_title li.active {
-	background-color: #49A8EC;
+    background-color: #49A8EC;
+    opacity:1;
 }
 
 .tabs_panel {
-	display: none;
-	position: relative;
-	width: 100%;
-	top: -1px;
-	font-family: "Trebuchet MS";
-	clear: both;
-	color: #fff;
-	overflow: auto;
-	padding: 5px;
+    background:#D0DEF0 url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/toolbar/bg.gif) scroll left top;
+    background-repeat:repeat;
+    display: none;
+    position: relative;
+    width: 100%;
+    top: -1px;
+    font-family: "Trebuchet MS";
+    clear: both;
+    overflow: auto;
+    padding: 5px;
+}
+.tab_content {
+    color: black;
+    background-color: #F3FBFF;
 }
 
 .tabs_panel.active {
-	background-color: #49A8EC;
-	display: block;
-	
+    background-color: #49A8EC;
+    display: block;
+    
 }
 
 .tabs_title li.over {
-	font-weight: bold;
+    font-weight: bold;
 }

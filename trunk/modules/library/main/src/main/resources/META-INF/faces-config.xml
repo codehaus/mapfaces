@@ -408,7 +408,7 @@
          <renderer>
             <description>CheckColumn : This tag is used for creating  check columns of a table.
             </description>
-            <component-family>org.mapfaces.treelayout.Column</component-family>
+            <component-family>org.mapfaces.treelayout.CheckColumn</component-family>
             <renderer-type>org.mapfaces.renderkit.treelayout.HTMLCheckColumn</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer</renderer-class>
         </renderer>

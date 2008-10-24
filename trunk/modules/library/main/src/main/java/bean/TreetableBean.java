@@ -25,11 +25,4 @@ public class TreetableBean {
     public void setTree(DefaultTreeModel newvalue) {
         this.tree = newvalue;
     }
-
-    public void doAction() {
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getRoot();
-        root.setUserObject("node_modified");
-        System.out.println("Node modfied !");
-        tree.setRoot(root);
-    }
 }

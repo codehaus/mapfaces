@@ -548,6 +548,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.startElement("div", component);
             writer.writeAttribute("id", "x-tree-hd-text:" + id, null);
             writer.writeAttribute("class", TreeStyle.default_headerTextStyle, null);
+            writer.writeAttribute("style","text-align:center;",null);
             writer.write("Id");
             writer.endElement("div");
             writer.endElement("div");

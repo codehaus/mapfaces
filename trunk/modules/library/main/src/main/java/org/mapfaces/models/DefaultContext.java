@@ -377,7 +377,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
         String layersId="";
         List<Layer> layerList = getGroupLayers(groupName);
         for(Layer tmp : layerList){
-            layersId=layersId+","+tmp.getId();
+            layersId=layersId+", "+tmp.getId();
         }
         if(layersId.length() > 0)
             return layersId.substring(1,layersId.length());

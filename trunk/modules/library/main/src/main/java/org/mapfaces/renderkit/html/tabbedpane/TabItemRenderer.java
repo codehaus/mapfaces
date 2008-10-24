@@ -97,6 +97,9 @@ public class TabItemRenderer extends Renderer {
         } else {
             writer.writeAttribute("class", "tabs_panel", null);
         }
+        writer.startElement("div", tabitem);
+        writer.writeAttribute("class", "tab_content", null);
+        
     }
 
     /**
@@ -128,7 +131,7 @@ public class TabItemRenderer extends Renderer {
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         log.info("encodeEnd : " + TabItemRenderer.class.getName());
         ResponseWriter writer = context.getResponseWriter();
-
+        writer.endElement("div");
         writer.endElement("div");
 
     }

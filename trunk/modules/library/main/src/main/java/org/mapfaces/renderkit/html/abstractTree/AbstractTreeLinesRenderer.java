@@ -203,7 +203,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
             if (treepanel.isRowId()) {
                 writer.startElement("div", component);
-                writer.writeAttribute("style", "width: 30px;  margin-left: 5px;", null);
+                writer.writeAttribute("style", "width: 30px; text-align:center;", null);
                 writer.writeAttribute("class", CLASS_LEAF_DIV, null);
                 writer.write(node.getId() + "");
                 writer.endElement("div");
