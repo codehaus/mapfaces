@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.tree;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
 public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
 
     @Override
-    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {        
     }
 
     @Override

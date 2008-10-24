@@ -7,7 +7,7 @@ try{
     }
 }catch(err){
     //console.log('No mootools');
-    document.write('<script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/treetable/js/moo1.2.js"></script>');
+    document.write('<script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/tree/js/moo1.2.js"></script>');
 }
 
 /*

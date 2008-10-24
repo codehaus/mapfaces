@@ -93,4 +93,5 @@ public class ColumnRenderer extends AbstractColumnRenderer {
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
+
 }

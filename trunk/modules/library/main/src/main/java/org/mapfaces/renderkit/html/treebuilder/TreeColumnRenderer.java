@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.treebuilder;
 
 import java.io.IOException;
@@ -24,12 +23,13 @@ import javax.faces.context.FacesContext;
 
 
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeColumnRenderer;
+import org.mapfaces.share.interfaces.A4JRendererInterface;
 
 /**
  *
  * @author kevindelfour
  */
-public class TreeColumnRenderer extends AbstractTreeColumnRenderer {
+public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4JRendererInterface{
 
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -47,5 +47,8 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer {
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
- 
+    @Override
+    public void A4JPostRequest(FacesContext context, UIComponent component) {
+        System.out.println("TESTE YEP !!!");
+    }
 }

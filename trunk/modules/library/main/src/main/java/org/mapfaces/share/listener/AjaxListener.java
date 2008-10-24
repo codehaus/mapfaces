@@ -17,8 +17,8 @@
 package org.mapfaces.share.listener;
 
 import java.util.Enumeration;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.*;
 
+import org.mapfaces.share.interfaces.A4JInterface;
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
@@ -55,7 +56,7 @@ public class AjaxListener implements PhaseListener {
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String a4jrequest = request.getParameter("AJAXREQUEST");
-        
+
         String ajaxParam = request.getParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY());
         String ajaxRenderChild = request.getParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY());
         // Check for the existence of the Ajax param
@@ -76,9 +77,15 @@ public class AjaxListener implements PhaseListener {
             //Save the state of the page
             context.getApplication().getStateManager().saveView(context);
 
-        }
-        else if(a4jrequest!=null){
+        } else if (a4jrequest != null) {
             System.out.println("[PHASE EVENT] A4J Request have been detected !");
+            Enumeration<String> listParameters = request.getParameterNames();
+            while (listParameters.hasMoreElements()) {
+                String param = listParameters.nextElement();
+                if (param.equals(request.getParameter(param))) {
+                    A4JPostRequest(context, param);
+                }
+            }
         }
 
 
@@ -94,12 +101,9 @@ public class AjaxListener implements PhaseListener {
         UIViewRoot viewroot = context.getViewRoot();
         AjaxInterface ajaxcomponent = null;
 
-        /* findComponentById */
         try {
-            System.out.println("[TRY] ajaxcomponent = (AjaxInterface) Utils.findComponentById(context, viewroot, componentId);");
             ajaxcomponent = (AjaxInterface) Utils.findComponentById(context, viewroot, componentId);
             if (ajaxcomponent == null) {
-                System.out.println("[TRY] ajaxcomponent = (AjaxInterface) Utils.findComponent(context, componentId);");
                 ajaxcomponent = (AjaxInterface) Utils.findComponent(context, componentId);
             }
         } catch (ClassCastException cce) {
@@ -110,6 +114,38 @@ public class AjaxListener implements PhaseListener {
             throw new NullPointerException("No component found under specified client Id : " + componentId);
         }
         ajaxcomponent.handleAjaxRequest(context);
+
+    }
+
+    private void A4JPostRequest(FacesContext context, String componentId) {
+
+        UIViewRoot viewroot = context.getViewRoot();
+        A4JInterface ajaxcomponent = null;
+        UIComponent AjaxSupport = null;
+
+        try {
+            AjaxSupport = Utils.findComponentById(context, viewroot, componentId);
+            if (AjaxSupport == null) {
+                AjaxSupport = Utils.findComponent(context, componentId);
+            }
+            if (AjaxSupport == null) {
+                throw new NullPointerException("No component found under specified client Id : " + componentId);
+            } else {
+                UIComponent JSFComponent = AjaxSupport.getParent();
+                if (JSFComponent == null) {
+                    throw new NullPointerException("No component found under specified client Id : " + JSFComponent.getId());
+                } else {
+                    if (JSFComponent.getParent() instanceof A4JInterface) {
+                        ajaxcomponent = (A4JInterface) JSFComponent.getParent();
+                        ajaxcomponent.A4JPostRequest(context);
+                    }
+                }
+            }
+        } catch (ClassCastException cce) {
+            throw new IllegalArgumentException("Component found under Ajax key was not of expected type");
+        }
+
+
 
     }
 

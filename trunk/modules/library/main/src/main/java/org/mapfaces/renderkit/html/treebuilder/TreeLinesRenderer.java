@@ -1,3 +1,4 @@
+
 /*
  *    Mapfaces - 
  *    http://www.mapfaces.org
@@ -14,13 +15,16 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.treebuilder;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.mapfaces.component.treebuilder.UITreeLines;
+import org.mapfaces.component.treebuilder.UITreePanel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
+import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.tree.TreeStyle;
 
 /**
  *
@@ -29,7 +33,34 @@ import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
 public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
 
     @Override
+    public String addLinesEvent(FacesContext context, UIComponent component) {
+        return "";
+    }
+
+    @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
+        UITreeLines treeline = (UITreeLines) component;
+        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
+        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+
+        TreeStyle.initRowStyle();
+
+        if (treepanel == null) {
+            throw new IOException("No treepanel parent have been found for this treeline.");
+        } else {
+            if (treepanel.isTemplate()) {
+                //Template view
+            } else if (treepanel.isEmptyView()) {
+                //Empty view
+                TreeStyle.setRowStyle(TreeStyle.getRowStyle() + "display:none;");
+            } else if (treepanel.isCloneView()) {
+                //Clone View
+                treepanel.setStyleOdd("background-color:lightSlateBlue;filter:alpha(opacity=20);-moz-opacity:0.2;opacity:0.2;");
+                treepanel.setStyleEven("background-color:lightSteelBlue;filter:alpha(opacity=20);-moz-opacity:0.2;opacity:0.2;");
+            } else {
+                //default
+            }
+        }
     }
 
     @Override
@@ -43,11 +74,4 @@ public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
-
-    @Override
-    public String addLinesEvent(FacesContext context, UIComponent component) {
-        return "";
-    }
-
-  
 }

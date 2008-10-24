@@ -26,7 +26,7 @@ public class TreeBuilderConfig {
      * Values by default
      */
      private static String DEFAULT_SIZE_COLUMN = "100px";
-     private static int DEFAULT_DEPTH_VIEW = 1;
+     private static int DEFAULT_DEPTH_VIEW = 2;
 
      /**
       * Access Methods

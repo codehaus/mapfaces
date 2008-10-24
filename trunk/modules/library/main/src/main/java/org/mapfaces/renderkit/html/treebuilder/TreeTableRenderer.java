@@ -14,19 +14,20 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.treebuilder;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeTableRenderer;
+import org.mapfaces.share.listener.ResourcePhaseListener;
 
 /**
  *
  * @author kevindelfour
  */
-public class TreeTableRenderer extends AbstractTreeTableRenderer{
+public class TreeTableRenderer extends AbstractTreeTableRenderer {
 
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -44,4 +45,16 @@ public class TreeTableRenderer extends AbstractTreeTableRenderer{
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    @Override
+    public void writeHeaders(FacesContext context, UIComponent component) throws IOException {
+        super.writeHeaders(context, component);
+        ResponseWriter writer = context.getResponseWriter();
+
+        String checkcolumnJsUrl = "/org/mapfaces/resources/treebuilder/js/checkcolumn.js";
+
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, checkcolumnJsUrl, null), null);
+        writer.endElement("script");
+    }
 }

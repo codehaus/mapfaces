@@ -23,7 +23,6 @@ import javax.faces.component.UIComponent;
  * <p>UITreeColumnELTag is the base class for all JSP tags that correspond to a TreeColumn Component instance in the view.</p>
  * <p> Attributes are :<ul>
  * <li>border</li>
- * <li>check</li>
  * <li>collapsible</li>
  * <li>enableDragDrop</li>
  * <li>frame</li>
@@ -45,7 +44,6 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
 
     /* Fields */
     private ValueExpression border = null;
-    private ValueExpression check = null;
     private ValueExpression collapsible = null;
     private ValueExpression enableDragDrop = null;
     private ValueExpression frame = null;
@@ -94,22 +92,6 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
      */
     public void setBorder(ValueExpression border) {
         this.border = border;
-    }
-
-    /**
-     * Accessor for check
-     * @return if default checkColumn must be integrated
-     */
-    public ValueExpression getCheck() {
-        return check;
-    }
-
-    /**
-     * Mutator for check
-     * @param header New value for check
-     */
-    public void setCheck(ValueExpression checked) {
-        this.check = checked;
     }
 
     /**
@@ -368,7 +350,6 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         super.setProperties(component);
         component.setValueExpression("title", title);
         component.setValueExpression("border", border);
-        component.setValueExpression("check", check);
         component.setValueExpression("collapsible", collapsible);
         component.setValueExpression("frame", frame);
         component.setValueExpression("header", header);
@@ -392,7 +373,6 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
     public void release() {
         super.release();
         setBorder(null);
-        setCheck(null);
         setCollapsible(null);
         setFrame(null);
         setHeader(null);

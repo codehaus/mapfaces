@@ -35,7 +35,6 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
     private TreeTableModel view;
     private int oddEvenCountLine;
     private String border;
-    private boolean check;
     private boolean collapsible;
     private boolean enableDragDrop;
     private boolean frame;
@@ -58,14 +57,6 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
 
     public void setBorder(String border) {
         this.border = border;
-    }
-
-    public boolean isCheck() {
-        return check;
-    }
-
-    public void setCheck(boolean check) {
-        this.check = check;
     }
 
     public boolean isCollapsible() {
@@ -224,27 +215,26 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
      */
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[20];
+        Object values[] = new Object[19];
         values[0] = super.saveState(context);
         values[1] = getBorder();
-        values[2] = isCheck();
-        values[3] = isCollapsible();
-        values[4] = isFrame();
-        values[5] = isHeader();
-        values[6] = getHeight();
-        values[7] = isRowId();
-        values[8] = isShowLines();
-        values[9] = getTitle();
-        values[10] = isInit();
-        values[11] = getView();
-        values[12] = isShowRoot();
-        values[13] = isEnableDragDrop();
-        values[14] = getStyleLeaf();
-        values[15] = getStyleNode();
-        values[16] = isLoadAll();
-        values[17] = getStyleOdd();
-        values[18] = getStyleEven();
-        values[19] = getOddEvenCountLine();
+        values[2] = isCollapsible();
+        values[3] = isFrame();
+        values[4] = isHeader();
+        values[5] = getHeight();
+        values[6] = isRowId();
+        values[7] = isShowLines();
+        values[8] = getTitle();
+        values[9] = isInit();
+        values[10] = getView();
+        values[11] = isShowRoot();
+        values[12] = isEnableDragDrop();
+        values[13] = getStyleLeaf();
+        values[14] = getStyleNode();
+        values[15] = isLoadAll();
+        values[16] = getStyleOdd();
+        values[17] = getStyleEven();
+        values[18] = getOddEvenCountLine();
         return values;
     }
 
@@ -261,24 +251,23 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setBorder((String) values[1]);
-        setCheck((boolean) (Boolean) values[2]);
-        setCollapsible((boolean) (Boolean) values[3]);
-        setFrame((boolean) (Boolean) values[4]);
-        setHeader((boolean) (Boolean) values[5]);
-        setHeight((String) values[6]);
-        setRowId((boolean) (Boolean) values[7]);
-        setShowLines((boolean) (Boolean) values[8]);
-        setTitle((String) values[9]);
-        setInit((Boolean) values[10]);
-        setView((TreeTableModel) values[11]);
-        setShowRoot((Boolean) values[12]);
-        setEnableDragDrop((Boolean) values[13]);
-        setStyleLeaf((String) values[14]);
-        setStyleNode((String) values[15]);
-        setLoadAll((Boolean) values[16]);
-        setStyleOdd((String) values[17]);
-        setStyleEven((String) values[18]);
-        setOddEvenCountLine((Integer) values[19]);
+        setCollapsible((boolean) (Boolean) values[2]);
+        setFrame((boolean) (Boolean) values[3]);
+        setHeader((boolean) (Boolean) values[4]);
+        setHeight((String) values[5]);
+        setRowId((boolean) (Boolean) values[6]);
+        setShowLines((boolean) (Boolean) values[7]);
+        setTitle((String) values[8]);
+        setInit((Boolean) values[9]);
+        setView((TreeTableModel) values[10]);
+        setShowRoot((Boolean) values[11]);
+        setEnableDragDrop((Boolean) values[12]);
+        setStyleLeaf((String) values[13]);
+        setStyleNode((String) values[14]);
+        setLoadAll((Boolean) values[15]);
+        setStyleOdd((String) values[16]);
+        setStyleEven((String) values[17]);
+        setOddEvenCountLine((Integer) values[18]);
     }
 
     /**
