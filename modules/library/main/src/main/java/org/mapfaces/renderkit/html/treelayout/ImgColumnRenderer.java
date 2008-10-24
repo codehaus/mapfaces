@@ -75,6 +75,10 @@ public class ImgColumnRenderer extends AbstractColumnRenderer {
     }
 
     @Override
+    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
+    }
+    
+    @Override
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }

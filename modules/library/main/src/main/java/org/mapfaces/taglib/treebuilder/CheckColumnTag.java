@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.mapfaces.taglib.tree;
+package org.mapfaces.taglib.treebuilder;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
@@ -27,8 +27,8 @@ public class CheckColumnTag extends ColumnTag {
 
     /* Fields */
     private ValueExpression value = null;
-    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.CheckColumn";
-    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLCheckColumn";
+    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treebuilder.treepanel.CheckColumn";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLCheckColumn";
 
     /**
      * Accessor for value

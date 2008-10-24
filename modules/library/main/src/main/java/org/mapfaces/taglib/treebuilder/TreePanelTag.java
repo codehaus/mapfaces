@@ -16,6 +16,7 @@
  */
 package org.mapfaces.taglib.treebuilder;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import org.mapfaces.taglib.abstractTree.UITreePanelELTag;
 
@@ -26,8 +27,12 @@ import org.mapfaces.taglib.abstractTree.UITreePanelELTag;
 public class TreePanelTag extends UITreePanelELTag {
 
     /* Fields */
-    private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treetable.TreePanel";
-    private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreePanel";
+    private ValueExpression template = null;
+    private ValueExpression target = null;
+    private ValueExpression cloneView = null;
+    private ValueExpression emptyView = null;
+    private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treebuilder.TreePanel";
+    private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreePanel";
 
     /* Methods*/
     /**
@@ -55,6 +60,10 @@ public class TreePanelTag extends UITreePanelELTag {
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
+        component.setValueExpression("template", template);
+        component.setValueExpression("target",target);
+        component.setValueExpression("cloneView", cloneView);
+        component.setValueExpression("emptyView", emptyView);
     }
 
     /**
@@ -63,5 +72,42 @@ public class TreePanelTag extends UITreePanelELTag {
     @Override
     public void release() {
         super.release();
+        setTemplate(null);
+        setCloneView(null);
+        setEmptyView(null);
+        setTarget(null);
+    }
+
+    /* Accessors */
+    public ValueExpression getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(ValueExpression template) {
+        this.template = template;
+    }
+
+    public ValueExpression getCloneView() {
+        return cloneView;
+    }
+
+    public void setCloneView(ValueExpression cloneView) {
+        this.cloneView = cloneView;
+    }
+
+    public ValueExpression getEmptyView() {
+        return emptyView;
+    }
+
+    public void setEmptyView(ValueExpression emptyView) {
+        this.emptyView = emptyView;
+    }
+
+    public ValueExpression getTarget() {
+        return target;
+    }
+
+    public void setTarget(ValueExpression target) {
+        this.target = target;
     }
 }

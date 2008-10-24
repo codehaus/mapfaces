@@ -109,7 +109,7 @@ public class TreeBuilderUtils {
             String idPanel = treepanel.getId() + "_panel_";
 
             int idnode = currentNode.getId();
-//            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + id + idnode);
+//            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + idLine + idnode);
             treelines.setId(idLine + idnode);
             panelgroup.setId(idPanel + idnode);
 
@@ -120,6 +120,7 @@ public class TreeBuilderUtils {
             List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
             treelines.getChildren().addAll(tocopy);
             treelines.setToRender(true);
+            treelines.getNodeInstance().setChecked(true);
 
             if (!treepanel.isInit()) {
                 if (!LoadingOption) {

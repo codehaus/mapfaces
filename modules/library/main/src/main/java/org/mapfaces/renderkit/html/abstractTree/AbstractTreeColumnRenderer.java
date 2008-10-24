@@ -42,6 +42,7 @@ import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
@@ -51,7 +52,7 @@ import org.mapfaces.util.AjaxUtils;
  *
  * @author kevindelfour
  */
-public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
+public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface, A4JRendererInterface, CustomizeTreeComponentRenderer {
 
     /* Local Fields */
     private static final transient Log log = LogFactory.getLog(AbstractTreeColumnRenderer.class);
@@ -60,7 +61,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static String DEFAULT_HEADER_COLUMN = "Tree";
     private static int LINES_SHOW = 1;
     private static int DEFAULT_FIRST_COLUMN_SIZE = 250;
-    private static String NODE_IDENT = "/resource.jsf?r=/org/mapfaces/resources/treetable/images/default/s.gif";
+    private static String NODE_IDENT = "/resource.jsf?r=/org/mapfaces/resources/tree/images/default/s.gif";
     private static String CLASS_NODE_DIV = "x-tree-node-el x-tree-node-expanded x-tree-col";
     private static String CLASS_NODE_INDENT = "x-tree-node-indent";
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";
@@ -275,9 +276,14 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             AjaxSupport.setAjaxSingle(true);
             AjaxSupport.setLimitToList(true);
             String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
-            AjaxSupport.setOnsubmit("if(disp('" + formId + "'," +
-                    "'" + treepanelId + "'," +
-                    "'" + node.getId() + "')==false){return false;}");
+            AjaxSupport.setOnsubmit("" +
+                    "if(disp('" + formId + "','" + treepanelId + "','" + node.getId() + "')==false){" +
+                    "   return false;" +
+                    "}" +
+                    "else {" +
+                    "   console.log('try to change loading');" +
+                    "   document.getElementById('"+formId+":"+treepanel.getId() + "_img_" + node.getId()+"').setAttribute('class','x-tree-node-loading x-tree-node-icon');" +
+                    "}");
 
 //                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
 //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
@@ -296,8 +302,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 //                    "'"+request.getRequestURI()+"');");
 
             //Adding Components to TreeColumn
-            if(treepanel.isShowRoot() && node.getDepth()>1)
+            if (treepanel.isShowRoot() && node.getDepth() > 1) {
                 component.getChildren().add(ImgNodeIdent);
+            }
             component.getChildren().add(ImgNodeRep);
             component.getChildren().add(ImgNodeIcon);
             component.getChildren().add(LinkNode);
@@ -412,4 +419,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         }
     }
 
+    @Override
+    public void A4JPostRequest(FacesContext context, UIComponent component) {
+    }
 }

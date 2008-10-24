@@ -19,8 +19,9 @@ package org.mapfaces.component.abstractTree;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
-import org.ajax4jsf.framework.ajax.AjaxListener;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.share.interfaces.A4JInterface;
+import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 

@@ -14,20 +14,23 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component.treebuilder;
 
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
+import org.mapfaces.share.interfaces.A4JInterface;
+import org.mapfaces.share.interfaces.A4JRendererInterface;
 
 /**
  *
  * @author kevindelfour
  */
-public class UITreeColumn extends UITreeColumnBase {
+public class UITreeColumn extends UITreeColumnBase implements A4JInterface {
 
     private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeColumn";
     private final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.TreeColumn";
-    
+
     @Override
     public String getFamily() {
         return TREECOLUMN_COMP_FAMILY;
@@ -37,4 +40,10 @@ public class UITreeColumn extends UITreeColumnBase {
     public String getRendererType() {
         return TREECOLUMN_RENDERER_TYPE;
     }
+
+    @Override
+    public void A4JPostRequest(FacesContext context) {
+        A4JRendererInterface renderer = (A4JRendererInterface) this.getRenderer(context);
+        renderer.A4JPostRequest(context, this);
     }
+}

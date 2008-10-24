@@ -44,6 +44,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.request.servletUtils;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.tree.TreeStyle;
 import org.mapfaces.util.treetable.TreeTableConfig;
 
 /**
@@ -58,11 +59,6 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     private TreeTableConfig config = new TreeTableConfig();
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
-
-    /* Local Constants */
-//    private String EXPAND_TEXT = "Expand";
-//    private String COLLAPSE_TEXT = "Collapse";
-    private String X_PANEL_HEADER_CLASS_STYLE = "x-panel-body x-panel-body-noheader";
 
     /**
      * <p> Render the beginning specified TreeTable Component to the output stream or writer associated 
@@ -157,7 +153,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             // DIV Start
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel:" + clientId, null);
-            writer.writeAttribute("style", "z-index:0; background :#ECF1F8;" + styleUser, null);
+            writer.writeAttribute("style", styleUser, null);
             if (!styleClass.isEmpty()) {
                 writer.writeAttribute("class", styleClass, null);
             }
@@ -167,11 +163,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 //FRAME Attribute
                 if (renderFrame) {
                     writer.startElement("div", component);
-                    writer.writeAttribute("class", "x-panel-tl", null);
+                    writer.writeAttribute("class", TreeStyle.default_frameTlStyle, null);
                     writer.startElement("div", component);
-                    writer.writeAttribute("class", "x-panel-tr", null);
+                    writer.writeAttribute("class", TreeStyle.default_frameTlStyle, null);
                     writer.startElement("div", component);
-                    writer.writeAttribute("class", "x-panel-tc", null);
+                    writer.writeAttribute("class", TreeStyle.default_frameTlStyle, null);
                 }
 
 
@@ -179,17 +175,17 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 if (!title.isEmpty()) {
                     writer.startElement("div", component);
                     writer.writeAttribute("id", "panel_title:" + clientId, null);
-                    writer.writeAttribute("class", "x-panel-header x-unselectable", null);
+                    writer.writeAttribute("class", TreeStyle.default_mainHeaderStyle, null);
 
                     if (makeCollapsible) {
                         writer.writeAttribute("onclick", "collapse('" + component.getId() + "');", null);
                     }
-                    //writer.startElement("span", component);
-                    //writer.writeAttribute("class", "x-panel-header-text", null);
+
+                    writer.startElement("div", component);
+                    writer.writeAttribute("class", TreeStyle.default_mainHeaderTextStyle, null);
                     writer.write(title);
-                    //writer.endElement("span");
                     writer.endElement("div");
-                    X_PANEL_HEADER_CLASS_STYLE = "x-panel-body";
+                    writer.endElement("div");
                 }
 
                 if (renderFrame) {
@@ -201,7 +197,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 // DIV Toolbar
                 writer.startElement("div", component);
                 writer.writeAttribute("id", "panel_toolbar:" + clientId, null);
-                writer.writeAttribute("class", "x-toolbar", null);
+                writer.writeAttribute("class", TreeStyle.default_toolbarStyle, null);
 
                 /*
                  * @todo implements toolbar components here like a simple container of 
@@ -236,15 +232,12 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             //DIV Content
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_content:" + clientId, null);
-            writer.writeAttribute("class", "x-panel-bwrap", null);
-            writer.writeAttribute("style", "display:block;", null);
+            writer.writeAttribute("class", TreeStyle.default_mainBwrapStyle, null);
 
             //DIV Headers
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_headers:" + clientId, null);
-            writer.writeAttribute("class", X_PANEL_HEADER_CLASS_STYLE, null);
-
-            //Encode Columns header
+            writer.writeAttribute("class", TreeStyle.default_headersStyle, null);
             renderHeadColumn(context, component);
 
             writer.endElement("div");
@@ -253,16 +246,15 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_lines:" + clientId, null);
             writer.writeAttribute("class", "droppable-holder", null);
-
             writer.writeAttribute("style", "overflow:auto;", null);
 
             if (treepanel.isFrame()) {
                 writer.startElement("div", component);
-                writer.writeAttribute("class", "x-panel-ml", null);
+                writer.writeAttribute("class", TreeStyle.default_frameMlStyle, null);
                 writer.startElement("div", component);
-                writer.writeAttribute("class", "x-panel-mr", null);
+                writer.writeAttribute("class", TreeStyle.default_frameMrStyle, null);
                 writer.startElement("div", component);
-                writer.writeAttribute("class", "x-panel-mc", null);
+                writer.writeAttribute("class", TreeStyle.default_frameMcStyle, null);
             }
 
             /* Tree view ans Tree lines Component contruction 
@@ -368,7 +360,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        Date phaseStart,phaseEnd ;
+        Date phaseStart, phaseEnd;
 
         /* Initialisation */
         phaseStart = new Date();
@@ -388,11 +380,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.endElement("div");
             writer.endElement("div");
             writer.startElement("div", component);
-            writer.writeAttribute("class", "x-panel-bl x-panel-nofooter", null);
+            writer.writeAttribute("class", TreeStyle.default_frameBlStyle, null);
             writer.startElement("div", component);
-            writer.writeAttribute("class", "x-panel-br", null);
+            writer.writeAttribute("class", TreeStyle.default_frameBrStyle, null);
             writer.startElement("div", component);
-            writer.writeAttribute("class", "x-panel-bc", null);
+            writer.writeAttribute("class", TreeStyle.default_frameBcStyle, null);
             writer.endElement("div");
             writer.endElement("div");
             writer.endElement("div");
@@ -400,7 +392,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         writer.endElement("div");
         writer.endElement("div");
         writer.startElement("div", component);
-        writer.writeAttribute("class", "x-clear", null);
+        writer.writeAttribute("class", TreeStyle.default_clearStyle, null);
         writer.endElement("div");
 
         if (debug) {
@@ -546,33 +538,16 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         ResponseWriter writer = context.getResponseWriter();
 
         int id = 0;
-        //RENDER CHECK COLUMN
-        if (treepanel.isCheck()) {
-            writer.startElement("div", component);
-            writer.writeAttribute("id", "x-tree-hd:" + id, null);
-            writer.writeAttribute("class", "x-tree-hd", null);
-            writer.writeAttribute("style", "width: 30px;", null);
-            writer.startElement("div", component);
-            writer.writeAttribute("id", "x-tree-hd-text:" + id, null);
-            writer.writeAttribute("class", "x-tree-hd-text", null);
-            writer.startElement("input", component);
-            writer.writeAttribute("id", "checkcolumn", null);
-            writer.writeAttribute("type", "checkbox", null);
-            writer.writeAttribute("onclick", "checkAllInputs('" + treepanel.getId() + "');", null);
-            writer.endElement("input");
-            writer.endElement("div");
-            writer.endElement("div");
-        }
 
         //RENDER ROW ID NUMBER IF IS NECESSARY
         if (treepanel.isRowId()) {
             writer.startElement("div", component);
             writer.writeAttribute("id", "x-tree-hd:" + id, null);
-            writer.writeAttribute("class", "x-tree-hd", null);
+            writer.writeAttribute("class", TreeStyle.default_headerStyle, null);
             writer.writeAttribute("style", "width: 30px;", null);
             writer.startElement("div", component);
             writer.writeAttribute("id", "x-tree-hd-text:" + id, null);
-            writer.writeAttribute("class", "x-tree-hd-text", null);
+            writer.writeAttribute("class", TreeStyle.default_headerTextStyle, null);
             writer.write("Id");
             writer.endElement("div");
             writer.endElement("div");
@@ -613,7 +588,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         writer.startElement("div", component);
         writer.writeAttribute("id", "x-tree-hd:" + idnumbers, null);
-        writer.writeAttribute("class", "x-tree-hd", null);
+        writer.writeAttribute("class", TreeStyle.default_headerStyle, null);
 
         /* Then render head column of th UIcomponent */
         String size = config.getDEFAULT_SIZE_COLUMN();
@@ -632,7 +607,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         writer.startElement("div", component);
         writer.writeAttribute("id", "x-tree-hd-text:" + idnumbers, null);
-        writer.writeAttribute("class", "x-tree-hd-text", null);
+        writer.writeAttribute("class", TreeStyle.default_headerTextStyle, null);
         writer.startElement("center", component);
 
         /* If an icon is declared, we put in priority the icon, else we put the text header */

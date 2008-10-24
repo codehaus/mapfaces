@@ -173,7 +173,7 @@
     </component>
     <component>
         <component-type>org.mapfaces.treebuilder.TreePanel</component-type>
-        <component-class>org.mapfaces.component.tree.UITreePanel</component-class>
+        <component-class>org.mapfaces.component.treebuilder.UITreePanel</component-class>
     </component>
     <component>
         <component-type>org.mapfaces.treebuilder.treepanel.TreeColumn</component-type>
@@ -451,6 +451,12 @@
             <component-family>javax.faces.Output</component-family>
             <renderer-type>org.mapfaces.renderkit.treebuilder.HTMLTreePanel</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>CheckColumn </description>
+            <component-family>org.mapfaces.treebuilder.CheckColumn</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.HTMLCheckColumn</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.CheckColumnRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Treecolumn </description>

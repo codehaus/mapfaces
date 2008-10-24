@@ -337,35 +337,35 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         return null;
     }
 
-    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
+//    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
+//
+//        ResponseWriter writer = context.getResponseWriter();
+//        /*
+//         * Prepare informations for making any Ajax request
+//         */
+//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+//        AjaxUtils ajaxtools = new AjaxUtils();
+//        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
+//        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), component.getId());
+//        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY(), "'+value+'");
+//        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_TARGET_ID_KEY(), "'+target+'");
+//        ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
+//        String AJAX_SERVER = ajaxtools.getAjaxServer(request);
+//        String AJAX_PARAMETERS = ajaxtools.getAjaxParameters();
+//        String Request = ajaxtools.getRequestJs("get", AJAX_SERVER, AJAX_PARAMETERS);
 
-        ResponseWriter writer = context.getResponseWriter();
-        /*
-         * Prepare informations for making any Ajax request
-         */
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        AjaxUtils ajaxtools = new AjaxUtils();
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), component.getId());
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY(), "'+value+'");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_TARGET_ID_KEY(), "'+target+'");
-        ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
-        String AJAX_SERVER = ajaxtools.getAjaxServer(request);
-        String AJAX_PARAMETERS = ajaxtools.getAjaxParameters();
-        String Request = ajaxtools.getRequestJs("get", AJAX_SERVER, AJAX_PARAMETERS);
-
-        writer.startElement("script", component);
-        writer.write(
-                "document.getElementById('" + component.getClientId(context) + "').addEvent('" + event + "', function(event){" +
-                addBeforeRequestScript(context, component) +
-                "value = event.target.value;" +
-                "target = event.target.name;" +
-                "viewstate = document.getElementById('javax.faces.ViewState').value;" +
-                Request +
-                addAfterRequestScript(context, component) +
-                "});");
-        writer.endElement("script");
-    }
+//        writer.startElement("script", component);
+//        writer.write(
+//                "document.getElementById('" + component.getClientId(context) + "').addEvent('" + event + "', function(event){" +
+//                addBeforeRequestScript(context, component) +
+//                "value = event.target.value;" +
+//                "target = event.target.name;" +
+//                "viewstate = document.getElementById('javax.faces.ViewState').value;" +
+//                Request +
+//                addAfterRequestScript(context, component) +
+//                "});");
+//        writer.endElement("script");
+//    }
     
     public String getVarId(FacesContext context, UIColumnBase comp) {
         if (((UITreeLinesBase) (comp.getParent())).getNodeInstance().isLeaf()) {
@@ -386,6 +386,8 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
     /* ======================= ABSTRACT METHODS ==================================*/
     public abstract String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException;
+
+    public abstract void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException;
 
     public abstract String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException;
 

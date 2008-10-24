@@ -32,7 +32,7 @@ import org.mapfaces.models.tree.TreeNodeModel;
 /**
  * @author Mehdi Sidhoum.
  * @author Olivier Terral.
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class Utils {
 

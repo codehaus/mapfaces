@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -31,16 +31,18 @@ import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
+import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.tree.TreeStyle;
 
 /**
  *
  * @author kevindelfour
  */
-public abstract class AbstractTreeLinesRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
+public abstract class AbstractTreeLinesRenderer extends Renderer implements AjaxRendererInterface, A4JRendererInterface, CustomizeTreeComponentRenderer {
 
     /* Local Fields */
     private boolean debug;
@@ -85,6 +87,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         if (debug) {
             System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreeLinesRenderer.class.getName());
         }
+
         beforeEncodeBegin(context, component);
 
         //Start encoding
@@ -129,7 +132,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                     writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
                     writer.writeAttribute("class", "droppable", null);
                     writer.writeAttribute("name", treeline.getId(), null);
-                    writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                    writer.writeAttribute("style", "width:auto; margin-left:" + (node.getDepth()) * 25 + "px", null);
                     writer.writeAttribute("dest", "ul:" + treepanelId + ":0", null);
                     writer.writeAttribute("pos", node.getId(), null);
                     writer.writeAttribute("depth", node.getDepth() + 1, null);
@@ -149,7 +152,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 writer.startElement("div", treeline);
                 writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":before", null);
                 writer.writeAttribute("class", "droppable", null);
-                writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                writer.writeAttribute("style", "width:auto; margin-left:" + (node.getDepth()) * 25 + "px", null);
                 writer.writeAttribute("where", "before", null);
                 writer.writeAttribute("name", treeline.getId(), null);
                 writer.writeAttribute("pos", node.getId(), null);
@@ -168,8 +171,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                     styleOddLine = "",
                     styleEvenLine = "";
 
-            DEFAULT_STYLE_LINE = "position:relative; list-style-type:none;";
-
             if (treepanel.getStyleLeaf() != null) {
                 styleLeafUser = treepanel.getStyleLeaf();
             }
@@ -186,6 +187,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 styleEvenLine = treepanel.getStyleEven();
             }
 
+            DEFAULT_STYLE_LINE = TreeStyle.getRowStyle();
+
             if (countLine % 2 == 0) {
                 DEFAULT_STYLE_LINE += styleOddLine;
             } else {
@@ -195,29 +198,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             if (isFolder) {
                 writer.writeAttribute("style", DEFAULT_STYLE_LINE + styleNodeUser, null);
             } else {
-                if (treepanel.isEnableDragDrop()) {
-                    writer.writeAttribute("style", "background : white;" + DEFAULT_STYLE_LINE + styleLeafUser, null);
-                } else {
-                    writer.writeAttribute("style", DEFAULT_STYLE_LINE + styleLeafUser, null);
-                }
-            }
-
-            if (treepanel.isCheck()) {
-                writer.startElement("div", component);
-                writer.writeAttribute("style", "width: 30px;  margin-left: 5px; margin-top:3px; ", null);
-                writer.writeAttribute("class", CLASS_LEAF_DIV, null);
-
-                HtmlAjaxSupport checkAjaxSupport = new HtmlAjaxSupport();
-                checkAjaxSupport.setId(treepanel.getId() + "_checkAjaxSupport_" + node.getId());
-                checkAjaxSupport.setEvent("onchange");
-
-                HtmlSelectBooleanCheckbox checkBox = new HtmlSelectBooleanCheckbox();
-                checkBox.setId(treepanel.getId() + "_check_" + node.getId());
-                checkBox.getFacets().put("checkSupport_" + node.getId(), checkAjaxSupport);
-                checkBox.getChildren().add(checkAjaxSupport);
-                checkBox.encodeAll(context);
-
-                writer.endElement("div");
+                writer.writeAttribute("style", DEFAULT_STYLE_LINE + styleLeafUser, null);
             }
 
             if (treepanel.isRowId()) {
@@ -261,28 +242,38 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         List<UIComponent> children = treeline.getChildren();
         if (treeline.isToRender()) {
+            if (debug) {
+                System.out.println("[INFO] encodeChildren : Encode line !");
+            }
             for (UIComponent tmp : children) {
-                if (!tmp.getFamily().equals(treeline.getFamily())) {
+                if (!(tmp instanceof HtmlPanelGroup)) {
                     Utils.encodeRecursive(context, tmp);
                 }
             }
         }
 
         if (isFolder) {
+            if (debug) {
+                System.out.println("[INFO] encodeChildren : Encode folder !");
+            }
             writer.startElement("div", treeline);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
 
             if (treeline.hasChildren()) {
+                if (debug) {
+                    System.out.println("[INFO] encodeChildren : Encode children !");
+                }
                 writer.startElement("ul", treeline);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
+                writer.writeAttribute("style", "margin-left: 0.2em;", null);
                 // Second zone to drop : in the list at first position
                 if (treepanel.isEnableDragDrop()) {
                     if (isFolder) {
                         writer.startElement("div", treeline);
                         writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
                         writer.writeAttribute("class", "droppable", null);
-                        writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth() + 1) * 25 + "px", null);
+                        writer.writeAttribute("style", "width:auto; margin-left:" + (node.getDepth() + 1) * 25 + "px", null);
                         writer.writeAttribute("name", treeline.getId(), null);
                         writer.writeAttribute("dest", "ul:" + treepanelId + ":" + node.getId(), null);
                         writer.writeAttribute("pos", node.getId(), null);
@@ -295,7 +286,13 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 //Encode child
                 for (int i = 0; i < node.getChildCount(); i++) {
                     TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
+                    if (debug) {
+                        System.out.println("[INFO] encodeChildren : (TreeNodeModel) node.getChildAt(" + i + ")");
+                    }
                     if (child.isChecked()) {
+                        if (debug) {
+                            System.out.println("[INFO] encodeChildren : Encode this child : " + treepanel.getClientId(context) + "_panel_" + child.getId());
+                        }
                         Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
                     }
                 }
@@ -344,7 +341,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 writer.startElement("div", treeline);
                 writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":after", null);
                 writer.writeAttribute("class", "droppable", null);
-                writer.writeAttribute("style", "width:auto; height:2px; margin-left:" + (node.getDepth()) * 25 + "px", null);
+                writer.writeAttribute("style", "width:auto; margin-left:" + (node.getDepth()) * 25 + "px", null);
                 writer.writeAttribute("name", treeline.getId(), null);
                 writer.writeAttribute("where", "after", null);
                 writer.writeAttribute("pos", node.getId(), null);
@@ -381,10 +378,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         String treelineParent = null;
-        
-        if (treepanel.isDebug()) {
-            System.out.println("[INFO] decode : " + AbstractTreeLinesRenderer.class.getName());
-        }
+
         /*
          * Get id of Ajax component who launch the request
          */
@@ -481,6 +475,14 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
         UITreeLinesBase treeline = (UITreeLinesBase) component;
         UITreePanelBase treepanel = (UITreePanelBase) treeline.getParent();
+
+    }
+
+    @Override
+    public void A4JPostRequest(FacesContext context, UIComponent component) {
+        UITreeLinesBase treeline = (UITreeLinesBase) component;
+        UITreePanelBase treepanel = (UITreePanelBase) treeline.getParent();
+        System.out.println("TESTONSSSS");
 
     }
 

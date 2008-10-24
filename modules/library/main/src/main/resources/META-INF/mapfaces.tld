@@ -4162,14 +4162,6 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>check</name>
-            <description>True to add to the panel, a column who allow to check node</description>
-            <required>false</required>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
             <name>collapsible</name>
             <description>True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults to false)</description>
             <required>false</required>
@@ -4644,14 +4636,6 @@
         </attribute>
         <attribute>
             <name>debug</name>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
-            <name>check</name>
-            <description>True to add to the panel, a column who allow to check node</description>
-            <required>false</required>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
@@ -5280,14 +5264,6 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>check</name>
-            <description>True to add to the panel, a column who allow to check node</description>
-            <required>false</required>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-        </attribute>
-        <attribute>
             <name>collapsible</name>
             <description>True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults to false)</description>
             <required>false</required>
@@ -5403,7 +5379,33 @@
             </deferred-value>
         </attribute>
         <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
             <name>loadAll</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>template</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>cloneView</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>emptyView</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
@@ -5569,6 +5571,85 @@
         </attribute>
         <attribute>
             <name>styleHeader</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>    
+    <!-- BuilderCheckColumn -->
+    <tag>
+        <name>BuilderCheckColumn</name>
+        <description>Check Column </description>
+        <tag-class>org.mapfaces.taglib.treebuilder.CheckColumnTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerTitle</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>headerIcon</name>
+            <description/>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <description>The tree model value use for the component</description>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>

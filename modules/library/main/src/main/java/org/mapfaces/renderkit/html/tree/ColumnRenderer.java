@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.tree;
 
 import java.io.IOException;
@@ -42,10 +41,13 @@ public class ColumnRenderer extends AbstractColumnRenderer {
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
- 
     @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
+    }
+
+    @Override
+    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
     }
 
     @Override
