@@ -17,11 +17,11 @@
         <f:view>
             <h:form>
                 <mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500" debug="true">
-                <mf:TreePanel header="true" id="panel1" title="My tree" rowId="true" >
+                    <mf:TreePanel header="true" id="panel1" title="My tree" rowId="true" >
                         
-                        <mf:TreeColumn header="Tree Items" width="300" value="#{layer.name}" />
-                                                   
-                            <mf:TreeNodeInfo header="title" >
+                        <mf:TreeColumn headerTitle="Tree Items" width="300" value="#{layer.name}" />
+                        
+                        <mf:TreeNodeInfo title="title" >
                             <h:outputLabel value="TITLE : #{layer.title}"/>
                             <h:outputLabel value="TYPE : #{layer.type}"/>
                             <h:outputLabel value="ID : #{layer.id}"/>
