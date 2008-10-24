@@ -108,13 +108,13 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
                  *to capture the wheel event on layerDiv we must go trought all the map child div because ther is no layers for now
                  *
                  */
-                var layerDivs = this.map.div.getElementsByClassName('layerDiv');
-                if(layerDivs){
-                  for(var i=0; i < layerDivs.length; i++) {
+                var layerImgs = this.map.div.getElementsByTagName("img");
+                if(layerImgs){
+                  for(var i=0; i < layerImgs.length; i++) {
                       // Are we in the layer div? Note that we have two cases
                       // here: one is to catch EventPane layers, which have a 
                       // pane above the layer (layer.pane)
-                      if (elem ==  layerDivs[i]) { 
+                      if (layerImgs[i].className=="layerImg" && elem ==  layerImgs[i]) { 
                           overLayerDiv = true;
                           break;
                       }
