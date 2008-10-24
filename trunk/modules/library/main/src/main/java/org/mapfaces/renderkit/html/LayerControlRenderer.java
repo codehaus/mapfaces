@@ -81,7 +81,6 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         String widthTimeColumn = comp.getWidthTimeColumn();
         String titlePanel = comp.getTitlePanel();
         String headerTreeColumn = comp.getHeaderTreeColumn();
-        boolean hideElevationColumn = comp.isHideElevationColumn();
         String styleOddLines = comp.getStyleOddLines();
         String styleEvenLines = comp.getStyleEvenLines();
 
@@ -91,7 +90,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setVarName("layer");
         treeTable.setMootools(comp.isMootools());
         treeTable.setMinifyJS(comp.isMinifyJS());
-        treeTable.setWidth(400);
+        treeTable.setWidth(450);
 
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
@@ -115,7 +114,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         UITreeColumn tc = new UITreeColumn();
         tc.setId(component.getId() + "Layers");
         tc.setValue("#{layer.title}");
-
+        
         if (headerTreeColumn == null || headerTreeColumn.equals("")) {
             tc.setHeaderTitle("Layers grouped");
         } else {
@@ -126,105 +125,102 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         } else {
             tc.setWidth(widthTreeColumn);
         }
-
-
-        /* <mf:CheckColumn icon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif"   id="visible" 
-        value="#{layer.visible}"
-        width="30"/>*/
-        /* UICheckColumn cc = new UICheckColumn();
-        cc.setId("Visible");                 
-        cc.setValue("#{layer.visible}");
-        treePanel.getChildren().add(cc);*/
-        /* <mf:CheckColumn icon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif"   id="visible" 
-        value="#{layer.visible}"
-        width="30"/>*/
-        UIVisibilityColumn vc = new UIVisibilityColumn();
-        vc.setId(component.getId() + "Visible");
-        vc.setValue("#{!layer.hidden}");
-        vc.setHeaderIcon("/org/mapfaces/resources/img/eye.png");
-        if (widthVisibilityColumn == null || widthVisibilityColumn.equals("")) {
-            vc.setWidth("26");
-        } else {
-            vc.setWidth(widthVisibilityColumn);
-        }
-
-        UIOpacityColumn oc = new UIOpacityColumn();
-        oc.setId(component.getId() + "Opacity");
-        oc.setValue("#{layer.opacity}");
-        oc.setHeaderIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-        if (widthOpacityColumn == null || widthOpacityColumn.equals("")) {
-            oc.setWidth("70");
-        } else {
-            oc.setWidth(widthOpacityColumn);
-        }
-
-        UIElevationColumn ec = new UIElevationColumn();
-        if ( ! hideElevationColumn ) {
-            ec.setId(component.getId() + "Elevation");
-            ec.setValue("#{layer.userValueElevation}");
-            ec.setHeaderIcon("/org/mapfaces/resources/img/weather_cloudy.png");
-            if (widthElevationColumn == null || widthElevationColumn.equals("")) {
-                ec.setWidth("100");
-            } else {
-                ec.setWidth(widthElevationColumn);
-            }
-        }
-
-        UITimeColumn tic = new UITimeColumn();
-        tic.setId(component.getId() + "Time");
-        // tic.setValue("#{layer.userValueDate}");
-        tic.setHeaderIcon("/org/mapfaces/resources/img/calendar_select.png");
-        if (widthTimeColumn == null || widthTimeColumn.equals("")) {
-            tic.setWidth("28");
-        } else {
-            tic.setWidth(widthTimeColumn);
-        }
-
-        UITreeNodeInfo tni = new UITreeNodeInfo();
-        tni.setTitle("Info");
-        tni.setStyle("border:none;");
-        UIOutput o4 = new UIOutput();
-        o4.setValue("Id : #{layer.id}");
-        UIOutput o1 = new UIOutput();
-        o1.setValue("Name : #{layer.name}");
-        UIOutput o3 = new UIOutput();
-        o3.setValue("Group : #{layer.group}");
-        UIOutput o5 = new UIOutput();
-        o5.setValue("Format : #{layer.outputFormat}");
-//        UIOutput o6 = new UIOutput();
-//        o6.setValue("Legende : #{layer.legendUrl}");
-        UIDimRange dr = new UIDimRange();
-        //dr.setUIModel(getUIModel());
-        dr.setValue("#{layer.userValueDimRange}");
-        dr.setLayerCompId("#{layer.id}");
-        //dr.setDebug(true);
-//            HtmlGraphicImage img = new HtmlGraphicImage();
-//            img.setId("img_" + comp.getId());
-//            /**
-//             * Problem with url of an HtmlGraphicImage , when the first character of the url is a slash , the compoennt
-//             * addd automatically a /webappname/[the url we want] so we have specified directly in the property imgData
-//             * of the column the url with resource.jsf
-//             * 
-//             */
-//            img.setValue("#{layer.legendUrl}");
-        tni.getChildren().add(o4);
-        tni.getChildren().add(o1);
-        //         tni.getChildren().add(o2);
-        tni.getChildren().add(o3);
-        tni.getChildren().add(o5);
-        //tni.getChildren().add(o6);
-//            tni.getChildren().add(img);
-        tni.getChildren().add(dr);
         treePanel.getChildren().add(tc);
-        treePanel.getChildren().add(vc);
-        treePanel.getChildren().add(oc);
+        //Add Visibility column
+        if (comp.isVisibilityColumn()){
+            
+            UIVisibilityColumn vc = new UIVisibilityColumn();
+            vc.setId(component.getId() + "Visible");
+            vc.setValue("#{!layer.hidden}");
+            vc.setHeaderIcon("/org/mapfaces/resources/img/eye.png");
+            if (widthVisibilityColumn == null || widthVisibilityColumn.equals("")) {
+                vc.setWidth("26");
+            } else {
+                vc.setWidth(widthVisibilityColumn);
+            }            
+            treePanel.getChildren().add(vc);
         
-        if (! hideElevationColumn) {
-            treePanel.getChildren().add(ec);
         }
-
-        treePanel.getChildren().add(tic);
-        treePanel.getChildren().add(tni);
+        
+        //Add Opacity column
+        if (comp.isOpacityColumn()) {
+            
+            UIOpacityColumn oc = new UIOpacityColumn();
+            oc.setId(component.getId() + "Opacity");
+            oc.setValue("#{layer.opacity}");
+            oc.setHeaderIcon("/org/mapfaces/resources/img/weather_cloudy.png");
+            if (widthOpacityColumn == null || widthOpacityColumn.equals("")) {
+                oc.setWidth("70");
+            } else {
+                oc.setWidth(widthOpacityColumn);
+            }
+            treePanel.getChildren().add(oc);
+            
+        }
+        
+        //Add Elevation column
+        if (comp.isElevationColumn()) {    
+            
+                UIElevationColumn ec = new UIElevationColumn();
+                ec.setId(component.getId() + "_Elevation");
+                ec.setValue("#{layer.userValueElevation}");
+                ec.setHeaderIcon("/org/mapfaces/resources/img/weather_cloudy.png");
+                if (widthElevationColumn == null || widthElevationColumn.equals("")) {
+                    ec.setWidth("100");
+                } else {
+                    ec.setWidth(widthElevationColumn);
+                }            
+                treePanel.getChildren().add(ec);
+                
+        }
+        
+        //Add Time column
+        if (comp.isTimeColumn()) {  
+            UITimeColumn tic = new UITimeColumn();
+            tic.setId(component.getId() + "Time");
+            // tic.setValue("#{layer.userValueDate}");
+            tic.setHeaderIcon("/org/mapfaces/resources/img/calendar_select.png");
+            if (widthTimeColumn == null || widthTimeColumn.equals("")) {
+                tic.setWidth("28");
+            } else {
+                tic.setWidth(widthTimeColumn);
+            }            
+            treePanel.getChildren().add(tic);
+        }
+        
+        
+        if (comp.isLayerInfo() || comp.isColorMapEditor()){
+            
+            UITreeNodeInfo tni = new UITreeNodeInfo();
+            tni.setTitle("Info");
+            tni.setStyle("border:none;");
+            if(comp.isLayerInfo()){
+                UIOutput o4 = new UIOutput();
+                o4.setValue("Id : #{layer.id}");
+                UIOutput o1 = new UIOutput();
+                o1.setValue("Name : #{layer.name}");
+                UIOutput o3 = new UIOutput();
+                o3.setValue("Group : #{layer.group}");
+                UIOutput o5 = new UIOutput();
+                o5.setValue("Format : #{layer.outputFormat}");
+                //UIOutput o6 = new UIOutput();
+                //o6.setValue("Legende : #{layer.legendUrl}");
+                tni.getChildren().add(o4);
+                tni.getChildren().add(o1);
+                //tni.getChildren().add(o2);
+                tni.getChildren().add(o3);
+                tni.getChildren().add(o5);
+            }
+            if(comp.isColorMapEditor()){
+                UIDimRange dr = new UIDimRange();
+    //            dr.setUIModel(getUIModel());
+                dr.setValue("#{layer.userValueDimRange}");
+                dr.setLayerCompId("#{layer.id}");
+                tni.getChildren().add(dr);      
+            }
+            treePanel.getChildren().add(tni);
+        }
+        
         treeTable.getChildren().add(treePanel);
 
         UIComponent treetableTmp = FacesUtils.findComponentById(context, component, treeTable.getId());

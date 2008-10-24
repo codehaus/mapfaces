@@ -43,11 +43,16 @@ public class UILayerControl extends UIWidgetBase {
     private String widthTimeColumn;
     private String titlePanel;
     private String headerTreeColumn;
-    private boolean hideElevationColumn;
     private String styleOddLines;
     private String styleEvenLines;
     private boolean mootools = false;
     private boolean minifyJS = true;
+    private boolean visibilityColumn = true;
+    private boolean opacityColumn  = true;
+    private boolean elevationColumn = true;
+    private boolean timeColumn = true;
+    private boolean layerInfo = true;
+    private boolean colorMapEditor = true;   //Replace Dim_Range
 
     public UILayerControl() {
         super();
@@ -80,7 +85,7 @@ public class UILayerControl extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[14];
+        Object values[] = new Object[18];
         values[0] = super.saveState(context);
         values[1] = styleTreeTable;
         values[2] = styleTreePanel;
@@ -91,9 +96,14 @@ public class UILayerControl extends UIWidgetBase {
         values[7] = widthTimeColumn;
         values[8] = titlePanel;
         values[9] = headerTreeColumn;
-        values[10] = hideElevationColumn;
+        values[10] = elevationColumn;
         values[11] = styleOddLines;
         values[12] = styleEvenLines;
+        values[13] = visibilityColumn;         
+        values[14] = opacityColumn ;
+        values[15] = timeColumn;
+        values[16] = layerInfo;
+        values[17] = colorMapEditor;
         return values;
     }
 
@@ -110,9 +120,14 @@ public class UILayerControl extends UIWidgetBase {
         widthTimeColumn = (String) values[7];
         titlePanel = (String) values[8];
         headerTreeColumn = (String) values[9];
-        hideElevationColumn = (Boolean) values[10];
+        elevationColumn = (Boolean) values[10];
         styleOddLines = (String) values[11];
         styleEvenLines = (String) values[12];
+        visibilityColumn = (Boolean) values[13]; 
+        opacityColumn = (Boolean) values[14] ;
+        timeColumn = (Boolean) values[15];
+        layerInfo = (Boolean) values[16];
+        colorMapEditor = (Boolean) values[17];
     }
 
     public String getStyleTreeTable() {
@@ -187,12 +202,12 @@ public class UILayerControl extends UIWidgetBase {
         this.headerTreeColumn = headerTreeColumn;
     }
 
-    public boolean isHideElevationColumn() {
-        return hideElevationColumn;
+    public boolean isElevationColumn() {
+        return elevationColumn;
     }
 
-    public void setHideElevationColumn(boolean hideElevationColumn) {
-        this.hideElevationColumn = hideElevationColumn;
+    public void setElevationColumn(boolean hideElevationColumn) {
+        this.elevationColumn = hideElevationColumn;
     }
 
     public String getStyleOddLines() {
@@ -225,5 +240,45 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setMinifyJS(boolean minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    public boolean isVisibilityColumn() {
+        return visibilityColumn;
+    }
+
+    public void setVisibilityColumn(boolean visibilityColumn) {
+        this.visibilityColumn = visibilityColumn;
+    }
+
+    public boolean isOpacityColumn() {
+        return opacityColumn;
+    }
+
+    public void setOpacityColumn(boolean opacityColumn) {
+        this.opacityColumn = opacityColumn;
+    }
+
+    public boolean isTimeColumn() {
+        return timeColumn;
+    }
+
+    public void setTimeColumn(boolean timeColumn) {
+        this.timeColumn = timeColumn;
+    }
+
+    public boolean isLayerInfo() {
+        return layerInfo;
+    }
+
+    public void setLayerInfo(boolean layerInfo) {
+        this.layerInfo = layerInfo;
+    }
+
+    public boolean isColorMapEditor() {
+        return colorMapEditor;
+    }
+
+    public void setColorMapEditor(boolean colorMapEditor) {
+        this.colorMapEditor = colorMapEditor;
     }
 }

@@ -66,10 +66,7 @@ public class LayerControlTag extends WidgetBaseTag {
      * The header title of the treeColumn sub component.
      */
     private ValueExpression headerTreeColumn = null;
-    /**
-     * Flag that indicates if the Elevation columns must be displayed or not.
-     */
-    private ValueExpression hideElevationColumn = null;
+    
     /**
      * This is the style for odd treeLines sub components.
      */
@@ -86,6 +83,30 @@ public class LayerControlTag extends WidgetBaseTag {
      *  Boolean to load compressed TreeTable JS library or not.
      */
     private ValueExpression minifyJS = null;
+    /**
+     * Flag that indicates if the Elevation columns must be displayed or not.
+     */
+    private ValueExpression elevationColumn = null;
+    /**
+     * Flag that indicates if the visibility columns must be displayed or not.
+     */
+    private ValueExpression  visibilityColumn = null;
+    /**
+     * Flag that indicates if the opacity columns must be displayed or not.
+     */
+    private ValueExpression  opacityColumn = null;
+    /**
+     * Flag that indicates if the time columns must be displayed or not.
+     */
+    private ValueExpression  timeColumn = null;
+    /**
+     * Flag that indicates if the layerInfo  must be displayed or not.
+     */
+    private ValueExpression  layerInfo = null;
+    /**
+     * Flag that indicates if colorMapEditor must be displayed or not.
+     */
+    private ValueExpression  colorMapEditor = null;
 
     @Override
     public String getComponentType() {
@@ -109,11 +130,16 @@ public class LayerControlTag extends WidgetBaseTag {
         setWidthVisibilityColumn(null);
         setTitlePanel(null);
         setHeaderTreeColumn(null);
-        setHideElevationColumn(null);
         setStyleEvenLines(null);
         setStyleOddLines(null);
         setMootools(null);
         setMinifyJS(null);
+        setElevationColumn(null);
+        setVisibilityColumn(null);
+        setOpacityColumn(null);
+        setTimeColumn(null);
+        setLayerInfo(null);
+        setColorMapEditor(null);
     }
 
     @Override
@@ -128,11 +154,16 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("widthTimeColumn", widthTimeColumn);
         component.setValueExpression("titlePanel", titlePanel);
         component.setValueExpression("headerTreeColumn", headerTreeColumn);
-        component.setValueExpression("hideElevationColumn", hideElevationColumn);
         component.setValueExpression("styleOddLines", styleOddLines);
         component.setValueExpression("styleEvenLines", styleEvenLines);
         component.setValueExpression("mootools",mootools);
         component.setValueExpression("minifyJS",minifyJS);
+        component.setValueExpression("elevationColumn", elevationColumn);
+        component.setValueExpression("visibilityColumn", visibilityColumn);
+        component.setValueExpression("opacityColumn", opacityColumn);
+        component.setValueExpression("timeColumn", timeColumn);
+        component.setValueExpression("layerInfo", layerInfo);
+        component.setValueExpression("colorMapEditor", colorMapEditor);
     }
 
     public ValueExpression getStyleTreeTable() {
@@ -207,14 +238,6 @@ public class LayerControlTag extends WidgetBaseTag {
         this.headerTreeColumn = headerTreeColumn;
     }
 
-    public ValueExpression getHideElevationColumn() {
-        return hideElevationColumn;
-    }
-
-    public void setHideElevationColumn(ValueExpression hideElevationColumn) {
-        this.hideElevationColumn = hideElevationColumn;
-    }
-
     public ValueExpression getStyleOddLines() {
         return styleOddLines;
     }
@@ -245,5 +268,53 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setMinifyJS(ValueExpression minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    public ValueExpression getElevationColumn() {
+        return elevationColumn;
+    }
+
+    public void setElevationColumn(ValueExpression elevationColumn) {
+        this.elevationColumn = elevationColumn;
+    }
+
+    public ValueExpression getVisibilityColumn() {
+        return visibilityColumn;
+    }
+
+    public void setVisibilityColumn(ValueExpression visibilityColumn) {
+        this.visibilityColumn = visibilityColumn;
+    }
+
+    public ValueExpression getOpacityColumn() {
+        return opacityColumn;
+    }
+
+    public void setOpacityColumn(ValueExpression opacityColumn) {
+        this.opacityColumn = opacityColumn;
+    }
+
+    public ValueExpression getTimeColumn() {
+        return timeColumn;
+    }
+
+    public void setTimeColumn(ValueExpression timeColumn) {
+        this.timeColumn = timeColumn;
+    }
+
+    public ValueExpression getLayerInfo() {
+        return layerInfo;
+    }
+
+    public void setLayerInfo(ValueExpression layerInfo) {
+        this.layerInfo = layerInfo;
+    }
+
+    public ValueExpression getColorMapEditor() {
+        return colorMapEditor;
+    }
+
+    public void setColorMapEditor(ValueExpression colorMapEditor) {
+        this.colorMapEditor = colorMapEditor;
     }
 }
