@@ -65,8 +65,8 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
         String varId = getVarId(context, (UIColumnBase) component);
         writer.endElement("center");
         writer.startElement("script", component);
-        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').addEvent('change', function(event){" + addBeforeRequestScript(varId));
-        writer.write("});");
+        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').onchange =  function(event){" + addBeforeRequestScript(varId));
+        writer.write("};");
         writer.endElement("script");
     }
 

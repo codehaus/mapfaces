@@ -3964,10 +3964,11 @@ body.x-body-masked .x-window-plain .x-window-mc {
     line-height:normal;
     white-space:nowrap;
     border-style: solid;
-    border-width: 0px;
+    border-width: 1px;
     border-color: silver;
     margin: 5px 5px 5px 5px;
     padding:  5px 5px 5px 5px;
+    text-align: left;
 }
 .x-tree-node-info-anchor{
 background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/arrows.gif);
