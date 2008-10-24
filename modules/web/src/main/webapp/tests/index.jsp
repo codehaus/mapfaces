@@ -18,6 +18,9 @@
             </li>
             <li>
                 <a href="./mappane.jsf">MapPane component Test</a>
+            </li>            
+            <li>
+                <a href="./buttonbar.jsf">ButtonBar component Test</a>
             </li>
             <li>
                 <a href="./timeline.jsf">TimeLine component Test</a>
