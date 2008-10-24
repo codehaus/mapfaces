@@ -331,6 +331,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                     child.setTransient(true);
                 }
             }
+            else {
+                if(treepanel.isShowRoot()){
+                    ((UITreeLinesBase)Utils.findComponent(context, treepanel.getClientId(context) + "_line_1")).setToRender(true);
+                }
+            }
         }
 
         TreeTableModel tree = treepanel.getView();
