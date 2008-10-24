@@ -809,6 +809,24 @@
                This is the style for even treeLines sub components.
             </description>
         </attribute>
+        <attribute>
+            <name>mootools</name>
+            <description>Allow to load mootools library or not, default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>minifyJS</name>
+            <description>Allow to load the minify JavaScript library or the uncompressed library , default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
     </tag>
     <tag>
         <name>MapPane</name>

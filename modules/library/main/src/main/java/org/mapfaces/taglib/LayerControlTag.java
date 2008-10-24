@@ -78,6 +78,14 @@ public class LayerControlTag extends WidgetBaseTag {
      * This is the style for even treeLines sub components.
      */
     private ValueExpression styleEvenLines = null;
+    /**
+     * Boolean to load Mootools script or not.
+     */
+    private ValueExpression mootools = null;
+    /**
+     *  Boolean to load compressed TreeTable JS library or not.
+     */
+    private ValueExpression minifyJS = null;
 
     @Override
     public String getComponentType() {
@@ -104,6 +112,8 @@ public class LayerControlTag extends WidgetBaseTag {
         setHideElevationColumn(null);
         setStyleEvenLines(null);
         setStyleOddLines(null);
+        setMootools(null);
+        setMinifyJS(null);
     }
 
     @Override
@@ -121,6 +131,8 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("hideElevationColumn", hideElevationColumn);
         component.setValueExpression("styleOddLines", styleOddLines);
         component.setValueExpression("styleEvenLines", styleEvenLines);
+        component.setValueExpression("mootools",mootools);
+        component.setValueExpression("minifyJS",minifyJS);
     }
 
     public ValueExpression getStyleTreeTable() {
@@ -217,5 +229,21 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setStyleEvenLines(ValueExpression styleEvenLines) {
         this.styleEvenLines = styleEvenLines;
+    }
+
+    public ValueExpression getMootools() {
+        return mootools;
+    }
+
+    public void setMootools(ValueExpression mootools) {
+        this.mootools = mootools;
+    }
+
+    public ValueExpression getMinifyJS() {
+        return minifyJS;
+    }
+
+    public void setMinifyJS(ValueExpression minifyJS) {
+        this.minifyJS = minifyJS;
     }
 }

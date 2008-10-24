@@ -17,6 +17,16 @@
  * it's necessary to add controls (<OpenLayers.Control>) and 
  * layers (<OpenLayers.Layer>) to the map. 
  */
+
+//Add onload function to window to zoom the map to the maxExtent
+var zoom = function(){
+    if(window.maps){
+        for(var map in window.maps){
+            if(map && window.maps[map]) window.maps[map].zoomToMaxExtent();
+        }
+    }
+};     
+window.onload=zoom;
 OpenLayers.Map = OpenLayers.Class({
     
     /**
@@ -495,21 +505,7 @@ OpenLayers.Map = OpenLayers.Class({
         //Refresh layers on each moveend event
         this.events.register("moveend", null, this.sendAjaxRequest); 
         this.events.register("moveend", null, this.setCurrentExtent);  
-        //this.zoomToMaxExtent();
         
-        //Add onload function to window to zoom the map to the maxExtent" 
-        //TODO should works for multiple mappane on the page
-        var sc = document.createElement("script");
-        sc.setAttribute("type", "text/javascript");
-        sc.innerHTML="function zoom(){\n"+
-                      "    if(window.maps){\n"+
-                      "        for(var map in window.maps){\n"+
-                      "            window.maps[map].zoomToMaxExtent();\n"+
-                      "        }"+
-                      "    }\n"+
-                      "};\n"+      
-                     "window.onload=zoom;";
-        document.getElementsByTagName('head')[0].appendChild(sc);
         
     },
     

@@ -17,46 +17,46 @@
         <f:view>
             <h:form>
                 <mf:TreeLayoutTable value="#{treebean.tree}" minifyJS="false" var="layer" id="Treetable" width="700">
-                    <mf:TabPanel width="700" >
-                        <mf:TabItem title="Tree Vue 1" >
-                            Vue 1 de la treetable...
-                            <mf:TreeLayoutPanel header="false" id="panel1" rowId="true" >
-                                
-                                <mf:TreeLayoutTColumn headerTitle="Tree Items" width="300" value="#{layer.name}"/>
+                    <mf:TabPanel width="700">
+                        <mf:TabItem title="TreeVue1">
+                            Vue 1 de la treetable
+                            <mf:TreeLayoutPanel header="false" enableDragDrop="false" id="panel1" rowId="true" >
 
-                                <mf:TreeLayoutCheckColumn
-                                    headerIcon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif" 
-                                    id="visible" 
-                                    value="#{!layer.hidden}"
-                                    width="40"/>
-                                
-                                <mf:TreeLayoutCheckColumn 
-                                    headerIcon="/org/mapfaces/resources/treetable/images/default/dd/drop-yes.gif" 
-                                    id="edit" 
-                                    value="#{layer.edit}"
-                                    width="30"/>
-                                
-                                <mf:TreeLayoutCheckColumn 
-                                    headerIcon="/org/mapfaces/resources/treetable/images/default/grid/hmenu-lock.gif" 
-                                    id="lock" 
-                                    value="#{layer.lock}"
-                                    width="30"/>
-                                
-                                <mf:TreeLayoutCheckColumn 
-                                    headerIcon="/org/mapfaces/resources/treetable/images/default/grid/group-by.gif" 
-                                    id="group" 
-                                    value="#{layer.group}"
-                                    width="30"/>
-                                
-                                <mf:TreeLayoutNodeInfo title="title" >
-                                    <h:outputLabel value="TITLE : #{layer.title}"/>
-                                    <h:outputLabel value="ID : #{layer.id}"/>
-                                    <h:outputLabel value="Group ID : #{layer.groupId}"/>
-                                </mf:TreeLayoutNodeInfo>
-                                
-                            </mf:TreeLayoutPanel>
+                                        <mf:TreeLayoutTColumn headerTitle="Tree Items" width="300" value="#{layer.name}"/>
+
+                                        <mf:TreeLayoutCheckColumn
+                                            headerIcon="/org/mapfaces/resources/treetable/images/default/layout/stuck.gif" 
+                                            id="visible" 
+                                            value="#{!layer.hidden}"
+                                            width="40"/>
+
+                                        <mf:TreeLayoutCheckColumn 
+                                            headerIcon="/org/mapfaces/resources/treetable/images/default/dd/drop-yes.gif" 
+                                            id="edit" 
+                                            value="#{layer.edit}"
+                                            width="30"/>
+
+                                        <mf:TreeLayoutCheckColumn 
+                                            headerIcon="/org/mapfaces/resources/treetable/images/default/grid/hmenu-lock.gif" 
+                                            id="lock" 
+                                            value="#{layer.lock}"
+                                            width="30"/>
+
+                                        <mf:TreeLayoutCheckColumn 
+                                            headerIcon="/org/mapfaces/resources/treetable/images/default/grid/group-by.gif" 
+                                            id="group" 
+                                            value="#{layer.group}"
+                                            width="30"/>
+
+                                        <mf:TreeLayoutNodeInfo title="title" >
+                                            <h:outputLabel value="TITLE : #{layer.title}"/>
+                                            <h:outputLabel value="ID : #{layer.id}"/>
+                                            <h:outputLabel value="Group ID : #{layer.groupId}"/>
+                                        </mf:TreeLayoutNodeInfo>
+
+                                    </mf:TreeLayoutPanel>
                         </mf:TabItem>
-                        <mf:TabItem title="Tree Vue 2">
+                        <mf:TabItem title="TreeVue2">
                             Vue 2 de la treetable...
                             <mf:TreeLayoutPanel header="false" id="panel2" rowId="true" >
                                 

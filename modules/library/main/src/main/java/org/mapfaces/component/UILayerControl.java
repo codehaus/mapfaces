@@ -46,6 +46,8 @@ public class UILayerControl extends UIWidgetBase {
     private boolean hideElevationColumn;
     private String styleOddLines;
     private String styleEvenLines;
+    private boolean mootools = false;
+    private boolean minifyJS = true;
 
     public UILayerControl() {
         super();
@@ -58,6 +60,7 @@ public class UILayerControl extends UIWidgetBase {
     public DefaultTreeModel getTree() {
         return this.tree;
     }
+
 
     public void setTree(DefaultTreeModel newvalue) {
         this.tree = newvalue;
@@ -206,5 +209,21 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setStyleEvenLines(String styleEvenLines) {
         this.styleEvenLines = styleEvenLines;
+    }
+
+    public boolean isMootools() {
+        return mootools;
+    }
+
+    public void setMootools(boolean mootools) {
+        this.mootools = mootools;
+    }
+
+    public boolean isMinifyJS() {
+        return minifyJS;
+    }
+
+    public void setMinifyJS(boolean minifyJS) {
+        this.minifyJS = minifyJS;
     }
 }
