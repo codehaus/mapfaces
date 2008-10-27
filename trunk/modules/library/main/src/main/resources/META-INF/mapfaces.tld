@@ -3615,8 +3615,50 @@
             </description>
         </attribute>
         <attribute>
+            <name>activeControl</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the timeline should load the control panel.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleControlPanel</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the control panel which is a subcomponent.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleClassControlPanel</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class attribute of the control panel which is a subcomponent.
+            </description>
+        </attribute>
+        <attribute>
             <name>minifyJS</name>
             <description>Allow to load the minify JavaScript library or the uncompressed library , default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>enableBandsInput</name>
+            <description>This is a flag that indicates if the timeline allow to its children if they must load the input slider and inputs components.</description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -4090,17 +4132,6 @@
             <rtexprvalue>false</rtexprvalue>
             <description>
                 The style of the overall div that surrounds this component.
-            </description>
-        </attribute>
-        <attribute>
-            <name>target</name>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description>
-                The target timeline component referenced by its id.
             </description>
         </attribute>
     </tag>

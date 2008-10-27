@@ -34,7 +34,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.DatatypeConfigurationException;
+import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
+import org.mapfaces.component.timeline.UITimeLineControl;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.models.timeline.HighlightDecorator;
@@ -48,6 +50,10 @@ import org.mapfaces.util.PeriodUtilities;
  * @author Mehdi Sidhoum
  */
 public class TimeLineUtils {
+    
+    static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
+        "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    };
 
     public static List<Event> getEventsFromLayer(Layer layer) throws ParseException, DatatypeConfigurationException {
         List<Event> result = new ArrayList<Event>();
@@ -268,5 +274,95 @@ public class TimeLineUtils {
      */
     public static String getResourcePhaseListener(String s, FacesContext context) {
         return ResourcePhaseListener.getURL(context, s, null);
+    }
+    
+    /**
+     * This method write a selectOneMenu component in a page.
+     * @param writer
+     * @param context
+     * @param bandInfo
+     * @param index
+     * @throws java.io.IOException
+     */
+    public static void writeSelectOneMenu(ResponseWriter writer, FacesContext context, UIHotZoneBandInfo bandInfo, int index) throws IOException {
+        String idjs = bandInfo.getJsObject();
+        writer.startElement("div", bandInfo);
+        writer.writeAttribute("id", idjs+"-inputdate-div", null);
+        writer.startElement("select", bandInfo);
+        writer.writeAttribute("size", "1", null);
+        writer.writeAttribute("onchange", idjs + "_changeIntervalUnit(" + index + ",this.value);", null);
+        writer.writeAttribute("name", bandInfo.getClientId(context) + "selectone", "clientId");
+        writer.writeAttribute("id", bandInfo.getClientId(context) + "selectone", "id");
+
+        for (int i = 0; i < 11; i++) {
+            writer.startElement("option", bandInfo);
+            writer.writeAttribute("value", "Timeline.DateTime." + intervalNames[i], null);
+
+            if (bandInfo.getIntervalUnit() != null && bandInfo.getIntervalUnit().equals(intervalNames[i])) {
+                writer.writeAttribute("selected", Boolean.TRUE, null);
+            }
+            writer.writeText(intervalNames[i], null);
+            writer.endElement("option");
+        }
+        writer.endElement("select");
+        writer.endElement("div");
+    }
+    
+    /**
+     * This method write an inputDate component.
+     * @param writer
+     * @param comp
+     * @param context
+     * @throws java.io.IOException
+     */
+    public static void writeInputDateText(ResponseWriter writer, UITimeLine comp, FacesContext context) throws IOException {
+        String idjs = comp.getJsObject();
+        writer.startElement("input", comp);
+        writer.writeAttribute("id", idjs + "_inputdate", "id");
+        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute("onchange", idjs + "_centerToDate();", null);
+        writer.writeAttribute("name", idjs + "_inputdate", null);
+        writer.endElement("input");
+
+        writer.write("<script>\n" +
+                "function " + idjs + "_centerToDate(){\n" +
+                "var valdate = document.getElementById('" + idjs + "_inputdate').value;\n" +
+                "var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n" +
+                "if (dateInput instanceof Date) {\n" +
+                idjs + "_tl.getBand(0).scrollToCenter(dateInput);\n" +
+                "} return false;}\n" +
+                "</script>\n");
+    }
+    
+    /**
+     * Returns the UITimeLineControl parent of the mapfaces component.
+     * @param context
+     * @param comp
+     * @return
+     */
+    public static UITimeLineControl getParentTimeLineControl(FacesContext context, UIComponent comp) {
+        UIComponent parent = comp;
+        while (!(parent instanceof UITimeLineControl)) {
+            parent = parent.getParent();
+        }
+        return (UITimeLineControl) parent;
+    }
+    
+    /**
+     * This method returns a list of no hidden bandsInfo component from a timeline component.
+     * @param context
+     * @param timeline
+     * @return
+     */
+    public static List<UIHotZoneBandInfo> getNotHiddenBandsList(FacesContext context, UITimeLine timeline) {
+        List<UIHotZoneBandInfo> results = new ArrayList<UIHotZoneBandInfo>();
+        if (timeline != null) {
+        for(UIComponent child : timeline.getChildren()) {
+            if (child instanceof UIHotZoneBandInfo && ! ((UIHotZoneBandInfo) child).isHidden()) {
+                results.add((UIHotZoneBandInfo) child);
+            }
+        }
+        }
+        return results;
     }
 }

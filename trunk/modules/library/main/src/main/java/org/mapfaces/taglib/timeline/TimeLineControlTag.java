@@ -46,11 +46,6 @@ public class TimeLineControlTag extends UIComponentELTag {
      */
     private ValueExpression style = null;
     
-    /**
-     * The target timeline component referenced by its id.
-     */
-    private ValueExpression target = null;
-
     @Override
     public String getComponentType() {
         return COMP_TYPE;
@@ -67,7 +62,6 @@ public class TimeLineControlTag extends UIComponentELTag {
         super.setProperties(component);
         component.setValueExpression("styleClass",getStyleClass());
         component.setValueExpression("style",getStyle());
-        component.setValueExpression("target",getTarget());
     }
     
     @Override
@@ -77,7 +71,6 @@ public class TimeLineControlTag extends UIComponentELTag {
         
         setStyleClass(null);
         setStyle(null);
-        setTarget(null);
     }
 
     public ValueExpression getStyleClass() {
@@ -94,13 +87,5 @@ public class TimeLineControlTag extends UIComponentELTag {
 
     public void setStyle(ValueExpression style) {
         this.style = style;
-    }
-
-    public ValueExpression getTarget() {
-        return target;
-    }
-
-    public void setTarget(ValueExpression target) {
-        this.target = target;
     }
 }

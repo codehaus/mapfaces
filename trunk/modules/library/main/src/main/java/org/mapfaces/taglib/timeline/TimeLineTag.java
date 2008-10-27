@@ -72,9 +72,27 @@ public class TimeLineTag extends UIComponentELTag {
      */
     private ValueExpression dynamicBands = null;
     /**
+     * Flag that indicates if the timeline should load the control panel.
+     */
+    private ValueExpression activeControl = null;
+    /**
+     * The style of the control panel which is a subcomponent.
+     */
+    private ValueExpression styleControlPanel = null;
+    /**
+     * The style class of the control panel which is a subcomponent.
+     */
+    private ValueExpression styleClassControlPanel = null;
+    /**
      * This is a flag that indicates if we must load compressed scripts or uncompressed.
      */
     private ValueExpression minifyJS = null;
+    /**
+     * This is a flag that indicates if the timeline allow to its children if they must load the input slider and inputs components.
+     */
+    private ValueExpression enableBandsInput = null;
+    
+    
         
     public String getComponentType() {
         return COMP_TYPE;
@@ -97,7 +115,11 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("theme",theme);
         component.setValueExpression("synchronizeBands",synchronizeBands);
         component.setValueExpression("dynamicBands",dynamicBands);
+        component.setValueExpression("activeControl",activeControl);
+        component.setValueExpression("styleControlPanel",styleControlPanel);
+        component.setValueExpression("styleClassControlPanel",styleClassControlPanel);
         component.setValueExpression("minifyJS",minifyJS);
+        component.setValueExpression("enableBandsInput",enableBandsInput);
     }
     
     @Override
@@ -113,7 +135,11 @@ public class TimeLineTag extends UIComponentELTag {
         theme = null;
         synchronizeBands = null;
         dynamicBands = null;
+        activeControl = null;
+        styleControlPanel = null;
+        styleClassControlPanel = null;
         minifyJS = null;
+        enableBandsInput = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -168,11 +194,43 @@ public class TimeLineTag extends UIComponentELTag {
         this.dynamicBands = dynamicBands;
     }
 
+    public ValueExpression getActiveControl() {
+        return activeControl;
+    }
+
+    public void setActiveControl(ValueExpression activeControl) {
+        this.activeControl = activeControl;
+    }
+
+    public ValueExpression getStyleControlPanel() {
+        return styleControlPanel;
+    }
+
+    public void setStyleControlPanel(ValueExpression styleControlPanel) {
+        this.styleControlPanel = styleControlPanel;
+    }
+
+    public ValueExpression getStyleClassControlPanel() {
+        return styleClassControlPanel;
+    }
+
+    public void setStyleClassControlPanel(ValueExpression styleClassControlPanel) {
+        this.styleClassControlPanel = styleClassControlPanel;
+    }
+
     public ValueExpression getMinifyJS() {
         return minifyJS;
     }
 
     public void setMinifyJS(ValueExpression minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    public ValueExpression getEnableBandsInput() {
+        return enableBandsInput;
+    }
+
+    public void setEnableBandsInput(ValueExpression enableBandsInput) {
+        this.enableBandsInput = enableBandsInput;
     }
 }

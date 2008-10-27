@@ -38,7 +38,6 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.component.timeline.UITimeLine;
-import org.mapfaces.component.timeline.UITimeLineControl;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.util.FacesUtils;
@@ -72,6 +71,10 @@ public class HotZoneBandInfoRenderer extends Renderer {
 
         //casting the component.
         UIHotZoneBandInfo bandInfoComp = (UIHotZoneBandInfo) component;
+        if (bandInfoComp.isHidden()) {
+            return;
+        }
+        UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, bandInfoComp);
         bandInfoComp.setJsObject(bandInfoComp.getId().replace("-", "_"));
         ExternalContext extContext = context.getExternalContext();
         int index = 0;
@@ -88,24 +91,18 @@ public class HotZoneBandInfoRenderer extends Renderer {
 
         //begin to render the component.
         ResponseWriter writer = context.getResponseWriter();
-        
-        
-        boolean timelineControlFlag = false;
-        if(FacesUtils.getParentUIModelBase(context, component ) != null){
-            for (UIComponent child : FacesUtils.getParentUIModelBase(context, component).getChildren()) {
-                if (child instanceof UITimeLineControl) {
-                    timelineControlFlag = true;
-                }
-            }
-        }
-        if (bandInfoComp.isSliderInput() && ! timelineControlFlag) {
+
+        boolean timelineControlFlag = parentTimeline.isActiveControl();
+
+        if (bandInfoComp.isSliderInput() && !timelineControlFlag && parentTimeline.isEnableBandsInput()) {
+
             UISliderInput sliderInput = new UISliderInput();
             sliderInput.setId(component.getId() + "slider");
             sliderInput.setForid(String.valueOf(index));
             sliderInput.setHorizontal("true");
-            
+
             String sliderWidth = bandInfoComp.getSliderWidth();
-            if (sliderWidth != null && ! sliderWidth.equals("")) {
+            if (sliderWidth != null && !sliderWidth.equals("")) {
                 sliderInput.setLength(sliderWidth);
             } else {
                 sliderInput.setLength("250");
@@ -118,7 +115,8 @@ public class HotZoneBandInfoRenderer extends Renderer {
             }
         }
         writeChangeIntervalJS(context, bandInfoComp, writer);
-        if (bandInfoComp.isInputInterval()) {
+
+        if (bandInfoComp.isInputInterval() && !timelineControlFlag) {
             writeSelectOneMenu(writer, context, bandInfoComp, index);
         }
     }
@@ -126,6 +124,9 @@ public class HotZoneBandInfoRenderer extends Renderer {
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         UIHotZoneBandInfo comp = (UIHotZoneBandInfo) component;
+        if (comp.isHidden()) {
+            return;
+        }
         String idjs = comp.getJsObject();
         ResponseWriter writer = context.getResponseWriter();
         UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
@@ -161,7 +162,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
         UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
         Layer attachedLayer = comp.getLayer();
         Map requestMap = context.getExternalContext().getRequestParameterMap();
-        
+
         //if the dynamicbands property is True then each bandInfo component have its own layer.
         if (FacesUtils.getParentUIModelBase(context, component) != null &&
                 (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
@@ -169,26 +170,43 @@ public class HotZoneBandInfoRenderer extends Renderer {
             if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
                     requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
                     ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
-                
+
                 //getting the layer id from a requestMap to identify if it is the layer attached to this component.
                 String ajaxlayerId = (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID");
                 if (ajaxlayerId != null) {
-                    ajaxlayerId = ajaxlayerId.substring(ajaxlayerId.indexOf(":")+1);
+                    ajaxlayerId = ajaxlayerId.substring(ajaxlayerId.indexOf(":") + 1);
+                }
+
+                //getting the hidden parameter in the ajax request
+                String hidden = "";
+                if (requestMap.containsKey("hidden")) {
+                    hidden = (String) requestMap.get("hidden");
                 }
                 
                 //if the layer id correspond to this component layer then proceed to refresh the bandInfo comp.
-                if (attachedLayer != null && ajaxlayerId.equals(attachedLayer.getId()) && comp.isRendered()) {
-                    try {
-                        UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
-                        Layer layer = uiLayer.getLayer();
-                        List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                        Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
-                        comp.setValue(layerEvents);
-                        comp.setCenterDate(centerDate);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (DatatypeConfigurationException ex) {
-                        Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                if (attachedLayer != null && ajaxlayerId.equals(attachedLayer.getId())) {
+                    //do the rerender of the bandInfo only if hidden was set to False.
+                    if (hidden.equals("false")) {
+                        comp.setHidden(false);
+                        UIHotZoneBandInfo mainBand = (UIHotZoneBandInfo) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband");
+                        if (mainBand != null) {
+                            mainBand.setWidth(40);
+                        }
+
+                        try {
+                            UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                            Layer layer = uiLayer.getLayer();
+                            List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                            Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                            comp.setValue(layerEvents);
+                            comp.setCenterDate(centerDate);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (DatatypeConfigurationException ex) {
+                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        comp.setHidden(true);
                     }
                 }
             }
@@ -207,7 +225,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
     public void writeSelectOneMenu(ResponseWriter writer, FacesContext context, UIHotZoneBandInfo bandInfo, int index) throws IOException {
         String idjs = bandInfo.getJsObject();
         writer.startElement("div", bandInfo);
-        writer.writeAttribute("id", idjs+"-inputdate-div", null);
+        writer.writeAttribute("id", idjs + "-inputdate-div", null);
         writer.startElement("select", bandInfo);
         writer.writeAttribute("size", "1", null);
         writer.writeAttribute("onchange", idjs + "_changeIntervalUnit(" + index + ",this.value);", null);
@@ -242,12 +260,12 @@ public class HotZoneBandInfoRenderer extends Renderer {
         Date centerDate = bandInfo.getDate();
         final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        
+
         String savedate = idjs + "_tl.getBand(bandId).getCenterVisibleDate();\n";
         String reloadDate = idjs + "_tl.getBand(bandId).setCenterVisibleDate(savedate);\n";
         String scrolltocenter = idjs + "_tl.getBand(bandId).scrollToCenter(savedate);\n";
-        
-        String centerdateScript="";
+
+        String centerdateScript = "";
         if (centerDate == null) {
             centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());\n";
         } else {
@@ -261,21 +279,18 @@ public class HotZoneBandInfoRenderer extends Renderer {
             writer.writeAttribute("type", "text/javascript", null);
             writer.write("function " + idbandjs + "_changeIntervalUnit(bandId,val){\n" +
                     "var ms = Timeline.DateTime.gregorianUnitLengths[eval(val)];\n" +
-                    
-                    "var savedate = "+savedate +
-                    
+                    "var savedate = " + savedate +
                     idjs + "_bandInfos[bandId].ether._interval=ms;\n" +
                     idjs + "_bandInfos[bandId].ether._params.interval=ms;\n" +
                     idjs + "_bandInfos[bandId].etherPainter._params.unit=eval(val);\n" +
                     "var size = " + idjs + "_bandInfos[bandId].etherPainter._zones.length;\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n" +
                     idjs + "_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n" +
-//                    centerdateScript +
+                    //                    centerdateScript +
                     reloadDate +
                     idjs + "_eventSource._fire(\"onAddMany\", []);\n" +
                     idjs + "_tl.getBand(bandId).layout();\n" +
                     idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
-                    
                     "}");
             writer.endElement("script");
         }

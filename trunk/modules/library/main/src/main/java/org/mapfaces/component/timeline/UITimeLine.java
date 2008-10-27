@@ -58,9 +58,23 @@ public class UITimeLine extends UICommand {
      */
     private boolean dynamicBands;
     /**
-     * Flag that indicates if we want use th compressed scripts or the uncompressed.
+     * Flag that indicates if the timeline should load the control panel.
+     */
+    private boolean activeControl;
+    /**
+     * The style of the control panel which is a subcomponent.
+     */
+    private String styleControlPanel;
+    /**
+     * The style class of the control panel which is a subcomponent.
+     */
+    private String styleClassControlPanel;
+    /**
+     * Flag that indicates if we want use the compressed scripts or the uncompressed.
      */
     private boolean minifyJS = true;
+    
+    private boolean enableBandsInput = false;
     
     public String getFamily() {
         return FAMILIY;
@@ -98,7 +112,7 @@ public class UITimeLine extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[9];
+        Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = events;
         values[2] = jsObject;
@@ -107,7 +121,11 @@ public class UITimeLine extends UICommand {
         values[5] = theme;
         values[6] = synchronizeBands;
         values[7] = dynamicBands;
-        values[8] = minifyJS;
+        values[8] = activeControl;
+        values[9] = styleControlPanel;
+        values[10] = styleClassControlPanel;
+        values[11] = minifyJS;
+        values[12] = enableBandsInput;
         return values;
     }
 
@@ -122,8 +140,11 @@ public class UITimeLine extends UICommand {
         theme = (String) values[5];
         synchronizeBands = (Boolean) values[6];
         dynamicBands = (Boolean) values[7];
-        minifyJS = (Boolean) values[8];
-        
+        activeControl = (Boolean) values[8];
+        styleControlPanel = (String) values[9];
+        styleClassControlPanel = (String) values[10];
+        minifyJS = (Boolean) values[11];
+        enableBandsInput = (Boolean) values[12];
     }
 
     public boolean isInputDate() {
@@ -158,11 +179,43 @@ public class UITimeLine extends UICommand {
         this.dynamicBands = dynamicBands;
     }
 
+    public boolean isActiveControl() {
+        return activeControl;
+    }
+
+    public void setActiveControl(boolean activeControl) {
+        this.activeControl = activeControl;
+    }
+
+    public String getStyleControlPanel() {
+        return styleControlPanel;
+    }
+
+    public void setStyleControlPanel(String styleControlPanel) {
+        this.styleControlPanel = styleControlPanel;
+    }
+
+    public String getStyleClassControlPanel() {
+        return styleClassControlPanel;
+    }
+
+    public void setStyleClassControlPanel(String styleClassControlPanel) {
+        this.styleClassControlPanel = styleClassControlPanel;
+    }
+
     public boolean isMinifyJS() {
         return minifyJS;
     }
 
     public void setMinifyJS(boolean minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    public boolean isEnableBandsInput() {
+        return enableBandsInput;
+    }
+
+    public void setEnableBandsInput(boolean enableBandsInput) {
+        this.enableBandsInput = enableBandsInput;
     }
 }

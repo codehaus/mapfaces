@@ -31,18 +31,17 @@ public class AjaxUtils {
     /*
      * Parameter's names
      */
-    private final String AJAX_REQUEST_PARAM_KEY = "org.mapfaces.ajax.AJAX_REQUEST";
-    private final String AJAX_CONTAINER_ID_KEY = "org.mapfaces.ajax.AJAX_CONTAINER_ID";
-    private final String AJAX_PANEL_ID_KEY = "org.mapfaces.ajax.AJAX_PANEL_ID";
-    private final String AJAX_FORM_ID_KEY = "org.mapfaces.ajax.AJAX_FORM_ID";
-    private final String AJAX_NODE_ID_KEY = "org.mapfaces.ajax.AJAX_NODE_ID";
-    private final String AJAX_COMPONENT_ID_KEY = "org.mapfaces.ajax.AJAX_COMPONENT_ID";
-    private final String AJAX_CHECKOPTION_ID_KEY = "org.mapfaces.ajax.AJAX_CHECKOPTION_ID";
-    private final String AJAX_RENDERCHILD_ID_KEY = "org.mapfaces.ajax.AJAX_RENDERCHILD_ID_ID";
-    private final String AJAX_COMPONENT_VALUE_KEY = "org.mapfaces.ajax.AJAX_COMPONENT_VALUE";
-    private final String AJAX_TARGET_ID_KEY = "org.mapfaces.ajax.AJAX_TARGET_ID";
-    
-    private final String AJAX_LAYER_ID = "org.mapfaces.ajax.AJAX_LAYER_ID";
+    public static final String AJAX_REQUEST_PARAM_KEY = "org.mapfaces.ajax.AJAX_REQUEST";
+    public static final String AJAX_CONTAINER_ID_KEY = "org.mapfaces.ajax.AJAX_CONTAINER_ID";
+    public static final String AJAX_PANEL_ID_KEY = "org.mapfaces.ajax.AJAX_PANEL_ID";
+    public static final String AJAX_FORM_ID_KEY = "org.mapfaces.ajax.AJAX_FORM_ID";
+    public static final String AJAX_NODE_ID_KEY = "org.mapfaces.ajax.AJAX_NODE_ID";
+    public static final String AJAX_COMPONENT_ID_KEY = "org.mapfaces.ajax.AJAX_COMPONENT_ID";
+    public static final String AJAX_CHECKOPTION_ID_KEY = "org.mapfaces.ajax.AJAX_CHECKOPTION_ID";
+    public static final String AJAX_RENDERCHILD_ID_KEY = "org.mapfaces.ajax.AJAX_RENDERCHILD_ID_ID";
+    public static final String AJAX_COMPONENT_VALUE_KEY = "org.mapfaces.ajax.AJAX_COMPONENT_VALUE";
+    public static final String AJAX_TARGET_ID_KEY = "org.mapfaces.ajax.AJAX_TARGET_ID";
+    public static final String AJAX_LAYER_ID = "org.mapfaces.ajax.AJAX_LAYER_ID";
     
     /*
      * Parameter's name for DND 

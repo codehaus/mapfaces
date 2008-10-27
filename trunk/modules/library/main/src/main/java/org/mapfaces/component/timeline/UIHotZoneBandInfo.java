@@ -17,9 +17,11 @@
 
 package org.mapfaces.component.timeline;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.el.ValueExpression;
+import javax.faces.component.StateHolder;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import org.mapfaces.models.Layer;
@@ -30,7 +32,7 @@ import org.mapfaces.models.timeline.Zone;
  *
  * @author Mehdi Sidhoum.
  */
-public class UIHotZoneBandInfo extends UICommand {
+public class UIHotZoneBandInfo extends UICommand implements StateHolder, Serializable {
 
     private Event eventSource;
     private Date date;
@@ -51,6 +53,7 @@ public class UIHotZoneBandInfo extends UICommand {
     private List<Event> events;
     private Date centerDate;
     private String sliderWidth;
+    private boolean hidden;
     
     /**
      * Name of the js object wher the timeline is defined
@@ -247,7 +250,7 @@ public class UIHotZoneBandInfo extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[20];
+        Object values[] = new Object[21];
         values[0] = super.saveState(context);
         values[1] = date;
         values[2] = eventSource;
@@ -267,6 +270,7 @@ public class UIHotZoneBandInfo extends UICommand {
         values[16] = events;
         values[17] = centerDate;
         values[18] = sliderWidth;
+        values[19] = hidden;
         return values;
     }
 
@@ -292,6 +296,7 @@ public class UIHotZoneBandInfo extends UICommand {
         events = (List<Event>) values[16];
         centerDate = (Date) values[17];
         sliderWidth = (String) values[18];
+        hidden = (Boolean) values[19];
     }
 
     public boolean isSliderInput() {
@@ -332,5 +337,13 @@ public class UIHotZoneBandInfo extends UICommand {
 
     public void setSliderWidth(String sliderWidth) {
         this.sliderWidth = sliderWidth;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }
