@@ -29,12 +29,12 @@ public class UIOpacityColumn extends UISelectOneMenuColumn {
     private static final long serialVersionUID = -1878798978545632171L;
     
     
-    private final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.OpacityColumn";
+    private final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.OpacityColumn";    
+    private final String LAYER_PROPERTY = "Opacity";
     
     private final String FAMILY = "org.mapfaces.treelayout.Column";
     
     private String layerId;
-    private final String layerProperty = "Opacity";
     
     
      /**
@@ -56,7 +56,7 @@ public class UIOpacityColumn extends UISelectOneMenuColumn {
     }
 
     public String getLayerProperty() {
-        return layerProperty;
+        return LAYER_PROPERTY;
     }
 
     

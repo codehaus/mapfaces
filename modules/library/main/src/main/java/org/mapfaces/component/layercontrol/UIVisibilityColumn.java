@@ -28,9 +28,9 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
 
     private final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.VisibilityColumn";
     private final String FAMILY = "org.mapfaces.treelayout.Column";
+    private final String LAYER_PROPERTY = "Visible";
     
-    private String layerId;
-    
+    private String layerId;    
     
     public UIVisibilityColumn(){
         super();
@@ -52,5 +52,9 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
    
     public String getLayerId(){
         return layerId;
+    }
+
+    public String getLayerProperty() {
+        return LAYER_PROPERTY;
     }
 }

@@ -83,10 +83,16 @@ public class TreeUtils {
             ELContext el = context.getELContext();
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             Map requestMap = ec.getRequestMap();
-            news.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
+            if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
+               news.setId(component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
+            else
+                news.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
 
         } else {
-            news.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId());
+           if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
+                news.setId(component.getId() + "_" + node.getId());
+            else
+                news.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId());
         }
 
         if (component.getChildCount() > 0) {

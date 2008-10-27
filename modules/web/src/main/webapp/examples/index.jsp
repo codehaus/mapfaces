@@ -43,7 +43,10 @@
             </li>         
             <li>
                 <a href="./foss4g2008/index.jsf">FOSS4G South Africa 2008 demo</a>
-            </li>         
+            </li> 
+             <li>
+                <a href="./multiMapPane.jsf">4 MapPanes to compare geoserver and constellation</a>
+            </li>
         </ul>
         <br/>
        

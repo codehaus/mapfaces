@@ -32,14 +32,14 @@ public class UIElevationColumn extends UISelectOneMenuColumn {
     private final String FAMILY = "org.mapfaces.treelayout.Column";
     
     private String layerId;
-    private final String layerProperty = "Elevation";
+    private final String LAYER_PROPERTY = "Elevation";
     
      /**
      * Add extra parameter like this
      * 
      */
     
-    private String title = " Opacity ";
+    private String title = " Elevation ";
     private String itemsLabels = "5.0,10.0";
     private String itemsValues = "5.0,10.0";
     
@@ -53,7 +53,7 @@ public class UIElevationColumn extends UISelectOneMenuColumn {
     }
 
     public String getLayerProperty() {
-        return layerProperty;
+        return LAYER_PROPERTY;
     }
 
     
