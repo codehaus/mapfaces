@@ -26,9 +26,6 @@ import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.treelayout.UIImgColumn;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 
-/**
- * @author Olivier Terral.
- */
 public class ImgColumnRenderer extends AbstractColumnRenderer {
 
     @Override
@@ -36,9 +33,9 @@ public class ImgColumnRenderer extends AbstractColumnRenderer {
         UIImgColumn comp = (UIImgColumn) component;
         ResponseWriter writer = context.getResponseWriter();
 
-
         HtmlGraphicImage img = new HtmlGraphicImage();
         img.setId("img_" + comp.getId());
+        
         /**
          * Problem with url of an HtmlGraphicImage , when the first character of the url is a slash , the compoennt
          * addd automatically a /webappname/[the url we want] so we have specified directly in the property imgData
@@ -66,7 +63,9 @@ public class ImgColumnRenderer extends AbstractColumnRenderer {
     }
 
     @Override
-    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {   
+        ResponseWriter writer = context.getResponseWriter();
+        writer.endElement("center");
     }
 
     @Override

@@ -60,7 +60,7 @@ public class ColumnRenderer extends AbstractColumnRenderer {
         /*
          * Prepare informations for making any Ajax request
          */
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+       /* HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         AjaxUtils ajaxtools = new AjaxUtils();
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
         ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), component.getId());
@@ -81,7 +81,7 @@ public class ColumnRenderer extends AbstractColumnRenderer {
                 Request +
                 addAfterRequestScript(context, component) +
                 "});");
-        writer.endElement("script");
+        writer.endElement("script");*/
     }
 
     @Override

@@ -38,7 +38,6 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeBegin(context, component);
-
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onclick",
@@ -61,16 +60,15 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
          * Prepare informations for making any Ajax request (TO BE FACTORIZE)
          */
 
-        ResponseWriter writer = context.getResponseWriter();
-        String varId = getVarId(context, (UIColumnBase) component);
-        writer.endElement("center");
-        writer.startElement("script", component);
-        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').onchange =  function(event){" + addBeforeRequestScript(varId));
-        writer.write("};");
-        writer.endElement("script");
+//        ResponseWriter writer = context.getResponseWriter();
+//        String varId = getVarId(context, (UIColumnBase) component);
+//        writer.startElement("script", component);
+//        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').onchange =  function(this){" + addBeforeRequestScript(varId));
+//        writer.write("};");
+//        writer.endElement("script");
     }
 
     private String addBeforeRequestScript(String varId) {
-        return "event.target.checked?document.getElementById('" + varId + "').style.display='block':document.getElementById('" + varId + "').style.display='none';";
+        return "";//this.checked?document.getElementById('" + varId + "').style.display='block':document.getElementById('" + varId + "').style.display='none';";
     }
 }

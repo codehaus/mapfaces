@@ -85,7 +85,7 @@ public class UILayerControl extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[18];
+        Object values[] = new Object[19];
         values[0] = super.saveState(context);
         values[1] = styleTreeTable;
         values[2] = styleTreePanel;
@@ -104,6 +104,7 @@ public class UILayerControl extends UIWidgetBase {
         values[15] = timeColumn;
         values[16] = layerInfo;
         values[17] = colorMapEditor;
+        values[18] = minifyJS;
         return values;
     }
 
@@ -128,6 +129,7 @@ public class UILayerControl extends UIWidgetBase {
         timeColumn = (Boolean) values[15];
         layerInfo = (Boolean) values[16];
         colorMapEditor = (Boolean) values[17];
+        minifyJS = (Boolean) values[18];
     }
 
     public String getStyleTreeTable() {

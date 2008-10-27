@@ -283,7 +283,7 @@ public class FacesUtils {
         extraParams.put(ajaxUtils.getAJAX_LAYER_ID(), varId);
         extraParams.put(ajaxUtils.getAJAX_CONTAINER_ID_KEY(), comp.getClientId(context));
         /*if we don't want to reRender another component than the "var" component */
-        if (idsToReRender == null) {
+        if (idsToReRender == null ) {
             idsToReRender = varId;
         }
         return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);

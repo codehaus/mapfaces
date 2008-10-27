@@ -75,6 +75,8 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
 
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
+        ResponseWriter writer = context.getResponseWriter();
+        writer.endElement("center");
     }
 
     @Override

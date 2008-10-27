@@ -15,10 +15,10 @@
 	</head>
         <body>
             <h:form>
-                <h:commandButton value="submit" style="position:relative;"/>
+                <h:commandButton value="submit" style="position:relative;" />
                 <mf-model:Context minifyJS="false"  service="data/context/ifremer.xml">                              
                         <mf:MapPane></mf:MapPane>
-                        <mf:LayerControl minifyJS="false"></mf:LayerControl>
+                        <mf:LayerControl minifyJS="false" ></mf:LayerControl>
                 </mf-model:Context>
             </h:form>
 	</body>

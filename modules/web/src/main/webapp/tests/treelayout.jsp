@@ -16,18 +16,18 @@
     <body>
         <f:view>
             <h:form>
-                <mf:TreeLayoutTable value="#{treebean.tree}" minifyJS="false" var="layer" id="Treetable" width="700" style="background-color:#fff;">
-                    <mf:TabPanel width="700" >
-                        <mf:TabItem title="Tree Vue 1" >
+                <mf:TreeLayoutTable value="#{treebean.tree}" minifyJS="false" var="layer" id="Treetable" width="450" style="background-color:#fff;">
+                    <%--mf:TabPanel width="700">
+                        <mf:TabItem title="Tree Vue 1" --%>
                             <mf:TreeLayoutPanel header="true" id="panel1" rowId="true" title="Vue 1 de la treetable..."  showRoot="true" >
                                 
-                                <mf:TreeLayoutTColumn headerTitle="Tree Items" width="300" value="#{layer.name}"/>
+                                <mf:TreeLayoutTColumn headerTitle="Tree Items" width="200"  value="#{layer.title}"/>
 
                                 <mf:TreeLayoutCheckColumn
                                     headerIcon="/org/mapfaces/resources/tree/images/default/layout/stuck.gif" 
                                     id="visible" 
                                     value="#{layer.hidden}"
-                                    width="40"/>
+                                    width="40" />
                                 
                                 <mf:TreeLayoutCheckColumn 
                                     headerIcon="/org/mapfaces/resources/tree/images/default/dd/drop-yes.gif" 
@@ -54,7 +54,7 @@
                                 </mf:TreeLayoutNodeInfo>
                                 
                             </mf:TreeLayoutPanel>
-                        </mf:TabItem>
+                        <%--/mf:TabItem>
                         <mf:TabItem title="Tree Vue 2">
                             <mf:TreeLayoutPanel header="true" id="panel2" rowId="true" title="Vue 1 de la treetable..." >
                                 
@@ -74,7 +74,7 @@
                                 
                             </mf:TreeLayoutPanel>
                         </mf:TabItem>
-                    </mf:TabPanel>
+                    </mf:TabPanel--%>
                 </mf:TreeLayoutTable>
             </h:form>
         </f:view>

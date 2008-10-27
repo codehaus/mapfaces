@@ -182,35 +182,6 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
             log.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
-        
-        if (component.getChildCount() != 0) {
-       
-            /*
-             * Prepare informations for making any Ajax request
-             */
-            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            AjaxUtils ajaxtools = new AjaxUtils();
-            ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
-            ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), component.getId());
-            ajaxtools.addAjaxParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY(), "'+value+'");
-            ajaxtools.addAjaxParameter(ajaxtools.getAJAX_TARGET_ID_KEY(), "'+target+'");
-            ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
-            String AJAX_SERVER = ajaxtools.getAjaxServer(request);
-            String AJAX_PARAMETERS = ajaxtools.getAjaxParameters();
-            String Request = ajaxtools.getRequestJs("get", AJAX_SERVER, AJAX_PARAMETERS);
-        
-            writer.startElement("script", component);
-
-            writer.write("document.getElementById('treecol:" + component.getId() + ":" + node.getId() + "').addEvent('keypress', function(event){" +
-                    "if(event.key=='enter'){" +
-                    "value = event.target.value;" +
-                    "target = event.target.name;" +
-                    "viewstate = document.getElementById('javax.faces.ViewState').value;" +
-                    Request +
-                    "}" +
-                    "});");
-            writer.endElement("script");
-        }
             writer.endElement("div");
         writer.endElement("div");
 

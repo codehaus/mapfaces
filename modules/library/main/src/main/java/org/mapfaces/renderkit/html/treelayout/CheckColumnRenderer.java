@@ -38,19 +38,16 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         UICheckColumn comp = (UICheckColumn) component;
         ResponseWriter writer = context.getResponseWriter();
-
         HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
         checkbox.setId("check_" + comp.getId());
         checkbox.setValue(comp.getValue());
         //checkbox.setStyle("cursor:pointer;position: absolute; margin-left:-7px;left: 50%; margin-top: -7px; top: 50%; ");
         comp.getChildren().add(checkbox);
-
-        writer.startElement("center", comp);
-
+        writer.startElement("center", component);
     }
 
     @Override
-    public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException { 
+    public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {  
         addRequestScript(context, component, "change");
     }
 
@@ -59,8 +56,9 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
     }
 
     @Override
-    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
-
+    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {      
+        ResponseWriter writer = context.getResponseWriter();  
+        writer.endElement("center");
     }
 
     @Override

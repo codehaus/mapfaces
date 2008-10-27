@@ -32,10 +32,7 @@ import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 
-/**
- *
- * @author kevindelfour
- */
+
 public class CheckColumnRenderer extends AbstractColumnRenderer implements CustomizeTreeComponentRenderer {
 
     @Override

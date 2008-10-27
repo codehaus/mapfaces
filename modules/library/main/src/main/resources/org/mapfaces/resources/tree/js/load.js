@@ -20,19 +20,33 @@ try{
  */
 
 var dispEffectNone = function(div){
+    /*if(div.setStyles){
 	div.setStyles({
 		display:'block',
 		opacity: 0
 	});
-	div.tween('opacity',1);
+        if(div.tween)
+            div.tween('opacity',1);
+    }else{*/
+        div.style.display="block";
+        div.style.opacity="1";
+        div.style.filter="alpha(opacity=100)";
+   // }
 };
 
 var dispEffectBlock = function(div){
+    /*if(div.setStyles){
 	div.setStyles({
 		display:'none',
 		opacity: 1
 	});
-	div.tween('opacity',0);
+        if(div.tween)
+          div.tween('opacity',0);
+    }else{*/
+        div.style.display="none";
+        div.style.opacity="0";
+        div.style.filter="alpha(opacity=0)";
+   // }
 };
 
 
@@ -125,11 +139,13 @@ function showInfo(panelId,nodeId){
     thisAnchor = document.getElementById(panelId+"_anchor_info_"+nodeId);
     if (thisDiv.style.display == "none") {
         thisDiv.style.display="block";
-        thisAnchor.setAttribute("class","x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-minus");
+        if(thisAnchor)
+          thisAnchor.className = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-minus";
     }
     else {
         thisDiv.style.display="none";
-        thisAnchor.setAttribute("class","x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus");
+        if(thisAnchor)
+          thisAnchor.className = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus" ;
     }
 }
 
