@@ -41,7 +41,7 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
         if(comp.getValue() != null && comp.getItemsLabels()!=null){
 
             UISelectOne selectOneMenu = new UISelectOne();
-            selectOneMenu.setId("select_" + comp.getId());
+            selectOneMenu.setId(comp.getId() + "_Select");
             selectOneMenu.setValue(comp.getValue());
             String itemsLabels = comp.getItemsLabels();
             String[] labelsArray = itemsLabels.split(comp.getSeparator());

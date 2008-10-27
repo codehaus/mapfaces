@@ -13,12 +13,17 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         </head>
         <body>                   
+        
+            <h1><h:outputText value="MapFaces" /></h1>                
+            <br/>
             <h:form>               
                 <mf-model:Context service="data/context/owc030Cut.xml">                       
                     <mf:MapPane ></mf:MapPane>
                     <mf:ButtonBar styleClass="mfButtonBar horizontal"></mf:ButtonBar>
                 </mf-model:Context>
             </h:form>
+             <a style="top: 150px; cursor:pointer;left: 650px; position: absolute;" onclick="A4J.AJAX.Poll('j_id_jsp_1409544346_0','j_id_jsp_1409544346_2',{'affected':['j_id_jsp_1409544346_2:j_id_jsp_1409544346_4_Poll'] ,'pollId':'j_id_jsp_1409544346_2:j_id_jsp_1409544346_4_Poll','ignoreDupResponses':true,'single':true,'parameters':{'j_id_jsp_1409544346_2:j_id_jsp_1409544346_4_Poll':'j_id_jsp_1409544346_2:j_id_jsp_1409544346_4_Poll'} ,'pollinterval':400,'eventsQueue':'j_id_jsp_1409544346_2:j_id_jsp_1409544346_4_Poll','timeout':10000,'actionUrl':'/mapfaces/examples/multipleWmsLayers.jsf'} );
+3//">start</a><a style="top: 180px; cursor:pointer;left: 650px; position: absolute;" onclick="A4J.AJAX.StopPoll('j_id_jsp_1409544346_2:j_id_jsp_1409544346_4_Poll');">stop</a>
         </body>
     </html>
 </f:view>

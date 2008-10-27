@@ -12,7 +12,7 @@
         <head>
 	</head>
         <body>
-            <h:form id="form">
+            <h:form>
                 <h:commandButton value="submit" style="position:relative;" />
                 <mf-model:Context  service="data/context/ifremer.xml">                              
                         <mf:MapPane></mf:MapPane>
