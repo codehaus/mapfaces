@@ -42,7 +42,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         Context model = (Context) comp.getModel();
 
         getWriter().startElement("div", comp);
-        getWriter().writeAttribute("id", getClientId(), "id");
+        getWriter().writeAttribute("id", comp.getClientId(context), "id");
         getWriter().writeAttribute("style", getStyle(), "style");
 
         if (getStyleClass() == null) {
@@ -52,15 +52,21 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         /* Add <h:outputText> */
         }
         if (comp.getTitle() != null) {
-            UIOutput outputText = new UIOutput();
-            outputText.setId(comp.getId() + "Title");
-            outputText.setValue(comp.getTitle());
-            comp.getChildren().add(outputText);
+            if( (comp.getChildCount() == 0) ){                
+                UIOutput outputText = new UIOutput();
+                outputText.setId(comp.getId() + "_Title");
+                outputText.setValue(comp.getTitle());
+                comp.getChildren().add(outputText);
+            }else if(!(comp.getChildren().get(0) instanceof UIOutput)) {
+                ((UIOutput) (comp.getChildren().get(0))).setValue(comp.getTitle());
+            }
         }
 
         /* Add <h:selectOneMenu> */
         if (comp.getItemsLabels() != null && comp.getItemsValues() != null) {
-            comp.getChildren().add(createSelectOneMenu(context, comp, true, model.getLayersId()));
+            if(comp.getChildCount() == 1){
+                comp.getChildren().add(createSelectOneMenu(context, comp, true, model.getLayersId()));
+            }
         } else {
             //TODO if no items specified
         }
