@@ -17,34 +17,15 @@
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-
-import org.mapfaces.component.UILayer;
 import org.mapfaces.component.abstractTree.UIColumnBase;
-import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
-import org.mapfaces.component.treelayout.UITreeTable;
-import org.mapfaces.models.Layer;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
-import org.mapfaces.util.AjaxUtils;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 
-/**
- * 
- * @author Olivier Terral.
- */
+
 public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
     @Override

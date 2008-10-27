@@ -165,9 +165,9 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
                 Utils.encodeRecursive(context, tmp);
             }
         }else{
-            writer.startElement("div", component);
-            writer.writeAttribute("style", "height:1px;", null);
-            writer.endElement("div");
+//            writer.startElement("div", component);
+//            writer.writeAttribute("style", "height:1px;", null);
+//            writer.endElement("div");
         }
 
     }

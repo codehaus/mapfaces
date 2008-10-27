@@ -268,7 +268,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         } else {
                             test = true;
                         }
-                        tmp.setHidden(layer.getId(), test);
+////                        tmp.setHidden(layer.getId(), test);
                         layer.setHidden(test);
                         if (isDebug()) {
                             System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + tmp.isHidden(layer.getId()));
@@ -287,6 +287,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
                             System.out.println("La propriété time du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                         }
                     } else if (layerProperty.contains("Elevation")) {
+                        if (value == null)
+                            value = "";
                         tmp.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);
                         if (isDebug()) {
                             System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
