@@ -349,6 +349,70 @@ public class FacesUtils {
         ajaxComp.setReRender(idsToReRender);
         return ajaxComp;
     }
+    
+    /**
+     * This method creates a new HtmlAjaxSupport component with parameters and js code if necessary.
+     * @param context
+     * @param comp
+     * @param event
+     * @param varId
+     * @param idsToReRender
+     * @param params
+     * @param onSubmitJS
+     * @param onCompleteJS
+     * @return
+     */
+    public static HtmlAjaxSupport createTreeAjaxSupportWithParameters(FacesContext context, 
+            UIComponent comp, String event, String varId, String idsToReRender, 
+            HashMap<String, String> params, String onSubmitJS, String onCompleteJS) {
+        
+        if (comp == null) {
+            return null;
+        }
+        HashMap<String, String> extraParams = new HashMap<String, String>();
+        extraParams.put(AjaxUtils.AJAX_LAYER_ID, varId);
+        extraParams.put(AjaxUtils.AJAX_CONTAINER_ID_KEY, comp.getClientId(context));
+        extraParams.putAll(params);
+        if (idsToReRender == null) {
+            idsToReRender = varId;
+        }
+        
+        /* Add <a4j:support> component */
+        HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS);
+        for (String tmp : extraParams.keySet()) {
+            ajaxComp.getChildren().add(createFParam(tmp, extraParams.get(tmp)));
+        }
+        return ajaxComp;
+    }
+    
+    /**
+     * This method creates an a4j support component by passing the parentId and onSubmit/onComplete js code.
+     * @param context
+     * @param parentId
+     * @param event
+     * @param idsToReRender
+     * @param onSubmitJS
+     * @param onCompleteJS
+     * @return
+     */
+    public static HtmlAjaxSupport createCompleteAjaxSupport(FacesContext context, String parentId, String event, String idsToReRender, String onSubmitJS, String onCompleteJS) {
+
+        /* Add <a4j:support> component */
+        HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
+        //ajaxComp.setId(parentId + "_Ajax");
+        ajaxComp.setEvent(event);
+        ajaxComp.setAjaxSingle(true);
+        ajaxComp.setLimitToList(true);
+        ajaxComp.setReRender(idsToReRender);
+        
+        if (onSubmitJS != null && ! onSubmitJS.equals("")) {
+            ajaxComp.setOnsubmit(onSubmitJS);
+        }
+        if (onCompleteJS != null && ! onCompleteJS.equals("")) {
+            ajaxComp.setOncomplete(onCompleteJS);
+        }
+        return ajaxComp;
+    }
 
     private static UIParameter createFParam(String name, String value) {
 

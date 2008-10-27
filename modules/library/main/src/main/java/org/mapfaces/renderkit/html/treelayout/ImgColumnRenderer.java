@@ -46,7 +46,7 @@ public class ImgColumnRenderer extends AbstractColumnRenderer {
         img.setUrl(comp.getImg());
         img.setTitle(comp.getHeaderTitle());
         //img.setStyle("cursor:pointer;position: absolute; margin-left:-13px;left: 50%; margin-top: -13px; top: 50%; ");
-        img.setStyle("cursor:pointer;");
+        img.setStyle("cursor:pointer;"+comp.getStyleImg());
         comp.getChildren().add(img);
 
         writer.startElement("center", comp);

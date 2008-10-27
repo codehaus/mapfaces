@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.timeline;
 
 import java.text.ParseException;
@@ -57,6 +58,7 @@ import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.component.timeline.UITimeLine;
+import org.mapfaces.component.timeline.UITimeLineControl;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
@@ -80,7 +82,7 @@ import org.opengis.temporal.TemporalPrimitive;
  * @author Olivier Terral.
  */
 public class TimeLineRenderer extends Renderer {
-    
+
     @Override
     @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -103,31 +105,10 @@ public class TimeLineRenderer extends Renderer {
             writeTimeLineScripts(context, comp);
         }
 
-        //begin to render the component.        
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
-        String styleclass = (String) comp.getAttributes().get("styleClass");
-        if (styleclass != null) {
-            writer.writeAttribute("class", styleclass, "styleclass");
-        }
-        String style = "height: 300px; border: 1px solid #aaa;";
-        style += (String) comp.getAttributes().get("style");
-        if (style != null) {
-            writer.writeAttribute("style", style, "style");
-        }
-
-        if (comp.isSliderZoom()) {
-            writeSliderZoom(context, comp, writer, extContext);
-        }
-
-        style = style.concat(" width:100%;");
-
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId + "_Container", "id");
-        writer.writeAttribute("style", style + " border:none; margin:0pt auto; left:0px;top:0px;position:relative;", "style");
-        writer.endElement("div"); //close the tm-widget
-        if (comp.isInputDate()) {
-            writeInputDateText(writer, comp, context);
+        //check if a timeline control panel component has been declared.
+        boolean timelineControlFlag = false;
+        if (comp.isActiveControl()) {
+            timelineControlFlag = true;
         }
 
         //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
@@ -144,17 +125,18 @@ public class TimeLineRenderer extends Renderer {
                     for (Layer layer : layers) {
                         if (layer.getDimensionList() != null && layer.getTime() != null) {
                             UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
-                            bandinfo.setLayer(layer);                            
+                            bandinfo.setLayer(layer);
                             bandinfo.setId(comp.getId() + "_band" + i);
                             bandinfo.setWidth(proportinalwidth);
                             bandinfo.setSliderInput(true);
-                            bandinfo.setSliderWidth("150");
+                            bandinfo.setSliderWidth("100");
                             bandinfo.setInputInterval(false);
                             bandinfo.setShowEventText(true);
                             bandinfo.setIntervalPixels(80);
                             bandinfo.setIntervalUnit("MONTH");
                             bandinfo.setTrackHeight(1.0);
                             bandinfo.setTheme(comp.getTheme());
+                            bandinfo.setHidden(true); //hide the bandinfo component at the first time.
                             if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
                                 comp.getChildren().add(bandinfo);
                             }
@@ -186,6 +168,48 @@ public class TimeLineRenderer extends Renderer {
                     comp.getChildren().add(mainBandinfo);
                 }
             }
+        }
+
+        //if a control panel is declared then a div is added to wrap the timeline and the panel control.
+        if (comp.isActiveControl()) {
+            writer.startElement("div", comp);
+            writer.writeAttribute("id", clientId + "-wrap", "id");
+            writer.writeAttribute("class", "timeline-wrap", "class");
+
+            UITimeLineControl timelineControl = new UITimeLineControl();
+            timelineControl.setId(comp.getId() + "-control");
+            timelineControl.setStyle(comp.getStyleControlPanel());
+            timelineControl.setStyleClass(comp.getStyleClassControlPanel());
+            timelineControl.setTransient(true);
+            timelineControl.setParent(component);
+            timelineControl.encodeAll(context);
+        }
+
+        writer.startElement("div", comp);
+        writer.writeAttribute("id", clientId, "id");
+        String styleclass = (String) comp.getAttributes().get("styleClass");
+        if (styleclass != null) {
+            writer.writeAttribute("class", styleclass, "styleclass");
+        }
+        String style = "height: 300px; border: 1px solid #aaa;";
+        style += (String) comp.getAttributes().get("style");
+        if (style != null) {
+            writer.writeAttribute("style", style, "style");
+        }
+
+        if (comp.isSliderZoom()) {
+            writeSliderZoom(context, comp, writer, extContext);
+        }
+
+        style = style.concat(" width:100%;");
+
+        writer.startElement("div", comp);
+        writer.writeAttribute("id", clientId + "_Container", "id");
+        writer.writeAttribute("style", style + " border:none; margin:0pt auto; left:0px;top:0px;position:relative;", "style");
+        writer.endElement("div"); //close the tm-widget
+
+        if (comp.isInputDate() && !timelineControlFlag && comp.isEnableBandsInput()) {
+            writeInputDateText(writer, comp, context);
         }
     }
 
@@ -234,7 +258,7 @@ public class TimeLineRenderer extends Renderer {
         //Creates a list of Zone objects from the durationEventsCopy list to display zones in the bandInfo component
         List<Zone> zones = buildZonesFromEvents(durationEventsCopy);
 
-        //getting children to create BandInfos or HotZoneBandInfos
+        //getting children to create BandInfos or HotZoneBandInfos only if the bandinfo component is rendered to True.
         if (comp.getChildCount() != 0) {
 
             writer.write("var " + idjs + "_bandInfos = [\n");
@@ -250,31 +274,37 @@ public class TimeLineRenderer extends Renderer {
                     separator = ",\n";
                 } else if (child.getClass().toString().contains("UIHotZoneBandInfo")) {
                     UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) child;
-                    writer.write(separator);                    
-                    writeScriptHotZoneBandsInfo(context, comp, bandInfo, indexBand, zones);
-                    separator = ",\n";
+                    if (!bandInfo.isHidden()) {
+                        writer.write(separator);
+                        writeScriptHotZoneBandsInfo(context, comp, bandInfo, indexBand, zones);
+                        separator = ",\n";
+                    }
                 }
                 indexBand++;
             }
             writer.write("];\n");
 
-            //if the timeline have synchronizeBands flag fixed to true then the bands subcomponent will be synchronized.
+            //if the timeline have synchronizeBands flag fixed to true then the bands subcomponent will be synchronized. Only the not hidden bands.
             if (comp.isSynchronizeBands()) {
-                //if not dynamic bands then all bannds will be sync with the first band with index 0
+                int noHiddenBandsCount = TimeLineUtils.getNotHiddenBandsList(context, comp).size();
+                //if not dynamic bands then all bands will be sync with the first band with index i-1 from 0
                 int i = 0;
-                for (i = 0; i < comp.getChildCount(); i++) {
+                for (i = 0; i < noHiddenBandsCount; i++) {
                     if (i > 0 && !comp.isDynamicBands()) {
                         //if not dynamic bands then all bands will be sync with the first band with index 0
                         writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
                         writer.write("" + idjs + "_bandInfos[" + i + "].highlight = true;\n");
                     }
-                    if (comp.isDynamicBands() && i != comp.getChildCount() - 1) {
+                    
+                    
+                    /*System.out.println("%%%%%%%%% i = "+i);
+                    System.out.println("%%%%%%%%% noHiddenBandsCount-1 = "+(noHiddenBandsCount - 1));
+                    System.out.println("%%%%%%%%% ((UIHotZoneBandInfo) children.get(i)) hidden = "+((UIHotZoneBandInfo) children.get(i)).isHidden());
+                    System.out.println("%%%%%%%%% name hotzone = "+((UIHotZoneBandInfo) children.get(i)).getId());*/
+                    
+                    if (comp.isDynamicBands() && i != noHiddenBandsCount - 1 && !((UIHotZoneBandInfo) children.get(i)).isHidden()) {
                         //if there is a dynamicBands then all bands will be sync with the main band component.
-                        int diff = comp.getChildCount() - 1;
-                        if (i > 0) {
-                            diff = i - 1;
-                        }
-                        writer.write(idjs + "_bandInfos[" + i + "].syncWith = " + (diff) + ";\n");
+                        writer.write(idjs + "_bandInfos[" + i + "].syncWith = " + (noHiddenBandsCount - 1) + ";\n");
                     }
                 }
                 if (comp.getChildCount() > 1) {
@@ -315,6 +345,11 @@ public class TimeLineRenderer extends Renderer {
         }
         writer.endElement("script");
         writer.endElement("div"); //close the global div
+
+        if (comp.isActiveControl()) {
+            writer.endElement("div"); //close the wrap div
+        }
+
         writer.flush();
     }
 
@@ -335,7 +370,7 @@ public class TimeLineRenderer extends Renderer {
                     Layer layer = uiLayer.getLayer();
                     List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
                     Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
-                    
+
                     List<UIComponent> children = component.getChildren();
                     for (UIComponent tmp : children) {
                         if (tmp instanceof UIHotZoneBandInfo) {
@@ -524,7 +559,7 @@ public class TimeLineRenderer extends Renderer {
         String dateString = "";
         Date date = bandInfo.getCenterDate();
         if (date != null) {
-            
+
             dateString = "date: \"" + sdf.format(date) + "\",\n";
         }
 
@@ -880,8 +915,8 @@ public class TimeLineRenderer extends Renderer {
         }
 
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
-        if (comp.isMinifyJS()){
-            
+        if (comp.isMinifyJS()) {
+
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.write("var TIMELINE_SINGLE_FILE = true;");
@@ -890,7 +925,7 @@ public class TimeLineRenderer extends Renderer {
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/minify/zip.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
-            
+
         } else {
             writer.startElement("script", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/timeline-api.js", null), null);
@@ -1142,5 +1177,4 @@ public class TimeLineRenderer extends Renderer {
                 "}\n");
         writer.endElement("script");
     }
-
 }

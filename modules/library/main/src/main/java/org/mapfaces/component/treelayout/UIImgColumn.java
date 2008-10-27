@@ -32,6 +32,7 @@ public class UIImgColumn extends UIColumnBase {
     private String defaultImg = "/resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
     private String alt = "No image";
     private String title = "";
+    private String styleImg = "";
     // =========== ATTRIBUTES ACCESSORS ======================================== //
     @Override
     public String getFamily() {
@@ -54,23 +55,26 @@ public class UIImgColumn extends UIColumnBase {
     //Override methods
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[6];
+        Object values[] = new Object[7];
         values[0] = super.saveState(context);
         values[1] = icon;
         values[2] = defaultImg;
         values[3] = alt;
         values[4] = title;
+        values[5] = styleImg;
         return values;
     }
 
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
+        super.restoreState(context, values[0]);
         icon = (String) values[1];
         defaultImg = (String) values[2];
         alt = (String) values[3];
         title = (String) values[4];
-        super.restoreState(context, values[0]);
+        styleImg = (String) values[5];
+        
     }
 
     public String getImg() {
@@ -95,5 +99,13 @@ public class UIImgColumn extends UIColumnBase {
 
     public void setHeaderTitle(String title) {
         this.title = title;
+    }
+
+    public String getStyleImg() {
+        return styleImg;
+    }
+
+    public void setStyleImg(String styleImg) {
+        this.styleImg = styleImg;
     }
 }
