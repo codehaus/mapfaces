@@ -81,8 +81,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
             //DefaultMapContext defaultMapContext = comp.getMapPane().getDefaultMapContext(); 
 
             Layer layer = comp.getLayer();
-
-            String styleImg = "opacity:" + layer.getOpacity() + ";";
+            
+            String styleImg = "filter:alpha(opacity="+(new Float(layer.getOpacity())*100)+");opacity:"+layer.getOpacity()+";";
             String display;
             if (layer.isHidden()) {
                 display = "display:none;";
@@ -92,13 +92,13 @@ public class LayerRenderer extends WidgetBaseRenderer {
             writer.startElement("div", comp);
             writer.writeAttribute("id", clientId, "style");
             writer.writeAttribute("class", "layerDiv", "style");
-            writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + styleImg + comp.getStyle(), "style");
+            writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" +  comp.getStyle(), "style");
 
             //Add layer image if not the first page loads                        
             if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
 
                 writer.startElement("div", comp);
-                writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;" + display, "style");
+                writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;"+styleImg + display, "style");
                 File dst = File.createTempFile("img", "", comp.getDir());
                 if (isDebug()) {
                     System.out.println("            Layer updated " + dst.getName());

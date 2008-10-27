@@ -91,7 +91,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setMootools(comp.isMootools());
         treeTable.setMinifyJS(comp.isMinifyJS());
         treeTable.setWidth(450);
-
+        treeTable.setStyle("background-color:#fff;");
         //<mf:TreePanel header="true" id="panel1" title="A tree" rowId="true" >
         UITreePanel treePanel = new UITreePanel();
         treePanel.setId(component.getId() + "TreePanel");
@@ -106,7 +106,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(false);
-        treePanel.setShowRoot(false);
+        treePanel.setShowRoot(true);
         treePanel.setStyle(styleTreePanel);
         treeTable.setStyle("border: 1px outset rgb(214, 227, 242);" + styleTreetable);
         // treePanel.setStyle("height:400px;overflow:scroll;");

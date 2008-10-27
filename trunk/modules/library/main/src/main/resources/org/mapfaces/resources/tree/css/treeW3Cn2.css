@@ -3929,12 +3929,13 @@ body.x-body-masked .x-window-plain .x-window-mc {
     font-weight : normal;
     line-height : normal;
     overflow : hidden;
-    padding : 3px 3px 3px 5px;
+    padding : 3px 0px 3px 0px;
     white-space : nowrap;
 }
 .x-tree-headers {
     background : #f9f9f9 url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/grid/grid3-hrow.gif) repeat-x scroll 0 bottom;
-    cursor : default;
+    cursor : default;    
+    width : 100%;
 }
 .x-tree-hd {
     border-left : 1px solid #eeeeee;

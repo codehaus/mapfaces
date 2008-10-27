@@ -31,10 +31,6 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.ImgColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
-/**
- * 
- * @author Olivier Terral.
- */
 public class TimeColumnRenderer extends ImgColumnRenderer {
 
     @Override
