@@ -249,3 +249,9 @@ Timeline.OLanceTheme._Impl = function() {
         }
     };
 };
+
+//if needed it is easily to change styles of a theme created below.
+var themeArcheo = Timeline.ArcheoTheme.create();
+themeArcheo.event.bubble.width = 500;
+themeArcheo.event.bubble.height = 500;
+
