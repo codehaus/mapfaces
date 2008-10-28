@@ -91,6 +91,10 @@ public class TimeLineTag extends UIComponentELTag {
      * This is a flag that indicates if the timeline allow to its children if they must load the input slider and inputs components.
      */
     private ValueExpression enableBandsInput = null;
+    /**
+     * This is the height of the timeline eg. 170;
+     */
+    private ValueExpression height = null;
     
     
         
@@ -120,6 +124,7 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("styleClassControlPanel",styleClassControlPanel);
         component.setValueExpression("minifyJS",minifyJS);
         component.setValueExpression("enableBandsInput",enableBandsInput);
+        component.setValueExpression("height",height);
     }
     
     @Override
@@ -140,6 +145,7 @@ public class TimeLineTag extends UIComponentELTag {
         styleClassControlPanel = null;
         minifyJS = null;
         enableBandsInput = null;
+        height = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -232,5 +238,13 @@ public class TimeLineTag extends UIComponentELTag {
 
     public void setEnableBandsInput(ValueExpression enableBandsInput) {
         this.enableBandsInput = enableBandsInput;
+    }
+
+    public ValueExpression getHeight() {
+        return height;
+    }
+
+    public void setHeight(ValueExpression height) {
+        this.height = height;
     }
 }

@@ -66,7 +66,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
                     FacesUtils.getFormId(context, component) + ":timeline",
                     paramsMap1,
                     "hideOrDisplay(\"" + uicomp.getClientId(context) + "\",\"" + img.getClientId(context) + "\")",
-                    "setBandsColors()"));
+                    ""));
 
             img.setTitle(comp.getHeaderTitle());
             img.setStyle("cursor:pointer;");
@@ -89,7 +89,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
                     img, "onclick", getVarId(context, (UIColumnBase) component),
                     FacesUtils.getFormId(context, component) + ":timeline",
                     paramsMap2, "hideOrDisplay(\"" + img.getClientId(context) + "\",\"" + uicomp.getClientId(context) + "\")",
-                    "setBandsColors()"));
+                    ""));
 
             component.getChildren().add(img);
 
@@ -132,20 +132,20 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
                 "document.getElementById(id1).style.display=\"none\";\n" +
                 "document.getElementById(id2).style.display=\"block\";\n" +
                 "}}");
-        writer.write("function setBandsColors(){\n"+
-	"var j = 0;\n"+
-	"for (var i = timeline_Container_bandInfos.length; i > 0; i--) {\n"+
-		"var colors = new Array();\n"+
-		"colors[0] = \"#feff86;\";"+
-		"colors[1] = \"#BAD3E8;\";\n"+
-		"colors[2] = \"#DFE8F6;\";\n"+
-		"colors[3] = \"#ffd1b0;\";\n"+
-		"colors[4] = \"#deffd8;\";\n"+
-		"colors[5] = \"#fde5ff;\";\n"+
-		"colors[6] = \"#cfffe6;\";\n"+
-		"timeline_Container_bandInfos[i-1].etherPainter._backgroundLayer.style.backgroundColor = colors[j];\n"+
-		"j++;\n"+
-	"}}");
+//        writer.write("function setBandsColors(){\n"+
+//	"var j = 0;\n"+
+//	"for (var i = timeline_Container_bandInfos.length; i > 0; i--) {\n"+
+//		"var colors = new Array();\n"+
+//		"colors[0] = \"#feff86;\";"+
+//		"colors[1] = \"#BAD3E8;\";\n"+
+//		"colors[2] = \"#DFE8F6;\";\n"+
+//		"colors[3] = \"#ffd1b0;\";\n"+
+//		"colors[4] = \"#deffd8;\";\n"+
+//		"colors[5] = \"#fde5ff;\";\n"+
+//		"colors[6] = \"#cfffe6;\";\n"+
+//		"timeline_Container_bandInfos[i-1].etherPainter._backgroundLayer.style.backgroundColor = colors[j];\n"+
+//		"j++;\n"+
+//	"}}");
         writer.endElement("script");
     }
 }

@@ -51,10 +51,17 @@ import org.mapfaces.util.PeriodUtilities;
  */
 public class TimeLineUtils {
     
-    static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
+    public static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
         "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
     };
 
+    /**
+     * this array is used for the bandInfos background colors.
+     */
+    public static String colors[] = {"#FFF5A1", "#BAD3E8", "#DFE8F6", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
+    "#feff86", "#BAD3E8", "#DFE8F6", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
+    "#feff86", "#BAD3E8", "#DFE8F6", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6"};
+    
     public static List<Event> getEventsFromLayer(Layer layer) throws ParseException, DatatypeConfigurationException {
         List<Event> result = new ArrayList<Event>();
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -354,7 +361,7 @@ public class TimeLineUtils {
      * @param timeline
      * @return
      */
-    public static List<UIHotZoneBandInfo> getNotHiddenBandsList(FacesContext context, UITimeLine timeline) {
+    public static List<UIHotZoneBandInfo> getVisibleBandsList(FacesContext context, UITimeLine timeline) {
         List<UIHotZoneBandInfo> results = new ArrayList<UIHotZoneBandInfo>();
         if (timeline != null) {
         for(UIComponent child : timeline.getChildren()) {
