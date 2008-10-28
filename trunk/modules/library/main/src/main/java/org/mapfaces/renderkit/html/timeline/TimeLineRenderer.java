@@ -170,8 +170,13 @@ public class TimeLineRenderer extends Renderer {
                 mainBandinfo.setIntervalPixels(50);
                 mainBandinfo.setIntervalUnit("YEAR");
                 mainBandinfo.setShowEventText(false);
-                mainBandinfo.setInputInterval(true);
-                mainBandinfo.setTrackHeight(0.5);
+                
+                //write an inputInterval component for the mainBandInfo only if the property activeControl is set to True.
+                if ( comp.isActiveControl() ) {
+                    mainBandinfo.setInputInterval(true);
+                }
+                
+                mainBandinfo.setTrackHeight(0.3);
                 mainBandinfo.setBackgroundColor(TimeLineUtils.colors[0]);
                 mainBandinfo.setTheme(comp.getTheme());
                 if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband") == null) {
@@ -316,10 +321,10 @@ public class TimeLineRenderer extends Renderer {
                         writer.write(idjs + "_bandInfos[" + i + "].syncWith = " + (visibleBandsCount - 1) + ";\n");
                     }
                 }
-                if (comp.getChildCount() > 1) {
-                    i--;
-                // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
-                }
+            /*if (comp.getChildCount() > 1) {
+            i--;
+            // writer.write(idjs + "_bandInfos[" + i + "].eventPainter.setLayout(" + idjs + "_bandInfos[" + (i - 1) + "].eventPainter.getLayout());\n");
+            }*/
             }
         }
 
@@ -332,7 +337,7 @@ public class TimeLineRenderer extends Renderer {
         //set the background color for all visible bandsInfos components. Note this script must be after the declaration of the new timeline calls.
         int i = 0;
         for (i = 0; i < visibleBandsCount; i++) {
-            if (comp.isDynamicBands() && i != visibleBandsCount - 1 ) {
+            if (comp.isDynamicBands() && i != visibleBandsCount - 1) {
                 writer.write(idjs + "_bandInfos[" + i + "].etherPainter._backgroundLayer.style.backgroundColor = \"" + visiblebandsInfo.get(i).getBackgroundColor() + "\";\n");
             }
         }
