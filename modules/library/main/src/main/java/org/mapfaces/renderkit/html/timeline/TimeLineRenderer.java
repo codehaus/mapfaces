@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.timeline;
 
 import java.text.ParseException;
@@ -111,6 +110,8 @@ public class TimeLineRenderer extends Renderer {
             timelineControlFlag = true;
         }
 
+        int height = 60;
+
         //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
         UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
         if (parentContext != null && (parentContext instanceof UIContext) && comp.isDynamicBands()) {
@@ -136,6 +137,7 @@ public class TimeLineRenderer extends Renderer {
                             bandinfo.setIntervalUnit("MONTH");
                             bandinfo.setTrackHeight(1.0);
                             bandinfo.setTheme(comp.getTheme());
+                            bandinfo.setBackgroundColor(TimeLineUtils.colors[i + 1]);
                             bandinfo.setHidden(true); //hide the bandinfo component at the first time.
                             if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
                                 comp.getChildren().add(bandinfo);
@@ -156,13 +158,21 @@ public class TimeLineRenderer extends Renderer {
                 UIHotZoneBandInfo mainBandinfo = new UIHotZoneBandInfo();
                 mainBandinfo.setId(comp.getId() + "_mainband");
                 mainBandinfo.setValue(events);
-                mainBandinfo.setWidth(40);
+
+                int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, comp).size();
+                int width = 100;
+                if (visibleBandsCount > 1) {
+                    height = comp.getHeight();
+                    width = 40;
+                }
+                mainBandinfo.setWidth(width);
                 mainBandinfo.setSliderInput(false);
                 mainBandinfo.setIntervalPixels(50);
                 mainBandinfo.setIntervalUnit("YEAR");
                 mainBandinfo.setShowEventText(false);
                 mainBandinfo.setInputInterval(true);
                 mainBandinfo.setTrackHeight(0.5);
+                mainBandinfo.setBackgroundColor(TimeLineUtils.colors[0]);
                 mainBandinfo.setTheme(comp.getTheme());
                 if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband") == null) {
                     comp.getChildren().add(mainBandinfo);
@@ -191,7 +201,7 @@ public class TimeLineRenderer extends Renderer {
         if (styleclass != null) {
             writer.writeAttribute("class", styleclass, "styleclass");
         }
-        String style = "height: 300px; border: 1px solid #aaa;";
+        String style = "height: " + height + "px; border: 1px solid #aaa;";
         style += (String) comp.getAttributes().get("style");
         if (style != null) {
             writer.writeAttribute("style", style, "style");
@@ -258,6 +268,10 @@ public class TimeLineRenderer extends Renderer {
         //Creates a list of Zone objects from the durationEventsCopy list to display zones in the bandInfo component
         List<Zone> zones = buildZonesFromEvents(durationEventsCopy);
 
+
+        List<UIHotZoneBandInfo> visiblebandsInfo = TimeLineUtils.getVisibleBandsList(context, comp);
+        int visibleBandsCount = visiblebandsInfo.size();
+
         //getting children to create BandInfos or HotZoneBandInfos only if the bandinfo component is rendered to True.
         if (comp.getChildCount() != 0) {
 
@@ -285,26 +299,21 @@ public class TimeLineRenderer extends Renderer {
             writer.write("];\n");
 
             //if the timeline have synchronizeBands flag fixed to true then the bands subcomponent will be synchronized. Only the not hidden bands.
+
             if (comp.isSynchronizeBands()) {
-                int noHiddenBandsCount = TimeLineUtils.getNotHiddenBandsList(context, comp).size();
+
                 //if not dynamic bands then all bands will be sync with the first band with index i-1 from 0
                 int i = 0;
-                for (i = 0; i < noHiddenBandsCount; i++) {
+                for (i = 0; i < visibleBandsCount; i++) {
                     if (i > 0 && !comp.isDynamicBands()) {
                         //if not dynamic bands then all bands will be sync with the first band with index 0
                         writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
                         writer.write("" + idjs + "_bandInfos[" + i + "].highlight = true;\n");
                     }
-                    
-                    
-                    /*System.out.println("%%%%%%%%% i = "+i);
-                    System.out.println("%%%%%%%%% noHiddenBandsCount-1 = "+(noHiddenBandsCount - 1));
-                    System.out.println("%%%%%%%%% ((UIHotZoneBandInfo) children.get(i)) hidden = "+((UIHotZoneBandInfo) children.get(i)).isHidden());
-                    System.out.println("%%%%%%%%% name hotzone = "+((UIHotZoneBandInfo) children.get(i)).getId());*/
-                    
-                    if (comp.isDynamicBands() && i != noHiddenBandsCount - 1 && !((UIHotZoneBandInfo) children.get(i)).isHidden()) {
+
+                    if (comp.isDynamicBands() && i != visibleBandsCount - 1 && !(visiblebandsInfo.get(i)).isHidden()) {
                         //if there is a dynamicBands then all bands will be sync with the main band component.
-                        writer.write(idjs + "_bandInfos[" + i + "].syncWith = " + (noHiddenBandsCount - 1) + ";\n");
+                        writer.write(idjs + "_bandInfos[" + i + "].syncWith = " + (visibleBandsCount - 1) + ";\n");
                     }
                 }
                 if (comp.getChildCount() > 1) {
@@ -317,7 +326,19 @@ public class TimeLineRenderer extends Renderer {
         //write scripts necessary for eras.
         writeScriptsEras(context, comp, erasZones);
 
+        //declare a new Timeline widget.
         writer.write(idjs + "_tl = Timeline.create(document.getElementById('" + FacesUtils.getFormId(context, component) + ":" + idjs + "'), " + idjs + "_bandInfos);\n");
+
+        //set the background color for all visible bandsInfos components. Note this script must be after the declaration of the new timeline calls.
+        int i = 0;
+        for (i = 0; i < visibleBandsCount; i++) {
+            if (comp.isDynamicBands() && i != visibleBandsCount - 1 ) {
+                writer.write(idjs + "_bandInfos[" + i + "].etherPainter._backgroundLayer.style.backgroundColor = \"" + visiblebandsInfo.get(i).getBackgroundColor() + "\";\n");
+            }
+        }
+        //setting the background color script for the mainBand component.
+        writer.write(idjs + "_bandInfos[" + (i - 1) + "].etherPainter._backgroundLayer.style.backgroundColor = \"" + visiblebandsInfo.get(i - 1).getBackgroundColor() + "\";\n");
+
 
         writeResizeFunction(context, comp);
 
@@ -389,13 +410,22 @@ public class TimeLineRenderer extends Renderer {
             }
         }
 
-        //setting the intervalUnit of children from theire selectOneMenu component.
+        int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, comp).size();
         for (UIComponent child : comp.getChildren()) {
+            //setting the intervalUnit of children from their selectOneMenu component.
             if (child instanceof UIBandInfo) {
                 UIBandInfo bandInfo = (UIBandInfo) child;
                 String clientId = bandInfo.getClientId(context);
                 String submitted_value = ((String) requestMap.get(clientId + "selectone"));
                 bandInfo.setIntervalUnit(submitted_value);
+            } else {
+                //setting the correct width for all dynamic bandinfo components.
+                if (child instanceof UIHotZoneBandInfo) {
+                    if (visibleBandsCount > 1 && !((UIHotZoneBandInfo) child).isHidden() && !((UIHotZoneBandInfo) child).getId().equals(comp.getId() + "_mainband")) {
+                        int proportinalwidth = Math.round(60 / (visibleBandsCount - 1));
+                        ((UIHotZoneBandInfo) child).setWidth(proportinalwidth);
+                    }
+                }
             }
         }
         component.queueEvent(new ActionEvent(comp));

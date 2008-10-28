@@ -3665,6 +3665,17 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <name>height</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                this is the height of the timeline.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>BandInfo</name>

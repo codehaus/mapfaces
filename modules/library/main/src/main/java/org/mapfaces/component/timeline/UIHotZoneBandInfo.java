@@ -54,6 +54,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
     private Date centerDate;
     private String sliderWidth;
     private boolean hidden;
+    private String backgroundColor;
     
     /**
      * Name of the js object wher the timeline is defined
@@ -250,7 +251,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[21];
+        Object values[] = new Object[22];
         values[0] = super.saveState(context);
         values[1] = date;
         values[2] = eventSource;
@@ -271,6 +272,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         values[17] = centerDate;
         values[18] = sliderWidth;
         values[19] = hidden;
+        values[20] = backgroundColor;
         return values;
     }
 
@@ -297,6 +299,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         centerDate = (Date) values[17];
         sliderWidth = (String) values[18];
         hidden = (Boolean) values[19];
+        backgroundColor = (String) values[20];
     }
 
     public boolean isSliderInput() {
@@ -345,5 +348,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 }

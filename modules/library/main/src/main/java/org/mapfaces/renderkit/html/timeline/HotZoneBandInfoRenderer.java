@@ -182,7 +182,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
                 if (requestMap.containsKey("hidden")) {
                     hidden = (String) requestMap.get("hidden");
                 }
-                
+
                 //if the layer id correspond to this component layer then proceed to refresh the bandInfo comp.
                 if (attachedLayer != null && ajaxlayerId.equals(attachedLayer.getId())) {
                     //do the rerender of the bandInfo only if hidden was set to False.
@@ -209,6 +209,18 @@ public class HotZoneBandInfoRenderer extends Renderer {
                         comp.setHidden(true);
                     }
                 }
+            }
+
+            //setting the correct width for the main bandInfo component.
+            int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, parentTimeline).size();
+            if (comp.getId().equals(parentTimeline.getId() + "_mainband")) {
+
+                int mainBandWidth = 100;
+                if (visibleBandsCount > 1) {
+                    mainBandWidth = 40;
+                }
+                comp.setWidth(mainBandWidth);
+                
             }
         }
         return;

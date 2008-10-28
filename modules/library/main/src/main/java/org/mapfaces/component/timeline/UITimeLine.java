@@ -73,8 +73,14 @@ public class UITimeLine extends UICommand {
      * Flag that indicates if we want use the compressed scripts or the uncompressed.
      */
     private boolean minifyJS = true;
-    
+    /**
+     * This flag indicates if the timeline should display the input components and sliders of the bands components.
+     */
     private boolean enableBandsInput = false;
+    /**
+     * This is the height of the timeline eg. 170;
+     */
+    private int height;
     
     public String getFamily() {
         return FAMILIY;
@@ -112,7 +118,7 @@ public class UITimeLine extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[14];
+        Object values[] = new Object[15];
         values[0] = super.saveState(context);
         values[1] = events;
         values[2] = jsObject;
@@ -126,6 +132,7 @@ public class UITimeLine extends UICommand {
         values[10] = styleClassControlPanel;
         values[11] = minifyJS;
         values[12] = enableBandsInput;
+        values[13] = height;
         return values;
     }
 
@@ -145,6 +152,7 @@ public class UITimeLine extends UICommand {
         styleClassControlPanel = (String) values[10];
         minifyJS = (Boolean) values[11];
         enableBandsInput = (Boolean) values[12];
+        height = (Integer) values[13];
     }
 
     public boolean isInputDate() {
@@ -217,5 +225,13 @@ public class UITimeLine extends UICommand {
 
     public void setEnableBandsInput(boolean enableBandsInput) {
         this.enableBandsInput = enableBandsInput;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
