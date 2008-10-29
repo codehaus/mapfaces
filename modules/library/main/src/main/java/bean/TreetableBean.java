@@ -10,7 +10,7 @@ public class TreetableBean {
     private DefaultTreeModel tree, tmp;
 
     public TreetableBean() {
-        String fileUrl = "data/context/worldWfsOwc.xml";
+        String fileUrl = "data/context/owc030Cut.xml";
         tree = Adapter.OWC2Tree(fileUrl);
     }
 
