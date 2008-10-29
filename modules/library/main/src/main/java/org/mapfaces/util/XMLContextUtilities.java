@@ -16,8 +16,6 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -31,16 +29,7 @@ import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
-import org.geotools.sld.MutableStyledLayerDescriptor;
-import org.geotools.style.MutableFeatureTypeStyle;
-import org.geotools.style.MutableRule;
-import org.geotools.style.MutableStyle;
-import org.opengis.filter.Filter;
 import org.opengis.metadata.citation.OnLineResource;
-import org.opengis.sld.StyledLayerDescriptor;
-import org.opengis.style.FeatureTypeStyle;
-import org.opengis.style.Rule;
-import org.opengis.style.Style;
 import org.w3c.dom.Node;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
