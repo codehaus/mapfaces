@@ -44,7 +44,6 @@ public class Utils {
      */
     public static void encodeRecursive(FacesContext context, UIComponent component) throws IOException {
         if (!component.isRendered()) {
-            Logger.getLogger(Utils.class.getName()).log(Level.INFO, component + " not rendered !");
             return;
         }
         component.encodeBegin(context);

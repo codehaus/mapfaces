@@ -32,7 +32,6 @@ import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 
-
 public class CheckColumnRenderer extends AbstractColumnRenderer implements CustomizeTreeComponentRenderer {
 
     @Override
@@ -41,7 +40,7 @@ public class CheckColumnRenderer extends AbstractColumnRenderer implements Custo
         UITreeLines treeline = (UITreeLines) component.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
         String treepanelTargetId = null;
-
+        
         String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
         String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
         UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
@@ -58,13 +57,11 @@ public class CheckColumnRenderer extends AbstractColumnRenderer implements Custo
             HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
             String checkcolumnId = "check_" + checkColumn.getId();
             checkbox.setId("check_" + checkColumn.getId());
-            checkbox.setStyle("cursor:pointer;margin-left:-15px;");
+            checkbox.setStyle("cursor:pointer;");
             /* @todo add javascript to make change between to panel */
             checkbox.setOnclick("checkNode('" + formId + "','" + treepanel.getTarget() + "','" + node.getId() + "','" + checkcolumnId + "');");
             checkColumn.getChildren().add(checkbox);
         }
-
-        writer.startElement("center", checkColumn);
 
     }
 

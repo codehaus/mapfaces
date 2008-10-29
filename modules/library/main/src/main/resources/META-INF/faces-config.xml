@@ -69,28 +69,28 @@
         <component-class>org.mapfaces.component.UIMapSize</component-class>
     </component>
      <!-- TimeLine components -->
-        <component>
-            <component-type>org.mapfaces.component.TimeLine</component-type>
-            <component-class>org.mapfaces.component.timeline.UITimeLine</component-class>
-        </component>
-        <component>
-            <component-type>org.mapfaces.component.Timeline.BandInfo</component-type>
-            <component-class>org.mapfaces.component.timeline.UIBandInfo</component-class>
-        </component>
-        <component>
-            <component-type>org.mapfaces.component.Timeline.HotZoneBandInfo</component-type>
-            <component-class>org.mapfaces.component.timeline.UIHotZoneBandInfo</component-class>
-        </component>
-        <component>
-            <component-type>SliderInput</component-type>
-            <component-class>org.mapfaces.component.timeline.UISliderInput</component-class>
-        </component>
-        <component>
-            <component-type>org.mapfaces.component.TimeLine.TimeLineControl</component-type>
-            <component-class>org.mapfaces.component.timeline.UITimeLineControl</component-class>
-        </component>
+    <component>
+        <component-type>org.mapfaces.component.TimeLine</component-type>
+        <component-class>org.mapfaces.component.timeline.UITimeLine</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.Timeline.BandInfo</component-type>
+        <component-class>org.mapfaces.component.timeline.UIBandInfo</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.Timeline.HotZoneBandInfo</component-type>
+        <component-class>org.mapfaces.component.timeline.UIHotZoneBandInfo</component-class>
+    </component>
+    <component>
+        <component-type>SliderInput</component-type>
+        <component-class>org.mapfaces.component.timeline.UISliderInput</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.TimeLine.TimeLineControl</component-type>
+        <component-class>org.mapfaces.component.timeline.UITimeLineControl</component-class>
+    </component>
      <!-- Tabbedpane component -->
-     <component>
+    <component>
         <component-type>org.mapfaces.tabbedpane.TabPanel</component-type>
         <component-class>org.mapfaces.component.tabbedpane.UITabPanel</component-class>
     </component>
@@ -99,7 +99,7 @@
         <component-class>org.mapfaces.component.tabbedpane.UITabItem</component-class>
     </component> 
     <!-- TreeTable component -->
-     <component>
+    <component>
         <component-type>org.mapfaces.TreeTable</component-type>
         <component-class>org.mapfaces.component.tree.UITreeTable</component-class>
     </component>
@@ -167,13 +167,17 @@
     </component>
     
     <!-- TreeBuilder component -->
-     <component>
+    <component>
         <component-type>org.mapfaces.TreeBuilder</component-type>
         <component-class>org.mapfaces.component.treebuilder.UITreeTable</component-class>
     </component>
     <component>
         <component-type>org.mapfaces.treebuilder.TreePanel</component-type>
         <component-class>org.mapfaces.component.treebuilder.UITreePanel</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.treebuilder.treepanel.TreeToolbar</component-type>
+        <component-class>org.mapfaces.component.treebuilder.UITreeToolbar</component-class>
     </component>
     <component>
         <component-type>org.mapfaces.treebuilder.treepanel.TreeColumn</component-type>
@@ -199,10 +203,8 @@
     <!-- *************************************************************** -->
     <!-- ******************** RENDER-KIT ******************************* -->
     <!-- *************************************************************** -->
-    
     <render-kit>
         <!-- Map Renderers -->
-        
         <renderer>
             <description>DimRange</description>
             <component-family>org.mapfaces.DimRange</component-family>
@@ -215,7 +217,7 @@
             <renderer-type>org.mapfaces.renderkit.html.layercontrol.TimeColumn</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.layercontrol.TimeColumnRenderer</renderer-class>
         </renderer>
-         <renderer>
+        <renderer>
             <description>VisibilityColumn : This tag is used for creating  check columns of a table. (only use by the layer control)</description>
             <component-family>org.mapfaces.treelayout.Column</component-family>
             <renderer-type>org.mapfaces.renderkit.html.layercontrol.VisibilityColumn</renderer-type>
@@ -269,7 +271,7 @@
             <renderer-type>org.mapfaces.renderkit.html.LayerControl</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.LayerControlRenderer</renderer-class>
         </renderer>
-        <renderer> 
+        <renderer>
             <description>Renders an MapPane. </description>
             <component-family>org.mapfaces.MapPane</component-family>
             <renderer-type>org.mapfaces.renderkit.html.MapPane</renderer-type>
@@ -371,7 +373,7 @@
         </renderer>
         <renderer>
             <description>Treenodeinfo </description>
-             <component-family>org.mapfaces.treetable.treepanel.treelines.TreeNodeInfo</component-family>
+            <component-family>org.mapfaces.treetable.treepanel.treelines.TreeNodeInfo</component-family>
             <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.tree.TreeNodeInfoRenderer</renderer-class>
         </renderer>
@@ -405,7 +407,7 @@
             <renderer-type>org.mapfaces.renderkit.treelayout.HTMLColumn</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treelayout.ColumnRenderer</renderer-class>
         </renderer>
-         <renderer>
+        <renderer>
             <description>CheckColumn : This tag is used for creating  check columns of a table.
             </description>
             <component-family>org.mapfaces.treelayout.CheckColumn</component-family>
@@ -434,7 +436,7 @@
         </renderer>
         <renderer>
             <description>Treenodeinfo </description>
-             <component-family>org.mapfaces.treelayout.TreeNodeInfo</component-family>
+            <component-family>org.mapfaces.treelayout.TreeNodeInfo</component-family>
             <renderer-type>org.mapfaces.renderkit.treelayout.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treelayout.TreeNodeInfoRenderer</renderer-class>
         </renderer>
@@ -451,6 +453,12 @@
             <component-family>javax.faces.Output</component-family>
             <renderer-type>org.mapfaces.renderkit.treebuilder.HTMLTreePanel</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>TreeToolbar </description>
+            <component-family>org.mapfaces.treebuilder.treepanel.TreeToolbar</component-family>
+            <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeToolbar</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeToolbarRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>CheckColumn </description>
@@ -478,7 +486,7 @@
         </renderer>
         <renderer>
             <description>Treenodeinfo </description>
-             <component-family>org.mapfaces.treebuilder.treepanel.treelines.TreeNodeInfo</component-family>
+            <component-family>org.mapfaces.treebuilder.treepanel.treelines.TreeNodeInfo</component-family>
             <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeNodeInfoRenderer</renderer-class>
         </renderer>

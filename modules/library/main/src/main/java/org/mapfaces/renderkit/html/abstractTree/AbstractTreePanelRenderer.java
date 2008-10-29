@@ -1,4 +1,3 @@
-
 /*
  *    Mapfaces - 
  *    http://www.mapfaces.org
@@ -35,6 +34,7 @@ import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.abstractTree.UITreeTableBase;
 
+import org.mapfaces.component.abstractTree.UITreeToolbarBase;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
@@ -78,8 +78,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         ResponseWriter writer = context.getResponseWriter();
         UITreeTableBase treetable = getForm(component);
         UITreePanelBase treepanel = (UITreePanelBase) component;
+        UITreeToolbarBase toolbar = null;
         Date phaseStart, phaseEnd;
-        Boolean renderHeader, renderFrame, makeCollapsible, loadAll;
+        Boolean renderHeader, renderFrame, makeCollapsible, loadAll, haveToolbar;
         String title, styleUser, styleClass, clientId;
 
         treepanel.setOddEvenCountLine(1);
@@ -88,11 +89,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         /* 
          * Look client Browser, if it's Opera, we fix loadAll option
          */
-        if (servletUtils.isOpera()) {
-            loadAll = true;
-        } else {
-            loadAll = treepanel.isLoadAll();
-        }
+//        if (servletUtils.isOpera()) {
+//            loadAll = true;
+//        } else {
+        loadAll = treepanel.isLoadAll();
+//        }
 
         /* Initialisation */
         clientId = component.getClientId(context);
@@ -104,6 +105,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         renderStart = new Date();
         styleUser = "";
         styleClass = "";
+        haveToolbar = false;
 
         /* 
          * Tests
@@ -137,6 +139,12 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             title = treepanel.getTitle();
         }
 
+        for (UIComponent child : component.getChildren()) {
+            if (child instanceof UITreeToolbarBase) {
+                haveToolbar = true;
+                toolbar = (UITreeToolbarBase) child;
+            }
+        }
 
         /* Before encodeBegin, any method declared in a component extends this class can be launch here*/
         if (debug) {
@@ -194,39 +202,15 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                     writer.endElement("div");
                 }
 
-                // DIV Toolbar
-                writer.startElement("div", component);
-                writer.writeAttribute("id", "panel_toolbar:" + clientId, null);
-                writer.writeAttribute("class", TreeStyle.default_toolbarStyle, null);
-
-                /*
-                 * @todo implements toolbar components here like a simple container of 
-                 * jsf components
-                 */
-
-//                writer.startElement("div", component);
-//                writer.startElement("tr", component);
-//                writer.startElement("td", component);
-//                writer.startElement("a", component);
-//                writer.writeAttribute("id", "panel_anchor:" + clientId + ":expand", null);
-//                writer.writeAttribute("class", "x-btn", null);
-//                writer.writeAttribute("onclick", "expAll(this)", null);
-//                writer.write(EXPAND_TEXT);
-//                writer.endElement("a");
-//                writer.endElement("td");
-//                writer.write("/");
-//                writer.startElement("td", component);
-//                writer.startElement("a", component);
-//                writer.writeAttribute("id", "panel_anchor:" + clientId + ":collapse", null);
-//                writer.writeAttribute("class", "x-btn", null);
-//                writer.writeAttribute("onclick", "collAll(this)", null);
-//                writer.write(COLLAPSE_TEXT);
-//                writer.endElement("a");
-//                writer.endElement("td");
-//                writer.endElement("tr");
-//                writer.endElement("div");
-
-                writer.endElement("div");
+                if (haveToolbar) {
+                    // DIV Toolbar
+                    writer.startElement("div", component);
+                    writer.writeAttribute("id", "panel_toolbar:" + clientId, null);
+                    writer.writeAttribute("class", TreeStyle.default_toolbarStyle, null);
+                    // Rendering toolbar components
+                    renderToolbar(context, toolbar);
+                    writer.endElement("div");
+                }
             }
 
             //DIV Content
@@ -277,7 +261,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 List<UIComponent> backup = new ArrayList<UIComponent>();
                 List<UIComponent> children = component.getChildren();
                 for (UIComponent tmp : children) {
-                    if (!(tmp instanceof HtmlPanelGroup)) {
+                    if (!(tmp instanceof HtmlPanelGroup) && !(tmp instanceof UITreeToolbarBase)) {
                         tmp.setId(component.getId() + "_" + tmp.getId());
                         backup.add(tmp);
                     }
@@ -326,14 +310,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         for (UIComponent child : treepanel.getChildren()) {
-            if (!(child instanceof HtmlPanelGroup)) {
+            if (!(child instanceof HtmlPanelGroup)&&!(child instanceof UITreeToolbarBase)) {
                 if (extContext.getRequestMap().containsKey("treePanelRendered_" + component.getClientId(context))) {
                     child.setTransient(true);
                 }
-            }
-            else {
-                if(treepanel.isShowRoot()){
-                    ((UITreeLinesBase)Utils.findComponent(context, treepanel.getClientId(context) + "_line_1")).setToRender(true);
+            } else {
+                if (treepanel.isShowRoot()) {
+                    ((UITreeLinesBase) Utils.findComponent(context, treepanel.getClientId(context) + "_line_1")).setToRender(true);
                 }
             }
         }
@@ -547,13 +530,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         //RENDER ROW ID NUMBER IF IS NECESSARY
         if (treepanel.isRowId()) {
             writer.startElement("div", component);
-            writer.writeAttribute("id", "x-tree-hd:" + id, null);
+            writer.writeAttribute("id", treepanel.getId() + ":tree-hd:" + id, null);
             writer.writeAttribute("class", TreeStyle.default_headerStyle, null);
             writer.writeAttribute("style", "width: 30px;", null);
             writer.startElement("div", component);
-            writer.writeAttribute("id", "x-tree-hd-text:" + id, null);
+            writer.writeAttribute("id", treepanel.getId() + "tree-hd-text:" + id, null);
             writer.writeAttribute("class", TreeStyle.default_headerTextStyle, null);
-            writer.writeAttribute("style","text-align:center;",null);
+            writer.writeAttribute("style", "text-align:center;", null);
             writer.write("Id");
             writer.endElement("div");
             writer.endElement("div");
@@ -593,7 +576,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         writer.startElement("div", component);
-        writer.writeAttribute("id", "x-tree-hd:" + idnumbers, null);
+        writer.writeAttribute("id", component.getId() + ":tree-hd:" + idnumbers, null);
         writer.writeAttribute("class", TreeStyle.default_headerStyle, null);
 
         /* Then render head column of th UIcomponent */
@@ -612,7 +595,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         writer.writeAttribute("style", styleHeader, null);
 
         writer.startElement("div", component);
-        writer.writeAttribute("id", "x-tree-hd-text:" + idnumbers, null);
+        writer.writeAttribute("id", component.getId() + "tree-hd-text:" + idnumbers, null);
         writer.writeAttribute("class", TreeStyle.default_headerTextStyle, null);
         writer.startElement("center", component);
 
@@ -634,7 +617,18 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
     }
 
+    /**
+     * 
+     * @param context
+     * @param toolbar
+     */
+    private void renderToolbar(FacesContext context, UITreeToolbarBase toolbar) throws IOException {
+        if (toolbar.getChildCount() > 0) {
+            Utils.encodeRecursive(context, toolbar);
+        }
+    }
     /* Abstracts Methods */
+
     /**
      * <p>This method have to be declared in each extends of AbastractTreePanelRenderer and point to a method who permit to
      * build treelines</p>

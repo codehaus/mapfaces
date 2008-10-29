@@ -33,7 +33,10 @@
             </li>
             <li>
                 <a href="./treelayout.jsf">TreeLayout component Test</a>
-            </li>           
+            </li>
+            <li>
+                <a href="./treebuilder.jsf">TreeBuilder component Test</a>
+            </li>
         </ul>
         <br/>
        

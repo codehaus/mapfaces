@@ -108,7 +108,7 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
         setDebug((Boolean) values[1]);
         setTree((TreeTableModel) values[2]);
         setStyle((String) values[3]);
-         setStyleClass((String) values[4]);
+        setStyleClass((String) values[4]);
     }
 
     /**

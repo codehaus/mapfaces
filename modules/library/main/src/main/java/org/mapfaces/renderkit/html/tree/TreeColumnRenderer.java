@@ -46,6 +46,4 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer {
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
-
- 
 }

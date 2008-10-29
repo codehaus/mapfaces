@@ -8,10 +8,65 @@ var _DROP_ZONE_INITIAL_HEIGHT = 2;
 var _DROP_ZONE_TWEEN_HEIGHT   = 20;
 var _DRAG_FADE                = 0.5;
 
+
+window.addEvent('domready', function() {
+    $$('.dragable').each(function(drag) {
+        var dragonlys = $$('a');
+        var position = drag.getPosition();
+        var dropped = 'false';
+        drag.setStyles({
+            'display': 'none'
+        });
+        var todrag = dragonly[0];
+        todrag.setStyles({
+            'display': 'block'
+        });
+	new Drag.Move(todrag, {
+	    // Drag.Move options
+            droppables: '.droppable',
+            // Drag.Move Events
+            onDrop: function(el, droppable) {
+                //                console.log('onDrop: el ='+el.id +' to droppable '+droppable.id);
+            },
+            onLeave: function(el, droppable) {
+                //                console.log('onLeave:');
+            },
+            onEnter: function(el, droppable) {
+                //                console.log('onEnter:');
+            },
+            // Drag Events
+            onStart: function(el) {
+                //                console.log('onStart:');
+                drag.setStyles({
+                    'top': position.x,
+                    'left': position.y
+                });
+                
+            },
+            onDrag: function(el) {
+                //                console.log('onDrag:');
+            },
+            onComplete: function(el) {
+                //                console.log('onComplete:');
+                if (dropped == 'false'){
+                    drag.setStyles({
+                        'top': position.x,
+                        'left': 0
+                    });
+                }
+            }
+	});
+        drag.setStyles({
+            'top':0,
+            'left':0,
+            'position':'relative'
+        });
+    });
+});
 /*
  *
  */
-window.addEvent('domready',function() {
+/* window.addEvent('domready',function() {
     document.ondragstart = function () {
         return false;
     }
@@ -173,4 +228,4 @@ window.addEvent('domready',function() {
             'position':'relative'
         });
     });
-});
+}); */

@@ -28,7 +28,7 @@ import org.mapfaces.share.interfaces.A4JRendererInterface;
  *
  * @author kevindelfour
  */
-public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInterface,A4JInterface, Cloneable {
+public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInterface, A4JInterface, Cloneable {
 
     /* Fields */
     private boolean alreadyRender = false;
@@ -86,7 +86,7 @@ public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInter
         AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
-    
+
     @Override
     public void A4JPostRequest(FacesContext context) {
         A4JRendererInterface renderer = (A4JRendererInterface) this.getRenderer(context);

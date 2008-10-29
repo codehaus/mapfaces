@@ -14,20 +14,20 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component.tree;
 
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
+import org.mapfaces.share.interfaces.A4JInterface;
 
 /**
  *
  * @author kevindelfour
  */
-public class UITreeColumn extends UITreeColumnBase {
+public class UITreeColumn extends UITreeColumnBase implements A4JInterface {
 
     private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn";
     private final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeColumn";
-    
+
     @Override
     public String getFamily() {
         return TREECOLUMN_COMP_FAMILY;
@@ -37,4 +37,4 @@ public class UITreeColumn extends UITreeColumnBase {
     public String getRendererType() {
         return TREECOLUMN_RENDERER_TYPE;
     }
-    }
+}
