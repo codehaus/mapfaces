@@ -22,6 +22,7 @@ import org.geotools.data.ows.WMSCapabilities;
 
 public interface  Server  extends Serializable {
 
+
     public void setGTCapabilities(WMSCapabilities capabilities);
     
     public WMSCapabilities getGTCapabilities();
@@ -38,6 +39,9 @@ public interface  Server  extends Serializable {
     
     void setVersion(String version);
     
+    String getTitle();
+    
+    void setTitle(String  title);
 //    String getCpabilities();
 //    
 //    void setGetCapabilities(String caps);

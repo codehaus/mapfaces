@@ -9,13 +9,19 @@ package org.mapfaces.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -29,23 +35,20 @@ import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
-import org.opengis.metadata.citation.OnLineResource;
 import org.w3c.dom.Node;
+import org.opengis.metadata.citation.OnLineResource;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
+
 import org.mapfaces.models.Context;
 
-/**
- *
- * @author olivier
- */
-public  class XMLContextUtilities {
+public  class XMLContextUtilities { 
     
-
+    private final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
     
     private net.opengis.owc.v030.ObjectFactory factory_owc_030 = new net.opengis.owc.v030.ObjectFactory();
-
-
+    //private net.opengis.context.v110.ObjectFactory factory_wmc_100 = new net.opengis.context.v100.ObjectFactory();
+    private net.opengis.context.v110.ObjectFactory factory_wmc_110 = new net.opengis.context.v110.ObjectFactory(); 
 //    private org.geotools.internal.jaxb.v110.sld.ObjectFactory factory_sld_110 = new org.geotools.internal.jaxb.v110.sld.ObjectFactory();
 //    private org.geotools.internal.jaxb.v110.se.ObjectFactory factory_se_110 = new org.geotools.internal.jaxb.v110.se.ObjectFactory();
 //    private org.geotools.internal.jaxb.v100.ogc.ObjectFactory factory_ogc_100 = new org.geotools.internal.jaxb.v100.ogc.ObjectFactory();
@@ -67,31 +70,60 @@ public  class XMLContextUtilities {
             throw new NullPointerException("Bad file type");
     }
     
-    private  Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
-        
-        System.out.println(elt.getDeclaredType().toString());
+    private Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class net.opengis.owc.v030.OWSContextType")){
-                 return (new OWCv030toMFTransformer()).visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
-        }else
-            throw new NullPointerException("Bad file version, versions available are : owc 0.3.0 and wmc 1.1.0");
+            return (new OWCv030toMFTransformer()).visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
+        }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
         
     }
 
-    private   Context readWMC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
+    private Context readWMC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class net.opengis.context.v110.ViewContextType")){
-                 return (new WMCv110toMFTransformer()).visit( (net.opengis.context.v110.ViewContextType) elt.getValue());
-        }else
-            throw new NullPointerException("Bad file version, versions available are : owc 0.3.0 and wmc 1.1.0");
+            return (new WMCv110toMFTransformer()).visit( (net.opengis.context.v110.ViewContextType) elt.getValue());
+        }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 "); 
+    }
+
+    
+    public void  writeContext(Context ctx, File output) throws JAXBException, UnsupportedEncodingException, IOException {       
+        JAXBElement elt;      
+        if(ctx.getType().contains("OWSContextType")){
+            elt = writeOWC(ctx);
+        }else if( ctx.getType().contains("ViewContextType") ){
+            elt = writeWMC(ctx);            
+        }else throw new UnsupportedOperationException("The version of your context file " +
+                               "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
+                               ", only OWC 0.3.0 is supported !!!!!");          
+       
+        marshal(elt,output);        
+    }
+    
+    private JAXBElement writeOWC(Context ctx) throws UnsupportedEncodingException, JAXBException {
+        if (ctx.getVersion().equals("0.3.0")){
+            return writeOWC030(ctx);
+        }
+        throw new UnsupportedOperationException("The version of your context file " +
+               "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
+               ", only OWC 0.3.0 is supported !!!!!");    
     }
 
     private JAXBElement unmarshal(Object source) throws JAXBException {
        JAXBContext Jcontext;
-        Jcontext = JAXBContext.newInstance("net.opengis.owc.v030:net.opengis.context.v110");
-        Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
-        return (JAXBElement) unmarshall(source,unmarshaller);
-       
+        Jcontext = JAXBContext.newInstance(jaxbInstance);   
+        Unmarshaller unmarshaller = Jcontext.createUnmarshaller(); 
+        return (JAXBElement) unmarshall(source,unmarshaller);  
     }
-
+    
+      
+        
+    public  void  marshal(Object jaxbElement, File output) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(jaxbInstance);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+//        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshall(output,jaxbElement,marshaller);
+        
+    }
     private final Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
         if(source instanceof File){
             File s = (File) source;
@@ -166,11 +198,31 @@ public  class XMLContextUtilities {
         }
         
     }
-    
+    private JAXBElement writeOWC030(Context ctx) throws UnsupportedEncodingException, JAXBException {
+        return factory_owc_030.createOWSContext((new MFtoOWCv030Transformer()).visit(ctx));
+    } 
+
+    private JAXBElement writeWMC(Context ctx) {
+//        if (ctx.getVersion().equals("1.0.0")){
+//           return factory_wmc_100.createViewContext((new MFtoWMCv100Transformer()).visit(ctx));
+//        }else if( ctx.getVersion().equals("1.1.0") ){
+//           return factory_wmc_110.createViewContext((new MFtoWMCv110Transformer()).visit(ctx));
+//        }
+        throw new UnsupportedOperationException("The version of your context file " +
+               "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
+               ", only OWC 0.3.0 is supported !!!!!"); 
+    }
+
 
     public  static void main(String[] args) throws FileNotFoundException, JAXBException, UnsupportedEncodingException{
-            Context ctx = (new XMLContextUtilities()).readContext("/home/olivier/svn/mapfaces/trunk/modules/web/src/main/webapp/data/context/ifremer.xml");
-
+        try {
+            Context ctx = (new XMLContextUtilities()).readContext(new FileReader(new File("D://svn/mapfaces/trunk/modules/web/src/main/webapp/data/context/tasmania.xml")));
+            if (ctx == null)
+                    System.out.println(ctx);
+            (new XMLContextUtilities()).writeContext(ctx, new File("C://Documents and Settings/Sangoku/Mes documents/NetBeansProjects/mf-web/build/web/data/context/owctest.xml"));
+        } catch (IOException ex) {
+            Logger.getLogger(XMLContextUtilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 //    
 //    private final Object unmarshallWMCv110(Object source) throws JAXBException{
@@ -223,5 +275,4 @@ public  class XMLContextUtilities {
 //        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 //        marshall(target, jaxElement, marshaller);
 //    }
-   
 }

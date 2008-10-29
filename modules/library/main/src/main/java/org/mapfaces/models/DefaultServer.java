@@ -32,6 +32,7 @@ public class DefaultServer implements Server {
     private String service;
     private String version;
     private transient WMSCapabilities gtCapabilities;
+    private String title = null;
 
     /**
      * Empty constructor used for Serialization.
@@ -99,5 +100,13 @@ public class DefaultServer implements Server {
             singleton = new DefaultServer();
         }
         return singleton;
+    }
+
+    public String getTitle() {
+       return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

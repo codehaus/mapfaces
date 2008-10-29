@@ -17,11 +17,6 @@
 
 package org.mapfaces.models;
 
-/**
- *
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
- */
 public abstract class AbstractModelBase {
 
     private String namespace;

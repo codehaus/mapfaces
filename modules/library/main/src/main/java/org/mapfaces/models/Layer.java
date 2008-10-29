@@ -27,6 +27,10 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  */
 public interface Layer extends Serializable {
 
+//    public Parameter getParameterList();
+
+    DescriptionURL getMetadataURL();
+
     void setUserValue(String string, String value);
 
     String getDataUrl();

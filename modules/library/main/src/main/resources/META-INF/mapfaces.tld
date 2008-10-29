@@ -347,6 +347,17 @@
                 Add graticules on the map , works only for certain projection.
             </description>
         </attribute>
+        <attribute>
+            <name>save</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Save the current context file.
+            </description>
+        </attribute>
     </tag>
     <!-- CursorTrack -->
     <tag>

@@ -28,10 +28,6 @@ import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
-/**
- * 
- * @author Olivier Terral.
- */
 public class VisibilityColumnRenderer extends CheckColumnRenderer {
 
     @Override

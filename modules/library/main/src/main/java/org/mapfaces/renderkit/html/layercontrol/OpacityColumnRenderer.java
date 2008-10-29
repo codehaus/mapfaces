@@ -32,12 +32,13 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeBegin(context, component);
-            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
+            if(component.getChildCount()>0){
+                    component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onchange",
                     getVarId(context, (UIColumnBase) component),
                     null));
-            
+            }
         }
     }
 
