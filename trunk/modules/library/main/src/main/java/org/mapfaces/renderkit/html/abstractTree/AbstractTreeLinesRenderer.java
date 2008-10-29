@@ -108,7 +108,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         String AJAX_PARAMETERS = ajaxtools.getAjaxParameters();
         String Request = ajaxtools.getRequestJs("get", AJAX_SERVER, AJAX_PARAMETERS);
 
-        Boolean isFolder = !(node.isLeaf());
+        boolean isFolder = !(node.isLeaf());
+        
         String classStyle = "";
         if (treepanel.isEnableDragDrop()) {
             if (!isFolder) {
@@ -125,10 +126,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         if (treeline.isToRender()) {
             TreeNodeModel root = treepanel.getView().getRoot();
             if (node.getParent().equals(root)) {
-//                writer.startElement("ul", component);
                 writer.startElement("div", component);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":0", null);
-
                 if (treepanel.isEnableDragDrop()) {
                     writer.startElement("div", treeline);
                     writer.writeAttribute("id", "dnd:" + treepanelId + ":" + node.getId() + ":inList", null);
@@ -268,13 +267,15 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 if (debug) {
                     System.out.println("[INFO] encodeChildren : Encode children !");
                 }
-                
+
                 writer.startElement("div", component);
 //                writer.startElement("ul", treeline);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
                 writer.writeAttribute("style", "margin-left: 0;", null);
-                writer.writeAttribute("class", "collapsible", null);
-                
+                if (node.getId()>1) {
+                    writer.writeAttribute("class", "collapsible", null);
+                }
+
                 // Second zone to drop : in the list at first position
                 if (treepanel.isEnableDragDrop()) {
                     if (isFolder) {
@@ -304,7 +305,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                         Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
                     }
                 }
-                
+
 //                writer.endElement("ul");
                 writer.endElement("div");
             }
