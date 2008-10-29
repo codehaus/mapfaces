@@ -35,12 +35,10 @@
                                       styleClass="x-tree-builder x-tree-builder-left"
                                       target="panel2">
                         
-                        <mf:BuilderToolbar id="toolbar">
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
+                        <mf:BuilderToolbar id="toolbar" 
+                                           styleClassTools="x-tree-toolbar-button">
+                            <h:commandButton value="Expand all" onclick="expAll('panel1');return false;"/>
+                            <h:commandButton value="Collapse all" onclick="collAll('panel1');return false;"/>
                         </mf:BuilderToolbar>
                         
                         <mf:BuilderCheckColumn id="chcol" width="25" value="false"/>
@@ -59,12 +57,10 @@
                                       styleClass="x-tree-builder x-tree-builder-right" 
                                       cloneView="true">
                         
-                        <mf:BuilderToolbar id="toolbar">
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
-                            <h:commandButton value="Test" />
+                        <mf:BuilderToolbar id="toolbar2" 
+                                           styleClassTools="x-tree-toolbar-button">
+                            <h:commandButton value="Expand all" onclick="expAll('panel1');return false;"/>
+                            <h:commandButton value="Collapse all" onclick="collAll('panel1');return false;"/>
                         </mf:BuilderToolbar>
                         
                         <mf:BuilderTreeColumn id="btcol2" headerTitle="Tree Items" value="#{treeItem.name}" style="width:40%;" styleHeader="width:40%;"/>
