@@ -302,7 +302,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     reloadDate +
                     idjs + "_eventSource._fire(\"onAddMany\", []);\n" +
                     idjs + "_tl.getBand(bandId).layout();\n" +
-                    idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
+                    //idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
                     "}");
             writer.endElement("script");
         }

@@ -99,6 +99,14 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
                 writer.startElement("div", comp);
                 writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;"+styleImg + display, "style");
+                
+                //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
+                if (comp.getDir().listFiles().length > 30) {
+                    for (File file : comp.getDir().listFiles()) {
+                        file.delete();
+                    }
+                }
+                
                 File dst = File.createTempFile("img", "", comp.getDir());
                 if (isDebug()) {
                     System.out.println("            Layer updated " + dst.getName());
