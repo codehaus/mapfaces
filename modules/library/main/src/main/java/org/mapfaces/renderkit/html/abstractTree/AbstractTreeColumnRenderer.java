@@ -138,6 +138,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         UITreeColumnBase treecolumn = (UITreeColumnBase) component;
         UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         TreeNodeModel node = treeline.getNodeInstance();
+        boolean renderChildLine = false;
 
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         AjaxUtils ajaxtools = new AjaxUtils();
@@ -161,6 +162,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             FolderType = false;
         }
 
+        if (!treepanel.isLoadAll()) {
+            CLASS_SYMBOL = "x-tree-ec-icon x-tree-elbow-end-plus";
+            CLASS_NODE_DIV = "x-tree-node-el x-tree-node-collapsed x-tree-col";
+        }
 
         String styleUser = "";
         if (treecolumn.getStyle() != null) {
@@ -286,9 +291,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                     "}" +
                     "else {" +
                     "   document.getElementById('" + formId + ":" + treepanel.getId() + "_img_" + node.getId() + "')." +
-                    "       setAttribute('style','background-image:url(" + ResourcePhaseListener.getURL(context, NODE_LOADING,null) + ");');" +
+                    "       setAttribute('style','background-image:url(" + ResourcePhaseListener.getURL(context, NODE_LOADING, null) + ");');" +
                     "}");
-            
+
 
 //                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
 //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
@@ -301,10 +306,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 //                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
 //                    formId+".reset(); return false;" +
 
-//            AjaxSupport.setOncomplete("disp('"+formId+"'," +
-//                    "'"+treepanelId+"'," +
-//                    "'"+node.getId()+"'," +
-//                    "'"+request.getRequestURI()+"');");
+            AjaxSupport.setOncomplete("expandSymbol('"+formId+"'," +
+                    "'"+treepanelId+"'," +
+                    "'"+node.getId()+"');");
 
             //Adding Components to TreeColumn
             if (treepanel.isShowRoot() && node.getDepth() > 2) {

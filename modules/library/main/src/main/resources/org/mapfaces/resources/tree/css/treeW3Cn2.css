@@ -3997,5 +3997,9 @@ background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/
 }
 
 .x-tree-toolbar-button:hover{
-   background-color:LightSteelBlue;
+   background-color:#B0C4DE;
+}
+
+.x-tree-node:hover {
+    background-color:transparent;
 }
