@@ -42,8 +42,6 @@ public class Adapter {
             model = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
         } catch (JAXBException ex) {
             Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
         }

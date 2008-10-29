@@ -17,7 +17,14 @@
 
 package org.mapfaces.renderkit.html.models;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -130,11 +137,16 @@ public class ContextRenderer extends Renderer {
             
             //Loading the context file if the model is null.
             if (comp.getModel() == null) {
+                  Context ctx;
                 String fileUrl = (String) component.getAttributes().get("service");
                 if (fileUrl == null || fileUrl.length() < 1) {
                     throw new IllegalArgumentException("You must indicate a path to file to read");
                 }
-                Context ctx = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
+                if(fileUrl.contains("http:/")){
+                    ctx = (new XMLContextUtilities()).readContext(new URL(fileUrl));
+                }else{
+                    ctx = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
+                }
                 comp.setModel((AbstractModelBase) ctx);
             } else {
                 if (comp.isDebug()) {
@@ -155,7 +167,7 @@ public class ContextRenderer extends Renderer {
             }
 
 
-        } catch (JAXBException ex) {
+        }  catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
