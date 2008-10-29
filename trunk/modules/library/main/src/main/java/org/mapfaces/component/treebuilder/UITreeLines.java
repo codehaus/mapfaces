@@ -17,8 +17,6 @@
 
 package org.mapfaces.component.treebuilder;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 
 /**

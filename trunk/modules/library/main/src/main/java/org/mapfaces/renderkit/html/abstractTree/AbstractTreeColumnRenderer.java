@@ -45,6 +45,7 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
+import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
 
@@ -62,6 +63,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static int LINES_SHOW = 1;
     private static int DEFAULT_FIRST_COLUMN_SIZE = 250;
     private static String NODE_IDENT = "/resource.jsf?r=/org/mapfaces/resources/tree/images/default/s.gif";
+    private static String NODE_LOADING = "/org/mapfaces/resources/tree/images/default/tree/loading.gif";
     private static String CLASS_NODE_DIV = "x-tree-node-el x-tree-node-expanded x-tree-col";
     private static String CLASS_NODE_INDENT = "x-tree-node-indent";
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";
@@ -173,7 +175,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         int width = Integer.valueOf(size) - indentStyle;
         writer.startElement("div", component);
         writer.writeAttribute("id", "treenode:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("style", "text-align:left;width:" + width + "px; padding-left :" + indentStyle + "px;" + styleUser, null);
+        writer.writeAttribute("style", "text-align:left;width:" + width + "px; padding-left :" + indentStyle + "px; padding-right :-" + indentStyle + "px; " + styleUser, null);
         String classUser = "";
         if (treecolumn.getStyleClass() != null) {
             classUser = treecolumn.getStyleClass();
@@ -199,6 +201,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             // Node representation
             HtmlGraphicImage ImgNodeRep = new HtmlGraphicImage();
             ImgNodeRep.setUrl(NODE_IDENT);
+            ImgNodeRep.setAlt("");
 
             if (FolderType) {
                 ImgNodeRep.setId(treepanel.getId() + "_symbol_" + node.getId());
@@ -213,6 +216,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             HtmlGraphicImage ImgNodeIcon = new HtmlGraphicImage();
             ImgNodeIcon.setUrl(NODE_IDENT);
+            ImgNodeIcon.setAlt("");
             ImgNodeIcon.setStyleClass(CLASS_NODE_ICON);
             if (FolderType) {
                 ImgNodeIcon.setId(treepanel.getId() + "_img_" + node.getId());
@@ -281,9 +285,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                     "   return false;" +
                     "}" +
                     "else {" +
-                    "   console.log('try to change loading');" +
-                    "   document.getElementById('"+formId+":"+treepanel.getId() + "_img_" + node.getId()+"').setAttribute('class','x-tree-node-loading x-tree-node-icon');" +
+                    "   document.getElementById('" + formId + ":" + treepanel.getId() + "_img_" + node.getId() + "')." +
+                    "       setAttribute('style','background-image:url(" + ResourcePhaseListener.getURL(context, NODE_LOADING,null) + ");');" +
                     "}");
+            
 
 //                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
 //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
@@ -382,14 +387,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         String nodeId = request.getParameter(ajaxtools.getAJAX_NODE_ID_KEY());
         UITreeLinesBase treeline = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
 
-//        List<UIComponent> children = treeline.getChildren();
-//        for (UIComponent child : children) {
-//            if (child instanceof UIAbstractTreeLines) {
-//                ((UIAbstractTreeLines) child).setToRender(true);
-//                child.setRendered(true);
-//            }
-//        }
-
         StringBuffer sb = new StringBuffer();
         sb.append("");
 
@@ -421,5 +418,23 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
     @Override
     public void A4JPostRequest(FacesContext context, UIComponent component) {
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
+        UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
+
+        /*  */
+        TreeNodeModel node = treeline.getNodeInstance(), nodeTemp;
+        for (int i = 0; i < node.getChildCount(); i++) {
+            nodeTemp = (TreeNodeModel) node.getChildAt(i);
+            String Line2Modify = treepanelId + "_line_" + nodeTemp.getId();
+            UITreeLinesBase treeline2change = (UITreeLinesBase) Utils.findComponent(context, Line2Modify);
+            if (treeline2change != null) {
+                treeline2change.getNodeInstance().setChecked(true);
+                treeline2change.setRendered(true);
+                treeline2change.setToRender(true);
+            }
+        }
+
     }
 }

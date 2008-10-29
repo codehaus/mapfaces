@@ -775,7 +775,7 @@
             <description>
                The header title of the treeColumn sub component.
             </description>
-        </attribute>       
+        </attribute>
         <attribute>
             <name>styleOddLines</name>
             <deferred-value>
@@ -816,7 +816,7 @@
                 <type>boolean</type>
             </deferred-value>
         </attribute>
-         <attribute>
+        <attribute>
             <name>elevationColumn</name>
             <deferred-value>
                 <type>java.lang.Boolean</type>
@@ -827,7 +827,7 @@
                 Flag that indicates if the elevation column must be displayed or not.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>visibilityColumn</name>
             <deferred-value>
                 <type>java.lang.Boolean</type>
@@ -838,7 +838,7 @@
                 Flag that indicates if the visibility column must be displayed or not.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>opacityColumn</name>
             <deferred-value>
                 <type>java.lang.Boolean</type>
@@ -849,7 +849,7 @@
                 Flag that indicates if the opacity column must be displayed or not.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>timeColumn</name>
             <deferred-value>
                 <type>java.lang.Boolean</type>
@@ -860,7 +860,7 @@
                 Flag that indicates if the time column must be displayed or not.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>layerInfo</name>
             <deferred-value>
                 <type>java.lang.Boolean</type>
@@ -871,7 +871,7 @@
                 Flag that indicates if the layerInfo component must be displayed or not.
             </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>colorMapEditor</name>
             <deferred-value>
                 <type>java.lang.Boolean</type>
@@ -4088,7 +4088,7 @@
         </attribute>
     </tag>
     <!-- TimeLineControl component -->
-  <tag>
+    <tag>
         <name>TimeLineControl</name>
         <tag-class>org.mapfaces.taglib.timeline.TimeLineControlTag</tag-class>
         <body-content>JSP</body-content>
@@ -5505,6 +5505,70 @@
             <name>emptyView</name>
             <deferred-value>
                 <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+  <!-- BuilderTreeToolbar -->
+    <tag>
+        <name>BuilderToolbar</name>
+        <description>Tree Toolbar</description>
+        <tag-class>org.mapfaces.taglib.treebuilder.TreeToolbarTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+          <attribute>
+            <name>styleTools</name>
+            <description>Allow to apply a style to tools components</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClassTools</name>
+            <description>Allow to apply a style to tools components</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
             </deferred-value>
         </attribute>
     </tag>

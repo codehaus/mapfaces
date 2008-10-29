@@ -3945,7 +3945,7 @@ body.x-body-masked .x-window-plain .x-window-mc {
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .x-tree-builder{
-    width:50%;
+    width:49%;
 }
 .x-tree-builder-left{
     float:left;
@@ -3987,3 +3987,15 @@ background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/
     background-position:-32px;
 }
 
+.x-tree-toolbar-button{
+    background-color:transparent;
+    border-bottom:0px;
+    border-left:0px;
+    border-top:0px;
+    border-right:1px solid #99BBE8;
+    cursor:pointer;
+}
+
+.x-tree-toolbar-button:hover{
+   background-color:LightSteelBlue;
+}

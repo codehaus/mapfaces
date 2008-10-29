@@ -57,7 +57,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
     private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
     private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
-    private final String TREE_MINIFY_JS = "/org/mapfaces/resources/tree/js/zip.js";
+//    private final String TREE_MINIFY_JS = "/org/mapfaces/resources/tree/js/zip.js";
 
     /**
      * <p> Render the beginning specified TreeTable Component to the output stream or writer associated 
@@ -207,7 +207,6 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         if (component.getChildCount() != 0) {
             List<UIComponent> children = component.getChildren();
-
             for (UIComponent tmp : children) {
                 Utils.encodeRecursive(context, tmp);
             }
@@ -380,12 +379,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             writer.endElement("script");
         }
 
-        if (comp.isMinifyJS()) {
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREE_MINIFY_JS, null), null);
-            writer.endElement("script");
-        } else {
+//        if (comp.isMinifyJS()) {
+//            writer.startElement("script", component);
+//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREE_MINIFY_JS, null), null);
+//            writer.endElement("script");
+//        } else {
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
@@ -395,7 +394,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             writer.writeAttribute("type", "text/javascript", null);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
             writer.endElement("script");
-        }
+//        }
 
     }
 }

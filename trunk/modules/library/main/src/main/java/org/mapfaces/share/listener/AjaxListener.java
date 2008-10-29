@@ -63,7 +63,6 @@ public class AjaxListener implements PhaseListener {
         if (ajaxParam != null && ajaxParam.equals("true")) {
             context.responseComplete();// Let JSF know to skip the rest of the lifecycle
             String componentId = request.getParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY());
-            System.out.println("[INFO] Component ID. " + componentId);
             if (componentId == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("No client ID found under key : " + componentId);
@@ -78,7 +77,6 @@ public class AjaxListener implements PhaseListener {
             context.getApplication().getStateManager().saveView(context);
 
         } else if (a4jrequest != null) {
-            System.out.println("[PHASE EVENT] A4J Request have been detected !");
             Enumeration<String> listParameters = request.getParameterNames();
             while (listParameters.hasMoreElements()) {
                 String param = listParameters.nextElement();
@@ -118,35 +116,27 @@ public class AjaxListener implements PhaseListener {
     }
 
     private void A4JPostRequest(FacesContext context, String componentId) {
-
         UIViewRoot viewroot = context.getViewRoot();
         A4JInterface ajaxcomponent = null;
         UIComponent AjaxSupport = null;
 
-        try {
-            AjaxSupport = Utils.findComponentById(context, viewroot, componentId);
-            if (AjaxSupport == null) {
-                AjaxSupport = Utils.findComponent(context, componentId);
-            }
-            if (AjaxSupport == null) {
-                throw new NullPointerException("No component found under specified client Id : " + componentId);
+        AjaxSupport = Utils.findComponentById(context, viewroot, componentId);
+        if (AjaxSupport == null) {
+            AjaxSupport = Utils.findComponent(context, componentId);
+        }
+        if (AjaxSupport == null) {
+            throw new NullPointerException("No component found under specified client Id : " + componentId);
+        } else {
+            UIComponent JSFComponent = AjaxSupport.getParent();
+            if (JSFComponent == null) {
+                throw new NullPointerException("No component found under specified client Id : " + JSFComponent.getId());
             } else {
-                UIComponent JSFComponent = AjaxSupport.getParent();
-                if (JSFComponent == null) {
-                    throw new NullPointerException("No component found under specified client Id : " + JSFComponent.getId());
-                } else {
-                    if (JSFComponent.getParent() instanceof A4JInterface) {
-                        ajaxcomponent = (A4JInterface) JSFComponent.getParent();
-                        ajaxcomponent.A4JPostRequest(context);
-                    }
+                if (JSFComponent.getParent() instanceof A4JInterface) {
+                    ajaxcomponent = (A4JInterface) JSFComponent.getParent();
+                    ajaxcomponent.A4JPostRequest(context);
                 }
             }
-        } catch (ClassCastException cce) {
-            throw new IllegalArgumentException("Component found under Ajax key was not of expected type");
         }
-
-
-
     }
 
     @Override

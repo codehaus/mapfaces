@@ -4171,7 +4171,7 @@ body.x-body-masked .x-window-plain .x-window-mc {
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .x-tree-builder{
-    width:50%;
+    width:49%;
 }
 .x-tree-builder-left{
     float:left;
@@ -4199,7 +4199,7 @@ body.x-body-masked .x-window-plain .x-window-mc {
     padding:  5px 5px 5px 5px;
 }
 .x-tree-node-info-anchor{
-background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/arrows.gif);
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/arrows.gif);
 }
 .x-tree-node-info-anchor-plus{
     background-position:0px;
@@ -4213,3 +4213,16 @@ background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/
 .x-tree-node-info-anchor-plus:hover{
     background-position:-32px;
 }
+
+.x-tree-toolbar-button{
+    background-color:transparent;
+    border-bottom:0px;
+    border-left:0px;
+    border-top:0px;
+    border-right:1px solid #99BBE8;
+    cursor:pointer;
+}
+
+.x-tree-toolbar-button:hover{
+   background-color:LightSteelBlue;
+}    

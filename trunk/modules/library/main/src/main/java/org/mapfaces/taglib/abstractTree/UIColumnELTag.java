@@ -108,9 +108,6 @@ public abstract class UIColumnELTag extends UITreeComponentELTag {
         component.setValueExpression("headerTitle", getHeaderTitle());
         component.setValueExpression("width", getWidth());
         component.setValueExpression("headerIcon", getHeaderIcon());
-        component.setValueExpression("debug", getDebug());
-        component.setValueExpression("style", getStyle());
-        component.setValueExpression("styleClass", getStyleClass());
         component.setValueExpression("styleHeader", getStyleHeader());
     }
 
@@ -123,9 +120,6 @@ public abstract class UIColumnELTag extends UITreeComponentELTag {
         setHeaderTitle(null);
         setWidth(null);
         setHeaderIcon(null);
-        setDebug(null);
-        setStyle(null);
-        setStyleClass(null);
         setStyleHeader(null);
     }
 

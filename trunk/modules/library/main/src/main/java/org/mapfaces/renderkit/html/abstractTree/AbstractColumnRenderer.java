@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -105,7 +104,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         if (component.getAttributes().get("debug") != null) {
             debug = (Boolean) component.getAttributes().get("debug");
         }
-        
+
         if (debug) {
             log.info("beforeEncodeBegin : " + AbstractColumnRenderer.class.getName());
         }
@@ -123,26 +122,23 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
         String size = config.getDEFAULT_SIZE_COLUMN();
         if (component.getAttributes().get("width") != null) {
-            size = String.valueOf(Integer.parseInt((String) component.getAttributes().get("width"))-2) + "px;";
+            size = String.valueOf(Integer.parseInt((String) component.getAttributes().get("width")) - 2) + "px;";
         }
-        
-        String styleUser="";
-        if (column.getStyle()!=null){
+
+
+        String styleUser = "";
+        if (column.getStyle() != null) {
             styleUser = column.getStyle();
         }
-        
-        String classUser="";
-        if (column.getStyleClass() != null){
+
+        String classUser = "";
+        if (column.getStyleClass() != null) {
             classUser = column.getStyleClass();
         }
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
-        writer.writeAttribute("class", "x-tree-col "+classUser, null);
-        writer.writeAttribute("style", "width:" + size + ";"+styleUser, null);
-        writer.startElement("div", component);
-        writer.writeAttribute("style", "", null);
-
-
+        writer.writeAttribute("class", "x-tree-col " + classUser, null);
+        writer.writeAttribute("style", "width:" + size + ";" + styleUser, null);
 
         //Method to apply before encodeBegin
         if (debug) {
@@ -164,11 +160,12 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
             for (UIComponent tmp : children) {
                 Utils.encodeRecursive(context, tmp);
             }
-        }else{
+        }
+//        else{
 //            writer.startElement("div", component);
 //            writer.writeAttribute("style", "height:1px;", null);
 //            writer.endElement("div");
-        }
+//        }
 
     }
 
@@ -182,7 +179,8 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
             log.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
         }
         beforeEncodeEnd(context, component);
-            writer.endElement("div");
+
+//            writer.endElement("div");
         writer.endElement("div");
 
         if (debug) {
@@ -337,15 +335,14 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 //                "});");
 //        writer.endElement("script");
 //    }
-    
     public String getVarId(FacesContext context, UIColumnBase comp) {
         if (((UITreeLinesBase) (comp.getParent())).getNodeInstance().isLeaf()) {
-            String idresult="";
+            String idresult = "";
             Object obj = ((UITreeLinesBase) (comp.getParent())).getNodeInstance().getUserObject();
             if (obj instanceof TreeItem) {
                 TreeItem treeitem = (TreeItem) obj;
                 idresult = treeitem.getId();
-            }            
+            }
             ((UITreeLinesBase) (comp.getParent())).setVarId(idresult);
             if (((UITreeLinesBase) (comp.getParent())).getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
@@ -361,6 +358,4 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
     public abstract void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException;
 
     public abstract String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException;
-
-    
 }
