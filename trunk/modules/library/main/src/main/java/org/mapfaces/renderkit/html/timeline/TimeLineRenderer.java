@@ -110,7 +110,8 @@ public class TimeLineRenderer extends Renderer {
             timelineControlFlag = true;
         }
 
-        int height = 60;
+        //this is the init height of the timeline if there is only one bandInfo component (the main band).
+        int height = UITimeLine.TIMELINE_Default_Height;
 
         //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
         UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
@@ -170,12 +171,12 @@ public class TimeLineRenderer extends Renderer {
                 mainBandinfo.setIntervalPixels(50);
                 mainBandinfo.setIntervalUnit("YEAR");
                 mainBandinfo.setShowEventText(false);
-                
+
                 //write an inputInterval component for the mainBandInfo only if the property activeControl is set to True.
-                if ( comp.isActiveControl() ) {
+                if (comp.isActiveControl()) {
                     mainBandinfo.setInputInterval(true);
                 }
-                
+
                 mainBandinfo.setTrackHeight(0.3);
                 mainBandinfo.setBackgroundColor(TimeLineUtils.colors[0]);
                 mainBandinfo.setTheme(comp.getTheme());
@@ -188,20 +189,22 @@ public class TimeLineRenderer extends Renderer {
         //if a control panel is declared then a div is added to wrap the timeline and the panel control.
         if (comp.isActiveControl()) {
             writer.startElement("div", comp);
-            writer.writeAttribute("id", clientId + "-wrap", "id");
-            writer.writeAttribute("class", "timeline-wrap", "class");
-
+            writer.writeAttribute("id", clientId , "id");
+            writer.writeAttribute("class", "timeline-main-div", "class");
+            
+            String stylewrap = "height:"+height+"px;";
+            writer.writeAttribute("style", stylewrap, "style");
+            
             UITimeLineControl timelineControl = new UITimeLineControl();
             timelineControl.setId(comp.getId() + "-control");
             timelineControl.setStyle(comp.getStyleControlPanel());
             timelineControl.setStyleClass(comp.getStyleClassControlPanel());
-            timelineControl.setTransient(true);
             timelineControl.setParent(component);
             timelineControl.encodeAll(context);
         }
 
         writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
+        writer.writeAttribute("id", clientId + "-wrap", "id");
         String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) {
             writer.writeAttribute("class", styleclass, "styleclass");
@@ -224,6 +227,7 @@ public class TimeLineRenderer extends Renderer {
         writer.endElement("div"); //close the tm-widget
 
         if (comp.isInputDate() && !timelineControlFlag && comp.isEnableBandsInput()) {
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ouiiiiiiiiiiiiiiiiiii");
             writeInputDateText(writer, comp, context);
         }
     }
@@ -1124,10 +1128,11 @@ public class TimeLineRenderer extends Renderer {
         writer.startElement("input", comp);
         writer.writeAttribute("id", idjs + "_inputdate", "id");
         writer.writeAttribute("type", "text", null);
+        writer.writeAttribute("title", "Enter a date in format YYYY-mm-ddTHH:MM:ss to center the timeline.", "title");
         writer.writeAttribute("onchange", idjs + "_centerToDate();", null);
         writer.writeAttribute("name", idjs + "_inputdate", null);
         writer.endElement("input");
-
+        
         writer.write("<script>\n" +
                 "function " + idjs + "_centerToDate(){\n" +
                 "var valdate = document.getElementById('" + idjs + "_inputdate').value;\n" +

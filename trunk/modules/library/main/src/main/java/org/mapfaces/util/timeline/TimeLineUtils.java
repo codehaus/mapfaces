@@ -58,9 +58,9 @@ public class TimeLineUtils {
     /**
      * this array is used for the bandInfos background colors.
      */
-    public static String colors[] = {"#FFF5A1", "#BAD3E8", "#DFE8F6", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
-    "#feff86", "#BAD3E8", "#DFE8F6", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
-    "#feff86", "#BAD3E8", "#DFE8F6", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6"};
+    public static String colors[] = {"#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
+    "#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
+    "#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6"};
     
     public static List<Event> getEventsFromLayer(Layer layer) throws ParseException, DatatypeConfigurationException {
         List<Event> result = new ArrayList<Event>();
@@ -77,8 +77,8 @@ public class TimeLineUtils {
                     null,
                     null,
                     false,
-                    layer.getId() + " " + sdf.format(crrt),//layer.getName()+" "+layer.getId()+" "+sdf.format(crrt),
-                    layer.getTitle(),//This is the duration of the jsf implementation for the component TimeLine : "+sdf.format(crrt),
+                    layer.getId() + " " + sdf.format(crrt),
+                    layer.getTitle(),
                     sdf.format(crrt),
                     sdf.format(crrt),
                     "",
@@ -299,6 +299,7 @@ public class TimeLineUtils {
         writer.writeAttribute("size", "1", null);
         writer.writeAttribute("onchange", idjs + "_changeIntervalUnit(" + index + ",this.value);", null);
         writer.writeAttribute("name", bandInfo.getClientId(context) + "selectone", "clientId");
+        writer.writeAttribute("title", "Change the interval unit", "title");
         writer.writeAttribute("id", bandInfo.getClientId(context) + "selectone", "id");
 
         for (int i = 0; i < 11; i++) {
@@ -327,6 +328,7 @@ public class TimeLineUtils {
         writer.startElement("input", comp);
         writer.writeAttribute("id", idjs + "_inputdate", "id");
         writer.writeAttribute("type", "text", null);
+        writer.writeAttribute("title", "Enter a date in format YYYY-mm-ddTHH:MM:ss to center the timeline.", "title");
         writer.writeAttribute("onchange", idjs + "_centerToDate();", null);
         writer.writeAttribute("name", idjs + "_inputdate", null);
         writer.endElement("input");
