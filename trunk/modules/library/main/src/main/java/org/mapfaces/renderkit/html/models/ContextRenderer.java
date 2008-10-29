@@ -18,6 +18,7 @@
 package org.mapfaces.renderkit.html.models;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -145,7 +146,7 @@ public class ContextRenderer extends Renderer {
                 if(fileUrl.contains("http:/")){
                     ctx = (new XMLContextUtilities()).readContext(new URL(fileUrl));
                 }else{
-                    ctx = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
+                    ctx = (new XMLContextUtilities()).readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
                 }
                 comp.setModel((AbstractModelBase) ctx);
             } else {
