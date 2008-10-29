@@ -89,6 +89,11 @@
     background-repeat: no-repeat;
     cursor:pointer;
 }
+.olControlSaveItemInactive{
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SaveDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
 .mfButtonBar .olControlGraticuleItemInactive { 
     background-image: url("resource.jsf?r=/org/mapfaces/resources/img/Graticule.png");
     background-repeat: no-repeat;

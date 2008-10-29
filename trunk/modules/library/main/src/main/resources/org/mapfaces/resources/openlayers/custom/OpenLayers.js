@@ -119,8 +119,8 @@
            "openlayers/lib/OpenLayers/Layer/Text.js",
            /*"openlayers/lib/OpenLayers/Layer/WorldWind.js",
            "openlayers/lib/OpenLayers/Layer/WMS.js",
-           "openlayers/lib/OpenLayers/Layer/WMS/Untiled.js",*/
-           "openlayers/lib/OpenLayers/Layer/GeoRSS.js",
+           "openlayers/lib/OpenLayers/Layer/WMS/Untiled.js",
+           "openlayers/lib/OpenLayers/Layer/GeoRSS.js",*/
            "openlayers/lib/OpenLayers/Layer/Boxes.js",
            /*"openlayers/lib/OpenLayers/Layer/TMS.js",
            "openlayers/lib/OpenLayers/Layer/TileCache.js",*/
@@ -149,6 +149,7 @@
            "openlayers/lib/OpenLayers/Control/ZoomBox.js",
            "openlayers/custom/OpenLayers/Control/ZoomBoxOut.js",
            "openlayers/custom/OpenLayers/Control/Graticule.js",
+           "openlayers/custom/OpenLayers/Control/Save.js",
            "openlayers/lib/OpenLayers/Control/ZoomToMaxExtent.js",
            "openlayers/lib/OpenLayers/Control/DragPan.js",
            "openlayers/custom/OpenLayers/Control/Navigation.js",

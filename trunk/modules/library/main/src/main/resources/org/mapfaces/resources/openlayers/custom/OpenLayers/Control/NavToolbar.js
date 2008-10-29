@@ -63,6 +63,11 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
           tab.push(new OpenLayers.Control.Graticule());
         }
         
+        //Add save button
+        if(options.save){
+          tab.push(new OpenLayers.Control.Save());
+        }
+        
         if(tab.length > 0)
           this.addControls(tab);
     },

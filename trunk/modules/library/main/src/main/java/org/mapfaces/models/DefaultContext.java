@@ -17,15 +17,18 @@
 
 package org.mapfaces.models;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBException;
+import org.mapfaces.util.XMLContextUtilities;
 
-/**
- *
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
- */
 public class DefaultContext extends AbstractModelBase implements Context {
     
     private String type;
@@ -179,6 +182,25 @@ public class DefaultContext extends AbstractModelBase implements Context {
         setMaxy(maxy);
     }
     
+    public DescriptionURL getLogoURL() {
+        return null;
+    }
+
+    public String getMaxScaleDenominator() {
+        return null;
+    }
+
+    public String getMinScaleDenominator() {
+        return null;
+    }
+
+    public DescriptionURL getDescriptionURL() {
+        return null;
+    }
+
+    public String getAbstract() {
+        return "";
+    }
 /*******************************Layers functions*******************************/
     
     public List<Layer> getLayers() {
@@ -384,12 +406,28 @@ public class DefaultContext extends AbstractModelBase implements Context {
         else
             return null;
     }
-   
     
-  
-    public String save() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void save(ServletContext sc, String fileName) {
+        try {
+            File output;
+            if (fileName == null){
+                File dstDir = new File(sc.getRealPath("tmp"));
+            if (!dstDir.exists()) {
+                dstDir.mkdir();
+            }    
+            output = File.createTempFile("owc", ".xml",dstDir);
+        }else
+            output = new File(sc.getRealPath("tmp")+"/"+fileName);
+            (new XMLContextUtilities()).writeContext(this, output);
+        } catch (JAXBException ex) {
+            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
 
    
 

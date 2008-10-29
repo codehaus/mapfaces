@@ -484,4 +484,8 @@ public class DefaultLayer implements Layer {
     public void setQueryable(boolean queryable) {
         this.queryable = queryable;
     }
+
+    public DescriptionURL getMetadataURL() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

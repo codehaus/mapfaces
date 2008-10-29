@@ -20,13 +20,10 @@ package org.mapfaces.models;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletContext;
 
-/**
- *
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
- */
 public interface Context extends Serializable {
+
 
     String getId();
 
@@ -80,6 +77,17 @@ public interface Context extends Serializable {
 
     void setSrs(String srs);
 
+    DescriptionURL getLogoURL();
+
+    String getMaxScaleDenominator();
+
+    String getMinScaleDenominator();
+
+    DescriptionURL getDescriptionURL();
+
+    String getAbstract();
+    
+    
 /*******************************Layers functions*******************************/
     
     List<Layer> getLayers();
@@ -153,6 +161,6 @@ public interface Context extends Serializable {
 
     void setWfsServers(HashMap<String, Server> servers);
 
-    String save();    
+    void save(ServletContext sc, String fileUrl);    
 
 }

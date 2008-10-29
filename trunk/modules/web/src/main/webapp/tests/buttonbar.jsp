@@ -15,9 +15,9 @@
 	</head>
         <body>
             <h:form>
-                <mf-model:Context minifyJS="false"  service="data/context/blueMarble.xml">                              
-                        <mf:MapPane ></mf:MapPane>
-			<mf:ButtonBar styleClass="mfButtonBar horizontal" style="top:350px"/>
+                <mf-model:Context minifyJS="false"  debug="true" service="data/context/blueMarble.xml">                              
+                        <mf:MapPane debug="true"></mf:MapPane>
+			<mf:ButtonBar styleClass="mfButtonBar horizontal" save="true" style="top:350px"/>
                 </mf-model:Context>
                 <h:commandButton value="submit" style="margin-left:60px;z-index:1000;position:relative;"/>
             </h:form>

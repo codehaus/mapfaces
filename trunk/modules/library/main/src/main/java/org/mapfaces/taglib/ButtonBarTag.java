@@ -46,6 +46,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression panEffect = null;
     private ValueExpression floatingBar = null;
     private ValueExpression graticule = null;
+    private ValueExpression save = null;
 
     @Override
     public String getComponentType() {
@@ -70,6 +71,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("panEffect", panEffect);
         component.setValueExpression("floatingBar",floatingBar);
         component.setValueExpression("graticule",graticule);
+        component.setValueExpression("save",getSave());
 
     }
 
@@ -86,6 +88,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         setPanEffect(null);
         setFloatingBar(null);
         setGraticule(null);
+        setSave(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -154,5 +157,13 @@ public class ButtonBarTag extends WidgetBaseTag {
     
     public ValueExpression getGraticule(){
         return graticule;
+    }
+
+    public ValueExpression getSave() {
+        return save;
+    }
+
+    public void setSave(ValueExpression save) {
+        this.save = save;
     }
 }

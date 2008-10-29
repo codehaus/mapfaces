@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces - 
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 package org.mapfaces.util;
 
@@ -24,19 +36,13 @@ import net.opengis.owc.v030.StyleListType;
 import net.opengis.owc.v030.StyleType;
 import org.apache.commons.lang.StringUtils;
 import org.constellation.ows.v100.BoundingBoxType;
-import org.constellation.ows.v100.KeywordsType;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.data.wms.backend.AbstractDimension;
-import org.geotools.data.wms.backend.AbstractKeyword;
 import org.geotools.data.wms.backend.AbstractLayer;
 import org.geotools.data.wms.backend.AbstractWMSCapabilities;
 import org.mapfaces.models.Context;
-import org.mapfaces.models.DefaultDimension;
-import org.mapfaces.models.DefaultLayer;
-import org.mapfaces.models.DefaultServer;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
-import org.mapfaces.models.OWC_v030;
 import org.mapfaces.models.Server;
 import org.xml.sax.SAXException;
 
@@ -96,7 +102,7 @@ public class OWCv030toMFTransformer {
                             webMapServers.put(wmsUrl, new WebMapServer(new URL(wmsUrl), layerType.getServer().get(0).getVersion()));
 
                         }
-                        Server wms = new DefaultServer();
+                        Server wms = contextFactory.createDefaultServer();
                         wms.setHref(wmsUrl);
                         wms.setService(layerType.getServer().get(0).getService().value());
                         wms.setVersion(layerType.getServer().get(0).getVersion());
@@ -104,7 +110,7 @@ public class OWCv030toMFTransformer {
                         if (servers.get(wmsUrl) != null) {
                             servers.put(wmsUrl, wms);
                         }
-                        Layer layer = new DefaultLayer();
+                        Layer layer = contextFactory.createDefaultLayer();
 
                         /* Server */
                         layer.setServer(wms);
@@ -133,7 +139,10 @@ public class OWCv030toMFTransformer {
                             layer.setOpacity(layerType.getOpacity().toString());
                         /* Title */
                         }
-                        layer.setTitle(layerType.getTitle());
+                        if(layerType.getTitle() != null)
+                            layer.setTitle(layerType.getTitle());
+                        else
+                            layer.setTitle(layerType.getName());
 
                         /*OutputFormat*/
                         for (String format : layerType.getOutputFormat()) {
@@ -259,9 +268,9 @@ public class OWCv030toMFTransformer {
                 }
                 i++;
             } catch (SAXException ex) {
-                Logger.getLogger(OWC_v030.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(OWC_v030.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -272,7 +281,7 @@ public class OWCv030toMFTransformer {
     }
 
     private Dimension visitDimension(DimensionType dimType) {
-        Dimension dim = new DefaultDimension();
+        Dimension dim = contextFactory.createDefaultDimension();
         dim.setCurrent(dimType.isCurrent());
         dim.setDefault(dimType.getDefault());
         dim.setMultipleValues(dimType.isMultipleValues());
@@ -292,7 +301,7 @@ public class OWCv030toMFTransformer {
      * @return
      */
     private Dimension visitDimensionFromGetCaps(AbstractDimension dimType, boolean postgisflag) {
-        Dimension dim = new DefaultDimension();
+        Dimension dim = contextFactory.createDefaultDimension();
         dim.setCurrent(true);
         dim.setDefault(dimType.getDefault());
         dim.setMultipleValues(true);

@@ -89,6 +89,9 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if(comp.isGraticule())
                 writer.write(",\ngraticule: true");
             
+            if(comp.isSave())
+                writer.write(",\nsave: true");
+            
             if(comp.isPan() && comp.isPanEffect())
                 writer.write(",\npanEffect: true");
             

@@ -18,16 +18,15 @@ package org.mapfaces.models.tree;
 
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletContext;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 
-/**
- *
- * @author Mehdi Sidhoum
- */
+
 public class TreeItem implements Layer, Context {
 
     Object object;
@@ -720,7 +719,25 @@ public class TreeItem implements Layer, Context {
     }
 
     @Override
-    public String save() {
+    public void save(ServletContext sc, String fileUrl) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public DescriptionURL getLogoURL() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public DescriptionURL getDescriptionURL() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getAbstract() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public DescriptionURL getMetadataURL() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
 }
