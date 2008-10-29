@@ -82,6 +82,8 @@ public class UITimeLine extends UICommand {
      */
     private int height;
     
+    public static int TIMELINE_Default_Height = 80;
+    
     public String getFamily() {
         return FAMILIY;
     }
@@ -118,7 +120,7 @@ public class UITimeLine extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[15];
+        Object values[] = new Object[16];
         values[0] = super.saveState(context);
         values[1] = events;
         values[2] = jsObject;

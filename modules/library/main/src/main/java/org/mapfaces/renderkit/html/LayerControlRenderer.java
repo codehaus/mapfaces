@@ -133,6 +133,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             vc.setId(vc.getLayerProperty());
             vc.setValue("#{!layer.hidden}");
             vc.setHeaderIcon("/org/mapfaces/resources/img/eye.png");
+            vc.setHeaderTitle("Display or Hide the layer in the MapPane component.");
             if (widthVisibilityColumn == null || widthVisibilityColumn.equals("")) {
                 vc.setWidth("26");
             } else {
@@ -178,6 +179,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         if (comp.isTimeColumn()) {  
             UITimeColumn tic = new UITimeColumn();
             tic.setId(tic.getLayerProperty());
+            tic.setHeaderTitle("To display the corresponding timeline of a layer.");
             // tic.setValue("#{layer.userValueDate}");
             tic.setHeaderIcon("/org/mapfaces/resources/img/calendar_select.png");
             if (widthTimeColumn == null || widthTimeColumn.equals("")) {

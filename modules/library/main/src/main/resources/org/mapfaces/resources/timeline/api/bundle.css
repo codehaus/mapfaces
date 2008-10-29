@@ -185,79 +185,64 @@
 
 
 /* Css for the timeline control component */
-/*
-.timeline-wrap {
-    -moz-border-radius:20px;
-    background:#8CB7E7;
-    border:3px ridge #D6E3F2;
-    height:170px;
-    padding-bottom:6px;
-    padding-left:10px;
-    
-}
-
 .mf-table{
-    height:100%;
+
 }
 
 .mf-table-headercell {
-    border-right-color:#D0D0D0;
-    border-right-style:solid;
-    border-right-width:1px;
-    float:left;
-    height:1.3em;
-    overflow:hidden;
-    white-space:nowrap;
-    padding:3px;
-    text-align:center;
-    font-size-adjust:none;
-    line-height:15px;
+border-right-color:#99BBE8;
+border-right-style:solid;
+border-right-width:1px;
+float:left;
+height:1.3em;
+overflow:hidden;
+white-space:nowrap;
+padding:3px;
+text-align:center;
+font-size-adjust:none;
+line-height:15px;
 }
 
 .mf-table-header {
-    height:21px;
-    background-color:#BED6F8;
-    background-image:url(resource.jsf?r=/org/mapfaces/resources/treetable/images/default/panel/white-top-bottom.gif);
-    background-position:left top;
-    background-repeat:repeat-x;
-    border:1px solid #99BBE8;
-    padding:3px;
-    position:relative;
-    font-family:tahoma,arial,verdana,sans-serif;
-    color:#15428B;
-    font-size:11px;
-    font-weight:bold;
+height:21px;
+background:transparent url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/panel/white-top-bottom.gif) repeat-x scroll 0pt -1px;
+border:1px solid #99BBE8;
+position:relative;
+font-family:tahoma,arial,verdana,sans-serif;
+color:#15428B;
+font-size:11px;
+font-weight:bold;
 }
 
 .mf-table-thead {
-    border-bottom:1px solid #C0C0C0;
-    height:28px;
+border-bottom:1px solid #C0C0C0;
+height:20px;
 }
+
 .mf-table-column1{
-    
+width:84px;
 }
 .mf-table-column2{
-    width:100px;
+width:100px;
 }
 .mf-subtable-line {
-    border:1px solid #99BBE8;
-    color:#15428B;
-    font-size:11px;
-    position:relative;
-    height:35px;
-    padding:3px;
+border:1px solid #99BBE8;
+color:#15428B;
+font-size:11px;
+height:40px;
 }
 .mf-subtable-cell{
-    margin:0px 0pt;
-    float:left;
-    overflow:hidden;
-    height:100%;
-    border-right:1px solid #99BBE8;
-    padding-left:3px;
-    padding-right:3px;
+margin:0px 0pt;
+float:left;
+overflow:hidden;
+height:100%;
+border-right:1px solid #99BBE8;
+padding-left:3px;
+padding-right:3px;
 }
 .mf-subtable-main{
-    padding:2px;
-    background:#FFF1C7;
+padding:2px;
+background:#FFF1C7;
+font-size:10px;
+border-bottom:1px ridge #C0C0C0;
 }
-*/
