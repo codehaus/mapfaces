@@ -21,6 +21,12 @@
             </li>            
             <li>
                 <a href="./buttonbar.jsf">ButtonBar component Test</a>
+            </li>           
+            <li>
+                <a href="./scale.jsf">Scale component Test</a>
+            </li>           
+            <li>
+                <a href="./scalebar.jsf">ScaleBar component Test</a>
             </li>       
             <li>
                 <a href="./layercontrol.jsf">LayerControl component Test</a>

@@ -495,6 +495,168 @@
             </description>
         </attribute>
     </tag>
+    <!-- Scale -->
+    <tag>
+        <name>Scale</name>
+        <tag-class>org.mapfaces.taglib.ScaleTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes .
+        </description>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <description>A value binding that points to a bean property</description>
+            <name>binding</name>
+            <deferred-value>
+                <type>javax.faces.component.UIComponent</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                Flag indicating whether or not this component should be rendered
+                (during Render Response Phase), or processed on any subsequent
+                form submit.
+            </description>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>org.mapfaces.model.ViewContextType</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The new context defined by the user, the type is an Object ViewContextType.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add debug message in server console.
+            </description>
+        </attribute>
+    </tag>
+     <!-- ScaleBar -->
+    <tag>
+        <name>ScaleBar</name>
+        <tag-class>org.mapfaces.taglib.ScaleBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes .
+        </description>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <description>A value binding that points to a bean property</description>
+            <name>binding</name>
+            <deferred-value>
+                <type>javax.faces.component.UIComponent</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                Flag indicating whether or not this component should be rendered
+                (during Render Response Phase), or processed on any subsequent
+                form submit.
+            </description>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>org.mapfaces.model.ViewContextType</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The new context defined by the user, the type is an Object ViewContextType.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add debug message in server console.
+            </description>
+        </attribute>
+    </tag>
     <!-- MapSize -->
     <tag>
         <name>MapSize</name>

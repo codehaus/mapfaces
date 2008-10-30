@@ -5,6 +5,85 @@
     width: 420px;
     position:relative;
 }
+.mfScale{
+    font-family:verdana;
+    font-size:0.7em;
+    margin: 5px; 
+    padding: 5px;         
+    position: absolute; 
+    opacity: 0.7; 
+    filter:alpha(opacity=70); 
+}
+.mfScaleBar{
+    font-family:verdana;
+    font-size:0.7em;
+    margin: 10px; 
+    padding: 5px;         
+    position: absolute;  
+    opacity: 0.7; 
+    filter:alpha(opacity=70); 
+    height:50px;
+}
+.mfScaleBar .olControlScaleBarBar {
+    /*height: 1px;
+    top: 14px;
+    background: #333;*/	
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    height: 7px;
+    top:10px;
+}
+
+.mfScaleBar .olControlScaleBarBarAlt {
+   /* height: 1px;
+    top: 14px;
+    background: #333;*/
+    border: 1px solid #999999;
+    background-color: #ffffff;
+    height: 7px;
+    top:10px;
+}
+
+.mfScaleBar .olControlScaleBarMarkerMajor {
+    height: 7px;
+    width: 1px;
+    top: 11px;
+    background: #333;
+}
+
+.mfScaleBar .olControlScaleBarMarkerMinor {
+    height: 5px;
+    width: 1px;
+    top: 12px;
+    background: #333;
+}
+.mfScaleBar .olControlScaleBarNumbersBox {
+    width: 40px;
+    height: 13px;
+    top: 21px;
+    font-size: 0.7em;
+    margin-left:-20px;
+}
+
+.mfScaleBar .olControlScaleBarLabelBox {
+    top: -2px;
+    height: 15px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    font-size: 0.7em;
+    font-variant: small-caps;
+    
+}
+
+.mfScaleBar .olControlScaleBarLabelBoxSingleLine {
+    height: 15px;
+    width: 35px;
+    top: 5px;
+    left: 10px;
+    font-size: 0.7em;
+    font-variant: small-caps;
+}
+
 .mfMapPane{
     background-color:white;
     position:relative;
@@ -139,8 +218,9 @@
     filter: alpha(opacity=50);
 }   
 
-.mfCursorTrack{
-    font-size:0.8em;    
+.mfCursorTrack{    
+    font-family:verdana;
+    font-size:0.7em;    
 }
 .mfCursorTrack .mfCursorTrackPrefix{
     font-weight:bold;    

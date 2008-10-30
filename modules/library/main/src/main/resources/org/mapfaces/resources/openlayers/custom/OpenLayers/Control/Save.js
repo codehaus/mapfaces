@@ -26,7 +26,7 @@ OpenLayers.Control.Save = OpenLayers.Class(OpenLayers.Control, {
      * Property: url
      * TYPE_BUTTON.
      */
-    name: "saveContext.xml",
+    name: "saveContext.xxml",
     /**
      * Property: url
      * TYPE_BUTTON.

@@ -163,6 +163,8 @@
            "openlayers/lib/OpenLayers/Control/ArgParser.js",
            "openlayers/lib/OpenLayers/Control/Permalink.js",
            "openlayers/lib/OpenLayers/Control/Scale.js",
+           "openlayers/custom/OpenLayers/Control/ScaleExt.js",
+           "openlayers/custom/OpenLayers/Control/ScaleBar.js",
            "openlayers/lib/OpenLayers/Control/ScaleLine.js",
            "openlayers/lib/OpenLayers/Control/LayerSwitcher.js",
            "openlayers/lib/OpenLayers/Control/DrawFeature.js",
@@ -220,7 +222,10 @@
            "openlayers/custom/OpenLayers/Control/NavToolbar.js",
            "openlayers/lib/OpenLayers/Control/EditingToolbar.js",
            "openlayers/lib/OpenLayers/Lang.js",
-           "openlayers/lib/OpenLayers/Lang/en.js"
+           "openlayers/lib/OpenLayers/Lang/en.js",
+           "openlayers/lib/OpenLayers/Lang/fr.js",
+           "openlayers/custom/OpenLayers/Lang/enExt.js",
+           "openlayers/custom/OpenLayers/Lang/frExt.js"
         ); // etc.
 
         var agent = navigator.userAgent;
