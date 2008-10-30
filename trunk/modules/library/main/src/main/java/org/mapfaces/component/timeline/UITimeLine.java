@@ -82,7 +82,9 @@ public class UITimeLine extends UICommand {
      */
     private int height;
     
-    public static int TIMELINE_Default_Height = 80;
+    public static int TIMELINE_Default_Height = 50;
+    
+    private int bandHeight;
     
     public String getFamily() {
         return FAMILIY;
@@ -120,7 +122,7 @@ public class UITimeLine extends UICommand {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[16];
+        Object values[] = new Object[17];
         values[0] = super.saveState(context);
         values[1] = events;
         values[2] = jsObject;
@@ -135,6 +137,7 @@ public class UITimeLine extends UICommand {
         values[11] = minifyJS;
         values[12] = enableBandsInput;
         values[13] = height;
+        values[14] = bandHeight;
         return values;
     }
 
@@ -155,6 +158,7 @@ public class UITimeLine extends UICommand {
         minifyJS = (Boolean) values[11];
         enableBandsInput = (Boolean) values[12];
         height = (Integer) values[13];
+        bandHeight = (Integer) values[14];
     }
 
     public boolean isInputDate() {
@@ -235,5 +239,13 @@ public class UITimeLine extends UICommand {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public int getBandHeight() {
+        return bandHeight;
+    }
+
+    public void setBandHeight(int bandHeight) {
+        this.bandHeight = bandHeight;
     }
 }

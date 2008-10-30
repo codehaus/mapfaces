@@ -323,7 +323,7 @@ public class TimeLineUtils {
      * @param context
      * @throws java.io.IOException
      */
-    public static void writeInputDateText(ResponseWriter writer, UITimeLine comp, FacesContext context) throws IOException {
+    public static void writeInputDateText(ResponseWriter writer, UITimeLine comp, FacesContext context, String style ) throws IOException {
         String idjs = comp.getJsObject();
         writer.startElement("input", comp);
         writer.writeAttribute("id", idjs + "_inputdate", "id");
@@ -331,6 +331,7 @@ public class TimeLineUtils {
         writer.writeAttribute("title", "Enter a date in format YYYY-mm-ddTHH:MM:ss to center the timeline.", "title");
         writer.writeAttribute("onchange", idjs + "_centerToDate();", null);
         writer.writeAttribute("name", idjs + "_inputdate", null);
+        writer.writeAttribute("style", style, null);
         writer.endElement("input");
 
         writer.write("<script>\n" +

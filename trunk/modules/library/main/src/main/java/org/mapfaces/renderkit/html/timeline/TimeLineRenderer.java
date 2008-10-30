@@ -112,6 +112,9 @@ public class TimeLineRenderer extends Renderer {
 
         //this is the init height of the timeline if there is only one bandInfo component (the main band).
         int height = UITimeLine.TIMELINE_Default_Height;
+        if (comp.getBandHeight() != 0) {
+            height = comp.getBandHeight();
+        }
 
         //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
         UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
@@ -123,13 +126,13 @@ public class TimeLineRenderer extends Renderer {
                 int i = 0;
 
                 if (FacesUtils.getCountTemporalLayers(layers) != 0) {
-                    int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
+                    //int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
                     for (Layer layer : layers) {
                         if (layer.getDimensionList() != null && layer.getTime() != null) {
                             UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
                             bandinfo.setLayer(layer);
                             bandinfo.setId(comp.getId() + "_band" + i);
-                            bandinfo.setWidth(proportinalwidth);
+                            //bandinfo.setWidth(proportinalwidth);
                             bandinfo.setSliderInput(true);
                             bandinfo.setSliderWidth("100");
                             bandinfo.setInputInterval(false);
@@ -158,23 +161,17 @@ public class TimeLineRenderer extends Renderer {
                 }
                 UIHotZoneBandInfo mainBandinfo = new UIHotZoneBandInfo();
                 mainBandinfo.setId(comp.getId() + "_mainband");
-                mainBandinfo.setValue(events);
+                //mainBandinfo.setValue(events);
 
-                int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, comp).size();
-                int width = 100;
-                if (visibleBandsCount > 1) {
-                    height = comp.getHeight();
-                    width = 40;
-                }
-                mainBandinfo.setWidth(width);
-                mainBandinfo.setSliderInput(false);
+                mainBandinfo.setInputInterval(false);
                 mainBandinfo.setIntervalPixels(50);
                 mainBandinfo.setIntervalUnit("YEAR");
                 mainBandinfo.setShowEventText(false);
 
-                //write an inputInterval component for the mainBandInfo only if the property activeControl is set to True.
+                //write an SliderInput component for the mainBandInfo only if the property activeControl is set to True.
                 if (comp.isActiveControl()) {
-                    mainBandinfo.setInputInterval(true);
+                    mainBandinfo.setSliderInput(true);
+                    mainBandinfo.setSliderWidth("100");
                 }
 
                 mainBandinfo.setTrackHeight(0.3);
@@ -183,18 +180,27 @@ public class TimeLineRenderer extends Renderer {
                 if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband") == null) {
                     comp.getChildren().add(mainBandinfo);
                 }
+
+                List<UIHotZoneBandInfo> visibleBands = TimeLineUtils.getVisibleBandsList(context, comp);
+                int visibleBandsCount = visibleBands.size();
+                if (visibleBandsCount > 1) {
+                    if (comp.getBandHeight() != 0) {
+                        height = comp.getBandHeight() * visibleBandsCount ;
+                    } else {
+                        height = UITimeLine.TIMELINE_Default_Height * visibleBandsCount;
+                    }
+                }
             }
         }
 
         //if a control panel is declared then a div is added to wrap the timeline and the panel control.
         if (comp.isActiveControl()) {
             writer.startElement("div", comp);
-            writer.writeAttribute("id", clientId , "id");
+            writer.writeAttribute("id", clientId, "id");
             writer.writeAttribute("class", "timeline-main-div", "class");
-            
-            String stylewrap = "height:"+height+"px;";
+            String stylewrap = "height:" + height + "px; max-height:" + comp.getHeight() + "px;overflow-x:auto;overflow-y:auto;position:relative;";
             writer.writeAttribute("style", stylewrap, "style");
-            
+
             UITimeLineControl timelineControl = new UITimeLineControl();
             timelineControl.setId(comp.getId() + "-control");
             timelineControl.setStyle(comp.getStyleControlPanel());
@@ -227,7 +233,6 @@ public class TimeLineRenderer extends Renderer {
         writer.endElement("div"); //close the tm-widget
 
         if (comp.isInputDate() && !timelineControlFlag && comp.isEnableBandsInput()) {
-            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ouiiiiiiiiiiiiiiiiiii");
             writeInputDateText(writer, comp, context);
         }
     }
@@ -446,7 +451,23 @@ public class TimeLineRenderer extends Renderer {
             return;
         }
         List<UIComponent> children = component.getChildren();
+
+        List<UIHotZoneBandInfo> visibleBands = TimeLineUtils.getVisibleBandsList(context, (UITimeLine) component);
+        int visibleBandsCount = visibleBands.size();
+        int proportinalwidth = Math.round(100 / visibleBandsCount);
+        int rest = 100 - (proportinalwidth * visibleBandsCount);
+        
         for (UIComponent tmp : children) {
+            if (tmp instanceof UIHotZoneBandInfo) {
+//                if (rest != 0) {
+//                    proportinalwidth++;
+//                    rest--;
+//                }
+                ((UIHotZoneBandInfo) tmp).setWidth(proportinalwidth);
+//                if (rest != 0) {
+//                    proportinalwidth--;
+//                }
+            }
             FacesUtils.encodeRecursive(context, tmp);
         }
     }
@@ -1132,7 +1153,7 @@ public class TimeLineRenderer extends Renderer {
         writer.writeAttribute("onchange", idjs + "_centerToDate();", null);
         writer.writeAttribute("name", idjs + "_inputdate", null);
         writer.endElement("input");
-        
+
         writer.write("<script>\n" +
                 "function " + idjs + "_centerToDate(){\n" +
                 "var valdate = document.getElementById('" + idjs + "_inputdate').value;\n" +

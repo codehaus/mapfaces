@@ -399,7 +399,7 @@ public class FacesUtils {
 
         /* Add <a4j:support> component */
         HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
-        //ajaxComp.setId(parentId + "_Ajax");
+        ajaxComp.setId(parentId + "_Ajax");
         ajaxComp.setEvent(event);
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setLimitToList(true);

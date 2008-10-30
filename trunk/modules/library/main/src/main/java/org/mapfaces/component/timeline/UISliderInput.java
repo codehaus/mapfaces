@@ -31,6 +31,7 @@ public class UISliderInput extends UICommand {
     private String forid = "0";
     private String horizontal = "true";
     private String length = "300";
+    private String style;
     final static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
         "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
     };
@@ -93,12 +94,13 @@ public class UISliderInput extends UICommand {
     
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[14];
+        Object values[] = new Object[15];
         values[0] = super.saveState(context);
         values[1] = maxval;
         values[2] = forid;
         values[3] = horizontal;
         values[4] = length;
+        values[5] = style;
         return values;
     }
 
@@ -110,5 +112,14 @@ public class UISliderInput extends UICommand {
         forid = (String) values[2];
         horizontal = (String) values[3];
         length = (String) values[4];
+        style = (String) values[5];
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 }
