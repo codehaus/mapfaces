@@ -80,6 +80,16 @@ public class SliderInputRenderer extends Renderer {
         ResponseWriter writer = context.getResponseWriter();
 
         // Render client Javascript for slider
+        
+        writer.startElement("div", comp);
+        writer.writeAttribute("id", comp.getId()+"-wrap", "id");
+        String style = "";
+        if (comp.getStyle() != null) {
+            style = comp.getStyle();
+        }
+        
+        writer.writeAttribute("style", style, "style");
+        
         writer.write("<div id=\"" + destinationDiv + "\"><!-- slider goes here --></div>");
         String idlabel = comp_id.concat("-label");
 
@@ -100,9 +110,12 @@ public class SliderInputRenderer extends Renderer {
 
         writer.startElement("label", comp);
         writer.writeAttribute("id", idlabel, "id");
+        writer.writeAttribute("style", "margin:0pt auto;", "style");
         writer.write(intervalUnit);
         writer.endElement("label");
-
+        
+        writer.endElement("div"); //close the wrap div
+        
         String idjs = "";
         if (bandInfo != null) {
             idjs = bandInfo.getId().replace("-", "_");

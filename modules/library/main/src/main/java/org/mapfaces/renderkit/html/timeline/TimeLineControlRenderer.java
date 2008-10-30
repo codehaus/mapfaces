@@ -62,8 +62,11 @@ public class TimeLineControlRenderer extends Renderer {
         }
         int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, timelineComp).size();
         int initHeight = UITimeLine.TIMELINE_Default_Height;
+        if (timelineComp.getBandHeight() != 0) {
+            initHeight = timelineComp.getBandHeight();
+        }
         if (visibleBandsCount > 1) {
-            initHeight = timelineComp.getHeight();
+            initHeight = initHeight * visibleBandsCount;
         }
         writer.startElement("div", comp); //main div
         writer.writeAttribute("id", clientId, "id");
@@ -87,18 +90,26 @@ public class TimeLineControlRenderer extends Renderer {
         }
 
         ResponseWriter writer = context.getResponseWriter();
-
+        
+        int initHeight = UITimeLine.TIMELINE_Default_Height;
+        if (timelineComp.getBandHeight() != 0) {
+            initHeight = timelineComp.getBandHeight();
+        }
         if (timelineComp != null) {
             writer.write("<div id=\"table-div\"  class=\"mf-table\">");
-            writer.write("<div id=\"header-div\" class=\"mf-table-thead\">");
-            writer.write("<div id=\"header-line-div\" class=\"mf-table-header\">");
-            writer.write("<div id=\"head-cell1\" class=\"mf-table-headercell mf-table-column1\">Layer Title</div>");
-            writer.write("<div id=\"head-cell2\" class=\"mf-table-headercell mf-table-column2\">Interval slider</div>");
-            writer.write("</div>");
-            writer.write("</div>");
+
+//            if (visibleBandsCount > 1) {
+//                writer.write("<div id=\"header-div\" class=\"mf-table-thead\">");
+//                writer.write("<div id=\"header-line-div\" class=\"mf-table-header\">");
+//                writer.write("<div id=\"head-cell1\" class=\"mf-table-headercell mf-table-column1\">Layer Title</div>");
+//                writer.write("<div id=\"head-cell2\" class=\"mf-table-headercell mf-table-column2\">Interval slider</div>");
+//                writer.write("</div>"); //close header-line-div
+//                writer.write("</div>"); //close header-div
+//            }
             writer.write("  <div id= \"body-table-div\">");
             int i = 0;
 
+            writer.write("  <div id= \"content-lines-div\">");
             for (UIHotZoneBandInfo bandinfo : FacesUtils.getBandInfoTimelineChildren(context, timelineComp)) {
                 if (!bandinfo.isHidden()) {
                     bandinfo.setJsObject(bandinfo.getId().replace("-", "_"));
@@ -110,6 +121,7 @@ public class TimeLineControlRenderer extends Renderer {
                         writer.startElement("div", comp);
                         writer.writeAttribute("id", comp.getId() + "body-line-div" + i, "align");
                         writer.writeAttribute("class", "mf-subtable-line", "class");
+                        writer.writeAttribute("style", "height:" + (initHeight-2) + "px", "style");
 
                         writer.startElement("div", comp);
                         writer.writeAttribute("align", "center", "align");
@@ -143,14 +155,17 @@ public class TimeLineControlRenderer extends Renderer {
 
                         writer.endElement("div");
                     } else {
+
+                        writer.endElement("div"); //close content-lines-div
+
                         writer.startElement("div", comp);
                         writer.writeAttribute("id", comp.getId() + "body-mainline-div", "align");
                         writer.writeAttribute("class", "mf-subtable-main", "class");
+                        writer.writeAttribute("style", "height:" + (initHeight - 3) + "px;", "style");
 
                         writer.startElement("div", comp);
                         writer.writeAttribute("align", "center", "align");
                         writer.writeAttribute("class", "mf-subtable-main-cell", "class");
-                        writer.write("<label> Main Band component : </label>");
                         if (bandinfo.isInputInterval()) {
                             TimeLineUtils.writeSelectOneMenu(writer, context, bandinfo, i);
                         }
@@ -159,8 +174,26 @@ public class TimeLineControlRenderer extends Renderer {
                         writer.startElement("div", comp);
                         writer.writeAttribute("align", "center", "align");
                         writer.writeAttribute("class", "mf-subtable-main-cell", "class");
+                        if (bandinfo.isSliderInput()) {
+                            UISliderInput sliderInput = new UISliderInput();
+                            sliderInput.setId(bandinfo.getId() + "slider");
+                            sliderInput.setForid(String.valueOf(i));
+                            sliderInput.setHorizontal("true");
+                            sliderInput.setStyle("float:left; margin-left:5px;");
+                            String sliderWidth = bandinfo.getSliderWidth();
+                            if (sliderWidth != null && !sliderWidth.equals("")) {
+                                sliderInput.setLength(sliderWidth);
+                            } else {
+                                sliderInput.setLength("250");
+                            }
+                            sliderInput.setMaxval("22");
+                            sliderInput.setTransient(true);
+                            sliderInput.setParent(bandinfo);
+                            sliderInput.encodeAll(context);
+                        }
                         if (timelineComp.isInputDate()) {
-                            TimeLineUtils.writeInputDateText(writer, timelineComp, context);
+                            String style = "margin-top:10px;";
+                            TimeLineUtils.writeInputDateText(writer, timelineComp, context, style);
                         }
                         writer.endElement("div");
 

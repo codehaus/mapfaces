@@ -95,7 +95,10 @@ public class TimeLineTag extends UIComponentELTag {
      * This is the height of the timeline eg. 170;
      */
     private ValueExpression height = null;
-    
+    /**
+     * This is the height of every bandInfo component.
+     */
+    private ValueExpression bandHeight = null;
     
         
     public String getComponentType() {
@@ -125,6 +128,7 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("minifyJS",minifyJS);
         component.setValueExpression("enableBandsInput",enableBandsInput);
         component.setValueExpression("height",height);
+        component.setValueExpression("bandHeight",bandHeight);
     }
     
     @Override
@@ -146,6 +150,7 @@ public class TimeLineTag extends UIComponentELTag {
         minifyJS = null;
         enableBandsInput = null;
         height = null;
+        bandHeight = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -246,5 +251,13 @@ public class TimeLineTag extends UIComponentELTag {
 
     public void setHeight(ValueExpression height) {
         this.height = height;
+    }
+
+    public ValueExpression getBandHeight() {
+        return bandHeight;
+    }
+
+    public void setBandHeight(ValueExpression bandHeight) {
+        this.bandHeight = bandHeight;
     }
 }

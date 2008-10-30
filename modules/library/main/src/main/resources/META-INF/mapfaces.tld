@@ -3849,6 +3849,17 @@
                 this is the height of the timeline.
             </description>
         </attribute>
+        <attribute>
+            <name>bandHeight</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                this is the height of the bandinfo components which compose the timeline.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>BandInfo</name>
