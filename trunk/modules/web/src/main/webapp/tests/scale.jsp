@@ -13,16 +13,15 @@
     <html>
         <head>
 	</head>
-        <body>
-            
+        <body >         
             <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
-            <h:form>
-                <mf-model:Context minifyJS="false"  debug="true" service="data/context/blueMarble.xml">                              
-                        <mf:MapPane debug="true"></mf:MapPane>
-			<mf:ButtonBar styleClass="mfButtonBar horizontal" save="true" style="top:350px"/>
-                </mf-model:Context>
-                <h:commandButton value="submit" style="margin-left:60px;z-index:1000;position:relative;"/>
-            </h:form>
+                <h:form>
+                    <h:commandButton value="submit" style="margin-left:-60px;left:50%;top:300px;width:100px;z-index:1000;position:absolute;"/>
+                    <mf-model:Context minifyJS="false"  debug="true" service="data/context/blueMarble.xml">                              
+                            <mf:MapPane/>	
+                            <mf:Scale style="background-color: red;"/>              
+                     </mf-model:Context>
+                </h:form>
 	</body>
     </html>
 </f:view>

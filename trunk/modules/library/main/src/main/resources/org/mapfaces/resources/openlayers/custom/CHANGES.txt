@@ -14,6 +14,12 @@ OpenLayers.js :
     *Changes of files's path to load
     *Add MouseWheelDefaults.js file
     *Add Proj4js 
+    *Add ZoomBoxOut.js file
+    *Add Graticule.js file
+    *Add Save.js file
+    *Add French language js file
+    *Add ScaleExt.js file , this file extend default OpenLayers.Control.Scale class
+    *Add ScaleBar.js file
 
 ############################################################
 package org.mapfaces.resources.openlayers.custom.OpenLayers:
@@ -33,8 +39,32 @@ Map.js :
 
 
 ####################################################################
+package org.mapfaces.resources.openlayers.custom.OpenLayers.Lang:
+####################################################################
+
+All the classes from this package must be extends the default OpenLayers.Lang.xxx object property
+
+mfFr.js:
+    Modify Scale text
+mfEn.js:
+    Modify Scale text
+
+####################################################################
 package org.mapfaces.resources.openlayers.custom.OpenLayers.Control:
 ####################################################################
+
+ScaleBar.js:
+    
+    *Add ScaleBar control,it is an addin from OpenLayers svn . 
+
+ScaleExt.js:
+    
+    *Extend the OpenLayers.Control.Scale object to replace the updateScale function
+
+Save.js:
+    
+    *Add new control to save the current context doc 
+
 Graticule.js:
     
     *Add new control to see Graticules on the map (control of mapbuilder)

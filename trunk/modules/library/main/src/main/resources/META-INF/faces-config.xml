@@ -53,6 +53,14 @@
         <component-class>org.mapfaces.component.UICursorTrack</component-class>
     </component>
     <component>
+        <component-type>org.mapfaces.component.Scale</component-type>
+        <component-class>org.mapfaces.component.UIScale</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.ScaleBar</component-type>
+        <component-class>org.mapfaces.component.UIScaleBar</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.component.MapPane.Layer</component-type>
         <component-class>org.mapfaces.component.UILayer</component-class>
     </component>
@@ -252,6 +260,18 @@
             <component-family>org.mapfaces.CursorTrack</component-family>
             <renderer-type>org.mapfaces.renderkit.html.CursorTrack</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.CursorTrackRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Scale of map. </description>
+            <component-family>org.mapfaces.Scale</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.Scale</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.ScaleRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>ScaleBar of map. </description>
+            <component-family>org.mapfaces.ScaleBar</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.ScaleBar</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.ScaleBarRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Load a Web Map Context </description>
