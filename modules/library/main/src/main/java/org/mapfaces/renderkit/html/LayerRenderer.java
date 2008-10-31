@@ -136,14 +136,18 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         Date testEnd = new Date();
                         Long timeout = testEnd.getTime() - testBegin.getTime();
                     } catch (Exception e) {
-                        try {
+                        //try {
                             System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());
                             Exception exp = e;
                             Date begin = new Date();
-                            Robot robocop = new Robot();
+                            /*System.setProperty("java.awt.headless", "true");
+                            Robot robocop = new Robot();*/
                             while (exp != null) {
                                 try {                                    
-                                    robocop.delay(1000);
+                                    //robocop.delay(1000);
+                                    System.out.println("[WAITING] 1s to try another request!");
+                                    Thread.sleep(1000);
+                                    
                                     FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
                                     exp = null;
                                 } catch (Exception exception) {
@@ -157,9 +161,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
                                     break;
                                 }
                             }
-                        } catch (AWTException ex) {
-                            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+//                        } catch (AWTException ex) {
+//                            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
                     }
                     System.out.println("            Layer generate file finish " + layer.getName());
                     writer.startElement("img", comp);

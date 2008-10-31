@@ -121,7 +121,7 @@ public class TimeLineControlRenderer extends Renderer {
                         writer.startElement("div", comp);
                         writer.writeAttribute("id", comp.getId() + "body-line-div" + i, "align");
                         writer.writeAttribute("class", "mf-subtable-line", "class");
-                        writer.writeAttribute("style", "height:" + (initHeight-2) + "px", "style");
+                        writer.writeAttribute("style", "height:" + (initHeight-2) + "px; background:" + bandinfo.getBackgroundColor() + ";", "style");
 
                         writer.startElement("div", comp);
                         writer.writeAttribute("align", "center", "align");
@@ -161,7 +161,7 @@ public class TimeLineControlRenderer extends Renderer {
                         writer.startElement("div", comp);
                         writer.writeAttribute("id", comp.getId() + "body-mainline-div", "align");
                         writer.writeAttribute("class", "mf-subtable-main", "class");
-                        writer.writeAttribute("style", "height:" + (initHeight - 3) + "px;", "style");
+                        writer.writeAttribute("style", "height:" + (initHeight - 3) + "px; background:" + bandinfo.getBackgroundColor() + ";", "style");
 
                         writer.startElement("div", comp);
                         writer.writeAttribute("align", "center", "align");
