@@ -21,7 +21,10 @@
             </li>            
             <li>
                 <a href="./buttonbar.jsf">ButtonBar component Test</a>
-            </li>           
+            </li>       
+            <li>
+                <a href="./locatormap.jsf">LocatorMap component Test</a>
+            </li>               
             <li>
                 <a href="./scale.jsf">Scale component Test</a>
             </li>           

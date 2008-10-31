@@ -33,11 +33,11 @@ import org.mapfaces.util.FacesUtils;
  */
 public class WidgetBaseRenderer extends Renderer {
 
-    ResponseWriter writer;
+    ResponseWriter writer = null;
     boolean debug;
     private String clientId ;
-    String style;
-    String styleClass;
+    private String style = null;
+    private String styleClass = null;
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -59,10 +59,10 @@ public class WidgetBaseRenderer extends Renderer {
         } else if (comp.getModel() == null) {
             comp.setModel(FacesUtils.getParentUIModelBase(context, component).getModel());       
         }
-        style = (String) comp.getAttributes().get("style");
+        setStyle((String) comp.getAttributes().get("style"));
 
-        if (styleClass == null) {
-            styleClass = (String) comp.getAttributes().get("styleClass");
+        if (getStyleClass() == null) {
+            setStyleClass((String) comp.getAttributes().get("styleClass"));
         }
     }
 

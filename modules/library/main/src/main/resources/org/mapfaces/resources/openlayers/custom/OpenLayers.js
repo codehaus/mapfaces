@@ -6,7 +6,7 @@
  * @requires OpenLayers/BaseTypes.js
  * @requires OpenLayers/Lang/en.js
  */ 
-
+if(!window.OpenLayers){
 (function() {
     /**
      * Before creating the OpenLayers namespace, check to see if
@@ -156,6 +156,7 @@
            "openlayers/lib/OpenLayers/Control/MouseDefaults.js",
            "openlayers/custom/OpenLayers/Control/MousePosition.js",
            "openlayers/lib/OpenLayers/Control/OverviewMap.js",
+           "openlayers/custom/OpenLayers/Control/OverviewMapExt.js",
            "openlayers/lib/OpenLayers/Control/KeyboardDefaults.js",
            "openlayers/custom/OpenLayers/Control/MouseWheelDefaults.js",
            "openlayers/lib/OpenLayers/Control/PanZoom.js",
@@ -256,3 +257,4 @@
  * Constant: VERSION_NUMBER
  */
 OpenLayers.VERSION_NUMBER="$Revision: 7335 $";
+}

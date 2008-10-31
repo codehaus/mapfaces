@@ -40,18 +40,18 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
         writer.startElement("div", comp);        
         writer.writeAttribute("id",clientId,"id");
         String layerId=getVarId(context, comp).split(":")[1];
-        if (styleClass == null)
+        if (getStyleClass() == null)
             writer.writeAttribute("class","mfDimRange","styleclass");
         
-        if (style != null)
-            writer.writeAttribute("style",style,"style");
+        if (getStyle() != null)
+            writer.writeAttribute("style",getStyle(),"style");
         writer.startElement("div",comp);
         writer.writeAttribute("id","track"+layerId, "id");
-        writer.writeAttribute("style","width: 256px; background-image: url('"+ResourcePhaseListener.getURL(context,TRACK_SLIDER_IMG, null)+"');",style);
+        writer.writeAttribute("style","width: 256px; background-image: url('"+ResourcePhaseListener.getURL(context,TRACK_SLIDER_IMG, null)+"');",getStyle());
         writer.writeAttribute("class","track","class");
             writer.startElement("div",comp);
             writer.writeAttribute("id","handle1"+layerId, "id");
-            writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 60px; width: 20px; height: 19px; ;cursor:move;",style);
+            writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 60px; width: 20px; height: 19px; ;cursor:move;",getStyle());
             writer.writeAttribute("class","","class");    
                 writer.startElement("img",comp);
                 writer.writeAttribute("src",ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
@@ -60,7 +60,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.endElement("div");
             writer.startElement("div",comp);
             writer.writeAttribute("id","handle2"+layerId, "id");
-            writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 150px; width: 20px; height: 19px; cursor:move;",style);
+            writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 150px; width: 20px; height: 19px; cursor:move;",getStyle());
             writer.writeAttribute("class","selected","class");
                 writer.startElement("img",comp);
                 writer.writeAttribute("src",ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");

@@ -178,4 +178,12 @@ public interface Layer extends Serializable {
     void setSld(String sld);
 
     void setSldBody(String sldBody);
+    
+    /*
+     * properties needed by JSF
+     * */
+    
+    String getCompId();
+    
+    void setCompId(String id);
 }

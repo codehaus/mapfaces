@@ -39,11 +39,11 @@ public class AbstractRenderer extends WidgetBaseRenderer {
         String clientId= comp.getClientId(context);
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("style", style, "style");
-        if (styleClass == null) {
+        writer.writeAttribute("style",getStyle(), "style");
+        if (getStyleClass() == null) {
             writer.writeAttribute("class", "mfMapTitle", "styleClass");
         } else {
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute("class",getStyleClass(), "styleClass");
         }
         writer.startElement("h3", comp);
 

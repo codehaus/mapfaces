@@ -65,7 +65,12 @@ public class DefaultLayer implements Layer {
     private String sldBody;
     private String sld;
     private Server server;
-
+    
+    /*
+     * JSF properties we need to know the id of its component
+     * */
+    private String compId;
+    
     public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
         this.lock = lock;
@@ -487,5 +492,13 @@ public class DefaultLayer implements Layer {
 
     public DescriptionURL getMetadataURL() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getCompId() {
+        return compId;
+    }
+
+    public void setCompId(String compId) {
+        this.compId = compId;
     }
 }

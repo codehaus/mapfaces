@@ -347,6 +347,17 @@ public class DefaultContext extends AbstractModelBase implements Context {
         else
             return null;
     }
+     public String getLayersCompId(String str) {
+        String layersId="";
+        List<Layer> layerList = getLayers();
+        for(Layer tmp : layerList){
+            layersId=layersId+","+str+"_"+tmp.getId();
+        }
+        if(layersId.length() > 0)
+            return layersId.substring(1,layersId.length());
+        else
+            return null;
+    }
     public String getHiddenLayersId() {
         String layersId="";
         List<Layer> layerList = getHiddenLayers();
