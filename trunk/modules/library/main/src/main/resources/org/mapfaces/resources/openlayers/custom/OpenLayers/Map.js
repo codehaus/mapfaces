@@ -432,8 +432,10 @@ OpenLayers.Map = OpenLayers.Class({
        //this.id = OpenLayers.Util.createUniqueID("OpenLayers.Map_");
         
         this.div = OpenLayers.Util.getElement(div);
-        //Deletee the form:
-        div=div.split(":")[1];
+        //Deletee the ifForm: if it's an id and not an DOM element  else take the div.id      
+        if (typeof div == 'string')div=div.split(":")[1];
+        else div=div.id;          
+        if (div.indexOf(':')!=-1)div=div.split(":")[1];
         this.viewPortDiv = OpenLayers.Util.getElement(div+"_MapFaces_Viewport");
         // the layerContainerDiv is the one that holds all the layers
         this.layerContainerDiv =  OpenLayers.Util.getElement(div+"_MapFaces_Container");
@@ -516,7 +518,7 @@ OpenLayers.Map = OpenLayers.Class({
         var window = this.getSize();
         var bbox=this.getExtent().toBBOX();
         // if(this.getCurrentExtent() == null || bbox != this.getCurrentExtent().toBBOX()){
-        
+        var goodParameters = true;
         if(parameters.type == "moveend"){
             var  parameters = {    
                           'synchronized': 'true',
@@ -526,18 +528,22 @@ OpenLayers.Map = OpenLayers.Class({
                           'render': 'true', //render the layers, always set to true after the first page loads
                           'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
                         };
+             if(!this.layersName)
+                 goodParameters = false;
+            
         }
         parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
-
-        A4J.AJAX.Submit( this.mfRequestId,this.mfFormId,
-                         null,
-                         {   
-                             'control':this,
-                             'single':true,
-                             'parameters': parameters ,
-                             'actionUrl':window.location
-                         } 
-                       );
+        if(goodParameters){
+          A4J.AJAX.Submit( this.mfRequestId,this.mfFormId,
+                           null,
+                           {   
+                               'control':this,
+                               'single':true,
+                               'parameters': parameters ,
+                               'actionUrl':window.location
+                           } 
+                         );
+         }
     },  
     
      /**

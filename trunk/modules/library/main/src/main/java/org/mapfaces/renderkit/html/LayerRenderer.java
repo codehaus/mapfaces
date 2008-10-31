@@ -55,7 +55,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         assertValid(context, component);
         UILayer comp = (UILayer) component;
-
+        System.out.println("dans encode begin "+ comp.getClientId(context)+" "+comp.getId());
         try {
             if (comp.isDebug()) {
                 System.out.println("[LayerRenderer] encodeBegin");
@@ -75,6 +75,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     System.out.println("[LayerRenderer] model is null");
                 }
             }
+            
             String height = model.getWindowHeight();
             String width = model.getWindowWidth();
 
@@ -82,6 +83,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
             Layer layer = comp.getLayer();
             
+        System.out.println("Layer encode begin width height "+model.getId()+" "+ layer.getId() +" "+ model.getWindowHeight()+" "+model.getWindowWidth());
             String styleImg = "filter:alpha(opacity="+(new Float(layer.getOpacity())*100)+");opacity:"+layer.getOpacity()+";";
             String display;
             if (layer.isHidden()) {
@@ -226,50 +228,56 @@ public class LayerRenderer extends WidgetBaseRenderer {
     @Override
     public void decode(FacesContext context, UIComponent component) {
         UILayer comp = (UILayer) component;
+        
         if (comp.isDebug()) {
             System.out.println("        LayerRenderer decode");
         }
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             Context tmp = (Context) comp.getModel();
+            
             Map params = context.getExternalContext().getRequestParameterMap();
             Layer layer = comp.getLayer();
+        System.out.println("Layer decode width height "+tmp.getId()+" "+ layer.getId() +" "+ tmp.getWindowHeight()+" "+tmp.getWindowWidth());
             String formId = FacesUtils.getFormId(context, comp);
-
-            String bbox = (String) params.get("bbox");
-            if (bbox != null && !bbox.equals(tmp.getMinx() + "," + tmp.getMiny().toString() + "," + tmp.getMaxx() + "," + tmp.getMaxy())) {
-                tmp.setMinx(bbox.split(",")[0]);
-                tmp.setMiny(bbox.split(",")[1]);
-                tmp.setMaxx(bbox.split(",")[2]);
-                tmp.setMaxy(bbox.split(",")[3]);
+            if((String) params.get("refresh") != null && ((String) params.get("refresh")).equals(comp.getClientId(context))){
+                String bbox = (String) params.get("bbox");
+                if (bbox != null && !bbox.equals(tmp.getMinx() + "," + tmp.getMiny().toString() + "," + tmp.getMaxx() + "," + tmp.getMaxy())) {
+                    tmp.setMinx(bbox.split(",")[0]);
+                    tmp.setMiny(bbox.split(",")[1]);
+                    tmp.setMaxx(bbox.split(",")[2]);
+                    tmp.setMaxy(bbox.split(",")[3]);
+                }
+                String win = (String) params.get("window");
+                if (win != null) {
+                    String[] window = win.split(",");
+                    tmp.setWindowWidth(window[0]);
+                    tmp.setWindowHeight(window[1]);
+                }
+                win = (String) params.get(formId + ":window");
+                if (win != null) {
+                    String[] window = win.split(",");
+                    tmp.setWindowWidth(window[0]);
+                    tmp.setWindowHeight(window[1]);
+                }
             }
-            String win = (String) params.get("window");
-            if (win != null) {
-                String[] window = win.split(",");
-                tmp.setWindowWidth(window[0]);
-                tmp.setWindowHeight(window[1]);
-            }
-            win = (String) params.get(formId + ":window");
-            if (win != null) {
-                String[] window = win.split(",");
-                tmp.setWindowWidth(window[0]);
-                tmp.setWindowHeight(window[1]);
-            }
-
             String value = (String) params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE");
             String layerId = (String) params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
             if (value == null && params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID") != null) {
                 value = (String) params.get((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
             //layerId = (String) params.get("refresh");
             }
-
+            System.out.println("I{{{{{{{{{{{{{{{{{{{{ " +  layerId +" "+ value);
+            System.out.println("I{{{{{{{{{{{{{{{{{{{{ " +  layer.getCompId() );
+                       
             if (layerId != null) {
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
-                if (layerId.equals(FacesUtils.getFormId(context, component) + ":" + layer.getId())) {
+            System.out.println("I{{{{{{{{{{{{{{{{{{{{ " +  layerProperty );
+                if (layerId.equals(formId+":"+layer.getCompId())) {
 
                     //Modify Context property
                     System.out.println("layerproperty" + layerProperty);
-                    if (layerProperty.contains("Visible")) {
+                    if (layerProperty.contains("hidden")) {
                         boolean test;
                         if (value != null && value.equals("on")) {
                             test = false;
@@ -286,7 +294,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         if (isDebug()) {
                             System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
                         }
-                    } else if (layerProperty.contains("Time")) {
+                    } else if (layerProperty.contains("userValueTime")) {
                         if (value == null)
                             value = "";
                         tmp.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
@@ -294,14 +302,15 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         if (isDebug()) {
                             System.out.println("La propriété time du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                         }
-                    } else if (layerProperty.contains("Elevation")) {
+                    } else if (layerProperty.contains("userValueElevation")) {
                         if (value == null)
                             value = "";
-                        tmp.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);
+                          
+                        tmp.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);                          
                         if (isDebug()) {
                             System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
                         }
-                    } else if (layerProperty.contains("DimRange")) {
+                    } else if (layerProperty.contains("userValueDimRange")) {
                         tmp.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
                         if (isDebug()) {
                             System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
@@ -320,6 +329,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
             } catch (JAXBException ex) {
             Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
             }*/
+            
+            System.out.println("Layer decode width height "+tmp.getId()+" "+ layer.getId() +" "+ tmp.getWindowHeight()+" "+tmp.getWindowWidth());
             comp.setModel((AbstractModelBase) tmp);
             comp.setLayer(tmp.getLayerFromId(layer.getId()));
 

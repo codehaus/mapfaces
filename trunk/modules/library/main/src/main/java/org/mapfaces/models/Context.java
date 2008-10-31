@@ -140,6 +140,8 @@ public interface Context extends Serializable {
     
     String getLayersId();
 
+    String getLayersCompId(String mappaneCompId);
+    
     String getHiddenLayersId();
 
     String getVisibleLayersId();

@@ -42,6 +42,7 @@ public class TreeItem implements Layer, Context {
         }
     }
 
+
     @Override
     public void setUserValue(String string, String value) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -736,6 +737,24 @@ public class TreeItem implements Layer, Context {
     }
 
     public DescriptionURL getMetadataURL() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getLayersCompId(String mappaneCompId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getCompId() {
+       if (object == null || object instanceof Context) {
+            return "";
+        }
+        if (object instanceof Layer) {
+            return ((Layer) object).getCompId();
+        }
+        return "";
+    }
+
+    public void setCompId(String id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

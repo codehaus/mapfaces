@@ -40,11 +40,11 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         writer.startElement("div", comp);        
         writer.writeAttribute("id",clientId,"id");
         
-        if (styleClass == null)
+        if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+ScaleBarTag.COMP_TYPE.substring(ScaleBarTag.COMP_TYPE.lastIndexOf(".")+1,ScaleBarTag.COMP_TYPE.length()),"styleclass");
         
-        if (style != null)
-            writer.writeAttribute("style",style,"style");
+        if (getStyle() != null)
+            writer.writeAttribute("style",getStyle(),"style");
         
 
         writer.startElement("script", comp);

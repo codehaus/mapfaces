@@ -94,6 +94,14 @@ public class UIMapPane extends UIWidgetBase {
     private Boolean google = false;
     private Boolean yahoo = false;
     private Boolean virtualEarth = false;
+    
+    private String ajaxCompId ;  
+    public String getAjaxCompId() {
+        return ajaxCompId;
+    }
+    public void setAjaxCompId(String ajaxCompId) {
+        this.ajaxCompId = ajaxCompId;
+    }
     /**
      * Option to know if the layers should be displayed
      * (set to true after the first page loads)     * 

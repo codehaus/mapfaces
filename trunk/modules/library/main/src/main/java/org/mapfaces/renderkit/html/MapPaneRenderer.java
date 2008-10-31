@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
@@ -55,7 +56,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             //The model context is null or not a Context instance
             throw new UnsupportedOperationException("The model context is null or not supported yet !");
         }
-
+        String style = getStyle();
+        String styleClass = getStyleClass();        
+        ResponseWriter writer = context.getResponseWriter();
+        
         String height = model.getWindowHeight();
         String width = model.getWindowWidth();
         if (comp.getMaxExtent() == null) {
@@ -120,16 +124,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (debug) {
             System.out.println("        Le MapPane contient " + layers.size() + " layers");
         }
+        comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
         for (Layer temp : layers) {
             if (temp != null) {
 
                 UILayer layer = new UILayer(comp, temp);
                 layer.setModel((AbstractModelBase) model);
-                if (temp.getId() != null) {
-                    layer.getAttributes().put("id", temp.getId());
-                } else {
-                    temp.setId(layer.getClientId(context));
-                }
+                layer.setId(FacesUtils.getParentUIModelBase(context, component).getId()+"_"+temp.getId());
+                temp.setCompId(layer.getClientId(context));
                 if (debug) {
                     layer.getAttributes().put("debug", true);
                 }
@@ -176,6 +178,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             jsObject = jsObject.replace(":", "");
         }
         String[] srsCode = model.getSrs().split(":");
+        
         writer.write("               " +
                 "    var mapOptions = {\n" +
                 "                       id:'" + jsObject + "',\n" +
@@ -187,14 +190,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 "                       maxResolution: 'auto',\n" +
                 "                       theme:  null ,\n" +
                 "                       fractionnalZoom:  true ,\n" +
-                "                       layersName:  '" + model.getLayersId() + "' ,\n" +
-                "                       mfAjaxCompId:'" + FacesUtils.getParentUIModelBase(context, component).getAjaxCompId() + "',\n" +
+                "                       layersName:  '" + model.getLayersCompId(FacesUtils.getParentUIModelBase(context, component).getId()) + "' ,\n" +
+                "                       mfAjaxCompId:'" + comp.getAjaxCompId() + "',\n" +
                 "                       mfFormId:'" + FacesUtils.getFormId(context, component) + "',\n" +
                 "                       mfRequestId:'updateBboxOrWindow'\n" +
                 "                   };\n" +
                 "    window."+jsObject+" = new OpenLayers.Map('"+comp.getClientId(context)+"',mapOptions);\n" +
-                "    if(!window.maps){window.maps = {};}" +
-                "    window.maps."+jsObject+" = window."+jsObject+";"+
+                "    if(!window.maps){window.maps = {};}\n" +
+                "    window.maps."+jsObject+" = window."+jsObject+";\n"+
                 "");
         writer.endElement("script");
         writer.endElement("div");

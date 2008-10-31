@@ -341,11 +341,11 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
             Object obj = ((UITreeLinesBase) (comp.getParent())).getNodeInstance().getUserObject();
             if (obj instanceof TreeItem) {
                 TreeItem treeitem = (TreeItem) obj;
-                idresult = treeitem.getId();
+                idresult = treeitem.getCompId();
             }
             ((UITreeLinesBase) (comp.getParent())).setVarId(idresult);
             if (((UITreeLinesBase) (comp.getParent())).getVarId() == null) {
-                throw new NullPointerException("Var id is null so we can't update the context doc");
+                throw new NullPointerException("Var compId is null so we can't update the context doc");
             }
             return FacesUtils.getFormId(context, comp) + ":" + ((UITreeLinesBase) (comp.getParent())).getVarId();
         }
