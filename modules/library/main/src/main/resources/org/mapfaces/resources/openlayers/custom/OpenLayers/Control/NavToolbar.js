@@ -72,13 +72,22 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
           tab.push(new OpenLayers.Control.GetFeatureInfo());
       
         //Add Measure distance
-        if(options.measureDistance)
-          tab.push(new OpenLayers.Control.GetFeatureInfo());
-      
+        if(options.measureDistance){
+           var md = new OpenLayers.Control.Measure(OpenLayers.Handler.Path);
+           md.events.on({
+                    'measure': handleMeasurements,
+                    'measurepartial': handleMeasurements});  
+           tab.push(md);
+        }
+        
         //Add Measure area
-        if(options.measureArea)
-          tab.push(new OpenLayers.Control.GetFeatureInfo());
-      
+        if(options.measureArea){
+           var ma = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon);
+           ma.events.on({
+                    'measure': handleMeasurements,
+                    'measurepartial': handleMeasurements});  
+           tab.push(ma);
+        }
         if(tab.length > 0)
           this.addControls(tab);
     },

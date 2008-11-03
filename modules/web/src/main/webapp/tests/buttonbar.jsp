@@ -12,6 +12,23 @@
 <f:view>
     <html>
         <head>
+            <script type="text/javascript">
+            function handleMeasurements(event) {
+                var geometry = event.geometry;
+                var units = event.units;
+                var order = event.order;
+                var measure = event.measure;
+                var element = document.getElementById('output');
+                var out = "";
+                if(order == 1) {
+                    out += "measure: " + measure.toFixed(3) + " " + units;
+
+                } else {
+                    out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
+                }
+                element.innerHTML = out;
+            }
+            </script>
 	</head>
         <body>
             
@@ -23,6 +40,7 @@
                 </mf-model:Context>
                 <h:commandButton value="submit" style="margin-left:60px;z-index:1000;position:relative;"/>
             </h:form>
+            <div id='output'></div>
 	</body>
     </html>
 </f:view>

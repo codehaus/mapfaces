@@ -15,7 +15,12 @@
  *  - <OpenLayers.Control>
  */
 OpenLayers.Control.Measure = OpenLayers.Class(OpenLayers.Control, {
-
+    
+    /**
+     * Property: type
+     * {OpenLayers.Control.TYPE}
+     */
+    type: OpenLayers.Control.TYPE_TOOL,
     /**
      * Constant: EVENT_TYPES
      * {Array(String)} Supported application event types.  Register a listener
