@@ -182,9 +182,14 @@ public class HotZoneBandInfoRenderer extends Renderer {
                 if (requestMap.containsKey("hidden")) {
                     hidden = (String) requestMap.get("hidden");
                 }
-
+                
                 //if the layer id correspond to this component layer then proceed to refresh the bandInfo comp.
-                if (attachedLayer != null && ajaxlayerId.equals(attachedLayer.getId())) {
+                String sh = "";
+                if (attachedLayer != null) {
+                    sh = attachedLayer.getCompId();
+                    sh = sh.substring(sh.indexOf(":") + 1);
+                }
+                if (ajaxlayerId.equals(sh)) {
                     //do the rerender of the bandInfo only if hidden was set to False.
                     if (hidden.equals("false")) {
                         comp.setHidden(false);
