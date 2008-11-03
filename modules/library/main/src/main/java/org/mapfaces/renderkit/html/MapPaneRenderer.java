@@ -66,6 +66,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             comp.setMaxExtent(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }
         String id = (String) comp.getAttributes().get("id");
+        String style = getStyle();
+        String styleClass = getStyleClass();
         if (style == null) {
             style = "width:" + width.toString() + "px;height:" + height.toString() + "px;z-index:0;";
         } else {
