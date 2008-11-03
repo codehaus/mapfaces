@@ -41,7 +41,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
     }
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        UILocatorMap comp = (UILocatorMap) component;  
+        UILocatorMap comp = (UILocatorMap) component;
         String clientId= comp.getClientId(context);   
         ResponseWriter writer = context.getResponseWriter();
         Context model;
