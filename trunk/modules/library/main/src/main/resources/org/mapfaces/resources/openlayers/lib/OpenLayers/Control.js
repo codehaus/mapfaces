@@ -43,7 +43,7 @@
  * >     },
  * >
  * >     notice: function (bounds) {
- * >         alert(bounds);
+ * >         OpenLayers.Console.userError(bounds);
  * >     }
  * > }); 
  * > map.addControl(control);
@@ -106,12 +106,6 @@ OpenLayers.Control = OpenLayers.Class({
      * {Boolean} The control is active.
      */
     active: null,
-    
-     /** 
-     * Property: empty 
-     * {Boolean} Only use by nevigation.next and .previous control .
-     */
-    empty: true,
 
     /** 
      * Property: handler 
@@ -182,7 +176,9 @@ OpenLayers.Control = OpenLayers.Class({
         if(this.eventListeners instanceof Object) {
             this.events.on(this.eventListeners);
         }
-        this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
+        if (this.id == null) {
+            this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
+        }
     },
 
     /**
@@ -297,7 +293,7 @@ OpenLayers.Control = OpenLayers.Class({
      *            false if the control was already active.
      */
     activate: function () {
-        if (this.active ) {
+        if (this.active) {
             return false;
         }
         if (this.handler) {
@@ -318,7 +314,7 @@ OpenLayers.Control = OpenLayers.Class({
      *           if the control was already inactive.
      */
     deactivate: function () {
-        if (this.active ) {
+        if (this.active) {
             if (this.handler) {
                 this.handler.deactivate();
             }

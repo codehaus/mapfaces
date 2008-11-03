@@ -50,14 +50,6 @@ public class UILayer extends UIWidgetBase {
         }
     }
 
-    /** Creates a new instance of UILayer */
-    public UILayer(UIMapPane mappane, Layer layer) {
-        super();
-        setRendererType("org.mapfaces.renderkit.html.MapPane.Layer");    // this component has a renderer
-        this.layer = layer;
-        setModel(mappane.getModel());
-    }
-
     @Override
     public String getFamily() {
         return FAMILIY;

@@ -55,7 +55,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         assertValid(context, component);
         UILayer comp = (UILayer) component;
-        System.out.println("dans encode begin "+ comp.getClientId(context)+" "+comp.getId());
         try {
             if (comp.isDebug()) {
                 System.out.println("[LayerRenderer] encodeBegin");
@@ -82,8 +81,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
             //DefaultMapContext defaultMapContext = comp.getMapPane().getDefaultMapContext(); 
 
             Layer layer = comp.getLayer();
-            
-        System.out.println("Layer encode begin width height "+model.getId()+" "+ layer.getId() +" "+ model.getWindowHeight()+" "+model.getWindowWidth());
             String styleImg = "filter:alpha(opacity="+(new Float(layer.getOpacity())*100)+");opacity:"+layer.getOpacity()+";";
             String display;
             if (layer.isHidden()) {
@@ -128,7 +125,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         model.setMaxx(String.valueOf(env.getMaxX()));
                         model.setMaxy(String.valueOf(env.getMaxY()));
                     }
-                    System.out.println("[PORTRAYING] for envelope " + env);
+                    if (comp.isDebug()) {
+                        System.out.println("[PORTRAYING] for envelope " + env);
+                    }
                     Dimension dim = new Dimension(new Integer(width), new Integer(height));
                     try {
                         Date testBegin = new Date();
@@ -137,7 +136,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         Long timeout = testEnd.getTime() - testBegin.getTime();
                     } catch (Exception e) {
                         //try {
-                            System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());
+                            if (comp.isDebug()) {
+                                System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());
+                            }
                             Exception exp = e;
                             Date begin = new Date();
                             /*System.setProperty("java.awt.headless", "true");
@@ -151,12 +152,17 @@ public class LayerRenderer extends WidgetBaseRenderer {
                                     FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
                                     exp = null;
                                 } catch (Exception exception) {
-                                    exp = exception;
-                                    System.out.println("[PORTRAYING] Exception : " + exp.getMessage());
+                                    exp = exception;                                    
+                                    if (comp.isDebug()) {
+                                        System.out.println("[PORTRAYING] Exception : " + exp.getMessage());
+                                    }
                                 }
                                 Date end = new Date();
                                 Long timeout = end.getTime() - begin.getTime();
-                                System.out.println("[PORTRAYING] timeout = " + timeout);
+                                
+                                if (comp.isDebug()) {
+                                    System.out.println("[PORTRAYING] timeout = " + timeout);
+                                }
                                 if (timeout > 10000) {
                                     break;
                                 }
@@ -165,7 +171,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
 //                            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
 //                        }
                     }
-                    System.out.println("            Layer generate file finish " + layer.getName());
+                    if (comp.isDebug()) {
+                        System.out.println("            Layer generate file finish " + layer.getName());
+                    }
                     writer.startElement("img", comp);
                     writer.writeAttribute("id", id + "_Img", "style");
                     writer.writeAttribute("class", "layerImg", "style");
@@ -239,10 +247,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             Context tmp = (Context) comp.getModel();
-            
             Map params = context.getExternalContext().getRequestParameterMap();
             Layer layer = comp.getLayer();
-        System.out.println("Layer decode width height "+tmp.getId()+" "+ layer.getId() +" "+ tmp.getWindowHeight()+" "+tmp.getWindowWidth());
+        System.out.println("Layer decode width height "+comp.getClientId(context));
             String formId = FacesUtils.getFormId(context, comp);
             if((String) params.get("refresh") != null && ((String) params.get("refresh")).equals(comp.getClientId(context))){
                 String bbox = (String) params.get("bbox");
@@ -253,12 +260,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     tmp.setMaxy(bbox.split(",")[3]);
                 }
                 String win = (String) params.get("window");
-                if (win != null) {
-                    String[] window = win.split(",");
-                    tmp.setWindowWidth(window[0]);
-                    tmp.setWindowHeight(window[1]);
-                }
-                win = (String) params.get(formId + ":window");
+                if(win == null)
+                    win = (String) params.get(formId + ":window");
                 if (win != null) {
                     String[] window = win.split(",");
                     tmp.setWindowWidth(window[0]);
@@ -271,12 +274,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 value = (String) params.get((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
             //layerId = (String) params.get("refresh");
             }
-            System.out.println("I{{{{{{{{{{{{{{{{{{{{ " +  layerId +" "+ value);
-            System.out.println("I{{{{{{{{{{{{{{{{{{{{ " +  layer.getCompId() );
-                       
             if (layerId != null) {
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
-            System.out.println("I{{{{{{{{{{{{{{{{{{{{ " +  layerProperty );
                 if (layerId.equals(formId+":"+layer.getCompId())) {
 
                     //Modify Context property
@@ -328,11 +327,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
             if ((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null) {
                 comp.setStyle((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
             }
-            /* try {
-            ctx.saveModel(context);
-            } catch (JAXBException ex) {
-            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
             
             System.out.println("Layer decode width height "+tmp.getId()+" "+ layer.getId() +" "+ tmp.getWindowHeight()+" "+tmp.getWindowWidth());
             comp.setModel((AbstractModelBase) tmp);

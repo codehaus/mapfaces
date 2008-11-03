@@ -81,8 +81,8 @@ public class LocatorMapRenderer extends MapPaneRenderer {
                     "                       maxResolution: 'auto',\n" +
                     "                       theme:  null ,\n" +
                     "                       fractionnalZoom:  true ,\n" +
-                    "                       layersName:  '" + model.getLayersCompId(FacesUtils.getParentUIModelBase(context, component).getId()).split(",")[0]+ "' ,\n" +
-                    "                       mfAjaxCompId:'" + comp.getAjaxCompId() + "',\n" +
+                    "                       layersName:  '" + model.getLayersCompId().split(",")[0]+ "' ,\n" +
+                    "                       mfAjaxCompId:'" + comp.getAjaxCompId()  + "',\n" +
                     "                       mfFormId:'" + FacesUtils.getFormId(context, component) + "',\n" +
                     "                       mfRequestId:'updateBboxOrWindow'\n" +
                     "                   };\n");

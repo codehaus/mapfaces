@@ -156,7 +156,7 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
     _addZoomBar:function(centered) {
         var imgLocation = OpenLayers.Util.getImagesLocation();
         
-        var id = "OpenLayers_Control_PanZoomBar_Slider" + this.map.id;
+        var id = this.id + "_" + this.map.id;
         var zoomsToEnd = this.map.getNumZoomLevels() - 1 - this.map.getZoom();
         var slider = OpenLayers.Util.createAlphaImageDiv(id,
                        centered.add(-1, zoomsToEnd * this.zoomStopHeight), 
@@ -165,7 +165,8 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
                        "absolute");
         this.slider = slider;
         
-        this.sliderEvents = new OpenLayers.Events(this, slider, null, true);
+        this.sliderEvents = new OpenLayers.Events(this, slider, null, true,
+                                            {includeXY: true});
         this.sliderEvents.on({
             "mousedown": this.zoomBarDown,
             "mousemove": this.zoomBarDrag,
@@ -180,7 +181,7 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         var div = null;
         
         if (OpenLayers.Util.alphaHack()) {
-            var id = "OpenLayers_Control_PanZoomBar" + this.map.id;
+            var id = this.id + "_" + this.map.id;
             div = OpenLayers.Util.createAlphaImageDiv(id, centered,
                                       new OpenLayers.Size(sz.w, 
                                               this.zoomStopHeight),
@@ -197,7 +198,8 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         
         this.zoombarDiv = div;
         
-        this.divEvents = new OpenLayers.Events(this, div, null, true);
+        this.divEvents = new OpenLayers.Events(this, div, null, true, 
+                                                {includeXY: true});
         this.divEvents.on({
             "mousedown": this.divClick,
             "mousemove": this.passEventToSlider,

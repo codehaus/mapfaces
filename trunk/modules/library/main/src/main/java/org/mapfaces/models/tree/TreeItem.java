@@ -740,9 +740,6 @@ public class TreeItem implements Layer, Context {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public String getLayersCompId(String mappaneCompId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     public String getCompId() {
        if (object == null || object instanceof Context) {
@@ -755,6 +752,10 @@ public class TreeItem implements Layer, Context {
     }
 
     public void setCompId(String id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getLayersCompId() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

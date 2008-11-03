@@ -15,7 +15,7 @@ OpenLayers.Util = {};
 OpenLayers.Util.getElement = function() {
     var elements = [];
 
-    for (var i = 0; i < arguments.length; i++) {
+    for (var i=0, len=arguments.length; i<len; i++) {
         var element = arguments[i];
         if (typeof element == 'string') {
             element = document.getElementById(element);
@@ -135,7 +135,7 @@ OpenLayers.Util.clearArray = function(array) {
  */
 OpenLayers.Util.indexOf = function(array, obj) {
 
-    for(var i=0; i < array.length; i++) {
+    for(var i=0, len=array.length; i<len; i++) {
         if (array[i] == obj) {
             return i;
         }
@@ -363,8 +363,27 @@ OpenLayers.IMAGE_RELOAD_ATTEMPTS = 0;
  */
 OpenLayers.Util.onImageLoadError = function() {
     this._attempts = (this._attempts) ? (this._attempts + 1) : 1;
-    if(this._attempts <= OpenLayers.IMAGE_RELOAD_ATTEMPTS) {
-        this.src = this.src;
+    if (this._attempts <= OpenLayers.IMAGE_RELOAD_ATTEMPTS) {
+        var urls = this.urls;
+        if (urls && urls instanceof Array && urls.length > 1){
+            var src = this.src.toString();
+            var current_url, k;
+            for (k = 0; current_url = urls[k]; k++){
+                if(src.indexOf(current_url) != -1){
+                    break;
+                }
+            }
+            var guess = Math.floor(urls.length * Math.random());
+            var new_url = urls[guess];
+            k = 0;
+            while(new_url == current_url && k++ < 4){
+                guess = Math.floor(urls.length * Math.random());
+                new_url = urls[guess];
+            }
+            this.src = src.replace(current_url, new_url);
+        } else {
+            this.src = this.src;
+        }
     } else {
         this.style.backgroundColor = OpenLayers.Util.onImageLoadErrorColor;
     }
@@ -544,7 +563,7 @@ OpenLayers.Util.applyDefaults = function (to, from) {
      * properties with the for(property in object) syntax.  Explicitly check if
      * the source has its own toString property.
      */
-    if(!fromIsEvt && from.hasOwnProperty
+    if(!fromIsEvt && from && from.hasOwnProperty
        && from.hasOwnProperty('toString') && !to.hasOwnProperty('toString')) {
         to.toString = from.toString;
     }
@@ -576,7 +595,7 @@ OpenLayers.Util.getParameterString = function(params) {
         if (typeof value == 'object' && value.constructor == Array) {
           /* value is an array; encode items and separate with "," */
           var encodedItemArray = [];
-          for (var itemIndex=0; itemIndex<value.length; itemIndex++) {
+          for (var itemIndex=0, len=value.length; itemIndex<len; itemIndex++) {
             encodedItemArray.push(encodeURIComponent(value[itemIndex]));
           }
           encodedValue = encodedItemArray.join(",");
@@ -627,7 +646,7 @@ OpenLayers.Util.getImagesLocation = function() {
 OpenLayers.Util.Try = function() {
     var returnValue = null;
 
-    for (var i = 0; i < arguments.length; i++) {
+    for (var i=0, len=arguments.length; i<len; i++) {
       var lambda = arguments[i];
       try {
         returnValue = lambda();
@@ -676,7 +695,7 @@ OpenLayers.Util.getNodes=function(p, tagName) {
  */
 OpenLayers.Util._getNodes=function(nodes, tagName) {
     var retArray = [];
-    for (var i=0;i<nodes.length;i++) {
+    for (var i=0, len=nodes.length; i<len; i++) {
         if (nodes[i].nodeName==tagName) {
             retArray.push(nodes[i]);
         }
@@ -777,13 +796,18 @@ OpenLayers.Util.rad = function(x) {return x*Math.PI/180;};
 
 /**
  * Function: distVincenty
+ * Given two objects representing points with geographic coordinates, this
+ *     calculates the distance between those points on the surface of an
+ *     ellipsoid.
  * 
  * Parameters:
  * p1 - {<OpenLayers.LonLat>} (or any object with both .lat, .lon properties)
  * p2 - {<OpenLayers.LonLat>} (or any object with both .lat, .lon properties)
  * 
  * Returns:
- * {Float}
+ * {Float} The distance (in km) between the two input points as measured on an
+ *     ellipsoid.  Note that the input point objects must be in geographic
+ *     coordinates (decimal degrees) and the return distance is in kilometers.
  */
 OpenLayers.Util.distVincenty=function(p1, p2) {
     var a = 6378137, b = 6356752.3142,  f = 1/298.257223563;
@@ -852,7 +876,7 @@ OpenLayers.Util.getParameters = function(url) {
         
     var parameters = {};
     var pairs = paramsString.split(/[&;]/);
-    for(var i = 0; i < pairs.length; ++i) {
+    for(var i=0, len=pairs.length; i<len; ++i) {
         var keyValue = pairs[i].split('=');
         if (keyValue[0]) {
             var key = decodeURIComponent(keyValue[0]);
@@ -860,7 +884,7 @@ OpenLayers.Util.getParameters = function(url) {
 
             //decode individual values
             value = value.split(",");
-            for(var j=0; j < value.length; j++) {
+            for(var j=0, jlen=value.length; j<jlen; j++) {
                 value[j] = decodeURIComponent(value[j]);
             }
 
@@ -1047,12 +1071,7 @@ OpenLayers.Util.pagePosition = function(forElement) {
     while(element) {
 
         if(element == document.body) {
-            // FIXME: IE, when passed 'window' as the forElement, treats it as
-            // equal to document.body, but window.style fails, so getStyle
-            // fails, so we are paranoid and check this here. This check should
-            // probably move into element.getStyle in 2.6.
-            if(child && child.style && 
-               OpenLayers.Element.getStyle(child, 'position') == 'absolute') {
+            if(OpenLayers.Element.getStyle(child, 'position') == 'absolute') {
                 break;
             }
         }
@@ -1122,7 +1141,7 @@ OpenLayers.Util.isEquivalentUrl = function(url1, url2, options) {
     //compare all keys (host, port, etc)
     for(var key in urlObj1) {
         if (options.test) {
-            alert(key + "\n1:" + urlObj1[key] + "\n2:" + urlObj2[key]);
+            OpenLayers.Console.userError(key + "\n1:" + urlObj1[key] + "\n2:" + urlObj2[key]);
         }
         var val1 = urlObj1[key];
         var val2 = urlObj2[key];
@@ -1355,15 +1374,19 @@ OpenLayers.Util.getBrowserName = function() {
  *     scrollbars do not flicker
  *     
  * Parameters:
+ * contentHTML
  * size - {<OpenLayers.Size>} If either the 'w' or 'h' properties is 
  *     specified, we fix that dimension of the div to be measured. This is 
  *     useful in the case where we have a limit in one dimension and must 
  *     therefore meaure the flow in the other dimension.
+ * options - {Object}
+ *     displayClass - {String} Optional parameter.  A CSS class name(s) string
+ *         to provide the CSS context of the rendered content.
  * 
  * Returns:
  * {OpenLayers.Size}
  */
-OpenLayers.Util.getRenderedDimensions = function(contentHTML, size) {
+OpenLayers.Util.getRenderedDimensions = function(contentHTML, size, options) {
     
     var w, h;
     
@@ -1379,9 +1402,14 @@ OpenLayers.Util.getRenderedDimensions = function(contentHTML, size) {
             w = size.w;
             container.style.width = w + "px";
         } else if (size.h) {
-            h = size.h
+            h = size.h;
             container.style.height = h + "px";
         }
+    }
+
+    //add css classes, if specified
+    if (options && options.displayClass) {
+        container.className = options.displayClass;
     }
     
     // create temp content div and assign content

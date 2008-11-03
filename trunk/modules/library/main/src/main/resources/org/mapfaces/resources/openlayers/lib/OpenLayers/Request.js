@@ -87,7 +87,11 @@ OpenLayers.Request = {
         var request = new OpenLayers.Request.XMLHttpRequest();
         var url = config.url;
         if(config.params) {
-            url += "?" + OpenLayers.Util.getParameterString(config.params);
+            var paramString = OpenLayers.Util.getParameterString(config.params);
+            if(paramString.length > 0) {
+                var separator = (url.indexOf('?') > -1) ? '&' : '?';
+                url += separator + paramString;
+            }
         }
         if(config.proxy && (url.indexOf("http") == 0)) {
             url = config.proxy + encodeURIComponent(url);
@@ -123,14 +127,16 @@ OpenLayers.Request = {
         request.onreadystatechange = function() {
             if(request.readyState == OpenLayers.Request.XMLHttpRequest.DONE) {
                 complete(request);
-                if(success && request.status >= 200 && request.status < 300) {
+                if(success && (!request.status ||
+                   (request.status >= 200 && request.status < 300))) {
                     success(request);
                 }
-                if(failure && (request.status < 200 || request.status >= 300)) {
+                if(failure && (request.status &&
+                   (request.status < 200 || request.status >= 300))) {
                     failure(request);
                 }
             }
-        }
+        };
         
         // send request (optionally with data) and return
         request.send(config.data);

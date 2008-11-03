@@ -94,6 +94,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             
             if(comp.isPan() && comp.isPanEffect())
                 writer.write(",\npanEffect: true");
+                
+            writer.write(",\ngetFeatureInfo: true");
             
             writer.write("\n});\n");
             
