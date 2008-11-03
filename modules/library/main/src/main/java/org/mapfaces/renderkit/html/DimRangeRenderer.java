@@ -188,11 +188,11 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
     public String getVarId(FacesContext context, UIWidgetBase component) {
         UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
         if (((UITreeLinesBase) (comp)).getNodeInstance().isLeaf()) {
-            ((UITreeLinesBase) (comp)).setVarId(((Layer) (((UITreeLinesBase) (comp)).getNodeInstance().getUserObject())).getId());
+            ((UITreeLinesBase) (comp)).setVarId(((Layer) (((UITreeLinesBase) (comp)).getNodeInstance().getUserObject())).getCompId());
             if (((UITreeLinesBase) (comp)).getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }
-            return FacesUtils.getFormId(context, comp) + ":" + ((UITreeLinesBase) (comp)).getVarId();
+            return ((UITreeLinesBase) (comp)).getVarId();
         }
         return null;
     }
