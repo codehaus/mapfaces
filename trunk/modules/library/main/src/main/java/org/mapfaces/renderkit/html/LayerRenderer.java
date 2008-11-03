@@ -313,7 +313,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         if (isDebug()) {
                             System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
                         }
-                    } else if (layerProperty.contains("userValueDimRange")) {
+                    } else if (layerProperty.contains("inputDimRange")) {
                         tmp.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
                         if (isDebug()) {
                             System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
