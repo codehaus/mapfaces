@@ -97,10 +97,9 @@ public class PopupRenderer extends WidgetBaseRenderer {
                     X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
                     //left = X+"px";
                }
-               ServletContext sc= (ServletContext) context.getExternalContext().getContext();
-               Layer test = tmp.getLayers().get(0);
-            System.out.println(sc.getContextPath()+" "+sc.getServletContextName()+" ");
-                innerHTML = "<iframe style='height:40px;' id='popup' name='popup' src='"+test.getServer().getHref()+"?bbox="+tmp.getBoundingBox()+"&styles=&format="+test.getOutputFormat()+"&info_format=text/plain&version="+test.getServer().getVersion()+"&srs="+tmp.getSrs()+"&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width="+tmp.getWindowWidth()+"&height="+tmp.getWindowHeight()+"&x="+X+"&y="+Y+"'></iframe>";
+               
+               Layer queryLayer = tmp.getVisibleLayers().get(tmp.getVisibleLayers().size()-1);
+               innerHTML = "<iframe style='height:40px;' id='popup' name='popup' src='"+queryLayer.getServer().getHref()+"?bbox="+tmp.getBoundingBox()+"&styles=&format="+queryLayer.getOutputFormat()+"&info_format=text/plain&version="+queryLayer.getServer().getVersion()+"&srs="+tmp.getSrs()+"&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width="+tmp.getWindowWidth()+"&height="+tmp.getWindowHeight()+"&x="+X+"&y="+Y+"'></iframe>";
             }
             comp.setModel((AbstractModelBase) tmp);
 

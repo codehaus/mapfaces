@@ -276,7 +276,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             }
             if (layerId != null) {
                 String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
-                if (layerId.equals(formId+":"+layer.getCompId())) {
+                if (layerId.equals(layer.getCompId())) {
 
                     //Modify Context property
                     System.out.println("layerproperty" + layerProperty);
