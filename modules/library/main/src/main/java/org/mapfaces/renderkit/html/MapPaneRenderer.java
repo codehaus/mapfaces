@@ -66,7 +66,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             comp.setMaxExtent(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }
         String id = (String) comp.getAttributes().get("id");
-
         if (style == null) {
             style = "width:" + width.toString() + "px;height:" + height.toString() + "px;z-index:0;";
         } else {
@@ -128,17 +127,25 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         for (Layer temp : layers) {
             if (temp != null) {
 
-                UILayer layer = new UILayer(comp, temp);
+                UILayer layer = new UILayer();
                 layer.setModel((AbstractModelBase) model);
-                layer.setId(FacesUtils.getParentUIModelBase(context, component).getId()+"_"+temp.getId());
-                temp.setCompId(layer.getClientId(context));
+                if (temp.getId() != null) {
+                    layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId()+"_"+temp.getId());
+                } else {
+                    temp.setId(layer.getId());
+                }
+                
                 if (debug) {
                     layer.getAttributes().put("debug", true);
                 }
-                layer.setLayer(temp);
                 layer.setDir(dstDir);
                 layer.setContextPath(ctxPath);
-                comp.getChildren().add(layer);
+                comp.getChildren().add(layer); 
+                temp.setCompId(layer.getClientId(context));
+                layer.setLayer(temp);
+                if (debug) {
+                    System.out.println("  ClientIdsssssssss " + layer.getClientId(context) + " layers");                
+                }
             }
         }
 
@@ -190,8 +197,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 "                       maxResolution: 'auto',\n" +
                 "                       theme:  null ,\n" +
                 "                       fractionnalZoom:  true ,\n" +
-                "                       layersName:  '" + model.getLayersCompId(FacesUtils.getParentUIModelBase(context, component).getId()) + "' ,\n" +
-                "                       mfAjaxCompId:'" + comp.getAjaxCompId() + "',\n" +
+                "                       layersName:  '" + model.getLayersCompId() + "' ,\n" +
+                "                       mfAjaxCompId:'" + FacesUtils.getParentUIModelBase(context, component).getAjaxCompId() + "',\n" +
                 "                       mfFormId:'" + FacesUtils.getFormId(context, component) + "',\n" +
                 "                       mfRequestId:'updateBboxOrWindow'\n" +
                 "                   };\n" +

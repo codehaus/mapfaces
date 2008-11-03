@@ -128,20 +128,20 @@ OpenLayers.Format.GeoRSS = OpenLayers.Class(OpenLayers.Format.XML, {
                                                          parseFloat(location[0]));
               
         } else if (line.length > 0) {
-            var coords = OpenLayers.String.trim(line[0].firstChild.nodeValue).split(/\s+/);
+            var coords = OpenLayers.String.trim(this.concatChildValues(line[0])).split(/\s+/);
             var components = []; 
             var point;
-            for (var i=0; i < coords.length; i+=2) {
+            for (var i=0, len=coords.length; i<len; i+=2) {
                 point = new OpenLayers.Geometry.Point(parseFloat(coords[i+1]), 
                                                      parseFloat(coords[i]));
                 components.push(point);
             }
             geometry = new OpenLayers.Geometry.LineString(components);
         } else if (polygon.length > 0) { 
-            var coords = OpenLayers.String.trim(polygon[0].firstChild.nodeValue).split(/\s+/);
+            var coords = OpenLayers.String.trim(this.concatChildValues(polygon[0])).split(/\s+/);
             var components = []; 
             var point;
-            for (var i=0; i < coords.length; i+=2) {
+            for (var i=0, len=coords.length; i<len; i+=2) {
                 point = new OpenLayers.Geometry.Point(parseFloat(coords[i+1]), 
                                                      parseFloat(coords[i]));
                 components.push(point);
@@ -275,7 +275,7 @@ OpenLayers.Format.GeoRSS = OpenLayers.Class(OpenLayers.Format.XML, {
         var georss;
         if(features instanceof Array) {
             georss = this.createElementNS(this.rssns, "rss");
-            for(var i=0; i < features.length; i++) {
+            for(var i=0, len=features.length; i<len; i++) {
                 georss.appendChild(this.createFeatureXML(features[i]));
             }
         } else {

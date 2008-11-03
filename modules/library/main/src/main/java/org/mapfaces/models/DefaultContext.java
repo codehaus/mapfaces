@@ -347,11 +347,11 @@ public class DefaultContext extends AbstractModelBase implements Context {
         else
             return null;
     }
-     public String getLayersCompId(String str) {
+     public String getLayersCompId() {
         String layersId="";
         List<Layer> layerList = getLayers();
         for(Layer tmp : layerList){
-            layersId=layersId+","+str+"_"+tmp.getId();
+            layersId=layersId+","+tmp.getCompId();
         }
         if(layersId.length() > 0)
             return layersId.substring(1,layersId.length());
@@ -438,9 +438,4 @@ public class DefaultContext extends AbstractModelBase implements Context {
             Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
-   
-
-
 }

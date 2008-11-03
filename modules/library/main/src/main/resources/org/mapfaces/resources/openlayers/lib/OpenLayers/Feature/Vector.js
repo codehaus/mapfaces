@@ -216,6 +216,36 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
     destroyPopup: function() {
         // pass
     },
+
+    /**
+     * Method: move
+     * Moves the feature and redraws it at its new location
+     *
+     * Parameters:
+     * state - {OpenLayers.LonLat or OpenLayers.Pixel} the
+     *         location to which to move the feature.
+     */
+    move: function(location) {
+
+        if(!this.layer || !this.geometry.move){
+            //do nothing if no layer or immoveable geometry
+            return;
+        }
+
+        var pixel;
+        if (location.CLASS_NAME == "OpenLayers.LonLat") {
+            pixel = this.layer.getViewPortPxFromLonLat(location);
+        } else {
+            pixel = location;
+        }
+        
+        var lastPixel = this.layer.getViewPortPxFromLonLat(this.geometry.getBounds().getCenterLonLat());
+        var res = this.layer.map.getResolution();
+        this.geometry.move(res * (pixel.x - lastPixel.x),
+                           res * (lastPixel.y - pixel.y));
+        this.layer.drawFeature(this);
+        return lastPixel;
+    },
     
     /**
      * Method: toState
@@ -278,7 +308,8 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
  *  - strokeColor: "#ee9900",
  *  - strokeOpacity: 1,
  *  - strokeWidth: 1,
- *  - strokeLinecap: "round",
+ *  - strokeLinecap: "round",  [butt | round | square]
+ *  - strokeDashstyle: "solid", [dot | dash | dashdot | longdash | longdashdot | solid]
  *  - hoverStrokeColor: "red",
  *  - hoverStrokeOpacity: 1,
  *  - hoverStrokeWidth: 0.2,
@@ -293,9 +324,10 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
  *  - externalGraphic,
  *  - graphicWidth,
  *  - graphicHeight,
- *  - graphicOpacity
- *  - graphicXOffset
- *  - graphicYOffset
+ *  - graphicOpacity,
+ *  - graphicXOffset,
+ *  - graphicYOffset,
+ *  - graphicName,
  *  - display
  */ 
 OpenLayers.Feature.Vector.style = {
@@ -308,6 +340,7 @@ OpenLayers.Feature.Vector.style = {
         strokeOpacity: 1,
         strokeWidth: 1,
         strokeLinecap: "round",
+        strokeDashstyle: "solid",
         hoverStrokeColor: "red",
         hoverStrokeOpacity: 1,
         hoverStrokeWidth: 0.2,
@@ -326,6 +359,7 @@ OpenLayers.Feature.Vector.style = {
         strokeOpacity: 1,
         strokeWidth: 2,
         strokeLinecap: "round",
+        strokeDashstyle: "solid",
         hoverStrokeColor: "red",
         hoverStrokeOpacity: 1,
         hoverStrokeWidth: 0.2,
@@ -344,6 +378,7 @@ OpenLayers.Feature.Vector.style = {
         strokeOpacity: 1,
         strokeLinecap: "round",
         strokeWidth: 4,
+        strokeDashstyle: "solid",
         hoverStrokeColor: "red",
         hoverStrokeOpacity: 1,
         hoverStrokeWidth: 0.2,

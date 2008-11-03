@@ -40,7 +40,7 @@
             var scriptName = OpenLayers._scriptName;
          
             var scripts = document.getElementsByTagName('script');
-            for (var i = 0; i < scripts.length; i++) {
+            for (var i=0, len=scripts.length; i<len; i++) {
                 var src = scripts[i].getAttribute('src');
                 if (src) {
                     var index = src.lastIndexOf(scriptName); 
@@ -83,21 +83,22 @@
             "OpenLayers/Tween.js",
             "Rico/Corner.js",
             "Rico/Color.js",
+            "Gears/gears_init.js",
             "OpenLayers/Ajax.js",
-            //"OpenLayers/Request.js",
-            //"OpenLayers/Request/XMLHttpRequest.js",
+            "OpenLayers/Request.js",
+            "OpenLayers/Request/XMLHttpRequest.js",
             "OpenLayers/Events.js",
             "OpenLayers/Projection.js",
             "OpenLayers/Map.js",
-            //"OpenLayers/Layer.js",
+            "OpenLayers/Layer.js",
             "OpenLayers/Icon.js",
             "OpenLayers/Marker.js",
             "OpenLayers/Marker/Box.js",
             "OpenLayers/Popup.js",
-            //"OpenLayers/Tile.js",
-            //"OpenLayers/Tile/Image.js",
-            //"OpenLayers/Tile/WFS.js",
-            /*"OpenLayers/Layer/Image.js",
+            "OpenLayers/Tile.js",
+            "OpenLayers/Tile/Image.js",
+            "OpenLayers/Tile/WFS.js",
+            "OpenLayers/Layer/Image.js",
             "OpenLayers/Layer/SphericalMercator.js",
             "OpenLayers/Layer/EventPane.js",
             "OpenLayers/Layer/FixedZoomLevels.js",
@@ -110,6 +111,7 @@
             "OpenLayers/Layer/MapServer.js",
             "OpenLayers/Layer/MapServer/Untiled.js",
             "OpenLayers/Layer/KaMap.js",
+            "OpenLayers/Layer/KaMapCache.js",
             "OpenLayers/Layer/MultiMap.js",
             "OpenLayers/Layer/Markers.js",
             "OpenLayers/Layer/Text.js",
@@ -119,7 +121,7 @@
             "OpenLayers/Layer/GeoRSS.js",
             "OpenLayers/Layer/Boxes.js",
             "OpenLayers/Layer/TMS.js",
-            "OpenLayers/Layer/TileCache.js",*/
+            "OpenLayers/Layer/TileCache.js",
             "OpenLayers/Popup/Anchored.js",
             "OpenLayers/Popup/AnchoredBubble.js",
             "OpenLayers/Popup/Framed.js",
@@ -150,20 +152,20 @@
             "OpenLayers/Control/MousePosition.js",
             "OpenLayers/Control/OverviewMap.js",
             "OpenLayers/Control/KeyboardDefaults.js",
-            "OpenLayers/Control/MouseWheelDefaults.js",
             "OpenLayers/Control/PanZoom.js",
             "OpenLayers/Control/PanZoomBar.js",
             "OpenLayers/Control/ArgParser.js",
             "OpenLayers/Control/Permalink.js",
             "OpenLayers/Control/Scale.js",
             "OpenLayers/Control/ScaleLine.js",
-            //"OpenLayers/Control/LayerSwitcher.js",
+            "OpenLayers/Control/LayerSwitcher.js",
             "OpenLayers/Control/DrawFeature.js",
             "OpenLayers/Control/DragFeature.js",
             "OpenLayers/Control/ModifyFeature.js",
             "OpenLayers/Control/Panel.js",
             "OpenLayers/Control/SelectFeature.js",
             "OpenLayers/Control/NavigationHistory.js",
+            "OpenLayers/Control/Measure.js",
             "OpenLayers/Geometry.js",
             "OpenLayers/Geometry/Rectangle.js",
             "OpenLayers/Geometry/Collection.js",
@@ -179,8 +181,18 @@
             "OpenLayers/Renderer.js",
             "OpenLayers/Renderer/Elements.js",
             "OpenLayers/Renderer/SVG.js",
+            "OpenLayers/Renderer/Canvas.js",
             "OpenLayers/Renderer/VML.js",
             "OpenLayers/Layer/Vector.js",
+            "OpenLayers/Strategy.js",
+            "OpenLayers/Strategy/Fixed.js",
+            "OpenLayers/Strategy/Cluster.js",
+            "OpenLayers/Strategy/Paging.js",
+            "OpenLayers/Strategy/BBOX.js",
+            "OpenLayers/Protocol.js",
+            "OpenLayers/Protocol/HTTP.js",
+            "OpenLayers/Protocol/SQL.js",
+            "OpenLayers/Protocol/SQL/Gears.js",
             "OpenLayers/Layer/PointTrack.js",
             "OpenLayers/Layer/GML.js",
             "OpenLayers/Style.js",
@@ -190,17 +202,26 @@
             "OpenLayers/Filter/FeatureId.js",
             "OpenLayers/Filter/Logical.js",
             "OpenLayers/Filter/Comparison.js",
+            "OpenLayers/Filter/Spatial.js",
             "OpenLayers/Format.js",
             "OpenLayers/Format/XML.js",
             "OpenLayers/Format/GML.js",
+            "OpenLayers/Format/GML/Base.js",
+            "OpenLayers/Format/GML/v2.js",
+            "OpenLayers/Format/GML/v3.js",
             "OpenLayers/Format/KML.js",
             "OpenLayers/Format/GeoRSS.js",
             "OpenLayers/Format/WFS.js",
             "OpenLayers/Format/WKT.js",
             "OpenLayers/Format/OSM.js",
+            "OpenLayers/Format/GPX.js",
             "OpenLayers/Format/SLD.js",
             "OpenLayers/Format/SLD/v1.js",
             "OpenLayers/Format/SLD/v1_0_0.js",
+            "OpenLayers/Format/SLD/v1.js",
+            "OpenLayers/Format/Filter.js",
+            "OpenLayers/Format/Filter/v1.js",
+            "OpenLayers/Format/Filter/v1_0_0.js",
             "OpenLayers/Format/Text.js",
             "OpenLayers/Format/JSON.js",
             "OpenLayers/Format/GeoJSON.js",
@@ -211,6 +232,11 @@
             "OpenLayers/Layer/WFS.js",
             "OpenLayers/Control/MouseToolbar.js",
             "OpenLayers/Control/NavToolbar.js",
+            "OpenLayers/Control/PanPanel.js",
+            "OpenLayers/Control/Pan.js",
+            "OpenLayers/Control/ZoomIn.js",
+            "OpenLayers/Control/ZoomOut.js",
+            "OpenLayers/Control/ZoomPanel.js",
             "OpenLayers/Control/EditingToolbar.js",
             "OpenLayers/Lang.js",
             "OpenLayers/Lang/en.js"
@@ -222,7 +248,7 @@
             var allScriptTags = new Array(jsfiles.length);
         }
         var host = OpenLayers._getScriptLocation() + "lib/";    
-        for (var i = 0; i < jsfiles.length; i++) {
+        for (var i=0, len=jsfiles.length; i<len; i++) {
             if (docWrite) {
                 allScriptTags[i] = "<script src='" + host + jsfiles[i] +
                                    "'></script>"; 
@@ -244,4 +270,4 @@
 /**
  * Constant: VERSION_NUMBER
  */
-OpenLayers.VERSION_NUMBER="$Revision: 7335 $";
+OpenLayers.VERSION_NUMBER="$Revision: 8012 $";

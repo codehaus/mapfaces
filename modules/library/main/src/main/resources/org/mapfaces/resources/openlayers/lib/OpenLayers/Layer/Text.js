@@ -132,7 +132,6 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
     moveTo:function(bounds, zoomChanged, minor) {
         OpenLayers.Layer.Markers.prototype.moveTo.apply(this, arguments);
         if(this.visibility && !this.loaded){
-            this.events.triggerEvent("loadstart");
             this.loadText();
         }
     },
@@ -157,7 +156,7 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
         
         var parser = new OpenLayers.Format.Text(options);
         features = parser.read(text);
-        for (var i = 0; i < features.length; i++) {
+        for (var i=0, len=features.length; i<len; i++) {
             var data = {};
             var feature = features[i];
             var location;
@@ -237,7 +236,7 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
     markerClick: function(evt) {
         var sameMarkerClicked = (this == this.layer.selectedFeature);
         this.layer.selectedFeature = (!sameMarkerClicked) ? this : null;
-        for(var i=0; i < this.layer.map.popups.length; i++) {
+        for(var i=0, len=this.layer.map.popups.length; i<len; i++) {
             this.layer.map.removePopup(this.layer.map.popups[i]);
         }
         if (!sameMarkerClicked) {

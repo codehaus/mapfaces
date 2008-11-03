@@ -33,8 +33,13 @@ OpenLayers.Map = OpenLayers.Class({
      * Constant: Z_INDEX_BASE
      * {Object} Base z-indexes for different classes of thing 
      */
-    Z_INDEX_BASE: { BaseLayer: 100, Overlay: 325, Popup: 750, Control: 1000 },
-
+    Z_INDEX_BASE: {
+        BaseLayer: 100,
+        Overlay: 325,
+        Feature: 725,
+        Popup: 750,
+        Control: 1000
+    },
     /**
      * Constant: EVENT_TYPES
      * {Array(String)} Supported application event types.  Register a listener
@@ -171,9 +176,16 @@ OpenLayers.Map = OpenLayers.Class({
      */
     layers: null,
 
-    /**
+     /**
      * Property: controls
-     * {Array(<OpenLayers.Control>)} List of controls associated with the map
+     * {Array(<OpenLayers.Control>)} List of controls associated with the map.
+     *
+     * If not provided in the map options at construction, the map will
+     *     be given the following controls by default:
+     *  - <OpenLayers.Control.Navigation>
+     *  - <OpenLayers.Control.PanZoom>
+     *  - <OpenLayers.Control.ArgParser>
+     *  - <OpenLayers.Control.Attribution>
      */
     controls: null,
 
@@ -206,8 +218,15 @@ OpenLayers.Map = OpenLayers.Class({
      * Property: zoom
      * {Integer} The current zoom level of the map
      */
-    zoom: 0,    
-
+    zoom: 0,   
+    
+    /**
+     * Property: panRatio
+     * {Float} The ratio of the current extent within
+     *         which panning will tween.
+     */
+    panRatio: 1.5,   
+    
     /**
      * Property: viewRequestID
      * {String} Used to store a unique identifier that changes when the map 
@@ -389,6 +408,7 @@ OpenLayers.Map = OpenLayers.Class({
     
     
     /*************************************** end MF extra properties***************************************/
+    
     /**
      * Constructor: OpenLayers.Map
      * Constructor for a new OpenLayers.Map instance.
@@ -429,13 +449,16 @@ OpenLayers.Map = OpenLayers.Class({
 
         // now override default options 
         OpenLayers.Util.extend(this, options);
+        
        //this.id = OpenLayers.Util.createUniqueID("OpenLayers.Map_");
         
         this.div = OpenLayers.Util.getElement(div);
+        
         //Deletee the ifForm: if it's an id and not an DOM element  else take the div.id      
         if (typeof div == 'string')div=div.split(":")[1];
-        else div=div.id;          
+        else div=div.id; 
         if (div.indexOf(':')!=-1)div=div.split(":")[1];
+        
         this.viewPortDiv = OpenLayers.Util.getElement(div+"_MapFaces_Viewport");
         // the layerContainerDiv is the one that holds all the layers
         this.layerContainerDiv =  OpenLayers.Util.getElement(div+"_MapFaces_Container");
@@ -444,7 +467,8 @@ OpenLayers.Map = OpenLayers.Class({
         this.events = new OpenLayers.Events(this, 
                                             this.div, 
                                             this.EVENT_TYPES, 
-                                            this.fallThrough);
+                                            this.fallThrough, 
+                                            {includeXY: true});
          
         this.popups = [];                                   
         this.layers = [];
@@ -454,7 +478,6 @@ OpenLayers.Map = OpenLayers.Class({
         this.center = this.getLonLatFromViewPortPx(new OpenLayers.Pixel(size.w /2, size.h / 2));
         
         this.updateSize();
-         
         if(this.eventListeners instanceof Object) {
             this.events.on(this.eventListeners);
         }

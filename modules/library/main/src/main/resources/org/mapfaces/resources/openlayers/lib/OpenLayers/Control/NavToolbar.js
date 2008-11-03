@@ -28,8 +28,7 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
         OpenLayers.Control.Panel.prototype.initialize.apply(this, [options]);
         this.addControls([
           new OpenLayers.Control.Navigation(),
-          new OpenLayers.Control.ZoomBox(),
-          new OpenLayers.Control.ZoomBox({out: true}),
+          new OpenLayers.Control.ZoomBox()
         ]);
     },
 

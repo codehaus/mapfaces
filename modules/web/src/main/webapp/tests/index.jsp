@@ -16,6 +16,10 @@
             <li>
                 <a href="./mapfaces.jsf">Test all the component in the same page</a>
             </li>
+            
+            <li>
+                <a href="./popup.jsf">Popup  component Test</a>
+            </li>
             <li>
                 <a href="./mappane.jsf">MapPane component Test</a>
             </li>            
