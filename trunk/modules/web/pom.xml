@@ -167,7 +167,7 @@
       </dependency>
       <dependency>
         <groupId>org.constellation</groupId>
-        <artifactId>spatialLucene</artifactId>
+        <artifactId>spatial-lucene</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
 
