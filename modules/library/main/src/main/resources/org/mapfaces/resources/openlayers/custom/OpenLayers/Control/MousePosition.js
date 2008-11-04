@@ -52,13 +52,13 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
      * APIProperty: prefixLat
      * {String}
      */
-    prefixLat: ' Lat : ',
+    prefixLat: ' ',
     
     /** 
      * APIProperty: prefixLon
      * {String}
      */
-    prefixLon: ' Lon : ',
+    prefixLon: ' Coord (deg) : ',
     
     /** 
      * APIProperty: separator

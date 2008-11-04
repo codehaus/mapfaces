@@ -96,6 +96,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
                 writer.write(",\npanEffect: true");
                 
             writer.write(",\ngetFeatureInfo: true");
+            writer.write(",\nmeasureDistance: true");
+            writer.write(",\nmeasureArea: true");
             
             writer.write("\n});\n");
             

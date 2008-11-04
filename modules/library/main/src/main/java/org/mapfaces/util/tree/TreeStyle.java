@@ -71,7 +71,7 @@ public final class TreeStyle {
      */
     /* Row customize style */
     public static final String default_rowStyle = "position:relative; list-style-type:none;";
-    private static String rowStyle;
+    private static String rowStyle="";
     private static String rowClass = "x-tree-node x-tree-lines";
 
     /* Methods and Accessors */

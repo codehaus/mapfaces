@@ -129,7 +129,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 writer.writeAttribute("style", "position:relative;", "style");
             }
             
-            URL url = mapLayer.query(env, dim);
+            URL url = mapLayer.query(env, dim); 
             writer.writeAttribute("src", url.toString(), "src");
             writer.endElement("img");
             writer.endElement("div");
@@ -141,7 +141,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
     }
 
     public WMSMapLayer createWMSLayer(final Layer layer) throws IOException, ServiceException {
-
+ 
         final WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), layer.getName());
         final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
         if (dims != null) {

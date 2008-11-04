@@ -57,6 +57,14 @@
         <component-class>org.mapfaces.component.UIScale</component-class>
     </component>
     <component>
+        <component-type>org.mapfaces.component.MeasureDistance</component-type>
+        <component-class>org.mapfaces.component.UIMeasureDistance</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.MeasureArea</component-type>
+        <component-class>org.mapfaces.component.UIMeasureArea</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.component.Popup</component-type>
         <component-class>org.mapfaces.component.UIPopup</component-class>
     </component>
@@ -278,6 +286,18 @@
             <component-family>org.mapfaces.Scale</component-family>
             <renderer-type>org.mapfaces.renderkit.html.Scale</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.ScaleRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>MeasureDistance of map. </description>
+            <component-family>org.mapfaces.MeasureDistance</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.MeasureDistance</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.MeasureDistanceRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>MeasureArea of map. </description>
+            <component-family>org.mapfaces.MeasureArea</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.MeasureArea</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.MeasureAreaRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Popup of map. </description>

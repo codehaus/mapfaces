@@ -219,7 +219,7 @@ public class ContextRenderer extends Renderer {
             //tmp.setI
             Map params = context.getExternalContext().getRequestParameterMap();
             String title = (String) params.get(FacesUtils.getFormId(context, component) + ":title");
-            if(params.get("org.mapfaces.ajax.ACTION") != null && ((String)params.get("org.mapfaces.ajax.ACTION")).equals("save")){
+            if(!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null && ((String)params.get("org.mapfaces.ajax.ACTION")).equals("save")){
                 ServletContext servletCtx = (ServletContext) context.getExternalContext().getContext();
                 if(!params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME").equals("null")){
                     tmp.save(servletCtx,(String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));

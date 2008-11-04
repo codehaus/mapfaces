@@ -121,6 +121,9 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
                     element.className = this.controls[i].displayClass + "ItemActive";
                 } else {    
                     element.className = this.controls[i].displayClass + "ItemInactive";
+                    if(this.controls[i].displayClass.indexOf("FeatureInfo") != -1){
+                        if(document.getElementById('form:getFeatureInfo'))document.getElementById('form:getFeatureInfo').innerHTML="";
+                    }
                 }    
                 this.div.appendChild(element);
             }

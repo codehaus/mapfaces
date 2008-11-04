@@ -16,10 +16,6 @@
             <li>
                 <a href="./mapfaces.jsf">Test all the component in the same page</a>
             </li>
-            
-            <li>
-                <a href="./popup.jsf">Popup  component Test</a>
-            </li>
             <li>
                 <a href="./mappane.jsf">MapPane component Test</a>
             </li>            
@@ -34,7 +30,16 @@
             </li>           
             <li>
                 <a href="./scalebar.jsf">ScaleBar component Test</a>
-            </li>       
+            </li>   
+            <li>
+                <a href="./popup.jsf">Popup  component Test</a>
+            </li>            
+            <li>
+                <a href="./measuredistance.jsf">MeasureDistance  component Test</a>
+            </li>            
+            <li>
+                <a href="./measurearea.jsf">MeasureArea  component Test</a>
+            </li>
             <li>
                 <a href="./layercontrol.jsf">LayerControl component Test</a>
             </li>
