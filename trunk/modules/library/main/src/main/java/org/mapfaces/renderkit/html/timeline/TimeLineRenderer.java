@@ -198,7 +198,7 @@ public class TimeLineRenderer extends Renderer {
             writer.startElement("div", comp);
             writer.writeAttribute("id", clientId, "id");
             writer.writeAttribute("class", "timeline-main-div", "class");
-            String stylewrap = "height:" + height + "px; max-height:" + comp.getHeight() + "px;overflow-x:auto;overflow-y:auto;position:relative;";
+            String stylewrap = "height:" + height + "px; max-height:" + comp.getHeight() + "px;overflow-x:hidden;overflow-y:auto;position:relative;";
             writer.writeAttribute("style", stylewrap, "style");
 
             UITimeLineControl timelineControl = new UITimeLineControl();
@@ -362,8 +362,8 @@ public class TimeLineRenderer extends Renderer {
 
             writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
                     "        var parameters = {    'synchronized': 'true',\n" +
-                    "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '" + FacesUtils.getFormId(context, component) + ":'+img.textContent.split(' ')[0],\n" +
-                    "                             'refresh': img.textContent.split(' ')[0],\n" +
+                    "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '" + FacesUtils.getFormId(context, component) + ":"+(parentContext.getId())+"_'+img.textContent.split(' ')[0],\n" +
+                    "                             'refresh': '" + FacesUtils.getFormId(context, component) + ":"+(parentContext.getId())+"_'+img.textContent.split(' ')[0],\n" +
                     "                              'Time': img.textContent.split(' ')[1],\n" +
                     "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
                     "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +

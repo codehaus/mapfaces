@@ -68,7 +68,7 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
           tab.push(new OpenLayers.Control.Save());
         }
         //Add GetFeatureInfo button
-        if(options.getfeatureInfo)
+        if(options.getFeatureInfo)
           tab.push(new OpenLayers.Control.GetFeatureInfo());
       
         //Add Measure distance
@@ -82,7 +82,7 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
         
         //Add Measure area
         if(options.measureArea){
-           var ma = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon);
+           var ma = new OpenLayers.Control.MeasureArea(OpenLayers.Handler.Polygon);
            ma.events.on({
                     'measure': handleMeasurements,
                     'measurepartial': handleMeasurements});  

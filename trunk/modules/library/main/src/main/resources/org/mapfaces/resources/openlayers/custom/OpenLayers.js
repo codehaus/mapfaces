@@ -258,6 +258,7 @@ if(!window.OpenLayers){
            "openlayers/custom/OpenLayers/Control/MouseWheelDefaults.js",
            "openlayers/custom/OpenLayers/Control/ScaleExt.js",
            "openlayers/custom/OpenLayers/Control/ScaleBar.js",
+           "openlayers/custom/OpenLayers/Control/MeasureArea.js",
            "openlayers/custom/OpenLayers/Format/GeoJSON.js",
            "openlayers/custom/OpenLayers/Control/NavToolbar.js",
            "openlayers/lib/OpenLayers/Lang/fr.js",

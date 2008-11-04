@@ -138,7 +138,7 @@
 }
 
 .mfButtonBar {
-    width:300px;
+    width:350px;
     heigth:24px;
     position:absolute;
     margin:5px;
@@ -201,6 +201,37 @@
     background-repeat: no-repeat;
     cursor:pointer;
 }
+.mfButtonBar .olControlMeasureItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/MeasureDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlMeasureItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/MeasureEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+
+.mfButtonBar .olControlMeasureAreaItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/EditPolygonDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlMeasureAreaItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/EditPolygonEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGetFeatureInfoItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGetFeatureInfoItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
 .mfButtonBar .olControlNavigationHistory {
     background-image: url("resource.jsf?r=/org/mapfaces/resources/img/navigation_history.png");
     background-repeat: no-repeat;
@@ -241,7 +272,7 @@
     font-size:0.7em;    
 }
 .mfCursorTrack .mfCursorTrackPrefix{
-    font-weight:bold;    
+    /*font-weight:bold;  */  
 }
 /*DimRange*/
 .special { background-color: #50ea70; color: red; }

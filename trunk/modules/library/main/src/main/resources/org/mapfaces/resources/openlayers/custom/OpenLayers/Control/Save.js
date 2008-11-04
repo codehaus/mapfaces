@@ -26,7 +26,7 @@ OpenLayers.Control.Save = OpenLayers.Class(OpenLayers.Control, {
      * Property: url
      * TYPE_BUTTON.
      */
-    name: "saveContext.xxml",
+    name: "saveContext.xml",
     /**
      * Property: url
      * TYPE_BUTTON.
@@ -48,7 +48,10 @@ OpenLayers.Control.Save = OpenLayers.Class(OpenLayers.Control, {
             }
             this.map.sendAjaxRequest(parameters);
             //TODO ADD onComplete parameter to the sendAjaxRequest
-            window.open("../tmp/"+this.name);
+            window.Timer=function () {
+               window.open("tmp/saveContext.xml");
+            }
+            setTimeout("Timer()",2000);
         }    
     },
 //    sendAjaxRequest: function() {

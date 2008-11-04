@@ -10,87 +10,191 @@
 /**
  * Class: OpenLayers.Control.MousePosition
  */
-OpenLayers.Control.GetFeatureInfo= OpenLayers.Class(OpenLayers.Control, {
-    
+OpenLayers.Control.GetFeatureInfo= OpenLayers.Class(OpenLayers.Control, {    
     
     /**
      * Property: type
      * {OpenLayers.Control.TYPE}
      */
     type: OpenLayers.Control.TYPE_TOOL,
-    /** 
-     * Property: element
-     * {DOMElement} 
-     */
-    element: null,
-    
-    /**
-     * Constructor: OpenLayers.Control.MousePosition
-     * 
-     * Parameters:
-     * options - {DOMElement} Options for control.
-     */
-    initialize: function(options) {
-        OpenLayers.Control.prototype.initialize.apply(this, arguments);
-    },
+    active: false,
+                defaultHandlerOptions: {
+                    'single': true,
+                    'double': false,
+                    'pixelTolerance': 0,
+                    'stopSingle': false,
+                    'stopDouble': false
+                },
 
-    /**
-     * Method: destroy
-     */
-     destroy: function() {
-         if (this.map) {
-             this.map.events.unregister('mouseup', this, this.redraw);
-         }
-         OpenLayers.Control.prototype.destroy.apply(this, arguments);
-     },
+                initialize: function(options) {
+                    this.handlerOptions = OpenLayers.Util.extend(
+                        {}, this.defaultHandlerOptions
+                    );
+                    OpenLayers.Control.prototype.initialize.apply(
+                        this, arguments
+                    ); 
+                    this.handler = new OpenLayers.Handler.Click(
+                        this, {
+                            'click': this.onClick
+                        }, this.handlerOptions
+                    );
+                }, 
 
-    /**
-     * Method: draw
-     * {DOMElement}
-     */    
-    draw: function() {
-        OpenLayers.Control.prototype.draw.apply(this, arguments);
-
-        if (!this.element) {
-            this.div.left = "";
-            this.div.top = "";
-            this.element = this.div;
-        }
-        
-        this.redraw();
-        return this.div;
-    },
-   
-    /**
-     * Method: redraw  
+                onClick: function(evt) {
+                    if (this.map && evt != null) {
+                    //TODO org.mapfaces.ajax.ACTION_SAVE_DIR param is not used in the ontext save function
+                    //http://demo.geomatys.fr/constellation/WS/wms?bbox=-130,24,-66,50&styles=&format=image/png&info_format=text/plain&version=1.1.1&srs=epsg:4326&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width=550&height=250&x=170&y=160
+                    var parameters = {  
+                                      'refresh' : 'form:getFeatureInfo',
+                                      'synchronized' : 'true',
+                                      'org.mapfaces.ajax.ACTION' : 'getFeatureInfo',
+                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_X' : evt.xy.x,
+                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y' : evt.xy.y
+                    }
+                    this.map.sendAjaxRequest(parameters);
+                  }    
+                },
+//    activate: function () {
+//        if (this.active) {
+//            return false;
+//        }
+//        if (this.handler) {
+//            this.handler.activate();
+//        }
+//        this.active = true;
+//        this.events.triggerEvent("activate");
+//        return true;
+//    },
+//                /**
+//     * Method: deactivate
+//     */
+//    deactivate: function() {
+//        if (this.active) { 
+//            if(document.getElementById('form:getFeatureInfo'))document.getElementById('form:getFeatureInfo').style.display='none';
+//       
+//            if (this.handler) {
+//                this.handler.deactivate();
+//            }
+//            this.active = false;
+//            this.events.triggerEvent("deactivate");
+//            return true;
+//        }
+//        return false;
+//    },
+/**
+     * Method: deactivate
      */
-    redraw: function(evt) {
-        
-        if (this.map && evt != null) {
-            //TODO org.mapfaces.ajax.ACTION_SAVE_DIR param is not used in the ontext save function
-//http://demo.geomatys.fr/constellation/WS/wms?bbox=-130,24,-66,50&styles=&format=image/png&info_format=text/plain&version=1.1.1&srs=epsg:4326&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width=550&height=250&x=170&y=160
-          var parameters = {  
-                            'refresh' : 'form:getFeatureInfo',
-                            'synchronized' : 'true',
-                            'org.mapfaces.ajax.ACTION' : 'getFeatureInfo',
-                            'org.mapfaces.ajax.ACTION_GETFEATUREINFO_X' : evt.xy.x,
-                            'org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y' : evt.xy.y
-            }
-            this.map.sendAjaxRequest(parameters);
-        }    
-    },
-    
-    /** 
-     * Method: setMap
-     */
-    setMap: function() {
-        OpenLayers.Control.prototype.setMap.apply(this, arguments);
-        this.map.events.register( 'mouseup', this, this.redraw);
-    },    
-    
-  
-      
-      
-      
+//    deactivate: function() {
+//       //if(OpenLayers.Control.prototype.deactivate.apply(this,arguments)){
+//          if(document.getElementById('form:getFeatureInfo'))document.getElementById('form:getFeatureInfo').style.display='none';
+//          //return true;
+//       //}else{
+//         // return false;
+//      // }
+//    },
     CLASS_NAME: "OpenLayers.Control.GetFeatureInfo"
-});
+});                
+//OpenLayers.Class(OpenLayers.Control, {
+//    
+//    
+//    /**
+//     * Property: type
+//     * {OpenLayers.Control.TYPE}
+//     */
+//    type: OpenLayers.Control.TYPE_TOOL,
+//
+//    /**
+//     * APIProperty: handleRightClicks
+//     * {Boolean} Whether or not to handle right clicks. Default is false.
+//     */
+//    handleRightClicks: false,
+//    
+//    /**
+//     * Constructor: OpenLayers.Control.Navigation
+//     * Create a new navigation control
+//     * 
+//     * Parameters:
+//     * options - {Object} An optional object whose properties will be set on
+//     *                    the control
+//     */
+//    initialize: function(options) {
+//        this.handlers = {};
+//        OpenLayers.Control.prototype.initialize.apply(this, arguments);
+//    },
+//
+//    /**
+//     * Method: destroy
+//     * The destroy method is used to perform any clean up before the control
+//     * is dereferenced.  Typically this is where event listeners are removed
+//     * to prevent memory leaks.
+//     */
+//    destroy: function() {
+//        this.deactivate();
+//        OpenLayers.Control.prototype.destroy.apply(this,arguments);
+//    },
+//    
+//    /**
+//     * Method: activate
+//     */
+//    activate: function() {
+//        this.handlers.click.activate();
+//        return OpenLayers.Control.prototype.activate.apply(this,arguments);
+//    },
+//
+//    /**
+//     * Method: deactivate
+//     */
+//    deactivate: function() {
+//        this.handlers.click.deactivate();
+//        return OpenLayers.Control.prototype.deactivate.apply(this,arguments);
+//    },
+//    
+//    /**
+//     * Method: draw
+//     */
+//    draw: function() {
+//        // disable right mouse context menu for support of right click events
+//        if (this.handleRightClicks) {
+//            this.map.div.oncontextmenu = function () { return false;};
+//        }
+//
+//        var clickCallbacks = { 
+//            'click': this.defaultClick
+//            /*, 
+//            'dblclick': this.defaultDblClick, 
+//            'dblrightclick': this.defaultDblRightClick */
+//        };
+//        var clickOptions = {
+//            'single': true
+//        };
+//        this.handlers.click = new OpenLayers.Handler.Click(
+//            this, clickCallbacks, clickOptions
+//        );
+//        
+//        //this.activate();
+//    },
+//    /**
+//     * Method: defaultClick 
+//     * 
+//     * Parameters:
+//     * evt - {Event} 
+//     */
+//    defaultClick: function (evt) {
+//        if (this.map && evt != null) {
+//            //TODO org.mapfaces.ajax.ACTION_SAVE_DIR param is not used in the ontext save function
+//            //http://demo.geomatys.fr/constellation/WS/wms?bbox=-130,24,-66,50&styles=&format=image/png&info_format=text/plain&version=1.1.1&srs=epsg:4326&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width=550&height=250&x=170&y=160
+//            var parameters = {  
+//                              'refresh' : 'form:getFeatureInfo',
+//                              'synchronized' : 'true',
+//                              'org.mapfaces.ajax.ACTION' : 'getFeatureInfo',
+//                              'org.mapfaces.ajax.ACTION_GETFEATUREINFO_X' : evt.xy.x,
+//                              'org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y' : evt.xy.y
+//            }
+//            alert('ici');
+//            this.map.sendAjaxRequest(parameters);
+//        }    
+//    },
+//    
+//    
+//    CLASS_NAME: "OpenLayers.Control.GetFeatureInfo"
+//});
