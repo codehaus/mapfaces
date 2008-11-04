@@ -4468,13 +4468,7 @@
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
-        </attribute>
-        <attribute>
-            <name>debug</name>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-        </attribute>
+        </attribute>>
         <attribute>
             <name>width</name>
             <description>The width of this component in pixels (defaults to auto)</description>
