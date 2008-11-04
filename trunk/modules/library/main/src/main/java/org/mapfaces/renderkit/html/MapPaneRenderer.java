@@ -25,7 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;

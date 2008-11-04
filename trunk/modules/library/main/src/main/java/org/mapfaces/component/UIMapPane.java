@@ -19,7 +19,6 @@ package org.mapfaces.component;
 
 import java.util.List;
 import javax.faces.context.FacesContext;
-import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.map.MapContext;
 
 /**
@@ -29,7 +28,6 @@ import org.geotools.map.MapContext;
 public class UIMapPane extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane";
-    private DefaultPortrayalService portray = new DefaultPortrayalService();
     private MapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
@@ -335,14 +333,6 @@ public class UIMapPane extends UIWidgetBase {
 
     public void setNumZoomLevels(Integer numZoomLevels) {
         this.numZoomLevels = numZoomLevels;
-    }
-
-    public DefaultPortrayalService getPortray() {
-        return portray;
-    }
-
-    public void setPortray(DefaultPortrayalService portray) {
-        this.portray = portray;
     }
 
     public MapContext getDefaultMapContext() {

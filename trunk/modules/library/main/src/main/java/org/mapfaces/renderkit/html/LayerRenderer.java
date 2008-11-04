@@ -17,12 +17,10 @@
 
 package org.mapfaces.renderkit.html;
 
-import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.Robot;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,21 +28,21 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.MapBuilder;
-import org.geotools.map.MapContext;
-import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 import org.geotools.ows.ServiceException;
 import org.geotools.referencing.CRS;
+
 import org.mapfaces.component.UILayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.util.FacesUtils;
+
 import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * @author Olivier Terral.
@@ -52,172 +50,108 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
  */
 public class LayerRenderer extends WidgetBaseRenderer {
 
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.LayerRenderer");
+        
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         assertValid(context, component);
-        UILayer comp = (UILayer) component;
-        try {
-            if (comp.isDebug()) {
-                System.out.println("[LayerRenderer] encodeBegin");
-            }
-            // suppress rendering if "rendered" property on the component is false.
-            if (!component.isRendered()) {
+        final UILayer comp  = (UILayer) component;
+        final boolean debug = comp.isDebug();
+        
+        if (debug) System.out.println("[LayerRenderer] encodeBegin"+ comp.getClientId(context)+" "+comp.getId());
+        
+        // suppress rendering if "rendered" property on the component is false.
+        if (!comp.isRendered()) return;
+        
+        final ResponseWriter writer = context.getResponseWriter();
+        final String clientId       = comp.getClientId(context);
+        final String id             = comp.getAttributes().get("id").toString();
+        final Context model         = (Context) comp.getModel();
+        final Layer layer           = comp.getLayer();
+        final Dimension dim         = new Dimension(
+                                        Integer.parseInt(model.getWindowWidth()),
+                                        Integer.parseInt(model.getWindowHeight()));
+        
+        if (model == null && debug) System.out.println("[LayerRenderer] model is null");
+        
+        if (debug) System.out.println("Layer encode begin width height "+model.getId()+" "+ layer.getId() +" "+ model.getWindowHeight()+" "+model.getWindowWidth());
+        
+        final String styleImg = "filter:alpha(opacity="+(new Float(layer.getOpacity())*100)+");opacity:"+layer.getOpacity()+";";
+        final String display  = (layer.isHidden()) ? "display:none" : "display:block;" ;
+        
+        writer.startElement("div", comp);
+        writer.writeAttribute("id", clientId, "style");
+        writer.writeAttribute("class", "layerDiv", "style");
+        writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" +  comp.getStyle(), "style");
+        
+        
+        //Add layer image if not the first page loads                        
+        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
+
+            writer.startElement("div", comp);
+            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;"+styleImg + display, "style");
+            
+            final String srs = model.getSrs();
+            final CoordinateReferenceSystem crs;
+            try{
+                crs = CRS.decode(srs);
+            }catch(FactoryException ex){
+                LOGGER.log(Level.SEVERE, "Invalide SRS definition : " + srs, ex);
+                //TODO should close divs and writer correctly is this happens
                 return;
             }
-
-            ResponseWriter writer = context.getResponseWriter();
-            String clientId = component.getClientId(context);
-            String id = (String) comp.getAttributes().get("id");
-
-            Context model = (Context) comp.getModel();
-            if (model == null) {
-                if (comp.isDebug()) {
-                    System.out.println("[LayerRenderer] model is null");
-                }
+            
+            final ReferencedEnvelope env = new ReferencedEnvelope(
+                    new Double(model.getMinx()), new Double(model.getMaxx()), 
+                    new Double(model.getMiny()), new Double(model.getMaxy()), 
+                    crs);
+            final WMSMapLayer mapLayer;
+            
+            try{
+                mapLayer = createWMSLayer(layer);
+            }catch(IOException ex){
+                LOGGER.log(Level.SEVERE,"Could not create wms map layer.",ex);
+                //TODO should close divs and writer correctly is this happens
+                return;
+            }catch(ServiceException ex){
+                LOGGER.log(Level.SEVERE,"Could not create wms map layer.",ex);
+                //TODO should close divs and writer correctly is this happens
+                return;
             }
             
-            String height = model.getWindowHeight();
-            String width = model.getWindowWidth();
-
-            //DefaultMapContext defaultMapContext = comp.getMapPane().getDefaultMapContext(); 
-
-            Layer layer = comp.getLayer();
-            String styleImg = "filter:alpha(opacity="+(new Float(layer.getOpacity())*100)+");opacity:"+layer.getOpacity()+";";
-            String display;
-            if (layer.isHidden()) {
-                display = "display:none;";
-            } else {
-                display = "display:block;";
+            if (debug) System.out.println("[PORTRAYING] for envelope : " + env + "and size : " + dim);
+            
+            writer.startElement("img", comp);
+            writer.writeAttribute("id", id + "_Img", "style");
+            writer.writeAttribute("class", "layerImg", "style");
+            
+            if (styleImg != null) {
+                writer.writeAttribute("style", "position:relative;", "style");
             }
-            writer.startElement("div", comp);
-            writer.writeAttribute("id", clientId, "style");
-            writer.writeAttribute("class", "layerDiv", "style");
-            writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" +  comp.getStyle(), "style");
-
-            //Add layer image if not the first page loads                        
-            if (FacesUtils.getParentUIMapPane(context, component).getInitDisplay() && !layer.isHidden()) {
-
-                writer.startElement("div", comp);
-                writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + width + "px; height: " + height + "px;"+styleImg + display, "style");
-                
-                //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
-                if (comp.getDir().listFiles().length > 30) {
-                    for (File file : comp.getDir().listFiles()) {
-                        file.delete();
-                    }
-                }
-                
-                File dst = File.createTempFile("img", "", comp.getDir());
-                if (isDebug()) {
-                    System.out.println("            Layer updated " + dst.getName());
-                }
-                String srs = model.getSrs();
-                MapContext defaultMapContext = MapBuilder.getInstance().createContext(CRS.decode(srs));
-                ReferencedEnvelope env = new ReferencedEnvelope(new Double(model.getMinx()), new Double(model.getMaxx()), new Double(model.getMiny()), new Double(model.getMaxy()), CRS.decode(srs));
-                MapLayer mapLayer = LayerToWMSMapLayer(context, component, layer, env);
-                if (defaultMapContext.layers().add(mapLayer)) {
-                    /**
-                     * If bbox from model and bbox from MapContext are different , set the bbox in the model doc
-                     * normally it doesn't
-                     */
-                    if (!defaultMapContext.getBounds().equals(env)) {
-                        model.setMinx(String.valueOf(env.getMinX()));
-                        model.setMiny(String.valueOf(env.getMinY()));
-                        model.setMaxx(String.valueOf(env.getMaxX()));
-                        model.setMaxy(String.valueOf(env.getMaxY()));
-                    }
-                    if (comp.isDebug()) {
-                        System.out.println("[PORTRAYING] for envelope " + env);
-                    }
-                    Dimension dim = new Dimension(new Integer(width), new Integer(height));
-                    try {
-                        Date testBegin = new Date();
-                        FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), dim, false);
-                        Date testEnd = new Date();
-                        Long timeout = testEnd.getTime() - testBegin.getTime();
-                    } catch (Exception e) {
-                        //try {
-                            if (comp.isDebug()) {
-                                System.out.println("[PORTRAYING] Catched Exception : " + e.getMessage());
-                            }
-                            Exception exp = e;
-                            Date begin = new Date();
-                            /*System.setProperty("java.awt.headless", "true");
-                            Robot robocop = new Robot();*/
-                            while (exp != null) {
-                                try {                                    
-                                    //robocop.delay(1000);
-                                    System.out.println("[WAITING] 1s to try another request!");
-                                    Thread.sleep(1000);
-                                    
-                                    FacesUtils.getParentUIMapPane(context, component).getPortray().portray(defaultMapContext, env, dst, layer.getOutputFormat(), new Dimension(new Integer(width), new Integer(height)), false);
-                                    exp = null;
-                                } catch (Exception exception) {
-                                    exp = exception;                                    
-                                    if (comp.isDebug()) {
-                                        System.out.println("[PORTRAYING] Exception : " + exp.getMessage());
-                                    }
-                                }
-                                Date end = new Date();
-                                Long timeout = end.getTime() - begin.getTime();
-                                
-                                if (comp.isDebug()) {
-                                    System.out.println("[PORTRAYING] timeout = " + timeout);
-                                }
-                                if (timeout > 10000) {
-                                    break;
-                                }
-                            }
-//                        } catch (AWTException ex) {
-//                            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-                    }
-                    if (comp.isDebug()) {
-                        System.out.println("            Layer generate file finish " + layer.getName());
-                    }
-                    writer.startElement("img", comp);
-                    writer.writeAttribute("id", id + "_Img", "style");
-                    writer.writeAttribute("class", "layerImg", "style");
-                    if (styleImg != null) {
-                        writer.writeAttribute("style", "position:relative;", "style");
-                    }
-                    writer.writeAttribute("src", comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName(), "src");
-                    writer.endElement("img");
-                    writer.endElement("div");
-                }
-                if (defaultMapContext.layers().remove(mapLayer)) {
-                    if (comp.isDebug()) {
-                        System.out.println("            Layer removed");
-                    }
-                }
-            }
+            
+            URL url = mapLayer.query(env, dim);
+            writer.writeAttribute("src", url.toString(), "src");
+            writer.endElement("img");
             writer.endElement("div");
-            writer.flush();
-        } catch (ServiceException ex) {
-            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAuthorityCodeException ex) {
-            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FactoryException ex) {
-            Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            
+            if (debug) System.out.println("\tLayer removed");
         }
-
+        writer.endElement("div");
+        writer.flush();
     }
 
-    public MapLayer LayerToWMSMapLayer(FacesContext context, UIComponent component, Layer layer, ReferencedEnvelope env) throws IOException, ServiceException {
-//        System.out.println("=============== " + layer.getServer().getGTCapabilities().getRequest().getGetCapabilities().getGet());
-        WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), env);
-        HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
-        HashMap<String, String> dims2 = new HashMap<String, String>();
+    public WMSMapLayer createWMSLayer(final Layer layer) throws IOException, ServiceException {
+
+        final WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), layer.getName());
+        final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
         if (dims != null) {
-            for (String tmp : dims.keySet()) {
-                dims2.put(tmp, dims.get(tmp).getUserValue());
+            for (final String tmp : dims.keySet()) {
+                mapLayer.dimensions().put(tmp, dims.get(tmp).getUserValue());
             }
-            mapLayer.setDimensions(dims2);
         }
-        mapLayer.setName(layer.getName());
         mapLayer.setOutputFormat(layer.getOutputFormat());
         mapLayer.setVersion(layer.getServer().getVersion());
-        mapLayer.setServerUrl(layer.getServer().getHref());
+        mapLayer.setServerUrl(new URL(layer.getServer().getHref()));
         mapLayer.setVisible(!layer.isHidden());
         mapLayer.setStyles(layer.getStyles());
         if (layer.getSld() != null) {
@@ -227,121 +161,125 @@ public class LayerRenderer extends WidgetBaseRenderer {
             mapLayer.setSld_body(layer.getSldBody());
         }
         return mapLayer;
-
     }
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        UILayer comp = (UILayer) component;
-        if (comp.isDebug()) {
-            System.out.println("        LayerRenderer encodeEnd");
-        }
+        final UILayer comp = (UILayer) component;
+        if (comp.isDebug()) System.out.println("\tLayerRenderer encodeEnd");
     }
 
     @Override
-    public void decode(FacesContext context, UIComponent component) {
-        UILayer comp = (UILayer) component;
+    public void decode(final FacesContext context, final UIComponent component) {
         
-        if (comp.isDebug()) {
-            System.out.println("        LayerRenderer decode");
+        final UILayer comp              = (UILayer) component;
+        final Context model             = (Context) comp.getModel();
+        final Map<String,String> params = context.getExternalContext().getRequestParameterMap();
+        final Layer layer               = comp.getLayer();
+        final String formId             = FacesUtils.getFormId(context, comp);
+        
+        final StringBuilder sb = new StringBuilder("Layer decode :");
+        sb.append(" Model Id = ").append(model.getId());
+        sb.append(" Layer Id = ").append(layer.getId());
+        sb.append(" Window Width = ").append(model.getWindowHeight());
+        sb.append(" Window Height = ").append(model.getWindowWidth());
+        
+        if (context.getExternalContext().getRequestParameterMap() == null){
+            System.out.println(sb.toString());
+            return;
         }
-
-        if (context.getExternalContext().getRequestParameterMap() != null) {
-            Context tmp = (Context) comp.getModel();
-            Map params = context.getExternalContext().getRequestParameterMap();
-            Layer layer = comp.getLayer();
-        System.out.println("Layer decode width height "+comp.getClientId(context));
-            String formId = FacesUtils.getFormId(context, comp);
-            if((String) params.get("refresh") != null && ((String) params.get("refresh")).equals(comp.getClientId(context))){
-                String bbox = (String) params.get("bbox");
-                if (bbox != null && !bbox.equals(tmp.getMinx() + "," + tmp.getMiny().toString() + "," + tmp.getMaxx() + "," + tmp.getMaxy())) {
-                    tmp.setMinx(bbox.split(",")[0]);
-                    tmp.setMiny(bbox.split(",")[1]);
-                    tmp.setMaxx(bbox.split(",")[2]);
-                    tmp.setMaxy(bbox.split(",")[3]);
-                }
-                String win = (String) params.get("window");
-                if(win == null)
-                    win = (String) params.get(formId + ":window");
-                if (win != null) {
-                    String[] window = win.split(",");
-                    tmp.setWindowWidth(window[0]);
-                    tmp.setWindowHeight(window[1]);
-                }
+                
+//        if( params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))){
+            final String bbox = params.get("bbox");
+            sb.append("\n BBox = "+ bbox);
+            if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny().toString() + "," + model.getMaxx() + "," + model.getMaxy())) {
+                model.setMinx(bbox.split(",")[0]);
+                model.setMiny(bbox.split(",")[1]);
+                model.setMaxx(bbox.split(",")[2]);
+                model.setMaxy(bbox.split(",")[3]);
             }
-            String value = (String) params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE");
-            String layerId = (String) params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
-            if (value == null && params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID") != null) {
-                value = (String) params.get((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
-            //layerId = (String) params.get("refresh");
+            String win = params.get("window");
+            if (win != null) {
+                final String[] window = win.split(",");
+                model.setWindowWidth(window[0]);
+                model.setWindowHeight(window[1]);
             }
-            if (layerId != null) {
-                String layerProperty = ((String) params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
-                if (layerId.equals(layer.getCompId())) {
-
-                    //Modify Context property
-                    System.out.println("layerproperty" + layerProperty);
-                    if (layerProperty.contains("hidden")) {
-                        boolean test;
-                        if (value != null && value.equals("on")) {
-                            test = false;
-                        } else {
-                            test = true;
-                        }
-////                        tmp.setHidden(layer.getId(), test);
-                        layer.setHidden(test);
-                        if (isDebug()) {
-                            System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + tmp.isHidden(layer.getId()));
-                        }
-                    } else if (layerProperty.contains("Opacity")) {
-                        tmp.setOpacity(layer.getId(), value);
-                        if (isDebug()) {
-                            System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + tmp.getOpacity(layer.getId()));
-                        }
-                    } else if (layerProperty.contains("userValueTime")) {
-                        if (value == null)
-                            value = "";
-                        tmp.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
-                        System.out.println(tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
-                        if (isDebug()) {
-                            System.out.println("La propriété time du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "time", "userValue"));
-                        }
-                    } else if (layerProperty.contains("userValueElevation")) {
-                        if (value == null)
-                            value = "";
-                          
-                        tmp.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);                          
-                        if (isDebug()) {
-                            System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
-                        }
-                    } else if (layerProperty.contains("inputDimRange")) {
-                        tmp.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
-                        if (isDebug()) {
-                            System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + tmp.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
-                        }
-                    } else {
-                    }
-
-                }
+            win = params.get(formId + ":window");
+            if (win != null) {
+                final String[] window = win.split(",");
+                model.setWindowWidth(window[0]);
+                model.setWindowHeight(window[1]);
             }
-            //Modify Component property
-            if ((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null) {
-                comp.setStyle((String) params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
-            }
+//        }
             
-            System.out.println("Layer decode width height "+tmp.getId()+" "+ layer.getId() +" "+ tmp.getWindowHeight()+" "+tmp.getWindowWidth());
-            comp.setModel((AbstractModelBase) tmp);
-            comp.setLayer(tmp.getLayerFromId(layer.getId()));
-
+        String value         = params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE");
+        final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
+        if (value == null && params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID") != null) {
+            value = params.get( params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID"));
+            //layerId = params.get("refresh");
         }
+
+        if (layerId != null) {
+            final String layerProperty = params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID");
+            if (layerId.equals(formId+":"+layer.getCompId())) {
+
+                //Modify Context property
+                if (layerProperty.contains("hidden")) {
+                    final boolean test = !(value != null && value.equals("on"));                    
+//                    tmp.setHidden(layer.getId(), test);
+                    layer.setHidden(test);
+                    if (isDebug()) System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + model.isHidden(layer.getId()));
+                } else if (layerProperty.contains("Opacity")) {
+                    model.setOpacity(layer.getId(), value);
+                    if (isDebug()) System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + model.getOpacity(layer.getId()));
+                } else if (layerProperty.contains("userValueTime")) {
+                    if (value == null) value = "";
+                    model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
+                    System.out.println(model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
+                    if (isDebug()) System.out.println("La propriété time du layer " + layer.getId() + " à été modifiée :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));                    
+                } else if (layerProperty.contains("userValueElevation")) {
+                    if (value == null) value = "";
+                    model.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);                          
+                    if (isDebug()) System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));                    
+                } else if (layerProperty.contains("userValueDimRange")) {
+                    model.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
+                    if (isDebug()) System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
+                }
+
+            }
+        }
+        
+        //Modify Component property
+        if (params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null) {
+            comp.setStyle(params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
+        }
+        /* try {
+        ctx.saveModel(context);
+        } catch (JAXBException ex) {
+        Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+
+        System.out.println(sb.toString());
+        comp.setModel((AbstractModelBase) model);
+        comp.setLayer(model.getLayerFromId(layer.getId()));
+
         return;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("context should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("context should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
+    
+    private File getTempFile(File folder) throws IOException{
+        //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
+        if (folder.listFiles().length > 30) {
+            for (final File file : folder.listFiles()) {
+                file.delete();
+            }
+        }
+
+        return File.createTempFile("img", "", folder);
+    }
+    
 }
