@@ -70,7 +70,7 @@ public final class TreeStyle {
      * Css Style customize 
      */
     /* Row customize style */
-    final static String default_rowStyle = "position:relative; list-style-type:none;";
+    public static final String default_rowStyle = "position:relative; list-style-type:none;";
     private static String rowStyle;
     private static String rowClass = "x-tree-node x-tree-lines";
 
@@ -84,6 +84,7 @@ public final class TreeStyle {
     }
 
     public static void initRowStyle() {
+        rowStyle = "";
         setRowStyle(default_rowStyle);
     }
 

@@ -63,10 +63,11 @@ window.addEvent('domready', function() {
         });
     });
 });
+
 /*
- *
+ * Old versions !
  */
-/* window.addEvent('domready',function() {
+window.addEvent('domready',function() {
     document.ondragstart = function () {
         return false;
     }
@@ -228,4 +229,4 @@ window.addEvent('domready', function() {
             'position':'relative'
         });
     });
-}); */
+});

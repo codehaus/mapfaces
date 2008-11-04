@@ -55,8 +55,8 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     private final String MOO_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";
     private final String LOAD_JS = "/org/mapfaces/resources/tree/js/load.js";
     //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
-    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
-    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
+//    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
+//    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
 //    private final String TREE_MINIFY_JS = "/org/mapfaces/resources/tree/js/zip.js";
 
     /**
@@ -80,6 +80,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         Date phaseStart, phaseEnd, getValueStart, getValueEnd;
 
         /* Initialisation */
+        TreeStyle.initRowStyle();
         phaseStart = new Date();
         renderStart = new Date();
 
@@ -347,54 +348,17 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
         }
 
-//        writer.writeComment("Mootools Javascript Library");
-//        writer.startElement("script", component);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-//        writer.endElement("script");
-
-
         writer.startElement("link", component);
         writer.writeAttribute("type", "text/css", null);
         writer.writeAttribute("rel", "stylesheet", null);
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssFilesUrl, null), null);
         writer.endElement("link");
 
-        writer.startElement("link", component);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssDndFilesUrl, null), null);
-        writer.endElement("link");
 
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_JS, null), null);
         writer.endElement("script");
-
-        if (comp.isMootools()) {
-            writer.writeComment("Moo Javascript Library");
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOO_JS, null), null);
-            writer.endElement("script");
-        }
-
-//        if (comp.isMinifyJS()) {
-//            writer.startElement("script", component);
-//            writer.writeAttribute("type", "text/javascript", null);
-//            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREE_MINIFY_JS, null), null);
-//            writer.endElement("script");
-//        } else {
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREEPANEL_JS, null), null);
-            writer.endElement("script");
-
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, TREETABLE_JS, null), null);
-            writer.endElement("script");
-//        }
 
     }
 }

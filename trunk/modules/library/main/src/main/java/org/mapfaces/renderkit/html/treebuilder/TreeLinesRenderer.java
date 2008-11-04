@@ -43,22 +43,21 @@ public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
         String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
         UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
 
-        TreeStyle.initRowStyle();
-
         if (treepanel == null) {
             throw new IOException("No treepanel parent have been found for this treeline.");
         } else {
             if (treepanel.isTemplate()) {
                 //Template view
+                TreeStyle.initRowStyle();
             } else if (treepanel.isEmptyView()) {
                 //Empty view
-                TreeStyle.setRowStyle(TreeStyle.getRowStyle() + "display:none;");
+                TreeStyle.setRowStyle("display:none;");
             } else if (treepanel.isCloneView()) {
                 //Clone View
-                treepanel.setStyleOdd("background-color:lightSlateBlue;filter:alpha(opacity=20);-moz-opacity:0.2;opacity:0.2;");
-                treepanel.setStyleEven("background-color:lightSteelBlue;filter:alpha(opacity=20);-moz-opacity:0.2;opacity:0.2;");
+                TreeStyle.setRowStyle("filter:alpha(opacity=20);-moz-opacity:0.2;opacity:0.2;color:white;");
             } else {
                 //default
+                TreeStyle.initRowStyle();
             }
         }
     }

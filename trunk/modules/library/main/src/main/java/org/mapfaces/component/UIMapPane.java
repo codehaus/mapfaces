@@ -20,7 +20,7 @@ package org.mapfaces.component;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import org.geotools.display.service.DefaultPortrayalService;
-import org.geotools.map.DefaultMapContext;
+import org.geotools.map.MapContext;
 
 /**
  * @author Olivier Terral.
@@ -30,7 +30,7 @@ public class UIMapPane extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane";
     private DefaultPortrayalService portray = new DefaultPortrayalService();
-    private DefaultMapContext defaultMapContext;
+    private MapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
      * larger than the visible map. Large values mean slow loading, small
@@ -345,11 +345,11 @@ public class UIMapPane extends UIWidgetBase {
         this.portray = portray;
     }
 
-    public DefaultMapContext getDefaultMapContext() {
+    public MapContext getDefaultMapContext() {
         return defaultMapContext;
     }
 
-    public void setDefaultMapContext(DefaultMapContext defaultMapContext) {
+    public void setDefaultMapContext(MapContext defaultMapContext) {
         this.defaultMapContext = defaultMapContext;
     }
 

@@ -83,4 +83,5 @@ public class CheckColumnTag extends ColumnTag {
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;
     }
+    
 }

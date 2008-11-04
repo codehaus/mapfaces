@@ -4659,6 +4659,70 @@
             </deferred-value>
         </attribute>
     </tag>
+  <!-- TreeToolbar -->
+    <tag>
+        <name>TreeToolbar</name>
+        <description>Tree Toolbar</description>
+        <tag-class>org.mapfaces.taglib.tree.TreeToolbarTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>binding</name>
+            <deferred-value>javax.faces.component.UIComponent</deferred-value>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <description>Allow to apply a style to treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+          <attribute>
+            <name>styleTools</name>
+            <description>Allow to apply a style to tools components</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClassTools</name>
+            <description>Allow to apply a style to tools components</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
   <!-- TreeColumn -->
     <tag>
         <name>TreeColumn</name>

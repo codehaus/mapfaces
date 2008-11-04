@@ -59,7 +59,7 @@ public class CheckColumnRenderer extends AbstractColumnRenderer implements Custo
             checkbox.setId("check_" + checkColumn.getId());
             checkbox.setStyle("cursor:pointer;");
             /* @todo add javascript to make change between to panel */
-            checkbox.setOnclick("checkNode('" + formId + "','" + treepanel.getTarget() + "','" + node.getId() + "','" + checkcolumnId + "');");
+            checkbox.setOnchange("checkNode('" + formId + "','" + treepanel.getTarget() + "','" + node.getId() + "','" + checkcolumnId + "');");
             checkColumn.getChildren().add(checkbox);
         }
 
