@@ -32,7 +32,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.DefaultMapContext;
+import org.geotools.map.MapBuilder;
+import org.geotools.map.MapContext;
 import org.geotools.map.MapLayer;
 import org.geotools.map.WMSMapLayer;
 import org.geotools.ows.ServiceException;
@@ -111,7 +112,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     System.out.println("            Layer updated " + dst.getName());
                 }
                 String srs = model.getSrs();
-                DefaultMapContext defaultMapContext = new DefaultMapContext(CRS.decode(srs));
+                MapContext defaultMapContext = MapBuilder.getInstance().createContext(CRS.decode(srs));
                 ReferencedEnvelope env = new ReferencedEnvelope(new Double(model.getMinx()), new Double(model.getMaxx()), new Double(model.getMiny()), new Double(model.getMaxy()), CRS.decode(srs));
                 MapLayer mapLayer = LayerToWMSMapLayer(context, component, layer, env);
                 if (defaultMapContext.layers().add(mapLayer)) {

@@ -89,11 +89,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         /* 
          * Look client Browser, if it's Opera, we fix loadAll option
          */
-//        if (servletUtils.isOpera()) {
-//            loadAll = true;
-//        } else {
-        loadAll = treepanel.isLoadAll();
-//        }
+        if (servletUtils.isOpera()) {
+            loadAll = true;
+        } else {
+            loadAll = treepanel.isLoadAll();
+        }
 
         /* Initialisation */
         clientId = component.getClientId(context);
@@ -173,9 +173,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                     writer.startElement("div", component);
                     writer.writeAttribute("class", TreeStyle.default_frameTlStyle, null);
                     writer.startElement("div", component);
-                    writer.writeAttribute("class", TreeStyle.default_frameTlStyle, null);
+                    writer.writeAttribute("class", TreeStyle.default_frameTrStyle, null);
                     writer.startElement("div", component);
-                    writer.writeAttribute("class", TreeStyle.default_frameTlStyle, null);
+                    writer.writeAttribute("class", TreeStyle.default_frameTcStyle, null);
                 }
 
 
@@ -310,7 +310,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         for (UIComponent child : treepanel.getChildren()) {
-            if (!(child instanceof HtmlPanelGroup)&&!(child instanceof UITreeToolbarBase)) {
+            if (!(child instanceof HtmlPanelGroup) && !(child instanceof UITreeToolbarBase)) {
                 if (extContext.getRequestMap().containsKey("treePanelRendered_" + component.getClientId(context))) {
                     child.setTransient(true);
                 }
@@ -348,6 +348,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
+        UITreePanelBase treepanel = (UITreePanelBase) component;
         Date phaseStart, phaseEnd;
 
         /* Initialisation */

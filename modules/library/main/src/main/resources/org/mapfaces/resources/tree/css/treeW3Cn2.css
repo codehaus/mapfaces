@@ -3944,6 +3944,33 @@ body.x-body-masked .x-window-plain .x-window-mc {
     overflow : hidden;
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* Drag n' Drop' features- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.x-tree-dragable{
+    cursor:move;
+    float:left;
+    position:relative;
+    z-index:1;
+}
+.x-tree-droppable{
+    z-index:auto;
+}
+.x-tree-droppable-folder{
+}
+.x-tree-droppable-zone{
+    height:2px;
+}
+.x-tree-mo{
+    background:#eee;
+}
+.x-tree-locked{
+    cursor:default;
+    background:#fffea1;
+}
+.x-tree-locked-border{
+    border:1px solid #fc0;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* Extra features- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .x-tree-builder{
     width:49%;
 }

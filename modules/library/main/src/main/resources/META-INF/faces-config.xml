@@ -124,6 +124,10 @@
         <component-class>org.mapfaces.component.tree.UITreePanel</component-class>
     </component>
     <component>
+        <component-type>org.mapfaces.treetable.treepanel.TreeToolbar</component-type>
+        <component-class>org.mapfaces.component.tree.UITreeToolbar</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.treetable.treepanel.TreeColumn</component-type>
         <component-class>org.mapfaces.component.tree.UITreeColumn</component-class>
     </component>
@@ -388,6 +392,12 @@
             <component-family>javax.faces.Output</component-family>
             <renderer-type>org.mapfaces.renderkit.treetable.HTMLTreePanel</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.tree.TreePanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>TreeToolbar </description>
+            <component-family>org.mapfaces.treetable.treepanel.TreeToolbar</component-family>
+            <renderer-type>org.mapfaces.renderkit.treetable.treepanel.HTMLTreeToolbar</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.tree.TreeToolbarRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Treecolumn : This tag is used for creating columns of a table. This tag creates a data column inside 

@@ -180,16 +180,27 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         int width = Integer.valueOf(size) - indentStyle;
         writer.startElement("div", component);
         writer.writeAttribute("id", "treenode:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("style", "text-align:left;width:" + width + "px; padding-left :" + indentStyle + "px; padding-right :-" + indentStyle + "px; " + styleUser, null);
+        writer.writeAttribute("style", "text-align:left; width:" + width + "px; padding-left :" + indentStyle + "px; margin-right :-" + indentStyle + "px; " + styleUser, null);
         String classUser = "";
+        
         if (treecolumn.getStyleClass() != null) {
             classUser = treecolumn.getStyleClass();
         }
-        if (FolderType) {
-            writer.writeAttribute("class", CLASS_NODE_DIV + " " + classUser, null);
+        
+        if (treepanel.isEnableDragDrop()) {
+            if (FolderType) {
+                writer.writeAttribute("class", CLASS_NODE_DIV + " x-tree-droppable x-tree-droppable-folder " + classUser, null);
 //            writer.writeAttribute("onclick", "viewstate = document.getElementById('javax.faces.ViewState').value; display(" + node.getId() + ",'get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);", null);
-        } else {
-            writer.writeAttribute("class", CLASS_LEAF_DIV + " " + classUser, null);
+            } else {
+                writer.writeAttribute("class", CLASS_LEAF_DIV + " x-tree-dragable" + classUser, null);
+            }
+        }else{
+            if (FolderType) {
+                writer.writeAttribute("class", CLASS_NODE_DIV + classUser, null);
+//            writer.writeAttribute("onclick", "viewstate = document.getElementById('javax.faces.ViewState').value; display(" + node.getId() + ",'get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);", null);
+            } else {
+                writer.writeAttribute("class", CLASS_LEAF_DIV + classUser, null);
+            }
         }
 
 
@@ -306,9 +317,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 //                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
 //                    formId+".reset(); return false;" +
 
-            AjaxSupport.setOncomplete("expandSymbol('"+formId+"'," +
-                    "'"+treepanelId+"'," +
-                    "'"+node.getId()+"');");
+            AjaxSupport.setOncomplete("expandSymbol('" + formId + "'," +
+                    "'" + treepanelId + "'," +
+                    "'" + node.getId() + "'); refreshDnd();");
 
             //Adding Components to TreeColumn
             if (treepanel.isShowRoot() && node.getDepth() > 2) {
@@ -354,6 +365,11 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
+        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        UITreeColumnBase treecolumn = (UITreeColumnBase) component;
+        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        TreeNodeModel node = treeline.getNodeInstance();
 
         if (debug) {
             log.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
@@ -363,7 +379,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (debug) {
             log.info("encodeEnd : " + AbstractTreeColumnRenderer.class.getName());
         }
+
         writer.endElement("div");
+
 
         if (debug) {
             log.info("afterEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
