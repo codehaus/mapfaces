@@ -189,7 +189,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             return;
         }
                 
-//        if( params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))){
+        if( params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))){
             final String bbox = params.get("bbox");
             sb.append("\n BBox = "+ bbox);
             if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny().toString() + "," + model.getMaxx() + "," + model.getMaxy())) {
@@ -199,18 +199,14 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 model.setMaxy(bbox.split(",")[3]);
             }
             String win = params.get("window");
+            if(win==null)                
+                win = params.get(formId + ":window");
             if (win != null) {
                 final String[] window = win.split(",");
                 model.setWindowWidth(window[0]);
                 model.setWindowHeight(window[1]);
             }
-            win = params.get(formId + ":window");
-            if (win != null) {
-                final String[] window = win.split(",");
-                model.setWindowWidth(window[0]);
-                model.setWindowHeight(window[1]);
-            }
-//        }
+        }
             
         String value         = params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE");
         final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
@@ -221,29 +217,29 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         if (layerId != null) {
             final String layerProperty = params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID");
-            if (layerId.equals(formId+":"+layer.getCompId())) {
+            if (layerId.equals(comp.getClientId(context))) {
 
                 //Modify Context property
                 if (layerProperty.contains("hidden")) {
                     final boolean test = !(value != null && value.equals("on"));                    
 //                    tmp.setHidden(layer.getId(), test);
                     layer.setHidden(test);
-                    if (isDebug()) System.out.println("La propriété hidden du layer " + layer.getId() + " à été modifiée :" + model.isHidden(layer.getId()));
+                    if (isDebug()) System.out.println("La propriÃ©tÃ© hidden du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.isHidden(layer.getId()));
                 } else if (layerProperty.contains("Opacity")) {
                     model.setOpacity(layer.getId(), value);
-                    if (isDebug()) System.out.println("La propriété opacity du layer " + layer.getId() + " à été modifiée :" + model.getOpacity(layer.getId()));
-                } else if (layerProperty.contains("userValueTime")) {
+                    if (isDebug()) System.out.println("La propriÃ©tÃ© opacity du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getOpacity(layer.getId()));
+                } else if (layerProperty.contains("Time")) {
                     if (value == null) value = "";
                     model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
                     System.out.println(model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
-                    if (isDebug()) System.out.println("La propriété time du layer " + layer.getId() + " à été modifiée :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));                    
-                } else if (layerProperty.contains("userValueElevation")) {
+                    if (isDebug()) System.out.println("La propriÃ©tÃ© time du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));                    
+                } else if (layerProperty.contains("Elevation")) {
                     if (value == null) value = "";
                     model.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);                          
-                    if (isDebug()) System.out.println("La propriété elevation du layer " + layer.getId() + " à été modifiée :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));                    
-                } else if (layerProperty.contains("userValueDimRange")) {
+                    if (isDebug()) System.out.println("La propriÃ©tÃ© elevation du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));                    
+                } else if (layerProperty.contains("DimRange")) {
                     model.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
-                    if (isDebug()) System.out.println("La propriété dim_range du layer " + layer.getId() + " à été modifiée :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
+                    if (isDebug()) System.out.println("La propriÃ©tÃ© dim_range du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
                 }
 
             }

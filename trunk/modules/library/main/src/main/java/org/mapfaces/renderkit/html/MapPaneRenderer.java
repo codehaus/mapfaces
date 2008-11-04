@@ -144,7 +144,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 temp.setCompId(layer.getClientId(context));
                 layer.setLayer(temp);
                 if (debug) {
-                    System.out.println("  ClientIdsssssssss " + layer.getClientId(context) + " layers");                
+                    System.out.println(" Layer  ClientId" + layer.getClientId(context) + " layers");                
                 }
             }
         }
