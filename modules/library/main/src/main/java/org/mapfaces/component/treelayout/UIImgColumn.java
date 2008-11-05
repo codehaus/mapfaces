@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -14,48 +14,64 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component.treelayout;
 
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.component.abstractTree.UIColumnBase;
 
 /**
- * @author Olivier Terral.
+ * @author Kevin Delfour (Geomatys)
  */
 public class UIImgColumn extends UIColumnBase {
 
-    private final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLImgColumn";
-    private final String FAMILY = "org.mapfaces.treelayout.Column";    
-    // =========== ATTRIBUTES ================================================== //
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLImgColumn";
+    private static final String FAMILY = "org.mapfaces.treelayout.Column";
+
     private String icon;
     private String defaultImg = "/resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
     private String alt = "No image";
     private String title = "";
     private String styleImg = "";
-    // =========== ATTRIBUTES ACCESSORS ======================================== //
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getHeaderIcon() {
         return icon;
     }
 
-    public void setHeaderIcon(String icon) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHeaderIcon(final String icon) {
         this.icon = icon;
     }
-    // =========== FONCTIONS ======================================== //
-    //Override methods
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[7];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[7];
         values[0] = super.saveState(context);
         values[1] = icon;
         values[2] = defaultImg;
@@ -65,23 +81,26 @@ public class UIImgColumn extends UIColumnBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         icon = (String) values[1];
         defaultImg = (String) values[2];
         alt = (String) values[3];
         title = (String) values[4];
         styleImg = (String) values[5];
-        
+
     }
 
     public String getImg() {
         return defaultImg;
     }
 
-    public void setImg(String defaultImg) {
+    public void setImg(final String defaultImg) {
         this.defaultImg = defaultImg;
     }
 
@@ -89,15 +108,23 @@ public class UIImgColumn extends UIColumnBase {
         return alt;
     }
 
-    public void setAlt(String alt) {
+    public void setAlt(final String alt) {
         this.alt = alt;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getHeaderTitle() {
         return title;
     }
 
-    public void setHeaderTitle(String title) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHeaderTitle(final String title) {
         this.title = title;
     }
 
@@ -105,7 +132,7 @@ public class UIImgColumn extends UIColumnBase {
         return styleImg;
     }
 
-    public void setStyleImg(String styleImg) {
+    public void setStyleImg(final String styleImg) {
         this.styleImg = styleImg;
     }
 }
