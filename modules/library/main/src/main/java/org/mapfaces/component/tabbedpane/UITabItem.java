@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,23 +22,22 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITabItem extends UIComponentBase implements Serializable {
 
     private static final long serialVersionUID = 4054363322134169900L;
-    private final String TABITEM_RENDERER_TYPE = "org.mapfaces.renderkit.tabpanel.HTMLTabItem";
-    private final String TABITEM_COMP_FAMILY = "javax.faces.Output";
-    // =========== ATTRIBUTES ================================================== //
+    private static final String TABITEM_RENDERER_TYPE = "org.mapfaces.renderkit.tabpanel.HTMLTabItem";
+    private static final String TABITEM_COMP_FAMILY = "javax.faces.Output";
+
     private String title;
     private boolean active;
-    // =========== ATTRIBUTES ACCESSORS ======================================== //
+
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -46,32 +45,44 @@ public class UITabItem extends UIComponentBase implements Serializable {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         this.active = active;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TABITEM_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TABITEM_RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[3];
         values[0] = super.saveState(context);
         values[1] = getTitle();
         values[2] = isActive();
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setTitle((String) values[1]);
         setActive((Boolean) values[2]);
