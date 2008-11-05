@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,21 +21,25 @@ import javax.faces.context.FacesContext;
 import javax.faces.component.UICommand;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class UISliderInput extends UICommand {
 
     public static final String FAMILIY = "org.mapfaces.component.TimeLine.SliderInput";
+    final static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
+        "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    };
+
     private String maxval = "100";
     private String forid = "0";
     private String horizontal = "true";
     private String length = "300";
     private String style;
-    final static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
-        "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
-    };
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
@@ -45,7 +49,7 @@ public class UISliderInput extends UICommand {
         setRendererType("org.mapfaces.renderkit.TimeLine.HTMLSliderInput");
     }
 
-    private String getBaseClientId(FacesContext context) {
+    private String getBaseClientId(final FacesContext context) {
         // Simple method to return "base" of ClientId
         String clientId = getClientId(context);
         return clientId.substring(0, clientId.indexOf(":") + 1);
@@ -55,7 +59,7 @@ public class UISliderInput extends UICommand {
         return maxval;
     }
 
-    public void setMaxval(String maxval) {
+    public void setMaxval(final String maxval) {
         this.maxval = maxval;
     }
 
@@ -63,7 +67,7 @@ public class UISliderInput extends UICommand {
         return forid;
     }
 
-    public void setForid(String forid) {
+    public void setForid(final String forid) {
         this.forid = forid;
     }
 
@@ -71,7 +75,7 @@ public class UISliderInput extends UICommand {
         return horizontal;
     }
 
-    public void setHorizontal(String horizontal) {
+    public void setHorizontal(final String horizontal) {
         this.horizontal = horizontal;
     }
 
@@ -79,11 +83,11 @@ public class UISliderInput extends UICommand {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(final String length) {
         this.length = length;
     }
 
-    public int getIndexFromUnit(String intervalUnit) {
+    public int getIndexFromUnit(final String intervalUnit) {
         for (int i = 0; i < intervalNames.length; i++) {
             if (intervalNames[i].equals(intervalUnit)) {
                 return intervalNames.length - i - 1;
@@ -91,10 +95,13 @@ public class UISliderInput extends UICommand {
         }
         return -1;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[15];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[15];
         values[0] = super.saveState(context);
         values[1] = maxval;
         values[2] = forid;
@@ -104,9 +111,12 @@ public class UISliderInput extends UICommand {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         maxval = (String) values[1];
         forid = (String) values[2];
@@ -119,7 +129,7 @@ public class UISliderInput extends UICommand {
         return style;
     }
 
-    public void setStyle(String style) {
+    public void setStyle(final String style) {
         this.style = style;
     }
 }
