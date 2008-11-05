@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
  * @author Sidhoum Mehdi.
  */
 public class LinearEther implements Serializable {
@@ -46,7 +45,7 @@ public class LinearEther implements Serializable {
         return interval;
     }
 
-    public void setInterval(int interval) {
+    public void setInterval(final int interval) {
         this.interval = interval;
     }
 
@@ -57,7 +56,7 @@ public class LinearEther implements Serializable {
         return pixelsPerInterval;
     }
 
-    public void setPixelsPerInterval(int pixelsPerInterval) {
+    public void setPixelsPerInterval(final int pixelsPerInterval) {
         this.pixelsPerInterval = pixelsPerInterval;
     }
 
@@ -68,7 +67,7 @@ public class LinearEther implements Serializable {
         return centersOn;
     }
 
-    public void setCentersOn(Date centersOn) {
+    public void setCentersOn(final Date centersOn) {
         this.centersOn = centersOn;
     }
 

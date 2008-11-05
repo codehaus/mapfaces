@@ -20,7 +20,6 @@ package org.mapfaces.models.timeline;
 import java.io.Serializable;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class GregorianEtherPainter implements Serializable {
@@ -41,7 +40,7 @@ public class GregorianEtherPainter implements Serializable {
         return unit;
     }
 
-    public void setUnit(int unit) {
+    public void setUnit(final int unit) {
         this.unit = unit;
     }
 
