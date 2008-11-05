@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,19 +20,24 @@ import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.share.interfaces.A4JInterface;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITreeColumn extends UITreeColumnBase implements A4JInterface {
 
-    private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn";
-    private final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeColumn";
+    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn";
+    private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeColumn";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TREECOLUMN_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TREECOLUMN_RENDERER_TYPE;

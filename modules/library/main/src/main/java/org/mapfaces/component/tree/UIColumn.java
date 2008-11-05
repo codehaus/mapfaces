@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,21 +20,27 @@ package org.mapfaces.component.tree;
 import org.mapfaces.component.abstractTree.UIColumnBase;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UIColumn extends UIColumnBase {
 
-    private final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLColumn";
-    private final String COLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.Column";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLColumn";
+    private static final String COLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.Column";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return COLUMN_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;
     }
-    }
+
+}
