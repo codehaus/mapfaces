@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,37 +21,46 @@ import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class UITimeLineControl extends UICommand {
-    
+
     public static final String FAMILIY = "org.mapfaces.component.TimeLine.TimeLineControl";
-    
+
     private String style;
     private String styleClass;
-        
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
-    
+
     public UITimeLineControl() {
         super();
         setRendererType("org.mapfaces.renderkit.TimeLine.HTMLTimeLineControl");
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[14];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = style;
         values[2] = styleClass;
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         style = (String) values[1];
         styleClass = (String) values[2];
@@ -61,7 +70,7 @@ public class UITimeLineControl extends UICommand {
         return style;
     }
 
-    public void setStyle(String style) {
+    public void setStyle(final String style) {
         this.style = style;
     }
 
@@ -69,7 +78,7 @@ public class UITimeLineControl extends UICommand {
         return styleClass;
     }
 
-    public void setStyleClass(String styleClass) {
+    public void setStyleClass(final String styleClass) {
         this.styleClass = styleClass;
     }
 }

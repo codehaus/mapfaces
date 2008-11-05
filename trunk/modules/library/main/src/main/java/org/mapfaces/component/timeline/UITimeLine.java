@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -29,6 +29,8 @@ import org.mapfaces.models.timeline.Event;
 public class UITimeLine extends UICommand {
 
     public static final String FAMILIY = "org.mapfaces.component.TimeLine";
+    public static final int TIMELINE_Default_Height = 50;
+
     /**
      * List of the events for the timeline.
      */
@@ -81,11 +83,13 @@ public class UITimeLine extends UICommand {
      * This is the height of the timeline eg. 170;
      */
     private int height;
-    
-    public static int TIMELINE_Default_Height = 50;
-    
+
     private int bandHeight;
-    
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
@@ -104,11 +108,11 @@ public class UITimeLine extends UICommand {
         return jsObject;
     }
 
-    public void setJsObject(String jsObject) {
+    public void setJsObject(final String jsObject) {
         this.jsObject = jsObject;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(final List<Event> events) {
         this.events = events;
     }
 
@@ -116,13 +120,16 @@ public class UITimeLine extends UICommand {
         return sliderZoom;
     }
 
-    public void setSliderZoom(boolean sliderZoom) {
+    public void setSliderZoom(final boolean sliderZoom) {
         this.sliderZoom = sliderZoom;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[17];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[17];
         values[0] = super.saveState(context);
         values[1] = events;
         values[2] = jsObject;
@@ -141,9 +148,12 @@ public class UITimeLine extends UICommand {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         events = (List<Event>) values[1];
         jsObject = (String) values[2];
@@ -165,7 +175,7 @@ public class UITimeLine extends UICommand {
         return inputDate;
     }
 
-    public void setInputDate(boolean inputDate) {
+    public void setInputDate(final boolean inputDate) {
         this.inputDate = inputDate;
     }
 
@@ -173,7 +183,7 @@ public class UITimeLine extends UICommand {
         return theme;
     }
 
-    public void setTheme(String theme) {
+    public void setTheme(final String theme) {
         this.theme = theme;
     }
 
@@ -181,7 +191,7 @@ public class UITimeLine extends UICommand {
         return synchronizeBands;
     }
 
-    public void setSynchronizeBands(boolean synchronizeBands) {
+    public void setSynchronizeBands(final boolean synchronizeBands) {
         this.synchronizeBands = synchronizeBands;
     }
 
@@ -189,7 +199,7 @@ public class UITimeLine extends UICommand {
         return dynamicBands;
     }
 
-    public void setDynamicBands(boolean dynamicBands) {
+    public void setDynamicBands(final boolean dynamicBands) {
         this.dynamicBands = dynamicBands;
     }
 
@@ -197,7 +207,7 @@ public class UITimeLine extends UICommand {
         return activeControl;
     }
 
-    public void setActiveControl(boolean activeControl) {
+    public void setActiveControl(final boolean activeControl) {
         this.activeControl = activeControl;
     }
 
@@ -205,7 +215,7 @@ public class UITimeLine extends UICommand {
         return styleControlPanel;
     }
 
-    public void setStyleControlPanel(String styleControlPanel) {
+    public void setStyleControlPanel(final String styleControlPanel) {
         this.styleControlPanel = styleControlPanel;
     }
 
@@ -213,7 +223,7 @@ public class UITimeLine extends UICommand {
         return styleClassControlPanel;
     }
 
-    public void setStyleClassControlPanel(String styleClassControlPanel) {
+    public void setStyleClassControlPanel(final String styleClassControlPanel) {
         this.styleClassControlPanel = styleClassControlPanel;
     }
 
@@ -221,7 +231,7 @@ public class UITimeLine extends UICommand {
         return minifyJS;
     }
 
-    public void setMinifyJS(boolean minifyJS) {
+    public void setMinifyJS(final boolean minifyJS) {
         this.minifyJS = minifyJS;
     }
 
@@ -229,7 +239,7 @@ public class UITimeLine extends UICommand {
         return enableBandsInput;
     }
 
-    public void setEnableBandsInput(boolean enableBandsInput) {
+    public void setEnableBandsInput(final boolean enableBandsInput) {
         this.enableBandsInput = enableBandsInput;
     }
 
@@ -237,7 +247,7 @@ public class UITimeLine extends UICommand {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(final int height) {
         this.height = height;
     }
 
@@ -245,7 +255,7 @@ public class UITimeLine extends UICommand {
         return bandHeight;
     }
 
-    public void setBandHeight(int bandHeight) {
+    public void setBandHeight(final int bandHeight) {
         this.bandHeight = bandHeight;
     }
 }

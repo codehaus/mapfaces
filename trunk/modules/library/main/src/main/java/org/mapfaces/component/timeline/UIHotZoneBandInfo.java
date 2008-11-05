@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -24,51 +24,55 @@ import javax.el.ValueExpression;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
 import org.mapfaces.models.timeline.Zone;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class UIHotZoneBandInfo extends UICommand implements StateHolder, Serializable {
 
-    private Event eventSource;
-    private Date date;
-    private String widthPercentage;
-    private String intervalUnit;
-    private Integer intervalPixels;
-    private Integer width;
-    private String theme;
-    private Integer timeZone;
-    private boolean showEventText;
-    private Double trackHeight;
-    private Double trackGap;
     public static final String FAMILIY = "org.mapfaces.component.Timeline.HotZoneBandInfo";
-    private boolean inputInterval;
-    private List<Zone> zones;
-    private boolean sliderInput;
-    private Layer layer;
+
+    private List<Zone>  zones;
     private List<Event> events;
-    private Date centerDate;
-    private String sliderWidth;
-    private boolean hidden;
-    private String backgroundColor;
-    
+    private Event       eventSource;
+    private Layer       layer;
+    private Date        date;
+    private Date        centerDate;
+    private String      widthPercentage;
+    private String      intervalUnit;
+    private Integer     intervalPixels;
+    private Integer     width;
+    private String      theme;
+    private Integer     timeZone;
+    private Double      trackHeight;
+    private Double      trackGap;
+    private String      backgroundColor;
+    private String      sliderWidth;
+    private boolean     showEventText;
+    private boolean     inputInterval;
+    private boolean     sliderInput;
+    private boolean     hidden;
+
     /**
      * Name of the js object wher the timeline is defined
-     * 
      */
     private String jsObject;
 
-    
+
     public String getJsObject() {
         return jsObject;
     }
-    public void setJsObject(String jsObject) {
+    public void setJsObject(final String jsObject) {
         this.jsObject = jsObject;
     }
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILIY;
@@ -82,7 +86,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
 
     public Event getEventSource() {
         if (eventSource == null) {
-            ValueExpression ve = getValueExpression("eventSource");
+            final ValueExpression ve = getValueExpression("eventSource");
             if (ve != null) {
                 eventSource = (Event) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -90,13 +94,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return eventSource;
     }
 
-    public void setEventSource(Event eventSource) {
+    public void setEventSource(final Event eventSource) {
         this.eventSource = eventSource;
     }
 
     public Date getDate() {
         if (date == null) {
-            ValueExpression ve = getValueExpression("date");
+            final ValueExpression ve = getValueExpression("date");
             if (ve != null) {
                 date = (Date) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -104,13 +108,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         this.date = date;
     }
 
     public String getWidthPercentage() {
         if (widthPercentage == null) {
-            ValueExpression ve = getValueExpression("widthPercentage");
+            final ValueExpression ve = getValueExpression("widthPercentage");
             if (ve != null) {
                 widthPercentage = (String) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -118,13 +122,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return widthPercentage;
     }
 
-    public void setWidthPercentage(String widthPercentage) {
+    public void setWidthPercentage(final String widthPercentage) {
         this.widthPercentage = widthPercentage;
     }
 
     public String getIntervalUnit() {
         if (intervalUnit == null) {
-            ValueExpression ve = getValueExpression("intervalUnit");
+            final ValueExpression ve = getValueExpression("intervalUnit");
             if (ve != null) {
                 intervalUnit = (String) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -133,17 +137,17 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
     }
 
     /**
-     * This fix the interval unit in the HotZoneBandInfo component, param can take one of this enumeration : 
-     * {MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM }. default is YEAR 
+     * This fix the interval unit in the HotZoneBandInfo component, param can take one of this enumeration :
+     * {MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM }. default is YEAR
      * @param intervalUnit
      */
-    public void setIntervalUnit(String intervalUnit) {
+    public void setIntervalUnit(final String intervalUnit) {
         this.intervalUnit = intervalUnit;
     }
 
     public Integer getIntervalPixels() {
         if (intervalPixels == null) {
-            ValueExpression ve = getValueExpression("intervalPixels");
+            final ValueExpression ve = getValueExpression("intervalPixels");
             if (ve != null) {
                 intervalPixels = (Integer) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -151,13 +155,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return intervalPixels;
     }
 
-    public void setIntervalPixels(Integer intervalPixels) {
+    public void setIntervalPixels(final Integer intervalPixels) {
         this.intervalPixels = intervalPixels;
     }
 
     public Integer getWidth() {
         if (width == null) {
-            ValueExpression ve = getValueExpression("width");
+            final ValueExpression ve = getValueExpression("width");
             if (ve != null) {
                 width = (Integer) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -165,13 +169,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(final Integer width) {
         this.width = width;
     }
 
     public String getTheme() {
         if (theme == null) {
-            ValueExpression ve = getValueExpression("theme");
+            final ValueExpression ve = getValueExpression("theme");
             if (ve != null) {
                 theme = (String) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -179,13 +183,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return theme;
     }
 
-    public void setTheme(String theme) {
+    public void setTheme(final String theme) {
         this.theme = theme;
     }
 
     public Integer getTimeZone() {
         if (timeZone == null) {
-            ValueExpression ve = getValueExpression("timeZone");
+            final ValueExpression ve = getValueExpression("timeZone");
             if (ve != null) {
                 timeZone = (Integer) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -193,7 +197,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return timeZone;
     }
 
-    public void setTimeZone(Integer timeZone) {
+    public void setTimeZone(final Integer timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -201,13 +205,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return showEventText;
     }
 
-    public void setShowEventText(boolean showEventText) {
+    public void setShowEventText(final boolean showEventText) {
         this.showEventText = showEventText;
     }
 
     public Double getTrackHeight() {
         if (trackHeight == null) {
-            ValueExpression ve = getValueExpression("trackHeight");
+            final ValueExpression ve = getValueExpression("trackHeight");
             if (ve != null) {
                 trackHeight = (Double) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -215,13 +219,13 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return trackHeight;
     }
 
-    public void setTrackHeight(Double trackHeight) {
+    public void setTrackHeight(final Double trackHeight) {
         this.trackHeight = trackHeight;
     }
 
     public Double getTrackGap() {
         if (trackGap == null) {
-            ValueExpression ve = getValueExpression("trackGap");
+            final ValueExpression ve = getValueExpression("trackGap");
             if (ve != null) {
                 trackGap = (Double) (ve.getValue(getFacesContext().getELContext()));
             }
@@ -229,7 +233,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return trackGap;
     }
 
-    public void setTrackGap(Double trackGap) {
+    public void setTrackGap(final Double trackGap) {
         this.trackGap = trackGap;
     }
 
@@ -237,7 +241,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return inputInterval;
     }
 
-    public void setInputInterval(boolean inputInterval) {
+    public void setInputInterval(final boolean inputInterval) {
         this.inputInterval = inputInterval;
     }
 
@@ -245,13 +249,16 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return zones;
     }
 
-    public void setZones(List<Zone> zones) {
+    public void setZones(final List<Zone> zones) {
         this.zones = zones;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[22];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[22];
         values[0] = super.saveState(context);
         values[1] = date;
         values[2] = eventSource;
@@ -276,9 +283,12 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         date = (Date) values[1];
         eventSource = (Event) values[2];
@@ -306,7 +316,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return sliderInput;
     }
 
-    public void setSliderInput(boolean sliderInput) {
+    public void setSliderInput(final boolean sliderInput) {
         this.sliderInput = sliderInput;
     }
 
@@ -314,7 +324,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return layer;
     }
 
-    public void setLayer(Layer layer) {
+    public void setLayer(final Layer layer) {
         this.layer = layer;
     }
 
@@ -322,7 +332,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(final List<Event> events) {
         this.events = events;
     }
 
@@ -330,7 +340,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return centerDate;
     }
 
-    public void setCenterDate(Date centerDate) {
+    public void setCenterDate(final Date centerDate) {
         this.centerDate = centerDate;
     }
 
@@ -338,7 +348,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return sliderWidth;
     }
 
-    public void setSliderWidth(String sliderWidth) {
+    public void setSliderWidth(final String sliderWidth) {
         this.sliderWidth = sliderWidth;
     }
 
@@ -346,7 +356,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return hidden;
     }
 
-    public void setHidden(boolean hidden) {
+    public void setHidden(final boolean hidden) {
         this.hidden = hidden;
     }
 
@@ -354,7 +364,7 @@ public class UIHotZoneBandInfo extends UICommand implements StateHolder, Seriali
         return backgroundColor;
     }
 
-    public void setBackgroundColor(String backgroundColor) {
+    public void setBackgroundColor(final String backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 }
