@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,33 +19,47 @@ package org.mapfaces.component;
 
 import javax.faces.context.FacesContext;
 
+/**
+ * @author OLivier Terral.
+ * @author Mehdi Sidhoum.
+ */
 public class UILocatorMap extends UIMapPane {
 
     public static final String FAMILIY = "org.mapfaces.LocatorMap";
-    
+
     private String  targetContextCompId ;
-    
+
     /** Creates a new instance of UILocatorMap */
     public UILocatorMap() {
         super();
         setRendererType("org.mapfaces.renderkit.html.LocatorMap"); // this component has a renderer
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[2];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[2];
         values[0] = super.saveState(context);
         values[1] = getTargetContextCompId();
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setTargetContextCompId((String) values[1]);
     }
@@ -54,7 +68,7 @@ public class UILocatorMap extends UIMapPane {
         return targetContextCompId;
     }
 
-    public void setTargetContextCompId(String targetContextCompId) {
+    public void setTargetContextCompId(final String targetContextCompId) {
         this.targetContextCompId = targetContextCompId;
     }
 

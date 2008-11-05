@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -30,7 +30,6 @@ public class UILayerControl extends UIWidgetBase {
     public static final String FAMILIY = "org.mapfaces.LayerControl";
     /**
      * Add tree parameters
-     * 
      */
     private DefaultMutableTreeNode rootnode,  node,  child,  children;
     private DefaultTreeModel tree,  tmp;
@@ -66,26 +65,31 @@ public class UILayerControl extends UIWidgetBase {
         return this.tree;
     }
 
-
     public void setTree(DefaultTreeModel newvalue) {
         this.tree = newvalue;
     }
 
     public void doAction() {
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getRoot();
+        final DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getRoot();
         root.setUserObject("node_modified");
         System.out.println("Node modfied !");
         tree.setRoot(root);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILIY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[19];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[19];
         values[0] = super.saveState(context);
         values[1] = styleTreeTable;
         values[2] = styleTreePanel;
@@ -99,7 +103,7 @@ public class UILayerControl extends UIWidgetBase {
         values[10] = elevationColumn;
         values[11] = styleOddLines;
         values[12] = styleEvenLines;
-        values[13] = visibilityColumn;         
+        values[13] = visibilityColumn;
         values[14] = opacityColumn ;
         values[15] = timeColumn;
         values[16] = layerInfo;
@@ -108,9 +112,12 @@ public class UILayerControl extends UIWidgetBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         styleTreeTable = (String) values[1];
         styleTreePanel = (String) values[2];
@@ -124,7 +131,7 @@ public class UILayerControl extends UIWidgetBase {
         elevationColumn = (Boolean) values[10];
         styleOddLines = (String) values[11];
         styleEvenLines = (String) values[12];
-        visibilityColumn = (Boolean) values[13]; 
+        visibilityColumn = (Boolean) values[13];
         opacityColumn = (Boolean) values[14] ;
         timeColumn = (Boolean) values[15];
         layerInfo = (Boolean) values[16];
@@ -136,7 +143,7 @@ public class UILayerControl extends UIWidgetBase {
         return styleTreeTable;
     }
 
-    public void setStyleTreeTable(String styleTreeTable) {
+    public void setStyleTreeTable(final String styleTreeTable) {
         this.styleTreeTable = styleTreeTable;
     }
 
@@ -144,7 +151,7 @@ public class UILayerControl extends UIWidgetBase {
         return styleTreePanel;
     }
 
-    public void setStyleTreePanel(String styleTreePanel) {
+    public void setStyleTreePanel(final String styleTreePanel) {
         this.styleTreePanel = styleTreePanel;
     }
 
@@ -152,7 +159,7 @@ public class UILayerControl extends UIWidgetBase {
         return widthTreeColumn;
     }
 
-    public void setWidthTreeColumn(String widthTreeColumn) {
+    public void setWidthTreeColumn(final String widthTreeColumn) {
         this.widthTreeColumn = widthTreeColumn;
     }
 
@@ -160,7 +167,7 @@ public class UILayerControl extends UIWidgetBase {
         return widthVisibilityColumn;
     }
 
-    public void setWidthVisibilityColumn(String widthVisibilityColumn) {
+    public void setWidthVisibilityColumn(final String widthVisibilityColumn) {
         this.widthVisibilityColumn = widthVisibilityColumn;
     }
 
@@ -168,7 +175,7 @@ public class UILayerControl extends UIWidgetBase {
         return widthOpacityColumn;
     }
 
-    public void setWidthOpacityColumn(String widthOpacityColumn) {
+    public void setWidthOpacityColumn(final String widthOpacityColumn) {
         this.widthOpacityColumn = widthOpacityColumn;
     }
 
@@ -176,7 +183,7 @@ public class UILayerControl extends UIWidgetBase {
         return widthElevationColumn;
     }
 
-    public void setWidthElevationColumn(String widthElevationColumn) {
+    public void setWidthElevationColumn(final String widthElevationColumn) {
         this.widthElevationColumn = widthElevationColumn;
     }
 
@@ -184,7 +191,7 @@ public class UILayerControl extends UIWidgetBase {
         return widthTimeColumn;
     }
 
-    public void setWidthTimeColumn(String widthTimeColumn) {
+    public void setWidthTimeColumn(final String widthTimeColumn) {
         this.widthTimeColumn = widthTimeColumn;
     }
 
@@ -192,7 +199,7 @@ public class UILayerControl extends UIWidgetBase {
         return titlePanel;
     }
 
-    public void setTitlePanel(String titlePanel) {
+    public void setTitlePanel(final String titlePanel) {
         this.titlePanel = titlePanel;
     }
 
@@ -200,7 +207,7 @@ public class UILayerControl extends UIWidgetBase {
         return headerTreeColumn;
     }
 
-    public void setHeaderTreeColumn(String headerTreeColumn) {
+    public void setHeaderTreeColumn(final String headerTreeColumn) {
         this.headerTreeColumn = headerTreeColumn;
     }
 
@@ -208,7 +215,7 @@ public class UILayerControl extends UIWidgetBase {
         return elevationColumn;
     }
 
-    public void setElevationColumn(boolean hideElevationColumn) {
+    public void setElevationColumn(final boolean hideElevationColumn) {
         this.elevationColumn = hideElevationColumn;
     }
 
@@ -216,7 +223,7 @@ public class UILayerControl extends UIWidgetBase {
         return styleOddLines;
     }
 
-    public void setStyleOddLines(String styleOddLines) {
+    public void setStyleOddLines(final String styleOddLines) {
         this.styleOddLines = styleOddLines;
     }
 
@@ -224,7 +231,7 @@ public class UILayerControl extends UIWidgetBase {
         return styleEvenLines;
     }
 
-    public void setStyleEvenLines(String styleEvenLines) {
+    public void setStyleEvenLines(final String styleEvenLines) {
         this.styleEvenLines = styleEvenLines;
     }
 
@@ -232,7 +239,7 @@ public class UILayerControl extends UIWidgetBase {
         return mootools;
     }
 
-    public void setMootools(boolean mootools) {
+    public void setMootools(final boolean mootools) {
         this.mootools = mootools;
     }
 
@@ -240,7 +247,7 @@ public class UILayerControl extends UIWidgetBase {
         return minifyJS;
     }
 
-    public void setMinifyJS(boolean minifyJS) {
+    public void setMinifyJS(final boolean minifyJS) {
         this.minifyJS = minifyJS;
     }
 
@@ -248,7 +255,7 @@ public class UILayerControl extends UIWidgetBase {
         return visibilityColumn;
     }
 
-    public void setVisibilityColumn(boolean visibilityColumn) {
+    public void setVisibilityColumn(final boolean visibilityColumn) {
         this.visibilityColumn = visibilityColumn;
     }
 
@@ -256,7 +263,7 @@ public class UILayerControl extends UIWidgetBase {
         return opacityColumn;
     }
 
-    public void setOpacityColumn(boolean opacityColumn) {
+    public void setOpacityColumn(final boolean opacityColumn) {
         this.opacityColumn = opacityColumn;
     }
 
@@ -264,7 +271,7 @@ public class UILayerControl extends UIWidgetBase {
         return timeColumn;
     }
 
-    public void setTimeColumn(boolean timeColumn) {
+    public void setTimeColumn(final boolean timeColumn) {
         this.timeColumn = timeColumn;
     }
 
@@ -272,7 +279,7 @@ public class UILayerControl extends UIWidgetBase {
         return layerInfo;
     }
 
-    public void setLayerInfo(boolean layerInfo) {
+    public void setLayerInfo(final boolean layerInfo) {
         this.layerInfo = layerInfo;
     }
 
@@ -280,7 +287,7 @@ public class UILayerControl extends UIWidgetBase {
         return colorMapEditor;
     }
 
-    public void setColorMapEditor(boolean colorMapEditor) {
+    public void setColorMapEditor(final boolean colorMapEditor) {
         this.colorMapEditor = colorMapEditor;
     }
 }

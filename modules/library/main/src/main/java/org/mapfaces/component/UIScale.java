@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,6 +19,10 @@ package org.mapfaces.component;
 
 import javax.faces.context.FacesContext;
 
+/**
+ * @author OLivier Terral.
+ * @author Mehdi Sidhoum.
+ */
 public class UIScale extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.Scale";
@@ -29,20 +33,30 @@ public class UIScale extends UIWidgetBase {
         setRendererType("org.mapfaces.renderkit.html.Scale"); // this component has a renderer
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[1];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[1];
         values[0] = super.saveState(context);
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
     }
 
