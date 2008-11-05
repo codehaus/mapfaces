@@ -95,9 +95,15 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if(comp.isPan() && comp.isPanEffect())
                 writer.write(",\npanEffect: true");
                 
-            writer.write(",\ngetFeatureInfo: true");
-            writer.write(",\nmeasureDistance: true");
-            writer.write(",\nmeasureArea: true");
+            if (comp.isFeatureInfo()) {
+                writer.write(",\ngetFeatureInfo: true");
+            }
+            if (comp.isMeasureDistance()) {
+                writer.write(",\nmeasureDistance: true");
+            }
+            if (comp.isMeasureArea()) {
+                writer.write(",\nmeasureArea: true");
+            }
             
             writer.write("\n});\n");
             
