@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,46 +17,43 @@
 
 package org.mapfaces.component.models;
 
-import java.io.File;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import org.mapfaces.models.Context;
 
 /**
- *
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
 public class UIContext extends UIModelBase {
-    
+
     public static final String FAMILIY = "org.mapfaces.model.Context";
-    public final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
-    
-    
-    
+    public static final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
+
     private boolean scriptaculous = true;
     private boolean mootools = true;
     private boolean minifyJS = true;
-    
+
     /** Creates a new instance of UIAbstract */
     public UIContext(){
         super();
-        setRendererType("org.mapfaces.renderkit.html.models.Context"); // this component has a renderer  
+        setRendererType("org.mapfaces.renderkit.html.models.Context"); // this component has a renderer
         System.out.println("UIContext constructor----------------------");
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILIY;
     }
 
-
-     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[4];
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[4];
         values[0] = super.saveState(context);
         values[1] = scriptaculous;
         values[2] = mootools;
@@ -64,29 +61,33 @@ public class UIContext extends UIModelBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         scriptaculous = (Boolean) values[1];
         mootools = (Boolean) values[2];
         minifyJS = (Boolean) values[3];
     }
-    
+
     /**
      * This method saves the model into a xml file in a temporary folder.
      * @param context
      * @return
      * @throws javax.xml.bind.JAXBException
      */
-    public String saveModel(FacesContext context) throws JAXBException {
+    public String saveModel(final FacesContext context) throws JAXBException {
+        //TODO
 //        ServletContext sc = (ServletContext) context.getExternalContext().getContext();
 //        String fileUrl = sc.getRealPath("tmp/owc.xml");
 //        File t = new File(fileUrl);
-//        
+//
 //        //casting the model to Context for this UIContext component.
 //        Context modelContext = (Context) getModel();
-//        JAXBContext.newInstance(jaxbInstance).createMarshaller().marshal(modelContext.getDoc(),new File(fileUrl)); 
+//        JAXBContext.newInstance(jaxbInstance).createMarshaller().marshal(modelContext.getDoc(),new File(fileUrl));
 //        return fileUrl;
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -95,7 +96,7 @@ public class UIContext extends UIModelBase {
         return scriptaculous;
     }
 
-    public void setScriptaculous(boolean scriptaculous) {
+    public void setScriptaculous(final boolean scriptaculous) {
         this.scriptaculous = scriptaculous;
     }
 
@@ -103,7 +104,7 @@ public class UIContext extends UIModelBase {
         return mootools;
     }
 
-    public void setMootools(boolean mootools) {
+    public void setMootools(final boolean mootools) {
         this.mootools = mootools;
     }
 
@@ -111,7 +112,7 @@ public class UIContext extends UIModelBase {
         return minifyJS;
     }
 
-    public void setMinifyJS(boolean minifyJS) {
+    public void setMinifyJS(final boolean minifyJS) {
         this.minifyJS = minifyJS;
     }
 
