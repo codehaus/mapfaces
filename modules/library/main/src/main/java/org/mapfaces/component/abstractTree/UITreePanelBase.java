@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,43 +19,45 @@ package org.mapfaces.component.abstractTree;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public abstract class UITreePanelBase extends UITreeBase implements AjaxInterface, Cloneable {
 
     /* Fields */
-    private boolean init;
-    private boolean TREEPANEL_EXPAND_ALL = true;
-    private TreeTableModel view;
-    private int oddEvenCountLine;
-    private String border;
-    private boolean collapsible;
-    private boolean enableDragDrop;
-    private boolean frame;
-    private boolean header;
-    private String height;
-    private boolean rowId;
-    private boolean showLines;
-    private boolean showRoot;
-    private String title;
-    private String styleLeaf;
-    private String styleNode;
-    private String styleOdd;
-    private String styleEven;
-    private boolean loadAll;
+
+    private TreeTableModel  view;
+    private String          border;
+    private String          height;
+    private String          title;
+    private String          styleLeaf;
+    private String          styleNode;
+    private String          styleOdd;
+    private String          styleEven;
+    private int             oddEvenCountLine;
+    private boolean         loadAll;
+    private boolean         init;
+    private boolean         expand = true;
+    private boolean         collapsible;
+    private boolean         enableDragDrop;
+    private boolean         frame;
+    private boolean         header;
+    private boolean         rowId;
+    private boolean         showLines;
+    private boolean         showRoot;
 
     /* Accessors */
     public String getBorder() {
         return border;
     }
 
-    public void setBorder(String border) {
+    public void setBorder(final String border) {
         this.border = border;
     }
 
@@ -63,7 +65,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return collapsible;
     }
 
-    public void setCollapsible(boolean collapsible) {
+    public void setCollapsible(final boolean collapsible) {
         this.collapsible = collapsible;
     }
 
@@ -71,7 +73,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return frame;
     }
 
-    public void setFrame(boolean frame) {
+    public void setFrame(final boolean frame) {
         this.frame = frame;
     }
 
@@ -79,7 +81,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return header;
     }
 
-    public void setHeader(boolean header) {
+    public void setHeader(final boolean header) {
         this.header = header;
     }
 
@@ -87,7 +89,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(final String height) {
         this.height = height;
     }
 
@@ -95,7 +97,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return rowId;
     }
 
-    public void setRowId(boolean rowId) {
+    public void setRowId(final boolean rowId) {
         this.rowId = rowId;
     }
 
@@ -103,7 +105,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return showLines;
     }
 
-    public void setShowLines(boolean showLines) {
+    public void setShowLines(final boolean showLines) {
         this.showLines = showLines;
     }
 
@@ -111,7 +113,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return showRoot;
     }
 
-    public void setShowRoot(boolean showRoot) {
+    public void setShowRoot(final boolean showRoot) {
         this.showRoot = showRoot;
     }
 
@@ -119,7 +121,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -127,7 +129,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return enableDragDrop;
     }
 
-    public void setEnableDragDrop(boolean enableDragDrop) {
+    public void setEnableDragDrop(final boolean enableDragDrop) {
         this.enableDragDrop = enableDragDrop;
     }
 
@@ -135,23 +137,23 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return loadAll;
     }
 
-    public void setLoadAll(boolean loadAll) {
+    public void setLoadAll(final boolean loadAll) {
         this.loadAll = loadAll;
     }
 
-    public boolean isTREEPANEL_EXPAND_ALL() {
-        return TREEPANEL_EXPAND_ALL;
+    public boolean isExpandAll() {
+        return expand;
     }
 
-    public void setTREEPANEL_EXPAND_ALL(boolean TREEPANEL_EXPAND_ALL) {
-        this.TREEPANEL_EXPAND_ALL = TREEPANEL_EXPAND_ALL;
+    public void setExpandAll(final boolean expand) {
+        this.expand = expand;
     }
 
     public boolean isInit() {
         return init;
     }
 
-    public void setInit(boolean init) {
+    public void setInit(final boolean init) {
         this.init = init;
     }
 
@@ -159,7 +161,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return view;
     }
 
-    public void setView(TreeTableModel View) {
+    public void setView(final TreeTableModel View) {
         this.view = View;
     }
 
@@ -167,7 +169,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return styleLeaf;
     }
 
-    public void setStyleLeaf(String styleLeaf) {
+    public void setStyleLeaf(final String styleLeaf) {
         this.styleLeaf = styleLeaf;
     }
 
@@ -175,7 +177,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return styleNode;
     }
 
-    public void setStyleNode(String styleNode) {
+    public void setStyleNode(final String styleNode) {
         this.styleNode = styleNode;
     }
 
@@ -183,7 +185,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return styleOdd;
     }
 
-    public void setStyleOdd(String styleOdd) {
+    public void setStyleOdd(final String styleOdd) {
         this.styleOdd = styleOdd;
     }
 
@@ -191,7 +193,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return styleEven;
     }
 
-    public void setStyleEven(String styleEven) {
+    public void setStyleEven(final String styleEven) {
         this.styleEven = styleEven;
     }
 
@@ -199,7 +201,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         return oddEvenCountLine;
     }
 
-    public void setOddEvenCountLine(int oddEvenCountLine) {
+    public void setOddEvenCountLine(final int oddEvenCountLine) {
         this.oddEvenCountLine = oddEvenCountLine;
     }
 
@@ -210,12 +212,12 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
      * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @return a Serializable Object
      */
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[19];
+        final Object values[] = new Object[19];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCollapsible();
@@ -240,15 +242,15 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
 
     /**
      * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
-     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @param state the state Object
      */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setBorder((String) values[1]);
         setCollapsible((boolean) (Boolean) values[2]);
@@ -272,18 +274,18 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
 
     /**
      * <p>Delegate to the renderer</p>
-     * @param context The FacesContext for the current request 
-     * @param component 
+     * @param context The FacesContext for the current request
+     * @param component
      */
     @Override
-    public void handleAjaxRequest(FacesContext context) {
-        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
+    public void handleAjaxRequest(final FacesContext context) {
+        final AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
 
     /**
-     * UIAbstractTreePanel class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
-     * for that method to make a field-for-field copy of instances of that class. 
+     * UIAbstractTreePanel class implements the Cloneable interface to indicate to the Object.clone() method that it is legal
+     * for that method to make a field-for-field copy of instances of that class.
      * @return a clone of this component
      */
     public UITreePanelBase getInstance() {
@@ -298,7 +300,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
     /* Abstracts methods*/
     /**
      * <p>Return the identifier of the component family to which this component belongs.</p>
-     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the
      * appropriate Renderer for this component instance.</p>
      * @return the identifier of the component family as a String
      */

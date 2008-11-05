@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,33 +19,33 @@ package org.mapfaces.component.abstractTree;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.models.tree.TreeNodeModel;
-import org.mapfaces.share.interfaces.A4JInterface;
-import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 
 /**
  *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterface, Cloneable {
 
     /* Fields */
-    private TreeNodeModel nodeinstance;    // Store id of the treelines 
-    private int nodeId;
-    private int row;
-    private int depth;
-    private Boolean hasChildren = false;
-    private Boolean toRender = false;
-    private String varId;
+    private TreeNodeModel   nodeinstance;    // Store id of the treelines
+    private String          varId;
+    private int             nodeId;
+    private int             row;
+    private int             depth;
+    private boolean         hasChildren = false;
+    private boolean         toRender = false;
+
 
     /* Accessors */
     public TreeNodeModel getNodeInstance() {
         return nodeinstance;
     }
 
-    public void setNodeInstance(TreeNodeModel nodeinstance) {
+    public void setNodeInstance(final TreeNodeModel nodeinstance) {
         this.nodeinstance = nodeinstance;
     }
 
@@ -53,7 +53,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
         return nodeId;
     }
 
-    public void setNodeId(int nodeId) {
+    public void setNodeId(final int nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -61,7 +61,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
         return depth;
     }
 
-    public void setDepth(int depth) {
+    public void setDepth(final int depth) {
         this.depth = depth;
     }
 
@@ -69,7 +69,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
         return row;
     }
 
-    public void setRow(int row) {
+    public void setRow(final int row) {
         this.row = row;
     }
 
@@ -77,15 +77,15 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
         return hasChildren;
     }
 
-    public void setHasChildren(Boolean haveTreelinesChildren) {
+    public void setHasChildren(final boolean haveTreelinesChildren) {
         this.hasChildren = haveTreelinesChildren;
     }
 
-    public Boolean isToRender() {
+    public boolean isToRender() {
         return toRender;
     }
 
-    public void setToRender(Boolean toRender) {
+    public void setToRender(final boolean toRender) {
         if (toRender) {
             setRendered(true);
         }
@@ -96,7 +96,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
         return varId;
     }
 
-    public void setVarId(String varId) {
+    public void setVarId(final String varId) {
         this.varId = varId;
     }
 
@@ -104,7 +104,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
     public void setRendered(boolean arg0) {
         super.setRendered(arg0);
     }
-    
+
     /* Methods */
     /**
      * <p>Gets the state of the instance as a Serializable Object.</p>
@@ -112,12 +112,12 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
      * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @return a Serializable Object
      */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[8];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[8];
         values[0] = super.saveState(context);
         values[1] = getNodeInstance();
         values[2] = getNodeId();
@@ -131,15 +131,15 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
 
     /**
      * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
-     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @param state the state Object
      */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setNodeInstance((TreeNodeModel) values[1]);
         setNodeId((Integer) values[2]);
@@ -152,18 +152,18 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
 
      /**
      * <p>Delegate to the renderer</p>
-     * @param context The FacesContext for the current request 
-     * @param component 
+     * @param context The FacesContext for the current request
+     * @param component
      */
     @Override
-    public void handleAjaxRequest(FacesContext context) {
-        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
+    public void handleAjaxRequest(final FacesContext context) {
+        final AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
 
     /**
-     * UIAbstractTreeLines class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
-     * for that method to make a field-for-field copy of instances of that class. 
+     * UIAbstractTreeLines class implements the Cloneable interface to indicate to the Object.clone() method that it is legal
+     * for that method to make a field-for-field copy of instances of that class.
      * @return a clone of this component
      */
     public UITreeLinesBase getInstance() {
@@ -178,7 +178,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
     /* Abstracts methods*/
     /**
      * <p>Return the identifier of the component family to which this component belongs.</p>
-     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the
      * appropriate Renderer for this component instance.</p>
      * @return the identifier of the component family as a String
      */

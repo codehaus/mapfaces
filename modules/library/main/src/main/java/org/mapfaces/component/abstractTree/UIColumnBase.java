@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,10 +18,15 @@ package org.mapfaces.component.abstractTree;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.mapfaces.share.interfaces.AjaxInterface;
-import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import javax.faces.context.FacesContext;
 
+import org.mapfaces.share.interfaces.AjaxInterface;
+import org.mapfaces.share.interfaces.AjaxRendererInterface;
+
+/**
+ *
+ * @author Kevin Delfour (Geomatys)
+ */
 public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, Cloneable {
 
     /* Fields */
@@ -35,7 +40,7 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
         return headerTitle;
     }
 
-    public void setHeaderTitle(String title) {
+    public void setHeaderTitle(final String title) {
         this.headerTitle = title;
     }
 
@@ -43,7 +48,7 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
         return width;
     }
 
-    public void setWidth(String width) {
+    public void setWidth(final String width) {
         this.width = width;
     }
 
@@ -51,7 +56,7 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
         return headerIcon;
     }
 
-    public void setHeaderIcon(String icon) {
+    public void setHeaderIcon(final String icon) {
         this.headerIcon = icon;
     }
 
@@ -59,7 +64,7 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
         return styleHeader;
     }
 
-    public void setStyleHeader(String styleHeader) {
+    public void setStyleHeader(final String styleHeader) {
         this.styleHeader = styleHeader;
     }
 
@@ -70,12 +75,12 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
      * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @return a Serializable Object
      */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[5];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[5];
         values[0] = super.saveState(context);
         values[1] = getHeaderTitle();
         values[2] = getWidth();
@@ -86,15 +91,15 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
 
     /**
      * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
-     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @param state the state Object
      */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setHeaderTitle((String) values[1]);
         setWidth((String) values[2]);
@@ -104,18 +109,18 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
 
     /**
      * <p>Delegate to the renderer</p>
-     * @param context The FacesContext for the current request 
-     * @param component 
+     * @param context The FacesContext for the current request
+     * @param component
      */
     @Override
-    public void handleAjaxRequest(FacesContext context) {
-        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
+    public void handleAjaxRequest(final FacesContext context) {
+        final AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
 
     /**
-     * UIAbstractTreeColumn class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
-     * for that method to make a field-for-field copy of instances of that class. 
+     * UIAbstractTreeColumn class implements the Cloneable interface to indicate to the Object.clone() method that it is legal
+     * for that method to make a field-for-field copy of instances of that class.
      * @return a clone of this component
      */
     public UIColumnBase getInstance() {
@@ -130,7 +135,7 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
     /* Abstracts methods*/
     /**
      * <p>Return the identifier of the component family to which this component belongs.</p>
-     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the
      * appropriate Renderer for this component instance.</p>
      * @return the identifier of the component family as a String
      */
