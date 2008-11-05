@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,11 +20,10 @@ package org.mapfaces.component.models;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
-import javax.xml.bind.JAXBElement;
+
 import org.mapfaces.models.AbstractModelBase;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public abstract class UIModelBase extends UICommand implements StateHolder {
@@ -33,15 +32,14 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
     private String defaultModelUrl;
     private String method;
     private String namespace;
-    
     private Object[] values;
-    
-    /* 
+
+    /*
      *  Debug property
      */
     private boolean debug;
-    /* 
-     *  Ajax component id 
+    /*
+     *  Ajax component id
      *
      */
     private String ajaxCompId;
@@ -58,7 +56,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -66,7 +64,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return defaultModelUrl;
     }
 
-    public void setDefaultModelUrl(String defaultModelUrl) {
+    public void setDefaultModelUrl(final String defaultModelUrl) {
         this.defaultModelUrl = defaultModelUrl;
     }
 
@@ -74,7 +72,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(final String method) {
         this.method = method;
     }
 
@@ -82,12 +80,15 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return namespace;
     }
 
-    public void setNamespace(String namespace) {
+    public void setNamespace(final String namespace) {
         this.namespace = namespace;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
+    public Object saveState(final FacesContext context) {
         if (values == null) {
             values = new Object[8];
         }
@@ -103,10 +104,10 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
     }
 
     @Override
-    public void restoreState(FacesContext context, Object state) {
+    public void restoreState(final FacesContext context, final Object state) {
         values = (Object[]) state;
         super.restoreState(context, values[0]);
-        
+
         title           = (String) values[1];
         defaultModelUrl = (String) values[2];
         method          = (String) values[3];
@@ -120,7 +121,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return ajaxCompId;
     }
 
-    public void setAjaxCompId(String ajaxCompId) {
+    public void setAjaxCompId(final String ajaxCompId) {
         this.ajaxCompId = ajaxCompId;
     }
 
@@ -129,7 +130,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return debug;
     }
 
-    public void setDebug(boolean debug) {
+    public void setDebug(final boolean debug) {
         this.debug = debug;
     }
 
@@ -137,7 +138,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         return model;
     }
 
-    public void setModel(AbstractModelBase model) {
+    public void setModel(final AbstractModelBase model) {
         this.model = model;
     }
 }
