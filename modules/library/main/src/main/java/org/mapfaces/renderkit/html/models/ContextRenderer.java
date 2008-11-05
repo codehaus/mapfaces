@@ -19,13 +19,8 @@ package org.mapfaces.renderkit.html.models;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -53,13 +48,10 @@ import org.mapfaces.util.XMLContextUtilities;
 public class ContextRenderer extends Renderer {
 
     private final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
-    
     private final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
     private final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
-    
-    private final String MOOTOOLS_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";    
+    private final String MOOTOOLS_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";
     private final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
-    
     private final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     private final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
 
@@ -75,7 +67,7 @@ public class ContextRenderer extends Renderer {
             ResponseWriter writer = context.getResponseWriter();
             ServletContext sc = (ServletContext) context.getExternalContext().getContext();
 
-            //Add the context path varaible to load openlayers with the good url , see  custom/OpenLayers.js
+            //Add the context path variable to load openlayers with the good url , see  custom/OpenLayers.js
             /*writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.write("window.contextpath=\""+sc.getContextPath()+"\"");
@@ -87,7 +79,7 @@ public class ContextRenderer extends Renderer {
             writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
             writer.writeAttribute("type", "text/css", null);
 
-            if (comp.isMootools()){
+            if (comp.isMootools()) {
                 writer.startElement("script", component);
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
@@ -95,58 +87,73 @@ public class ContextRenderer extends Renderer {
             }
 
             if (comp.isScriptaculous()) {
-                
+
                 //Add Prototype script
                 writer.startElement("script", component);
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.endElement("script");
-                
+
                 //Add Scriptaculous scripts
-                if(comp.isMinifyJS()){
+                if (comp.isMinifyJS()) {
                     writer.startElement("script", component);
                     writer.writeAttribute("type", "text/javascript", null);
                     writer.write("window.SCRIPTACULOUS_SINGLE_FILE = true;");
-                    writer.endElement("script");           
+                    writer.endElement("script");
                 }
                 writer.startElement("script", component);
-                if(comp.isMinifyJS()){
+                if (comp.isMinifyJS()) {
                     writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_MINIFY_JS, null), null);
-                }else{                
+                } else {
                     writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
                 }
                 writer.writeAttribute("type", "text/javascript", null);
                 writer.endElement("script");
             }
-            
+
             //Add OpenLayers scripts
-            if(comp.isMinifyJS()){
-                    writer.startElement("script", component);
-                    writer.writeAttribute("type", "text/javascript", null);
-                    writer.write("var OpenLayers = { singleFile: true };");
-                    writer.endElement("script");           
-            }    
+            if (comp.isMinifyJS()) {
+                writer.startElement("script", component);
+                writer.writeAttribute("type", "text/javascript", null);
+                writer.write("var OpenLayers = { singleFile: true };");
+                writer.endElement("script");
+            }
             writer.startElement("script", component);
-            if(comp.isMinifyJS()){                
+            if (comp.isMinifyJS()) {
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
-            }else{
+            } else {
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
             }
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
-            
-            
+
+
             //Loading the context file if the model is null.
             if (comp.getModel() == null) {
-                  Context ctx;
+                Context ctx = null;
                 String fileUrl = (String) component.getAttributes().get("service");
                 if (fileUrl == null || fileUrl.length() < 1) {
                     throw new IllegalArgumentException("You must indicate a path to file to read");
                 }
-                if(fileUrl.contains("http:/")){
+                if (fileUrl.contains("http:/")) {
                     ctx = (new XMLContextUtilities()).readContext(new URL(fileUrl));
-                }else{
-                    ctx = (new XMLContextUtilities()).readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
+                } else {
+                    if (fileUrl.startsWith("file://.sicade")) {
+
+                        File mapcontextFile = new File(System.getProperty("user.home"));
+                        if (System.getProperty("os.name", "").startsWith("Windows")) {
+                            mapcontextFile = new File(mapcontextFile, "Application Data\\Sicade");
+                        } else {
+                            mapcontextFile = new File(mapcontextFile, ".sicade");
+                        }
+                        String[] tabString = fileUrl.replaceFirst("file://.sicade/", "").split("/");
+                        for (String s : tabString) {
+                            mapcontextFile = new File(mapcontextFile, s);
+                        }
+                        ctx = (new XMLContextUtilities()).readContext(new FileReader(mapcontextFile));
+                    } else {
+                        ctx = (new XMLContextUtilities()).readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
+                    }
                 }
                 comp.setModel((AbstractModelBase) ctx);
             } else {
@@ -168,7 +175,7 @@ public class ContextRenderer extends Renderer {
             }
 
 
-        }  catch (JAXBException ex) {
+        } catch (JAXBException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
             Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,12 +226,13 @@ public class ContextRenderer extends Renderer {
             //tmp.setI
             Map params = context.getExternalContext().getRequestParameterMap();
             String title = (String) params.get(FacesUtils.getFormId(context, component) + ":title");
-            if(!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null && ((String)params.get("org.mapfaces.ajax.ACTION")).equals("save")){
+            if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
                 ServletContext servletCtx = (ServletContext) context.getExternalContext().getContext();
-                if(!params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME").equals("null")){
-                    tmp.save(servletCtx,(String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));
-                }else
-                    tmp.save(servletCtx,null);
+                if (!params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME").equals("null")) {
+                    tmp.save(servletCtx, (String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));
+                } else {
+                    tmp.save(servletCtx, null);
+                }
             }
             if (title != null && !title.equals(tmp.getTitle())) {
                 tmp.setTitle(title);
