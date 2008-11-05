@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,41 +17,31 @@
 
 package org.mapfaces.component.layercontrol;
 
-import org.mapfaces.component.treelayout.UIColumn;
 import org.mapfaces.component.treelayout.UISelectOneMenuColumn;
 
-
-
-    
-    
+/**
+ * @author Olivier Terral (Geomatys)
+ */
 public class UIOpacityColumn extends UISelectOneMenuColumn {
-    
+
     private static final long serialVersionUID = -1878798978545632171L;
-    
-    
-    private final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.OpacityColumn";    
-    private final String LAYER_PROPERTY = "Opacity";
-    
-    private final String FAMILY = "org.mapfaces.treelayout.Column";
-    
-    private String layerId;
-    
-    
-     /**
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.OpacityColumn";
+    private static final String LAYER_PROPERTY = "Opacity";
+    private static final String FAMILY = "org.mapfaces.treelayout.Column";
+
+    /**
      * Add extra parameter like this
-     * 
      */
-    
+    private String layerId;
     private String title = " Opacity ";
     private String itemsLabels = "0/0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1";
     private String itemsValues = "0/0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1";
-    
-    
+
     public String getLayerId() {
         return layerId;
     }
 
-    public void setLayerId(String layerId) {
+    public void setLayerId(final String layerId) {
         this.layerId = layerId;
     }
 
@@ -59,38 +49,65 @@ public class UIOpacityColumn extends UISelectOneMenuColumn {
         return LAYER_PROPERTY;
     }
 
-    
-
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getHeaderTitle() {
         return title;
     }
 
-    public void setHeaderTitle(String title) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHeaderTitle(final String title) {
         this.title = title;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getItemsLabels() {
         return itemsLabels;
     }
 
-    public void setItemsLabels(String itemsLabels) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setItemsLabels(final String itemsLabels) {
         this.itemsLabels = itemsLabels;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getItemsValues() {
         return itemsValues;
     }
 
-    public void setItemsValues(String itemsValues) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setItemsValues(final String itemsValues) {
         this.itemsValues = itemsValues;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILY;
     }
 
-
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDERER_TYPE;
