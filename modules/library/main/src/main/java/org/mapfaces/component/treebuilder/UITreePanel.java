@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,30 +20,37 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITreePanel extends UITreePanelBase {
 
-    /* Fields */
+    private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreePanel";
+    private static final String TREEPANEL_COMP_FAMILY = "javax.faces.Output";
+
     private boolean template;
     private boolean cloneView;
     private boolean emptyView;
     private String target;
-    private final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreePanel";
-    private final String TREEPANEL_COMP_FAMILY = "javax.faces.Output";
 
-    /* Methods */
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TREEPANEL_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TREEPANEL_RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[5];
@@ -55,6 +62,9 @@ public class UITreePanel extends UITreePanelBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
@@ -63,15 +73,14 @@ public class UITreePanel extends UITreePanelBase {
         setCloneView((Boolean) values[2]);
         setEmptyView((Boolean) values[3]);
         setTarget((String) values[4]);
-        
+
     }
 
-    /* Accessors */
     public boolean isTemplate() {
         return template;
     }
 
-    public void setTemplate(boolean template) {
+    public void setTemplate(final boolean template) {
         this.template = template;
     }
 
@@ -79,7 +88,7 @@ public class UITreePanel extends UITreePanelBase {
         return cloneView;
     }
 
-    public void setCloneView(boolean cloneView) {
+    public void setCloneView(final boolean cloneView) {
         this.cloneView = cloneView;
     }
 
@@ -87,7 +96,7 @@ public class UITreePanel extends UITreePanelBase {
         return emptyView;
     }
 
-    public void setEmptyView(boolean emptyView) {
+    public void setEmptyView(final boolean emptyView) {
         this.emptyView = emptyView;
     }
 
@@ -95,7 +104,7 @@ public class UITreePanel extends UITreePanelBase {
         return target;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(final String target) {
         this.target = target;
     }
 }

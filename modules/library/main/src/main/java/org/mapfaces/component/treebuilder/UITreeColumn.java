@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -16,34 +16,42 @@
  */
 package org.mapfaces.component.treebuilder;
 
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.share.interfaces.A4JInterface;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITreeColumn extends UITreeColumnBase implements A4JInterface {
 
-    private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeColumn";
-    private final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.TreeColumn";
+    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeColumn";
+    private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.TreeColumn";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TREECOLUMN_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TREECOLUMN_RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void A4JPostRequest(FacesContext context) {
-        A4JRendererInterface renderer = (A4JRendererInterface) this.getRenderer(context);
+    public void A4JPostRequest(final FacesContext context) {
+        final A4JRendererInterface renderer = (A4JRendererInterface) this.getRenderer(context);
         renderer.A4JPostRequest(context, this);
     }
 }
