@@ -35,6 +35,9 @@ public class UIButtonBar extends UIWidgetBase {
     private boolean floatingBar = false;
     private boolean graticule = false;
     private boolean save = false;
+    private boolean featureInfo = false;
+    private boolean measureDistance = false;
+    private boolean measureArea = false;
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -52,7 +55,7 @@ public class UIButtonBar extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[10];
+        Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -62,7 +65,10 @@ public class UIButtonBar extends UIWidgetBase {
         values[6] = panEffect;
         values[7] = floatingBar;
         values[8] = graticule;
-        values[9] = isSave();
+        values[9] = save;
+        values[10] = featureInfo;
+        values[11] = measureDistance;
+        values[12] = measureArea;
         return values;
     }
 
@@ -78,7 +84,10 @@ public class UIButtonBar extends UIWidgetBase {
         panEffect = (Boolean) values[6];
         floatingBar = (Boolean) values[7];
         graticule = (Boolean) values[8];
-        setSave((boolean) (Boolean) values[9]);
+        save = (boolean) (Boolean) values[9];
+        featureInfo = (boolean) (Boolean) values[10];
+        measureDistance = (boolean) (Boolean) values[11];
+        measureArea = (boolean) (Boolean) values[12];
     }
 
     public boolean isZoomIn() {
@@ -151,6 +160,30 @@ public class UIButtonBar extends UIWidgetBase {
 
     public void setSave(boolean save) {
         this.save = save;
+    }
+
+    public boolean isFeatureInfo() {
+        return featureInfo;
+    }
+
+    public void setFeatureInfo(boolean featureInfo) {
+        this.featureInfo = featureInfo;
+    }
+
+    public boolean isMeasureDistance() {
+        return measureDistance;
+    }
+
+    public void setMeasureDistance(boolean measureDistance) {
+        this.measureDistance = measureDistance;
+    }
+
+    public boolean isMeasureArea() {
+        return measureArea;
+    }
+
+    public void setMeasureArea(boolean measureArea) {
+        this.measureArea = measureArea;
     }
 
 }

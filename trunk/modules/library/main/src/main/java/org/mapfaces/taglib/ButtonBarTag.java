@@ -47,6 +47,9 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression floatingBar = null;
     private ValueExpression graticule = null;
     private ValueExpression save = null;
+    private ValueExpression featureInfo = null;
+    private ValueExpression measureDistance = null;
+    private ValueExpression measureArea = null;
 
     @Override
     public String getComponentType() {
@@ -71,7 +74,10 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("panEffect", panEffect);
         component.setValueExpression("floatingBar",floatingBar);
         component.setValueExpression("graticule",graticule);
-        component.setValueExpression("save",getSave());
+        component.setValueExpression("save",save);
+        component.setValueExpression("featureInfo",featureInfo);
+        component.setValueExpression("measureDistance",measureDistance);
+        component.setValueExpression("measureArea",measureArea);
 
     }
 
@@ -89,6 +95,9 @@ public class ButtonBarTag extends WidgetBaseTag {
         setFloatingBar(null);
         setGraticule(null);
         setSave(null);
+        setFeatureInfo(null);
+        setMeasureDistance(null);
+        setMeasureArea(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -165,5 +174,29 @@ public class ButtonBarTag extends WidgetBaseTag {
 
     public void setSave(ValueExpression save) {
         this.save = save;
+    }
+
+    public ValueExpression getFeatureInfo() {
+        return featureInfo;
+    }
+
+    public void setFeatureInfo(ValueExpression featureInfo) {
+        this.featureInfo = featureInfo;
+    }
+
+    public ValueExpression getMeasureDistance() {
+        return measureDistance;
+    }
+
+    public void setMeasureDistance(ValueExpression measureDistance) {
+        this.measureDistance = measureDistance;
+    }
+
+    public ValueExpression getMeasureArea() {
+        return measureArea;
+    }
+
+    public void setMeasureArea(ValueExpression measureArea) {
+        this.measureArea = measureArea;
     }
 }

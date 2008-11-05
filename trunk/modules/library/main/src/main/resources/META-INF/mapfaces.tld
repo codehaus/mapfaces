@@ -358,6 +358,39 @@
                 Save the current context file.
             </description>
         </attribute>
+        <attribute>
+            <name>featureInfo</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag to activate the getFeatureInfo functionnality.
+            </description>
+        </attribute>
+        <attribute>
+            <name>measureDistance</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag to activate the measureDistance functionnality.
+            </description>
+        </attribute>
+        <attribute>
+            <name>measureArea</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag to activate the measureArea functionnality.
+            </description>
+        </attribute>
     </tag>
     <!-- CursorTrack -->
     <tag>

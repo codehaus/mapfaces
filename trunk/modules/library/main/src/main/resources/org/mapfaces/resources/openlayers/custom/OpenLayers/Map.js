@@ -512,7 +512,8 @@ OpenLayers.Map = OpenLayers.Class({
             }
         }
         this.controls.push(new OpenLayers.Control.MouseWheelDefaults());
-        this.controls.push(new OpenLayers.Control.KeyboardDefaults());
+//@Todo desactivate the keyboard temporary to wait the coming soon implementation of the defaultKeyboard attribute in the MapPane component.        
+//        this.controls.push(new OpenLayers.Control.KeyboardDefaults());
         this.controls.push(new OpenLayers.Control.ArgParser());
         this.controls.push(new OpenLayers.Control.Attribution());
         
