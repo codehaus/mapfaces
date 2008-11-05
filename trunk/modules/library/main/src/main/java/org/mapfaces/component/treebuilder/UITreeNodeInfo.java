@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,19 +20,24 @@ package org.mapfaces.component.treebuilder;
 import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITreeNodeInfo extends UITreeNodeInfoBase {
 
-    private final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo";
-    private final String TREENODEINFO_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.treelines.TreeNodeInfo";
+    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo";
+    private static final String TREENODEINFO_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.treelines.TreeNodeInfo";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TREENODEINFO_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TREENODEINFO_RENDERER_TYPE;

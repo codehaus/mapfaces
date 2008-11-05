@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,19 +20,24 @@ package org.mapfaces.component.treebuilder;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITreeLines extends UITreeLinesBase {
 
-    private final String TREELINES_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeLines";
-    private final String TREELINES_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.TreeLines";
+    private static final String TREELINES_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeLines";
+    private static final String TREELINES_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.TreeLines";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TREELINES_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TREELINES_RENDERER_TYPE;

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,19 +20,24 @@ package org.mapfaces.component.treebuilder;
 import org.mapfaces.component.abstractTree.UITreeTableBase;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class UITreeTable extends UITreeTableBase {
 
-    private final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeBuilder";
-    private final String TREETABLE_COMP_FAMILY = "javax.faces.Output";
+    private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeBuilder";
+    private static final String TREETABLE_COMP_FAMILY = "javax.faces.Output";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return TREETABLE_COMP_FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TREETABLE_RENDERER_TYPE;
