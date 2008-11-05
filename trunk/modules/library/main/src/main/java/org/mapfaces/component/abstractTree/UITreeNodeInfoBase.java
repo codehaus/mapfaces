@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable {
 
@@ -35,7 +35,7 @@ public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -43,7 +43,7 @@ public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable
         return hide;
     }
 
-    public void setHide(String hide) {
+    public void setHide(final String hide) {
         this.hide = hide;
     }
 
@@ -54,12 +54,12 @@ public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
      * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @return a Serializable Object
      */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[3];
         values[0] = super.saveState(context);
         values[1] = getTitle();
         values[2] = getHide();
@@ -68,23 +68,23 @@ public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable
 
     /**
      * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
-     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @param state the state Object
      */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setTitle((String) values[1]);
         setHide((String) values[2]);
     }
 
     /**
-     * UIAbstractTreeNodeInfo class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
-     * for that method to make a field-for-field copy of instances of that class. 
+     * UIAbstractTreeNodeInfo class implements the Cloneable interface to indicate to the Object.clone() method that it is legal
+     * for that method to make a field-for-field copy of instances of that class.
      * @return a clone of this component
      */
     public UITreeNodeInfoBase getInstance() {
@@ -99,7 +99,7 @@ public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable
     /* Abstracts methods*/
     /**
      * <p>Return the identifier of the component family to which this component belongs.</p>
-     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the
      * appropriate Renderer for this component instance.</p>
      * @return the identifier of the component family as a String
      */

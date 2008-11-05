@@ -1,19 +1,29 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
 package org.mapfaces.adapter.owc;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeItem;
@@ -21,45 +31,27 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.XMLContextUtilities;
 
 /**
+ * JaxB adapter.
  *
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
-public class Adapter { 
+public class Adapter {
 
-    /**
-     * 
-     * @param form
-     * @return
-     */
-   public static DefaultTreeModel OWC2Tree(String fileUrl) {
+   public static DefaultTreeModel OWC2Tree(final String fileUrl) throws JAXBException,UnsupportedEncodingException{
 
-        Context model = null;
-        FacesContext context = FacesContext.getCurrentInstance();
+        final FacesContext context              = FacesContext.getCurrentInstance();
+        final ServletContext sc                 = (ServletContext) context.getExternalContext().getContext();
+        final Context model                     = new XMLContextUtilities().readContext(sc.getRealPath(fileUrl));
+        final DefaultTreeModel tree             = new DefaultTreeModel(null);
+        final DefaultMutableTreeNode root       = new DefaultMutableTreeNode("root");
+        final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);
+        final List<Layer> layers                = model.getLayers();
+        final int depth                         = 1;
 
-        //First we get the OWC model
-        try {
-            ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-            model = (new XMLContextUtilities()).readContext(sc.getRealPath(fileUrl));
-        } catch (JAXBException ex) {
-            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Adapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        DefaultTreeModel tree = new DefaultTreeModel(null);
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
-
-        DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);
-        
-
-        int id = 0;
-        int depth = 1;
         //Then we get a list layers to construct the tree
-        List<Layer> listLayers = model.getLayers();
-        for (Layer layer : listLayers) {
-            id++;
-            TreeNodeModel item = new TreeNodeModel(layer, id, depth, id, false);
-            contextOwc.add(item);
+        for(int id=0, n=layers.size(); id<n; id++){
+            final Layer layer = layers.get(id);
+            contextOwc.add( new TreeNodeModel(layer, id+1, depth, id+1, false) );
         }
 
         root.add(contextOwc);
@@ -67,34 +59,29 @@ public class Adapter {
         return tree;
     }
 
-    /**
-     * 
-     * @param form
-     * @return
-     */
-    public static DefaultTreeModel context2Tree(FacesContext context, Context model) {
+    public static DefaultTreeModel context2Tree(final FacesContext context, final Context model) {
 
-        DefaultTreeModel tree = new DefaultTreeModel(null);
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
-        TreeItem treeItemRoot = new TreeItem(model);
-        DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(treeItemRoot);
+        final DefaultTreeModel tree             = new DefaultTreeModel(null);
+        final DefaultMutableTreeNode root       = new DefaultMutableTreeNode("root");
+        final TreeItem treeItemRoot             = new TreeItem(model);
+        final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(treeItemRoot);
+        final List<Layer> layers                = model.getLayers();
+        final int depth                         = 1;
+
         root.add(contextOwc);
 
-        int id = 0;
-        int depth = 1;
         //Then we get a list layers to construct the tree
-        List<Layer> listLayers = model.getLayers();
-        for (Layer layer : listLayers) {
-            id++;
-            TreeItem treeItem = new TreeItem(layer);
-            TreeNodeModel item = new TreeNodeModel(treeItem, id, depth, id, false);
+        for(int id=0, n=layers.size(); id<n; id++){
+            final Layer layer        = layers.get(id);
+            final TreeItem treeItem  = new TreeItem(layer);
+            final TreeNodeModel item = new TreeNodeModel(treeItem, id+1, depth, id+1, false);
             contextOwc.add(item);
         }
 
         tree.setRoot(root);
         return tree;
     }
-    
+
 //public static TimeLineBean string2TimeLineBean(FacesContext context, AbstractContext model) {
 //     Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 //        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -102,7 +89,7 @@ public class Adapter {
 //
 //        sdf.setTimeZone(TimeZone.getTimeZone("GMT+1"));
 //        sdf.setTimeZone(TimeZone.getDefault());
-//        
+//
 //        SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription("2004-06-06T12:00:00Z/2005-06-20T12:00:00Z/P1D,2007-06-04T12:00:00Z,2007-06-03T12:00:00Z",sdf);
 //        Date dateBegin = dates.first();
 //        Date dateEnd = dates.last();
@@ -127,11 +114,11 @@ public class Adapter {
 //        }
 //        System.out.println("eveeeeentes"+events.size());
 //        System.out.println("  datebegin = "+dateBegin+"  date2 = "+sdf.parse("2007-06-29T12:00:00Z"));
-//        
-//        
-//        
+//
+//
+//
 //        cal.set(2007, 5, 11, 15, 30, 25);
 //        centerDate =cal.getTime();
 //}
-    
+
 }

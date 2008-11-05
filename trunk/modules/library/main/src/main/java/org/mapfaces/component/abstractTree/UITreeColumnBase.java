@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,15 +18,16 @@ package org.mapfaces.component.abstractTree;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
+
 import org.mapfaces.share.interfaces.AjaxInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
-import javax.faces.context.FacesContext;
 import org.mapfaces.share.interfaces.A4JInterface;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
 
 /**
  *
- * @author kevindelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInterface, A4JInterface, Cloneable {
 
@@ -38,7 +39,7 @@ public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInter
         return alreadyRender;
     }
 
-    public void setAlreadyRender(boolean alreadyRender) {
+    public void setAlreadyRender(final boolean alreadyRender) {
         this.alreadyRender = alreadyRender;
     }
 
@@ -49,12 +50,12 @@ public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInter
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>saveState(javax.faces.context.FacesContext) method on all those instances as well.</p>
      * <p>This method must not save the state of children and facets. That is done via the StateManager</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @return a Serializable Object
      */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[2];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[2];
         values[0] = super.saveState(context);
         values[1] = isAlreadyRender();
         return values;
@@ -62,40 +63,40 @@ public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInter
 
     /**
      * <p>Perform any processing required to restore the state from the entries in the state Object.</p>
-     * <p>If the class that implements this interface has references to instances that also implement StateHolder 
+     * <p>If the class that implements this interface has references to instances that also implement StateHolder
      * (such as a UIComponent with event handlers, validators, etc.) this method must call the StateHolder.</p>
      * <p>restoreState(javax.faces.context.FacesContext, java.lang.Object) method on all those instances as well.</p>
-     * @param context The FacesContext for the current request 
+     * @param context The FacesContext for the current request
      * @param state the state Object
      */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         alreadyRender = (Boolean) values[1];
     }
 
     /**
      * <p>Delegate to the renderer</p>
-     * @param context The FacesContext for the current request 
-     * @param component 
+     * @param context The FacesContext for the current request
+     * @param component
      */
     @Override
-    public void handleAjaxRequest(FacesContext context) {
+    public void handleAjaxRequest(final FacesContext context) {
         //Delegate to the renderer
-        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
+        final AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
     }
 
     @Override
-    public void A4JPostRequest(FacesContext context) {
+    public void A4JPostRequest(final FacesContext context) {
         A4JRendererInterface renderer = (A4JRendererInterface) this.getRenderer(context);
         renderer.A4JPostRequest(context, this);
     }
 
     /**
-     * UIAbstractTreeColumn class implements the Cloneable interface to indicate to the Object.clone() method that it is legal 
-     * for that method to make a field-for-field copy of instances of that class. 
+     * UIAbstractTreeColumn class implements the Cloneable interface to indicate to the Object.clone() method that it is legal
+     * for that method to make a field-for-field copy of instances of that class.
      * @return a clone of this component
      */
     @Override
@@ -111,7 +112,7 @@ public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInter
     /* Abstracts methods*/
     /**
      * <p>Return the identifier of the component family to which this component belongs.</p>
-     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the 
+     * <p>This identifier, in conjunction with the value of the rendererType property, may be used to select the
      * appropriate Renderer for this component instance.</p>
      * @return the identifier of the component family as a String
      */
