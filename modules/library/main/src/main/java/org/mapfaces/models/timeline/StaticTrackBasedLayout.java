@@ -20,7 +20,6 @@ package org.mapfaces.models.timeline;
 import java.io.Serializable;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class StaticTrackBasedLayout implements Serializable {
@@ -37,7 +36,7 @@ public class StaticTrackBasedLayout implements Serializable {
         return eventSource;
     }
 
-    public void setEventSource(Event eventSource) {
+    public void setEventSource(final Event eventSource) {
         this.eventSource = eventSource;
     }
 
@@ -45,7 +44,7 @@ public class StaticTrackBasedLayout implements Serializable {
         return ether;
     }
 
-    public void setEther(LinearEther ether) {
+    public void setEther(final LinearEther ether) {
         this.ether = ether;
     }
 
@@ -53,7 +52,7 @@ public class StaticTrackBasedLayout implements Serializable {
         return showText;
     }
 
-    public void setShowText(boolean showText) {
+    public void setShowText(final boolean showText) {
         this.showText = showText;
     }
 
@@ -61,7 +60,7 @@ public class StaticTrackBasedLayout implements Serializable {
         return theme;
     }
 
-    public void setTheme(String theme) {
+    public void setTheme(final String theme) {
         this.theme = theme;
     }
 }

@@ -20,7 +20,6 @@ package org.mapfaces.models.timeline;
 import java.io.Serializable;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class Status implements Serializable {
@@ -49,7 +48,7 @@ public class Status implements Serializable {
      * Creates a new instance of Status.
      * @param name can be In Progress, Not Started or Default.
      */
-    public Status(String name) {
+    public Status(final String name) {
         this.name=name;
         ensureNonNull("name", name);
     }

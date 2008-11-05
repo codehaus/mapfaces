@@ -22,7 +22,6 @@ import java.util.Date;
 import org.geotools.util.Utilities;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class Zone implements Serializable {
@@ -31,7 +30,7 @@ public class Zone implements Serializable {
     private String unit;
     private Integer magnify;
     
-    public Zone(Date begin, Date end, String unit, Integer magnify) {
+    public Zone(final Date begin, final Date end, final String unit, final Integer magnify) {
         this.begin = begin;
         this.end = end;
         this.unit = unit;
@@ -42,7 +41,7 @@ public class Zone implements Serializable {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(final Date begin) {
         this.begin = begin;
     }
 
@@ -50,7 +49,7 @@ public class Zone implements Serializable {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(final Date end) {
         this.end = end;
     }
 
@@ -58,7 +57,7 @@ public class Zone implements Serializable {
         return unit;
     }
 
-    public void setUnit(String unit) {
+    public void setUnit(final String unit) {
         this.unit = unit;
     }
 
@@ -66,10 +65,13 @@ public class Zone implements Serializable {
         return magnify;
     }
 
-    public void setMagnify(Integer magnify) {
+    public void setMagnify(final Integer magnify) {
         this.magnify = magnify;
     }
     
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean equals(final Object object) {
         if (object == this) {
@@ -86,6 +88,9 @@ public class Zone implements Serializable {
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -96,9 +101,12 @@ public class Zone implements Serializable {
         return hash;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("Zone:").append('\n');
+        final StringBuilder s = new StringBuilder("Zone:").append('\n');
         if (unit != null) {
             s.append("unit:").append(unit).append('\n');
         }

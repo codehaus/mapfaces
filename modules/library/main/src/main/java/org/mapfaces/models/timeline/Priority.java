@@ -20,7 +20,6 @@ package org.mapfaces.models.timeline;
 import java.io.Serializable;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class Priority implements Serializable {
@@ -49,7 +48,7 @@ public class Priority implements Serializable {
      * Creates a new instance of Priority.
      * @param name can be Low, High or Normal.
      */
-    public Priority(String name) {
+    public Priority(final String name) {
         this.name=name;
         ensureNonNull("name", name);
     }

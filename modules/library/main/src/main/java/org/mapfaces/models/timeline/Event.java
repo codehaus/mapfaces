@@ -19,14 +19,16 @@ package org.mapfaces.models.timeline;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import org.geotools.temporal.object.DefaultPeriod;
 import org.geotools.temporal.object.DefaultTemporalObject;
+
 import org.mapfaces.models.Layer;
+
 import org.opengis.temporal.Duration;
 import org.opengis.temporal.Period;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class Event implements Serializable {
@@ -134,7 +136,7 @@ public class Event implements Serializable {
         return dateBegin;
     }
 
-    public void setDateBegin(Date dateBegin) {
+    public void setDateBegin(final Date dateBegin) {
         this.dateBegin = dateBegin;
     }
 
@@ -142,7 +144,7 @@ public class Event implements Serializable {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(final Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -150,7 +152,7 @@ public class Event implements Serializable {
         return topological;
     }
 
-    public void setDuration(boolean isDuration) {
+    public void setDuration(final boolean isDuration) {
         this.topological = isDuration;
     }
 
@@ -158,7 +160,7 @@ public class Event implements Serializable {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -166,7 +168,7 @@ public class Event implements Serializable {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -174,7 +176,7 @@ public class Event implements Serializable {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(final String image) {
         this.image = image;
     }
 
@@ -182,7 +184,7 @@ public class Event implements Serializable {
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(final String link) {
         this.link = link;
     }
 
@@ -190,7 +192,7 @@ public class Event implements Serializable {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(final String icon) {
         this.icon = icon;
     }
 
@@ -198,7 +200,7 @@ public class Event implements Serializable {
         return priority;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(final Priority priority) {
         this.priority = priority;
     }
 
@@ -206,7 +208,7 @@ public class Event implements Serializable {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(final String color) {
         this.color = color;
     }
 
@@ -214,7 +216,7 @@ public class Event implements Serializable {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(final Status status) {
         this.status = status;
     }
 
@@ -222,7 +224,7 @@ public class Event implements Serializable {
         return textColor;
     }
 
-    public void setTextColor(String textColor) {
+    public void setTextColor(final String textColor) {
         this.textColor = textColor;
     }
 
@@ -230,7 +232,7 @@ public class Event implements Serializable {
         return temporalObject;
     }
 
-    public void setTemporalObject(DefaultTemporalObject temporalObject) {
+    public void setTemporalObject(final DefaultTemporalObject temporalObject) {
         this.temporalObject = temporalObject;
     }
 
@@ -238,7 +240,7 @@ public class Event implements Serializable {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(final Duration duration) {
         this.duration = duration;
     }
 
@@ -246,7 +248,7 @@ public class Event implements Serializable {
         return owner;
     }
 
-    public void setOwner(Layer owner) {
+    public void setOwner(final Layer owner) {
         this.owner = owner;
     }
 }

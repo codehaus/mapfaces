@@ -20,7 +20,6 @@ package org.mapfaces.models.timeline;
 import java.io.Serializable;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class DurationEventPainter implements Serializable {
@@ -39,7 +38,7 @@ public class DurationEventPainter implements Serializable {
         return showText;
     }
 
-    public void setShowText(boolean showText) {
+    public void setShowText(final boolean showText) {
         this.showText = showText;
     }
 
@@ -47,7 +46,7 @@ public class DurationEventPainter implements Serializable {
         return theme;
     }
 
-    public void setTheme(String theme) {
+    public void setTheme(final String theme) {
         this.theme = theme;
     }
 
@@ -55,7 +54,7 @@ public class DurationEventPainter implements Serializable {
         return trackHeight;
     }
 
-    public void setTrackHeight(double trackHeight) {
+    public void setTrackHeight(final double trackHeight) {
         this.trackHeight = trackHeight;
     }
 
@@ -63,7 +62,7 @@ public class DurationEventPainter implements Serializable {
         return trackGap;
     }
 
-    public void setTrackGap(double trackGap) {
+    public void setTrackGap(final double trackGap) {
         this.trackGap = trackGap;
     }
 
@@ -71,7 +70,7 @@ public class DurationEventPainter implements Serializable {
         return layout;
     }
 
-    public void setLayout(StaticTrackBasedLayout layout) {
+    public void setLayout(final StaticTrackBasedLayout layout) {
         this.layout = layout;
     }
 

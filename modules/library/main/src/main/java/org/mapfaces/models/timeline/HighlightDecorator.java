@@ -20,7 +20,6 @@ package org.mapfaces.models.timeline;
 import java.util.Date;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class HighlightDecorator extends Event {
