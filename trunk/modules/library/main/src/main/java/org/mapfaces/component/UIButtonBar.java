@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 public class UIButtonBar extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.ButtonBar";
+
     private boolean zoomIn = true;
     private boolean zoomOut = true;
     private boolean pan = true;
@@ -48,14 +49,20 @@ public class UIButtonBar extends UIWidgetBase {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
 
-
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[14];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -72,9 +79,12 @@ public class UIButtonBar extends UIWidgetBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         zoomIn = (Boolean) values[1];
         zoomOut = (Boolean) values[2];
@@ -94,7 +104,7 @@ public class UIButtonBar extends UIWidgetBase {
         return zoomIn;
     }
 
-    public void setZoomIn(boolean zoomIn) {
+    public void setZoomIn(final boolean zoomIn) {
         this.zoomIn = zoomIn;
     }
 
@@ -102,7 +112,7 @@ public class UIButtonBar extends UIWidgetBase {
         return zoomOut;
     }
 
-    public void setZoomOut(boolean zoomOut) {
+    public void setZoomOut(final boolean zoomOut) {
         this.zoomOut = zoomOut;
     }
 
@@ -110,7 +120,7 @@ public class UIButtonBar extends UIWidgetBase {
         return pan;
     }
 
-    public void setPan(boolean pan) {
+    public void setPan(final boolean pan) {
         this.pan = pan;
     }
 
@@ -118,7 +128,7 @@ public class UIButtonBar extends UIWidgetBase {
         return zoomMaxExtent;
     }
 
-    public void setZoomMaxExtent(boolean zoomMaxExtent) {
+    public void setZoomMaxExtent(final boolean zoomMaxExtent) {
         this.zoomMaxExtent = zoomMaxExtent;
     }
 
@@ -126,7 +136,7 @@ public class UIButtonBar extends UIWidgetBase {
         return history;
     }
 
-    public void setHistory(boolean history) {
+    public void setHistory(final boolean history) {
         this.history = history;
     }
 
@@ -134,23 +144,23 @@ public class UIButtonBar extends UIWidgetBase {
         return panEffect;
     }
 
-    public void setPanEffect(boolean panEffect) {
+    public void setPanEffect(final boolean panEffect) {
         this.panEffect = panEffect;
     }
-    
+
     public boolean isFloatingBar() {
         return floatingBar;
     }
 
-    public void setFloatingBar(boolean floatingbar) {
+    public void setFloatingBar(final boolean floatingbar) {
         this.floatingBar = floatingbar;
     }
-    
+
     public boolean isGraticule() {
        return graticule;
     }
-    
-    public void setGraticule(boolean graticule) {
+
+    public void setGraticule(final boolean graticule) {
        this.graticule = graticule;
     }
 
@@ -158,7 +168,7 @@ public class UIButtonBar extends UIWidgetBase {
         return save;
     }
 
-    public void setSave(boolean save) {
+    public void setSave(final boolean save) {
         this.save = save;
     }
 
@@ -166,7 +176,7 @@ public class UIButtonBar extends UIWidgetBase {
         return featureInfo;
     }
 
-    public void setFeatureInfo(boolean featureInfo) {
+    public void setFeatureInfo(final boolean featureInfo) {
         this.featureInfo = featureInfo;
     }
 
@@ -174,7 +184,7 @@ public class UIButtonBar extends UIWidgetBase {
         return measureDistance;
     }
 
-    public void setMeasureDistance(boolean measureDistance) {
+    public void setMeasureDistance(final boolean measureDistance) {
         this.measureDistance = measureDistance;
     }
 
@@ -182,7 +192,7 @@ public class UIButtonBar extends UIWidgetBase {
         return measureArea;
     }
 
-    public void setMeasureArea(boolean measureArea) {
+    public void setMeasureArea(final boolean measureArea) {
         this.measureArea = measureArea;
     }
 

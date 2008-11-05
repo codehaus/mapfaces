@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -24,10 +24,8 @@ import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.models.AbstractModelBase;
 
 /**
- * 
  * @author Mehdi Sidhoum
  */
-
 public abstract class UIWidgetBase extends UICommand implements StateHolder {
 
     private String outputNodeId;
@@ -35,10 +33,10 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
     private AbstractModelBase targetModel;
     private String autoRefresh;
     private String toolId;
-    
+
     private Object[] values;
-    
-    /* 
+
+    /*
      *  Debug property
      */
     private boolean debug;
@@ -53,7 +51,7 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return outputNodeId;
     }
 
-    public void setOutputNodeId(String outputNodeId) {
+    public void setOutputNodeId(final String outputNodeId) {
         this.outputNodeId = outputNodeId;
     }
 
@@ -61,7 +59,7 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return targetModel;
     }
 
-    public void setTargetModel(AbstractModelBase model) {
+    public void setTargetModel(final AbstractModelBase model) {
         this.targetModel = model;
     }
 
@@ -70,7 +68,7 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return (model == null && this.getParent() instanceof UIModelBase) ? ((UIModelBase) this.getParent()).getModel() : model;
     }
 
-    public void setModel(AbstractModelBase model) {
+    public void setModel(final AbstractModelBase model) {
         this.model = model;
     }
 
@@ -78,7 +76,7 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return autoRefresh;
     }
 
-    public void setAutoRefresh(String autoRefresh) {
+    public void setAutoRefresh(final String autoRefresh) {
         this.autoRefresh = autoRefresh;
     }
 
@@ -86,16 +84,19 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return toolId;
     }
 
-    public void setToolId(String toolId) {
+    public void setToolId(final String toolId) {
         this.toolId = toolId;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
+    public Object saveState(final FacesContext context) {
         if (values == null) {
             values = new Object[7];
         }
-        
+
         values[0] = super.saveState(context);
         values[1] = outputNodeId;
         values[2] = model;
@@ -106,8 +107,11 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
+    public void restoreState(final FacesContext context, final Object state) {
         values = (Object[]) state;
         super.restoreState(context, values[0]);
         outputNodeId = (String) values[1];
@@ -122,7 +126,7 @@ public abstract class UIWidgetBase extends UICommand implements StateHolder {
         return debug;
     }
 
-    public void setDebug(boolean debug) {
+    public void setDebug(final boolean debug) {
         this.debug = debug;
     }
 }

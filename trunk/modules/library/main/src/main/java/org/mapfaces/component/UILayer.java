@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -28,6 +28,7 @@ import org.mapfaces.models.Layer;
 public class UILayer extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane.Layer";
+
     private Layer layer;
     /*
      * Name of webapp root element
@@ -38,10 +39,10 @@ public class UILayer extends UIWidgetBase {
      */
     private File dir;
     /*
-     * style of the layer div , this style is modified when we drag the map 
+     * style of the layer div , this style is modified when we drag the map
      */
     private String style;
-    
+
     public UILayer() {
         super();
         setRendererType("org.mapfaces.renderkit.html.MapPane.Layer");    // this component has a renderer
@@ -50,12 +51,15 @@ public class UILayer extends UIWidgetBase {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILIY;
     }
 
-    public void setContextPath(String ctxPath) {
+    public void setContextPath(final String ctxPath) {
         contextPath = ctxPath;
     }
 
@@ -67,7 +71,7 @@ public class UILayer extends UIWidgetBase {
         return layer;
     }
 
-    public void setLayer(Layer layer) {
+    public void setLayer(final Layer layer) {
         this.layer = layer;
     }
 
@@ -75,13 +79,16 @@ public class UILayer extends UIWidgetBase {
         return dir;
     }
 
-    public void setDir(File dir) {
+    public void setDir(final File dir) {
         this.dir = dir;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[5];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[5];
         values[0] = super.saveState(context);
         values[1] = contextPath;
         values[2] = dir;
@@ -90,9 +97,12 @@ public class UILayer extends UIWidgetBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         contextPath = (String) values[1];
         dir = (File) values[2];

@@ -10,36 +10,50 @@ import javax.el.ValueExpression;
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
 
+/**
+ * @author OLivier Terral.
+ * @author Mehdi Sidhoum.
+ */
 public class UIDimRange extends UIWidgetBase implements StateHolder {
-    
+
     public static final String FAMILIY = "org.mapfaces.DimRange";
-       
-    private String layerCompId ;
-    
+
+    private String layerCompId;
+
     /** Creates a new instance of UICursorTrack */
     public UIDimRange() {
         super();
         setRendererType("org.mapfaces.renderkit.html.DimRange"); // this component has a renderer
         if(isDebug())
             System.out.println("    UIDimRange constructor----------------------");
-        
+
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-     public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+     public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[3];
         values[0] = super.saveState(context);
         values[1] = layerCompId;
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         layerCompId = (String) values[1];
     }
@@ -48,16 +62,14 @@ public class UIDimRange extends UIWidgetBase implements StateHolder {
         return layerCompId;
     }
 
-    public void setLayerCompId(String layerCompId) {
-        
+    public void setLayerCompId(final String layerCompId) {
+
         if (layerCompId.contains("#")) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), layerCompId, String.class);
+            final FacesContext context = FacesContext.getCurrentInstance();
+            final ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), layerCompId, String.class);
             this.layerCompId = (String) ve.getValue(context.getELContext());
         }else
             this.layerCompId = layerCompId;
     }
 
-
-    
 }

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,6 +19,7 @@ package org.mapfaces.component;
 
 import java.util.List;
 import javax.faces.context.FacesContext;
+
 import org.geotools.map.MapContext;
 
 /**
@@ -28,6 +29,7 @@ import org.geotools.map.MapContext;
 public class UIMapPane extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane";
+
     private MapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
@@ -92,17 +94,18 @@ public class UIMapPane extends UIWidgetBase {
     private Boolean google = false;
     private Boolean yahoo = false;
     private Boolean virtualEarth = false;
-    
-    private String ajaxCompId ;  
+
+    private String ajaxCompId ;
+
     public String getAjaxCompId() {
         return ajaxCompId;
     }
-    public void setAjaxCompId(String ajaxCompId) {
+    public void setAjaxCompId(final String ajaxCompId) {
         this.ajaxCompId = ajaxCompId;
     }
     /**
      * Option to know if the layers should be displayed
-     * (set to true after the first page loads)     * 
+     * (set to true after the first page loads)     *
      */
     private boolean initDisplay = false;
 
@@ -115,6 +118,10 @@ public class UIMapPane extends UIWidgetBase {
         setRendererType("org.mapfaces.renderkit.html.MapPane");    // this component has a renderer
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
@@ -123,7 +130,7 @@ public class UIMapPane extends UIWidgetBase {
         return imageBuffer;
     }
 
-    public void setImageBuffer(Integer imageBuffer) {
+    public void setImageBuffer(final Integer imageBuffer) {
         this.imageBuffer = imageBuffer;
     }
 
@@ -131,7 +138,7 @@ public class UIMapPane extends UIWidgetBase {
         return loadingLayers;
     }
 
-    public void setInitDisplay(boolean b) {
+    public void setInitDisplay(final boolean b) {
         this.initDisplay = b;
     }
 
@@ -139,7 +146,7 @@ public class UIMapPane extends UIWidgetBase {
         return initDisplay;
     }
 
-    public void setLoadingLayers(int loadingLayers) {
+    public void setLoadingLayers(final int loadingLayers) {
         this.loadingLayers = loadingLayers;
     }
 
@@ -147,7 +154,7 @@ public class UIMapPane extends UIWidgetBase {
         return tileBuffer;
     }
 
-    public void setTileBuffer(Integer tileBuffer) {
+    public void setTileBuffer(final Integer tileBuffer) {
         this.tileBuffer = tileBuffer;
     }
 
@@ -155,7 +162,7 @@ public class UIMapPane extends UIWidgetBase {
         return tileGutter;
     }
 
-    public void setTileGutter(Integer tileGutter) {
+    public void setTileGutter(final Integer tileGutter) {
         this.tileGutter = tileGutter;
     }
 
@@ -163,7 +170,7 @@ public class UIMapPane extends UIWidgetBase {
         return tileSize;
     }
 
-    public void setTileSize(Integer tileSize) {
+    public void setTileSize(final Integer tileSize) {
         this.tileSize = tileSize;
     }
 
@@ -171,7 +178,7 @@ public class UIMapPane extends UIWidgetBase {
         return imageReproject;
     }
 
-    public void setImageReproject(boolean imageReproject) {
+    public void setImageReproject(final boolean imageReproject) {
         this.imageReproject = imageReproject;
     }
 
@@ -179,7 +186,7 @@ public class UIMapPane extends UIWidgetBase {
         return displayOutsideMaxExtent;
     }
 
-    public void setDisplayOutsideMaxExtent(boolean displayOutsideMaxExtent) {
+    public void setDisplayOutsideMaxExtent(final boolean displayOutsideMaxExtent) {
         this.displayOutsideMaxExtent = displayOutsideMaxExtent;
     }
 
@@ -187,7 +194,7 @@ public class UIMapPane extends UIWidgetBase {
         return maxExtent;
     }
 
-    public void setMaxExtent(String maxExtent) {
+    public void setMaxExtent(final String maxExtent) {
         this.maxExtent = maxExtent;
     }
 
@@ -195,7 +202,7 @@ public class UIMapPane extends UIWidgetBase {
         return maxResolution;
     }
 
-    public void setMaxResolution(String maxResolution) {
+    public void setMaxResolution(final String maxResolution) {
         this.maxResolution = maxResolution;
     }
 
@@ -203,7 +210,7 @@ public class UIMapPane extends UIWidgetBase {
         return minResolution;
     }
 
-    public void setMinResolution(String minResolution) {
+    public void setMinResolution(final String minResolution) {
         this.minResolution = minResolution;
     }
 
@@ -211,7 +218,7 @@ public class UIMapPane extends UIWidgetBase {
         return resolutions;
     }
 
-    public void setResolutions(List<Float> resolutions) {
+    public void setResolutions(final List<Float> resolutions) {
         this.resolutions = resolutions;
     }
 
@@ -219,7 +226,7 @@ public class UIMapPane extends UIWidgetBase {
         return scales;
     }
 
-    public void setScales(List<Float> scales) {
+    public void setScales(final List<Float> scales) {
         this.scales = scales;
     }
 
@@ -227,7 +234,7 @@ public class UIMapPane extends UIWidgetBase {
         return units;
     }
 
-    public void setUnits(String units) {
+    public void setUnits(final String units) {
         this.units = units;
     }
 
@@ -235,7 +242,7 @@ public class UIMapPane extends UIWidgetBase {
         return getFixedSize();
     }
 
-    public void setFixedSize(boolean fixedSize) {
+    public void setFixedSize(final boolean fixedSize) {
         this.setFixedSize((Boolean) fixedSize);
     }
 
@@ -243,7 +250,7 @@ public class UIMapPane extends UIWidgetBase {
         return panZoomBar;
     }
 
-    public void setPanZoomBar(Boolean panZoomBar) {
+    public void setPanZoomBar(final Boolean panZoomBar) {
         this.panZoomBar = panZoomBar;
     }
 
@@ -251,7 +258,7 @@ public class UIMapPane extends UIWidgetBase {
         return keyboardDefaults;
     }
 
-    public void setKeyboardDefaults(Boolean keyboardDefaults) {
+    public void setKeyboardDefaults(final Boolean keyboardDefaults) {
         this.keyboardDefaults = keyboardDefaults;
     }
 
@@ -259,7 +266,7 @@ public class UIMapPane extends UIWidgetBase {
         return layerSwitcher;
     }
 
-    public void setLayerSwitcher(Boolean layerSwitcher) {
+    public void setLayerSwitcher(final Boolean layerSwitcher) {
         this.layerSwitcher = layerSwitcher;
     }
 
@@ -267,7 +274,7 @@ public class UIMapPane extends UIWidgetBase {
         return google;
     }
 
-    public void setGoogle(Boolean google) {
+    public void setGoogle(final Boolean google) {
         this.google = google;
     }
 
@@ -275,7 +282,7 @@ public class UIMapPane extends UIWidgetBase {
         return yahoo;
     }
 
-    public void setYahoo(Boolean yahoo) {
+    public void setYahoo(final Boolean yahoo) {
         this.yahoo = yahoo;
     }
 
@@ -283,7 +290,7 @@ public class UIMapPane extends UIWidgetBase {
         return virtualEarth;
     }
 
-    public void setVirtualEarth(Boolean virtualEarth) {
+    public void setVirtualEarth(final Boolean virtualEarth) {
         this.virtualEarth = virtualEarth;
     }
 
@@ -291,7 +298,7 @@ public class UIMapPane extends UIWidgetBase {
         return mousePosition;
     }
 
-    public void setMousePosition(Boolean mousePosition) {
+    public void setMousePosition(final Boolean mousePosition) {
         this.mousePosition = mousePosition;
     }
 
@@ -299,7 +306,7 @@ public class UIMapPane extends UIWidgetBase {
         return singleTile;
     }
 
-    public void setSingleTile(Boolean singleTile) {
+    public void setSingleTile(final Boolean singleTile) {
         this.singleTile = singleTile;
     }
 
@@ -307,7 +314,7 @@ public class UIMapPane extends UIWidgetBase {
         return fixedSize;
     }
 
-    public void setFixedSize(Boolean fixedSize) {
+    public void setFixedSize(final Boolean fixedSize) {
         this.fixedSize = fixedSize;
     }
 
@@ -315,7 +322,7 @@ public class UIMapPane extends UIWidgetBase {
         return fractionalZoom;
     }
 
-    public void setFractionalZoom(Boolean fractionalZoom) {
+    public void setFractionalZoom(final Boolean fractionalZoom) {
         this.fractionalZoom = fractionalZoom;
     }
 
@@ -323,7 +330,7 @@ public class UIMapPane extends UIWidgetBase {
         return panZoom;
     }
 
-    public void setPanZoom(Boolean panZoom) {
+    public void setPanZoom(final Boolean panZoom) {
         this.panZoom = panZoom;
     }
 
@@ -331,7 +338,7 @@ public class UIMapPane extends UIWidgetBase {
         return numZoomLevels;
     }
 
-    public void setNumZoomLevels(Integer numZoomLevels) {
+    public void setNumZoomLevels(final Integer numZoomLevels) {
         this.numZoomLevels = numZoomLevels;
     }
 
@@ -339,22 +346,28 @@ public class UIMapPane extends UIWidgetBase {
         return defaultMapContext;
     }
 
-    public void setDefaultMapContext(MapContext defaultMapContext) {
+    public void setDefaultMapContext(final MapContext defaultMapContext) {
         this.defaultMapContext = defaultMapContext;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[3];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[3];
         values[0] = super.saveState(context);
         //values[1] = defaultMapContext;
         values[2] = maxExtent;
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
 
     }

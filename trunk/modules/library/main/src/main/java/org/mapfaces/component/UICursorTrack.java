@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 public class UICursorTrack extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.CursorTrack";
+
     private boolean showPX = false;
     private boolean showXY = false;
     private boolean showLatLon = true;
@@ -41,13 +42,20 @@ public class UICursorTrack extends UIWidgetBase {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getFamily() {
         return FAMILIY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Object saveState(FacesContext context) {
-        Object values[] = new Object[6];
+    public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[6];
         values[0] = super.saveState(context);
         values[1] = isShowPX();
         values[2] = isShowXY();
@@ -57,9 +65,12 @@ public class UICursorTrack extends UIWidgetBase {
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
-        Object values[] = (Object[]) state;
+    public void restoreState(final FacesContext context, final Object state) {
+        final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setShowPX((boolean) (Boolean) values[1]);
         setShowXY((boolean) (Boolean) values[2]);
@@ -72,7 +83,7 @@ public class UICursorTrack extends UIWidgetBase {
         return showPX;
     }
 
-    public void setShowPX(boolean showPX) {
+    public void setShowPX(final boolean showPX) {
         this.showPX = showPX;
     }
 
@@ -80,7 +91,7 @@ public class UICursorTrack extends UIWidgetBase {
         return showXY;
     }
 
-    public void setShowXY(boolean showXY) {
+    public void setShowXY(final boolean showXY) {
         this.showXY = showXY;
     }
 
@@ -88,7 +99,7 @@ public class UICursorTrack extends UIWidgetBase {
         return showLatLon;
     }
 
-    public void setShowLatLon(boolean showLatLon) {
+    public void setShowLatLon(final boolean showLatLon) {
         this.showLatLon = showLatLon;
     }
 
@@ -96,7 +107,7 @@ public class UICursorTrack extends UIWidgetBase {
         return showDMS;
     }
 
-    public void setShowDMS(boolean showDMS) {
+    public void setShowDMS(final boolean showDMS) {
         this.showDMS = showDMS;
     }
 
@@ -104,7 +115,7 @@ public class UICursorTrack extends UIWidgetBase {
         return showDM;
     }
 
-    public void setShowDM(boolean showDM) {
+    public void setShowDM(final boolean showDM) {
         this.showDM = showDM;
     }
 }

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -24,38 +24,41 @@ import javax.faces.context.FacesContext;
  * @author Mehdi Sidhoum.
  */
 public class UIWidget extends UIWidgetBase{
-    
+
     public static final String FAMILIY = "org.mapfaces.Widget";
-    
-    /**
-     * Add extra parameter like this
-     * 
-     */
-    //private String value = null;
-    
+
     public UIWidget() {
         super();
         if(isDebug())
             System.out.println("[UIWidget] constructor----------------------");
         setRendererType("org.mapfaces.renderkit.html.Widget"); // this component has a renderer
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILIY;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-     public Object saveState(FacesContext context) {
-        Object values[] = new Object[1];
-        values[0] = super.saveState(context); 
+     public Object saveState(final FacesContext context) {
+        final Object values[] = new Object[1];
+        values[0] = super.saveState(context);
         return values;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void restoreState(FacesContext context, Object state) {
+    public void restoreState(final FacesContext context, Object state) {
         Object values[] = (Object[]) state;
-        super.restoreState(context, values[0]); 
+        super.restoreState(context, values[0]);
     }
-    
+
 }
