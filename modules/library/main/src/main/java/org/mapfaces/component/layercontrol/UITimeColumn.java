@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,22 +20,23 @@ package org.mapfaces.component.layercontrol;
 import org.mapfaces.component.treelayout.UIImgColumn;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys)
  */
 public class UITimeColumn extends UIImgColumn {
 
     private static final long serialVersionUID = -1878798978545632171L;
-    private final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.TimeColumn";
-    private final String FAMILY = "org.mapfaces.treelayout.Column";
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.TimeColumn";
+    private static final String FAMILY = "org.mapfaces.treelayout.Column";
+    private static final String layerProperty = "Time";
+
     private String layerId;
-    private final String layerProperty = "Time";
     private String imgData = "/resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
 
     public String getLayerId() {
         return layerId;
     }
 
-    public void setLayerId(String layerId) {
+    public void setLayerId(final String layerId) {
         this.layerId = layerId;
     }
 
@@ -43,21 +44,35 @@ public class UITimeColumn extends UIImgColumn {
         return layerProperty;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getImg() {
         return imgData;
     }
 
-    public void setImg(String imgData) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setImg(final String imgData) {
         this.imgData = imgData;
     }
 }

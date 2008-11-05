@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,38 +18,46 @@
 package org.mapfaces.component.layercontrol;
 
 import java.io.Serializable;
+
 import org.mapfaces.component.treelayout.UICheckColumn;
 import org.mapfaces.share.interfaces.AjaxInterface;
 
-        
+/**
+ * @author Olivier Terral (Geomatys)
+ */
 public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,Serializable {
-    
-    private static final long serialVersionUID = 6110685871235636989L;
 
-    private final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.VisibilityColumn";
-    private final String FAMILY = "org.mapfaces.treelayout.Column";
-    private final String LAYER_PROPERTY = "Visible";
-    
-    private String layerId;    
-    
+    private static final long serialVersionUID = 6110685871235636989L;
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.VisibilityColumn";
+    private static final String FAMILY = "org.mapfaces.treelayout.Column";
+    private static final String LAYER_PROPERTY = "Visible";
+
+    private String layerId;
+
     public UIVisibilityColumn(){
         super();
     }
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getFamily() {
         return FAMILY;
     }
 
-
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDERER_TYPE;
     }
-    
-    public void setLayerId(String layerId) {
+
+    public void setLayerId(final String layerId) {
         this.layerId = layerId;
     }
-   
+
     public String getLayerId(){
         return layerId;
     }
