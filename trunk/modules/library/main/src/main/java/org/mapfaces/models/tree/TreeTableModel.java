@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -53,7 +53,7 @@ public class TreeTableModel extends DefaultTreeModel {
     }
 
     public TreeNodeModel ssgetById(final TreeNodeModel node, final int index) {
-        
+
         for (int i=0,n=node.getChildCount(); i<n; i++) {
             final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
             if (currentNode.getId() == index) {

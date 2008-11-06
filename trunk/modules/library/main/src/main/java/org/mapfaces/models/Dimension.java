@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,7 +20,6 @@ package org.mapfaces.models;
 import java.io.Serializable;
 
 /**
- *
  * @author Olivier Terral.
  */
 public interface Dimension extends Serializable {
@@ -60,12 +59,12 @@ public interface Dimension extends Serializable {
     void setUserValue(String userValue);
 
     void setValue(String value);
-    
+
     void setAttribute(String attrName, String value);
-    
+
     String getAttribute(String attrName);
-    
+
     void setAttribute(String attrName, boolean bool);
-    
+
 
 }

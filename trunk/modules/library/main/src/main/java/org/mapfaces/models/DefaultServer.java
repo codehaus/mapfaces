@@ -1,11 +1,11 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General 
+ *    modify it under the terms of the GNU Lesser General
  *    License as published by the Free Software Foundation; either
  *    version 3 of the License, or (at your option) any later version.
  *
@@ -40,34 +40,66 @@ public class DefaultServer implements Server {
     public DefaultServer() {
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getHref() {
         return this.href;
     }
 
-    public void setHref(String href) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHref(final String href) {
         this.href = href;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getService() {
         return this.service;
     }
 
-    public void setService(String service) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setService(final String service) {
         this.service = service;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getVersion() {
         return this.version;
     }
 
-    public void setVersion(String version) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setVersion(final String version) {
         this.version = version;
     }
 
-    public void setGTCapabilities(WMSCapabilities capabilities) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setGTCapabilities(final WMSCapabilities capabilities) {
         this.gtCapabilities = capabilities;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public WMSCapabilities getGTCapabilities() {
         return gtCapabilities;
     }
@@ -102,11 +134,19 @@ public class DefaultServer implements Server {
         return singleton;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getTitle() {
        return title;
     }
 
-    public void setTitle(String title) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setTitle(final String title) {
         this.title = title;
     }
 }

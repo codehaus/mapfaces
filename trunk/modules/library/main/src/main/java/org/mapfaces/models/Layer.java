@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,7 +22,6 @@ import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
- *
  * @author Olivier Terral.
  */
 public interface Layer extends Serializable {
@@ -165,7 +164,7 @@ public interface Layer extends Serializable {
 
     /* *
      * Getters and setters for styles parameters
-     * 
+     *
      * */
     String getStyles();
 
@@ -178,12 +177,12 @@ public interface Layer extends Serializable {
     void setSld(String sld);
 
     void setSldBody(String sldBody);
-    
+
     /*
      * properties needed by JSF
      * */
-    
+
     String getCompId();
-    
+
     void setCompId(String id);
 }

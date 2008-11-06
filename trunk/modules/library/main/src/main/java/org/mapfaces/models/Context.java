@@ -1,11 +1,11 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General 
+ *    modify it under the terms of the GNU Lesser General
  *    License as published by the Free Software Foundation; either
  *    version 3 of the License, or (at your option) any later version.
  *
@@ -22,8 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
 
+/**
+ * @author Olivier Terral.
+ */
 public interface Context extends Serializable {
-
 
     String getId();
 
@@ -51,7 +53,7 @@ public interface Context extends Serializable {
 
     String getWindowHeight();
 
-    void setWindowHeight(String windowHeight); 
+    void setWindowHeight(String windowHeight);
 
     String getBoundingBox();
 
@@ -86,10 +88,10 @@ public interface Context extends Serializable {
     DescriptionURL getDescriptionURL();
 
     String getAbstract();
-    
-    
+
+
 /*******************************Layers functions*******************************/
-    
+
     List<Layer> getLayers();
 
     void setLayers(List<Layer> layers);
@@ -106,42 +108,42 @@ public interface Context extends Serializable {
 
 
 /*********************************** Layer functions***************************/
-    
-    Layer getLayerFromId(String id);    
+
+    Layer getLayerFromId(String id);
 
     String getOpacity(String id);
 
     void setOpacity(String id, String value);
-    
+
     boolean isHidden(String id);
 
     void setHidden(String id, boolean test);
-    
+
     void addLayer(Layer layer);
 
     void removeLayerFromId(String layerId);
-    
-/**************************** Layer Dimension functions ***********************/
-    
-    Dimension getLayerDimension(String layerId, String dimName);
-    
-    void setLayerDimension(String layerId, Dimension dim);
-    
-    String getLayerAttrDimension(String layerId, String dimName, String attrDimName);
-    
-    void setLayerAttrDimension(String layerId, String dimName, String attrDimName, String attrValue);
-    
 
-/*********************************** LayersId functions*******************************/  
-    
+/**************************** Layer Dimension functions ***********************/
+
+    Dimension getLayerDimension(String layerId, String dimName);
+
+    void setLayerDimension(String layerId, Dimension dim);
+
+    String getLayerAttrDimension(String layerId, String dimName, String attrDimName);
+
+    void setLayerAttrDimension(String layerId, String dimName, String attrDimName, String attrValue);
+
+
+/*********************************** LayersId functions*******************************/
+
     /*
     * These functions are used to pass all the layers ids to the javascript
-    * */
-    
+    */
+
     String getLayersId();
 
     String getLayersCompId();
-    
+
     String getHiddenLayersId();
 
     String getVisibleLayersId();
@@ -154,7 +156,7 @@ public interface Context extends Serializable {
 
 
 /*********************************** Servers functions*******************************/
-    
+
     HashMap<String, Server> getWmsServers();
 
     void setWmsServers(HashMap<String, Server> servers);
@@ -163,6 +165,6 @@ public interface Context extends Serializable {
 
     void setWfsServers(HashMap<String, Server> servers);
 
-    void save(ServletContext sc, String fileUrl);    
+    void save(ServletContext sc, String fileUrl);
 
 }

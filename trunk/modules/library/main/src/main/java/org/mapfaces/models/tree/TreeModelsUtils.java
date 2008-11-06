@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -48,8 +48,8 @@ public class TreeModelsUtils {
      * Method to transform a DefaultMutableTreeNode to a TreeNodeModel
      * @param node the DefaultMutableTreeNode  to change
      * @param id the id give to identify the node as a String
-     * @param depth 
-     * @param row 
+     * @param depth
+     * @param row
      * @return a TreeNodeModel node with an id and a content
      */
     public TreeNodeModel transformNode(final DefaultMutableTreeNode node, final int id, final int depth, final int row) {
@@ -85,7 +85,7 @@ public class TreeModelsUtils {
         }
 
         count++;
-        
+
         final int depthnode = root.getDepth() + 1;
         for (int i=0, n=initial_root.getChildCount(); i<n; i++) {
             final DefaultMutableTreeNode child = (DefaultMutableTreeNode) initial_root.getChildAt(i);
@@ -121,17 +121,17 @@ public class TreeModelsUtils {
      */
     public void printTree(final TreeTableModel tree) {
         final TreeNodeModel root = tree.getRoot();
-        
+
         if(root.isLeaf()){
             System.out.println("Tree is empty");
             return;
         }
-        
+
         System.out.println("Tree content is :");
         for (int i=0, n=root.getChildCount(); i<n ; i++) {
             ssprintTree( (TreeNodeModel) root.getChildAt(i) );
         }
-        
+
     }
 
     private void ssprintTree(final TreeNodeModel node) {
