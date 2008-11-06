@@ -18,16 +18,23 @@
 package org.mapfaces.models;
 
 import java.io.ObjectStreamException;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.geotools.data.ows.WMSCapabilities;
+import org.geotools.util.SoftValueHashMap;
+import org.mapfaces.util.FacesUtils;
 
 /**
  *
  * @author Olivier Terral.
  */
 public class DefaultServer implements Server {
+    
+    private static final Map<String, WMSCapabilities> cache = new SoftValueHashMap<String, WMSCapabilities>(50);
+    private static final AtomicInteger incr = new AtomicInteger();
+    private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+incr.incrementAndGet();;
 
     private static final long serialVersionUID = 7526471155622776147L;
-    static private DefaultServer singleton = null;
     private String href;
     private String service;
     private String version;
@@ -38,6 +45,10 @@ public class DefaultServer implements Server {
      * Empty constructor used for Serialization.
      */
     public DefaultServer() {
+    }
+    
+    public static Map<String, WMSCapabilities> getCache() {
+        return cache;
     }
 
     /**
@@ -103,37 +114,26 @@ public class DefaultServer implements Server {
     public WMSCapabilities getGTCapabilities() {
         return gtCapabilities;
     }
-//    public String getCpabilities() {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    public void setGetCapabilities(String caps) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
+
     Object writeReplace() throws ObjectStreamException {
         WMSCapabilities gtcapa = getGTCapabilities();
-        DefaultServer tmp = getSingleton();
-        tmp.setGTCapabilities(gtcapa);
-        DefaultServer ds = this;
-
-        return ds;
+        if (gtcapa != null) {
+            getCache().put(getcapaId, gtcapa);
+        }
+        return this;
     }
 
     Object readResolve() throws ObjectStreamException {
-        DefaultServer ds = this;
-        WMSCapabilities gtcapa = getSingleton().getGTCapabilities();
-        ds.setGTCapabilities(gtcapa);
-
-        return ds;
+        WMSCapabilities gtcapa = getCache().get(getcapaId);
+        
+        //@TODO  The cache must be cleared after the session timeout.
+        //cache.remove(getcapaId);
+        
+        setGTCapabilities(gtcapa);
+        
+        return this;
     }
-
-    static public synchronized DefaultServer getSingleton() {
-        if (singleton == null) {
-            singleton = new DefaultServer();
-        }
-        return singleton;
-    }
-
+    
     /**
      * {@inheritDoc }
      */
@@ -148,5 +148,12 @@ public class DefaultServer implements Server {
     @Override
     public void setTitle(final String title) {
         this.title = title;
+    }
+    
+    /**
+     * This method clear the hashMap cache of all DefaultServer object, it is called when the session is closed.
+     */
+    public static void restoreCache() {
+        getCache().clear();
     }
 }
