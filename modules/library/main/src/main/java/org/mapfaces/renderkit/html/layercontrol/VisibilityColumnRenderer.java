@@ -20,18 +20,22 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
 
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
+/**
+ * @author Olivier Terral.
+ */
 public class VisibilityColumnRenderer extends CheckColumnRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeBegin(context, component);
             component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
@@ -42,13 +46,19 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeEnd(context, component);
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
 

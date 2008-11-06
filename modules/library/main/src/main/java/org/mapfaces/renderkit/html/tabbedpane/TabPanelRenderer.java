@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,12 +18,12 @@
 package org.mapfaces.renderkit.html.tabbedpane;
 
 import java.io.IOException;
-import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -34,31 +34,26 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TabPanelRenderer extends Renderer {
 
     private static final transient Log log = LogFactory.getLog(TabPanelRenderer.class);
-    private final String TABCSS_CSS = "/org/mapfaces/resources/tabbedpane/css/domtab.css";
-    private final String TABJS = "/org/mapfaces/resources/tabbedpane/js/domtab.js";
+    private static final String TABCSS_CSS = "/org/mapfaces/resources/tabbedpane/css/domtab.css";
+    private static final String TABJS = "/org/mapfaces/resources/tabbedpane/js/domtab.js";
 
     private UIForm getForm(UIComponent component) {
         UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UIForm) {
-                break;
-            }
-            parent = parent.getParent();
-        }
+        while (parent != null && !(parent instanceof UIForm)) parent = parent.getParent();
+
         if (parent == null) {
             throw new IllegalStateException("Not nested inside a form!");
         }
         return (UIForm) parent;
     }
 
-    private String getPostbackFunctionName(UIComponent component) {
-        UITabPanel tabpanel = (UITabPanel) component;
+    private String getPostbackFunctionName(final UIComponent component) {
+        final UITabPanel tabpanel = (UITabPanel) component;
         return tabpanel.getId() + "PostBack";
     }
 
@@ -80,7 +75,7 @@ public class TabPanelRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
@@ -88,8 +83,8 @@ public class TabPanelRenderer extends Renderer {
         //Start encoding
         log.info("encodeBegin : " + TabPanelRenderer.class.getName());
 
-        UITabPanel tabpanel = (UITabPanel) component;
-        ResponseWriter writer = context.getResponseWriter();
+        final UITabPanel tabpanel   = (UITabPanel) component;
+        final ResponseWriter writer = context.getResponseWriter();
 
         String dimensionsW = "width:auto";
         String dimensionsH = "height:auto";
@@ -108,11 +103,11 @@ public class TabPanelRenderer extends Renderer {
         writer.writeAttribute("style", dimensionsW + ";" + dimensionsH + ";", null);
 
         boolean active = true;
-        List<UIComponent> children = tabpanel.getChildren();
         writer.startElement("ul", tabpanel);
         writer.writeAttribute("id", tabpanel.getClientId(context), null);
         writer.writeAttribute("class", "tabs_title", null);
-        for (UIComponent child : children) {
+
+        for (final UIComponent child : tabpanel.getChildren()) {
             writer.startElement("li", tabpanel);
             writer.writeAttribute("id", "item:"+((UITabItem) child).getClientId(context), null);
             writer.writeAttribute("onclick", "display('"+"tabs:" +tabpanel.getClientId(context)+"','"+((UITabItem) child).getClientId(context)+"');", null);
@@ -136,16 +131,14 @@ public class TabPanelRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         log.info("encodeChildren : " + TabPanelRenderer.class.getName());
-        UITabPanel tabpanel = (UITabPanel) component;
+        final UITabPanel tabpanel = (UITabPanel) component;
 
-        if (tabpanel.getChildCount() != 0) {
-            List<UIComponent> children = tabpanel.getChildren();
-            for (UIComponent tmp : children) {
-                Utils.encodeRecursive(context, tmp);
-            }
+        for (final UIComponent tmp : tabpanel.getChildren()) {
+            Utils.encodeRecursive(context, tmp);
         }
+
     }
 
     /**
@@ -155,19 +148,19 @@ public class TabPanelRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         log.info("encodeEnd : " + TabPanelRenderer.class.getName());
-        UITabPanel tabpanel = (UITabPanel) component;
-        ResponseWriter writer = context.getResponseWriter();
+        final UITabPanel tabpanel = (UITabPanel) component;
+        final ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
     }
 
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
         return;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
+    private void assertValid(final FacesContext context, final UIComponent component) {
         if (context == null) {
             throw new NullPointerException("FacesContext should not be null");
         } else if (component == null) {
@@ -177,14 +170,14 @@ public class TabPanelRenderer extends Renderer {
 
     /* ======================= OTHERS METHODS ==================================*/
     /**
-     * Write headers css and js with the resource 
+     * Write headers css and js with the resource
      * @param context
      * @param component
      * @throws java.io.IOException
      */
-    private void writeHeaders(FacesContext context, UIComponent component) throws IOException {
-        UITabPanel tabpanel = (UITabPanel) component;
-        ResponseWriter writer = context.getResponseWriter();
+    private void writeHeaders(final FacesContext context, final UIComponent component) throws IOException {
+        final UITabPanel tabpanel = (UITabPanel) component;
+        final ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("link", tabpanel);
         writer.writeAttribute("type", "text/css", null);

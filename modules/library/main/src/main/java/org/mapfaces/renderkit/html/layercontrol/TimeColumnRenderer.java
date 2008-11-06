@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -33,14 +33,20 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.ImgColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
+/**
+ * @author Olivier Terral.
+ */
 public class TimeColumnRenderer extends ImgColumnRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UITimeColumn comp = (UITimeColumn) component;
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        final UITimeColumn comp = (UITimeColumn) component;
 
         //Write the scripts once per page
-        ExternalContext extContext = context.getExternalContext();
+        final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.ajaxScript.timecolumn")) {
             extContext.getRequestMap().put("ajaxflag.ajaxScript.timecolumn", Boolean.TRUE);
             writeTimeColumnScripts(context, comp);
@@ -51,12 +57,13 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
 
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
             super.encodeBegin(context, component);
-            HashMap<String, String> paramsMap1 = new HashMap();
+            final HashMap<String, String> paramsMap1 = new HashMap();
             paramsMap1.put("hidden", "true");
-            UIComponent uicomp = (UIComponent) component.getChildren().get(0);
+
+            final UIComponent uicomp = (UIComponent) component.getChildren().get(0);
 
             //Adding a new img component to remove the corresponding bandInfo on the timeline.
-            HtmlGraphicImage img = new HtmlGraphicImage();
+            final HtmlGraphicImage img = new HtmlGraphicImage();
             img.setId(component.getId() + "-off");
 
             uicomp.getChildren().add(FacesUtils.createTreeAjaxSupportWithParameters(context,
@@ -71,19 +78,17 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
             img.setTitle(comp.getHeaderTitle());
             img.setStyle("cursor:pointer;");
 
-            String urlOff = comp.getImg();
-            String extension;
-            String preUrl;
+            final String urlOff = comp.getImg();
             if (urlOff != null) {
                 if (urlOff.lastIndexOf(".") != -1) {
-                    extension = urlOff.substring(urlOff.lastIndexOf(".")); //.png
-                    preUrl = urlOff.substring(0, urlOff.lastIndexOf(".")); // path/name
+                    final String extension = urlOff.substring(urlOff.lastIndexOf(".")); //.png
+                    String preUrl = urlOff.substring(0, urlOff.lastIndexOf(".")); // path/name
                     preUrl += "-off"; //an image file with name imgurl concated with "-off" must be added in the resources packages.
                     img.setUrl(preUrl + extension);
                 }
             }
 
-            HashMap<String, String> paramsMap2 = new HashMap();
+            final HashMap<String, String> paramsMap2 = new HashMap();
             paramsMap2.put("hidden", "false");
             img.getChildren().add(FacesUtils.createTreeAjaxSupportWithParameters(context,
                     img, "onclick", getVarId(context, (UIColumnBase) component),
@@ -96,19 +101,25 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
             super.encodeEnd(context, component);
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
+    public void addRequestScript(final FacesContext context, final UIComponent component, final String event) throws IOException {
     }
 
-    public String getTimes(FacesContext context, UITimeColumn comp) {
-        TreeNodeModel tnm = ((UITreeLines) (comp.getParent())).getNodeInstance();
+    public String getTimes(final FacesContext context, final UITimeColumn comp) {
+        final TreeNodeModel tnm = ((UITreeLines) (comp.getParent())).getNodeInstance();
         if (tnm.isLeaf() && ((Layer) (tnm.getUserObject())).getDimensionList() != null) {
             if (((Layer) (tnm.getUserObject())).getTime() != null) {
                 return ((Layer) (tnm.getUserObject())).getTime().getValue();
@@ -117,21 +128,21 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         return null;
     }
 
-    private void writeTimeColumnScripts(FacesContext context, UIComponent component) throws IOException {
+    private void writeTimeColumnScripts(final FacesContext context, final UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.write("function hideOrDisplay(id1, id2){\n" +
-                "if( document.getElementById(id1).style.display==\"none\" ){\n" +
-                "document.getElementById(id1).style.display=\"block\";\n" +
-                "document.getElementById(id2).style.display=\"none\";\n" +
-                "}else{\n" +
-                "document.getElementById(id1).style.display=\"none\";\n" +
-                "document.getElementById(id2).style.display=\"block\";\n" +
-                "}}");
+        writer.write(new StringBuffer("function hideOrDisplay(id1, id2){\n")
+                              .append("if( document.getElementById(id1).style.display==\"none\" ){\n")
+                              .append("document.getElementById(id1).style.display=\"block\";\n")
+                              .append("document.getElementById(id2).style.display=\"none\";\n")
+                              .append("}else{\n")
+                              .append("document.getElementById(id1).style.display=\"none\";\n")
+                              .append("document.getElementById(id2).style.display=\"block\";\n")
+                              .append("}}").toString());
         writer.write("function resizeDivs(){}\n");
         writer.endElement("script");
     }

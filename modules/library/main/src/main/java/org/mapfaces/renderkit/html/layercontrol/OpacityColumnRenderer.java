@@ -25,9 +25,14 @@ import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
-
+/**
+ * @author Olivier Terral.
+ */
 public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
@@ -42,6 +47,9 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
@@ -49,6 +57,9 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
 //        ResponseWriter writer = context.getResponseWriter();

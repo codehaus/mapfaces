@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,35 +18,29 @@
 package org.mapfaces.renderkit.html.tabbedpane;
 
 import java.io.IOException;
-import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
 import org.mapfaces.share.utils.Utils;
 
 /**
- *
- * @author kevindelfour
+ * @author kevin Delfour
  */
 public class TabItemRenderer extends Renderer {
 
     private static final transient Log log = LogFactory.getLog(TabItemRenderer.class);
 
-    private UITabPanel getForm(UIComponent component) {
+    private UITabPanel getForm(final UIComponent component) {
         UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UITabPanel) {
-                break;
-            }
-            parent = parent.getParent();
-        }
+        while (parent != null && !(parent instanceof UITabPanel)) parent = parent.getParent();
+
         if (parent == null) {
             throw new IllegalStateException("Not nested inside a tab panel!");
         }
@@ -54,7 +48,7 @@ public class TabItemRenderer extends Renderer {
     }
 
     private String getPostbackFunctionName(UIComponent component) {
-        UITabItem tabitem = (UITabItem) component;
+        final UITabItem tabitem = (UITabItem) component;
         return tabitem.getId() + "_PostBack";
     }
 
@@ -76,7 +70,7 @@ public class TabItemRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!(getForm(component) instanceof UITabPanel)) {
             return;
         }
@@ -87,8 +81,8 @@ public class TabItemRenderer extends Renderer {
         //Start encoding
         log.info("encodeBegin : " + TabItemRenderer.class.getName());
 
-        UITabItem tabitem = (UITabItem) component;
-        ResponseWriter writer = context.getResponseWriter();
+        final UITabItem tabitem     = (UITabItem) component;
+        final ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("div", tabitem);
         writer.writeAttribute("id", tabitem.getClientId(context), null);
@@ -99,7 +93,7 @@ public class TabItemRenderer extends Renderer {
         }
         writer.startElement("div", tabitem);
         writer.writeAttribute("class", "tab_content", null);
-        
+
     }
 
     /**
@@ -109,16 +103,14 @@ public class TabItemRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         log.info("encodeChildren : " + TabItemRenderer.class.getName());
-        UITabItem tabitem = (UITabItem) component;
+        final UITabItem tabitem = (UITabItem) component;
 
-        if (tabitem.getChildCount() != 0) {
-            List<UIComponent> children = tabitem.getChildren();
-            for (UIComponent tmp : children) {
-                Utils.encodeRecursive(context, tmp);
-            }
+        for (final UIComponent tmp : tabitem.getChildren()) {
+            Utils.encodeRecursive(context, tmp);
         }
+
     }
 
     /**
@@ -128,24 +120,24 @@ public class TabItemRenderer extends Renderer {
      * @throws java.io.IOException
      */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         log.info("encodeEnd : " + TabItemRenderer.class.getName());
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
         writer.endElement("div");
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
         return;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 }

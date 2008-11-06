@@ -32,15 +32,20 @@ import org.mapfaces.util.FacesUtils;
  */
 public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         ((UIElevationColumn) component).setSeparator(",");
         super.beforeEncodeBegin(context, component);
         ((UIElevationColumn) component).setItemsLabels(getElevations(context, (UIElevationColumn) component));
         ((UIElevationColumn) component).setItemsValues(getElevations(context, (UIElevationColumn) component));
-
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         super.encodeBegin(context, component);
@@ -49,6 +54,9 @@ public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
     }
