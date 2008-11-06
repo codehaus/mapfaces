@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
@@ -44,23 +45,21 @@ import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.timeline.TimeLineUtils;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class HotZoneBandInfoRenderer extends Renderer {
-    // @TODO , these should be the localized names by properties files.
-    static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
-        "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
-    };
 
     /** Creates a new instance of HotZoneBandInfoRenderer */
     public HotZoneBandInfoRenderer() {
         super();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     @SuppressWarnings("empty-statement")
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
@@ -70,39 +69,39 @@ public class HotZoneBandInfoRenderer extends Renderer {
         assertValid(context, component);
 
         //casting the component.
-        UIHotZoneBandInfo bandInfoComp = (UIHotZoneBandInfo) component;
+        final UIHotZoneBandInfo bandInfoComp = (UIHotZoneBandInfo) component;
         if (bandInfoComp.isHidden()) {
             return;
         }
-        UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, bandInfoComp);
+        final UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, bandInfoComp);
         bandInfoComp.setJsObject(bandInfoComp.getId().replace("-", "_"));
-        ExternalContext extContext = context.getExternalContext();
-        int index = 0;
-        String key = component.getParent().getId() + "-indexhotZoneBand";
+        final ExternalContext extContext = context.getExternalContext();
+        final int index;
+        final String key = component.getParent().getId() + "-indexhotZoneBand";
         if (!extContext.getRequestMap().containsKey(key)) {
             extContext.getRequestMap().put(key, 0);
             index = 0;
         } else {
-            int j = (Integer) extContext.getRequestMap().get(key);
+            final int j = (Integer) extContext.getRequestMap().get(key);
             index = j + 1;
             extContext.getRequestMap().remove(key);
             extContext.getRequestMap().put(key, index);
         }
 
         //begin to render the component.
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
 
-        boolean timelineControlFlag = parentTimeline.isActiveControl();
+        final boolean timelineControlFlag = parentTimeline.isActiveControl();
 
         if (bandInfoComp.isSliderInput() && !timelineControlFlag && parentTimeline.isEnableBandsInput()) {
 
-            UISliderInput sliderInput = new UISliderInput();
+            final UISliderInput sliderInput = new UISliderInput();
             sliderInput.setId(component.getId() + "slider");
             sliderInput.setForid(String.valueOf(index));
             sliderInput.setHorizontal("true");
 
-            String sliderWidth = bandInfoComp.getSliderWidth();
-            if (sliderWidth != null && !sliderWidth.equals("")) {
+            final String sliderWidth = bandInfoComp.getSliderWidth();
+            if (sliderWidth != null && !sliderWidth.isEmpty()) {
                 sliderInput.setLength(sliderWidth);
             } else {
                 sliderInput.setLength("250");
@@ -121,15 +120,18 @@ public class HotZoneBandInfoRenderer extends Renderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        UIHotZoneBandInfo comp = (UIHotZoneBandInfo) component;
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final UIHotZoneBandInfo comp = (UIHotZoneBandInfo) component;
         if (comp.isHidden()) {
             return;
         }
-        String idjs = comp.getJsObject();
-        ResponseWriter writer = context.getResponseWriter();
-        UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
+        final String idjs               = comp.getJsObject();
+        final ResponseWriter writer     = context.getResponseWriter();
+        final UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
 
         if (parentTimeline.isDynamicBands()) {
             //writing js code for this component events list.
@@ -137,18 +139,20 @@ public class HotZoneBandInfoRenderer extends Renderer {
             writer.writeAttribute("type", "text/javascript", "text/javascript");
             writer.write("var " + idjs + "_eventSource = new Timeline.DefaultEventSource();\n");
 
-            List<Event> events = new ArrayList<Event>();
-            Object value = comp.getAttributes().get("value");
+            final List<Event> events;
+            final Object value = comp.getAttributes().get("value");
             if (value != null) {
                 if ( value instanceof java.lang.String ) {
-                    ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
+                    final ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                     events = (List<Event>) ve.getValue(context.getELContext());
                 } else {
                     events = (List<Event>) value;
                 }
+            }else{
+                events = new ArrayList<Event>();
             }
 
-            List<Event> specialEvents = TimeLineUtils.writeScriptEvents(context, parentTimeline, events, idjs);
+            final List<Event> specialEvents = TimeLineUtils.writeScriptEvents(context, parentTimeline, events, idjs);
 
             //add events from the attached layer of this component
             writer.endElement("script");
@@ -156,12 +160,15 @@ public class HotZoneBandInfoRenderer extends Renderer {
         writer.flush();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
-        UIHotZoneBandInfo comp = (UIHotZoneBandInfo) component;
-        UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
-        Layer attachedLayer = comp.getLayer();
-        Map requestMap = context.getExternalContext().getRequestParameterMap();
+    public void decode(final FacesContext context, final UIComponent component) {
+        final UIHotZoneBandInfo comp    = (UIHotZoneBandInfo) component;
+        final UITimeLine parentTimeline = TimeLineUtils.getParentUITimeLine(context, comp);
+        final Layer attachedLayer       = comp.getLayer();
+        final Map requestMap            = context.getExternalContext().getRequestParameterMap();
 
         //if the dynamicbands property is True then each bandInfo component have its own layer.
         if (FacesUtils.getParentUIModelBase(context, component) != null &&
@@ -182,7 +189,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
                 if (requestMap.containsKey("hidden")) {
                     hidden = (String) requestMap.get("hidden");
                 }
-                
+
                 //if the layer id correspond to this component layer then proceed to refresh the bandInfo comp.
                 String sh = "";
                 if (attachedLayer != null) {
@@ -193,16 +200,16 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     //do the rerender of the bandInfo only if hidden was set to False.
                     if (hidden.equals("false")) {
                         comp.setHidden(false);
-                        UIHotZoneBandInfo mainBand = (UIHotZoneBandInfo) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband");
+                        final UIHotZoneBandInfo mainBand = (UIHotZoneBandInfo) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband");
                         if (mainBand != null) {
                             mainBand.setWidth(40);
                         }
 
                         try {
-                            UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
-                            Layer layer = uiLayer.getLayer();
-                            List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                            Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                            final UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                            final Layer layer = uiLayer.getLayer();
+                            final List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                            final Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
                             comp.setValue(layerEvents);
                             comp.setCenterDate(centerDate);
                         } catch (ParseException ex) {
@@ -225,22 +232,20 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     mainBandWidth = 40;
                 }
                 comp.setWidth(mainBandWidth);
-                
+
             }
         }
         return;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
-    public void writeSelectOneMenu(ResponseWriter writer, FacesContext context, UIHotZoneBandInfo bandInfo, int index) throws IOException {
-        String idjs = bandInfo.getJsObject();
+    public void writeSelectOneMenu(final ResponseWriter writer, final FacesContext context,
+            final UIHotZoneBandInfo bandInfo, final int index) throws IOException {
+        final String idjs = bandInfo.getJsObject();
         writer.startElement("div", bandInfo);
         writer.writeAttribute("id", idjs + "-inputdate-div", null);
         writer.startElement("select", bandInfo);
@@ -251,12 +256,12 @@ public class HotZoneBandInfoRenderer extends Renderer {
 
         for (int i = 0; i < 11; i++) {
             writer.startElement("option", bandInfo);
-            writer.writeAttribute("value", "Timeline.DateTime." + intervalNames[i], null);
+            writer.writeAttribute("value", "Timeline.DateTime." + BandInfoRenderer.intervalNames[i], null);
 
-            if (bandInfo.getIntervalUnit() != null && bandInfo.getIntervalUnit().equals(intervalNames[i])) {
+            if (bandInfo.getIntervalUnit() != null && bandInfo.getIntervalUnit().equals(BandInfoRenderer.intervalNames[i])) {
                 writer.writeAttribute("selected", Boolean.TRUE, null);
             }
-            writer.writeText(intervalNames[i], null);
+            writer.writeText(BandInfoRenderer.intervalNames[i], null);
             writer.endElement("option");
         }
         writer.endElement("select");
@@ -270,45 +275,45 @@ public class HotZoneBandInfoRenderer extends Renderer {
      * @param writer
      * @throws java.io.IOException
      */
-    public void writeChangeIntervalJS(FacesContext context, UIHotZoneBandInfo bandInfo, ResponseWriter writer) throws IOException {
-        UITimeLine timelineComp = (UITimeLine) bandInfo.getParent();
-        String idjs = timelineComp.getJsObject();
-        String idbandjs = bandInfo.getJsObject();
-        Date centerDate = bandInfo.getDate();
-        final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+    public void writeChangeIntervalJS(final FacesContext context, final UIHotZoneBandInfo bandInfo,
+            final ResponseWriter writer) throws IOException {
+        final UITimeLine timelineComp = (UITimeLine) bandInfo.getParent();
+        final String idjs             = timelineComp.getJsObject();
+        final String idbandjs         = bandInfo.getJsObject();
+        final Date centerDate         = bandInfo.getDate();
+        final String DATE_FORMAT      = "yyyy-MM-dd'T'HH:mm:ss";
+        final SimpleDateFormat sdf    = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        final String savedate         = idjs + "_tl.getBand(bandId).getCenterVisibleDate();\n";
+        final String reloadDate       = idjs + "_tl.getBand(bandId).setCenterVisibleDate(savedate);\n";
+        final String scrolltocenter   = idjs + "_tl.getBand(bandId).scrollToCenter(savedate);\n";
 
-        String savedate = idjs + "_tl.getBand(bandId).getCenterVisibleDate();\n";
-        String reloadDate = idjs + "_tl.getBand(bandId).setCenterVisibleDate(savedate);\n";
-        String scrolltocenter = idjs + "_tl.getBand(bandId).scrollToCenter(savedate);\n";
-
-        String centerdateScript = "";
+        final String centerdateScript;
         if (centerDate == null) {
             centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());\n";
         } else {
             centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(Timeline.DateTime.parseIso8601DateTime(\"" + sdf.format(centerDate) + "\"));\n";
         }
 
-        ExternalContext extContext = context.getExternalContext();
+        final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey(idbandjs + "ajaxflag.jsfunction")) {
             extContext.getRequestMap().put(idbandjs + "ajaxflag.jsfunction", Boolean.TRUE);
             writer.startElement("script", bandInfo);
             writer.writeAttribute("type", "text/javascript", null);
-            writer.write("function " + idbandjs + "_changeIntervalUnit(bandId,val){\n" +
-                    "var ms = Timeline.DateTime.gregorianUnitLengths[eval(val)];\n" +
-                    "var savedate = " + savedate +
-                    idjs + "_bandInfos[bandId].ether._interval=ms;\n" +
-                    idjs + "_bandInfos[bandId].ether._params.interval=ms;\n" +
-                    idjs + "_bandInfos[bandId].etherPainter._params.unit=eval(val);\n" +
-                    "var size = " + idjs + "_bandInfos[bandId].etherPainter._zones.length;\n" +
-                    idjs + "_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n" +
-                    idjs + "_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n" +
+            writer.write(new StringBuilder("function ").append(idbandjs).append("_changeIntervalUnit(bandId,val){\n")
+                    .append("var ms = Timeline.DateTime.gregorianUnitLengths[eval(val)];\n")
+                    .append("var savedate = ").append(savedate)
+                    .append(idjs).append("_bandInfos[bandId].ether._interval=ms;\n")
+                    .append(idjs).append("_bandInfos[bandId].ether._params.interval=ms;\n")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._params.unit=eval(val);\n")
+                    .append("var size = ").append(idjs).append("_bandInfos[bandId].etherPainter._zones.length;\n")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n")
                     //                    centerdateScript +
-                    reloadDate +
-                    idjs + "_eventSource._fire(\"onAddMany\", []);\n" +
-                    idjs + "_tl.getBand(bandId).layout();\n" +
+                    .append(reloadDate)
+                    .append(idjs).append("_eventSource._fire(\"onAddMany\", []);\n")
+                    .append(idjs).append("_tl.getBand(bandId).layout();\n")
                     //idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
-                    "}");
+                    .append("}").toString());
             writer.endElement("script");
         }
     }
