@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,8 +19,6 @@ package org.mapfaces.renderkit.html.timeline;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.datatype.DatatypeConfigurationException;
-import org.mapfaces.share.listener.ResourcePhaseListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -31,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
@@ -42,6 +41,7 @@ import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
 import javax.servlet.http.HttpServletRequest;
+
 import org.geotools.temporal.object.DefaultInstant;
 import org.geotools.temporal.object.DefaultOrdinalPosition;
 import org.geotools.temporal.object.DefaultPeriod;
@@ -50,6 +50,8 @@ import org.geotools.temporal.object.DefaultPosition;
 import org.geotools.temporal.object.DefaultTemporalObject;
 import org.geotools.temporal.object.Utils;
 import org.geotools.temporal.reference.DefaultOrdinalEra;
+
+import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
@@ -67,6 +69,7 @@ import org.mapfaces.models.timeline.Priority;
 import org.mapfaces.models.timeline.Status;
 import org.mapfaces.models.timeline.Zone;
 import org.mapfaces.util.timeline.TimeLineUtils;
+
 import org.opengis.temporal.Duration;
 import org.opengis.temporal.Instant;
 import org.opengis.temporal.OrdinalPosition;
@@ -76,39 +79,38 @@ import org.opengis.temporal.TemporalGeometricPrimitive;
 import org.opengis.temporal.TemporalPrimitive;
 
 /**
- *
  * @author Mehdi Sidhoum.
  * @author Olivier Terral.
  */
 public class TimeLineRenderer extends Renderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     @SuppressWarnings("TimeLineRenderer")
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
         //casting the component.
-        UITimeLine comp = (UITimeLine) component;
-        String clientId = component.getClientId(context);
+        final UITimeLine comp = (UITimeLine) component;
+        final String clientId = component.getClientId(context);
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
         comp.setJsObject(comp.getId().replace("-", "_") + "_Container");
         //Write the scripts once per page
-        ExternalContext extContext = context.getExternalContext();
+        final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.ajaxScript")) {
             extContext.getRequestMap().put("ajaxflag.ajaxScript", Boolean.TRUE);
             writeTimeLineScripts(context, comp);
         }
 
         //check if a timeline control panel component has been declared.
-        boolean timelineControlFlag = false;
-        if (comp.isActiveControl()) {
-            timelineControlFlag = true;
-        }
+        final boolean timelineControlFlag = comp.isActiveControl();
 
         //this is the init height of the timeline if there is only one bandInfo component (the main band).
         int height = UITimeLine.TIMELINE_Default_Height;
@@ -117,17 +119,17 @@ public class TimeLineRenderer extends Renderer {
         }
 
         //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
-        UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
+        final UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
         if (parentContext != null && (parentContext instanceof UIContext) && comp.isDynamicBands()) {
-            AbstractModelBase modelbase = ((UIContext) parentContext).getModel();
+            final AbstractModelBase modelbase = ((UIContext) parentContext).getModel();
             if (modelbase instanceof Context) {
-                List<Layer> layers = ((Context) modelbase).getLayers();
-                List<Event> events = new ArrayList<Event>();
+                final List<Layer> layers = ((Context) modelbase).getLayers();
+                final List<Event> events = new ArrayList<Event>();
                 int i = 0;
 
                 if (FacesUtils.getCountTemporalLayers(layers) != 0) {
                     //int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
-                    for (Layer layer : layers) {
+                    for (final Layer layer : layers) {
                         if (layer.getDimensionList() != null && layer.getTime() != null) {
                             UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
                             bandinfo.setLayer(layer);
@@ -148,8 +150,7 @@ public class TimeLineRenderer extends Renderer {
                             }
                             i++;
                             try {
-
-                                List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                                final List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
                                 events.addAll(layerEvents);
                             } catch (ParseException ex) {
                                 Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,8 +182,8 @@ public class TimeLineRenderer extends Renderer {
                     comp.getChildren().add(mainBandinfo);
                 }
 
-                List<UIHotZoneBandInfo> visibleBands = TimeLineUtils.getVisibleBandsList(context, comp);
-                int visibleBandsCount = visibleBands.size();
+                final List<UIHotZoneBandInfo> visibleBands = TimeLineUtils.getVisibleBandsList(context, comp);
+                final int visibleBandsCount = visibleBands.size();
                 if (visibleBandsCount > 1) {
                     if (comp.getBandHeight() != 0) {
                         height = comp.getBandHeight() * visibleBandsCount ;
@@ -201,7 +202,7 @@ public class TimeLineRenderer extends Renderer {
             String stylewrap = "height:" + height + "px; max-height:" + comp.getHeight() + "px;overflow-x:hidden;overflow-y:auto;position:relative;";
             writer.writeAttribute("style", stylewrap, "style");
 
-            UITimeLineControl timelineControl = new UITimeLineControl();
+            final UITimeLineControl timelineControl = new UITimeLineControl();
             timelineControl.setId(comp.getId() + "-control");
             timelineControl.setStyle(comp.getStyleControlPanel());
             timelineControl.setStyleClass(comp.getStyleClassControlPanel());
@@ -237,6 +238,9 @@ public class TimeLineRenderer extends Renderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
@@ -388,6 +392,9 @@ public class TimeLineRenderer extends Renderer {
         writer.flush();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void decode(FacesContext context, UIComponent component) {
         UITimeLine comp = (UITimeLine) component;
@@ -445,6 +452,9 @@ public class TimeLineRenderer extends Renderer {
         component.queueEvent(new ActionEvent(comp));
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
         if (component.getChildCount() == 0) {
@@ -456,7 +466,7 @@ public class TimeLineRenderer extends Renderer {
         int visibleBandsCount = visibleBands.size();
         int proportinalwidth = Math.round(100 / visibleBandsCount);
         int rest = 100 - (proportinalwidth * visibleBandsCount);
-        
+
         for (UIComponent tmp : children) {
             if (tmp instanceof UIHotZoneBandInfo) {
 //                if (rest != 0) {
@@ -472,6 +482,9 @@ public class TimeLineRenderer extends Renderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return true;
@@ -683,7 +696,7 @@ public class TimeLineRenderer extends Renderer {
             intervalPixelsString = "intervalPixels:    100\n";
         }
 
-        //If the dynamicband property is set to True then we have one eventSource js object per bandInfo, 
+        //If the dynamicband property is set to True then we have one eventSource js object per bandInfo,
         //else there is only one for the global timeline component.
         String idjs = comp.getJsObject();
         if (comp.isDynamicBands()) {
@@ -733,7 +746,7 @@ public class TimeLineRenderer extends Renderer {
     }
 
     /**
-     * 
+     *
      * This method split the events by identifying the event type to provide the necessary scripts for eventsource object.
      * the returned list contains Eras events and events which are defined with a Duration object.
      * @param context
@@ -940,7 +953,7 @@ public class TimeLineRenderer extends Renderer {
     }
 
     /**
-     * 
+     *
      * This method get the resource url from phase listener to load resources from jar files.
      * @param s the url of a file.
      * @param context current faces context.
@@ -951,7 +964,7 @@ public class TimeLineRenderer extends Renderer {
     }
 
     /**
-     * 
+     *
      * This method write if necessary timeline script and place it into the header. that use myfaces implementation.
      * @param context
      * @throws java.io.IOException
@@ -962,7 +975,7 @@ public class TimeLineRenderer extends Renderer {
     }
 
     /**
-     * 
+     *
      * This method write  all scripts for timeline component in the body tag.
      * @param context
      * @throws java.io.IOException

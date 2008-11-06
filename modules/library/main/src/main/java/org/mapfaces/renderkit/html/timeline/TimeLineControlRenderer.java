@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.component.timeline.UITimeLine;
@@ -30,7 +31,6 @@ import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.timeline.TimeLineUtils;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class TimeLineControlRenderer extends Renderer {
@@ -39,16 +39,20 @@ public class TimeLineControlRenderer extends Renderer {
         super();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     @SuppressWarnings("empty-statement")
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
 
-        UITimeLineControl comp = (UITimeLineControl) component;
-        String clientId = component.getClientId(context);
+        final UITimeLineControl comp = (UITimeLineControl) component;
+        final String clientId        = component.getClientId(context);
+
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
@@ -60,7 +64,7 @@ public class TimeLineControlRenderer extends Renderer {
         } else {
             return;
         }
-        int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, timelineComp).size();
+        final int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, timelineComp).size();
         int initHeight = UITimeLine.TIMELINE_Default_Height;
         if (timelineComp.getBandHeight() != 0) {
             initHeight = timelineComp.getBandHeight();
@@ -70,7 +74,7 @@ public class TimeLineControlRenderer extends Renderer {
         }
         writer.startElement("div", comp); //main div
         writer.writeAttribute("id", clientId, "id");
-        String styleclass = (String) comp.getAttributes().get("styleClass");
+        final String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) {
             writer.writeAttribute("class", styleclass, "styleclass");
         }
@@ -81,16 +85,19 @@ public class TimeLineControlRenderer extends Renderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        UITimeLineControl comp = (UITimeLineControl) component;
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final UITimeLineControl comp = (UITimeLineControl) component;
         UITimeLine timelineComp = null;
         if (comp.getParent() != null && comp.getParent() instanceof UITimeLine) {
             timelineComp = (UITimeLine) comp.getParent();
         }
 
-        ResponseWriter writer = context.getResponseWriter();
-        
+        final ResponseWriter writer = context.getResponseWriter();
+
         int initHeight = UITimeLine.TIMELINE_Default_Height;
         if (timelineComp.getBandHeight() != 0) {
             initHeight = timelineComp.getBandHeight();
@@ -110,7 +117,7 @@ public class TimeLineControlRenderer extends Renderer {
             int i = 0;
 
             writer.write("  <div id= \"content-lines-div\">");
-            for (UIHotZoneBandInfo bandinfo : FacesUtils.getBandInfoTimelineChildren(context, timelineComp)) {
+            for (final UIHotZoneBandInfo bandinfo : FacesUtils.getBandInfoTimelineChildren(context, timelineComp)) {
                 if (!bandinfo.isHidden()) {
                     bandinfo.setJsObject(bandinfo.getId().replace("-", "_"));
                     String labelLayer = "";
@@ -208,29 +215,34 @@ public class TimeLineControlRenderer extends Renderer {
         writer.endElement("div"); //close the main div
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void decode(FacesContext context, UIComponent component) {
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         if (component.getChildCount() == 0) {
             return;
         }
-        List<UIComponent> children = component.getChildren();
-        for (UIComponent tmp : children) {
+        for (final UIComponent tmp : component.getChildren()) {
             FacesUtils.encodeRecursive(context, tmp);
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return true;

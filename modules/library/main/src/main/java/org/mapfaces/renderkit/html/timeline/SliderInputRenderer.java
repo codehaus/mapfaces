@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -24,6 +24,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+
 import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
@@ -31,7 +32,6 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class SliderInputRenderer extends Renderer {
@@ -40,18 +40,21 @@ public class SliderInputRenderer extends Renderer {
         super();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     @SuppressWarnings("empty-statement")
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
-        
-        UISliderInput comp = (UISliderInput) component;
+
+        final UISliderInput comp = (UISliderInput) component;
 
         //Write the scripts once per page
-        ExternalContext extContext = context.getExternalContext();
+        final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.sliderScript")) {
             extContext.getRequestMap().put("ajaxflag.sliderScript", Boolean.TRUE);
             writeSilderScripts(context, comp);
@@ -69,32 +72,31 @@ public class SliderInputRenderer extends Renderer {
         if (comp.getAttributes().get("length") != null) {
             comp.setLength((String) comp.getAttributes().get("length"));
         }
-        String comp_id = comp.getId().replace("-", "_");
-        String valchangehandler = "valChangeHandler" + comp_id;
-        String destinationDiv = "dest" + comp_id;
+        final String comp_id = comp.getId().replace("-", "_");
+        final String valchangehandler = "valChangeHandler" + comp_id;
+        final String destinationDiv = "dest" + comp_id;
 
         // prepend base client Id to forid
         //forid = getBaseClientId(context) + forid;
 
 
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
 
         // Render client Javascript for slider
-        
+
         writer.startElement("div", comp);
         writer.writeAttribute("id", comp.getId()+"-wrap", "id");
         String style = "";
         if (comp.getStyle() != null) {
             style = comp.getStyle();
         }
-        
+
         writer.writeAttribute("style", style, "style");
-        
+
         writer.write("<div id=\"" + destinationDiv + "\"><!-- slider goes here --></div>");
-        String idlabel = comp_id.concat("-label");
+        final String idlabel = comp_id.concat("-label");
 
         String intervalUnit = "";
-        int strtResult = 0;
         UICommand bandInfo = null;
         if (comp.getParent() instanceof UIBandInfo) {
             bandInfo = (UIBandInfo) comp.getParent();
@@ -105,75 +107,78 @@ public class SliderInputRenderer extends Renderer {
             intervalUnit = ((UIHotZoneBandInfo) bandInfo).getIntervalUnit();
         }
 
-        int startValue = comp.getIndexFromUnit(intervalUnit);
-        strtResult = (startValue * 2 * 100) / 22;
+        final int startValue = comp.getIndexFromUnit(intervalUnit);
+        final int strtResult = (startValue * 2 * 100) / 22;
 
         writer.startElement("label", comp);
         writer.writeAttribute("id", idlabel, "id");
         writer.writeAttribute("style", "margin:0pt auto;", "style");
         writer.write(intervalUnit);
         writer.endElement("label");
-        
+
         writer.endElement("div"); //close the wrap div
-        
+
         String idjs = "";
         if (bandInfo != null) {
             idjs = bandInfo.getId().replace("-", "_");
-        } 
-        writer.write("<script>var " + destinationDiv + " = document.getElementById(\"" + destinationDiv + "\"); " +
-                destinationDiv + ".appendChild(JSSlider.getInstance(\"" +
-                comp_id + "\", " + comp.getHorizontal() + ", " +
-                "10, " + comp.getLength() + ", " + strtResult + ", undefined, undefined, \"" + valchangehandler + "\", false).render());\n" +
-                " function " + valchangehandler + "(newStartPercent0To100, newEndPercent0To100) " +
-                "{ var slideVal = Math.round(" +
-                comp.getMaxval() + "*newStartPercent0To100/100); \n");
+        }
+        writer.write(new StringBuilder("<script>var ").append(destinationDiv).append(" = document.getElementById(\"").append(destinationDiv).append("\"); ")
+                .append(destinationDiv).append(".appendChild(JSSlider.getInstance(\"")
+                .append(comp_id).append("\", ").append(comp.getHorizontal()).append(", ")
+                .append("10, ").append(comp.getLength()).append(", ").append(strtResult).append(", undefined, undefined, \"").append(valchangehandler).append("\", false).render());\n")
+                .append(" function ").append(valchangehandler).append("(newStartPercent0To100, newEndPercent0To100) ")
+                .append("{ var slideVal = Math.round(")
+                .append(comp.getMaxval()).append("*newStartPercent0To100/100); \n").toString());
 
-        writer.write("var interval;\n" +
-                "if (slideVal <= 2){\n" +
-                "interval = 'MILLISECOND';}\n" +
-                "if (slideVal <= 4 && slideVal > 2){\n" +
-                "interval = 'SECOND';}\n" +
-                "if (slideVal <=6 && slideVal >4){\n" +
-                "interval = 'MINUTE';}\n" +
-                "if (slideVal <=8 && slideVal >6){\n" +
-                "interval = 'HOUR';}\n" +
-                "if (slideVal <=10 && slideVal >8){\n" +
-                "interval = 'DAY';}\n" +
-                "if (slideVal <=12 && slideVal >10){\n" +
-                "interval = 'WEEK';}\n" +
-                "if (slideVal <=14 && slideVal >12){\n" +
-                "interval = 'MONTH';}\n" +
-                "if (slideVal <=16 && slideVal >14){\n" +
-                "interval = 'YEAR';}\n" +
-                "if (slideVal <=18 && slideVal >16){\n" +
-                "interval = 'DECADE';}\n" +
-                "if (slideVal <=20 && slideVal >18){\n" +
-                "interval = 'CENTURY';}\n" +
-                "if (slideVal <=22 && slideVal >20){\n" +
-                "interval = 'MILLENNIUM';}\n" +
-                "document.getElementById(\"" +
-                //getBaseClientId(context) + 
-                idlabel + "\").innerHTML = interval; \n" +
-                idjs + "_changeIntervalUnit(" + comp.getForid() + ",'Timeline.DateTime.'+interval);" + "}</script>");
+        writer.write(new StringBuilder("var interval;\n")
+                .append("if (slideVal <= 2){\n")
+                .append("interval = 'MILLISECOND';}\n")
+                .append("if (slideVal <= 4 && slideVal > 2){\n")
+                .append("interval = 'SECOND';}\n")
+                .append("if (slideVal <=6 && slideVal >4){\n")
+                .append("interval = 'MINUTE';}\n")
+                .append("if (slideVal <=8 && slideVal >6){\n")
+                .append("interval = 'HOUR';}\n")
+                .append("if (slideVal <=10 && slideVal >8){\n")
+                .append("interval = 'DAY';}\n")
+                .append("if (slideVal <=12 && slideVal >10){\n")
+                .append("interval = 'WEEK';}\n")
+                .append("if (slideVal <=14 && slideVal >12){\n")
+                .append("interval = 'MONTH';}\n")
+                .append("if (slideVal <=16 && slideVal >14){\n")
+                .append("interval = 'YEAR';}\n")
+                .append("if (slideVal <=18 && slideVal >16){\n")
+                .append("interval = 'DECADE';}\n")
+                .append("if (slideVal <=20 && slideVal >18){\n")
+                .append("interval = 'CENTURY';}\n")
+                .append("if (slideVal <=22 && slideVal >20){\n")
+                .append("interval = 'MILLENNIUM';}\n")
+                .append("document.getElementById(\"")
+                //getBaseClientId(context) +
+                .append(idlabel).append("\").innerHTML = interval; \n")
+                .append(idjs).append("_changeIntervalUnit(").append(comp.getForid()).append(",'Timeline.DateTime.'+interval);" + "}</script>").toString());
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
-    
-    public void writeSilderScripts(FacesContext context, UIComponent component) throws IOException {
+
+    public void writeSilderScripts(final FacesContext context, final UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
