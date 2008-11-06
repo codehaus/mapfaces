@@ -18,11 +18,10 @@ package org.mapfaces.models.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import org.mapfaces.util.treetable.TreeTableConfig;
 
 /**
  * Tools for create and manipulate TreeTableModel and TreeNodeModel
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class TreeModelsUtils {
 
@@ -33,14 +32,12 @@ public class TreeModelsUtils {
      * @param tree a TreeTableModel to explore
      * @return a count as an Int
      */
-    public int getTreeNodeCount(TreeTableModel tree) {
-        TreeNodeModel leaf = tree.getRoot();
-        return SsTreeNodeCount(leaf);
+    public int getTreeNodeCount(final TreeTableModel tree) {
+        return SsTreeNodeCount(tree.getRoot());
     }
 
-    private int SsTreeNodeCount(TreeNodeModel node) {
-        int result = 0;
-        result += 1;
+    private int SsTreeNodeCount(final TreeNodeModel node) {
+        int result = 1;
         for (int i = 0; i < node.getChildCount(); i++) {
             result += SsTreeNodeCount((TreeNodeModel) node.getChildAt(i));
         }
@@ -55,11 +52,11 @@ public class TreeModelsUtils {
      * @param row 
      * @return a TreeNodeModel node with an id and a content
      */
-    public TreeNodeModel transformNode(DefaultMutableTreeNode node, int id, int depth, int row) {
+    public TreeNodeModel transformNode(final DefaultMutableTreeNode node, final int id, final int depth, final int row) {
         if (node.getUserObject() == null) {
             node.setUserObject("NoName");
         }
-        TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
+        final TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
 //        System.out.println("NODE "+id +" with value :"+node.getUserObject());
 //        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()) {
 //            treenode.setChecked(false);
@@ -72,14 +69,16 @@ public class TreeModelsUtils {
      * @param tree Initial tree to transform
      * @return a TreeTableModel
      */
-    public TreeTableModel transformTree(DefaultTreeModel tree) {
+    public TreeTableModel transformTree(final DefaultTreeModel tree) {
+        count = 0;
         DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
-        TreeNodeModel root = null;
+        final TreeNodeModel root;
         if (initial_root == null || initial_root.getUserObject() == null) {
             initial_root = new DefaultMutableTreeNode("NoValue");
+            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
         } else if (!initial_root.toString().equals("root")) {
             root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
-            TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
+            final TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
             root.add(child);
         } else {
             root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
@@ -87,27 +86,27 @@ public class TreeModelsUtils {
 
         count++;
         
-        int depthnode = root.getDepth() + 1;
-        for (int i = 0; i < initial_root.getChildCount(); i++) {
+        final int depthnode = root.getDepth() + 1;
+        for (int i=0, n=initial_root.getChildCount(); i<n; i++) {
+            final DefaultMutableTreeNode child = (DefaultMutableTreeNode) initial_root.getChildAt(i);
             if (initial_root.getChildAt(i).isLeaf()) {
-                TreeNodeModel leaf = transformNode((DefaultMutableTreeNode) initial_root.getChildAt(i), count, depthnode, count);
+                final TreeNodeModel leaf = transformNode(child, count, depthnode, count);
                 root.add(leaf);
             } else {
-                root.add(sstransformTree(root, (DefaultMutableTreeNode) initial_root.getChildAt(i)));
+                root.add(sstransformTree(root, child));
             }
             count++;
         }
 
-        TreeTableModel treetablemodel = new TreeTableModel(root);
-        return treetablemodel;
+        return new TreeTableModel(root);
     }
 
     private TreeNodeModel sstransformTree(TreeNodeModel parent, DefaultMutableTreeNode node) {
 
-        TreeNodeModel leaf = transformNode(node, count, parent.getDepth() + 1, count);
+        final TreeNodeModel leaf = transformNode(node, count, parent.getDepth() + 1, count);
 
         if (!node.isLeaf()) {
-            for (int i = 0; i < node.getChildCount(); i++) {
+            for (int i = 0,n=node.getChildCount(); i<n; i++) {
                 count++;
                 leaf.add(sstransformTree(leaf, (DefaultMutableTreeNode) node.getChildAt(i)));
             }
@@ -120,70 +119,49 @@ public class TreeModelsUtils {
      * Print a TreeTableModel Structure
      * @param tree the tree to print
      */
-    public void printTree(TreeTableModel tree) {
-        TreeNodeModel root = tree.getRoot();
-        if (root.getChildCount() > 0) {
-            for (int i = 0; i < root.getChildCount(); i++) {
-                TreeNodeModel tmp = (TreeNodeModel) root.getChildAt(i);
-                if (root.getChildAt(i).isLeaf()) {
-                    System.out.println("(leaf)" + tmp + "->" + tmp.getParent());
-                } else {
-                    ssprintTree(tmp);
-                }
-            }
-        } else {
-            System.out.println("Tree is null !");
+    public void printTree(final TreeTableModel tree) {
+        final TreeNodeModel root = tree.getRoot();
+        
+        if(root.isLeaf()){
+            System.out.println("Tree is empty");
+            return;
         }
+        
+        System.out.println("Tree content is :");
+        for (int i=0, n=root.getChildCount(); i<n ; i++) {
+            ssprintTree( (TreeNodeModel) root.getChildAt(i) );
+        }
+        
     }
 
-    private void ssprintTree(TreeNodeModel node) {
+    private void ssprintTree(final TreeNodeModel node) {
         if (node.isLeaf()) {
             System.out.println("(leaf)" + node + "->" + node.getParent());
         } else {
             System.out.println("(node)" + node + "->" + node.getParent());
-            for (int i = 0; i < node.getChildCount(); i++) {
-                TreeNodeModel tmp = (TreeNodeModel) node.getChildAt(i);
-                if (node.getChildAt(i).isLeaf()) {
-                    System.out.println("(leaf)" + tmp + "->" + tmp.getParent());
-                } else {
-                    ssprintTree(tmp);
-                }
+            for (int i=0, n = node.getChildCount(); i<n; i++) {
+                ssprintTree( (TreeNodeModel) node.getChildAt(i) );
             }
         }
     }
 
-    /**
-     * 
-     * @param tree
-     * @param movedNode
-     * @param targetNode
-     * @return
-     */
-    public TreeTableModel moveTo(TreeTableModel tree, int movedNode, int targetNode) {
+    public TreeTableModel moveTo(final TreeTableModel tree, final int movedNode, final int targetNode) {
 
         if (tree.getById(movedNode).getParent().equals(tree.getById(targetNode))) {
             //Change the row of the movedNode
         } else {
-            TreeNodeModel tmpMmovedNode = tree.getById(movedNode);
+            final TreeNodeModel tmpMmovedNode = tree.getById(movedNode);
             tree.getById(movedNode).removeFromParent();
             tree.getById(targetNode).insert(tmpMmovedNode, 0);
         }
         return tree;
     }
 
-    /**
-     * 
-     * @param tree
-     * @param movedNode
-     * @param targetNode
-     * @param position
-     * @return
-     */
-    public TreeTableModel moveTo(TreeTableModel tree, int movedNode, int targetNode, int position) {
+    public TreeTableModel moveTo(final TreeTableModel tree, final int movedNode, final int targetNode, final int position) {
         if (tree.getById(movedNode).getParent().equals(tree.getById(targetNode))) {
             //Change the row of the movedNode
         } else {
-            TreeNodeModel tmpMmovedNode = tree.getById(movedNode);
+            final TreeNodeModel tmpMmovedNode = tree.getById(movedNode);
             tree.getById(movedNode).removeFromParent();
             if (targetNode == 0) {
                 tree.getRoot().insert(tmpMmovedNode, position);
@@ -198,15 +176,14 @@ public class TreeModelsUtils {
         return tree;
     }
 
-    public TreeTableModel insertBefore(TreeTableModel tree, int movedNode, int nodeBefore) {
-        TreeNodeModel MovedNode = tree.getById(movedNode);
-        TreeNodeModel NodeBefore = tree.getById(nodeBefore);
-        TreeNodeModel ParentNode = (TreeNodeModel) NodeBefore.getParent();
-
-        int position = ParentNode.getIndex(NodeBefore);
+    public TreeTableModel insertBefore(final TreeTableModel tree, final int movedNode, final int nodeBefore) {
+        final TreeNodeModel MovedNode   = tree.getById(movedNode);
+        final TreeNodeModel NodeBefore  = tree.getById(nodeBefore);
+        final TreeNodeModel ParentNode  = (TreeNodeModel) NodeBefore.getParent();
+        final int position              = ParentNode.getIndex(NodeBefore);
 
         tree.getById(movedNode).removeFromParent();
-        int targetNode = ((TreeNodeModel) tree.getById(nodeBefore).getParent()).getId();
+        final int targetNode = ((TreeNodeModel) tree.getById(nodeBefore).getParent()).getId();
 
         if (targetNode == tree.getRoot().getId()) {
             tree.getRoot().insert(MovedNode, position);
@@ -216,15 +193,14 @@ public class TreeModelsUtils {
         return tree;
     }
 
-    public TreeTableModel insertAfter(TreeTableModel tree, int movedNode, int nodeAfter) {
-        TreeNodeModel MovedNode = tree.getById(movedNode);
-        TreeNodeModel NodeBefore = tree.getById(nodeAfter);
-        TreeNodeModel ParentNode = (TreeNodeModel) NodeBefore.getParent();
-
-        int position = ParentNode.getIndex(NodeBefore) + 1;
+    public TreeTableModel insertAfter(final TreeTableModel tree, final int movedNode, final int nodeAfter) {
+        final TreeNodeModel MovedNode   = tree.getById(movedNode);
+        final TreeNodeModel NodeBefore  = tree.getById(nodeAfter);
+        final TreeNodeModel ParentNode  = (TreeNodeModel) NodeBefore.getParent();
+        final int position              = ParentNode.getIndex(NodeBefore) + 1;
 
         tree.getById(movedNode).removeFromParent();
-        int targetNode = ((TreeNodeModel) tree.getById(nodeAfter).getParent()).getId();
+        final int targetNode = ((TreeNodeModel) tree.getById(nodeAfter).getParent()).getId();
 
         if (targetNode == tree.getRoot().getId()) {
             tree.getRoot().insert(MovedNode, position);

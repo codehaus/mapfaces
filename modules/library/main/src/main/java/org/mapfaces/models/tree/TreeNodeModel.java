@@ -21,7 +21,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * A simple TreeNode with an id as a String to identify him
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class TreeNodeModel extends DefaultMutableTreeNode {
     private static final long serialVersionUID = 1537732742707197904L;
@@ -31,13 +31,6 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
     private int row = 0;
     private boolean checked;
 
-    /**
-     * 
-     * @param userobj
-     * @param id
-     * @param depth
-     * @param row
-     */
     public TreeNodeModel(Object userobj, int id, int depth, int row) {
         super(userobj);
         this.id = id;
@@ -46,13 +39,6 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
         this.checked = true;
     }
 
-    /**
-     * 
-     * @param userobj
-     * @param id
-     * @param depth
-     * @param check
-     */
     public TreeNodeModel(Object userobj, int id, int depth, boolean check) {
         super(userobj);
         this.id = id;
@@ -60,14 +46,6 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
         this.checked = check;
     }
 
-    /**
-     * 
-     * @param userobj
-     * @param id
-     * @param depth
-     * @param row
-     * @param check
-     */
     public TreeNodeModel(Object userobj, int id, int depth, int row, boolean check) {
         super(userobj);
         this.id = id;
@@ -105,7 +83,7 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
      * Set the depth of this node
      * @param depth of the node
      */
-    public void setDepth(int depth) {
+    public void setDepth(final int depth) {
         this.depth = depth;
     }
 
@@ -118,43 +96,34 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
         return this.getText();
     }
 
-    /**
-     * 
-     * @return
-     */
     public boolean isChecked() {
         return checked;
     }
 
-    /**
-     * 
-     * @param checked
-     */
-    public void setChecked(boolean checked) {
+    public void setChecked(final boolean checked) {
         this.checked = checked;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Object getUserObject() {
         return super.getUserObject();
     }
     
-    public void setUserObject(Object obj){       
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setUserObject(final Object obj){       
         super.setUserObject(obj);
     }
 
-    /**
-     * 
-     * @return
-     */
     public int getRow() {
         return row;
     }
 
-    /**
-     * 
-     * @param row
-     */
     public void setRow(int row) {
         this.row = row;
     }

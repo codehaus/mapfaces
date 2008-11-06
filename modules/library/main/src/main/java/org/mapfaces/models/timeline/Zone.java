@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -29,7 +29,7 @@ public class Zone implements Serializable {
     private Date end;
     private String unit;
     private Integer magnify;
-    
+
     public Zone(final Date begin, final Date end, final String unit, final Integer magnify) {
         this.begin = begin;
         this.end = end;
@@ -68,7 +68,7 @@ public class Zone implements Serializable {
     public void setMagnify(final Integer magnify) {
         this.magnify = magnify;
     }
-    
+
     /**
      * {@inheritDoc }
      */

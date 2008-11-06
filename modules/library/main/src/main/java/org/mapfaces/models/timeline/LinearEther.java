@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -27,12 +27,12 @@ public class LinearEther implements Serializable {
      *  the number of milliseconds for example Timeline.DateTime.MONTH.
      */
     private int interval;
-    
+
     /**
      * interval pixels.
      */
     private int pixelsPerInterval;
-    
+
     /**
      * a date to center the band or the current date by default.
      */

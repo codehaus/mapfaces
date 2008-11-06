@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -23,15 +23,15 @@ import java.io.Serializable;
  * @author Mehdi Sidhoum.
  */
 public class DurationEventPainter implements Serializable {
-    
+
     private boolean showText;
-    
+
     private String theme;
-    
+
     private double trackHeight;
-    
+
     private double trackGap;
-    
+
     private StaticTrackBasedLayout layout;
 
     public boolean isShowText() {
