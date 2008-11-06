@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -23,9 +23,9 @@ import java.io.Serializable;
  * @author Mehdi Sidhoum.
  */
 public class GregorianEtherPainter implements Serializable {
-    
+
     private String theme;
-    
+
     private int unit;
 
     public String getTheme() {

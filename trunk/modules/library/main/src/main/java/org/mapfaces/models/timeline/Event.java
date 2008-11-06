@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -42,13 +42,13 @@ public class Event implements Serializable {
     private String link;
     private String icon;
     private Layer owner;
-    
+
     /**
      * This is a geometric primitive in the temporal dimension, it can be an instant or a period. see ISO19108 specificatios.
      */
     private DefaultTemporalObject temporalObject;
     /**
-     * priority attribute take one of three values : Low, High or Normal, a Default value is assigned if nothing. 
+     * priority attribute take one of three values : Low, High or Normal, a Default value is assigned if nothing.
      * This attribute determine the icon of the event in the timeline component.
      */
     private Priority priority;
@@ -64,7 +64,7 @@ public class Event implements Serializable {
      * this can takes css code for colors.
      */
     private String textColor;
-    
+
     /**
      * This is a duration to define hotzones for iterators events during a period, @code null if no.
      */
@@ -113,7 +113,7 @@ public class Event implements Serializable {
         this.textColor = textColor;
         this.owner = owner;
     }
-    
+
     public Event(Period period, Duration duration, boolean isTopological, String title,
             String description, String image, String link, String icon, Priority priority,
             String color, Status status, String textColor, Layer owner) {

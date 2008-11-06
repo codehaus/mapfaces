@@ -21,7 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 /**
  *  A TreeTableModel with TreeNodeModel node
- * @author kdelfour
+ * @author Kevin Delfour (Geomatys)
  */
 public class TreeTableModel extends DefaultTreeModel {
 
@@ -33,40 +33,32 @@ public class TreeTableModel extends DefaultTreeModel {
         super(node);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public TreeNodeModel getRoot() {
         return (TreeNodeModel) super.getRoot();
     }
 
-    public TreeNodeModel getChildAt(int index) {
-        TreeNodeModel node = (TreeNodeModel) getRoot().getChildAt(index);
+    public TreeNodeModel getChildAt(final int index) {
+        final TreeNodeModel node = (TreeNodeModel) getRoot().getChildAt(index);
         System.out.println("CHILD : return (TreeNodeModel) getRoot().getChildAt(" + index + "); " + node.toString());
         return node;
     }
 
-    public TreeNodeModel getById(int index) {
-        TreeNodeModel node = (TreeNodeModel) getRoot();
-        for (int i = 0; i < node.getChildCount(); i++) {
-            TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
-            if (currentNode.getId() == index) {
-                return currentNode;
-            } else if (currentNode.getChildCount() > 0) {
-                TreeNodeModel search = ssgetById(currentNode, index);
-                if (search!=null){
-                    return search;
-                }
-            }
-        }
-        return null;
+    public TreeNodeModel getById(final int index) {
+        final TreeNodeModel node = (TreeNodeModel) getRoot();
+        return ssgetById(node, index);
     }
 
-    public TreeNodeModel ssgetById(TreeNodeModel node, int index) {
-        TreeNodeModel nodefound = null;
-        for (int i = 0; i < node.getChildCount(); i++) {
-            TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
+    public TreeNodeModel ssgetById(final TreeNodeModel node, final int index) {
+        
+        for (int i=0,n=node.getChildCount(); i<n; i++) {
+            final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
             if (currentNode.getId() == index) {
                 return currentNode;
-            } else if (currentNode.getChildCount() > 0) {
+            } else if (!currentNode.isLeaf()) {
                  TreeNodeModel search = ssgetById(currentNode, index);
                 if (search!=null){
                     return search;
