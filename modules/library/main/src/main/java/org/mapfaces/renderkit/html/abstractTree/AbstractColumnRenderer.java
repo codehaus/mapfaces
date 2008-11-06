@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,20 +20,18 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.lang.StringUtils;
 
 import org.mapfaces.component.abstractTree.UIColumnBase;
@@ -46,10 +44,8 @@ import org.mapfaces.util.treetable.TreeTableConfig;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
-import org.mapfaces.util.FacesUtils;
 
 /**
- *
  * @author Kevin Delfour.
  */
 public abstract class AbstractColumnRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
@@ -61,7 +57,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
     /**
      * This method returns the parent form of this element.
      * If this element is a form then it simply returns itself.
-     * @param component - 
+     * @param component -
      * @return
      */
     private static UITreePanelBase getForm(UIComponent component) {
@@ -78,53 +74,48 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         return (UITreePanelBase) parent;
     }
 
-    /**
-     * 
-     * @param component
-     * @return
-     */
     private String getPostbackFunctionName(UIComponent component) {
         UIColumnBase column = (UIColumnBase) component;
         return column.getId() + "PostBack";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean getRendersChildren() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
 
         //Method to apply before encodeBegin
-        if (component.getAttributes().get("debug") != null) {
-            debug = (Boolean) component.getAttributes().get("debug");
-        }
+        final Boolean obj = (Boolean) component.getAttributes().get("debug");
+        if(obj != null) debug = obj;
 
-        if (debug) {
-            log.info("beforeEncodeBegin : " + AbstractColumnRenderer.class.getName());
-        }
+        if (debug) log.info("beforeEncodeBegin : " + AbstractColumnRenderer.class.getName());
+
         beforeEncodeBegin(context, component);
 
         //Start encodeBegin
-        if (debug) {
-            log.info("encodeBegin : " + AbstractColumnRenderer.class.getName());
-        }
-        ResponseWriter writer = context.getResponseWriter();
+        if (debug) log.info("encodeBegin : " + AbstractColumnRenderer.class.getName());
 
-        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        UIColumnBase column = (UIColumnBase) component;
-        TreeNodeModel node = treeline.getNodeInstance();
+        final ResponseWriter writer     = context.getResponseWriter();
+        final UITreeLinesBase treeline  = (UITreeLinesBase) component.getParent();
+        final UIColumnBase column       = (UIColumnBase) component;
+        final TreeNodeModel node        = treeline.getNodeInstance();
 
         String size = config.getDEFAULT_SIZE_COLUMN();
-        if (component.getAttributes().get("width") != null) {
-            size = String.valueOf(Integer.parseInt((String) component.getAttributes().get("width")) - 2) + "px;";
-        }
-
+        final String width = (String) component.getAttributes().get("width");
+        if ( width != null) size = String.valueOf(Integer.parseInt(width) - 2) + "px;";
 
         String styleUser = "";
         if (column.getStyle() != null) {
@@ -147,17 +138,18 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         afterEncodeBegin(context, component);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-        ResponseWriter writer = context.getResponseWriter();
-
-        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        TreeNodeModel node = treeline.getNodeInstance();
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+        final ResponseWriter writer         = context.getResponseWriter();
+        final UITreeLinesBase treeline      = (UITreeLinesBase) component.getParent();
+        final TreeNodeModel node            = treeline.getNodeInstance();
 
         if (component.getChildCount() != 0) {
-            List<UIComponent> children = component.getChildren();
-            for (UIComponent tmp : children) {
+            for (final UIComponent tmp : component.getChildren()) {
                 Utils.encodeRecursive(context, tmp);
             }
         }
@@ -169,57 +161,58 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        TreeNodeModel node = treeline.getNodeInstance();
-        ResponseWriter writer = context.getResponseWriter();
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final UITreeLinesBase treeline  = (UITreeLinesBase) component.getParent();
+        final TreeNodeModel node        = treeline.getNodeInstance();
+        final ResponseWriter writer     = context.getResponseWriter();
 
-        if (debug) {
-            log.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
-        }
+        if (debug) log.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
+
         beforeEncodeEnd(context, component);
 
-//            writer.endElement("div");
         writer.endElement("div");
 
-        if (debug) {
-            log.info("afterEncodeEnd : " + AbstractColumnRenderer.class.getName());
-        }
+        if (debug) log.info("afterEncodeEnd : " + AbstractColumnRenderer.class.getName());
+
         afterEncodeEnd(context, component);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
         return;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        Object userObject = treeline.getNodeInstance().getUserObject();
-        AjaxUtils ajaxtools = new AjaxUtils();
-        TreeNodeModel node = treeline.getNodeInstance();
-        Object item = node.getUserObject();
+    public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
+        final UITreeLinesBase treeline   = (UITreeLinesBase) component.getParent();
+        final Object userObject          = treeline.getNodeInstance().getUserObject();
+        final AjaxUtils ajaxtools        = new AjaxUtils();
+        final TreeNodeModel node         = treeline.getNodeInstance();
+        final Object item                = node.getUserObject();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String new_value           = request.getParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY());
+        final String targetId            = request.getParameter(ajaxtools.getAJAX_TARGET_ID_KEY());
+        final String[] targetNameSplit   = component.getId().split("_");
+        final String targetProperty      = targetNameSplit[targetNameSplit.length - 1];
+        final String propName            = StringUtils.capitalize(targetProperty.toString());
+        final Method methode             = getMethod(userObject, propName);
 
         boolean haveBeenResolved = false;
-
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String new_value = request.getParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY());
-        String targetId = request.getParameter(ajaxtools.getAJAX_TARGET_ID_KEY());
-
-        String[] targetNameSplit = component.getId().split("_");
-        String targetProperty = targetNameSplit[targetNameSplit.length - 1];
-        String propName = StringUtils.capitalize(targetProperty.toString());
-        Method methode = getMethod(userObject, propName);
 
         // Search in base class methods the getter correspond to the attribut
         if (methode != null) {
@@ -262,25 +255,19 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
     }
 
     /**
-     *    Fonction to  factorize the code of a column rendereer 
-     * 
-     * 
+     * Function to  factorize the code of a column rendereer
      */
-    public HttpServletResponse createResponse(FacesContext context, boolean haveBeenResolved) throws IOException {
+    public HttpServletResponse createResponse(final FacesContext context, final boolean haveBeenResolved) throws IOException {
 
-        HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        StringBuffer sb = new StringBuffer();
+        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+        final StringBuilder sb = new StringBuilder();
         response.setContentType("text/xml;charset=UTF-8");
         // need to set no cache or IE will not make future requests when same URL used.
         response.setHeader("Pragma", "No-Cache");
         response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
         response.setDateHeader("Expires", 1);
         sb.append("<response>");
-        if (haveBeenResolved) {
-            sb.append("OK");
-        } else {
-            sb.append("FAILED");
-        }
+        sb.append( (haveBeenResolved)? "OK" : "FAILED");
         sb.append("</response>");
         response.getWriter().write(sb.toString());
         System.out.println("Response : " + sb.toString());
@@ -291,15 +278,15 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      * 	Research getter method corresponding to attribute property
      * @param base - The base object whose property value is to be returned, or null to resolve a top-level variable.
      * @param property - The property or variable to be resolved.
-     * @return if the getter method exist, return this method else return null 
+     * @return if the getter method exist, return this method else return null
      */
-    public Method getMethod(Object base, Object property) {
+    public Method getMethod(final Object base, final Object property) {
         // Fisrt capitalize PropName
-        String propName = StringUtils.capitalize(property.toString());
-        Class Classe = base.getClass();
+        final String propName = "set" + StringUtils.capitalize(property.toString());
+        final Class Classe = base.getClass();
         // Search in base class methods the getter correspond to the attribut
-        for (Method method : Classe.getMethods()) {
-            if (method.getName().equals("set" + propName)) {
+        for (final Method method : Classe.getMethods()) {
+            if (method.getName().equals(propName)) {
                 return method;
             }
         }
@@ -335,12 +322,12 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 //                "});");
 //        writer.endElement("script");
 //    }
-    public String getVarId(FacesContext context, UIColumnBase comp) {
+    public String getVarId(final FacesContext context, final UIColumnBase comp) {
         if (((UITreeLinesBase) (comp.getParent())).getNodeInstance().isLeaf()) {
             String idresult = "";
-            Object obj = ((UITreeLinesBase) (comp.getParent())).getNodeInstance().getUserObject();
+            final Object obj = ((UITreeLinesBase) (comp.getParent())).getNodeInstance().getUserObject();
             if (obj instanceof TreeItem) {
-                TreeItem treeitem = (TreeItem) obj;
+                final TreeItem treeitem = (TreeItem) obj;
                 idresult = treeitem.getCompId();
             }
             ((UITreeLinesBase) (comp.getParent())).setVarId(idresult);

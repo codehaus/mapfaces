@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.component.abstractTree.UITreeBase;
@@ -40,8 +41,7 @@ import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
- * 
- * @author kevindelfour
+ * @author kevin Delfour
  */
 public abstract class AbstractTreeTableRenderer extends Renderer implements CustomizeTreeComponentRenderer {
 
@@ -52,30 +52,30 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
     /* Script Js and Css Style link */
-    private final String MOO_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";
-    private final String LOAD_JS = "/org/mapfaces/resources/tree/js/load.js";
+    private static final String MOO_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";
+    private static final String LOAD_JS = "/org/mapfaces/resources/tree/js/load.js";
     //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
 //    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
 //    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
 //    private final String TREE_MINIFY_JS = "/org/mapfaces/resources/tree/js/zip.js";
 
     /**
-     * <p> Render the beginning specified TreeTable Component to the output stream or writer associated 
+     * <p> Render the beginning specified TreeTable Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
-     * for this component failed, the state information saved during execution of decode() should be used to 
+     * for this component failed, the state information saved during execution of decode() should be used to
      * reproduce the incorrect input.</p>
      * <ul><li>Firstly, get the tree value from the bean</li>
      * <li>Then translate into a TreeTableModel and write Css and Js headers before all</li>
      * </ul>
      * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UITreeTableBase treetable = (UITreeTableBase) component;
-        ResponseWriter writer = context.getResponseWriter();
-        TreeModelsUtils treeModelsTools = new TreeModelsUtils();
+        final UITreeTableBase treetable       = (UITreeTableBase) component;
+        final ResponseWriter writer           = context.getResponseWriter();
+        final TreeModelsUtils treeModelsTools = new TreeModelsUtils();
         String width, height;
         Date phaseStart, phaseEnd, getValueStart, getValueEnd;
 
@@ -87,7 +87,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         width = "width:auto";
         height = "height:auto";
 
-        /* 
+        /*
          * Tests
          * Firstly, test before rendering if the component is present in a UIForm
          * Then verify if the component haven't been rendered yet
@@ -103,7 +103,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         /* GetAttributes from the UIComponent  */
         if (treetable.isDebug()) {
-            debug = (Boolean) treetable.isDebug();
+            debug = treetable.isDebug();
         }
 
         if (component.getAttributes().get("width") != null) {
@@ -114,32 +114,31 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
 
         /* Before encodeBegin, any method declared in a component extends this class can be launch here*/
-        if (debug) {
-            System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
+
         beforeEncodeBegin(context, component);
 
         /* Start encoding */
-        if (debug) {
-            System.out.println("[INFO] encodeBegin : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] encodeBegin : " + AbstractTreeTableRenderer.class.getName());
+
 
         /* Get DefaultTreeModel value and  convert toTreeTable Model for jsf treetable component */
         DefaultTreeModel tree = treetable.getTree();
 
         /*Firts, we get the var name of the treetable */
-        String var = (String) component.getAttributes().get("var");
+        final String var = (String) component.getAttributes().get("var");
         if (var != null) {
             /* If the var name isn't null, we store it in the request map by using setVarName */
             treetable.setVarName(var);
         }
 
         getValueStart = new Date();
-        Object value = component.getAttributes().get("value");
+
         /* Getting the defaultTreeModel pointed by the value */
         if (treetable.getTree() == null) {
+            final Object value = component.getAttributes().get("value");
             if (value != null) {
-                if (value.getClass().toString().contains("java.lang.String")) {
+                if (value instanceof String) {
                     ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                     tree = (DefaultTreeModel) ve.getValue(context.getELContext());
                 } else {
@@ -148,15 +147,14 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
                 treetable.setTree(treeModelsTools.transformTree(tree));
                 treetable.setNodeCount(treetable.getTree());
             } else {
-                TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);
+                final TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);
                 treetable.setTree(new TreeTableModel(node));
             }
         }
         getValueEnd = new Date();
-        long timeToGetValue = getValueEnd.getTime() - getValueStart.getTime();
-        if (debug) {
-            System.out.println("[INFO] Time to Get Value : " + timeToGetValue + " ms");
-        }
+        final long timeToGetValue = getValueEnd.getTime() - getValueStart.getTime();
+        if (debug) System.out.println("[INFO] Time to Get Value : " + timeToGetValue + " ms");
+
 
         // treetable.setNodeCount(treetable.getTree());
 
@@ -178,9 +176,8 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
 
         /* After encodeBegin, any method declared in a component extends this class can be launch here*/
-        if (debug) {
-            System.out.println("[INFO] afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
+
         afterEncodeBegin(context, component);
 
         phaseEnd = new Date();
@@ -192,25 +189,20 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      * to acquire the appropriate value to be rendered.</p>
      * <p>This method will only be called if the rendersChildren property of this component is true.</p>
      * @param context FacesContext for the response we are creating
-     * @param component UIComponent whose children are to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent whose children are to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         Date phaseStart,phaseEnd ;
 
         /* Initialisation */
         phaseStart = new Date();
 
-        if (debug) {
-            System.out.println("[INFO] encodeChildren : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] encodeChildren : " + AbstractTreeTableRenderer.class.getName());
 
-        if (component.getChildCount() != 0) {
-            List<UIComponent> children = component.getChildren();
-            for (UIComponent tmp : children) {
-                Utils.encodeRecursive(context, tmp);
-            }
+        for (final UIComponent tmp : component.getChildren()) {
+            Utils.encodeRecursive(context, tmp);
         }
 
         phaseEnd = new Date();
@@ -218,36 +210,31 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     }
 
     /**
-     * <p>Render the ending of the current state of the specified UIComponent, following the rules described for 
+     * <p>Render the ending of the current state of the specified UIComponent, following the rules described for
      * encodeBegin() to acquire the appropriate value to be rendered.</p>
      * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        AjaxUtils ajaxtools = new AjaxUtils();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String AJAX_SERVER = ajaxtools.getAjaxServer(request);
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final ResponseWriter writer      = context.getResponseWriter();
+        final AjaxUtils ajaxtools        = new AjaxUtils();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String AJAX_SERVER         = ajaxtools.getAjaxServer(request);
         Date phaseStart,phaseEnd ;
 
         /* Initialisation */
         phaseStart = new Date();
 
         /* Before encodeEnd, any method declared in a component extends this class can be launch here*/
-        if (debug) {
-            System.out.println("[INFO] beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+
         beforeEncodeEnd(context, component);
 
-        if (debug) {
-            System.out.println("[INFO] encodeEnd : " + AbstractTreeTableRenderer.class.getName());
-        }
-
+        if (debug) System.out.println("[INFO] encodeEnd : " + AbstractTreeTableRenderer.class.getName());
 
         writer.endElement("div");
-
         writer.startElement("input", component);
         writer.writeAttribute("type", "hidden", null);
         writer.writeAttribute("value", AJAX_SERVER, null);
@@ -256,9 +243,8 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         writer.endElement("input");
 
         /* After encodeEnd, any method declared in a component extends this class can be launch here*/
-        if (debug) {
-            System.out.println("[INFO] afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+
         afterEncodeEnd(context, component);
 
         phaseEnd = new Date();
@@ -274,7 +260,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     }
 
     /**
-     * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext, 
+     * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext,
      * and store that state on the UIComponent.</p>
      * <p>During decoding, events may be enqueued for later processing (by event listeners that have registered an interest),
      * by calling queueEvent() on the associated UIComponent. </p>
@@ -283,38 +269,32 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      * @throws java.lang.NullPointerException if context  or component is null
      */
     @Override
-    public void decode(FacesContext context, UIComponent component) throws NullPointerException {
+    public void decode(final FacesContext context, final UIComponent component) throws NullPointerException {
         context.getApplication().getStateManager().saveView(context);
-        if (debug) {
-            System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
         return;
     }
 
     /* Others methods */
     /**
      * <p>Get container form of the UIComponent</p>
-     * @param component UIComponent to be rendered 
+     * @param component UIComponent to be rendered
      * @return UIForm the form container of the component if exist else return null
      */
     private UIForm getForm(UIComponent component) {
+
         UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UIForm) {
-                break;
-            }
-            parent = parent.getParent();
-        }
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a form!");
-        }
+        while( parent != null && !(parent instanceof UIForm) ) parent = parent.getParent();
+
+        if (parent == null) throw new IllegalStateException("Not nested inside a form!");
+
         return (UIForm) parent;
     }
 
     /**
-     * <p>Return a flag indicating whether this Renderer is responsible for rendering the 
+     * <p>Return a flag indicating whether this Renderer is responsible for rendering the
      * children the component it is asked to render. The default implementation returns false.</p>
-     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p> 
+     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p>
      * @return True
      */
     @Override
@@ -327,33 +307,28 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
      * @param context FacesContext for the request we are processing
      * @param component UIComponent to be tested
      */
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
     /**
-     * Write headers css and js with the resource 
+     * Write headers css and js with the resource
      * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
-    public void writeHeaders(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        UITreeBase comp = (UITreeBase) component;
-        if (debug) {
-            System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
-        }
+    public void writeHeaders(final FacesContext context, final UIComponent component) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
+        final UITreeBase comp = (UITreeBase) component;
+
+        if (debug) System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
 
         writer.startElement("link", component);
         writer.writeAttribute("type", "text/css", null);
         writer.writeAttribute("rel", "stylesheet", null);
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssFilesUrl, null), null);
         writer.endElement("link");
-
 
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);

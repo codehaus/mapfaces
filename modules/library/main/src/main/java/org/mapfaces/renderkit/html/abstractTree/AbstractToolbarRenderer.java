@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -30,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.abstractTree.UITreeToolbarBase;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
@@ -38,7 +36,6 @@ import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 
 /**
- *
  * @author Kevin Delfour.
  */
 public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
@@ -49,10 +46,10 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
     /**
      * This method returns the parent form of this element.
      * If this element is a form then it simply returns itself.
-     * @param component - 
+     * @param component -
      * @return
      */
-    private static UITreePanelBase getForm(UIComponent component) {
+    private static UITreePanelBase getForm(final UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
             if (parent instanceof UITreePanelBase) {
@@ -66,17 +63,24 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
         return (UITreePanelBase) parent;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean getRendersChildren() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UITreeToolbarBase toolbar = (UITreeToolbarBase) component;
-        ResponseWriter writer = context.getResponseWriter();
-        String styleUser = "",
-                styleClass = "";
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        final UITreeToolbarBase toolbar = (UITreeToolbarBase) component;
+        final ResponseWriter writer     = context.getResponseWriter();
+        final String styleUser;
+        final String styleClass;
+
         if (!component.isRendered()) {
             return;
         }
@@ -84,48 +88,40 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
         assertValid(context, component);
 
         //Method to apply before encodeBegin
-        if (component.getAttributes().get("debug") != null) {
-            debug = (Boolean) component.getAttributes().get("debug");
-        }
+        final Boolean obj = (Boolean) component.getAttributes().get("debug") ;
+        if (obj != null) debug = obj;
 
-        if (debug) {
-            log.info("beforeEncodeBegin : " + AbstractToolbarRenderer.class.getName());
-        }
+        if (debug) log.info("beforeEncodeBegin : " + AbstractToolbarRenderer.class.getName());
+
         beforeEncodeBegin(context, component);
 
         //Start encodeBegin
-        if (debug) {
-            log.info("encodeBegin : " + AbstractToolbarRenderer.class.getName());
-        }
+        if (debug) log.info("encodeBegin : " + AbstractToolbarRenderer.class.getName());
 
-
-        if (toolbar.getStyle() != null) {
-            styleUser = toolbar.getStyle();
-        }
-        if (toolbar.getStyleClass() != null) {
-            styleClass = toolbar.getStyleClass();
-        }
+        styleUser  = (toolbar.getStyle() != null)      ? toolbar.getStyle()      : "";
+        styleClass = (toolbar.getStyleClass() != null) ? toolbar.getStyleClass() : "";
 
         writer.startElement("div", component);
         writer.writeAttribute("style", styleUser, null);
         writer.writeAttribute("class", "x-btn-wrap x-btn " + styleClass, null);
 
         //Method to apply before encodeBegin
-        if (debug) {
-            log.info("afterEncodeBegin : " + AbstractToolbarRenderer.class.getName());
-        }
+        if (debug) log.info("afterEncodeBegin : " + AbstractToolbarRenderer.class.getName());
+
         afterEncodeBegin(context, component);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        UITreeToolbarBase toolbar = (UITreeToolbarBase) component;
-        ResponseWriter writer = context.getResponseWriter();
-        boolean tuneTools = false,
-                tuneClassTools = false;
-
-        String styleTools = "",
-                styleClassTools = "";
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final UITreeToolbarBase toolbar = (UITreeToolbarBase) component;
+        final ResponseWriter writer     = context.getResponseWriter();
+        boolean tuneTools               = false;
+        boolean tuneClassTools          = false;
+        String styleTools               = "";
+        String styleClassTools          = "";
 
         if (toolbar.getStyleTools() != null) {
             styleTools = toolbar.getStyleTools();
@@ -137,93 +133,92 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
         }
 
         if (component.getChildCount() != 0) {
-            List<UIComponent> children = component.getChildren();
-            for (UIComponent tmp : children) {
-                if (tuneTools || tuneClassTools) {
-                    Class tmpClass = tmp.getClass();
-                    Method method = null;
-                    if (tuneTools) {
+            for (final UIComponent tmp : component.getChildren()) {
 
-                        method = getSetterMethod(tmp, "style");
+                if (tuneTools) {
+                    final Method method = getSetterMethod(tmp, "style");
+                    if(method != null){
                         try {
-                            if (method != null) {
-                                method.invoke(tmp, styleTools);
-                            }
+                            method.invoke(tmp, styleTools);
                         } catch (IllegalAccessException ex) {
                             System.out.println("[WARNING] IllegalAccessException for this method " + method.getName() + " - " + ex);
                         } catch (InvocationTargetException ex) {
                             System.out.println("[WARNING] InvocationTargetException for this method " + method.getName() + " - " + ex);
                         }
-
                     }
 
-                    method = null;
-                    if (tuneClassTools) {
-                        method = getSetterMethod(tmp, "styleClass");
-                        try {
-                            if (method != null) {
-                                method.invoke(tmp, styleClassTools);
-                            }
-                        } catch (IllegalAccessException ex) {
-                            System.out.println("[WARNING] IllegalAccessException for this method " + method.getName() + " - " + ex);
-                        } catch (InvocationTargetException ex) {
-                            System.out.println("[WARNING] InvocationTargetException for this method " + method.getName() + " - " + ex);
-                        }
-
-                    }
                 }
+
+                if (tuneClassTools) {
+                    final Method method = getSetterMethod(tmp, "styleClass");
+                    if(method != null){
+                        try {
+                            method.invoke(tmp, styleClassTools);
+                        } catch (IllegalAccessException ex) {
+                            System.out.println("[WARNING] IllegalAccessException for this method " + method.getName() + " - " + ex);
+                        } catch (InvocationTargetException ex) {
+                            System.out.println("[WARNING] InvocationTargetException for this method " + method.getName() + " - " + ex);
+                        }
+                    }
+
+                }
+
                 Utils.encodeRecursive(context, tmp);
 
             }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component)
+    public void encodeEnd(final FacesContext context, final UIComponent component)
             throws IOException {
 
-        if (debug) {
-            log.info("beforeEncodeEnd : " + AbstractToolbarRenderer.class.getName());
-        }
+        if (debug) log.info("beforeEncodeEnd : " + AbstractToolbarRenderer.class.getName());
+
         beforeEncodeEnd(context, component);
 
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
 
-        if (debug) {
-            log.info("afterEncodeEnd : " + AbstractToolbarRenderer.class.getName());
-        }
+        if (debug) log.info("afterEncodeEnd : " + AbstractToolbarRenderer.class.getName());
+
         afterEncodeEnd(context, component);
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)    throw new NullPointerException("FacesContext should not be null");
+        if (component == null)  throw new NullPointerException("component should not be null");
     }
 
-    public Method getSetterMethod(Object base, Object property) {
+    public Method getSetterMethod(final Object base, final Object property) {
         // Fisrt capitalize PropName
-        String propName = StringUtils.capitalize(property.toString());
-        Class Classe = base.getClass();
+        final String propName = "Set" + StringUtils.capitalize(property.toString());
+        final Class Classe    = base.getClass();
         // Search in base class methods the getter correspond to the attribut
-        for (Method method : Classe.getMethods()) {
-            if (method.getName().equals("set" + propName)) {
+        for (final Method method : Classe.getMethods()) {
+            if (method.getName().equals(propName)) {
                 return method;
             }
         }
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void handleAjaxRequest(FacesContext context, UIComponent component) {
+    public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
         return;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
         return;
     }
 }
