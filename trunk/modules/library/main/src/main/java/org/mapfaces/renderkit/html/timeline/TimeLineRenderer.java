@@ -258,7 +258,7 @@ public class TimeLineRenderer extends Renderer {
         Object value = comp.getAttributes().get("value");
 
         if (value != null) {
-            if (value.getClass().toString().contains("java.lang.String")) {
+            if ( value instanceof java.lang.String ) {
                 ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                 events = (List<Event>) ve.getValue(context.getELContext());
             } else {
