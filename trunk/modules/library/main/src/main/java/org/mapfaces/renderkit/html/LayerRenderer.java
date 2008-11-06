@@ -129,7 +129,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 writer.writeAttribute("style", "position:relative;", "style");
             }
             
-            URL url = mapLayer.query(env, dim); 
+            final URL url = mapLayer.query(env, dim); 
             writer.writeAttribute("src", url.toString(), "src");
             writer.endElement("img");
             writer.endElement("div");

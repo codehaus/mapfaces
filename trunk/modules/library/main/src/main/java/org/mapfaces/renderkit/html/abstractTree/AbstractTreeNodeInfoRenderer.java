@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,7 +18,6 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
-import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ResponseWriter;
@@ -34,22 +33,22 @@ import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements CustomizeTreeComponentRenderer{
 
     private static final transient Log log = LogFactory.getLog(AbstractTreeNodeInfoRenderer.class);
-    private static String DESC_STYLE_CLASS = "x-tree-node-info";
+    private static final String DESC_STYLE_CLASS = "x-tree-node-info";
+
     private boolean debug = false;
 
     /**
      * This method returns the parent form of this element.
      * If this element is a form then it simply returns itself.
-     * @param component - 
+     * @param component -
      * @return
      */
-    private static UITreePanelBase getForm(UIComponent component) {
+    private static UITreePanelBase getForm(final UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
             if (parent instanceof UITreePanelBase) {
@@ -64,22 +63,18 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
     }
 
     /**
-     * 
-     * @param component
-     * @return
+     * {@inheritDoc }
      */
-    private String getPostbackFunctionName(UIComponent component) {
-        UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
-        return treenodeinfo.getId() + "PostBack";
-    }
-
     @Override
     public boolean getRendersChildren() {
         return true;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         }
@@ -88,35 +83,32 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         if (component.getAttributes().get("debug") != null) {
             debug = (Boolean) component.getAttributes().get("debug");
         }
-        
-        if (debug) {
-            log.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
+
+        if (debug) log.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+
         beforeEncodeBegin(context, component);
 
-        if (debug) {
-            log.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
-        //Start encoding
-        UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
-        UITreeLinesBase treeline = (UITreeLinesBase) treenodeinfo.getParent();
-        TreeNodeModel node = treeline.getNodeInstance();
-        ResponseWriter writer = context.getResponseWriter();
-        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        if (debug) log.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
-        UITreePanelBase treetable = getForm(treenodeinfo);
+        //Start encoding
+        final UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
+        final UITreeLinesBase treeline        = (UITreeLinesBase) treenodeinfo.getParent();
+        final TreeNodeModel node              = treeline.getNodeInstance();
+        final ResponseWriter writer           = context.getResponseWriter();
+        final String treepanelId              = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        final UITreePanelBase treetable       = getForm(treenodeinfo);
+
         String styleUser = "";
         if (treenodeinfo.getStyle() !=null){
             styleUser = treenodeinfo.getStyle();
         }
-        
+
         String classUser = "";
         if (treenodeinfo.getStyleClass() !=null){
             classUser = treenodeinfo.getStyleClass();
         }
-        
+
         if (treetable != null) {
-            
             writer.startElement("div", treenodeinfo);
             writer.writeAttribute("class",classUser, null);
             writer.writeAttribute("id", "info:" + treepanelId + ":" + node.getId(), null);
@@ -129,26 +121,25 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             }
         }
 
-        if (debug) {
-            log.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
+        if (debug) log.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+
         afterEncodeBegin(context, component);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        if (debug) {
-            log.info("encodeChildren : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        if (debug) log.info("encodeChildren : " + AbstractTreeNodeInfoRenderer.class.getName());
 
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
 
         if (component.getChildCount() != 0) {
-            List<UIComponent> children = component.getChildren();
             writer.startElement("div", component);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
-            for (UIComponent tmp : children) {
+            for (UIComponent tmp : component.getChildren()) {
                 writer.startElement("div", component);
                 writer.writeAttribute("class", DESC_STYLE_CLASS, null);
                 Utils.encodeRecursive(context, tmp);
@@ -157,36 +148,36 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        if (debug) {
-            log.info("beforeEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
+
+        if (debug) log.info("beforeEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
+
         beforeEncodeEnd(context, component);
 
-        if (debug) {
-            log.info("encodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
+        if (debug) log.info("encodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         writer.endElement("div");
 
-        if (debug) {
-            log.info("afterEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
-        }
+        if (debug) log.info("afterEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
+
         afterEncodeEnd(context, component);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
         return;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 }

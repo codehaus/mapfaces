@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.ExternalContext;
@@ -48,45 +49,40 @@ import org.mapfaces.util.tree.TreeStyle;
 import org.mapfaces.util.treetable.TreeTableConfig;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class AbstractTreePanelRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
 
     /* Local Fiels */
-//    private static final Log log = LogFactory.getLog(AbstractTreePanelRenderer.class);
     private boolean debug;
     private TreeTableConfig config = new TreeTableConfig();
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
     /**
-     * <p> Render the beginning specified TreeTable Component to the output stream or writer associated 
+     * <p> Render the beginning specified TreeTable Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
-     * for this component failed, the state information saved during execution of decode() should be used to 
+     * for this component failed, the state information saved during execution of decode() should be used to
      * reproduce the incorrect input.</p>
      * <ul>
      * <li>Firstly, get the TreeTableModel from the treetable</li>
      * <li>Then create Treelines Component with the View present in each Treepanel </li>
      * </ul>
      * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        UITreeTableBase treetable = getForm(component);
-        UITreePanelBase treepanel = (UITreePanelBase) component;
+        final ResponseWriter writer     = context.getResponseWriter();
+        final UITreeTableBase treetable = getForm(component);
+        final UITreePanelBase treepanel = (UITreePanelBase) component;
         UITreeToolbarBase toolbar = null;
-        Date phaseStart, phaseEnd;
-        Boolean renderHeader, renderFrame, makeCollapsible, loadAll, haveToolbar;
-        String title, styleUser, styleClass, clientId;
+        final boolean loadAll;
 
         treepanel.setOddEvenCountLine(1);
 
-
-        /* 
+        /*
          * Look client Browser, if it's Opera, we fix loadAll option
          */
         if (servletUtils.isOpera()) {
@@ -95,19 +91,18 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             loadAll = treepanel.isLoadAll();
         }
 
-        /* Initialisation */
-        clientId = component.getClientId(context);
-        renderHeader = treepanel.isHeader();
-        renderFrame = treepanel.isFrame();
-        makeCollapsible = treepanel.isCollapsible();
-        title = "";
-        phaseStart = new Date();
-        renderStart = new Date();
-        styleUser = "";
-        styleClass = "";
-        haveToolbar = false;
+        final String clientId = component.getClientId(context);
+        final boolean renderHeader = treepanel.isHeader();
+        final boolean renderFrame = treepanel.isFrame();
+        final boolean makeCollapsible = treepanel.isCollapsible();
+        String title = "";
+        final Date phaseStart = new Date();
+        final Date renderStart = phaseStart;
+        String styleUser = "";
+        String styleClass = "";
+        boolean haveToolbar = false;
 
-        /* 
+        /*
          * Tests
          * Firstly, test before rendering if the component is present in a UIForm
          * Then verify if the component haven't been rendered yet
@@ -139,7 +134,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             title = treepanel.getTitle();
         }
 
-        for (UIComponent child : component.getChildren()) {
+        for (final UIComponent child : component.getChildren()) {
             if (child instanceof UITreeToolbarBase) {
                 haveToolbar = true;
                 toolbar = (UITreeToolbarBase) child;
@@ -147,15 +142,12 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         /* Before encodeBegin, any method declared in a component extends this class can be launch here*/
-        if (debug) {
-            System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
+
         beforeEncodeBegin(context, component);
 
         /* Start encoding */
-        if (debug) {
-            System.out.println("[INFO] encodeBegin : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] encodeBegin : " + AbstractTreePanelRenderer.class.getName());
 
         if (component != null) {
             // DIV Start
@@ -241,7 +233,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 writer.writeAttribute("class", TreeStyle.default_frameMcStyle, null);
             }
 
-            /* Tree view ans Tree lines Component contruction 
+            /* Tree view ans Tree lines Component contruction
              * At this state, we are getting the TreeTable model store in the TreeTable Component
              * and we store it ine the TreePanel Component.
              * We can apply some methods to modify Treetable model in View.
@@ -251,15 +243,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             if (treepanel.getView() == null) {
                 treepanel.setView(treetable.getTree());
             }
-            TreeNodeModel root = treepanel.getView().getRoot();
-
-
-            ExternalContext extContext = context.getExternalContext();
+            final TreeNodeModel root         = treepanel.getView().getRoot();
+            final ExternalContext extContext = context.getExternalContext();
 
             if (!extContext.getRequestMap().containsKey("treePanelRendered_" + component.getClientId(context))) {
                 extContext.getRequestMap().put("treePanelRendered_" + component.getClientId(context), Boolean.TRUE);
-                List<UIComponent> backup = new ArrayList<UIComponent>();
-                List<UIComponent> children = component.getChildren();
+                final List<UIComponent> backup = new ArrayList<UIComponent>();
+                final List<UIComponent> children = component.getChildren();
                 for (UIComponent tmp : children) {
                     if (!(tmp instanceof HtmlPanelGroup) && !(tmp instanceof UITreeToolbarBase)) {
                         tmp.setId(component.getId() + "_" + tmp.getId());
@@ -268,23 +258,21 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 }
 
                 /* Create all Treelines for the context */
-                long start = System.currentTimeMillis();
+                final long start = System.currentTimeMillis();
                 createTreeLines(((UITreePanelBase) component), root, backup, loadAll);
-                long time = System.currentTimeMillis() - start;
-                if (debug) {
-                    System.out.println("[INFO] createTreeLines times in " + time + " mlls");
-                }
+                final long time = System.currentTimeMillis() - start;
+                if (debug) System.out.println("[INFO] createTreeLines times in " + time + " mlls");
+
                 treepanel.setInit(true);
             }
 
             /* After encodeBegin, any method declared in a component extends this class can be launch here*/
-            if (debug) {
-                System.out.println("[INFO] afterEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
-            }
+            if (debug) System.out.println("[INFO] afterEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
+
             afterEncodeBegin(context, component);
         }
 
-        phaseEnd = new Date();
+        final Date phaseEnd = new Date();
         encodeBeginTime = phaseStart.getTime() - phaseEnd.getTime();
     }
 
@@ -293,23 +281,21 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      * to acquire the appropriate value to be rendered.</p>
      * <p>This method will only be called if the rendersChildren property of this component is true.</p>
      * @param context FacesContext for the response we are creating
-     * @param component UIComponent whose children are to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent whose children are to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        ExternalContext extContext = context.getExternalContext();
-        UITreePanelBase treepanel = (UITreePanelBase) component;
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final ExternalContext extContext = context.getExternalContext();
+        final UITreePanelBase treepanel  = (UITreePanelBase) component;
         Date phaseStart, phaseEnd;
 
         /* Initialisation */
         phaseStart = new Date();
 
-        if (debug) {
-            System.out.println("[INFO] encodeChildren : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] encodeChildren : " + AbstractTreePanelRenderer.class.getName());
 
-        for (UIComponent child : treepanel.getChildren()) {
+        for (final UIComponent child : treepanel.getChildren()) {
             if (!(child instanceof HtmlPanelGroup) && !(child instanceof UITreeToolbarBase)) {
                 if (extContext.getRequestMap().containsKey("treePanelRendered_" + component.getClientId(context))) {
                     child.setTransient(true);
@@ -321,11 +307,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             }
         }
 
-        TreeTableModel tree = treepanel.getView();
-        TreeNodeModel root = tree.getRoot();
+        final TreeTableModel tree = treepanel.getView();
+        final TreeNodeModel root  = tree.getRoot();
 
-        for (int i = 0; i < root.getChildCount(); i++) {
-            TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
+        for (int i=0,n=root.getChildCount(); i<n; i++) {
+            final TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
             if (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
                 Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
             } else {
@@ -339,29 +325,27 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     }
 
     /**
-     * <p>Render the ending of the current state of the specified UIComponent, following the rules described for 
+     * <p>Render the ending of the current state of the specified UIComponent, following the rules described for
      * encodeBegin() to acquire the appropriate value to be rendered.</p>
      * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be rendered 
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @param component UIComponent to be rendered
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        UITreePanelBase treepanel = (UITreePanelBase) component;
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
+        final UITreePanelBase treepanel = (UITreePanelBase) component;
         Date phaseStart, phaseEnd;
 
         /* Initialisation */
         phaseStart = new Date();
 
-        if (debug) {
-            System.out.println("[INFO] beforeEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] beforeEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
+
         beforeEncodeEnd(context, component);
 
-        if (debug) {
-            System.out.println("[INFO] encodeEnd : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] encodeEnd : " + AbstractTreePanelRenderer.class.getName());
+
 
         writer.endElement("div");
         if ((component.getAttributes().get("frame") != null) && ((Boolean) (component.getAttributes().get("frame")))) {
@@ -384,9 +368,8 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         writer.writeAttribute("class", TreeStyle.default_clearStyle, null);
         writer.endElement("div");
 
-        if (debug) {
-            System.out.println("[INFO] afterEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] afterEncodeEnd : " + AbstractTreePanelRenderer.class.getName());
+
         afterEncodeEnd(context, component);
 
         phaseEnd = new Date();
@@ -402,7 +385,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     }
 
     /**
-     * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext, 
+     * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext,
      * and store that state on the UIComponent.</p>
      * <p>During decoding, events may be enqueued for later processing (by event listeners that have registered an interest),
      * by calling queueEvent() on the associated UIComponent. </p>
@@ -411,21 +394,20 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      * @throws java.lang.NullPointerException if context  or component is null
      */
     @Override
-    public void decode(FacesContext context, UIComponent component) throws NullPointerException {
-        UITreePanelBase treepanel = (UITreePanelBase) component;
+    public void decode(final FacesContext context, final UIComponent component) throws NullPointerException {
+        final UITreePanelBase treepanel = (UITreePanelBase) component;
         super.decode(context, component);
-        if (debug) {
-            System.out.println("[INFO] decode : " + AbstractTreePanelRenderer.class.getName());
-        }
+        if (debug) System.out.println("[INFO] decode : " + AbstractTreePanelRenderer.class.getName());
+
     }
 
     /* Others methods */
     /**
      * <p>Get container Treetable of the UIComponent</p>
-     * @param component UIComponent to be rendered 
+     * @param component UIComponent to be rendered
      * @return UIAbstractTreeTable the treetable container of the component if exist else return null
      */
-    private UITreeTableBase getForm(UIComponent component) {
+    private UITreeTableBase getForm(final UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
             if (parent instanceof UITreeTableBase) {
@@ -440,9 +422,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     }
 
     /**
-     * <p>Return a flag indicating whether this Renderer is responsible for rendering the 
+     * <p>Return a flag indicating whether this Renderer is responsible for rendering the
      * children the component it is asked to render. The default implementation returns false.</p>
-     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p> 
+     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p>
      * @return True
      */
     @Override
@@ -455,12 +437,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      * @param context FacesContext for the request we are processing
      * @param component UIComponent to be tested
      */
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
     /**
@@ -470,33 +449,33 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      * @param component UIComponent who get the Ajax request
      */
     @Override
-    public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        UITreePanelBase treepanel = (UITreePanelBase) component;
-        AjaxUtils ajaxtools = new AjaxUtils();
-        TreeModelsUtils treeTools = new TreeModelsUtils();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+    public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
+        final UITreePanelBase treepanel  = (UITreePanelBase) component;
+        final AjaxUtils ajaxtools        = new AjaxUtils();
+        final TreeModelsUtils treeTools  = new TreeModelsUtils();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         if (treepanel.isDebug()) {
             debug = treepanel.isDebug();
         }
 
         /* First we get attributes from the request*/
-        String TreeLineNewParentId = request.getParameter(ajaxtools.getDND_NEW_PARENT_COMPONENT());
-        String TreeLineinDragId = request.getParameter(ajaxtools.getAJAX_COMPONENT_ID_KEY());
-        String Position = request.getParameter(ajaxtools.getDND_POSITION_LINE());
-        UITreeLinesBase treeLinesToDrag = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
-        UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
+        final String TreeLineNewParentId        = request.getParameter(ajaxtools.getDND_NEW_PARENT_COMPONENT());
+        final String TreeLineinDragId           = request.getParameter(ajaxtools.getAJAX_COMPONENT_ID_KEY());
+        final String Position                   = request.getParameter(ajaxtools.getDND_POSITION_LINE());
+        final UITreeLinesBase treeLinesToDrag   = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
+        final UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
+
         TreeTableModel tree = treepanel.getView();
 
         /* After we get tje targetNode  and the node to move */
-        int targetNode = treeLinesToDragIn.getNodeInstance().getId();
-        int movedNode = treeLinesToDrag.getNodeInstance().getId();
-        int parentTargetNode = ((TreeNodeModel) tree.getById(targetNode).getParent()).getId();
-        int position;
+        final int targetNode = treeLinesToDragIn.getNodeInstance().getId();
+        final int movedNode = treeLinesToDrag.getNodeInstance().getId();
+        final int parentTargetNode = ((TreeNodeModel) tree.getById(targetNode).getParent()).getId();
 
         /* We put the right node at the right place */
         if (Position.equals("lastitem")) {
-            position = treeLinesToDrag.getNodeInstance().getChildCount();
+            final int position = treeLinesToDrag.getNodeInstance().getChildCount();
             tree = treeTools.moveTo(tree, movedNode, targetNode, position + 1);
         } else if (Position.equals("before")) {
             tree = treeTools.insertBefore(tree, movedNode, targetNode);
@@ -520,11 +499,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
      * </ul>
      * @param context FacesContext for the request we are processing
      * @param component UIComponent to be rendered head column
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
-    public void renderHeadColumn(FacesContext context, UIComponent component) throws IOException {
-        UITreePanelBase treepanel = (UITreePanelBase) component;
-        ResponseWriter writer = context.getResponseWriter();
+    public void renderHeadColumn(final FacesContext context, final UIComponent component) throws IOException {
+        final UITreePanelBase treepanel = (UITreePanelBase) component;
+        final ResponseWriter writer     = context.getResponseWriter();
 
         int id = 0;
 
@@ -543,8 +522,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.endElement("div");
         }
 
-        List<UIComponent> components = component.getChildren();
-        for (UIComponent child : components) {
+        for (UIComponent child : component.getChildren()) {
             id++;
             if ((child instanceof UITreeColumnBase) || (child instanceof UIColumnBase)) {
                 renderHeaders(context, child, id);
@@ -558,13 +536,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
     /**
      * <p>Render the header of a column or a treecolumn</p>
-     * @param context FacesContext for the request we are processing 
+     * @param context FacesContext for the request we are processing
      * @param component UIComponent to be rendered head column
      * @param idnumbers The Id number of the Uicomponent
-     * @throws java.io.IOException if an input/output error occurs while rendering 
+     * @throws java.io.IOException if an input/output error occurs while rendering
      */
-    public void renderHeaders(FacesContext context, UIComponent component, int idnumbers) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
+    public void renderHeaders(final FacesContext context, final UIComponent component, final int idnumbers) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
 
         /* if a style have to be apply to the header column of a component,
          * we get it and we apply it
@@ -581,9 +559,10 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         writer.writeAttribute("class", TreeStyle.default_headerStyle, null);
 
         /* Then render head column of th UIcomponent */
+        final Map<String,Object> attributs = component.getAttributes();
         String size = config.getDEFAULT_SIZE_COLUMN();
-        if (component.getAttributes().get("width") != null) {
-            size = String.valueOf(component.getAttributes().get("width"));
+        if (attributs.get("width") != null) {
+            size = String.valueOf(attributs.get("width"));
             /* If size exist, we remove one pixel to align with the rest of the treetable,
              * this is due to border
              */
@@ -594,36 +573,29 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         writer.writeAttribute("style", styleHeader, null);
-
         writer.startElement("div", component);
         writer.writeAttribute("id", component.getId() + "tree-hd-text:" + idnumbers, null);
         writer.writeAttribute("class", TreeStyle.default_headerTextStyle, null);
         writer.startElement("center", component);
 
         /* If an icon is declared, we put in priority the icon, else we put the text header */
-        if (component.getAttributes().get("headerIcon") != null) {
+        if (attributs.get("headerIcon") != null) {
             writer.startElement("img", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, (String) component.getAttributes().get("headerIcon"), null), null);
-            if (component.getAttributes().get("headerTitle") != null) {
-                writer.writeAttribute("title", (String) component.getAttributes().get("headerTitle"), null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, (String) attributs.get("headerIcon"), null), null);
+            if (attributs.get("headerTitle") != null) {
+                writer.writeAttribute("title", (String) attributs.get("headerTitle"), null);
             }
             writer.endElement("img");
-        } else if (component.getAttributes().get("headerTitle") != null) {
-            writer.write((String) component.getAttributes().get("headerTitle"));
+        } else if (attributs.get("headerTitle") != null) {
+            writer.write((String) attributs.get("headerTitle"));
         }
         writer.endElement("center");
         writer.endElement("div");
         writer.endElement("div");
 
-
     }
 
-    /**
-     * 
-     * @param context
-     * @param toolbar
-     */
-    private void renderToolbar(FacesContext context, UITreeToolbarBase toolbar) throws IOException {
+    private void renderToolbar(final FacesContext context, final UITreeToolbarBase toolbar) throws IOException {
         if (toolbar.getChildCount() > 0) {
             Utils.encodeRecursive(context, toolbar);
         }
