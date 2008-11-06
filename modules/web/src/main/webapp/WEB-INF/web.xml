@@ -3,6 +3,10 @@
     
     <display-name>Mapfaces</display-name>
     
+    <listener>
+	<listener-class>org.mapfaces.share.listener.SessionListener</listener-class>
+    </listener>
+    
  <!-- filtres pour a4j -->
     <filter>
         <display-name>Ajax4jsf Filter</display-name>
@@ -50,7 +54,7 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>-1</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
 	<welcome-file>index.jsp</welcome-file>

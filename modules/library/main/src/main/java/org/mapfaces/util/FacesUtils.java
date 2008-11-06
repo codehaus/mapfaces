@@ -39,6 +39,7 @@ import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotools.data.wms.backend.AbstractKeyword;
 import org.mapfaces.component.UIMapPane;
@@ -283,7 +284,7 @@ public class FacesUtils {
         extraParams.put(ajaxUtils.getAJAX_LAYER_ID(), varId);
         extraParams.put(ajaxUtils.getAJAX_CONTAINER_ID_KEY(), comp.getClientId(context));
         /*if we don't want to reRender another component than the "var" component */
-        if (idsToReRender == null ) {
+        if (idsToReRender == null) {
             idsToReRender = varId;
         }
         return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);
@@ -349,7 +350,7 @@ public class FacesUtils {
         ajaxComp.setReRender(idsToReRender);
         return ajaxComp;
     }
-    
+
     /**
      * This method creates a new HtmlAjaxSupport component with parameters and js code if necessary.
      * @param context
@@ -362,10 +363,10 @@ public class FacesUtils {
      * @param onCompleteJS
      * @return
      */
-    public static HtmlAjaxSupport createTreeAjaxSupportWithParameters(FacesContext context, 
-            UIComponent comp, String event, String varId, String idsToReRender, 
+    public static HtmlAjaxSupport createTreeAjaxSupportWithParameters(FacesContext context,
+            UIComponent comp, String event, String varId, String idsToReRender,
             HashMap<String, String> params, String onSubmitJS, String onCompleteJS) {
-        
+
         if (comp == null) {
             return null;
         }
@@ -376,7 +377,7 @@ public class FacesUtils {
         if (idsToReRender == null) {
             idsToReRender = varId;
         }
-        
+
         /* Add <a4j:support> component */
         HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS);
         for (String tmp : extraParams.keySet()) {
@@ -384,7 +385,7 @@ public class FacesUtils {
         }
         return ajaxComp;
     }
-    
+
     /**
      * This method creates an a4j support component by passing the parentId and onSubmit/onComplete js code.
      * @param context
@@ -404,11 +405,11 @@ public class FacesUtils {
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setLimitToList(true);
         ajaxComp.setReRender(idsToReRender);
-        
-        if (onSubmitJS != null && ! onSubmitJS.equals("")) {
+
+        if (onSubmitJS != null && !onSubmitJS.equals("")) {
             ajaxComp.setOnsubmit(onSubmitJS);
         }
-        if (onCompleteJS != null && ! onCompleteJS.equals("")) {
+        if (onCompleteJS != null && !onCompleteJS.equals("")) {
             ajaxComp.setOncomplete(onCompleteJS);
         }
         return ajaxComp;
@@ -473,7 +474,7 @@ public class FacesUtils {
         }
         return result;
     }
-    
+
     /**
      * Returns a list that contains all bandinfos components as child of a timeline component.
      * @param context
@@ -488,6 +489,21 @@ public class FacesUtils {
                     result.add((UIHotZoneBandInfo) child);
                 }
             }
+        }
+        return result;
+    }
+
+    /**
+     * This method returns the current Session id, if context is null then {@code null} is returned.
+     * @return String id
+     */
+    public static String getCurrentSessionId() {
+        String result = null;
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context != null) {
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            HttpSession session = request.getSession();
+            result = session.getId();
         }
         return result;
     }
