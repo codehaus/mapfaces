@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -111,12 +111,12 @@ public class TreeNodeModel extends DefaultMutableTreeNode {
     public Object getUserObject() {
         return super.getUserObject();
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
-    public void setUserObject(final Object obj){       
+    public void setUserObject(final Object obj){
         super.setUserObject(obj);
     }
 

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,6 +17,9 @@
 
 package org.mapfaces.models;
 
+/**
+ * @author Olivier Terral.
+ */
 public abstract class AbstractModelBase {
 
     private String namespace;

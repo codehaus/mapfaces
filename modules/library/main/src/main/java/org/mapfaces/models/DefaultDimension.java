@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,11 +18,10 @@
 package org.mapfaces.models;
 
 /**
- *
  * @author Olivier Terral.
  */
 public class DefaultDimension implements Dimension {
-    
+
     private String name;
     private String units;
     private String unitSymbol;
@@ -33,89 +32,155 @@ public class DefaultDimension implements Dimension {
     private boolean nearestValues;
     private boolean current;
 
-    
-
-    public void setName(String name) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setUnits(String units) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setUnits(final String units) {
         this.units = units;
     }
 
-    public void setUnitSymbol(String unitSymbol) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setUnitSymbol(final String unitSymbol) {
         this.unitSymbol = unitSymbol;
     }
 
-    public void setUserValue(String userValue) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setUserValue(final String userValue) {
         this.userValue = userValue;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public boolean isMultipleValues() {
         return multipleValues;
     }
 
-    public void setMultipleValues(boolean multipleValues) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setMultipleValues(final boolean multipleValues) {
         this.multipleValues = multipleValues;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public boolean isNearestValues() {
         return nearestValues;
     }
 
-    public void setNearestValues(boolean nearestValues) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setNearestValues(final boolean nearestValues) {
         this.nearestValues = nearestValues;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public boolean isCurrent() {
         return current;
     }
 
-    public void setCurrent(boolean current) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setCurrent(final boolean current) {
         this.current = current;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getName() {
         return name;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getUnits() {
         return units;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getUnitSymbol() {
         return unitSymbol;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getUserValue() {
         return userValue;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getDefault() {
         return Default;
     }
- 
-    public void setDefault(String Default) {
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setDefault(final String Default) {
         this.Default = Default;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getValue() {
         return value;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
-
-    public void setAttribute(String attrName, String value) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setAttribute(final String attrName, final String value) {
         if(attrName.equalsIgnoreCase("userValue")){
             setUserValue(value);
         }else if(attrName.equalsIgnoreCase("default")){
@@ -126,8 +191,12 @@ public class DefaultDimension implements Dimension {
             setUnitSymbol(value);
         }
     }
-    
-    public void setAttribute(String attrName, boolean bool) {
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setAttribute(final String attrName, final boolean bool) {
         if(attrName.equalsIgnoreCase("multipleValues")){
             setMultipleValues(Boolean.valueOf(bool));
         }else if(attrName.equalsIgnoreCase("nearestValues")){
@@ -136,9 +205,13 @@ public class DefaultDimension implements Dimension {
             setCurrent(Boolean.valueOf(bool));
         }
     }
-    
-    public String getAttribute(String attrName) {
-        
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getAttribute(final String attrName) {
+
         if(attrName.equalsIgnoreCase("userValue")){
             return getUserValue();
         }else if(attrName.equalsIgnoreCase("default")){

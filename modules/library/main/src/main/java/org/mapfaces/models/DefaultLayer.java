@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,11 +18,11 @@
 package org.mapfaces.models;
 
 /**
- *
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
 import java.util.HashMap;
+
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
 public class DefaultLayer implements Layer {
@@ -65,12 +65,12 @@ public class DefaultLayer implements Layer {
     private String sldBody;
     private String sld;
     private Server server;
-    
+
     /*
      * JSF properties we need to know the id of its component
      * */
     private String compId;
-    
+
     public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
         this.lock = lock;
@@ -83,87 +83,171 @@ public class DefaultLayer implements Layer {
     public DefaultLayer() {
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public ReferencedEnvelope getRefEnv() {
         return refEnv;
     }
 
-    public void setRefEnv(ReferencedEnvelope refEnv) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setRefEnv(final ReferencedEnvelope refEnv) {
         this.refEnv = refEnv;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setId(final String id) {
         this.id = id;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public boolean isQueryable() {
         return queryable;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getGroup() {
         return group;
     }
 
-    public void setGroup(String group) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setGroup(final String group) {
         this.group = group;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setTitle(final String title) {
         this.title = title;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public boolean isHidden() {
         return hidden;
     }
 
-    public void setHidden(boolean hidden) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHidden(final boolean hidden) {
         this.hidden = hidden;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getOpacity() {
         return opacity;
     }
 
-    public void setOpacity(String opacity) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setOpacity(final String opacity) {
         this.opacity = opacity;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getOutputFormat() {
         return outputFormat;
     }
 
-    public void setOutputFormat(String outputFormat) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setOutputFormat(final String outputFormat) {
         this.outputFormat = outputFormat;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getMinScaleDenominator() {
         return minScaleDenominator;
     }
 
-    public void setMinScaleDenominator(String minScaleDenominator) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setMinScaleDenominator(final String minScaleDenominator) {
         this.minScaleDenominator = minScaleDenominator;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getMaxScaleDenominator() {
         return maxScaleDenominator;
     }
 
-    public void setMaxScaleDenominator(String maxScaleDenominator) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setMaxScaleDenominator(final String maxScaleDenominator) {
         this.maxScaleDenominator = maxScaleDenominator;
     }
 
@@ -174,12 +258,20 @@ public class DefaultLayer implements Layer {
 //    public void setStyle(List<Style> style) {
 //        this.style = style;
 //    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public HashMap<String, Dimension> getDimensionList() {
         return dimensionList;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setDimensionList(HashMap<String, Dimension> dimensionList) {
+    public void setDimensionList(final HashMap<String, Dimension> dimensionList) {
         if (this.dimensionList == null) {
             this.dimensionList = new HashMap<String, Dimension>(dimensionList);
         }
@@ -188,82 +280,158 @@ public class DefaultLayer implements Layer {
     /*public Server getServer() {
     return server;
     }
-    
+
     public void setServer(Server server) {
     this.server = server;
     }*/
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getMaxFeatures() {
         return maxFeatures;
     }
 
-    public void setMaxFeatures(String maxFeatures) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setMaxFeatures(final String maxFeatures) {
         this.maxFeatures = maxFeatures;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getInlineGeometry() {
         return inlineGeometry;
     }
 
-    public void setInlineGeometry(String inlineGeometry) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setInlineGeometry(final String inlineGeometry) {
         this.inlineGeometry = inlineGeometry;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getDataUrl() {
         return dataUrl;
     }
 
-    public void setDataUrl(String dataUrl) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setDataUrl(final String dataUrl) {
         this.dataUrl = dataUrl;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getMetadataUrl() {
         return metadataUrl;
     }
 
-    public void setMetadataUrl(String metadataUrl) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setMetadataUrl(final String metadataUrl) {
         this.metadataUrl = metadataUrl;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getResponseCRS() {
         return responseCRS;
     }
 
-    public void setResponseCRS(String responseCRS) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setResponseCRS(final String responseCRS) {
         this.responseCRS = responseCRS;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getDepth() {
         return depth;
     }
 
-    public void setDepth(String depth) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setDepth(final String depth) {
         this.depth = depth;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getResX() {
         return resX;
     }
 
-    public void setResX(String resX) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setResX(final String resX) {
         this.resX = resX;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getResY() {
         return resY;
     }
 
-    public void setResY(String resY) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setResY(final String resY) {
         this.resY = resY;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getResZ() {
         return resZ;
     }
 
-    public void setResZ(String resZ) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setResZ(final String resZ) {
         this.resZ = resZ;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Dimension getElevation() {
         if (dimensionList != null) {
@@ -272,6 +440,9 @@ public class DefaultLayer implements Layer {
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Dimension getTime() {
         if (dimensionList != null) {
@@ -280,14 +451,20 @@ public class DefaultLayer implements Layer {
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Dimension getDimension(String name) {
+    public Dimension getDimension(final String name) {
         if (dimensionList != null) {
             return dimensionList.get(name);
         }
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getUserValueElevation() {
         if (getElevation() != null) {
@@ -296,16 +473,25 @@ public class DefaultLayer implements Layer {
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getElevations() {
         return getElevation().getValue();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getTimes() {
         return getTime().getValue();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getUserValueDimRange() {
         if (getDimension("dim_range") != null) {
@@ -315,13 +501,13 @@ public class DefaultLayer implements Layer {
     }
 
     /**
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @param name
      * @param value
      */
-    public void setDimension(String name, Dimension dim) {
+    public void setDimension(final String name, final Dimension dim) {
         if (dimensionList == null) {
             dimensionList = new HashMap<String, Dimension>();
         }
@@ -331,19 +517,27 @@ public class DefaultLayer implements Layer {
         dimensionList.put(name, dim);
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setType(final String type) {
         this.type = type;
     }
-    /*
-     * Set the User Value of a dimension specify with name
-     * */
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setUserValue(String dimName, String value) {
+    public void setUserValue(final String dimName, final String value) {
         if (dimensionList == null) {
             dimensionList = new HashMap<String, Dimension>();
         }
@@ -352,12 +546,19 @@ public class DefaultLayer implements Layer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setDimension(String name, String value) {
+    public void setDimension(final String name, final String value) {
         getDimension(name).setValue(value);
     }
 
-    public void setDimension(Dimension dim) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setDimension(final Dimension dim) {
         HashMap<String, Dimension> dimList = getDimensionList();
         if (dimList != null) {
             Dimension oldDim = dimList.get(dim.getName());
@@ -368,19 +569,33 @@ public class DefaultLayer implements Layer {
         }
     }
 
-    public String getAttrDimension(String name, String attrName) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getAttrDimension(final String name, final String attrName) {
         return getDimension(name).getAttribute(attrName);
     }
 
-    public void setAttrDimension(String name, String attrName, String attrValue) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setAttrDimension(final String name, final String attrName, final String attrValue) {
         getDimension(name).setAttribute(attrName, attrValue);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setElevations(String value) {
+    public void setElevations(final String value) {
         getDimension("elevation").setValue(value);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getUserValueTime() {
         if (getTime() != null) {
@@ -389,18 +604,30 @@ public class DefaultLayer implements Layer {
         return null;
     }
 
-    public String getUserValueDimension(String name) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getUserValueDimension(final String name) {
         if (dimensionList != null) {
             return dimensionList.get(name).getUserValue();
         }
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getLegendUrl() {
         return legendUrl;
     }
 
-    public void setLegendUrl(String legendUrl) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setLegendUrl(final String legendUrl) {
         this.legendUrl = legendUrl;
     }
 
@@ -434,7 +661,7 @@ public class DefaultLayer implements Layer {
         return edit;
     }
 
-    public void setEdit(boolean edit) {
+    public void setEdit(final boolean edit) {
         this.edit = edit;
     }
 
@@ -442,7 +669,7 @@ public class DefaultLayer implements Layer {
         return lock;
     }
 
-    public void setLock(boolean lock) {
+    public void setLock(final boolean lock) {
         this.lock = lock;
     }
 
@@ -450,55 +677,103 @@ public class DefaultLayer implements Layer {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(final int groupId) {
         this.groupId = groupId;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getStyles() {
         return this.styles;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getSld() {
         return this.sld;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getSldBody() {
         return this.sldBody;
     }
 
-    public void setStyles(String styles) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setStyles(final String styles) {
         this.styles = styles;
     }
 
-    public void setSld(String sld) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setSld(final String sld) {
         this.sld = sld;
     }
 
-    public void setSldBody(String sldBody) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setSldBody(final String sldBody) {
         this.sldBody = sldBody;
     }
 
-    public void setServer(Server server) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setServer(final Server server) {
         this.server = server;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public Server getServer() {
         return this.server;
     }
 
-    public void setQueryable(boolean queryable) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setQueryable(final boolean queryable) {
         this.queryable = queryable;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public DescriptionURL getMetadataURL() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getCompId() {
         return compId;
     }
 
-    public void setCompId(String compId) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setCompId(final String compId) {
         this.compId = compId;
     }
 }
