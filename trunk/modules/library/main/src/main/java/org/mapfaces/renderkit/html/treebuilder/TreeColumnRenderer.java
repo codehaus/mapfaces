@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -23,8 +23,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 
-
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.treebuilder.UITreeLines;
 import org.mapfaces.component.treebuilder.UITreePanel;
@@ -35,39 +35,44 @@ import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.utils.Utils;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4JRendererInterface {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UITreeLines treeline = (UITreeLines) component.getParent();
-        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
-        String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
-        String treepanelTargetId = null, ajaxSupportId = null;
+    public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        final UITreeLines treeline  = (UITreeLines) component.getParent();
+        final String treepanelId    = Utils.getWrappedComponentId(context, component, UITreePanel.class);
+        final String formId         = Utils.getWrappedComponentId(context, component, UIForm.class);
+        final UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+        final String ajaxSupportId;
 
         if (treepanel.getTarget() != null) {
-            treepanelTargetId = formId + ":" + treepanel.getTarget();
+            final String treepanelTargetId = formId + ":" + treepanel.getTarget();
             ajaxSupportId = treepanelId + "_ajax_" + treeline.getNodeInstance().getId();
-            HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) Utils.findComponent(context, ajaxSupportId);
+            final HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) Utils.findComponent(context, ajaxSupportId);
             if (ajaxSupport == null) {
                 System.out.println("[WARNING] AjaxSupport on LoadAll option can't be found for " + ajaxSupportId);
             } else {
-                String line2ReRender = treepanelId + "_panel_" + treeline.getNodeInstance().getId() + "," +
-                        treepanelTargetId + "_panel_" + treeline.getNodeInstance().getId();
+                final StringBuilder line2ReRender = new StringBuilder(treepanelId).append("_panel_").append(treeline.getNodeInstance().getId()).append(",")
+                        .append(treepanelTargetId).append("_panel_").append(treeline.getNodeInstance().getId());
                 ajaxSupport.setReRender(line2ReRender);
             }
         } else {
-            UITreeTable treetable = (UITreeTable) treepanel.getParent();
-            List<UIComponent> listTreepanel = treetable.getChildren();
+            final UITreeTable treetable = (UITreeTable) treepanel.getParent();
             UITreePanel treepanelBase = null;
-            for (UIComponent child : listTreepanel) {
+
+            for (final UIComponent child : treetable.getChildren()) {
                 if (child instanceof UITreePanel) {
                     if (((UITreePanel) child).getTarget() != null) {
                         treepanelBase = (UITreePanel) child;
@@ -76,44 +81,52 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
             }
             if (treepanelBase != null) {
                 ajaxSupportId = treepanel.getClientId(context) + "_ajax_" + treeline.getNodeInstance().getId();
+                final HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) Utils.findComponent(context, ajaxSupportId);
 
-                HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) Utils.findComponent(context, ajaxSupportId);
                 if (ajaxSupport == null) {
                     System.out.println("[WARNING] AjaxSupport on LoadAll option can't be found for " + ajaxSupportId);
                 } else {
-                    String line2ReRender = treepanelBase.getClientId(context) + "_panel_" + treeline.getNodeInstance().getId() + "," +
-                            treepanel.getClientId(context) + "_panel_" + treeline.getNodeInstance().getId();
+                    final StringBuilder line2ReRender = new StringBuilder(treepanelBase.getClientId(context)).append("_panel_").append(treeline.getNodeInstance().getId()).append(",")
+                            .append(treepanel.getClientId(context)).append("_panel_").append(treeline.getNodeInstance().getId());
                     ajaxSupport.setReRender(line2ReRender);
                 }
             }
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void A4JPostRequest(FacesContext context, UIComponent component) {
+    public void A4JPostRequest(final FacesContext context, final UIComponent component) {
         super.A4JPostRequest(context, component);
-        UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        TreeNodeModel node = treeline.getNodeInstance(),
-                nodeTemp;
-        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
-        String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+        final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        final TreeNodeModel node       = treeline.getNodeInstance();
+        final String treepanelId       = Utils.getWrappedComponentId(context, component, UITreePanel.class);
+        final String formId            = Utils.getWrappedComponentId(context, component, UIForm.class);
+        final UITreePanel treepanel    = (UITreePanel) Utils.findComponent(context, treepanelId);
 
         if (treepanelId != null) {
             if (treepanel.getTarget() != null) {
                 if (!node.isLeaf()) {
-                    for (int i = 0; i < node.getChildCount(); i++) {
-                        nodeTemp = (TreeNodeModel) node.getChildAt(i);
-                        String Line2Modify = formId + ":" + treepanel.getTarget() + "_line_" + nodeTemp.getId();
-                        UITreeLines treeline2change = (UITreeLines) Utils.findComponent(context, Line2Modify);
+                    for (int i=0,n=node.getChildCount(); i<n ; i++) {
+                        final TreeNodeModel nodeTemp      = (TreeNodeModel) node.getChildAt(i);
+                        final String Line2Modify          = formId + ":" + treepanel.getTarget() + "_line_" + nodeTemp.getId();
+                        final UITreeLines treeline2change = (UITreeLines) Utils.findComponent(context, Line2Modify);
                         if (treeline2change != null) {
                             treeline2change.getNodeInstance().setChecked(true);
                             treeline2change.setRendered(true);
@@ -122,17 +135,17 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
                     }
                 }
             } else {
-                UITreeTable treetable = (UITreeTable) treepanel.getParent();
-                List<UIComponent> listTreepanel = treetable.getChildren();
-                for (UIComponent child : listTreepanel) {
+                final UITreeTable treetable = (UITreeTable) treepanel.getParent();
+
+                for (final UIComponent child : treetable.getChildren()) {
                     if (child instanceof UITreePanel) {
-                        UITreePanel treepanelBase = (UITreePanel) child;
+                        final UITreePanel treepanelBase = (UITreePanel) child;
                         if (treepanelBase.getTarget() != null) {
                             if (!node.isLeaf()) {
-                                for (int i = 0; i < node.getChildCount(); i++) {
-                                    nodeTemp = (TreeNodeModel) node.getChildAt(i);
-                                    String Line2Modify = treepanelBase.getClientId(context) + "_line_" + nodeTemp.getId();
-                                    UITreeLines treeline2change = (UITreeLines) Utils.findComponent(context, Line2Modify);
+                                for (int i=0,n=node.getChildCount(); i<n ; i++) {
+                                    final TreeNodeModel nodeTemp = (TreeNodeModel) node.getChildAt(i);
+                                    final String Line2Modify = treepanelBase.getClientId(context) + "_line_" + nodeTemp.getId();
+                                    final UITreeLines treeline2change = (UITreeLines) Utils.findComponent(context, Line2Modify);
                                     if (treeline2change != null) {
                                         treeline2change.getNodeInstance().setChecked(true);
                                         treeline2change.setRendered(true);
