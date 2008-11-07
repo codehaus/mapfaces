@@ -84,6 +84,9 @@ import org.opengis.temporal.TemporalPrimitive;
  */
 public class TimeLineRenderer extends Renderer {
 
+    private static final String DATE_FORMAT    = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
+    private static final SimpleDateFormat SDF  = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+    
     /**
      * {@inheritDoc }
      */
@@ -101,6 +104,7 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
+        
         comp.setJsObject(comp.getId().replace("-", "_") + "_Container");
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
@@ -131,7 +135,7 @@ public class TimeLineRenderer extends Renderer {
                     //int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
                     for (final Layer layer : layers) {
                         if (layer.getDimensionList() != null && layer.getTime() != null) {
-                            UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
+                            final UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
                             bandinfo.setLayer(layer);
                             bandinfo.setId(comp.getId() + "_band" + i);
                             //bandinfo.setWidth(proportinalwidth);
@@ -160,7 +164,7 @@ public class TimeLineRenderer extends Renderer {
                         }
                     }
                 }
-                UIHotZoneBandInfo mainBandinfo = new UIHotZoneBandInfo();
+                final UIHotZoneBandInfo mainBandinfo = new UIHotZoneBandInfo();
                 mainBandinfo.setId(comp.getId() + "_mainband");
                 //mainBandinfo.setValue(events);
 
@@ -199,7 +203,7 @@ public class TimeLineRenderer extends Renderer {
             writer.startElement("div", comp);
             writer.writeAttribute("id", clientId, "id");
             writer.writeAttribute("class", "timeline-main-div", "class");
-            String stylewrap = "height:" + height + "px; max-height:" + comp.getHeight() + "px;overflow-x:hidden;overflow-y:auto;position:relative;";
+            final String stylewrap = new StringBuilder("height:").append(height).append("px; max-height:").append(comp.getHeight()).append("px;overflow-x:hidden;overflow-y:auto;position:relative;").toString();
             writer.writeAttribute("style", stylewrap, "style");
 
             final UITimeLineControl timelineControl = new UITimeLineControl();
@@ -247,8 +251,8 @@ public class TimeLineRenderer extends Renderer {
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
-        UITimeLine comp = (UITimeLine) component;
-        String idjs = comp.getJsObject();
+        final UITimeLine comp = (UITimeLine) component;
+        final String idjs     = comp.getJsObject();
 
         //begin the javascript declarations
         writer.startElement("script", comp);
@@ -259,11 +263,11 @@ public class TimeLineRenderer extends Renderer {
         //getting the value property, this value can be List<Event> for the TimeLine model or  Event depending of the ISO19108 implementation.
         List<Event> events = new ArrayList<Event>();
 
-        Object value = comp.getAttributes().get("value");
+        final Object value = comp.getAttributes().get("value");
 
         if (value != null) {
             if ( value instanceof java.lang.String ) {
-                ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
+                final ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                 events = (List<Event>) ve.getValue(context.getELContext());
             } else {
                 events = (List<Event>) value;
@@ -271,12 +275,12 @@ public class TimeLineRenderer extends Renderer {
         }
         events = buildAllTemporalEvents(events);
 
-        List<Event> specialEvents = writeScriptEvents(context, comp, events, idjs);
+        final List<Event> specialEvents = writeScriptEvents(context, comp, events, idjs);
 
         //split the list erasZone to extract the events defined with Duration object to creates the HotzoneBandinfos components.
-        List<Event> durationEventsCopy = new ArrayList<Event>();
-        List<HighlightDecorator> erasZones = new ArrayList<HighlightDecorator>();
-        for (Event event : specialEvents) {
+        final List<Event> durationEventsCopy     = new ArrayList<Event>();
+        final List<HighlightDecorator> erasZones = new ArrayList<HighlightDecorator>();
+        for (final Event event : specialEvents) {
             if (event instanceof HighlightDecorator) {
                 erasZones.add((HighlightDecorator) event);
             } else {
@@ -284,28 +288,25 @@ public class TimeLineRenderer extends Renderer {
             }
         }
         //Creates a list of Zone objects from the durationEventsCopy list to display zones in the bandInfo component
-        List<Zone> zones = buildZonesFromEvents(durationEventsCopy);
-
-
-        List<UIHotZoneBandInfo> visiblebandsInfo = TimeLineUtils.getVisibleBandsList(context, comp);
-        int visibleBandsCount = visiblebandsInfo.size();
+        final List<Zone> zones                         = buildZonesFromEvents(durationEventsCopy);
+        final List<UIHotZoneBandInfo> visiblebandsInfo = TimeLineUtils.getVisibleBandsList(context, comp);
+        final int visibleBandsCount                    = visiblebandsInfo.size();
 
         //getting children to create BandInfos or HotZoneBandInfos only if the bandinfo component is rendered to True.
         if (comp.getChildCount() != 0) {
 
             writer.write("var " + idjs + "_bandInfos = [\n");
 
-            List<UIComponent> children = comp.getChildren();
             String separator = "";
             int indexBand = 0;
-            for (UIComponent child : children) {
+            for (final UIComponent child : comp.getChildren()) {
                 if (child.getClass().toString().contains("UIBandInfo")) {
-                    UIBandInfo bandInfo = (UIBandInfo) child;
+                    final UIBandInfo bandInfo = (UIBandInfo) child;
                     writer.write(separator);
                     writeScriptBandsInfo(context, comp, bandInfo);
                     separator = ",\n";
                 } else if (child.getClass().toString().contains("UIHotZoneBandInfo")) {
-                    UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) child;
+                    final UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) child;
                     if (!bandInfo.isHidden()) {
                         writer.write(separator);
                         writeScriptHotZoneBandsInfo(context, comp, bandInfo, indexBand, zones);
@@ -321,8 +322,7 @@ public class TimeLineRenderer extends Renderer {
             if (comp.isSynchronizeBands()) {
 
                 //if not dynamic bands then all bands will be sync with the first band with index i-1 from 0
-                int i = 0;
-                for (i = 0; i < visibleBandsCount; i++) {
+                for (int i = 0; i < visibleBandsCount; i++) {
                     if (i > 0 && !comp.isDynamicBands()) {
                         //if not dynamic bands then all bands will be sync with the first band with index 0
                         writer.write("" + idjs + "_bandInfos[" + i + "].syncWith = " + (i - 1) + ";\n");
@@ -361,26 +361,27 @@ public class TimeLineRenderer extends Renderer {
         writeResizeFunction(context, comp);
 
         //TO BE DELETED no reference to mapfaces components because the timeline should be works alone, without a context
-        UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
+        final UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
         if (parentContext != null && (parentContext instanceof UIContext)) {
 
-            writer.write("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n" +
-                    "        var parameters = {    'synchronized': 'true',\n" +
-                    "                             'org.mapfaces.ajax.AJAX_LAYER_ID': '" + FacesUtils.getFormId(context, component) + ":"+(parentContext.getId())+"_'+img.textContent.split(' ')[0],\n" +
-                    "                             'refresh': '" + FacesUtils.getFormId(context, component) + ":"+(parentContext.getId())+"_'+img.textContent.split(' ')[0],\n" +
-                    "                              'Time': img.textContent.split(' ')[1],\n" +
-                    "                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n" +
-                    "                              'render': 'true' //render the layers, always set to true after the first page loads\n" +
-                    "                         };" +
-                    "parameters['" + ((UIContext) parentContext).getAjaxCompId() + "'] =' " + ((UIContext) parentContext).getAjaxCompId() + "';" +
-                    "        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','" + FacesUtils.getFormId(context, component) + "',\n" +
-                    "                        null,\n" +
-                    "                        {   'control':this,\n" +
-                    "                            'single':true,\n" +
-                    "                            'parameters': parameters \n" +
-                    "                        } \n" +
-                    "                      );\n" +
-                    "    };\n");
+            writer.write(new StringBuilder("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n")
+                    .append("        var parameters = {    'synchronized': 'true',\n")
+                    .append("                             'org.mapfaces.ajax.AJAX_LAYER_ID': '").append(FacesUtils.getFormId(context, component)).append(":").append((parentContext.getId())).append("_'+img.textContent.split(' ')[0],\n")
+                    .append("                             'refresh': '").append(FacesUtils.getFormId(context, component)).append(":").append((parentContext.getId())).append("_'+img.textContent.split(' ')[0],\n")
+                    .append("                              'Time': img.textContent.split(' ')[1],\n")
+                    .append("                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n")
+                    .append("                              'render': 'true' //render the layers, always set to true after the first page loads\n")
+                    .append("                         };")
+                    .append("parameters['").append(((UIContext) parentContext).getAjaxCompId()).append("'] =' ").append(((UIContext) parentContext).getAjaxCompId()).append("';")
+                    .append("        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','").append(FacesUtils.getFormId(context, component)).append("',\n")
+                    .append("                        null,\n")
+                    .append("                        {   'control':this,\n")
+                    .append("                            'single':true,\n")
+                    .append("                            'parameters': parameters \n")
+                    .append("                        } \n")
+                    .append("                      );\n")
+                    .append("    };\n")
+                    .toString());
         }
         writer.endElement("script");
         writer.endElement("div"); //close the global div
@@ -396,9 +397,9 @@ public class TimeLineRenderer extends Renderer {
      * {@inheritDoc }
      */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
-        UITimeLine comp = (UITimeLine) component;
-        Map requestMap = context.getExternalContext().getRequestParameterMap();
+    public void decode(final FacesContext context, final UIComponent component) {
+        final UITimeLine comp = (UITimeLine) component;
+        final Map requestMap  = context.getExternalContext().getRequestParameterMap();
 
         //if the dynamicbands property is False the entire timeline is set to one layer. Else each band have its own layer.
         if (FacesUtils.getParentUIModelBase(context, component) != null &&
@@ -407,16 +408,17 @@ public class TimeLineRenderer extends Renderer {
             if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
                     requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
                     ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
+                
+                final UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                final Layer layer = uiLayer.getLayer();
+                
                 try {
-                    UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
-                    Layer layer = uiLayer.getLayer();
-                    List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
-                    Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
+                    final List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
+                    final Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
 
-                    List<UIComponent> children = component.getChildren();
-                    for (UIComponent tmp : children) {
+                    for (final UIComponent tmp : component.getChildren()) {
                         if (tmp instanceof UIHotZoneBandInfo) {
-                            UIHotZoneBandInfo bandinfo = (UIHotZoneBandInfo) tmp;
+                            final UIHotZoneBandInfo bandinfo = (UIHotZoneBandInfo) tmp;
                             bandinfo.setDate(centerDate);
                             bandinfo.setCenterDate(centerDate);
                             bandinfo.setLayer(layer);
@@ -431,13 +433,13 @@ public class TimeLineRenderer extends Renderer {
             }
         }
 
-        int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, comp).size();
-        for (UIComponent child : comp.getChildren()) {
+        final int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, comp).size();
+        for (final UIComponent child : comp.getChildren()) {
             //setting the intervalUnit of children from their selectOneMenu component.
             if (child instanceof UIBandInfo) {
-                UIBandInfo bandInfo = (UIBandInfo) child;
-                String clientId = bandInfo.getClientId(context);
-                String submitted_value = ((String) requestMap.get(clientId + "selectone"));
+                final UIBandInfo bandInfo    = (UIBandInfo) child;
+                final String clientId        = bandInfo.getClientId(context);
+                final String submitted_value = ((String) requestMap.get(clientId + "selectone"));
                 bandInfo.setIntervalUnit(submitted_value);
             } else {
                 //setting the correct width for all dynamic bandinfo components.
@@ -456,18 +458,17 @@ public class TimeLineRenderer extends Renderer {
      * {@inheritDoc }
      */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         if (component.getChildCount() == 0) {
             return;
         }
-        List<UIComponent> children = component.getChildren();
 
-        List<UIHotZoneBandInfo> visibleBands = TimeLineUtils.getVisibleBandsList(context, (UITimeLine) component);
-        int visibleBandsCount = visibleBands.size();
-        int proportinalwidth = Math.round(100 / visibleBandsCount);
-        int rest = 100 - (proportinalwidth * visibleBandsCount);
+        final List<UIHotZoneBandInfo> visibleBands = TimeLineUtils.getVisibleBandsList(context, (UITimeLine) component);
+        final int visibleBandsCount                = visibleBands.size();
+        final int proportinalwidth                 = Math.round(100 / visibleBandsCount);
+        final int rest                             = 100 - (proportinalwidth * visibleBandsCount);
 
-        for (UIComponent tmp : children) {
+        for (final UIComponent tmp : component.getChildren()) {
             if (tmp instanceof UIHotZoneBandInfo) {
 //                if (rest != 0) {
 //                    proportinalwidth++;
@@ -490,92 +491,81 @@ public class TimeLineRenderer extends Renderer {
         return true;
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
     /**
      * This method write a function to resize the timeline component.
-     * @param context
-     * @param comp
      */
-    private void writeResizeFunction(FacesContext context, UITimeLine comp) throws IOException {
-        String idjs = comp.getJsObject();
-        ResponseWriter writer = context.getResponseWriter();
-        writer.write("var resizeTimerID = null;\n" +
-                "function onResize() {\n" +
-                "if (resizeTimerID == null) {\n" +
-                "resizeTimerID = window.setTimeout(function() {\n" +
-                "resizeTimerID = null;\n" +
-                "" + idjs + "_tl.layout();\n" +
-                "}, 500);\n" +
-                "}\n" +
-                "}\n");
+    private void writeResizeFunction(final FacesContext context, final UITimeLine comp) throws IOException {
+        final String idjs           = comp.getJsObject();
+        final ResponseWriter writer = context.getResponseWriter();
+        writer.write(new StringBuilder("var resizeTimerID = null;\n")
+                .append("function onResize() {\n")
+                .append("if (resizeTimerID == null) {\n")
+                .append("resizeTimerID = window.setTimeout(function() {\n")
+                .append("resizeTimerID = null;\n")
+                .append("").append(idjs).append("_tl.layout();\n")
+                .append("}, 500);\n")
+                .append("}\n")
+                .append("}\n")
+                .toString());
     }
 
-    private void writeScriptBandsInfo(FacesContext context, UITimeLine comp, UIBandInfo bandInfo) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        String DATE_FORMAT = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-
+    private void writeScriptBandsInfo(final FacesContext context, final UITimeLine comp, 
+            final UIBandInfo bandInfo) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
+        
+        final StringBuilder content = new StringBuilder();
+        
         //proceed to get the timeZone property.
-        String timeZoneString = "";
-        Integer timeZone = bandInfo.getTimeZone();
+        final Integer timeZone = bandInfo.getTimeZone();
         if (timeZone != null) {
-            timeZoneString = "timeZone:    " + timeZone + ",\n";
+            content.append("timeZone:    ").append(timeZone).append(",\n");
         }
 
         // proceed to get the date property to center this bandInfo component.
-        String dateString = "";
-        Date date = bandInfo.getDate();
+        final Date date = bandInfo.getDate();
         if (date != null) {
-            dateString = "date: \"" + sdf.format(date) + "\",\n";
+            content.append("date: \"").append(SDF.format(date)).append("\",\n");
         }
 
         // proceed to get the showEventText attribute.
-        String showEventTextString = "";
-        boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
+        final boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
         if (!showEventText) {
-            showEventTextString = "showEventText:  " + showEventText + ",\n";
+            content.append("showEventText:  ").append(showEventText).append(",\n");
         }
 
         // proceed to get the trackHeight attribute.
-        String trackHeightString = "";
-        Double trackHeight = bandInfo.getTrackHeight();
+        final Double trackHeight = bandInfo.getTrackHeight();
         if (trackHeight != null) {
-            trackHeightString = "trackHeight:    " + trackHeight + ",\n";
+            content.append("trackHeight:    ").append(trackHeight).append(",\n");
         }
 
         // proceed to get the trackGap attribute.
-        String trackGapString = "";
-        Double trackGap = bandInfo.getTrackGap();
+        final Double trackGap = bandInfo.getTrackGap();
         if (trackGap != null) {
-            trackGapString = "trackGap:    " + trackGap + ",\n";
+            content.append("trackGap:    ").append(trackGap).append(",\n");
         }
 
         // proceed to get the width attribute.
-        String widthString = "";
-        Integer width = bandInfo.getWidth();
+        final Integer width = bandInfo.getWidth();
         if (width != null) {
-            widthString = "width:    \"" + width + "%\",\n";
+            content.append("width:    \"").append(width).append("%\",\n");
         }
 
         // proceed to get the intervalUnit attribute.
-        String intervalUnitString = "";
-        String intervalUnit = bandInfo.getIntervalUnit();
+        final String intervalUnit = bandInfo.getIntervalUnit();
         if (intervalUnit != null) {
-            intervalUnitString = "intervalUnit:     Timeline.DateTime." + intervalUnit + ",\n";
+            content.append("intervalUnit:     Timeline.DateTime.").append(intervalUnit).append(",\n");
         } else {
             // default is YEAR.
-            intervalUnitString = "intervalUnit:     Timeline.DateTime.YEAR,\n";
+            content.append("intervalUnit:     Timeline.DateTime.YEAR,\n");
         }
 
         // proceed to get the theme property.
-        String themeString = "";
         String theme = bandInfo.getTheme();
         if (theme == null || theme.equals("")) {
             if (comp.getTheme() != null && !comp.getTheme().equals("")) {
@@ -583,99 +573,80 @@ public class TimeLineRenderer extends Renderer {
             }
         }
         if (theme != null) {
-            themeString = "theme:    Timeline." + theme + ".create(),\n";
+            content.append("theme:    Timeline.").append(theme).append(".create(),\n");
         }
 
         // proceed to get the intervalPixels attribute.
-        String intervalPixelsString = "";
-        Integer intervalPixels = bandInfo.getIntervalPixels();
+        final Integer intervalPixels = bandInfo.getIntervalPixels();
         if (intervalPixels != null) {
-            intervalPixelsString = "intervalPixels:    " + intervalPixels + "\n";
+            content.append("intervalPixels:    ").append(intervalPixels).append("\n");
         } else {
             //default is 100.
-            intervalPixelsString = "intervalPixels:    100\n";
+            content.append("intervalPixels:    100\n");
         }
 
-        String idjs = comp.getJsObject();
+        final String idjs = comp.getJsObject();
         writer.write("Timeline.createBandInfo({\n");
         writer.write("eventSource:    " + idjs + "_eventSource,\n");
 
-        writer.write(
-                timeZoneString +
-                dateString +
-                showEventTextString +
-                trackHeightString +
-                trackGapString +
-                widthString +
-                intervalUnitString +
-                themeString +
-                intervalPixelsString);
+        writer.write(content.toString());
 
 
         writer.write("})\n");
     }
 
-    private void writeScriptHotZoneBandsInfo(FacesContext context, UITimeLine comp,
-            UIHotZoneBandInfo bandInfo, int indexBand, List<Zone> zones) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        String DATE_FORMAT = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+    private void writeScriptHotZoneBandsInfo(final FacesContext context, final UITimeLine comp,
+            final UIHotZoneBandInfo bandInfo, final int indexBand, final List<Zone> zones) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
 
+        final StringBuilder content = new StringBuilder();
+        
         //proceed to get the timeZone property.
-        String timeZoneString = "";
-        Integer timeZone = bandInfo.getTimeZone();
+        final Integer timeZone = bandInfo.getTimeZone();
         if (timeZone != null) {
-            timeZoneString = "timeZone:    " + timeZone + ",\n";
+            content.append("timeZone:    ").append(timeZone).append(",\n");
         }
 
         // proceed to get the date property to center this bandInfo component.
-        String dateString = "";
-        Date date = bandInfo.getCenterDate();
+        final Date date = bandInfo.getCenterDate();
         if (date != null) {
-
-            dateString = "date: \"" + sdf.format(date) + "\",\n";
+            content.append("date: \"").append(SDF.format(date)).append("\",\n");
         }
 
         // proceed to get the showEventText attribute.
-        String showEventTextString = "";
-        boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
+        final boolean showEventText = (Boolean) bandInfo.getAttributes().get("showEventText");
         if (!showEventText) {
-            showEventTextString = "showEventText:  " + showEventText + ",\n";
+            content.append("showEventText:  ").append(showEventText).append(",\n");
         }
 
         // proceed to get the trackHeight attribute.
-        String trackHeightString = "";
-        Double trackHeight = bandInfo.getTrackHeight();
+        final Double trackHeight = bandInfo.getTrackHeight();
         if (trackHeight != null) {
-            trackHeightString = "trackHeight:    " + trackHeight + ",\n";
+            content.append("trackHeight:    ").append(trackHeight).append(",\n");
         }
 
         // proceed to get the trackGap attribute.
-        String trackGapString = "";
-        Double trackGap = bandInfo.getTrackGap();
+        final Double trackGap = bandInfo.getTrackGap();
         if (trackGap != null) {
-            trackGapString = "trackGap:    " + trackGap + ",\n";
+            content.append("trackGap:    ").append(trackGap).append(",\n");
         }
 
         // proceed to get the width attribute.
-        String widthString = "";
-        Integer width = bandInfo.getWidth();
+        final Integer width = bandInfo.getWidth();
         if (width != null) {
-            widthString = "width:    \"" + width + "%\",\n";
+            content.append("width:    \"").append(width).append("%\",\n");
         }
 
         // proceed to get the intervalUnit attribute.
-        String intervalUnitString = "";
-        String intervalUnit = bandInfo.getIntervalUnit();
+        final String intervalUnit = bandInfo.getIntervalUnit();
         if (intervalUnit != null) {
-            intervalUnitString = "intervalUnit:     Timeline.DateTime." + intervalUnit + ",\n";
+            content.append("intervalUnit:     Timeline.DateTime.").append(intervalUnit).append(",\n");
         } else {
             // default is YEAR.
-            intervalUnitString = "intervalUnit:     Timeline.DateTime.YEAR,\n";
+            content.append("intervalUnit:     Timeline.DateTime.YEAR,\n");
         }
 
         // proceed to get the theme property.
-        String themeString = "";
         String theme = bandInfo.getTheme();
         if (theme == null || theme.equals("")) {
             if (comp.getTheme() != null && !comp.getTheme().equals("")) {
@@ -683,17 +654,16 @@ public class TimeLineRenderer extends Renderer {
             }
         }
         if (theme != null) {
-            themeString = "theme:    Timeline." + theme + ".create(),\n";
+            content.append("theme:    Timeline.").append(theme).append(".create(),\n");
         }
 
         // proceed to get the intervalPixels attribute.
-        String intervalPixelsString = "";
         Integer intervalPixels = bandInfo.getIntervalPixels();
         if (intervalPixels != null) {
-            intervalPixelsString = "intervalPixels:    " + intervalPixels + "\n";
+            content.append("intervalPixels:    ").append(intervalPixels).append("\n");
         } else {
             //default is 100.
-            intervalPixelsString = "intervalPixels:    100\n";
+            content.append("intervalPixels:    100\n");
         }
 
         //If the dynamicband property is set to True then we have one eventSource js object per bandInfo,
@@ -709,16 +679,17 @@ public class TimeLineRenderer extends Renderer {
         if (indexBand == 0) {
             if (zones != null && (!zones.isEmpty())) {
                 writer.write("zones: [\n");
-                for (Zone zone : zones) {
-                    Date begin = zone.getBegin();
-                    Date end = zone.getEnd();
-                    String zoneInterval = zone.getUnit();
-                    int magnify = zone.getMagnify();
-                    writer.write("{" +
-                            "start:    \"" + sdf.format(begin) + "\",\n" +
-                            "end:    \"" + sdf.format(end) + "\",\n" +
-                            "magnify:    " + magnify + ",\n" +
-                            "unit:    Timeline.DateTime." + zoneInterval + "}\n");
+                for (final Zone zone : zones) {
+                    final Date begin          = zone.getBegin();
+                    final Date end            = zone.getEnd();
+                    final String zoneInterval = zone.getUnit();
+                    final int magnify         = zone.getMagnify();
+                    writer.write(new StringBuilder("{")
+                            .append("start:    \"").append(SDF.format(begin)).append("\",\n")
+                            .append("end:    \"").append(SDF.format(end)).append("\",\n")
+                            .append("magnify:    ").append(magnify).append(",\n")
+                            .append("unit:    Timeline.DateTime.").append(zoneInterval).append("}\n")
+                            .toString());
                 }
                 writer.write("],\n");
             } else {
@@ -729,19 +700,8 @@ public class TimeLineRenderer extends Renderer {
             writer.write("zones: [],\n");
         }
 
-        writer.write("eventSource:    " + idjs + "_eventSource,\n");
-
-        writer.write(
-                timeZoneString +
-                dateString +
-                showEventTextString +
-                trackHeightString +
-                trackGapString +
-                widthString +
-                intervalUnitString +
-                themeString +
-                intervalPixelsString);
-
+        writer.write(new StringBuilder("eventSource:    ").append(idjs).append("_eventSource,\n").toString());
+        writer.write(content.toString());
         writer.write("})\n");
     }
 
@@ -753,12 +713,13 @@ public class TimeLineRenderer extends Renderer {
      * @param comp
      * @param events
      */
-    private List<Event> writeScriptEvents(FacesContext context, UITimeLine comp, List<Event> events, String idjs) throws IOException {
-        List<Event> erasZones = new ArrayList<Event>();
-        ResponseWriter writer = context.getResponseWriter();
+    private List<Event> writeScriptEvents(final FacesContext context, final UITimeLine comp, 
+            final List<Event> events, final String idjs) throws IOException {
+        final List<Event> erasZones = new ArrayList<Event>();
+        final ResponseWriter writer = context.getResponseWriter();
 
         if (events != null && (!events.isEmpty())) {
-            for (Event event : events) {
+            for (final Event event : events) {
 
                 if (!(event instanceof HighlightDecorator)) {
                     if (event.getDuration() == null) {
@@ -768,7 +729,7 @@ public class TimeLineRenderer extends Renderer {
                     }
 
                 } else {
-                    HighlightDecorator eraZone = (HighlightDecorator) event;
+                    final HighlightDecorator eraZone = (HighlightDecorator) event;
                     if (!erasZones.contains(eraZone)) {
                         erasZones.add(eraZone);
                     }
@@ -785,164 +746,159 @@ public class TimeLineRenderer extends Renderer {
      * @param event
      * @throws java.io.IOException
      */
-    private void addEvent(FacesContext context, Event event, UITimeLine comp, String idjs) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String pathUrl = request.getRequestURL().toString();
-        URL url = new URL(pathUrl);
-        String domainUrl = url.getProtocol() + "://" + url.getAuthority();
-        String fullContextPath = domainUrl + request.getContextPath() + "/";
+    private void addEvent(final FacesContext context, final Event event, final UITimeLine comp, 
+            final String idjs) throws IOException {
+        final ResponseWriter writer      = context.getResponseWriter();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String pathUrl             = request.getRequestURL().toString();
+        final URL url                    = new URL(pathUrl);
+        final String domainUrl           = url.getProtocol() + "://" + url.getAuthority();
+        final String fullContextPath     = domainUrl + request.getContextPath() + "/";
 
         if (event != null) {
-
-            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-            String DATE_FORMAT = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
-            SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-            String highIcon = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/dark-red-circle.png", context);
-            String lowIcon = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/green-circle.png", context);
-            String normalIcon = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/blue-circle.png", context);
-
-            String jsFormater = "Timeline.DateTime.parseGregorianDateTime";
-            String start = jsFormater + "('" + sdf.format(cal.getTime()) + "') ,\n";
+            final Calendar cal          = Calendar.getInstance(Locale.ENGLISH);
+            final String highIcon       = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/dark-red-circle.png", context);
+            final String lowIcon        = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/green-circle.png", context);
+            final String normalIcon     = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/blue-circle.png", context);
+            final String jsFormater     = "Timeline.DateTime.parseGregorianDateTime";
+            final StringBuilder content = new StringBuilder();
+            
             if (event.getDateBegin() != null) {
-                start = jsFormater + "('" + sdf.format(event.getDateBegin()) + "'),\n";
+                content.append(jsFormater).append("('").append(SDF.format(event.getDateBegin())).append("'),\n");
+            }else{
+                content.append(jsFormater).append("('").append(SDF.format(cal.getTime())).append("') ,\n");
             }
-
-            String end = "null ,\n";
+            
             if (event.getDateEnd() != null) {
-                end = jsFormater + "('" + sdf.format(event.getDateEnd()) + "') , \n";
-            }
-
-            String instant = "true,\n";
-            if (event.isTopological()) {
-                instant = "false,\n";
-
+                content.append(jsFormater).append("('").append(SDF.format(event.getDateEnd())).append("') , \n");
+            }else if(event.isTopological()){
                 // if isTopological() then the end date must not be null !! default is new Date().
-                if (end.equals("null")) {
-                    end = jsFormater + "('" + sdf.format(cal.getTime()) + "') , \n";
-                }
+                content.append(jsFormater).append("('").append(SDF.format(cal.getTime())).append("') , \n");
+            }else{
+                content.append("null ,\n");
             }
 
-            String title = "'' ,\n";
+            content.append("null,\n");
+            content.append("null,\n");
+            
+            if (event.isTopological()) {
+                content.append("false,\n");
+            }else{
+                content.append("true,\n");
+            }
+
             if (event.getTitle() != null) {
-                title = "\"" + event.getTitle() + "\" ,\n";
+                content.append("\"").append(event.getTitle()).append("\" ,\n");
+            }else{
+                content.append("'' ,\n");
             }
 
-            String description = "'' ,\n";
             if (event.getDescription() != null) {
-                description = "\"" + event.getDescription() + "\" ,\n";
+                content.append("\"").append(event.getDescription()).append("\" ,\n");
+            }else{
+                content.append("'' ,\n");
             }
 
-            String image = "'' ,\n";
             if (event.getImage() != null) {
-                image = "\"" + event.getImage() + "\" ,\n";
+                content.append("\"").append(event.getImage()).append("\" ,\n");
+            }else{
+                content.append("'' ,\n");
             }
 
-            String link = "'' ,\n";
             if (event.getLink() != null) {
-                link = "\"" + event.getLink() + "\" ,\n";
+                content.append("\"").append(event.getLink()).append("\" ,\n");
+            }else{
+                content.append("'' ,\n");
             }
 
-            String icon = "'' ,\n";
-            if (event.getPriority() != null) {
-                if (event.getPriority().equals(Priority.HIGH)) {
-                    icon = "\"" + domainUrl + highIcon + "\" ,\n";
-                } else if (event.getPriority().equals(Priority.LOW)) {
-                    icon = "\"" + domainUrl + lowIcon + "\" ,\n";
-                } else {
-                    icon = "\"" + domainUrl + normalIcon + "\" ,\n";
-                }
-            }
             if (event.getIcon() != null && (!event.getIcon().equals(""))) {
                 if (event.getIcon().startsWith("http")) {
-                    icon = "\"" + event.getIcon() + "\" ,\n";
+                    content.append("\"").append(event.getIcon()).append("\" ,\n");
                 } else {
-                    icon = "\"" + fullContextPath + event.getIcon() + "\" ,\n";
+                    content.append("\"").append(fullContextPath).append(event.getIcon()).append("\" ,\n");
                 }
+            }else if (event.getPriority() != null) {
+                if (event.getPriority().equals(Priority.HIGH)) {
+                    content.append("\"").append(domainUrl).append(highIcon).append("\" ,\n");
+                } else if (event.getPriority().equals(Priority.LOW)) {
+                    content.append("\"").append(domainUrl).append(lowIcon).append("\" ,\n");
+                } else {
+                    content.append("\"").append(domainUrl).append(normalIcon).append("\" ,\n");
+                }
+            }else{
+                content.append("'' ,\n");
             }
 
-            String color = "'' ,\n";
-            if (event.getStatus() != null) {
-                if (event.getStatus().equals(Status.IN_PROGRESS)) {
-                    color = "'green' ,\n";
-                } else if (event.getStatus().equals(Status.NOT_STARTED)) {
-                    color = "'red' ,\n";
-                } else {
-                    color = "'blue' ,\n";
-                }
-            }
+            
             if (event.getColor() != null && (!event.getColor().equals(""))) {
-                color = "'" + event.getColor() + "' ,\n";
+                content.append("'").append(event.getColor()).append("' ,\n");
+            }else if (event.getStatus() != null) {
+                if (event.getStatus().equals(Status.IN_PROGRESS)) {
+                    content.append("'green' ,\n");
+                } else if (event.getStatus().equals(Status.NOT_STARTED)) {
+                    content.append("'red' ,\n");
+                } else {
+                    content.append("'blue' ,\n");
+                }
+            }else{
+                content.append("'' ,\n");
             }
 
-            String textColor = "''\n";
             if (event.getTextColor() != null && (!event.getTextColor().equals(""))) {
-                textColor = "'" + event.getTextColor() + "' \n";
+                content.append("'").append(event.getTextColor()).append("' \n");
+            }else{
+                content.append("''\n");
             }
 
             writer.write(idjs + "_eventSource.add(new Timeline.DefaultEventSource.Event(\n");
-            writer.write(start +
-                    end +
-                    "null,\n" +
-                    "null,\n" +
-                    instant +
-                    title +
-                    description +
-                    image +
-                    link +
-                    icon +
-                    color +
-                    textColor);
+            writer.write(content.toString());
             writer.write("));\n");
         }
     }
 
-    private void writeScriptsEras(FacesContext context, UITimeLine comp, List<HighlightDecorator> eras) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        String DATE_FORMAT = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        String idjs = comp.getJsObject();
+    private void writeScriptsEras(final FacesContext context, final UITimeLine comp, 
+            final List<HighlightDecorator> eras) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
+        final String idjs           = comp.getJsObject();
+        
         if (eras != null && (!eras.isEmpty())) {
             writer.writeText("for (var i = 0; i < " + idjs + "_bandInfos.length; i++) {", null);
             writer.writeText("" + idjs + "_bandInfos[i].decorators = [", null);
             int i = 0;
-            for (HighlightDecorator era : eras) {
+            for (final HighlightDecorator era : eras) {
                 i++;
-                String startDate = "";
-                if (era.getDateBegin() != null) {
-                    startDate = "   startDate:\"" + sdf.format(era.getDateBegin()) + "\",\n";
+                
+                if (!(era.getDateBegin() == null || era.getDateEnd() == null)) {
+                    final StringBuilder content = new StringBuilder("new Timeline.SpanHighlightDecorator({\n");
+                    
+                    content.append("   startDate:\"").append(SDF.format(era.getDateBegin())).append("\",\n");
+                    content.append("   endDate:\"").append(SDF.format(era.getDateEnd())).append("\",\n");
+
+
+                    if (era.getColor() != null) {
+                        content.append("	color:\"").append(era.getColor()).append("\",\n");
+                    }else{
+                        content.append("	color:\"#ffd292\",\n");
+                    }
+
+                    content.append("  opacity: 50,\n");
+
+                    if (era.getTitle() != null) {
+                        content.append("	startLabel:\"").append(era.getTitle()).append("\",\n");
+                    }
+
+                    if (era.getTitle() != null) {
+                        content.append("	endLabel:\"").append(era.getDescription()).append("\"\n");
+                    }
+
+                    final String theme = "    theme: theme";
+                    //@TODO theme property must be defined in the timeline component.
+
+                    content.append("     }) \n");
+                    
+                    writer.write(content.toString());
                 }
-
-                String endDate = "";
-                if (era.getDateEnd() != null) {
-                    endDate = "   endDate:\"" + sdf.format(era.getDateEnd()) + "\",\n";
-                }
-
-                String color = "	color:\"#ffd292\",\n";
-                if (era.getColor() != null) {
-                    color = "	color:\"" + era.getColor() + "\",\n";
-                }
-
-                String opacity = "  opacity: 50,\n";
-
-                String startLabel = "";
-                if (era.getTitle() != null) {
-                    startLabel = "	startLabel:\"" + era.getTitle() + "\",\n";
-                }
-
-                String endLabel = "";
-                if (era.getTitle() != null) {
-                    endLabel = "	endLabel:\"" + era.getDescription() + "\"\n";
-                }
-
-                String theme = "    theme: theme";
-                //@TODO theme property must be defined in the timeline component.
-
-                if (!(startDate.equals("") || endDate.equals(""))) {
-                    writer.write("new Timeline.SpanHighlightDecorator({\n" +
-                            startDate + endDate + color + opacity + startLabel + endLabel +
-                            "     }) \n");
-                }
+                
                 if (i < eras.size()) {
                     writer.write(",\n");
                 }
@@ -959,7 +915,7 @@ public class TimeLineRenderer extends Renderer {
      * @param context current faces context.
      * @return return the complete URL.
      */
-    public String getResourcePhaseListener(String s, FacesContext context) {
+    public String getResourcePhaseListener(final String s, final FacesContext context) {
         return ResourcePhaseListener.getURL(context, s, null);
     }
 
@@ -969,7 +925,7 @@ public class TimeLineRenderer extends Renderer {
      * @param context
      * @throws java.io.IOException
      */
-    private void writeTimeLineScriptInHeader(FacesContext context)
+    private void writeTimeLineScriptInHeader(final FacesContext context)
             throws IOException {
         //AddResourceFactory.getInstance(context).addJavaScriptAtPosition(context, AddResource.HEADER_BEGIN, ResourcePhaseListener.getURLForHeader(context, "/timeline/resources/api/timeline-api.js", null));
     }
@@ -980,9 +936,9 @@ public class TimeLineRenderer extends Renderer {
      * @param context
      * @throws java.io.IOException
      */
-    private void writeTimeLineScripts(FacesContext context, UIComponent component) throws IOException {
+    private void writeTimeLineScripts(final FacesContext context, final UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        UITimeLine comp = (UITimeLine) component;
+        final UITimeLine comp = (UITimeLine) component;
         if (writer == null) {
             writer = FacesUtils.getResponseWriter2(context);
         }
@@ -1036,29 +992,29 @@ public class TimeLineRenderer extends Renderer {
      * @param eventObjects.
      * @return The corresponding list of Event.
      */
-    public List<Event> buildAllTemporalEvents(List<Event> events) {
-        List<Event> response = new ArrayList<Event>();
+    public List<Event> buildAllTemporalEvents(final List<Event> events) {
+        final List<Event> response = new ArrayList<Event>();
 
         if (events != null && (!events.isEmpty())) {
-            for (Event event : events) {
-                DefaultTemporalObject tm_object = event.getTemporalObject();
+            for (final Event event : events) {
+                final DefaultTemporalObject tm_object = event.getTemporalObject();
                 if (tm_object != null) {
                     if (tm_object instanceof TemporalPrimitive) {
                         if (tm_object instanceof TemporalGeometricPrimitive) {
                             if (tm_object instanceof Instant) {
-                                DefaultInstant instant = (DefaultInstant) tm_object;
-                                DefaultPosition position = (DefaultPosition) instant.getPosition();
+                                final DefaultInstant instant = (DefaultInstant) tm_object;
+                                final DefaultPosition position = (DefaultPosition) instant.getPosition();
                                 if (position != null) {
                                     if (position.anyOther() != null) {
                                         if (position.anyOther() instanceof OrdinalPosition) {
-                                            DefaultOrdinalPosition ordinalpos = (DefaultOrdinalPosition) position.anyOther();
-                                            DefaultOrdinalEra ordinalEra = (DefaultOrdinalEra) ordinalpos.getOrdinalPosition();
-                                            HighlightDecorator eraDeco = new HighlightDecorator(ordinalEra.getBeginning(),
+                                            final DefaultOrdinalPosition ordinalpos = (DefaultOrdinalPosition) position.anyOther();
+                                            final DefaultOrdinalEra ordinalEra      = (DefaultOrdinalEra) ordinalpos.getOrdinalPosition();
+                                            final HighlightDecorator eraDeco        = new HighlightDecorator(ordinalEra.getBeginning(),
                                                     ordinalEra.getEnd(),
                                                     ordinalEra.getName().toString(),
                                                     "",
                                                     event.getColor());
-                                            Event newEvent = new Event(ordinalEra.getBeginning(),
+                                            final Event newEvent = new Event(ordinalEra.getBeginning(),
                                                     ordinalEra.getEnd(),
                                                     null,
                                                     event.isTopological(),
@@ -1078,7 +1034,7 @@ public class TimeLineRenderer extends Renderer {
                                         }
                                     }
                                     if (position.getDate() != null) {
-                                        Event newEvent = new Event(instant.getPosition().getDate(),
+                                        final Event newEvent = new Event(instant.getPosition().getDate(),
                                                 null,
                                                 null,
                                                 event.isTopological(),
@@ -1099,11 +1055,11 @@ public class TimeLineRenderer extends Renderer {
                                 continue;
                             }
                             if (tm_object instanceof Period) {
-                                DefaultPeriod period = (DefaultPeriod) tm_object;
-                                DefaultInstant instantBegin = (DefaultInstant) period.getBeginning();
-                                DefaultInstant instantEnd = (DefaultInstant) period.getEnding();
-                                DefaultPosition positionBegin = (DefaultPosition) instantBegin.getPosition();
-                                DefaultPosition positionEnd = (DefaultPosition) instantEnd.getPosition();
+                                final DefaultPeriod period          = (DefaultPeriod) tm_object;
+                                final DefaultInstant instantBegin   = (DefaultInstant) period.getBeginning();
+                                final DefaultInstant instantEnd     = (DefaultInstant) period.getEnding();
+                                final DefaultPosition positionBegin = (DefaultPosition) instantBegin.getPosition();
+                                final DefaultPosition positionEnd   = (DefaultPosition) instantEnd.getPosition();
 
                                 if (positionBegin.getDate() != null && positionEnd.getDate() != null) {
                                     Event newEvent = null;
@@ -1157,8 +1113,8 @@ public class TimeLineRenderer extends Renderer {
         return null;
     }
 
-    public void writeInputDateText(ResponseWriter writer, UITimeLine comp, FacesContext context) throws IOException {
-        String idjs = comp.getJsObject();
+    public void writeInputDateText(final ResponseWriter writer, final UITimeLine comp, final FacesContext context) throws IOException {
+        final String idjs = comp.getJsObject();
         writer.startElement("input", comp);
         writer.writeAttribute("id", idjs + "_inputdate", "id");
         writer.writeAttribute("type", "text", null);
@@ -1167,24 +1123,25 @@ public class TimeLineRenderer extends Renderer {
         writer.writeAttribute("name", idjs + "_inputdate", null);
         writer.endElement("input");
 
-        writer.write("<script>\n" +
-                "function " + idjs + "_centerToDate(){\n" +
-                "var valdate = document.getElementById('" + idjs + "_inputdate').value;\n" +
-                "var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n" +
-                "if (dateInput instanceof Date) {\n" +
-                idjs + "_tl.getBand(0).scrollToCenter(dateInput);\n" +
-                "} return false;}\n" +
-                "</script>\n");
+        writer.write(new StringBuilder("<script>\n")
+                .append("function ").append(idjs).append("_centerToDate(){\n")
+                .append("var valdate = document.getElementById('").append(idjs).append("_inputdate').value;\n")
+                .append("var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n")
+                .append("if (dateInput instanceof Date) {\n")
+                .append(idjs).append("_tl.getBand(0).scrollToCenter(dateInput);\n")
+                .append("} return false;}\n")
+                .append("</script>\n")
+                .toString());
     }
 
-    public List<Zone> buildZonesFromEvents(List<Event> events) {
-        List<Zone> response = new ArrayList<Zone>();
+    public List<Zone> buildZonesFromEvents(final List<Event> events) {
+        final List<Zone> response = new ArrayList<Zone>();
         if (events != null && (!events.isEmpty())) {
-            for (Event event : events) {
-                Date begin = event.getDateBegin();
-                Date end = event.getDateEnd();
+            for (final Event event : events) {
+                final Date begin = event.getDateBegin();
+                final Date end = event.getDateEnd();
 
-                DefaultPeriodDuration duration;
+                final DefaultPeriodDuration duration;
                 String unit = "";
                 if (event.getDuration() instanceof PeriodDuration) {
                     duration = (DefaultPeriodDuration) event.getDuration();
@@ -1198,7 +1155,7 @@ public class TimeLineRenderer extends Renderer {
         return response;
     }
 
-    public String getIntervalFromDuration(Duration duration) {
+    public String getIntervalFromDuration(final Duration duration) {
         final Map<Unit, String> map = new HashMap<Unit, String>();
         map.put(NonSI.YEAR, "YEAR");
         map.put(NonSI.MONTH, "MONTH");
@@ -1207,7 +1164,7 @@ public class TimeLineRenderer extends Renderer {
         map.put(NonSI.HOUR, "HOUR");
         map.put(NonSI.MINUTE, "MINUTE");
         map.put(SI.SECOND, "SECOND");
-        Unit unit = Utils.getUnitFromDuration(duration);
+        final Unit unit = Utils.getUnitFromDuration(duration);
         return map.get(unit);
     }
 
@@ -1223,32 +1180,35 @@ public class TimeLineRenderer extends Renderer {
         }
     }
 
-    public void writeSliderZoom(FacesContext context, UITimeLine comp, ResponseWriter writer, ExternalContext extContext) throws IOException {
+    public void writeSliderZoom(final FacesContext context, final UITimeLine comp, 
+            final ResponseWriter writer, final ExternalContext extContext) throws IOException {
         //Write the scripts for slider component once per page
         if (!extContext.getRequestMap().containsKey("ajaxflag.sliderScript")) {
             extContext.getRequestMap().put("ajaxflag.sliderScript", Boolean.TRUE);
             writeSilderScripts(writer, comp, context);
         }
-        String clientId = comp.getClientId(context);
+        final String clientId = comp.getClientId(context);
         writer.startElement("div", comp);
         writer.writeAttribute("id", comp.getJsObject() + "-zoom", "id");
         writer.writeAttribute("style", "background:#D9E1EC;float:left; height: 300px; width: 34pt; z-index: 1000; position: absolute;", "style");
         writer.endElement("div");
 
-        String idjs = comp.getJsObject();
+        final String idjs = comp.getJsObject();
         writer.startElement("script", comp);
-        writer.write("\nvar " + idjs + "zoomSlider = document.getElementById(\"" + idjs + "-zoom\");\n" +
-                idjs + "zoomSlider.appendChild(JSSlider.getInstance(\"" + idjs + "zoom\", false, 10, 150, 45, undefined, undefined, \"" + idjs + "_valChangeHandlerzoomslider\", false).render());\n" +
-                "function " + idjs + "_valChangeHandlerzoomslider(newStartPercent0To100, newEndPercent0To100) {\n" +
-                "    var slideVal = Math.round(10*newStartPercent0To100/100);\n" +
-                "    var intervalPixels;\n" +
-                "    intervalPixels = (slideVal*70);\n" +
-                "    if (intervalPixels == 0) {\n" +
-                "        intervalPixels = 100;\n" +
-                "    }\n" +
-                idjs + "_tl.getBand(0).getEther()._pixelsPerInterval= intervalPixels;\n" +
-                idjs + "_tl.paint();\n" +
-                "}\n");
+        writer.write(
+                new StringBuilder("\nvar ").append(idjs).append("zoomSlider = document.getElementById(\"").append(idjs).append("-zoom\");\n")
+                .append(idjs).append("zoomSlider.appendChild(JSSlider.getInstance(\"").append(idjs).append("zoom\", false, 10, 150, 45, undefined, undefined, \"").append(idjs).append("_valChangeHandlerzoomslider\", false).render());\n")
+                .append("function ").append(idjs).append("_valChangeHandlerzoomslider(newStartPercent0To100, newEndPercent0To100) {\n")
+                .append("    var slideVal = Math.round(10*newStartPercent0To100/100);\n")
+                .append("    var intervalPixels;\n")
+                .append("    intervalPixels = (slideVal*70);\n")
+                .append("    if (intervalPixels == 0) {\n")
+                .append("        intervalPixels = 100;\n")
+                .append("    }\n")
+                .append(idjs).append("_tl.getBand(0).getEther()._pixelsPerInterval= intervalPixels;\n")
+                .append(idjs).append("_tl.paint();\n")
+                .append("}\n")
+                .toString());
         writer.endElement("script");
     }
 }
