@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,6 +20,7 @@ package org.mapfaces.renderkit.html;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.component.UIScaleBar;
 import org.mapfaces.taglib.ScaleBarTag;
 
@@ -29,33 +30,33 @@ import org.mapfaces.taglib.ScaleBarTag;
  */
 public class ScaleBarRenderer extends WidgetBaseRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
-        
-        super.encodeBegin(context, component);     
-        UIScaleBar comp = (UIScaleBar) component;  
-        String clientId= comp.getClientId(context);
-        
-                    
-        writer.startElement("div", comp);        
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        super.encodeBegin(context, component);
+        final UIScaleBar comp = (UIScaleBar) component;
+        final String clientId = comp.getClientId(context);
+
+        writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
-        
+
         if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+ScaleBarTag.COMP_TYPE.substring(ScaleBarTag.COMP_TYPE.lastIndexOf(".")+1,ScaleBarTag.COMP_TYPE.length()),"styleclass");
-        
+
         if (getStyle() != null)
             writer.writeAttribute("style",getStyle(),"style");
-        
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
-        //suppression des ":" pour nommer l'objet javascript correspondant correctement      
+        //suppression des ":" pour nommer l'objet javascript correspondant correctement
         String jsObject = comp.getParent().getClientId(context);
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
-        
+
         writer.write("var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')});\n");
         writer.write(jsObject + ".addControl(scb);\n");
         writer.endElement("script");
@@ -64,6 +65,9 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return false;

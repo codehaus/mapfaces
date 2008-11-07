@@ -8,15 +8,12 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIGraphic;
 import javax.faces.component.UIInput;
-import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+
 import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
@@ -24,27 +21,30 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 
 public class DimRangeRenderer extends WidgetBaseRenderer {
-    
-    private static String HANDLE_SLIDER_IMG = "/org/mapfaces/resources/img/slider-handle.png";
-    private static String TRACK_SLIDER_IMG = "/org/mapfaces/resources/img/slider-track.png";
-    
+
+    private static final String HANDLE_SLIDER_IMG = "/org/mapfaces/resources/img/slider-handle.png";
+    private static final String TRACK_SLIDER_IMG = "/org/mapfaces/resources/img/slider-track.png";
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
-        
-        super.encodeBegin(context, component);     
-        UIDimRange comp = (UIDimRange) component;
-        String clientId= comp.getClientId(context);
-        
-    if(getVarId(context, comp) != null && comp.getValue() !=null && !((String) comp.getValue()).equals(".")){        
-        
-        writer.startElement("div", comp);        
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        super.encodeBegin(context, component);
+        final UIDimRange comp = (UIDimRange) component;
+        final String clientId = comp.getClientId(context);
+
+
+        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals(".")) return;
+
+        writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
-        String layerId=getVarId(context, comp).split(":")[1];
-        if (getStyleClass() == null)
-            writer.writeAttribute("class","mfDimRange","styleclass");
-        
-        if (getStyle() != null)
-            writer.writeAttribute("style",getStyle(),"style");
+
+        final String layerId=getVarId(context, comp).split(":")[1];
+
+        if (getStyleClass() == null)  writer.writeAttribute("class","mfDimRange","styleclass");
+        if (getStyle() != null)       writer.writeAttribute("style",getStyle(),"style");
+
         writer.startElement("div",comp);
         writer.writeAttribute("id","track"+layerId, "id");
         writer.writeAttribute("style","width: 256px; background-image: url('"+ResourcePhaseListener.getURL(context,TRACK_SLIDER_IMG, null)+"');",getStyle());
@@ -52,7 +52,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.startElement("div",comp);
             writer.writeAttribute("id","handle1"+layerId, "id");
             writer.writeAttribute("style","margin-top:-15px;position: absolute; top: 0pt; left: 60px; width: 20px; height: 19px; ;cursor:move;",getStyle());
-            writer.writeAttribute("class","","class");    
+            writer.writeAttribute("class","","class");
                 writer.startElement("img",comp);
                 writer.writeAttribute("src",ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
                 writer.writeAttribute("class","imgHandle","class");
@@ -70,142 +70,144 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
         writer.endElement("div");
         writer.startElement("div",comp);
         writer.writeAttribute("style","position:relative;height:50px;margin-top:50px;","style");
-           
-       
+
         writer.flush();
-    }   
     }
-     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-         
-        UIDimRange comp = (UIDimRange) component;      
-        if(getVarId(context, comp) != null && comp.getValue() !=null && !((String) comp.getValue()).equals(".")){            
-            String layerId=getVarId(context, comp).split(":")[1];
-            writer.startElement("div",comp);
-            writer.writeAttribute("id",layerId+"_maxRange", "id");
-            writer.writeAttribute("class","maxRange range","class");
-                 writer.startElement("div",comp);
-                writer.writeAttribute("class","textRange","class");
-                    writer.write("Max : ");
-                 writer.endElement("div");
-                 UIInput maxRange = new UIInput();
-                 maxRange.setId(layerId+"_inputMaxRange");
-                 maxRange.setValue(((String) comp.getValue()).split(",")[1]);
-                 comp.getChildren().add(maxRange);                 
-                 maxRange.encodeAll(context);
-            writer.endElement("div");
-            writer.startElement("div",comp);
-            writer.writeAttribute("id",layerId+"_minRange", "id");
-            writer.writeAttribute("class","minRange range","class");
-                 writer.startElement("div",comp);
-                 writer.writeAttribute("class","textRange","class");
-                     writer.write("Min : ");
-                 writer.endElement("div");
-                 UIInput minRange = new UIInput();
-                 minRange.setId(layerId+"_inputMinRange");
-                 minRange.setValue(((String) comp.getValue()).split(",")[0]);
-                 comp.getChildren().add(minRange);
-                 minRange.encodeAll(context);
-            writer.endElement("div");
-            writer.startElement("div",comp);
-            writer.writeAttribute("id",layerId+"_DimRange", "id");
-            writer.writeAttribute("style","display:none;","style");
-                 UIInput dimRange = new UIInput();
-                 dimRange.setId(layerId+"_inputDimRange");
-                 dimRange.setValue(((String) comp.getValue()));
-                 comp.getChildren().add(dimRange);
-                 dimRange.getChildren().add(FacesUtils.createTreeAjaxSupport(context,dimRange,"onchange",getVarId(context, comp),null));
-                 dimRange.encodeBegin(context);
-                 dimRange.encodeChildren(context);
-                 dimRange.encodeEnd(context);
-            writer.endElement("div");
-            writer.startElement("div",comp);
-            writer.writeAttribute("id",layerId+"_colorRamp", "id");
-            writer.writeAttribute("class","colorRamp","class");
-                 HtmlGraphicImage legend = new HtmlGraphicImage();
-                 legend.setUrl(getVarLegendUrl(context, comp));
-                 comp.getChildren().add(legend);
-                 legend.encodeAll(context);
-            writer.endElement("div");
-        }
-    }     
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final UIDimRange comp = (UIDimRange) component;
+
+        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals(".")) return;
+
+
+        final String layerId=getVarId(context, comp).split(":")[1];
+
+        writer.startElement("div",comp);
+        writer.writeAttribute("id",layerId+"_maxRange", "id");
+        writer.writeAttribute("class","maxRange range","class");
+             writer.startElement("div",comp);
+             writer.writeAttribute("class","textRange","class");
+                 writer.write("Max : ");
+             writer.endElement("div");
+             final UIInput maxRange = new UIInput();
+             maxRange.setId(layerId+"_inputMaxRange");
+             maxRange.setValue(((String) comp.getValue()).split(",")[1]);
+             comp.getChildren().add(maxRange);
+             maxRange.encodeAll(context);
+        writer.endElement("div");
+        writer.startElement("div",comp);
+        writer.writeAttribute("id",layerId+"_minRange", "id");
+        writer.writeAttribute("class","minRange range","class");
+             writer.startElement("div",comp);
+             writer.writeAttribute("class","textRange","class");
+                 writer.write("Min : ");
+             writer.endElement("div");
+             final UIInput minRange = new UIInput();
+             minRange.setId(layerId+"_inputMinRange");
+             minRange.setValue(((String) comp.getValue()).split(",")[0]);
+             comp.getChildren().add(minRange);
+             minRange.encodeAll(context);
+        writer.endElement("div");
+        writer.startElement("div",comp);
+        writer.writeAttribute("id",layerId+"_DimRange", "id");
+        writer.writeAttribute("style","display:none;","style");
+             final UIInput dimRange = new UIInput();
+             dimRange.setId(layerId+"_inputDimRange");
+             dimRange.setValue(((String) comp.getValue()));
+             comp.getChildren().add(dimRange);
+             dimRange.getChildren().add(FacesUtils.createTreeAjaxSupport(context,dimRange,"onchange",getVarId(context, comp),null));
+             dimRange.encodeBegin(context);
+             dimRange.encodeChildren(context);
+             dimRange.encodeEnd(context);
+        writer.endElement("div");
+        writer.startElement("div",comp);
+        writer.writeAttribute("id",layerId+"_colorRamp", "id");
+        writer.writeAttribute("class","colorRamp","class");
+             final HtmlGraphicImage legend = new HtmlGraphicImage();
+             legend.setUrl(getVarLegendUrl(context, comp));
+             comp.getChildren().add(legend);
+             legend.encodeAll(context);
+        writer.endElement("div");
+
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeEnd(context, component);
-        UIDimRange comp = (UIDimRange) component;      
-        if(getVarId(context, comp) != null && comp.getValue() !=null && !((String) comp.getValue()).equals(".")){   
-            writer.endElement("div");
+        final UIDimRange comp = (UIDimRange) component;
 
-            writer.startElement("script", comp);
-            writer.writeAttribute("type","text/javascript","text/javascript");
-            String layerClientId=getVarId(context, comp);
-            String layerId=layerClientId.split(":")[1];
-            //suppression des ":" pour nommer l'objet javascript correspondant correctement      
-            String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);        
-            if(jsObject.contains(":"))                 
-                jsObject = jsObject.replace(":","");        
-                writer.write("  " +
-                 "if(!window.sliders)window.sliders={};\n" +
-                "	var min="+((String) comp.getValue()).split(",")[0]+";\n" +
-                "	var max="+((String) comp.getValue()).split(",")[1]+";\n" +
-                        "var namesLayers='"+layerId+"';\n" +
-                    "	window.sliders['"+layerId+"']=new Control.Slider( ['handle1"+layerId+"','handle2"+layerId+"'],'track"+layerId+"',\n" +
-                    "	{\n" +
-                    "			sliderValue:[min, max],\n" +
-                    "			increment:5,\n" +
-                    "			range:$R(min,max),\n" +
-                    "			restricted:true,\n" +
-                    "			layer:'"+layerId+"',\n" +
-                    "			onSlide:function(v){\n" +
-                    "                                           $('"+layerClientId+"_inputMinRange').value=parseFloat(v[0]);\n" +
-                    "					        $('"+layerClientId+"_inputMaxRange').value=parseFloat(v[1]);\n" +
-                    "                                           $('"+layerClientId+"_inputDimRange').value=parseFloat(v[0])+','+parseFloat(v[1]);" +
-                    "                                           }," +
-                    "                   onChange:function(v){$('"+layerClientId+"_inputDimRange').onchange()}\n" +
-                    "	});\n" +
+        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals(".")) return;
 
-              "");
-            writer.endElement("script");
-            writer.endElement("div");
-        }
+        writer.endElement("div");
+        writer.startElement("script", comp);
+        writer.writeAttribute("type","text/javascript","text/javascript");
+        final String layerClientId = getVarId(context, comp);
+        final String layerId       = layerClientId.split(":")[1];
+        //suppression des ":" pour nommer l'objet javascript correspondant correctement
+        String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);
+        if(jsObject.contains(":")) jsObject = jsObject.replace(":","");
+
+        final String value = comp.getValue().toString();
+        writer.write(new StringBuilder("  ")
+            .append("if(!window.sliders)window.sliders={};\n")
+            .append("	var min=").append(value.split(",")[0]).append(";\n")
+            .append("	var max=").append(value.split(",")[1]).append(";\n")
+            .append("   var namesLayers='").append(layerId).append("';\n")
+            .append("	window.sliders['").append(layerId).append("']=new Control.Slider( ['handle1").append(layerId).append("','handle2").append(layerId).append("'],'track").append(layerId).append("',\n")
+            .append("	{\n")
+            .append("			sliderValue:[min, max],\n")
+            .append("			increment:5,\n")
+            .append("			range:$R(min,max),\n")
+            .append("			restricted:true,\n")
+            .append("			layer:'").append(layerId).append("',\n")
+            .append("			onSlide:function(v){\n")
+            .append("                                           $('").append(layerClientId).append("_inputMinRange').value=parseFloat(v[0]);\n")
+            .append("					        $('").append(layerClientId).append("_inputMaxRange').value=parseFloat(v[1]);\n")
+            .append("                                           $('").append(layerClientId).append("_inputDimRange').value=parseFloat(v[0])+','+parseFloat(v[1]);")
+            .append("                                           },")
+            .append("                   onChange:function(v){$('").append(layerClientId).append("_inputDimRange').onchange()}\n")
+            .append("	});\n").toString()
+        );
+        writer.endElement("script");
+        writer.endElement("div");
+
     }
-    public void encodeChildren(){
-        
-    }
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public boolean getRendersChildren() {   
+    public boolean getRendersChildren() {
         return true;
     }
-     /**
+
+    /**
      * Extra fonction useful for layercontrol columns
-     * 
-     * 
-     * @param context
-     * @param comp
-     * @return
      */
-    public String getVarId(FacesContext context, UIWidgetBase component) {
-        UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
-        if (((UITreeLinesBase) (comp)).getNodeInstance().isLeaf()) {
-            ((UITreeLinesBase) (comp)).setVarId(((Layer) (((UITreeLinesBase) (comp)).getNodeInstance().getUserObject())).getCompId());
-            if (((UITreeLinesBase) (comp)).getVarId() == null) {
+    public String getVarId(final FacesContext context, final UIWidgetBase component) {
+        final UITreeLinesBase comp = FacesUtils.getParentUITreeLines(context, component);
+        if (comp.getNodeInstance().isLeaf()) {
+            comp.setVarId( ((Layer) (comp.getNodeInstance().getUserObject())).getCompId() );
+            if (comp.getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }
-            return ((UITreeLinesBase) (comp)).getVarId();
+            return comp.getVarId();
         }
         return null;
     }
-      /**
+
+    /**
      * Extra fonction useful for layercontrol columns
-     * 
-     * 
-     * @param context
-     * @param comp
-     * @return
      */
-    public String getVarLegendUrl(FacesContext context, UIWidgetBase component) {
-        UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
+    public String getVarLegendUrl(final FacesContext context, final UIWidgetBase component) {
+        final UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
         if (comp.getNodeInstance().isLeaf()) {
             comp.setVarId(((Layer)(comp.getNodeInstance().getUserObject())).getId());
             if ( comp.getVarId() == null) {

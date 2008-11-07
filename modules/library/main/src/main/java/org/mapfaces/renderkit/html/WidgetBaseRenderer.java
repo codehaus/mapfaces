@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -23,42 +23,47 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * 
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
 public class WidgetBaseRenderer extends Renderer {
 
+
     ResponseWriter writer = null;
-    boolean debug;
+    private boolean debug;
     private String clientId ;
     private String style = null;
     private String styleClass = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
-        writer = context.getResponseWriter();
-        clientId = component.getClientId(context);   
-        UIWidgetBase comp = (UIWidgetBase) component;  
-        debug = comp.isDebug();
-        if(debug){            
+        writer                  = context.getResponseWriter();
+        clientId                = component.getClientId(context);
+        final UIWidgetBase comp = (UIWidgetBase) component;
+        debug                   = comp.isDebug();
+        if(debug){
             System.out.println("    Le composant "+comp.getFamily()+" entre dans encodeBegin de widgetBaseRenderer");
-        }        
+        }
+
         if(FacesUtils.getParentUIModelBase(context, component)==null){
             throw new NullPointerException("UIModelBase should not be null");
-
         } else if (comp.getModel() == null) {
-            comp.setModel(FacesUtils.getParentUIModelBase(context, component).getModel());       
+            comp.setModel(FacesUtils.getParentUIModelBase(context, component).getModel());
         }
+
         setStyle((String) comp.getAttributes().get("style"));
 
         if (getStyleClass() == null) {
@@ -66,18 +71,24 @@ public class WidgetBaseRenderer extends Renderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return true;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        List<UIComponent> childrens = component.getChildren();
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final List<UIComponent> childrens = component.getChildren();
         if (isDebug()) {
             System.out.println("        Le composant " + component.getFamily() + " a " + childrens.size() + " enfants");
         }
-        for (UIComponent tmp : childrens) {
+        for (final UIComponent tmp : childrens) {
             if (isDebug()) {
                 System.out.println("        Famille des enfants : " + tmp.getFamily());
             }
@@ -85,30 +96,33 @@ public class WidgetBaseRenderer extends Renderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         if (isDebug()) {
             System.out.println("    Le composant " + component.getFamily() + " entre dans encodeEnd");
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void decode(FacesContext context, UIComponent component) {
+    public void decode(final FacesContext context, final UIComponent component) {
         if (isDebug()) {
             System.out.println("    Le composant " + component.getFamily() + " entre dans decode");
         }
     }
 
-    private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("context should not be null");
-        } else if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null)   throw new NullPointerException("context should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
     }
 
-    void removeChildren(FacesContext context, UIComponent component) {
-        List<UIComponent> children = component.getChildren();
+    void removeChildren(final FacesContext context, final UIComponent component) {
+        final List<UIComponent> children = component.getChildren();
         for (int i = children.size() - 1; i >= 0; i--) {
             children.remove(i);
         }
@@ -118,7 +132,7 @@ public class WidgetBaseRenderer extends Renderer {
         return writer;
     }
 
-    public void setWriter(ResponseWriter writer) {
+    public void setWriter(final ResponseWriter writer) {
         this.writer = writer;
     }
 

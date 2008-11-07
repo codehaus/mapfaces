@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -23,7 +23,9 @@ import javax.faces.component.UIOutput;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectOne;
 import javax.faces.context.FacesContext;
+
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+
 import org.mapfaces.component.UIMapSize;
 import org.mapfaces.models.Context;
 import org.mapfaces.util.FacesUtils;
@@ -34,12 +36,15 @@ import org.mapfaces.util.FacesUtils;
  */
 public class MapSizeRenderer extends WidgetBaseRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeBegin(context, component);
 
-        UIMapSize comp = (UIMapSize) component;
-        Context model = (Context) comp.getModel();
+        final UIMapSize comp = (UIMapSize) component;
+        final Context model  = (Context) comp.getModel();
 
         getWriter().startElement("div", comp);
         getWriter().writeAttribute("id", comp.getClientId(context), "id");
@@ -52,8 +57,8 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         /* Add <h:outputText> */
         }
         if (comp.getTitle() != null) {
-            if( (comp.getChildCount() == 0) ){                
-                UIOutput outputText = new UIOutput();
+            if( (comp.getChildCount() == 0) ){
+                final UIOutput outputText = new UIOutput();
                 outputText.setId(comp.getId() + "_Title");
                 outputText.setValue(comp.getTitle());
                 comp.getChildren().add(outputText);
@@ -73,25 +78,29 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         getWriter().flush();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeChildren(context, component);
         getWriter().endElement("div");
         getWriter().flush();
     }
 
-    private UISelectOne createSelectOneMenu(FacesContext context,UIMapSize comp,boolean ajaxSupport,String idsToRefresh) {
-        UISelectOne selectOneMenu= new UISelectOne();
+    private UISelectOne createSelectOneMenu(final FacesContext context, final UIMapSize comp,
+            final boolean ajaxSupport,final String idsToRefresh) {
+        final UISelectOne selectOneMenu= new UISelectOne();
         selectOneMenu.setId(comp.getId()+"_Select");
-        String[] labelsArray = comp.getItemsLabels().split("/");
-        String[] valuesArray = comp.getItemsValues().split("/");
+        final String[] labelsArray = comp.getItemsLabels().split("/");
+        final String[] valuesArray = comp.getItemsValues().split("/");
 
         if (labelsArray.length > 0 && valuesArray.length > 0) {
             if (labelsArray.length != valuesArray.length) {
-                //TODO if length are not equals, add missing values or labels                
+                //TODO if length are not equals, add missing values or labels
             }
             for (int i = 0; i < labelsArray.length; i++) {
-                UISelectItem selectItem = new UISelectItem();
+                final UISelectItem selectItem = new UISelectItem();
                 selectItem.setItemLabel(labelsArray[i]);
                 selectItem.setItemValue(valuesArray[i]);
                 selectOneMenu.getChildren().add(selectItem);
@@ -105,10 +114,10 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         return selectOneMenu;
     }
 
-    private HtmlAjaxSupport createAjaxSupport(FacesContext context, UIMapSize comp, String idsToRefresh) {
+    private HtmlAjaxSupport createAjaxSupport(final FacesContext context, final UIMapSize comp, final String idsToRefresh) {
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = FacesUtils.createBasicAjaxSupport(context, comp, "onchange", null);
+        final HtmlAjaxSupport ajaxComp = FacesUtils.createBasicAjaxSupport(context, comp, "onchange", null);
 
         /*2 ways to resize the map:
          *  -use OpenLayers javascript, but the resize change the resolution of the map but in term of speed it's the better solution
@@ -116,14 +125,15 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
          *  -use the AjaxSupport to refresh only layers , but we don't change the OpenLayers.Map size
          */
 
-        String mappaneJsObject =  FacesUtils.getParentUIModelBase(context, comp).getClientId(context).replace(":", "");
-        
-        ajaxComp.setOnsubmit("" +
-                "var size = this.value.split(',');" +
-                mappaneJsObject+".div.style.width=size[0]+'px';" +
-                mappaneJsObject+".div.style.height=size[1]+'px';" +
-                mappaneJsObject+".updateSize();" +
-                "return false;");
+        final String mappaneJsObject =  FacesUtils.getParentUIModelBase(context, comp).getClientId(context).replace(":", "");
+
+        ajaxComp.setOnsubmit(new StringBuilder()
+                .append("var size = this.value.split(',');")
+                .append(mappaneJsObject).append(".div.style.width=size[0]+'px';")
+                .append(mappaneJsObject).append(".div.style.height=size[1]+'px';")
+                .append(mappaneJsObject).append(".updateSize();")
+                .append("return false;")
+                .toString());
         return ajaxComp;
     }
 
