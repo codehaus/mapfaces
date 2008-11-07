@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -29,28 +29,29 @@ import org.mapfaces.taglib.CursorTrackTag;
  */
 public class CursorTrackRenderer extends WidgetBaseRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
-        
-        super.encodeBegin(context, component);     
-        UICursorTrack comp = (UICursorTrack) component;  
-        String clientId= comp.getClientId(context);
-        
-                    
-        writer.startElement("div", comp);        
+    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+
+        super.encodeBegin(context, component);
+        final UICursorTrack comp = (UICursorTrack) component;
+        final String clientId    = comp.getClientId(context);
+
+        writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
-        
+
         if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+CursorTrackTag.COMP_TYPE.substring(CursorTrackTag.COMP_TYPE.lastIndexOf(".")+1,CursorTrackTag.COMP_TYPE.length()),"styleclass");
-        
+
         if (getStyle() != null)
             writer.writeAttribute("style",getStyle(),"style");
-        
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
-        //suppression des ":" pour nommer l'objet javascript correspondant correctement      
+        //suppression des ":" pour nommer l'objet javascript correspondant correctement
         String jsObject = comp.getParent().getClientId(context);
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
@@ -81,6 +82,9 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return false;

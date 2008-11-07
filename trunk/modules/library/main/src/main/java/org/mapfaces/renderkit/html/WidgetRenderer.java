@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,6 +20,8 @@ package org.mapfaces.renderkit.html;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
+import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.UIWidget;
 import org.mapfaces.models.Context;
 
@@ -29,32 +31,41 @@ import org.mapfaces.models.Context;
  */
 public class WidgetRenderer extends WidgetBaseRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 
         super.encodeBegin(context, component);
 
-        UIWidget comp = (UIWidget) component;
-        Context model = (Context) comp.getModel();
+        final UIWidget comp         = (UIWidget) component;
+        final Context model         = (Context) comp.getModel();
+        final ResponseWriter writer = getWriter();
 
-        getWriter().startElement("div", comp);
-        getWriter().writeAttribute("id", getClientId(), "id");
-        getWriter().writeAttribute("style", getStyle(), "style");
+        writer.startElement("div", comp);
+        writer.writeAttribute("id", getClientId(), "id");
+        writer.writeAttribute("style", getStyle(), "style");
         if (getStyleClass() == null) {
-            getWriter().writeAttribute("class", "mfWidget", "styleClass");
+            writer.writeAttribute("class", "mfWidget", "styleClass");
         } else {
-            getWriter().writeAttribute("class", getStyleClass(), "styleClass");
+            writer.writeAttribute("class", getStyleClass(), "styleClass");
         }
-        getWriter().endElement("div");
-        getWriter().flush();
-
+        writer.endElement("div");
+        writer.flush();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void decode(FacesContext context, UIComponent component) {
         super.decode(context, component);

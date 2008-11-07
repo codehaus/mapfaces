@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -27,74 +27,72 @@ import org.mapfaces.component.UIButtonBar;
  * @author Mehdi Sidhoum.
  */
 public class ButtonBarRenderer extends WidgetBaseRenderer {
-    
-    @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
-               
-        super.encodeBegin(context, component);
-        UIButtonBar comp = (UIButtonBar) component;             
-        String clientId= comp.getClientId(context);
-        writer.startElement("div", comp);        
-        writer.writeAttribute("id",clientId,"id");
-            
-            String style = (String) comp.getAttributes().get("style");
-            if (style != null)
-                writer.writeAttribute("style",style,"style");
-            else
-                writer.writeAttribute("style","position:absolute;z-index:1000;","style");
 
-            String styleclass = (String) comp.getAttributes().get("styleClass");
-            if (styleclass != null)
-                writer.writeAttribute("class",styleclass,"styleclass");
-            else
-                 writer.writeAttribute("class","mfButtonBar","styleclass");
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+
+        super.encodeBegin(context, component);
+        final UIButtonBar comp = (UIButtonBar) component;
+        final String clientId  = comp.getClientId(context);
+
+        writer.startElement("div", comp);
+        writer.writeAttribute("id",clientId,"id");
+
+        final String style = (String) comp.getAttributes().get("style");
+        if (style != null) writer.writeAttribute("style",style,"style");
+        else               writer.writeAttribute("style","position:absolute;z-index:1000;","style");
+
+        final String styleclass = (String) comp.getAttributes().get("styleClass");
+        if (styleclass != null) writer.writeAttribute("class",styleclass,"styleclass");
+        else                    writer.writeAttribute("class","mfButtonBar","styleclass");
 
         writer.startElement("script", comp);
         writer.writeAttribute("type","text/javascript","text/javascript");
-       
+
         //suppression des ":" pour nommer l'objet javascript correspondant correctement.
-        String jsObject =  comp.getParent().getClientId(context);        
-        if(jsObject.contains(":"))                 
-            jsObject = jsObject.replace(":","");        
-        
+        String jsObject =  comp.getParent().getClientId(context);
+        if(jsObject.contains(":"))
+            jsObject = jsObject.replace(":","");
+
         if(comp.isHistory()){
-            writer.write("var nav = new OpenLayers.Control.NavigationHistory();\n"); 
+            writer.write("var nav = new OpenLayers.Control.NavigationHistory();\n");
             writer.write(jsObject+".addControl(nav);\n");
         }
         if(comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()){
-            
-            String idDivbar = "";
-            if (comp.isFloatingBar()) {
-                idDivbar = comp.getId();
-            }else {
-                idDivbar = comp.getClientId(context);
-            }
+
+            final String idDivbar;
+            if (comp.isFloatingBar()) idDivbar = comp.getId();
+            else                      idDivbar = comp.getClientId(context);
+
             writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+idDivbar+"')");
-        
+
             if(comp.isZoomIn())
                 writer.write(",\nzoomIn: true");
-        
+
             if(comp.isZoomOut())
                 writer.write(",\nzoomOut: true");
-        
+
             if(comp.isPan())
                 writer.write(",\npan: true");
-        
+
             if(comp.isZoomMaxExtent())
-                writer.write(",\nzoomMaxExtent: true");      
-              
+                writer.write(",\nzoomMaxExtent: true");
+
             if(comp.isHistory())
                 writer.write(",\nhistory: true");
-            
+
             if(comp.isGraticule())
                 writer.write(",\ngraticule: true");
-            
+
             if(comp.isSave())
                 writer.write(",\nsave: true");
-            
+
             if(comp.isPan() && comp.isPanEffect())
                 writer.write(",\npanEffect: true");
-                
+
             if (comp.isFeatureInfo()) {
                 writer.write(",\ngetFeatureInfo: true");
             }
@@ -104,19 +102,22 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isMeasureArea()) {
                 writer.write(",\nmeasureArea: true");
             }
-            
+
             writer.write("\n});\n");
-            
+
         writer.write(jsObject+".addControl("+jsObject+comp.getId()+");");
         }
-        writer.endElement("script");          
+        writer.endElement("script");
         writer.endElement("div");
         writer.flush();
-        
+
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public boolean getRendersChildren() {   
+    public boolean getRendersChildren() {
         return false;
     }
 }

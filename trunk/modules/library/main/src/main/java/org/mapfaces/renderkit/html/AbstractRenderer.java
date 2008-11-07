@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,6 +20,7 @@ package org.mapfaces.renderkit.html;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.component.UIAbstract;
 import org.mapfaces.models.Context;
 
@@ -29,14 +30,17 @@ import org.mapfaces.models.Context;
  */
 public class AbstractRenderer extends WidgetBaseRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 
         super.encodeBegin(context, component);
-        UIAbstract comp = (UIAbstract) component;
-        Context model = (Context) comp.getModel();
-        
-        String clientId= comp.getClientId(context);
+        final UIAbstract comp = (UIAbstract) component;
+        final Context model   = (Context) comp.getModel();
+        final String clientId = comp.getClientId(context);
+
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "id");
         writer.writeAttribute("style",getStyle(), "style");
@@ -47,7 +51,7 @@ public class AbstractRenderer extends WidgetBaseRenderer {
         }
         writer.startElement("h3", comp);
 
-        String title = model.getTitle();
+        final String title = model.getTitle();
         if (title != null) {
             writer.write(title);
         }
@@ -55,9 +59,11 @@ public class AbstractRenderer extends WidgetBaseRenderer {
         writer.endElement("h3");
         writer.endElement("div");
         writer.flush();
-
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return false;

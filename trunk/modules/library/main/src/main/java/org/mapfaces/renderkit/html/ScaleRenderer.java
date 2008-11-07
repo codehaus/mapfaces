@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -29,33 +29,34 @@ import org.mapfaces.taglib.ScaleTag;
  */
 public class ScaleRenderer extends WidgetBaseRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {  
-        
-        super.encodeBegin(context, component);     
-        UIScale comp = (UIScale) component;  
-        String clientId= comp.getClientId(context);
-        
-                    
-        writer.startElement("div", comp);        
+    public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+
+        super.encodeBegin(context, component);
+        final UIScale comp    = (UIScale) component;
+        final String clientId = comp.getClientId(context);
+
+        writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
-        
+
         if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+ScaleTag.COMP_TYPE.substring(ScaleTag.COMP_TYPE.lastIndexOf(".")+1,ScaleTag.COMP_TYPE.length()),"styleclass");
-        
+
         if (getStyle() != null)
             writer.writeAttribute("style",getStyle(),"style");
-        
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
-        //suppression des ":" pour nommer l'objet javascript correspondant correctement      
+        //suppression des ":" pour nommer l'objet javascript correspondant correctement
         String jsObject = comp.getParent().getClientId(context);
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
-        
+
         writer.write("var sc = new OpenLayers.Control.Scale(OpenLayers.Util.getElement('" + clientId + "'));\n");
         writer.write(jsObject + ".addControl(sc);\n");
         writer.endElement("script");
@@ -64,6 +65,9 @@ public class ScaleRenderer extends WidgetBaseRenderer {
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean getRendersChildren() {
         return false;
