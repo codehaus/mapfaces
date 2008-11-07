@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -25,34 +25,40 @@ import javax.faces.component.UISelectOne;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-
 import org.mapfaces.component.treelayout.UISelectOneMenuColumn;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 
+/**
+ * @author Kevin Delfour
+ */
 public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
 
-    static String CLASS_LEAF_DIV = "x-tree-node-el x-tree-node-leaf x-tree-col";
+    private static final String CLASS_LEAF_DIV = "x-tree-node-el x-tree-node-leaf x-tree-col";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
-        
-        UISelectOneMenuColumn comp = (UISelectOneMenuColumn) component;
-        ResponseWriter writer = context.getResponseWriter(); 
-        if(comp.getValue() != null && comp.getItemsLabels()!=null){
+    public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 
-            UISelectOne selectOneMenu = new UISelectOne();
+        final UISelectOneMenuColumn comp = (UISelectOneMenuColumn) component;
+        final ResponseWriter writer      = context.getResponseWriter();
+
+        if(comp.getValue() != null && comp.getItemsLabels()!=null){
+            final UISelectOne selectOneMenu = new UISelectOne();
+            final String itemsLabels        = comp.getItemsLabels();
+            final String[] labelsArray      = itemsLabels.split(comp.getSeparator());
+            final String[] valuesArray      = itemsLabels.split(comp.getSeparator());
+
             selectOneMenu.setId(comp.getId() + "_Select");
             selectOneMenu.setValue(comp.getValue());
-            String itemsLabels = comp.getItemsLabels();
-            String[] labelsArray = itemsLabels.split(comp.getSeparator());
-            String[] valuesArray = itemsLabels.split(comp.getSeparator());
 
             if (labelsArray.length > 0 && valuesArray.length > 0) {
                 if (labelsArray.length != valuesArray.length) {
-                    //TODO if length are not equals, add missing values or labels                
+                    //TODO if length are not equals, add missing values or labels
                 }
-                for (int i = 0; i < labelsArray.length; i++) {
-                    UISelectItem selectItem = new UISelectItem();
+                for (int i=0; i<labelsArray.length; i++) {
+                    final UISelectItem selectItem = new UISelectItem();
                     selectItem.setItemLabel(labelsArray[i]);
                     selectItem.setItemValue(valuesArray[i]);
                     selectOneMenu.getChildren().add(selectItem);
@@ -64,34 +70,52 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void afterEncodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         addRequestScript(context, component, "change");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
+    public void beforeEncodeEnd(final FacesContext context, final UIComponent component) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
         writer.endElement("center");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
 
-   
+
 }
