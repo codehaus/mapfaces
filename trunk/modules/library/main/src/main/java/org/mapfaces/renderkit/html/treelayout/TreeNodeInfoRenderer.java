@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -23,23 +23,34 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeNodeInfoRenderer;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeNodeInfoRenderer extends AbstractTreeNodeInfoRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }

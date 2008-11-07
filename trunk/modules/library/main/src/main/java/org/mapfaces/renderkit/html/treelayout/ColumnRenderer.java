@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,41 +22,53 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.servlet.http.HttpServletRequest;
 
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
-import org.mapfaces.util.AjaxUtils;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class ColumnRenderer extends AbstractColumnRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         addRequestScript(context, component, "keypress");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
+    public void addRequestScript(final FacesContext context, final UIComponent component, final String event) throws IOException {
 
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
         /*
          * Prepare informations for making any Ajax request
          */
@@ -84,11 +96,17 @@ public class ColumnRenderer extends AbstractColumnRenderer {
         writer.endElement("script");*/
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";

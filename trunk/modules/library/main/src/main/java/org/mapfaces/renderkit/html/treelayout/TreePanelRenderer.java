@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -24,47 +24,61 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreePanelRenderer;
 import org.mapfaces.util.treelayout.TreeLayoutUtils;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreePanelRenderer extends AbstractTreePanelRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) {
+    public void createTreeLines(final UIComponent component, final TreeNodeModel node,
+            final List<UIComponent> list, final boolean LoadingOption) {
+        final TreeLayoutUtils tools = new TreeLayoutUtils();
         try {
-            TreeLayoutUtils tools = new TreeLayoutUtils();
             tools.createTreeLines(component, node, list, LoadingOption);
         } catch (IOException ex) {
             Logger.getLogger(TreePanelRenderer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-  
+
 
 }

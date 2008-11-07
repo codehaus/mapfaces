@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,30 +20,41 @@ package org.mapfaces.renderkit.html.treelayout;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
+
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeTableRenderer;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TreeTableRenderer extends AbstractTreeTableRenderer{
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         return;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         return;

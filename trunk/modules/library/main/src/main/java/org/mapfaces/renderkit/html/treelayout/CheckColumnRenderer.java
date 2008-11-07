@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,27 +18,28 @@
 package org.mapfaces.renderkit.html.treelayout;
 
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-
 import org.mapfaces.component.treelayout.UICheckColumn;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class CheckColumnRenderer extends AbstractColumnRenderer{
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UICheckColumn comp = (UICheckColumn) component;
-        ResponseWriter writer = context.getResponseWriter();
-        HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
+    public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        final UICheckColumn comp                 = (UICheckColumn) component;
+        final ResponseWriter writer              = context.getResponseWriter();
+        final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
+
         checkbox.setId("check_" + comp.getId());
         checkbox.setValue(comp.getValue());
         //checkbox.setStyle("cursor:pointer;position: absolute; margin-left:-7px;left: 50%; margin-top: -7px; top: 50%; ");
@@ -46,30 +47,48 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
         writer.startElement("center", component);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {  
+    public void afterEncodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         addRequestScript(context, component, "change");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {      
-        ResponseWriter writer = context.getResponseWriter();  
+    public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
+        ResponseWriter writer = context.getResponseWriter();
         writer.endElement("center");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
