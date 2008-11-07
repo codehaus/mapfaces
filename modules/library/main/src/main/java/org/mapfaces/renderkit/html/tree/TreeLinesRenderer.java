@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,34 +19,49 @@ package org.mapfaces.renderkit.html.tree;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {        
+    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addLinesEvent(FacesContext context, UIComponent component) {
         return "";
     }
 
-  
+
 }
