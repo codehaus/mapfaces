@@ -1,6 +1,5 @@
-
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,6 +19,7 @@ package org.mapfaces.renderkit.html.treebuilder;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.component.treebuilder.UITreeLines;
 import org.mapfaces.component.treebuilder.UITreePanel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
@@ -27,21 +27,26 @@ import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addLinesEvent(FacesContext context, UIComponent component) {
         return "";
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UITreeLines treeline = (UITreeLines) component;
-        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+    public void beforeEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        final UITreeLines treeline  = (UITreeLines) component;
+        final String treepanelId    = Utils.getWrappedComponentId(context, component, UITreePanel.class);
+        final UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
 
         if (treepanel == null) {
             throw new IOException("No treepanel parent have been found for this treeline.");
@@ -62,14 +67,23 @@ public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -28,31 +28,46 @@ import org.mapfaces.renderkit.html.abstractTree.AbstractTreePanelRenderer;
 import org.mapfaces.util.treebuilder.TreeBuilderUtils;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreePanelRenderer extends AbstractTreePanelRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) {
-            try {
-            TreeBuilderUtils tools = new TreeBuilderUtils();
+    public void createTreeLines(final UIComponent component, final TreeNodeModel node,
+            final List<UIComponent> list, final boolean LoadingOption) {
+        final TreeBuilderUtils tools = new TreeBuilderUtils();
+        try {
             tools.createTreeLines(component, node, list, LoadingOption);
         } catch (IOException ex) {
             Logger.getLogger(TreePanelRenderer.class.getName()).log(Level.SEVERE, null, ex);

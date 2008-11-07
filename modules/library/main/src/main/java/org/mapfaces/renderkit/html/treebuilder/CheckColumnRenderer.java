@@ -22,7 +22,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 import org.mapfaces.component.treebuilder.UICheckColumn;
 import org.mapfaces.component.treebuilder.UITreeLines;
@@ -32,30 +31,35 @@ import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 
+/**
+ * @author Kevin Delfour
+ */
 public class CheckColumnRenderer extends AbstractColumnRenderer implements CustomizeTreeComponentRenderer {
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void afterEncodeBegin(FacesContext context, UIComponent component) throws IOException {
-        UICheckColumn checkColumn = (UICheckColumn) component;
-        UITreeLines treeline = (UITreeLines) component.getParent();
-        TreeNodeModel node = treeline.getNodeInstance();
-        String treepanelTargetId = null;
-        
-        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanel.class);
-        String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
-        UITreePanel treepanel = (UITreePanel) Utils.findComponent(context, treepanelId);
+    public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        final UICheckColumn checkColumn = (UICheckColumn) component;
+        final UITreeLines treeline      = (UITreeLines) component.getParent();
+        final TreeNodeModel node        = treeline.getNodeInstance();
+        final String treepanelId        = Utils.getWrappedComponentId(context, component, UITreePanel.class);
+        final String formId             = Utils.getWrappedComponentId(context, component, UIForm.class);
+        final UITreePanel treepanel     = (UITreePanel) Utils.findComponent(context, treepanelId);
+        final String treepanelTargetId;
 
         if (treepanel.getTarget() != null) {
             treepanelTargetId = formId + ":" + treepanel.getTarget();
         }
 
-        ResponseWriter writer = context.getResponseWriter();
         if (checkColumn.isDebug()) {
             System.out.println("[INFO] afterEncodeBegin " + CheckColumnRenderer.class.getCanonicalName());
         }
+        
         if (checkColumn.getChildCount() == 0) {
-            HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
-            String checkcolumnId = "check_" + checkColumn.getId();
+            final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
+            final String checkcolumnId               = "check_" + checkColumn.getId();
             checkbox.setId("check_" + checkColumn.getId());
             checkbox.setStyle("cursor:pointer;");
             /* @todo add javascript to make change between to panel */
@@ -65,24 +69,39 @@ public class CheckColumnRenderer extends AbstractColumnRenderer implements Custo
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void afterEncodeEnd(FacesContext context, UIComponent component) throws IOException {
         addRequestScript(context, component, "change");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforeEncodeEnd(FacesContext context, UIComponent component) throws IOException {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addBeforeRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
         /*
@@ -90,6 +109,9 @@ public class CheckColumnRenderer extends AbstractColumnRenderer implements Custo
          */
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
