@@ -20,6 +20,7 @@ package org.mapfaces.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -506,5 +507,19 @@ public class FacesUtils {
             result = session.getId();
         }
         return result;
+    }
+    
+    /**
+     * This method returns the  current server informations ie:  Sun Java System Application Server or Apache Tomcat/6.0.13 ...
+     * @return the server name.
+     */
+    public static String getServerInfoFromContext() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context != null) {
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            HttpSession session = request.getSession();
+            return session.getServletContext().getServerInfo();
+        }
+        return null;
     }
 }
