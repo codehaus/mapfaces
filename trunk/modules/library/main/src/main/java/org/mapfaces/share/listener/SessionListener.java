@@ -31,10 +31,16 @@ import org.mapfaces.models.DefaultServer;
  * @author Mehdi Sidhoum
  */
 public class SessionListener implements HttpSessionListener {
+    /**
+     * This is a static variable on the server to store the server info for the admin module supports.
+     */
+    private static String serverInfo;
 
     @Override
     public void sessionCreated(HttpSessionEvent event) {
-        //System.out.println(" Current Session created: " + event.getSession().getId() + "  at " + new Date());
+        System.out.println("[Current Session created: " + event.getSession().getId() + "  at " + new Date()+" ]");
+        HttpSession session = event.getSession();
+        serverInfo = session.getServletContext().getServerInfo();
     }
 
     @Override
@@ -45,6 +51,10 @@ public class SessionListener implements HttpSessionListener {
 
         //destroy the serialization hashMap in the DefaultServer objetcs.
         DefaultServer.restoreCache();
+    }
+    
+    public static String getCurrentServerInfo() {
+        return serverInfo;
     }
 } 
 

@@ -417,6 +417,14 @@
           </execution>
         </executions>
       </plugin>
+      <!-- rename the war file -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>mapfaces</warName>
+        </configuration>
+      </plugin>
     </plugins>
      <extensions>
       <extension>
