@@ -21,15 +21,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public interface  A4JRendererInterface {
-    /**
-     * 
-     * @param context
-     * @param component
-     */
+
     public void A4JPostRequest(FacesContext context, UIComponent component);
     
 }

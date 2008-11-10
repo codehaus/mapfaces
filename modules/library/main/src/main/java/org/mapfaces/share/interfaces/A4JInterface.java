@@ -20,15 +20,10 @@ package org.mapfaces.share.interfaces;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public interface A4JInterface {
 
-    /**
-     * 
-     * @param context
-     */
     public void A4JPostRequest(FacesContext context);
     
 }
