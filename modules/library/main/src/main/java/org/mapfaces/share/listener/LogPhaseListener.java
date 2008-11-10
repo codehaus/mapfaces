@@ -23,8 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class LogPhaseListener implements javax.faces.event.PhaseListener {
 

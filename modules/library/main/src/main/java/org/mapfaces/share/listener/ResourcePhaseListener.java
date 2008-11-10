@@ -17,10 +17,6 @@
 
 package org.mapfaces.share.listener;
 
-/**
- *
- * @author Mehdi Sidhoum
- */
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,13 +31,16 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author Mehdi Sidhoum
+ */
 public class ResourcePhaseListener implements PhaseListener {
 
     public static final String RESOURCE_PREFIX = "/resource";
     public static final String RESOURCE_LOCATION_PARAM = "r";
     public static final String CONTENT_TYPE_PARAM = "ct";
     public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
-    private Map<String, String> extensionToContentType = null;
+    private final Map<String, String> extensionToContentType ;
     private static final Map<String, String> POOL = new HashMap<String, String>();
 
     public ResourcePhaseListener() {
@@ -54,20 +53,32 @@ public class ResourcePhaseListener implements PhaseListener {
         extensionToContentType.put(".css", "text/css");
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public PhaseId getPhaseId() {
         return PhaseId.RESTORE_VIEW;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public void beforePhase(PhaseEvent phaseEvent) {
     }
 
-    public void afterPhase(PhaseEvent event) {
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void afterPhase(final PhaseEvent event) {
         if (event.getFacesContext().getViewRoot().getViewId().startsWith(
                 RESOURCE_PREFIX)) {
-            FacesContext context = event.getFacesContext();
-            ExternalContext external = context.getExternalContext();
+            final FacesContext context = event.getFacesContext();
+            final ExternalContext external = context.getExternalContext();
 
-            String resourcePath =
+            final String resourcePath =
                     (String) external.getRequestParameterMap().get(
                     RESOURCE_LOCATION_PARAM);
             if (resourcePath == null) {
@@ -88,11 +99,11 @@ public class ResourcePhaseListener implements PhaseListener {
                 }
             }
 
-            InputStream in = getClass().getResourceAsStream(resourcePath);
-            HttpServletResponse servletResponse =
+            final InputStream in = getClass().getResourceAsStream(resourcePath);
+            final HttpServletResponse servletResponse =
                     (HttpServletResponse) external.getResponse();
             try {
-                OutputStream out = servletResponse.getOutputStream();
+                final OutputStream out = servletResponse.getOutputStream();
 
                 //PrintWriter out = servletResponse.getWriter();
 
@@ -125,22 +136,22 @@ public class ResourcePhaseListener implements PhaseListener {
      *         /appname/resource.faces?r=resourcePath,ct=contentType or
      *         /appname/faces/resource?r=resourcePath,ct=contentType
      */
-    public static String getURL(FacesContext context, String resourcePath,
-            String contentType) {
+    public static String getURL(final FacesContext context, final String resourcePath,
+            final String contentType) {
         if (POOL.containsKey(resourcePath)) {
             return getURLvalue(resourcePath);
         }
-        ViewHandler handler = context.getApplication().getViewHandler();
-        String url = handler.getActionURL(context, RESOURCE_PREFIX);
+        final ViewHandler handler = context.getApplication().getViewHandler();
+        final String url = handler.getActionURL(context, RESOURCE_PREFIX);
         
-        StringBuilder r = new StringBuilder(url);
-        r.append("?" + RESOURCE_LOCATION_PARAM + "=").append(resourcePath);
+        final StringBuilder sb = new StringBuilder(url);
+        sb.append("?").append(RESOURCE_LOCATION_PARAM).append("=").append(resourcePath);
         if (contentType != null) {
-            r.append("," + CONTENT_TYPE_PARAM + "=").append(contentType);
+            sb.append(",").append(CONTENT_TYPE_PARAM).append("=").append(contentType);
         }
-        POOL.put(resourcePath, r.toString());
+        POOL.put(resourcePath, sb.toString());
         
-        return r.toString();
+        return sb.toString();
     }
 
     public static String getURLvalue(final String key) {
