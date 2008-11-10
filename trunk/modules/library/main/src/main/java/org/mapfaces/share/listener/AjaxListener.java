@@ -51,18 +51,17 @@ public class AjaxListener implements PhaseListener {
      */
     @Override
     public void afterPhase(final PhaseEvent event) {
-        final AjaxUtils ajaxtools        = new AjaxUtils();
 //        FacesContext context = event.getFacesContext();
         final FacesContext context       = FacesContext.getCurrentInstance();
         final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         final String a4jrequest          = request.getParameter("AJAXREQUEST");
-        final String ajaxParam           = request.getParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY());
-        final String ajaxRenderChild     = request.getParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY());
+        final String ajaxParam           = request.getParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY);
+        final String ajaxRenderChild     = request.getParameter(AjaxUtils.AJAX_RENDERCHILD_ID_KEY);
         
         // Check for the existence of the Ajax param
         if (ajaxParam != null && ajaxParam.equals("true")) {
             context.responseComplete();// Let JSF know to skip the rest of the lifecycle
-            final String componentId = request.getParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY());
+            final String componentId = request.getParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY);
             if (componentId == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("No client ID found under key : " + componentId);

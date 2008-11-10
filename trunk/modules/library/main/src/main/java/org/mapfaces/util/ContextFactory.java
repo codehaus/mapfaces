@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,12 +22,14 @@ import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 
-
+/**
+ * @author Kevin Delfour
+ */
 public interface ContextFactory {
-    
+
     public Context createDefaultContext();
     public Layer createDefaultLayer();
     public Server createDefaultServer();
     public Dimension createDefaultDimension();
-    
+
 }

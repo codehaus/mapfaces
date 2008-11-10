@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+
 import net.opengis.owc.v030.DimensionListType;
 import net.opengis.owc.v030.DimensionType;
 import net.opengis.owc.v030.GeneralType;
@@ -36,10 +36,12 @@ import net.opengis.owc.v030.ServerType;
 import net.opengis.owc.v030.StyleListType;
 import net.opengis.owc.v030.StyleType;
 import net.opengis.owc.v030.URLType;
-import org.constellation.ows.v100.BoundingBoxType;
 import net.opengis.owc.v030.OnlineResourceType;
 import net.opengis.owc.v030.SLDType;
 import net.opengis.owc.v030.ServiceType;
+
+import org.constellation.ows.v100.BoundingBoxType;
+
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
@@ -47,12 +49,12 @@ import org.mapfaces.models.Server;
 
 public class MFtoOWCv030Transformer {
 
-    private net.opengis.owc.v030.ObjectFactory factory_owc_030 = new net.opengis.owc.v030.ObjectFactory();
-    private org.constellation.ows.v100.ObjectFactory factory_ows_100 = new org.constellation.ows.v100.ObjectFactory();
-    
+    private final net.opengis.owc.v030.ObjectFactory factory_owc_030       = new net.opengis.owc.v030.ObjectFactory();
+    private final org.constellation.ows.v100.ObjectFactory factory_ows_100 = new org.constellation.ows.v100.ObjectFactory();
+
     public OWSContextType visit(Context ctx) throws UnsupportedEncodingException, JAXBException {
         OWSContextType doc = factory_owc_030.createOWSContextType();
-        doc.setId(ctx.getId());          
+        doc.setId(ctx.getId());
         doc.setVersion(ctx.getVersion());
         doc.setGeneral(visitGeneral(ctx));
         doc.setResourceList(visitResourceList(ctx.getLayers()));
@@ -61,11 +63,11 @@ public class MFtoOWCv030Transformer {
         return doc;
     }
 
-    
+
     private GeneralType visitGeneral(Context ctx) {
         GeneralType general = factory_owc_030.createGeneralType();
-        general.setTitle(ctx.getTitle());       
-        
+        general.setTitle(ctx.getTitle());
+
         /*BBOX*/
         BoundingBoxType bbox = factory_ows_100.createBoundingBoxType();
         bbox.setCrs(ctx.getSrs());
@@ -76,18 +78,18 @@ public class MFtoOWCv030Transformer {
         upperCorner.add(Double.valueOf(ctx.getMaxx()));
         upperCorner.add(Double.valueOf(ctx.getMaxy()));
         bbox.setLowerCorner(lowerCorner);
-        bbox.setUpperCorner(upperCorner); 
-        general.setBoundingBox(factory_ows_100.createBoundingBox(bbox));        
-        
+        bbox.setUpperCorner(upperCorner);
+        general.setBoundingBox(factory_ows_100.createBoundingBox(bbox));
+
         /*WINDOW*/
         general.setWindow(factory_owc_030.createWindowType());
         general.getWindow().setWidth(new BigInteger(ctx.getWindowWidth()));
         general.getWindow().setHeight(new BigInteger(ctx.getWindowHeight()));
-        
+
         /*OTHERS*/
-        
+
 //TODO implements All other fonctionnality of OWC
-//        if(ctx.getAbstract() != null) 
+//        if(ctx.getAbstract() != null)
 //            general.setAbstract(ctx.getAbstract());
 //        if(ctx.getDescriptionURL() != null){
 //            URLType url = factory_owc_030.createURLType();
@@ -113,11 +115,11 @@ public class MFtoOWCv030Transformer {
 //            general.setMaxScaleDenominator(new Double(ctx.getMaxScaleDenominator()));
 //        if(ctx.getMinScaleDenominator()!=null)
 //            general.setMinScaleDenominator(new Double(ctx.getMinScaleDenominator()));
-        
+
 //         general.setExtension(value);
 //         general.setKeywords(value);
 //         general.setServiceProvider(value);
-         
+
         return general;
     }
 
@@ -126,14 +128,14 @@ public class MFtoOWCv030Transformer {
         for(int i=0;i<layers.size();i++){
             Layer layer = layers.get(i);
             LayerType layerType = factory_owc_030.createLayerType();
-            //layerType.getAvailableCRS().add(e);            
+            //layerType.getAvailableCRS().add(e);
             //layerType.setDataURL(value);
             //layerType.setDepth(value);
             if(layer.getDimensionList() != null)
                 layerType.setDimensionList(visitDimensionList(layer.getDimensionList()));
             //layerType.setExtension(value);
             if(layer.getGroup() != null)
-                layerType.setGroup(layer.getGroup());            
+                layerType.setGroup(layer.getGroup());
             layerType.setHidden(layer.isHidden());
             layerType.setId(layer.getId());
             //layerType.setInlineGeometry(value);
@@ -167,17 +169,17 @@ public class MFtoOWCv030Transformer {
             if(layer.getResZ() != null)
                 layerType.setResz(layer.getResZ());
             if(layer.getStyles() != null || layer.getSld() != null || layer.getSldBody() != null)
-                layerType.setStyleList(visitStyles(layer));      
+                layerType.setStyleList(visitStyles(layer));
             if(layer.getOutputFormat() != null)
                 layerType.getOutputFormat().add(layer.getOutputFormat());
             if(layer.getServer() != null)
                 layerType.getServer().add(visitServer(layer.getServer()));
-            list.getLayer().add(layerType);        
+            list.getLayer().add(layerType);
         }
         return list;
-        
+
     }
-    
+
 
     private DimensionListType visitDimensionList(HashMap<String, Dimension> dimensionList) {
         DimensionListType dimList = factory_owc_030.createDimensionListType();
@@ -216,7 +218,7 @@ public class MFtoOWCv030Transformer {
 //        styleType.getAbstract(layer.getName());
         styleType.setCurrent(true);
         styleType.setLegendURL(visitLegendUrl(layer.getLegendUrl()));
-        SLDType sldType = factory_owc_030.createSLDType(); 
+        SLDType sldType = factory_owc_030.createSLDType();
         OnlineResourceType onLineResource = factory_owc_030.createOnlineResourceType();
         onLineResource.setHref(layer.getSld());
         sldType.setOnlineResource(onLineResource);
@@ -248,9 +250,9 @@ public class MFtoOWCv030Transformer {
     private StyleListType visitStyles(Layer layer) {
         StyleListType styleList = factory_owc_030.createStyleListType();
         if(layer.getStyles() != null )
-                styleList.getStyle().add(visitStyleName(layer));            
+                styleList.getStyle().add(visitStyleName(layer));
         else if(layer.getSld() != null)
-                styleList.getStyle().add(visitSld(layer));            
+                styleList.getStyle().add(visitSld(layer));
         else if(layer.getSldBody() != null)
                 styleList.getStyle().add(visitSldBody(layer));
         return styleList;

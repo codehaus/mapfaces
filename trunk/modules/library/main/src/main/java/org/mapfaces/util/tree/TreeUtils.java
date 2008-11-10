@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.util.tree;
@@ -12,11 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.el.ELContext;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.Utils;
@@ -24,8 +36,7 @@ import org.mapfaces.util.treetable.TreeTableConfig;
 import org.mapfaces.util.treetable.TreeTableUtils;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeUtils {
 
@@ -33,15 +44,15 @@ public class TreeUtils {
      * Duplicate method to clone a list Of UIComponent with specified value from
      * a TreeNodeModel
      * @param list a list to make copy of UIComponent to clone
-     * @param node a node who have values for duplicate the UIComponent 
+     * @param node a node who have values for duplicate the UIComponent
      * with specified values
      * @return List<UIComponent> initiate with TreeNodeModels values
      */
-    public static List<UIComponent> duplicate(List<UIComponent> list, TreeNodeModel node) {
-        List<UIComponent> backup = new ArrayList<UIComponent>();
-        for (UIComponent tmp : list) {
+    public static List<UIComponent> duplicate(final List<UIComponent> list, final TreeNodeModel node) {
+        final List<UIComponent> backup = new ArrayList<UIComponent>();
+        for (final UIComponent tmp : list) {
             try {
-                UIComponent toduplic = duplicate(tmp, node);
+                final UIComponent toduplic = duplicate(tmp, node);
                 toduplic.saveState(FacesContext.getCurrentInstance());
                 backup.add(toduplic);
             } catch (InstantiationException ex) {
@@ -53,36 +64,27 @@ public class TreeUtils {
         return backup;
     }
 
-    /**
-     * 
-     * @param component
-     * @param node
-     * @return
-     * @throws java.lang.InstantiationException
-     * @throws java.lang.IllegalAccessException
-     */
-    private static UIComponent duplicate(UIComponent component, TreeNodeModel node) throws InstantiationException, IllegalAccessException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UIComponent news = component.getClass().newInstance();
-        String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+    private static UIComponent duplicate(final UIComponent component, final TreeNodeModel node)
+            throws InstantiationException, IllegalAccessException {
+        final FacesContext context      = FacesContext.getCurrentInstance();
+        final UIComponent news          = component.getClass().newInstance();
+        final String treepanelId        = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
 
         //Copy specific attributes from component to news
         copyAttributes(component, news);
 
-        Object value = component.getAttributes().get("value");
-        ValueExpression ve;
+        final Object value = component.getAttributes().get("value");
         if (value != null) {
             if (value.getClass().toString().contains("java.lang.String")) {
-                ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
+                final ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
                 news.getAttributes().put("value", ve.getValue(context.getELContext()));
             } else {
                 news.getAttributes().put("value", value);
             }
 
-            ELContext el = context.getELContext();
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            Map requestMap = ec.getRequestMap();
+            final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            final Map requestMap = ec.getRequestMap();
             if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
                news.setId(component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
             else
@@ -103,24 +105,19 @@ public class TreeUtils {
         }
         return news;
     }
-    
-     /**
-     * 
-     * @param component
-     * @param news
-     */
-    private static void copyAttributes(UIComponent component, UIComponent news) {
 
-        Class newClasse = news.getClass();
-        Class oldClasse = component.getClass();
+    private static void copyAttributes(final UIComponent component, final UIComponent news) {
+
+        final Class newClasse = news.getClass();
+        final Class oldClasse = component.getClass();
         Object resultGet;
 
         if (component != null) {
             if (news != null) {
-                for (Method method : newClasse.getMethods()) {
+                for (final Method method : newClasse.getMethods()) {
                     if (method.getName().startsWith("set")) {
                         try {
-                            String Propertie = method.getName().substring(3);
+                            final String Propertie = method.getName().substring(3);
                             if (!(Propertie.equals("Id")) && !(Propertie.equals("Converter")) && !(Propertie.equals("ValueExpression")) && !(Propertie.equals("RendererType")) && !(Propertie.equals("Parent")) && !(Propertie.equals("Value"))) {
 
                                 Method Getter = null;

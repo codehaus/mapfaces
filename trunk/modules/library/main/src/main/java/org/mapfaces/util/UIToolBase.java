@@ -20,7 +20,6 @@ package org.mapfaces.util;
 import javax.faces.component.UIComponentBase;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public abstract class UIToolBase extends UIComponentBase {

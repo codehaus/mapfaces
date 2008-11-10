@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 package org.mapfaces.util.tree;
 
@@ -8,7 +20,8 @@ package org.mapfaces.util.tree;
  * CSS definitions for tree components
  * Definitions from treeW3Cn2 css file : This document is valid in accordance with the recommendation CSS version 2.1!
  * @see treeW3Cn2.css
- * @author kdelfour
+ *
+ * @author Kevin Delfour
  */
 public final class TreeStyle {
 
@@ -43,7 +56,7 @@ public final class TreeStyle {
     public static final String default_headersStyle = "x-tree-headers";
     public static final String default_headerStyle = "x-tree-hd";
     public static final String default_headerTextStyle = "x-tree-hd-text";
-    /* Toolbar style class */ 
+    /* Toolbar style class */
     public static final String default_toolbarStyle = "x-toolbar";
     /* Clean style class */
     public static final String default_clearStyle = "x-clear";
@@ -67,7 +80,7 @@ public final class TreeStyle {
     static final String default_leafStyle = "x-tree-node-el x-tree-node-leaf";
     static final String default_leafRepresentationStyle = "x-tree-ec-icon";
     /*
-     * Css Style customize 
+     * Css Style customize
      */
     /* Row customize style */
     public static final String default_rowStyle = "position:relative; list-style-type:none;";
