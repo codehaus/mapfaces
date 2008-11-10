@@ -21,7 +21,7 @@ import javax.faces.webapp.UIComponentELTag;
 
 /**
  * <p>UITreeLinesELTag is the base class for all JSP tags that correspond to a Tree Lines Component instance in the view.</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreeLinesELTag extends UIComponentELTag {
 

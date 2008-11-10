@@ -20,8 +20,7 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreeToolbarELTag extends UITreeComponentELTag {
 
@@ -38,7 +37,7 @@ public abstract class UITreeToolbarELTag extends UITreeComponentELTag {
      * @param component UIComponent whose properties are to be overridden
      */
     @Override
-    public void setProperties(UIComponent component) {
+    public void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("styleTools", styleTools);
         component.setValueExpression("styleClassTools", styleClassTools);

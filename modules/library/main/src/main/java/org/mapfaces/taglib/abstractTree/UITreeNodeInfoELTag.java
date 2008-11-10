@@ -25,7 +25,7 @@ import javax.faces.component.UIComponent;
  * <li>headerTitle</li>
  * <li>hide</li>
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreeNodeInfoELTag extends UITreeComponentELTag {
 

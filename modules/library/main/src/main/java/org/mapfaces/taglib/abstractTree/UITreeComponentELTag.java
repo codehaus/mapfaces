@@ -27,7 +27,7 @@ import javax.faces.webapp.UIComponentELTag;
  * <li>style</li>
  * <li>styleClass</li>
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreeComponentELTag extends UIComponentELTag {
 

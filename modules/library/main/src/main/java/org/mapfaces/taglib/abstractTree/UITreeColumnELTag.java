@@ -26,7 +26,7 @@ import javax.faces.component.UIComponent;
  * <li>icon</li>
  * <li>styleHeader</li>
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreeColumnELTag extends UIColumnELTag {
 

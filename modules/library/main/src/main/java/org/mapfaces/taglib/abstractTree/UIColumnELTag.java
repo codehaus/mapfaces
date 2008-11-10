@@ -18,11 +18,11 @@ package org.mapfaces.taglib.abstractTree;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import org.mapfaces.taglib.abstractTree.UITreeComponentELTag;
 
 /**
  * <p>UIColumnELTag is the base class for all JSP tags that correspond to a Tree column Component instance in the view.</p>
- * @author kdelfour
+ * 
+ * @author Kevin Delfour
  */
 public abstract class UIColumnELTag extends UITreeComponentELTag {
 
