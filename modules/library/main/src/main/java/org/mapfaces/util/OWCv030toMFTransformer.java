@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -29,21 +29,27 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
 import net.opengis.owc.v030.DimensionType;
 import net.opengis.owc.v030.LayerType;
 import net.opengis.owc.v030.OWSContextType;
 import net.opengis.owc.v030.StyleListType;
 import net.opengis.owc.v030.StyleType;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.constellation.ows.v100.BoundingBoxType;
+
 import org.geotools.data.wms.WebMapServer;
 import org.geotools.data.wms.backend.AbstractDimension;
 import org.geotools.data.wms.backend.AbstractLayer;
 import org.geotools.data.wms.backend.AbstractWMSCapabilities;
+
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -92,8 +98,8 @@ public class OWCv030toMFTransformer {
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
 //                                    System.out.println(wmsUrl);
 //                                    System.out.println(((ServletContext) (FacesContext.getCurrentInstance().getExternalContext().getContext())).getContextPath());
-//                             
-//                               
+//
+//
 //                                }else{
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
 //                                }
@@ -221,10 +227,10 @@ public class OWCv030toMFTransformer {
 //                            SimpleFeatureType schema = data.getSchema(typeName);
 //
 //                            /* Style style = getWfsLayerStyle(layerType,schema);
-//                            // Step 4 - target    
-//                            DefaultMapLayer wfsLayer = new DefaultMapLayer(data.getFeatureSource(typeName),style);  
+//                            // Step 4 - target
+//                            DefaultMapLayer wfsLayer = new DefaultMapLayer(data.getFeatureSource(typeName),style);
 //                            if(layerType.getId()==null)
-//                            layerType.setId(Utils.generateUniqueId("MapFaces_Layer_WFS_"));                            
+//                            layerType.setId(Utils.generateUniqueId("MapFaces_Layer_WFS_"));
 //                            wfsLayer.setId(layerType.getId());
 //                            if(layerType.getOpacity()!=null)
 //                            wfsLayer.setOpacity(layerType.getOpacity().toString());
@@ -247,7 +253,7 @@ public class OWCv030toMFTransformer {
                         String gmlName = layerType.getName();
                         SimpleFeatureType gmlSchema = (SimpleFeatureType) fc.getSchema();
                         Style gmlStyle = getWfsLayerStyle(layerType,gmlSchema);
-                        // Step 4 - target    
+                        // Step 4 - target
                         DefaultMapLayer gmlLayer = new DefaultMapLayer(fc, gmlStyle);
                         // wfsLayer.setSEStyle((org.opengis.style.Style) style);
                         if (gmlLayer == null) {

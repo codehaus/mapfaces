@@ -138,10 +138,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         final HttpServletRequest request    = (HttpServletRequest) context.getExternalContext().getRequest();
         final AjaxUtils ajaxtools           = new AjaxUtils();
 
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY(), "true");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), component.getId());
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_NODE_ID_KEY(), String.valueOf(node.getId()));
+        ajaxtools.addAjaxParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY, "true");
+        ajaxtools.addAjaxParameter(AjaxUtils.AJAX_RENDERCHILD_ID_KEY, "true");
+        ajaxtools.addAjaxParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY, component.getId());
+        ajaxtools.addAjaxParameter(AjaxUtils.AJAX_NODE_ID_KEY, String.valueOf(node.getId()));
         ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
 
         //Get width of the column
@@ -389,9 +389,8 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
-        final AjaxUtils ajaxtools          = new AjaxUtils();
         final HttpServletRequest request   = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String nodeId                = request.getParameter(ajaxtools.getAJAX_NODE_ID_KEY());
+        final String nodeId                = request.getParameter(AjaxUtils.AJAX_NODE_ID_KEY);
         final UITreeLinesBase treeline     = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
         final StringBuffer sb              = new StringBuffer("");
         final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();

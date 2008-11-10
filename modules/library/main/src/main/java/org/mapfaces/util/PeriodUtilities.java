@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,7 +22,6 @@ import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
@@ -32,14 +31,12 @@ import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
- * 
- * 
  * @author Guilhem Legal
  * @author Mehdi Sidhoum
  */
 public class PeriodUtilities {
 
-    Logger logger = Logger.getLogger("org.mapfaces.util");
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.util");
     /**
      * The number of millisecond in one year.
      */
@@ -69,12 +66,12 @@ public class PeriodUtilities {
      */
     private final static long secondMS = 1000;
     /**
-     * The format of the dates. 
+     * The format of the dates.
      */
     private DateFormat dateFormat;
 
     /**
-     * Build a new period worker with the specified DateFormat 
+     * Build a new period worker with the specified DateFormat
      */
     public PeriodUtilities(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
@@ -86,12 +83,12 @@ public class PeriodUtilities {
      *
      * @param dates a sorted set of date (ordered by time).
      */
-    public String getDatesRespresentation(SortedSet<Date> dates) {
+    public String getDatesRespresentation(final SortedSet<Date> dates) {
         if (dates.comparator() != null) {
             throw new IllegalArgumentException();
         }
 
-        StringBuffer response = new StringBuffer();
+        final StringBuffer response = new StringBuffer();
 
         if (dates.isEmpty()) {
             return "";
@@ -103,7 +100,7 @@ public class PeriodUtilities {
         long gap = 0;
         int nbDataInGap = 0;
 
-        for (Date d : dates) {
+        for (final Date d : dates) {
             previousGap = gap;
             gap = d.getTime() - previousDate.getTime();
 
@@ -153,7 +150,7 @@ public class PeriodUtilities {
 
     /**
      * Return a String for a range of date (or just one)
-     * 
+     *
      * @param first
      * @param last
      * @param gap
@@ -227,7 +224,7 @@ public class PeriodUtilities {
 
     /**
      * Returns a sorted set from a string description.
-     * 
+     *
      * @param periods
      * @param dateFormat
      * @return
@@ -275,7 +272,7 @@ public class PeriodUtilities {
      */
     /**
      * Return a Date (long time) from a String description
-     * 
+     *
      * @param periodDescription
      * @return
      */
@@ -363,7 +360,7 @@ public class PeriodUtilities {
             sdf.setTimeZone(TimeZone.getTimeZone(timezone));
 
             response = sdf.parse(dateString);
-        } 
+        }
         return response;
     }
 
@@ -377,7 +374,7 @@ public class PeriodUtilities {
 
     /**
      * Return a Date (long time) from a String description
-     * 
+     *
      * @param periodDescription
      * @return
      */
@@ -447,7 +444,7 @@ public class PeriodUtilities {
         }
         return time;
     }
-    
+
     public static Date getFirstDateFromPeriodDescription (String periodDescription) throws ParseException, DatatypeConfigurationException {
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
@@ -464,7 +461,7 @@ public class PeriodUtilities {
 //        /*PeriodUtilities pu = new PeriodUtilities(null);
 //        long response = pu.getTimeFromDuration("PT1M", new Date());
 //        System.out.println(">>>>>>>>>>>>>>>>> response = " + response);
-//        
+//
 //        String begin = "2003-02-13T12:28:55.456-0800";
 //        String end = "2004-02-13T12:28:55.456-0800";
 //        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -472,11 +469,11 @@ public class PeriodUtilities {
 //        dateFormat.setTimeZone(TimeZone.getTimeZone(PeriodUtilities.getTimeZone(begin)));
 //        SortedSet dates = pu.getDatesFromPeriodDescription(begin+"/"+end+"/P1DT23H", dateFormat);
 //        System.out.println(">>>>> dates size = " + dates.size());
-//        
+//
 //        Date d = PeriodUtilities.getDateFromString(begin);
 //        System.out.println(">>>>>>>>> begin = "+d.toString());
-//        
-//        
+//
+//
 //        System.out.println(">>>>>>>> long = "+PeriodUtilities.getTimeInMillis("P1MT1M"));
 //         */
 //        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";

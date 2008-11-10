@@ -93,8 +93,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
         /* Prepare informations for making any Ajax request */
         final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY(), "true");
-        ajaxtools.addAjaxParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY(), treepanelId + "_line_" + node.getId());
+        ajaxtools.addAjaxParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY, "true");
+        ajaxtools.addAjaxParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY, treepanelId + "_line_" + node.getId());
         ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
         final String AJAX_SERVER        = ajaxtools.getAjaxServer(request);
         final String AJAX_PARAMETERS    = ajaxtools.getAjaxParameters();

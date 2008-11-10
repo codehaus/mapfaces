@@ -460,9 +460,9 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         /* First we get attributes from the request*/
-        final String TreeLineNewParentId        = request.getParameter(ajaxtools.getDND_NEW_PARENT_COMPONENT());
-        final String TreeLineinDragId           = request.getParameter(ajaxtools.getAJAX_COMPONENT_ID_KEY());
-        final String Position                   = request.getParameter(ajaxtools.getDND_POSITION_LINE());
+        final String TreeLineNewParentId        = request.getParameter(AjaxUtils.DND_NEW_PARENT_COMPONENT);
+        final String TreeLineinDragId           = request.getParameter(AjaxUtils.AJAX_COMPONENT_ID_KEY);
+        final String Position                   = request.getParameter(AjaxUtils.DND_POSITION_LINE);
         final UITreeLinesBase treeLinesToDrag   = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
         final UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
 
@@ -560,7 +560,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         /* Then render head column of th UIcomponent */
         final Map<String,Object> attributs = component.getAttributes();
-        String size = config.getDEFAULT_SIZE_COLUMN();
+        String size = TreeTableConfig.DEFAULT_SIZE_COLUMN;
         if (attributs.get("width") != null) {
             size = String.valueOf(attributs.get("width"));
             /* If size exist, we remove one pixel to align with the rest of the treetable,

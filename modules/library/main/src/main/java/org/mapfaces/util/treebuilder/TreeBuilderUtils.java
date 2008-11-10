@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -16,7 +16,6 @@
  */
 package org.mapfaces.util.treebuilder;
 
-import org.mapfaces.share.request.RequestMapUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -28,38 +27,31 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.treebuilder.UITreeLines;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.share.request.RequestMapUtils;
 import org.mapfaces.util.tree.TreeUtils;
 
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeBuilderUtils {
 
-     /**
-     * 
-     * @param component
-     * @param node
-     * @param list
-     * @throws java.io.IOException
-     */
-    public void createTreeLines(UIComponent component, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UITreePanelBase treepanel = (UITreePanelBase) component;
+    public void createTreeLines(final UIComponent component, final TreeNodeModel node,
+            final List<UIComponent> list, final boolean LoadingOption) throws IOException {
+        final UITreePanelBase treepanel = (UITreePanelBase) component;
 
         if (!((UITreePanelBase) component).isInit()) {
             for (int i = 0; i < node.getChildCount(); i++) {
-                TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
+                final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
                 RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
 
                 //Create a new treeline and get all component to make a backup
-                UITreeLines treelines = new UITreeLines();
-                HtmlPanelGroup panelgroup = new HtmlPanelGroup();
+                final UITreeLines treelines     = new UITreeLines();
+                final HtmlPanelGroup panelgroup = new HtmlPanelGroup();
+                final String idLine             = treepanel.getId() + "_line_";
+                final String idPanel            = treepanel.getId() + "_panel_";
+                final int idnode                = currentNode.getId();
 
-                String idLine = treepanel.getId() + "_line_";
-                String idPanel = treepanel.getId() + "_panel_";
-                int idnode = currentNode.getId();
 //                System.out.println("[DEBUG] createTreeLines ID to add " + id + idnode);
                 treelines.setId(idLine + idnode);
                 panelgroup.setId(idPanel + idnode);
@@ -67,7 +59,7 @@ public class TreeBuilderUtils {
                 treelines.setNodeId(currentNode.getId());
                 treelines.setNodeInstance(currentNode);
 
-                List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
+                final List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
 
                 treelines.getChildren().addAll(tocopy);
                 if (!currentNode.isLeaf()) {
@@ -81,34 +73,24 @@ public class TreeBuilderUtils {
         }
     }
 
-     /**
-     * 
-     * @param treepanel 
-     * @param component
-     * @param node
-     * @param list
-     * @throws java.io.IOException
-     */
     @SuppressWarnings("unchecked")
-    private void createTreeLinesRecurs(UITreePanelBase treepanel, TreeNodeModel node, List<UIComponent> list, boolean LoadingOption) throws IOException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UITreeLines treelines = null;
+    private void createTreeLinesRecurs(final UITreePanelBase treepanel, final TreeNodeModel node,
+            final List<UIComponent> list, final boolean LoadingOption) throws IOException {
 
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Map requestMap = ec.getRequestMap();
+        final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        final Map requestMap     = ec.getRequestMap();
         requestMap.put("Elresolver.called", false);
 
         for (int i = 0; i < node.getChildCount(); i++) {
-            TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
+            final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
             RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
 
-            treelines = new UITreeLines();
-            HtmlPanelGroup panelgroup = new HtmlPanelGroup();
+            final UITreeLines treelines     = new UITreeLines();
+            final HtmlPanelGroup panelgroup = new HtmlPanelGroup();
+            final String idLine             = treepanel.getId() + "_line_";
+            final String idPanel            = treepanel.getId() + "_panel_";
+            final int idnode                = currentNode.getId();
 
-            String idLine = treepanel.getId() + "_line_";
-            String idPanel = treepanel.getId() + "_panel_";
-
-            int idnode = currentNode.getId();
 //            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + idLine + idnode);
             treelines.setId(idLine + idnode);
             panelgroup.setId(idPanel + idnode);
@@ -117,14 +99,14 @@ public class TreeBuilderUtils {
             treelines.setNodeInstance(currentNode);
 
 
-            List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
+            final List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
             treelines.getChildren().addAll(tocopy);
             treelines.setToRender(true);
             treelines.getNodeInstance().setChecked(true);
 
             if (!treepanel.isInit()) {
                 if (!LoadingOption) {
-                    if (node.getDepth() >= TreeBuilderConfig.getDEFAULT_DEPTH_VIEW()) {
+                    if (node.getDepth() >= TreeBuilderConfig.DEFAULT_DEPTH_VIEW) {
                         treelines.getNodeInstance().setChecked(false);
 //                    treelines.setToRender(false);
                         treelines.setRendered(false);

@@ -113,7 +113,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         final UIColumnBase column       = (UIColumnBase) component;
         final TreeNodeModel node        = treeline.getNodeInstance();
 
-        String size = config.getDEFAULT_SIZE_COLUMN();
+        String size = TreeTableConfig.DEFAULT_SIZE_COLUMN;
         final String width = (String) component.getAttributes().get("width");
         if ( width != null) size = String.valueOf(Integer.parseInt(width) - 2) + "px;";
 
@@ -201,12 +201,11 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
         final UITreeLinesBase treeline   = (UITreeLinesBase) component.getParent();
         final Object userObject          = treeline.getNodeInstance().getUserObject();
-        final AjaxUtils ajaxtools        = new AjaxUtils();
         final TreeNodeModel node         = treeline.getNodeInstance();
         final Object item                = node.getUserObject();
         final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String new_value           = request.getParameter(ajaxtools.getAJAX_COMPONENT_VALUE_KEY());
-        final String targetId            = request.getParameter(ajaxtools.getAJAX_TARGET_ID_KEY());
+        final String new_value           = request.getParameter(AjaxUtils.AJAX_COMPONENT_VALUE_KEY);
+        final String targetId            = request.getParameter(AjaxUtils.AJAX_TARGET_ID_KEY);
         final String[] targetNameSplit   = component.getId().split("_");
         final String targetProperty      = targetNameSplit[targetNameSplit.length - 1];
         final String propName            = StringUtils.capitalize(targetProperty.toString());

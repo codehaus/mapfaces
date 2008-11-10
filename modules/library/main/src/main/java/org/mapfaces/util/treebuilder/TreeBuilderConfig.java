@@ -18,32 +18,11 @@
 package org.mapfaces.util.treebuilder;
 
 /**
- *
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TreeBuilderConfig {
-    /**
-     * Values by default
-     */
-     private static String DEFAULT_SIZE_COLUMN = "100px";
-     private static int DEFAULT_DEPTH_VIEW = 2;
-
-     /**
-      * Access Methods
-      * @return 
-      */
-    public String getDEFAULT_SIZE_COLUMN() {
-        return DEFAULT_SIZE_COLUMN;
-    }
-    public void setDEFAULT_SIZE_COLUMN(String DEFAULT_SIZE_COLUMN) {
-        this.DEFAULT_SIZE_COLUMN = DEFAULT_SIZE_COLUMN;
-    }
-
-    public static int getDEFAULT_DEPTH_VIEW() {
-        return DEFAULT_DEPTH_VIEW;
-    }
-    public void setDEFAULT_DEPTH_VIEW(int DEFAULT_DEPTH_VIEW) {
-        this.DEFAULT_DEPTH_VIEW = DEFAULT_DEPTH_VIEW;
-    }
+    
+     public static final String DEFAULT_SIZE_COLUMN = "100px";
+     public static final int DEFAULT_DEPTH_VIEW = 2;
 
 }

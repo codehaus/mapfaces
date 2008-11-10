@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,7 +20,6 @@ package org.mapfaces.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,8 +40,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+
 import org.geotools.data.wms.backend.AbstractKeyword;
+
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
@@ -57,7 +59,8 @@ import org.mapfaces.models.Layer;
  */
 public class FacesUtils {
 
-    public static void encodeRecursive(FacesContext context, UIComponent component) throws IOException {
+    public static void encodeRecursive(final FacesContext context,
+            final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
         // Render this component and its children recursively
@@ -66,7 +69,7 @@ public class FacesUtils {
         if (component.getRendersChildren()) {
             component.encodeChildren(context);
         } else {
-            Iterator kids = component.getChildren().iterator();
+            final Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
                 UIComponent kid = (UIComponent) kids.next();
                 encodeRecursive(context, kid);
@@ -170,11 +173,11 @@ public class FacesUtils {
      * @param clientId
      * @return component referenced by clientId or null if not found
      */
-    public static UIComponent findComponentByClientId(FacesContext context,
-            UIComponent root, String clientId) {
+    public static UIComponent findComponentByClientId(final FacesContext context,
+            final UIComponent root, final String clientId) {
         UIComponent component = null;
         for (int i = 0; i < root.getChildCount() && component == null; i++) {
-            UIComponent child = (UIComponent) root.getChildren().get(i);
+            final UIComponent child = (UIComponent) root.getChildren().get(i);
             component = findComponentByClientId(context, child, clientId);
         }
         if (root.getId() != null) {
@@ -185,17 +188,18 @@ public class FacesUtils {
         return component;
     }
 
-    /** 
+    /**
      * Returns a component referenced by his id.
      * @param context
      * @param root
      * @param id
      * @return component referenced by id or null if not found
      */
-    public static UIComponent findComponentById(FacesContext context, UIComponent root, String id) {
+    public static UIComponent findComponentById(final FacesContext context,
+            final UIComponent root, final String id) {
         UIComponent component = null;
         for (int i = 0; i < root.getChildCount() && component == null; i++) {
-            UIComponent child = (UIComponent) root.getChildren().get(i);
+            final UIComponent child = (UIComponent) root.getChildren().get(i);
             component = findComponentById(context, child, id);
         }
         if (root.getId() != null) {
@@ -206,7 +210,7 @@ public class FacesUtils {
         return component;
     }
 
-    public static RenderKit getRenderKit(FacesContext context) {
+    public static RenderKit getRenderKit(final FacesContext context) {
         String renderKitId = context.getViewRoot().getRenderKitId();
         renderKitId = (null != renderKitId) ? renderKitId : RenderKitFactory.HTML_BASIC_RENDER_KIT;
         RenderKitFactory fact = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
@@ -256,7 +260,7 @@ public class FacesUtils {
     }
 
     /**
-     * The getLifecycleId() is used for getting the id of 
+     * The getLifecycleId() is used for getting the id of
      * the Lifecycle from the ServletContext.
      * @param context
      * @return the id of the life cycle.
@@ -268,22 +272,22 @@ public class FacesUtils {
     }
 
     /**
-     * Function to create a <a4j:support> component with extra parameters based on the "var" attribute of the treepanel component 
+     * Function to create a <a4j:support> component with extra parameters based on the "var" attribute of the treepanel component
      * This function should used only on a child of treePanel component (see LayerControl component for details).
-     * @param context           FacesContext  
+     * @param context           FacesContext
      * @param comp              UIComponent Parent of the <a4j:support> component
      * @param event             String  Click Event (onclick,....)
      * @param varId             String  id of the bean defined in "var" attribute of the treepanel component
      * @param idsToReRender     String  id of components to reRender , if null the varId is set
-     * @return  ajaxComp        the <a4j:support> component 
+     * @return  ajaxComp        the <a4j:support> component
      */
-    public static HtmlAjaxSupport createTreeAjaxSupport(FacesContext context, UIComponent comp, String event, String varId, String idsToReRender) {
+    public static HtmlAjaxSupport createTreeAjaxSupport(final FacesContext context,
+            final UIComponent comp, final String event, final String varId, String idsToReRender) {
 
         /* To use the synchronized parameter the reRender attribute must be null*/
-        AjaxUtils ajaxUtils = new AjaxUtils();
-        HashMap<String, String> extraParams = new HashMap<String, String>();
-        extraParams.put(ajaxUtils.getAJAX_LAYER_ID(), varId);
-        extraParams.put(ajaxUtils.getAJAX_CONTAINER_ID_KEY(), comp.getClientId(context));
+        final HashMap<String, String> extraParams = new HashMap<String, String>();
+        extraParams.put(AjaxUtils.AJAX_LAYER_ID, varId);
+        extraParams.put(AjaxUtils.AJAX_CONTAINER_ID_KEY, comp.getClientId(context));
         /*if we don't want to reRender another component than the "var" component */
         if (idsToReRender == null) {
             idsToReRender = varId;
@@ -293,15 +297,16 @@ public class FacesUtils {
 
     /**
      * Function to create a <a4j:support> component with extra parameters, where components would be refreshed synchronously
-     * 
-     * @param context           FacesContext  
+     *
+     * @param context           FacesContext
      * @param comp              UIComponent Parent of the <a4j:support> component
      * @param event             String  Click Event (onclick,....)
      * @param idsToReRender     String  Id of components to refresh
-     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request 
-     * @return  ajaxComp        the <a4j:support> component 
+     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request
+     * @return  ajaxComp        the <a4j:support> component
      */
-    public static HtmlAjaxSupport createSynchronizedAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender, HashMap<String, String> extraParams) {
+    public static HtmlAjaxSupport createSynchronizedAjaxSupport(final FacesContext context, final UIComponent comp,
+            final String event, String idsToReRender, final HashMap<String, String> extraParams) {
 
         /* To use the synchronized parameter the reRender attribute must be null*/
         extraParams.put("synchronized", "true");
@@ -312,38 +317,40 @@ public class FacesUtils {
 
     /**
      * Function to create a <a4j:support> component with extra parameters
-     * 
-     * @param context           FacesContext  
+     *
+     * @param context           FacesContext
      * @param comp              UIComponent Parent of the <a4j:support> component
      * @param event             String  Click Event (onclick,....)
      * @param idsToReRender     String  Id of components to refresh
-     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request 
-     * @return  ajaxComp        the <a4j:support> component 
+     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request
+     * @return  ajaxComp        the <a4j:support> component
      */
-    public static HtmlAjaxSupport createExtraAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender, HashMap<String, String> extraParams) {
+    public static HtmlAjaxSupport createExtraAjaxSupport(final FacesContext context, final UIComponent comp,
+            final String event, final String idsToReRender, final HashMap<String, String> extraParams) {
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = createBasicAjaxSupport(context, comp, event, idsToReRender);
-        for (String tmp : extraParams.keySet()) {
+        final HtmlAjaxSupport ajaxComp = createBasicAjaxSupport(context, comp, event, idsToReRender);
+        for (final String tmp : extraParams.keySet()) {
             ajaxComp.getChildren().add(createFParam(tmp, extraParams.get(tmp)));
         }
         return ajaxComp;
     }
 
     /**
-     * Function to create a classic <a4j:support> component 
-     * 
-     * @param context           FacesContext  
+     * Function to create a classic <a4j:support> component
+     *
+     * @param context           FacesContext
      * @param comp              UIComponent Parent of the <a4j:support> component
      * @param event             String  Click Event (onclick,....)
      * @param idsToReRender     String  Id of components to refresh
-     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request 
-     * @return  ajaxComp        the <a4j:support> component  
+     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request
+     * @return  ajaxComp        the <a4j:support> component
      */
-    public static HtmlAjaxSupport createBasicAjaxSupport(FacesContext context, UIComponent comp, String event, String idsToReRender) {
+    public static HtmlAjaxSupport createBasicAjaxSupport(final FacesContext context,
+            final UIComponent comp, final String event, final String idsToReRender) {
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
+        final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
         ajaxComp.setId(comp.getId() + "_Ajax");
         ajaxComp.setEvent(event);
         ajaxComp.setAjaxSingle(true);
@@ -364,14 +371,14 @@ public class FacesUtils {
      * @param onCompleteJS
      * @return
      */
-    public static HtmlAjaxSupport createTreeAjaxSupportWithParameters(FacesContext context,
-            UIComponent comp, String event, String varId, String idsToReRender,
-            HashMap<String, String> params, String onSubmitJS, String onCompleteJS) {
+    public static HtmlAjaxSupport createTreeAjaxSupportWithParameters(final FacesContext context,
+            final UIComponent comp, final String event, final String varId, String idsToReRender,
+            final HashMap<String, String> params, final String onSubmitJS, String onCompleteJS) {
 
         if (comp == null) {
             return null;
         }
-        HashMap<String, String> extraParams = new HashMap<String, String>();
+        final HashMap<String, String> extraParams = new HashMap<String, String>();
         extraParams.put(AjaxUtils.AJAX_LAYER_ID, varId);
         extraParams.put(AjaxUtils.AJAX_CONTAINER_ID_KEY, comp.getClientId(context));
         extraParams.putAll(params);
@@ -380,8 +387,8 @@ public class FacesUtils {
         }
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS);
-        for (String tmp : extraParams.keySet()) {
+        final HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS);
+        for (final String tmp : extraParams.keySet()) {
             ajaxComp.getChildren().add(createFParam(tmp, extraParams.get(tmp)));
         }
         return ajaxComp;
@@ -397,10 +404,11 @@ public class FacesUtils {
      * @param onCompleteJS
      * @return
      */
-    public static HtmlAjaxSupport createCompleteAjaxSupport(FacesContext context, String parentId, String event, String idsToReRender, String onSubmitJS, String onCompleteJS) {
+    public static HtmlAjaxSupport createCompleteAjaxSupport(final FacesContext context, final String parentId,
+            final String event, final String idsToReRender, final String onSubmitJS, final String onCompleteJS) {
 
         /* Add <a4j:support> component */
-        HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
+        final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
         ajaxComp.setId(parentId + "_Ajax");
         ajaxComp.setEvent(event);
         ajaxComp.setAjaxSingle(true);
@@ -416,10 +424,10 @@ public class FacesUtils {
         return ajaxComp;
     }
 
-    private static UIParameter createFParam(String name, String value) {
+    private static UIParameter createFParam(final String name, final String value) {
 
         /* Add <f:param> component */
-        UIParameter fParam = new UIParameter();
+        final UIParameter fParam = new UIParameter();
         fParam.setName(name);
         fParam.setValue(value);
         return fParam;
@@ -431,11 +439,11 @@ public class FacesUtils {
      * @param str
      * @return
      */
-    public static boolean matchesStringfromList(List<String> list, String str) {
+    public static boolean matchesStringfromList(final List<String> list, final String str) {
         boolean str_available = false;
-        for (String s : list) {
-            Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
-            Matcher matcher = pattern.matcher(s);
+        for (final String s : list) {
+            final Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
+            final Matcher matcher = pattern.matcher(s);
             if (matcher.find()) {
                 str_available = true;
             }
@@ -508,7 +516,7 @@ public class FacesUtils {
         }
         return result;
     }
-    
+
     /**
      * This method returns the  current server informations ie:  Sun Java System Application Server or Apache Tomcat/6.0.13 ...
      * @return the server name.

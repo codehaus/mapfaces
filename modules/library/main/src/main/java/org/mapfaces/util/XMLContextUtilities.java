@@ -1,11 +1,21 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.util;
-
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,26 +52,26 @@ import org.xml.sax.InputSource;
 
 import org.mapfaces.models.Context;
 
-public  class XMLContextUtilities { 
-    
+public  class XMLContextUtilities {
+
     private final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
-    
+
     private net.opengis.owc.v030.ObjectFactory factory_owc_030 = new net.opengis.owc.v030.ObjectFactory();
     //private net.opengis.context.v110.ObjectFactory factory_wmc_100 = new net.opengis.context.v100.ObjectFactory();
-    private net.opengis.context.v110.ObjectFactory factory_wmc_110 = new net.opengis.context.v110.ObjectFactory(); 
+    private net.opengis.context.v110.ObjectFactory factory_wmc_110 = new net.opengis.context.v110.ObjectFactory();
 //    private org.geotools.internal.jaxb.v110.sld.ObjectFactory factory_sld_110 = new org.geotools.internal.jaxb.v110.sld.ObjectFactory();
 //    private org.geotools.internal.jaxb.v110.se.ObjectFactory factory_se_110 = new org.geotools.internal.jaxb.v110.se.ObjectFactory();
 //    private org.geotools.internal.jaxb.v100.ogc.ObjectFactory factory_ogc_100 = new org.geotools.internal.jaxb.v100.ogc.ObjectFactory();
 //    private org.geotools.internal.jaxb.v110.ogc.ObjectFactory factory_ogc_110 = new org.geotools.internal.jaxb.v110.ogc.ObjectFactory();
-//    
+//
 //    private SLD110toGTTransformer TRANSFORMER_GT_V110 = null;
 //    private GTtoSLD100Transformer TRANSFORMER_XML_V100 = null;
 //    private GTtoSLD110Transformer TRANSFORMER_XML_V110 = null;
-    
+
 
 
     public Context readContext(Object source) throws JAXBException, UnsupportedEncodingException {
-        JAXBElement elt =  unmarshal(source);    
+        JAXBElement elt =  unmarshal(source);
         if(elt.getName().toString().equals("{http://www.opengis.net/ows-context}OWSContext"))
             return readOWC(elt);
         else if(elt.getName().toString().equals("{http://www.opengis.net/context}Context"))
@@ -69,52 +79,52 @@ public  class XMLContextUtilities {
         else
             throw new NullPointerException("Bad file type");
     }
-    
+
     private Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class net.opengis.owc.v030.OWSContextType")){
             return (new OWCv030toMFTransformer()).visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
         }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
-        
+
     }
 
     private Context readWMC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class net.opengis.context.v110.ViewContextType")){
             return (new WMCv110toMFTransformer()).visit( (net.opengis.context.v110.ViewContextType) elt.getValue());
-        }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 "); 
+        }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
     }
 
-    
-    public void  writeContext(Context ctx, File output) throws JAXBException, UnsupportedEncodingException, IOException {       
-        JAXBElement elt;      
+
+    public void  writeContext(Context ctx, File output) throws JAXBException, UnsupportedEncodingException, IOException {
+        JAXBElement elt;
         if(ctx.getType().contains("OWSContextType")){
             elt = writeOWC(ctx);
         }else if( ctx.getType().contains("ViewContextType") ){
-            elt = writeWMC(ctx);            
+            elt = writeWMC(ctx);
         }else throw new UnsupportedOperationException("The version of your context file " +
                                "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
-                               ", only OWC 0.3.0 is supported !!!!!");          
-       
-        marshal(elt,output);        
+                               ", only OWC 0.3.0 is supported !!!!!");
+
+        marshal(elt,output);
     }
-    
+
     private JAXBElement writeOWC(Context ctx) throws UnsupportedEncodingException, JAXBException {
         if (ctx.getVersion().equals("0.3.0")){
             return writeOWC030(ctx);
         }
         throw new UnsupportedOperationException("The version of your context file " +
                "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
-               ", only OWC 0.3.0 is supported !!!!!");    
+               ", only OWC 0.3.0 is supported !!!!!");
     }
 
     private JAXBElement unmarshal(Object source) throws JAXBException {
        JAXBContext Jcontext;
-        Jcontext = JAXBContext.newInstance(jaxbInstance);   
-        Unmarshaller unmarshaller = Jcontext.createUnmarshaller(); 
-        return (JAXBElement) unmarshall(source,unmarshaller);  
+        Jcontext = JAXBContext.newInstance(jaxbInstance);
+        Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
+        return (JAXBElement) unmarshall(source,unmarshaller);
     }
-    
-      
-        
+
+
+
     public  void  marshal(Object jaxbElement, File output) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(jaxbInstance);
         Marshaller marshaller = jaxbContext.createMarshaller();
@@ -122,7 +132,7 @@ public  class XMLContextUtilities {
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshall(output,jaxbElement,marshaller);
-        
+
     }
     private final Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
         if(source instanceof File){
@@ -160,14 +170,14 @@ public  class XMLContextUtilities {
             } catch (MalformedURLException ex) {
                 return null;
             }
-            
+
         }else{
             throw new IllegalArgumentException("Source object is not a valid class :" + source.getClass());
         }
-        
+
     }
     private final void marshall(Object target, Object jaxbElement, Marshaller marshaller) throws JAXBException{
-        
+
         if(target instanceof File){
             File s = (File) target;
             marshaller.marshal(jaxbElement,s);
@@ -196,11 +206,11 @@ public  class XMLContextUtilities {
         }else{
             throw new IllegalArgumentException("target object is not a valid class :" + target.getClass());
         }
-        
+
     }
     private JAXBElement writeOWC030(Context ctx) throws UnsupportedEncodingException, JAXBException {
         return factory_owc_030.createOWSContext((new MFtoOWCv030Transformer()).visit(ctx));
-    } 
+    }
 
     private JAXBElement writeWMC(Context ctx) {
 //        if (ctx.getVersion().equals("1.0.0")){
@@ -210,7 +220,7 @@ public  class XMLContextUtilities {
 //        }
         throw new UnsupportedOperationException("The version of your context file " +
                "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
-               ", only OWC 0.3.0 is supported !!!!!"); 
+               ", only OWC 0.3.0 is supported !!!!!");
     }
 
 
@@ -224,7 +234,7 @@ public  class XMLContextUtilities {
             Logger.getLogger(XMLContextUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    
+//
 //    private final Object unmarshallWMCv110(Object source) throws JAXBException{
 ////        JAXBContext jaxbContext;
 ////        Unmarshaller unMarshaller;
@@ -237,7 +247,7 @@ public  class XMLContextUtilities {
 ////        return unmarshall(source, unMarshaller);
 //        return null;
 //    }
-//    
+//
 //    private final Object unmarshallOWCv030(Object source) throws JAXBException{
 //        JAXBContext jaxbContext;
 //        Unmarshaller unMarshaller;
@@ -249,13 +259,13 @@ public  class XMLContextUtilities {
 //        unMarshaller = jaxbContext.createUnmarshaller();
 //        return unmarshall(source, unMarshaller);
 //    }
-//    
-//    
-//    
+//
+//
+//
 //    private final void marshallWMCv110(Object target, Object jaxElement, NamespacePrefixMapperImpl namespace) throws JAXBException {
 ////        JAXBContext jaxbContext;
 ////        Marshaller marshaller;
-////        
+////
 ////        jaxbContext = JAXBContext.newInstance(org.geotools.internal.jaxb.v100.sld.StyledLayerDescriptor.class);
 ////        marshaller = jaxbContext.createMarshaller();
 ////        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);
@@ -263,11 +273,11 @@ public  class XMLContextUtilities {
 ////        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 ////        marshall(target, jaxElement, marshaller);
 //    }
-//    
+//
 //    private final void marshallOWCv030(Object target, Object jaxElement, NamespacePrefixMapperImpl namespace) throws JAXBException {
 //        JAXBContext jaxbContext;
 //        Marshaller marshaller;
-//        
+//
 //        jaxbContext = JAXBContext.newInstance(net.opengis.owc.v030.OWSContextType.class);
 //        marshaller = jaxbContext.createMarshaller();
 //        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);

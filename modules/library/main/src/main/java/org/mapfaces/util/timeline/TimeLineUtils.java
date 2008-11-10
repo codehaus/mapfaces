@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -34,6 +34,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.timeline.UITimeLineControl;
@@ -46,34 +47,36 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.PeriodUtilities;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class TimeLineUtils {
-    
-    public static String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
+
+    public static final String intervalNames[] = {"MILLENNIUM", "CENTURY", "DECADE", "YEAR", "MONTH", "WEEK",
         "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
     };
 
     /**
      * this array is used for the bandInfos background colors.
      */
-    public static String colors[] = {"#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
+    public static final String colors[] = {"#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
     "#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6",
     "#FFF5A1", "#dffbff", "#afcfff", "#ffd1b0", "#deffd8", "#fde5ff","#cfffe6"};
-    
-    public static List<Event> getEventsFromLayer(Layer layer) throws ParseException, DatatypeConfigurationException {
-        List<Event> result = new ArrayList<Event>();
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+
+    public static List<Event> getEventsFromLayer(final Layer layer)
+            throws ParseException, DatatypeConfigurationException {
+        final List<Event> result   = new ArrayList<Event>();
+        final String DATE_FORMAT   = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        final SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+1"));
         sdf.setTimeZone(TimeZone.getDefault());
-        SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription(layer.getTimes(), sdf);
-        Date dateBegin = dates.first();
-        Date dateEnd = dates.last();
-        for (Iterator it = dates.iterator(); it.hasNext();) {
-            Date crrt = (Date) it.next();
-            Event e = new Event(crrt,
+
+        final SortedSet<Date> dates = PeriodUtilities.getDatesFromPeriodDescription(layer.getTimes(), sdf);
+        final Date dateBegin = dates.first();
+        final Date dateEnd = dates.last();
+
+        for (final Iterator it = dates.iterator(); it.hasNext();) {
+            final Date crrt = (Date) it.next();
+            final Event e = new Event(crrt,
                     null,
                     null,
                     false,
@@ -90,13 +93,13 @@ public class TimeLineUtils {
             result.add(e);
         }
         return result;
-        
+
     }
-    
+
     /**
      * This method returns a default date from a mapfaces Layer model.
      * @param layer
-     * @return
+     * @return Date
      * @throws java.text.ParseException
      */
     public static Date getDefaultDateFromLayer (Layer layer) throws ParseException, DatatypeConfigurationException {
@@ -105,12 +108,12 @@ public class TimeLineUtils {
         }
         return PeriodUtilities.getFirstDateFromPeriodDescription(layer.getTimes());
     }
-    
+
     /**
      * Returns the UITimeline of the mapfaces component.
      * @param context
      * @param comp
-     * @return
+     * @return UITimeLine
      */
     public static UITimeLine getParentUITimeLine(FacesContext context, UIComponent component) {
         UIComponent parent = component;
@@ -119,21 +122,22 @@ public class TimeLineUtils {
         }
         return (UITimeLine)  parent;
     }
-    
+
     /**
-     * 
+     *
      * This method split the events by identifying the event type to provide the necessary scripts for eventsource object.
      * the returned list contains Eras events and events which are defined with a Duration object.
      * @param context
      * @param comp
      * @param events
      */
-    public static List<Event> writeScriptEvents(FacesContext context, UITimeLine comp, List<Event> events, String idjs) throws IOException {
-        List<Event> erasZones = new ArrayList<Event>();
-        ResponseWriter writer = context.getResponseWriter();
+    public static List<Event> writeScriptEvents(final FacesContext context, final UITimeLine comp,
+            final List<Event> events, final String idjs) throws IOException {
+        final List<Event> erasZones = new ArrayList<Event>();
+        final ResponseWriter writer = context.getResponseWriter();
 
         if (events != null && (!events.isEmpty())) {
-            for (Event event : events) {
+            for (final Event event : events) {
 
                 if (!(event instanceof HighlightDecorator)) {
                     if (event.getDuration() == null) {
@@ -143,7 +147,7 @@ public class TimeLineUtils {
                     }
 
                 } else {
-                    HighlightDecorator eraZone = (HighlightDecorator) event;
+                    final HighlightDecorator eraZone = (HighlightDecorator) event;
                     if (!erasZones.contains(eraZone)) {
                         erasZones.add(eraZone);
                     }
@@ -153,34 +157,37 @@ public class TimeLineUtils {
         }
         return erasZones;
     }
-    
+
     /**
      * This method add a new Event in the Timeline eventSource object.
      * @param context
      * @param event
      * @throws java.io.IOException
      */
-    public static void addEvent(FacesContext context, Event event, UITimeLine comp, String idjs) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String pathUrl = request.getRequestURL().toString();
-        URL url = new URL(pathUrl);
-        String domainUrl = url.getProtocol() + "://" + url.getAuthority();
-        String fullContextPath = domainUrl + request.getContextPath() + "/";
+    public static void addEvent(final FacesContext context, final Event event, final UITimeLine comp,
+            final String idjs) throws IOException {
+        final ResponseWriter writer      = context.getResponseWriter();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String pathUrl             = request.getRequestURL().toString();
+        final URL url                    = new URL(pathUrl);
+        final String domainUrl           = url.getProtocol() + "://" + url.getAuthority();
+        final String fullContextPath     = domainUrl + request.getContextPath() + "/";
 
         if (event != null) {
 
-            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-            String DATE_FORMAT = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
-            SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-            String highIcon = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/dark-red-circle.png", context);
-            String lowIcon = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/green-circle.png", context);
-            String normalIcon = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/blue-circle.png", context);
+            final Calendar cal          = Calendar.getInstance(Locale.ENGLISH);
+            final String DATE_FORMAT    = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
+            final SimpleDateFormat sdf  = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+            final String highIcon       = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/dark-red-circle.png", context);
+            final String lowIcon        = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/green-circle.png", context);
+            final String normalIcon     = getResourcePhaseListener("/org/mapfaces/resources/timeline/api/images/blue-circle.png", context);
+            final String jsFormater     = "Timeline.DateTime.parseGregorianDateTime";
 
-            String jsFormater = "Timeline.DateTime.parseGregorianDateTime";
-            String start = jsFormater + "('" + sdf.format(cal.getTime()) + "') ,\n";
+            final String start;
             if (event.getDateBegin() != null) {
                 start = jsFormater + "('" + sdf.format(event.getDateBegin()) + "'),\n";
+            }else{
+                start = jsFormater + "('" + sdf.format(cal.getTime()) + "') ,\n";
             }
 
             String end = "null ,\n";
@@ -254,7 +261,7 @@ public class TimeLineUtils {
             if (event.getTextColor() != null && (!event.getTextColor().equals(""))) {
                 textColor = "'" + event.getTextColor() + "' \n";
             }
-            
+
             writer.write(idjs + "_eventSource.add(new Timeline.DefaultEventSource.Event(\n");
             writer.write(start +
                     end +
@@ -271,9 +278,8 @@ public class TimeLineUtils {
             writer.write("));\n");
         }
     }
-    
+
     /**
-     * 
      * This method get the resource url from phase listener to load resources from jar files.
      * @param s the url of a file.
      * @param context current faces context.
@@ -282,7 +288,7 @@ public class TimeLineUtils {
     public static String getResourcePhaseListener(String s, FacesContext context) {
         return ResourcePhaseListener.getURL(context, s, null);
     }
-    
+
     /**
      * This method write a selectOneMenu component in a page.
      * @param writer
@@ -291,8 +297,9 @@ public class TimeLineUtils {
      * @param index
      * @throws java.io.IOException
      */
-    public static void writeSelectOneMenu(ResponseWriter writer, FacesContext context, UIHotZoneBandInfo bandInfo, int index) throws IOException {
-        String idjs = bandInfo.getJsObject();
+    public static void writeSelectOneMenu(final ResponseWriter writer, final FacesContext context,
+            final UIHotZoneBandInfo bandInfo, final int index) throws IOException {
+        final String idjs = bandInfo.getJsObject();
         writer.startElement("div", bandInfo);
         writer.writeAttribute("id", idjs+"-inputdate-div", null);
         writer.startElement("select", bandInfo);
@@ -315,7 +322,7 @@ public class TimeLineUtils {
         writer.endElement("select");
         writer.endElement("div");
     }
-    
+
     /**
      * This method write an inputDate component.
      * @param writer
@@ -323,8 +330,9 @@ public class TimeLineUtils {
      * @param context
      * @throws java.io.IOException
      */
-    public static void writeInputDateText(ResponseWriter writer, UITimeLine comp, FacesContext context, String style ) throws IOException {
-        String idjs = comp.getJsObject();
+    public static void writeInputDateText(final ResponseWriter writer, final UITimeLine comp,
+            final FacesContext context, final String style ) throws IOException {
+        final String idjs = comp.getJsObject();
         writer.startElement("input", comp);
         writer.writeAttribute("id", idjs + "_inputdate", "id");
         writer.writeAttribute("type", "text", null);
@@ -334,16 +342,17 @@ public class TimeLineUtils {
         writer.writeAttribute("style", style, null);
         writer.endElement("input");
 
-        writer.write("<script>\n" +
-                "function " + idjs + "_centerToDate(){\n" +
-                "var valdate = document.getElementById('" + idjs + "_inputdate').value;\n" +
-                "var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n" +
-                "if (dateInput instanceof Date) {\n" +
-                idjs + "_tl.getBand(0).scrollToCenter(dateInput);\n" +
-                "} return false;}\n" +
-                "</script>\n");
+        writer.write(new StringBuilder("<script>\n")
+                .append("function ").append(idjs).append("_centerToDate(){\n")
+                .append("var valdate = document.getElementById('").append(idjs).append("_inputdate').value;\n")
+                .append("var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n")
+                .append("if (dateInput instanceof Date) {\n")
+                .append(idjs).append("_tl.getBand(0).scrollToCenter(dateInput);\n")
+                .append("} return false;}\n")
+                .append("</script>\n")
+                .toString());
     }
-    
+
     /**
      * Returns the UITimeLineControl parent of the mapfaces component.
      * @param context
@@ -357,21 +366,21 @@ public class TimeLineUtils {
         }
         return (UITimeLineControl) parent;
     }
-    
+
     /**
      * This method returns a list of no hidden bandsInfo component from a timeline component.
      * @param context
      * @param timeline
      * @return
      */
-    public static List<UIHotZoneBandInfo> getVisibleBandsList(FacesContext context, UITimeLine timeline) {
-        List<UIHotZoneBandInfo> results = new ArrayList<UIHotZoneBandInfo>();
+    public static List<UIHotZoneBandInfo> getVisibleBandsList(final FacesContext context, final UITimeLine timeline) {
+        final List<UIHotZoneBandInfo> results = new ArrayList<UIHotZoneBandInfo>();
         if (timeline != null) {
-        for(UIComponent child : timeline.getChildren()) {
-            if (child instanceof UIHotZoneBandInfo && ! ((UIHotZoneBandInfo) child).isHidden()) {
-                results.add((UIHotZoneBandInfo) child);
+            for(final UIComponent child : timeline.getChildren()) {
+                if (child instanceof UIHotZoneBandInfo && ! ((UIHotZoneBandInfo) child).isHidden()) {
+                    results.add((UIHotZoneBandInfo) child);
+                }
             }
-        }
         }
         return results;
     }

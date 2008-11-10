@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -25,20 +25,39 @@ import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 
+/**
+ * @author Kevin Delfour
+ */
 public class DefaultContextFactory implements ContextFactory{
-    
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public Context createDefaultContext() {
         return new DefaultContext();
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public Layer createDefaultLayer() {
         return new DefaultLayer();
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public Server createDefaultServer() {
         return new DefaultServer();
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public Dimension createDefaultDimension() {
         return new DefaultDimension();
     }
