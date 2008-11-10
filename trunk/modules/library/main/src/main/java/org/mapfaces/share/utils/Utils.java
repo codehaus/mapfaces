@@ -36,12 +36,6 @@ import org.mapfaces.models.tree.TreeNodeModel;
  */
 public class Utils {
 
-    /**
-     * 
-     * @param context
-     * @param component
-     * @throws java.io.IOException
-     */
     public static void encodeRecursive(FacesContext context, UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
@@ -50,37 +44,31 @@ public class Utils {
         if (component.getRendersChildren()) {
             component.encodeChildren(context);
         } else {
-            Iterator kids = component.getChildren().iterator();
+            final Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
+                final UIComponent kid = (UIComponent) kids.next();
                 encodeRecursive(context, kid);
             }
         }
         component.encodeEnd(context);
     }
 
-    /**
-     * 
-     * @param context
-     * @param component
-     * @param node
-     * @throws java.io.IOException
-     */
-    public static void encodeRecursive(FacesContext context, UIComponent component, TreeNodeModel node) throws IOException {
+    public static void encodeRecursive(final FacesContext context, final UIComponent component, 
+            final TreeNodeModel node) throws IOException {
 
         if (!component.isRendered()) {
             Logger.getLogger(Utils.class.getName()).log(Level.INFO, component + " not rendered !");
             return;
         }
 
-        String id = component.getParent().getId() + "_" + node.getId();
+        final String id = component.getParent().getId() + "_" + node.getId();
         if (findComponentById(context, context.getViewRoot(), id) == null) {
             component.setId(id);
             component.encodeBegin(context);
             if (component.getRendersChildren()) {
                 component.encodeChildren(context);
             } else {
-                Iterator kids = component.getChildren().iterator();
+                final Iterator kids = component.getChildren().iterator();
                 while (kids.hasNext()) {
                     UIComponent kid = (UIComponent) kids.next();
                     encodeRecursive(context, kid, node);
@@ -91,11 +79,6 @@ public class Utils {
         }
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @return
-     */
     public static PrintWriter getResponseWriter(FacesContext faceContext) {
         PrintWriter writer = null;
         try {
@@ -106,12 +89,6 @@ public class Utils {
         return writer;
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @param clientId
-     * @return
-     */
     public static UIComponent findComponent(FacesContext faceContext, String clientId) {
         return faceContext.getViewRoot().findComponent(clientId);
     }
@@ -137,32 +114,15 @@ public class Utils {
         return component;
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @param name
-     * @return
-     */
     public static String getRequestParam(FacesContext faceContext, String name) {
         Map<String, String> requestParams = faceContext.getExternalContext().getRequestParameterMap();
         return (String) requestParams.get(name);
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @return
-     */
     public static HttpServletResponse getResponse(FacesContext faceContext) {
         return (HttpServletResponse) faceContext.getExternalContext().getResponse();
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @param component
-     * @return
-     */
     public static String getFormId(FacesContext faceContext, UIComponent component) {
         UIComponent parent = component;
         while (!(parent instanceof UIForm)) {
@@ -171,14 +131,8 @@ public class Utils {
         return parent.getClientId(faceContext);
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @param component
-     * @param c
-     * @return
-     */
-    public static String getWrappedComponentId(FacesContext faceContext, UIComponent component, Class c) {
+    public static String getWrappedComponentId(final FacesContext faceContext, 
+            final UIComponent component, final Class c) {
         UIComponent parent = component;
         while (!(c.isInstance(parent))) {
             parent = parent.getParent();
@@ -186,28 +140,18 @@ public class Utils {
         return parent.getClientId(faceContext);
     }
 
-    /**
-     * 
-     * @param faceContext
-     * @param root
-     * @return
-     */
     public static UIComponent showComponent(FacesContext faceContext, UIComponent root) {
         UIComponent component = null;
         for (int i = 0; i < root.getChildCount() && component == null; i++) {
-            UIComponent child = (UIComponent) root.getChildren().get(i);
+            final UIComponent child = (UIComponent) root.getChildren().get(i);
             component = showComponent(faceContext, child);
         }
         return component;
     }
 
-    /**
-     * 
-     * @param component
-     */
     public static void showArborescence(UIComponent component) {
         System.out.println("COMP :" + component.getId());
-        for (UIComponent tmp : component.getChildren()) {
+        for (final UIComponent tmp : component.getChildren()) {
             System.out.println(" + CHILD >" + tmp.getId());
             if (tmp.getChildCount() > 0) {
                 showArborescence(tmp);

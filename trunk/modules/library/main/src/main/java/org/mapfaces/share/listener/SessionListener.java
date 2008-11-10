@@ -36,17 +36,23 @@ public class SessionListener implements HttpSessionListener {
      */
     private static String serverInfo;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void sessionCreated(HttpSessionEvent event) {
+    public void sessionCreated(final HttpSessionEvent event) {
         System.out.println("[Current Session created: " + event.getSession().getId() + "  at " + new Date()+" ]");
-        HttpSession session = event.getSession();
+        final HttpSession session = event.getSession();
         serverInfo = session.getServletContext().getServerInfo();
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
         // get the destroying session…
-        HttpSession session = event.getSession();
+        final HttpSession session = event.getSession();
         System.out.println(" Current Session destroyed : " + session.getId() + " at "+ new Date());
 
         //destroy the serialization hashMap in the DefaultServer objetcs.

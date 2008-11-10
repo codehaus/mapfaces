@@ -24,34 +24,23 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class RequestMapUtils {
 
-    /**
-     * 
-     * @param key
-     * @param value
-     */
     @SuppressWarnings("unchecked")
-    public static void put(Object key, Object value) {
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Map requestMap = ec.getRequestMap();
+    public static void put(final Object key, final Object value) {
+        final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        final Map requestMap     = ec.getRequestMap();
 
         if (key != null) {
             requestMap.put(key, value);
         }
     }
 
-    /**
-     * 
-     * @param key
-     * @return
-     */
-    public static Object getbyKey(Object key) {
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Map requestMap = ec.getRequestMap();
+    public static Object getbyKey(final Object key) {
+        final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        final Map requestMap     = ec.getRequestMap();
         if (key != null) {
             if (requestMap.containsKey(key)) {
                 return requestMap.get(key);
@@ -60,8 +49,8 @@ public class RequestMapUtils {
         return null;
     }
 
-    public static void showRequestMap(HttpServletRequest request) {
-        Enumeration map = request.getAttributeNames();
+    public static void showRequestMap(final HttpServletRequest request) {
+        final Enumeration map = request.getAttributeNames();
         while (map.hasMoreElements()) {
             System.out.println("ATTRIBUTES" + map.nextElement());
         }

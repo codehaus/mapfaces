@@ -34,9 +34,9 @@ import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
 
 /**
- *
- * @author kdelfour
  * A simple phase listener to filter Ajax requests.
+ * 
+ * @author Kevin Delfour
  */
 public class AjaxListener implements PhaseListener {
 
@@ -50,20 +50,19 @@ public class AjaxListener implements PhaseListener {
      * @param event 
      */
     @Override
-    public void afterPhase(PhaseEvent event) {
-        AjaxUtils ajaxtools = new AjaxUtils();
+    public void afterPhase(final PhaseEvent event) {
+        final AjaxUtils ajaxtools        = new AjaxUtils();
 //        FacesContext context = event.getFacesContext();
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String a4jrequest = request.getParameter("AJAXREQUEST");
-
-        String ajaxParam = request.getParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY());
-        String ajaxRenderChild = request.getParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY());
+        final FacesContext context       = FacesContext.getCurrentInstance();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String a4jrequest          = request.getParameter("AJAXREQUEST");
+        final String ajaxParam           = request.getParameter(ajaxtools.getAJAX_REQUEST_PARAM_KEY());
+        final String ajaxRenderChild     = request.getParameter(ajaxtools.getAJAX_RENDERCHILD_ID_KEY());
+        
         // Check for the existence of the Ajax param
         if (ajaxParam != null && ajaxParam.equals("true")) {
             context.responseComplete();// Let JSF know to skip the rest of the lifecycle
-            String componentId = request.getParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY());
+            final String componentId = request.getParameter(ajaxtools.getAJAX_CONTAINER_ID_KEY());
             if (componentId == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("No client ID found under key : " + componentId);
@@ -78,7 +77,7 @@ public class AjaxListener implements PhaseListener {
             context.getApplication().getStateManager().saveView(context);
 
         } else if (a4jrequest != null) {
-            Enumeration<String> listParameters = request.getParameterNames();
+            final Enumeration<String> listParameters = request.getParameterNames();
             while (listParameters.hasMoreElements()) {
                 String param = listParameters.nextElement();
                 if (param.equals(request.getParameter(param))) {
@@ -90,14 +89,9 @@ public class AjaxListener implements PhaseListener {
 
     }
 
-    /**
-     * 
-     * @param context
-     * @param componentId
-     */
-    private void handleAjaxRequest(FacesContext context, String componentId) {
+    private void handleAjaxRequest(final FacesContext context, final String componentId) {
 
-        UIViewRoot viewroot = context.getViewRoot();
+        final UIViewRoot viewroot = context.getViewRoot();
         AjaxInterface ajaxcomponent = null;
 
         try {
@@ -116,9 +110,9 @@ public class AjaxListener implements PhaseListener {
 
     }
 
-    private void A4JPostRequest(FacesContext context, String componentId) {
-        UIViewRoot viewroot = context.getViewRoot();
-        A4JInterface ajaxcomponent = null;
+    private void A4JPostRequest(final FacesContext context, final String componentId) {
+        final UIViewRoot viewroot = context.getViewRoot();
+        final A4JInterface ajaxcomponent;
         UIComponent AjaxSupport = null;
 
         AjaxSupport = Utils.findComponentById(context, viewroot, componentId);
@@ -128,7 +122,7 @@ public class AjaxListener implements PhaseListener {
         if (AjaxSupport == null) {
             throw new NullPointerException("No component found under specified client Id : " + componentId);
         } else {
-            UIComponent JSFComponent = AjaxSupport.getParent();
+            final UIComponent JSFComponent = AjaxSupport.getParent();
             if (JSFComponent == null) {
                 throw new NullPointerException("No component found under specified client Id : " + JSFComponent.getId());
             } else {
@@ -140,12 +134,19 @@ public class AjaxListener implements PhaseListener {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void beforePhase(PhaseEvent event) {
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public PhaseId getPhaseId() {
         return PhaseId.RESTORE_VIEW;
     }
-    }
+    
+}
