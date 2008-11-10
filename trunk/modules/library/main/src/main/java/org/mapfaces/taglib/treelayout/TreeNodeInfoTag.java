@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,13 +21,13 @@ import org.mapfaces.taglib.abstractTree.UITreeNodeInfoELTag;
 
 /**
  * <p>TreeNodeInfoTag is the base class for all JSP tags that correspond to a Tree Node Info Component instance in the treelayout</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeNodeInfoTag extends UITreeNodeInfoELTag {
 
     /* Fields */
-    private final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.TreeNodeInfo";
-    private final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeNodeInfo";
+    private static final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.TreeNodeInfo";
+    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeNodeInfo";
 
     /* Methods*/
     /**
@@ -49,7 +49,7 @@ public class TreeNodeInfoTag extends UITreeNodeInfoELTag {
     }
 
     /**
-     * @override setProperties in class UITreeNodeInfoELTag 
+     * @override setProperties in class UITreeNodeInfoELTag
      * @param component
      */
     @Override
@@ -58,7 +58,7 @@ public class TreeNodeInfoTag extends UITreeNodeInfoELTag {
     }
 
     /**
-     * @override release in class UITreeNodeInfoELTag 
+     * @override release in class UITreeNodeInfoELTag
      */
     @Override
     public void release() {

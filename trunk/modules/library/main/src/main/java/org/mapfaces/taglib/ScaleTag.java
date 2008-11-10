@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,11 +17,9 @@
 
 package org.mapfaces.taglib;
 
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- *
  * @author Olivier Terral
  */
 public class ScaleTag extends WidgetBaseTag {
@@ -35,22 +33,34 @@ public class ScaleTag extends WidgetBaseTag {
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.Scale";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     protected void setProperties(UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method

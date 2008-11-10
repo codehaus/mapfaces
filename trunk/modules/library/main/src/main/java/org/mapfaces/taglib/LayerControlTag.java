@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -20,6 +20,9 @@ package org.mapfaces.taglib;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
+/**
+ * @author Olivier Terral
+ */
 public class LayerControlTag extends WidgetBaseTag {
 
     /**
@@ -66,7 +69,7 @@ public class LayerControlTag extends WidgetBaseTag {
      * The header title of the treeColumn sub component.
      */
     private ValueExpression headerTreeColumn = null;
-    
+
     /**
      * This is the style for odd treeLines sub components.
      */
@@ -108,16 +111,25 @@ public class LayerControlTag extends WidgetBaseTag {
      */
     private ValueExpression  colorMapEditor = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         super.release();
@@ -142,8 +154,11 @@ public class LayerControlTag extends WidgetBaseTag {
         setColorMapEditor(null);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("styleTreeTable", styleTreeTable);
         component.setValueExpression("styleTreePanel", styleTreePanel);

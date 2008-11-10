@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,11 +18,12 @@ package org.mapfaces.taglib.treebuilder;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UITreeColumnELTag;
 
 /**
  * <p>TreeColumnTag is the base class for all JSP tags that correspond to a TreeColumn Component instance in the view.</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeColumnTag extends UITreeColumnELTag {
 
@@ -49,7 +50,7 @@ public class TreeColumnTag extends UITreeColumnELTag {
 
     /* Methods*/
     /**
-     * @override setProperties in class UITreeColumnELTag 
+     * @override setProperties in class UITreeColumnELTag
      * @param component
      */
     @Override
@@ -59,7 +60,7 @@ public class TreeColumnTag extends UITreeColumnELTag {
     }
 
     /**
-     * @override release in class UITreeColumnELTag 
+     * @override release in class UITreeColumnELTag
      */
     @Override
     public void release() {

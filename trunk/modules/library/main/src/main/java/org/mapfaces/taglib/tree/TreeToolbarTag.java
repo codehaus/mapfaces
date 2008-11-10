@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,11 +17,11 @@
 package org.mapfaces.taglib.tree;
 
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UITreeToolbarELTag;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeToolbarTag extends UITreeToolbarELTag {
 
@@ -31,7 +31,7 @@ public class TreeToolbarTag extends UITreeToolbarELTag {
 
     /* Methods*/
     /**
-     * @override setProperties in class UIColumnELTag 
+     * @override setProperties in class UIColumnELTag
      * @param component
      */
     @Override
@@ -40,7 +40,7 @@ public class TreeToolbarTag extends UITreeToolbarELTag {
     }
 
     /**
-     * @override release in class UIColumnELTag 
+     * @override release in class UIColumnELTag
      */
     @Override
     public void release() {

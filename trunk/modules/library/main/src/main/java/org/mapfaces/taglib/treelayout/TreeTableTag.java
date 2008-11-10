@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,17 +17,18 @@
 package org.mapfaces.taglib.treelayout;
 
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UITreeTableELTag;
 
 /**
  * <p>TreeTableTag is the base class for all JSP tags that correspond to a Tree table Component instance in the treelayout.</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeTableTag extends UITreeTableELTag {
 
     /* Fields */
-    private final String TREETABLE_COMP_TYPE = "org.mapfaces.treelayout.TreeTable";
-    private final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeTable";
+    private static final String TREETABLE_COMP_TYPE = "org.mapfaces.treelayout.TreeTable";
+    private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeTable";
 
     /* Methods*/
     /**
@@ -49,7 +50,7 @@ public class TreeTableTag extends UITreeTableELTag {
     }
 
     /**
-     * @override setProperties in class UITreeTableELTag 
+     * @override setProperties in class UITreeTableELTag
      * @param component
      */
     @Override
@@ -58,7 +59,7 @@ public class TreeTableTag extends UITreeTableELTag {
     }
 
     /**
-     * @override release in class UITreeTableELTag 
+     * @override release in class UITreeTableELTag
      */
     @Override
     public void release() {

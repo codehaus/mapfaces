@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,18 +18,20 @@ package org.mapfaces.taglib.treelayout;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UITreeColumnELTag;
 
 /**
  * <p>TreeColumnTag is the base class for all JSP tags that correspond to a TreeColumn Component instance in the treelayout.</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreeColumnTag extends UITreeColumnELTag {
 
+    private static final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.TreeColumn";
+    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeColumn";
+
     /* Fields */
     private ValueExpression value = null;
-    private final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treelayout.treetable.treepanel.TreeColumn";
-    private final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeColumn";
 
     /**
      * Accessor for value
@@ -49,7 +51,7 @@ public class TreeColumnTag extends UITreeColumnELTag {
 
     /* Methods*/
     /**
-     * @override setProperties in class UITreeColumnELTag 
+     * @override setProperties in class UITreeColumnELTag
      * @param component
      */
     @Override
@@ -59,7 +61,7 @@ public class TreeColumnTag extends UITreeColumnELTag {
     }
 
     /**
-     * @override release in class UITreeColumnELTag 
+     * @override release in class UITreeColumnELTag
      */
     @Override
     public void release() {

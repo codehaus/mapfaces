@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,11 +17,12 @@
 package org.mapfaces.taglib.treebuilder;
 
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UITreeLinesELTag;
 
 /**
  * <p>TreeLinesTag is the base class for all JSP tags that correspond to a Tree Lines Component instance in the view.</p>
- * @author kevindelfour
+ * @author Kevin Delfour
  */
 public class TreeLinesTag extends UITreeLinesELTag {
 
@@ -49,7 +50,7 @@ public class TreeLinesTag extends UITreeLinesELTag {
     }
 
     /**
-     * @override setProperties in class UITreeLinesELTag 
+     * @override setProperties in class UITreeLinesELTag
      * @param component
      */
     @Override
@@ -58,7 +59,7 @@ public class TreeLinesTag extends UITreeLinesELTag {
     }
 
     /**
-     * @override release in class UITreeLinesELTag 
+     * @override release in class UITreeLinesELTag
      */
     @Override
     public void release() {

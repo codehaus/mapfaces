@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,7 +21,6 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- *
  * @author Olivier Terral.
  */
 public class ButtonBarTag extends WidgetBaseTag {
@@ -51,18 +50,27 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression measureDistance = null;
     private ValueExpression measureArea = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("empty", empty);
@@ -81,6 +89,9 @@ public class ButtonBarTag extends WidgetBaseTag {
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method
@@ -163,7 +174,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     public void setGraticule(ValueExpression exp) {
         this.graticule = exp;
     }
-    
+
     public ValueExpression getGraticule(){
         return graticule;
     }

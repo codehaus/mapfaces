@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -17,6 +17,7 @@
 package org.mapfaces.taglib.treelayout;
 
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UIColumnELTag;
 
 /**
@@ -26,12 +27,12 @@ import org.mapfaces.taglib.abstractTree.UIColumnELTag;
 public class ColumnTag extends UIColumnELTag {
 
     /* Fields */
-    private final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.Column";
-    private final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLColumn";
+    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.Column";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLColumn";
 
     /* Methods*/
     /**
-     * @override setProperties in class UIColumnELTag 
+     * @override setProperties in class UIColumnELTag
      * @param component
      */
     @Override
@@ -40,7 +41,7 @@ public class ColumnTag extends UIColumnELTag {
     }
 
     /**
-     * @override release in class UIColumnELTag 
+     * @override release in class UIColumnELTag
      */
     @Override
     public void release() {
