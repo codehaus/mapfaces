@@ -23,10 +23,10 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.webapp.UIComponentELTag;
+
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class HotZoneBandInfoTag extends UIComponentELTag {
@@ -97,29 +97,39 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
      */
     private ValueExpression value = null;
     
-
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
 
-        UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) component;
+        final UIHotZoneBandInfo bandInfo = (UIHotZoneBandInfo) component;
 
         if (date != null) {
             if (!date.isLiteralText()) {
                 component.setValueExpression("date", date);
             } else {
-                FacesContext context = FacesContext.getCurrentInstance();
-                ExpressionFactory ef = context.getApplication().getExpressionFactory();
-                ValueExpression vex = ef.createValueExpression(context.getELContext(), date.getExpressionString(), java.util.Date.class);
+                final FacesContext context = FacesContext.getCurrentInstance();
+                final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+                final ValueExpression vex  = ef.createValueExpression(context.getELContext(), date.getExpressionString(), java.util.Date.class);
                 bandInfo.setDate((Date) vex.getValue(context.getELContext()));
             }
         }
@@ -144,6 +154,9 @@ public class HotZoneBandInfoTag extends UIComponentELTag {
 
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method

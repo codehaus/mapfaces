@@ -22,7 +22,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentELTag;
 
 /**
- *
  * @author Mehdi Sidhoum.
  */
 public class TimeLineTag extends UIComponentELTag {
@@ -100,18 +99,27 @@ public class TimeLineTag extends UIComponentELTag {
      */
     private ValueExpression bandHeight = null;
     
-        
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
-    
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("value",value);
@@ -131,6 +139,9 @@ public class TimeLineTag extends UIComponentELTag {
         component.setValueExpression("bandHeight",bandHeight);
     }
     
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method

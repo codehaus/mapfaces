@@ -22,14 +22,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentELTag;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TabItemTag extends UIComponentELTag {
 
+    private static final String TABITEM_COMP_TYPE = "org.mapfaces.tabbedpane.tabpanel.TabItem";
+    private static final String TABITEM_RENDERER_TYPE = "org.mapfaces.renderkit.tabpanel.HTMLTabItem";
     private ValueExpression title = null;
-    private final String TABITEM_COMP_TYPE = "org.mapfaces.tabbedpane.tabpanel.TabItem";
-    private final String TABITEM_RENDERER_TYPE = "org.mapfaces.renderkit.tabpanel.HTMLTabItem";
 
   
     public ValueExpression getTitle() {
@@ -40,22 +39,34 @@ public class TabItemTag extends UIComponentELTag {
         this.title = title;
     }
     
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return TABITEM_COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TABITEM_RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("title", title);
-      }
+    }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         super.release();

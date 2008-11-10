@@ -17,19 +17,10 @@
 
 package org.mapfaces.taglib.models;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.webapp.UIComponentELTag;
-import javax.servlet.ServletContext;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import org.mapfaces.component.models.UIContext;
 
 /**
@@ -77,23 +68,32 @@ public class ContextTag extends UIComponentELTag {
      */
     private ValueExpression minifyJS = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
 
-        UIContext compContext = (UIContext) component;
-        FacesContext context = FacesContext.getCurrentInstance();
+        final UIContext compContext = (UIContext) component;
+        final FacesContext context  = FacesContext.getCurrentInstance();
 
         component.setValueExpression("service", service);
         component.setValueExpression("value", value);
@@ -117,6 +117,9 @@ public class ContextTag extends UIComponentELTag {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method

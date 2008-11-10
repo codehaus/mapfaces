@@ -22,16 +22,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentELTag;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TabPanelTag extends UIComponentELTag {
 
+    private static final String TABPANEL_COMP_TYPE = "org.mapfaces.tabbedpane.TabPanel";
+    private static final String TABPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTabPanel";
     private ValueExpression title = null;
     private ValueExpression width = null;
     private ValueExpression height = null;
-    private final String TABPANEL_COMP_TYPE = "org.mapfaces.tabbedpane.TabPanel";
-    private final String TABPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTabPanel";
 
   
     public ValueExpression getTitle() {
@@ -58,24 +57,36 @@ public class TabPanelTag extends UIComponentELTag {
         this.height = height;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return TABPANEL_COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return TABPANEL_RENDERER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setProperties(UIComponent component) {
+    public void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("title", title);
         component.setValueExpression("width", width);
         component.setValueExpression("height", height);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         super.release();
