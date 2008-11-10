@@ -29,25 +29,35 @@ import javax.faces.webapp.UIComponentTag;
  */
 public class SliderTag extends UIComponentTag {
 
+    private String For = null;
+    private String maxval = null;
+    private String horizontal = null;
+    private String length = null;
+    
     public SliderTag() {
     }
-    String For = null;
-    String maxval = null;
-    String horizontal = null;
-    String length = null;
-
+    
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         // Associates tag with the UI component name registered in the faces-config.xml
         return "SliderInput";
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         // Since renderer is embedded in the component, can return null.
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     protected void setProperties(UIComponent component) {
         super.setProperties(component);
@@ -109,6 +119,9 @@ public class SliderTag extends UIComponentTag {
         this.maxval = maxval;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         super.release();
