@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,7 +21,6 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class MapPaneTag extends WidgetBaseTag {
@@ -34,12 +33,13 @@ public class MapPaneTag extends WidgetBaseTag {
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.MapPane";
+
     private ValueExpression empty = null;
     private ValueExpression maxExtent = null;
-    
+
     /**
      * OpenLayers.Control
-     * */
+     */
     private ValueExpression panZoom = null;
     private ValueExpression panZoomBar = null;
     private ValueExpression navigation = null;
@@ -62,20 +62,29 @@ public class MapPaneTag extends WidgetBaseTag {
     private ValueExpression yahoo = null;
     private ValueExpression virtualEarth = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
-        super.setProperties(component);        
+        super.setProperties(component);
         component.setValueExpression("maxExtent",getMaxExtent());
         component.setValueExpression("empty",empty);
         component.setValueExpression("panZoomBar",panZoomBar);
@@ -85,19 +94,21 @@ public class MapPaneTag extends WidgetBaseTag {
         component.setValueExpression("layerSwitcher",layerSwitcher);
         component.setValueExpression("mousePosition",mousePosition);
         component.setValueExpression("navToolBar",navToolBar);
-        
-        
+
         component.setValueExpression("imageBuffer",imageBuffer);
         component.setValueExpression("singleTile",singleTile);
         component.setValueExpression("fixedSize",fixedSize);
         component.setValueExpression("fractionalZoom",fractionalZoom);
         component.setValueExpression("numZoomLevels",numZoomLevels);
-        
+
         component.setValueExpression("google",google);
         component.setValueExpression("yahoo",yahoo);
         component.setValueExpression("virtualEarth",virtualEarth);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method
@@ -185,7 +196,7 @@ public class MapPaneTag extends WidgetBaseTag {
     public void setempty(ValueExpression empty) {
         this.empty = empty;
     }
-    
+
     public ValueExpression getMaxExtent() {
         return maxExtent;
     }

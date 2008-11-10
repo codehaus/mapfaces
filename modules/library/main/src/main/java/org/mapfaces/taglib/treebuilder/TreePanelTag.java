@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -18,21 +18,23 @@ package org.mapfaces.taglib.treebuilder;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+
 import org.mapfaces.taglib.abstractTree.UITreePanelELTag;
 
 /**
  * <p>TreePanelTag is the base class for all JSP tags that correspond to a Tree panel Component instance in the view.</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class TreePanelTag extends UITreePanelELTag {
+
+    private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treebuilder.TreePanel";
+    private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreePanel";
 
     /* Fields */
     private ValueExpression template = null;
     private ValueExpression target = null;
     private ValueExpression cloneView = null;
     private ValueExpression emptyView = null;
-    private static final String TREEPANEL_COMP_TYPE = "org.mapfaces.treebuilder.TreePanel";
-    private static final String TREEPANEL_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreePanel";
 
     /* Methods*/
     /**
@@ -54,11 +56,11 @@ public class TreePanelTag extends UITreePanelELTag {
     }
 
     /**
-     * @override setProperties in class UITreePanelELTag 
+     * @override setProperties in class UITreePanelELTag
      * @param component
      */
     @Override
-    public void setProperties(UIComponent component) {
+    public void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("template", template);
         component.setValueExpression("target",target);
@@ -67,7 +69,7 @@ public class TreePanelTag extends UITreePanelELTag {
     }
 
     /**
-     * @override release in class UITreePanelELTag 
+     * @override release in class UITreePanelELTag
      */
     @Override
     public void release() {

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,7 +21,6 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- *
  * @author Olivier Terral
  */
 public class LocatorMapTag extends WidgetBaseTag {
@@ -34,26 +33,38 @@ public class LocatorMapTag extends WidgetBaseTag {
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.LocatorMap";
-    
+
     private ValueExpression targetContextCompId = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("targetContextCompId",getTargetContextCompId());
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method

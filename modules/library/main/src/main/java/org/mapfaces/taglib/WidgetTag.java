@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -19,47 +19,53 @@ package org.mapfaces.taglib;
 
 import javax.faces.component.UIComponent;
 
+/**
+ * @author Olivier Terral
+ */
 public class WidgetTag extends WidgetBaseTag {
-    
+
     /**
      * <p>The standard component type for this component.</p>
      */
     public static final String COMP_TYPE = "org.mapfaces.component.Widget";
-    
+
     /**
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.Widget";
-    
+
     /**
-     * Add extra parameter like this
-     * 
+     * {@inheritDoc }
      */
-    //private ValueExpression value = null;
-    
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void release() {       
+    public void release() {
         super.release();
         //value = null;
     }
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     protected void setProperties(UIComponent component) {
-        super.setProperties(component);        
+        super.setProperties(component);
         //component.setValueExpression("value",value);
     }
-    
-    /**
-     *Add setters for extra parameters here 
-     */
-     
+
 }

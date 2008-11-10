@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,14 +21,15 @@ import javax.faces.component.UIComponent;
 
 /**
   *<p>CheckColumnTag is an example of ColumnTag extension to make a specified column with checkbox in a treelayout</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class CheckColumnTag extends ColumnTag {
 
+    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.CheckColumn";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLCheckColumn";
+
     /* Fields */
     private ValueExpression value = null;
-    private final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.CheckColumn";
-    private final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLCheckColumn";
 
     /**
      * Accessor for value
@@ -48,7 +49,7 @@ public class CheckColumnTag extends ColumnTag {
 
     /* Methods*/
     /**
-     * @override setProperties in class ColumnTag 
+     * @override setProperties in class ColumnTag
      * @param component
      */
     @Override
@@ -58,7 +59,7 @@ public class CheckColumnTag extends ColumnTag {
     }
 
     /**
-     * @override release in class ColumnTag 
+     * @override release in class ColumnTag
      */
     @Override
     public void release() {

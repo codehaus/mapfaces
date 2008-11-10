@@ -18,7 +18,6 @@
 package org.mapfaces.taglib;
 
 /**
- *
  * @author Mehdi Sidhoum
  */
 public class AbstractTag extends WidgetBaseTag {
@@ -32,11 +31,17 @@ public class AbstractTag extends WidgetBaseTag {
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.Abstract";
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         return COMP_TYPE;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         return RENDER_TYPE;

@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -21,7 +21,7 @@ import javax.faces.component.UIComponent;
 
 /**
  * <p>CheckColumnTag is an example of ColumnTag extension to make a specified column with checkbox</p>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class CheckColumnTag extends ColumnTag {
 
@@ -48,7 +48,7 @@ public class CheckColumnTag extends ColumnTag {
 
     /* Methods*/
     /**
-     * @override setProperties in class ColumnTag 
+     * @override setProperties in class ColumnTag
      * @param component
      */
     @Override
@@ -58,7 +58,7 @@ public class CheckColumnTag extends ColumnTag {
     }
 
     /**
-     * @override release in class ColumnTag 
+     * @override release in class ColumnTag
      */
     @Override
     public void release() {
@@ -83,5 +83,5 @@ public class CheckColumnTag extends ColumnTag {
     public String getRendererType() {
         return COLUMN_RENDERER_TYPE;
     }
-    
+
 }

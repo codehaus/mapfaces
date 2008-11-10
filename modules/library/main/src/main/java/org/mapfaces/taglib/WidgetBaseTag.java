@@ -1,5 +1,5 @@
 /*
- *    Mapfaces - 
+ *    Mapfaces -
  *    http://www.mapfaces.org
  *
  *    (C) 2007 - 2008, Geomatys
@@ -22,7 +22,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentELTag;
 
 /**
- * 
  * @author Mehdi Sidhoum.
  */
 public class WidgetBaseTag extends UIComponentELTag {
@@ -44,8 +43,11 @@ public class WidgetBaseTag extends UIComponentELTag {
      */
     private ValueExpression debug = null;
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    protected void setProperties(UIComponent component) {
+    protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
 
@@ -55,6 +57,9 @@ public class WidgetBaseTag extends UIComponentELTag {
         component.setValueExpression("debug", debug);
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public void release() {
         // allways call the superclass method
@@ -86,11 +91,17 @@ public class WidgetBaseTag extends UIComponentELTag {
         this.debug = debug;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getComponentType() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getRendererType() {
         throw new UnsupportedOperationException("Not supported yet.");
