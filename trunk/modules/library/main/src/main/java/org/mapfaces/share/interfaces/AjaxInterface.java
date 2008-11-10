@@ -20,11 +20,10 @@ package org.mapfaces.share.interfaces;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public interface AjaxInterface {
 
-
     public void handleAjaxRequest(FacesContext context);
+    
 }

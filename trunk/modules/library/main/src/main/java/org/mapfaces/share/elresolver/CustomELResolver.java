@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import javax.lang.model.element.Name;
 import javax.naming.Context;
 import javax.naming.NamingException;
+
 import org.apache.commons.lang.StringUtils;
 import org.mapfaces.models.tree.TreeNodeModel;
 
@@ -49,10 +50,12 @@ import org.mapfaces.models.tree.TreeNodeModel;
  *          </el-resolver>
  *      </application>
  * 
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public class CustomELResolver extends ELResolver {
 
+    private static final Logger LOGGER = Logger.getLogger(CustomELResolver.class.getName());
+    
     /**
      * Evaluates the expression relative to the provided context, and returns the resulting value.
      * Attempts to resolve the given property object on the given base object.
@@ -63,14 +66,12 @@ public class CustomELResolver extends ELResolver {
      * @throws javax.el.ELException - if context is null
      */
     @Override
-    public Object getValue(ELContext elcontext, Object base, Object property) throws ELException {
-        Logger logger = Logger.getLogger(CustomELResolver.class.getName());
+    public Object getValue(final ELContext elcontext, final Object base, final Object property) throws ELException {
+        
         Object result = null;
 
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Map requestMap = ec.getRequestMap();
-
-        String varName = null;
+        final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        final Map requestMap     = ec.getRequestMap();
 
         if (base == null) {
             if (property.toString().equals(requestMap.get("org.treetable.varName"))) {
@@ -83,8 +84,8 @@ public class CustomELResolver extends ELResolver {
             requestMap.put("property", property.toString());
             // if the base is an instance of TreeNodeModel then
             // we try to find the getter access method for the property
-            TreeNodeModel node = (TreeNodeModel) base;
-            Method methode = getMethod(node.getUserObject(), property);
+            final TreeNodeModel node = (TreeNodeModel) base;
+            final Method methode     = getMethod(node.getUserObject(), property);
             // if the Node UserObject isn't null  and the method have been found
             //  then we invoke the method and return the result on this object
             if (node.getUserObject() != null) {
@@ -98,12 +99,12 @@ public class CustomELResolver extends ELResolver {
                         result = "No method found for this attribute!";
                     }
                 } catch (IllegalAccessException ex) {
-                    logger.log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 } catch (IllegalArgumentException ex) {
                     System.out.println("[WARNING] " + Level.SEVERE + " - " + ex);
                 // logger.log(Level.SEVERE, null, ex);
                 } catch (InvocationTargetException ex) {
-                    logger.log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 }
                 elcontext.setPropertyResolved(true);
             }
@@ -117,10 +118,10 @@ public class CustomELResolver extends ELResolver {
      * @param property - The property or variable to be resolved.
      * @return if the getter method exist, return this method else return null 
      */
-    public Method getMethod(Object base, Object property) {
+    public Method getMethod(final Object base, final Object property) {
         // Fisrt capitalize PropName
-        String propName = StringUtils.capitalize(property.toString());
-        Class classe = base.getClass();
+        final String propName = StringUtils.capitalize(property.toString());
+        final Class classe = base.getClass();
         // Search in base class methods the getter correspond to the attribut
         for (Method method : classe.getMethods()) {
             if ((method.getName().equals("get" + propName)) || (method.getName().equals("is" + propName))) {
@@ -130,8 +131,12 @@ public class CustomELResolver extends ELResolver {
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Class<?> getType(ELContext elContext, Object base, Object property) throws NullPointerException, PropertyNotFoundException, ELException {
+    public Class<?> getType(final ELContext elContext, final Object base, final Object property) 
+            throws NullPointerException, PropertyNotFoundException, ELException {
         if (null != base && base instanceof Context) {
             elContext.setPropertyResolved(true);
             return Object.class;
@@ -139,10 +144,14 @@ public class CustomELResolver extends ELResolver {
         return null;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public void setValue(ELContext elContext, Object base, Object property, Object value) throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException {
+    public void setValue(final ELContext elContext, final Object base, final Object property, final Object value) 
+            throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException {
         if (null != base && base instanceof Context) {
-            Context context = (Context) base;
+            final Context context = (Context) base;
             elContext.setPropertyResolved(true);
             try {
                 if (property instanceof Name) {
@@ -157,16 +166,25 @@ public class CustomELResolver extends ELResolver {
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean isReadOnly(ELContext arg0, Object arg1, Object arg2) throws NullPointerException, PropertyNotFoundException, ELException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext arg0, Object arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Class<?> getCommonPropertyType(ELContext arg0, Object arg1) {
         throw new UnsupportedOperationException("Not supported yet.");

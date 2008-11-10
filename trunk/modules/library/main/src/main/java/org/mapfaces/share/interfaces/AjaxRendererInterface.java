@@ -21,9 +21,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public interface  AjaxRendererInterface {
+    
     public void handleAjaxRequest(FacesContext context, UIComponent component);
+    
 }
