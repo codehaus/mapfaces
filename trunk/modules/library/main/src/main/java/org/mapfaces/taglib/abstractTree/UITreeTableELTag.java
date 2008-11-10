@@ -31,7 +31,7 @@ import javax.faces.context.FacesContext;
  * <li>width</li>
  * <li>height</li>
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreeTableELTag extends UITreeComponentELTag {
 
@@ -90,8 +90,8 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
      */
     public void setVar(ValueExpression var) {
         if (var != null) {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            Map requestMap = ec.getRequestMap();
+            final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            final Map requestMap = ec.getRequestMap();
             requestMap.put("org.treetable.varName", var);
         }
         this.var = var;
@@ -170,7 +170,7 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
      * @param component UIComponent whose properties are to be overridden
      */
     @Override
-    public void setProperties(UIComponent component) {
+    public void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("value", value);
         component.setValueExpression("var", var);

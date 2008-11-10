@@ -38,7 +38,7 @@ import javax.faces.component.UIComponent;
  * <li>styleOdd</li>
  * <li>styleEven</li>
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour
  */
 public abstract class UITreePanelELTag extends UITreeComponentELTag {
 
@@ -346,7 +346,7 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
      * @param component UIComponent whose properties are to be overridden
      */
     @Override
-    public void setProperties(UIComponent component) {
+    public void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("title", title);
         component.setValueExpression("border", border);
