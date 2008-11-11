@@ -25,8 +25,14 @@ var zoom = function(){
             if(map && window.maps[map]) window.maps[map].zoomToMaxExtent();
         }
     }
-};     
-window.onload=zoom;
+};
+if (jmaki) {
+window.oldLoad= zoom;
+}
+else {
+window.onLoad= zoom;
+}
+
 OpenLayers.Map = OpenLayers.Class({
     
     /**
