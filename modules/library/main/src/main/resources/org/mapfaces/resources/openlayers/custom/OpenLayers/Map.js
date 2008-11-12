@@ -26,7 +26,7 @@ var zoom = function(){
         }
     }
 };
-if (jmaki) {
+if (typeof jmaki != 'undefined') {
 window.oldLoad= zoom;
 }
 else {
