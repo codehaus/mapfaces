@@ -19,19 +19,15 @@
  */
 
 //Add onload function to window to zoom the map to the maxExtent
-var zoom = function(){
+var initZoom = function(){
     if(window.maps){
         for(var map in window.maps){
             if(map && window.maps[map]) window.maps[map].zoomToMaxExtent();
         }
     }
 };
-if (typeof jmaki != 'undefined') {
-window.oldLoad= zoom;
-}
-else {
-window.onLoad= zoom;
-}
+
+OpenLayers.Event.observe(window, 'load', initZoom);
 
 OpenLayers.Map = OpenLayers.Class({
     
