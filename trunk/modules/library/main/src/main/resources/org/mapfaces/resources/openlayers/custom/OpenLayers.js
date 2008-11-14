@@ -92,7 +92,7 @@ if(!window.OpenLayers){
             "openlayers/lib/OpenLayers/Request/XMLHttpRequest.js",
             "openlayers/lib/OpenLayers/Events.js",
             "openlayers/lib/OpenLayers/Projection.js",
-            "openlayers/lib/OpenLayers/Map.js",
+//            "openlayers/lib/OpenLayers/Map.js",
             "openlayers/lib/OpenLayers/Layer.js",
             "openlayers/lib/OpenLayers/Icon.js",
             "openlayers/lib/OpenLayers/Marker.js",

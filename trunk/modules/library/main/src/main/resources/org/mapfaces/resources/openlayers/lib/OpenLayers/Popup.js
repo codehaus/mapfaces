@@ -846,8 +846,11 @@ OpenLayers.Popup = OpenLayers.Class({
         
         var dx = origTL.x - newTL.x;
         var dy = origTL.y - newTL.y;
-        
-        this.map.pan(dx, dy);
+        if (dx == 'NaN'){dx = 0;}
+        if (dy == 'NaN'){dy = 0;}
+        if (dx != 0 || dy != 0) {
+                this.map.pan(dx, dy);
+        }
     },
 
     /** 
