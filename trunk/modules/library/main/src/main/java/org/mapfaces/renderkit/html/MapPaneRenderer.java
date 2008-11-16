@@ -115,10 +115,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         final ServletContext sc  = (ServletContext) context.getExternalContext().getContext();
 
         final File dstDir = new File(sc.getRealPath("tmp"));
-        if (!dstDir.exists()) {
-            dstDir.mkdir();
-        }
-
+        
         final String ctxPath = sc.getContextPath();
         final String srs = model.getSrs();
 
