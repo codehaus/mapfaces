@@ -153,6 +153,7 @@ public class ContextRenderer extends Renderer {
                 if (fileUrl.startsWith("file://.sicade")) {
 
                     File mapcontextFile = new File(System.getProperty("user.home"));
+                    System.out.println("[Try to load the mapcontext from a file] user home = "+System.getProperty("user.home")+"  system = "+System.getProperty("os.name", ""));
                     if (System.getProperty("os.name", "").startsWith("Windows")) {
                         mapcontextFile = new File(mapcontextFile, "Application Data\\Sicade");
                     } else {
@@ -162,6 +163,7 @@ public class ContextRenderer extends Renderer {
                     for (String s : tabString) {
                         mapcontextFile = new File(mapcontextFile, s);
                     }
+                    System.out.println("[Loading Mapcontext file] path = "+mapcontextFile);
                     try {
                         ctx = (new XMLContextUtilities()).readContext(new FileReader(mapcontextFile));
                     } catch (JAXBException ex) {
