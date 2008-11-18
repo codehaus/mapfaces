@@ -126,6 +126,13 @@
 	<version>1.2</version>
     </dependency>
 
+    <!--Grizzly/Comet-->
+    <dependency>
+      <groupId>com.sun.grizzly</groupId>
+      <artifactId>grizzly-comet-webserver</artifactId>
+      <version>1.8.6.3</version>
+    </dependency>
+
     <!-- lucene -->
      <dependency>
 	 <groupId>org.apache.lucene</groupId>
