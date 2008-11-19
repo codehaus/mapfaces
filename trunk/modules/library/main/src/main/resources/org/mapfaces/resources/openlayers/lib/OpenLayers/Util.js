@@ -31,9 +31,9 @@ OpenLayers.Util.getElement = function() {
 /** 
  * Maintain $() from prototype
  */
-if ($ == null) {
-    var $ = OpenLayers.Util.getElement;
-}
+//if ($ == null) {
+//    var $ = OpenLayers.Util.getElement;
+//}
 
 /**
  * APIFunction: extend

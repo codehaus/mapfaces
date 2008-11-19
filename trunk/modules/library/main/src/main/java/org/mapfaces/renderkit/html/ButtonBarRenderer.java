@@ -21,6 +21,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIButtonBar;
+import org.mapfaces.component.UIMapPane;
 
 /**
  * @author Olivier Terral.
@@ -53,7 +54,17 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type","text/javascript","text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement.
-        String jsObject =  comp.getParent().getClientId(context);
+        String jsObject = null ;
+        comp_loop :
+        for (UIComponent comps : comp.getParent().getChildren()){
+            if(comps instanceof UIMapPane){
+                jsObject = comps.getClientId(context);
+                break comp_loop;
+            }
+        }
+        /*
+         * @todo : Allow to specify by an attribute, the mappane component to attach NavigationHistory control
+         */
         if(jsObject.contains(":"))
             jsObject = jsObject.replace(":","");
 

@@ -18,7 +18,7 @@ var dispEffectNone = function(div){
     }else{
     	div.setStyles({
             display:'block',
-            opacity: 0
+            opacity: 1
 	});
         div.tween('opacity',1);
     }
@@ -32,7 +32,7 @@ var dispEffectBlock = function(div){
     }else{
         div.setStyles({
             display:'none',
-            opacity: 1
+            opacity: 0
 	});
         div.tween('opacity',0);
     }
@@ -96,6 +96,7 @@ function expAll(panelId){
         if(div.id.contains(panelId)){
             div.style.display="block";
             div.style.opacity="1";
+            dispEffectNone(div);
             if (div.childNodes.length > 0){
                 var reg = new RegExp("(ul)","g");
                 var lineTreenode =$(div.id.replace(reg,"treenode"));
@@ -114,6 +115,7 @@ function expandAll(){
     $$('.collapsible').each(function(div) {
         div.style.display="block";
         div.style.opacity="1";
+        dispEffectNone(div);
         if (div.childNodes.length > 0){
             var reg = new RegExp("(ul)","g");
             var lineTreenode =$(div.id.replace(reg,"treenode"));

@@ -74,7 +74,7 @@ if(!window.OpenLayers){
       */
     if(!singleFile) {
         var jsfiles = new Array(
-           "openlayers/lib/OpenLayers/Util.js",
+            "openlayers/lib/OpenLayers/Util.js",
             "openlayers/lib/OpenLayers/BaseTypes.js",
             "openlayers/lib/OpenLayers/BaseTypes/Class.js",
             "openlayers/lib/OpenLayers/BaseTypes/Bounds.js",
@@ -244,7 +244,7 @@ if(!window.OpenLayers){
             "openlayers/lib/OpenLayers/Lang.js",
             "openlayers/lib/OpenLayers/Lang/en.js",
             
-    /**File addes or modified for MapFaces*/        
+    //File addes or modified for MapFaces
            "proj4js/proj4js-combined.js",
            "openlayers/custom/OpenLayers/Map.js",
            "openlayers/custom/OpenLayers/Handler/MouseWheel.js",
