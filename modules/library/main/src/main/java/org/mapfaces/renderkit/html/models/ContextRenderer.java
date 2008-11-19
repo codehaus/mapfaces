@@ -195,11 +195,12 @@ public class ContextRenderer extends Renderer {
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setImmediate(true);
         ajaxComp.setLimitToList(true);
+        ajaxComp.setReRender(comp.getId());
         if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
-            comp.getChildren().add(ajaxComp);
+            comp.getChildren().add(ajaxComp);            
             comp.setAjaxCompId(ajaxComp.getClientId(context));
         }
-
+        
     }
 
     /**

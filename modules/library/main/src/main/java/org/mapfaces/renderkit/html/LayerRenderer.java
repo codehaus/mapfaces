@@ -257,6 +257,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         //Modify Component property
         if (params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null) {
+            System.out.println("LAYER_CONTAINER_STYLE changed ="+params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
             comp.setStyle(params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
         }
         /* try {

@@ -125,7 +125,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (comp.getChildren() != null) {
             removeChildren(context, component);
         }
-        if (debug) System.out.println("        Le MapPane contient " + layers.size() + " layers");
+        if (debug) System.out.println("Le MapPane contient " + layers.size() + " layers");
 
         comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
         for (final Layer temp : layers) {
@@ -134,20 +134,19 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 final UILayer layer = new UILayer();
                 layer.setModel((AbstractModelBase) model);
                 if (temp.getId() != null) {
-                    layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId()+"_"+temp.getId());
+                    layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId()+"_"+comp.getId()+"_"+temp.getId());
                 } else {
                     temp.setId(layer.getId());
                 }
 
                 if (debug) layer.getAttributes().put("debug", true);
-
                 layer.setDir(dstDir);
                 layer.setContextPath(ctxPath);
                 comp.getChildren().add(layer);
                 temp.setCompId(layer.getClientId(context));
+                System.out.println("[DEBUG] "+layer.getClientId(context));
                 layer.setLayer(temp);
                 if (debug) System.out.println(" Layer  ClientId" + layer.getClientId(context) + " layers");
-
             }
         }
 
@@ -185,7 +184,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
-        String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);
+//        String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);
+        String jsObject = comp.getClientId(context);
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }

@@ -119,11 +119,11 @@ public class AjaxListener implements PhaseListener {
             AjaxSupport = Utils.findComponent(context, componentId);
         }
         if (AjaxSupport == null) {
-            throw new NullPointerException("No component found under specified client Id : " + componentId);
+            System.err.println("[WARNING] No component found under specified client Id : " + componentId);
         } else {
             final UIComponent JSFComponent = AjaxSupport.getParent();
             if (JSFComponent == null) {
-                throw new NullPointerException("No component found under specified client Id : " + JSFComponent.getId());
+                System.err.println("[WARNING] No component found under specified client Id : " + JSFComponent.getId());
             } else {
                 if (JSFComponent.getParent() instanceof A4JInterface) {
                     ajaxcomponent = (A4JInterface) JSFComponent.getParent();
