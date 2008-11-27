@@ -32,7 +32,7 @@ public class DefaultServer implements Server {
     
     private static final Map<String, WMSCapabilities> cache = new SoftValueHashMap<String, WMSCapabilities>(50);
     private static final AtomicInteger incr = new AtomicInteger();
-    private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+incr.incrementAndGet();;
+    private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+incr.incrementAndGet();
 
     private static final long serialVersionUID = 7526471155622776147L;
     private String href;
