@@ -143,7 +143,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
                               .append("document.getElementById(id1).style.display=\"none\";\n")
                               .append("document.getElementById(id2).style.display=\"block\";\n")
                               .append("}}").toString());
-        writer.write("function resizeDivs(){}\n");
+        writer.write("if(typeof(resizeDivs)=='undefined'){resizeDivs = function(){};}\n");
         writer.endElement("script");
     }
 }
