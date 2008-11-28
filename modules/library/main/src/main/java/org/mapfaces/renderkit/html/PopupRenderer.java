@@ -27,6 +27,7 @@ import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.taglib.PopupTag;
+import org.mapfaces.component.UIMapPane;
 
 /**
  * @author Olivier Terral.
@@ -123,7 +124,14 @@ public class PopupRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
-        String jsObject = comp.getParent().getClientId(context);
+        String jsObject = null ;
+        comp_loop :
+        for (UIComponent comps : comp.getParent().getChildren()){
+            if(comps instanceof UIMapPane){
+                jsObject = comps.getClientId(context);
+                break comp_loop;
+            }
+        }
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
