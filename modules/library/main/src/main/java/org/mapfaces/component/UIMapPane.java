@@ -14,10 +14,10 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component;
 
 import java.util.List;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.geotools.map.MapContext;
@@ -29,7 +29,6 @@ import org.geotools.map.MapContext;
 public class UIMapPane extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane";
-
     private MapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
@@ -69,7 +68,7 @@ public class UIMapPane extends UIWidgetBase {
      * Should layers also be rendered outside the map extent? Default is false.
      */
     private boolean displayOutsideMaxExtent = true;
-    private String  maxExtent ;
+    private String maxExtent;
     private String maxResolution = "auto";
     private String minResolution = null;
     private List<Float> resolutions = null;
@@ -94,12 +93,12 @@ public class UIMapPane extends UIWidgetBase {
     private Boolean google = false;
     private Boolean yahoo = false;
     private Boolean virtualEarth = false;
-
-    private String ajaxCompId ;
+    private String ajaxCompId;
 
     public String getAjaxCompId() {
         return ajaxCompId;
     }
+
     public void setAjaxCompId(final String ajaxCompId) {
         this.ajaxCompId = ajaxCompId;
     }
@@ -112,9 +111,6 @@ public class UIMapPane extends UIWidgetBase {
     /** Creates a new instance of UIMapPane */
     public UIMapPane() {
         super();
-        if (isDebug()) {
-            System.out.println("[UIMapPane] constructor----------------------");
-        }
         setRendererType("org.mapfaces.renderkit.html.MapPane");    // this component has a renderer
     }
 
@@ -370,6 +366,26 @@ public class UIMapPane extends UIWidgetBase {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
 
+    }
+
+    /**
+     * This method remove a layer child of this Mappane if exists.
+     * @param layerComp
+     */
+    public void removeLayer(final UIComponent layerComp) {
+        for (UIComponent comp : this.getChildren()) {
+            if (comp.getId().equals(layerComp.getId())) {
+                this.getChildren().remove(comp);
+            }
+        }
+    }
+
+    /**
+     * this method add a layer as children of this Mappane
+     * @param layerComp
+     */
+    public void addLayer(final UIComponent layerComp) {
+        this.getChildren().add(layerComp);
     }
 }
 

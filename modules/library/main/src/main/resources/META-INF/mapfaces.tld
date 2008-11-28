@@ -1921,6 +1921,109 @@
             </description>
         </attribute>
     </tag>
+    <!-- MFLayer -->
+    <tag>
+        <name>MFLayer</name>
+        <tag-class>org.mapfaces.taglib.MFLayerTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            Component for visualizing a collection of features.
+        </description>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <description>A value binding that points to a bean property</description>
+            <name>binding</name>
+            <deferred-value>
+                <type>javax.faces.component.UIComponent</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                Flag indicating whether or not this component should be rendered
+                (during Render Response Phase), or processed on any subsequent
+                form submit.
+            </description>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The Features collection value.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>image</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The png image for this layer.
+            </description>
+        </attribute>
+        <attribute>
+            <name>sizeImg</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is the size of the png image, default is 16.
+            </description>
+        </attribute>
+        <attribute>
+            <name>rotation</name>
+            <deferred-value>
+                <type>java.lang.Double</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is the rotation angle, default is 0.
+            </description>
+        </attribute>
+    </tag>
     <tag>
         <name>AoiBoxDHTML</name>
         <tag-class>org.mapfaces.component.widgets.AoiBoxDHTMLTag</tag-class>
@@ -4033,6 +4136,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- TIMELINE -->
     <tag>
         <name>TimeLine</name>
         <tag-class>org.mapfaces.taglib.timeline.TimeLineTag</tag-class>
@@ -4230,6 +4334,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- BANDINFO -->
     <tag>
         <name>BandInfo</name>
         <tag-class>org.mapfaces.taglib.timeline.BandInfoTag</tag-class>
@@ -4410,6 +4515,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- HOTZONE BANDINFO -->
     <tag>
         <name>HotZoneBandInfo</name>
         <tag-class>org.mapfaces.taglib.timeline.HotZoneBandInfoTag</tag-class>

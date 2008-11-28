@@ -73,6 +73,10 @@
         <component-class>org.mapfaces.component.UILayer</component-class>
     </component>
     <component>
+        <component-type>org.mapfaces.component.MapPane.MFLayer</component-type>
+        <component-class>org.mapfaces.component.UIMFLayer</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.component.LayerControl</component-type>
         <component-class>org.mapfaces.component.UILayerControl</component-class>
     </component>
@@ -308,6 +312,12 @@
             <component-family>org.mapfaces.MapPane.Layer</component-family>
             <renderer-type>org.mapfaces.renderkit.html.MapPane.Layer</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.LayerRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Renders a speciallayer from a collection of features. </description>
+            <component-family>org.mapfaces.MapPane.MFLayer</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.MapPane.MFLayer</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.MFLayerRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Renders an LayerControl </description>

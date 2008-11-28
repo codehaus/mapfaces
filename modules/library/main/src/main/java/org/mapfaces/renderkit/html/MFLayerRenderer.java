@@ -14,15 +14,13 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,31 +34,36 @@ import javax.imageio.ImageIO;
 import org.geotools.display.exception.PortrayalException;
 import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.factory.CommonFactoryFinder;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.simple.SimpleFeatureImpl;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.filter.identity.FeatureIdImpl;
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.map.FeatureMapLayer;
 import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
-import org.geotools.map.MapLayer;
-import org.geotools.metadata.iso.citation.OnLineResourceImpl;
 import org.geotools.referencing.CRS;
 
 import org.geotools.style.MutableStyle;
 import org.geotools.style.StyleFactory;
-import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.util.FacesUtils;
 
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.expression.Expression;
-import org.opengis.metadata.citation.OnLineResource;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.Displacement;
-import org.opengis.style.ExternalGraphic;
 import org.opengis.style.Graphic;
 import org.opengis.style.GraphicalSymbol;
+import org.opengis.style.Mark;
 import org.opengis.style.PointSymbolizer;
 
 /**
@@ -92,8 +95,13 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 Integer.parseInt(model.getWindowHeight()));
 
 
-        final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
-        final String display = (layer.isHidden()) ? "display:none" : "display:block;";
+//        final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
+        final String styleImg = "filter:alpha(opacity=1.0);opacity:1;";
+
+//        final String display = (layer.isHidden()) ? "display:none" : "display:block;";
+        final String display = "display:block;";
+        final int size = (comp.getSize() != 0) ? comp.getSize() : 16;
+        final double rotation = comp.getRotation();
 
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "style");
@@ -102,8 +110,8 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
 
 
         //Add layer image if not the first page loads
-        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
-
+//        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
+        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay()) {
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
 
@@ -113,7 +121,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 crs = CRS.decode(srs);
             } catch (FactoryException ex) {
                 LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
-                //TODO should close divs and writer correctly is this happens
+                writer.endElement("div");
                 return;
             }
 
@@ -121,28 +129,33 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                     new Double(model.getMinx()), new Double(model.getMaxx()),
                     new Double(model.getMiny()), new Double(model.getMaxy()),
                     crs);
-            final MapLayer mapLayer;
+            final FeatureMapLayer mapLayer;
 
 
-            String urlImage = comp.getImage();
+//            String urlImage = comp.getImage();
             StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
 
-            OnLineResource rsc = null;
-            try {
-                rsc = new OnLineResourceImpl(new URI(urlImage));
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(MFLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            String format = "image/png";
+//            OnLineResource rsc = null;
+//            try {
+//                System.out.println(">>>>>>>>>>>>>   urlImage = "+urlImage);
+//                rsc = new OnLineResourceImpl(new URI("http://demo.geomatys.fr/mdweb2/resources/img/pushpins/1.png"));
+//                
+//            } catch (URISyntaxException ex) {
+//                Logger.getLogger(MFLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            String format = "image/png";
+//
+//            ExternalGraphic external = styleFactory.createExternalGraphic(rsc, format, null);
 
-            ExternalGraphic external = styleFactory.createExternalGraphic(rsc, format, null);
+            Mark marker = styleFactory.createMark();
 
             List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
-            
-            symbols.add(external);
+
+//            symbols.add(external);
+            symbols.add(marker);
             Expression opacity = styleFactory.literalExpression(1d);
-            Expression expSize = styleFactory.literalExpression(16); //taille a ajouter dans taglib
-            Expression expRotation = styleFactory.literalExpression(0); //rotation taglib idem
+            Expression expSize = styleFactory.literalExpression(size);
+            Expression expRotation = styleFactory.literalExpression(rotation);
             AnchorPoint anchor = null;
             Displacement disp = null;
             Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
@@ -150,16 +163,43 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             PointSymbolizer symbol = styleFactory.createPointSymbolizer(graphic, "");
             MutableStyle mutableStyle = styleFactory.createStyle(symbol);
 
-            mapLayer = MapBuilder.getInstance().createFeatureLayer(comp.getFeatures(), mutableStyle);
+            //building a FeatureCollection for this layer.
+            FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+            long featureId = 0;
+            for (Feature f : comp.getFeatures()) {
+                SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+                builder.setName(f.getName());
+                builder.setCRS(f.getCrs());
+
+                List<Object> objects = new ArrayList<Object>();
+
+                for (String key : f.getAttributes().keySet()) {
+                    builder.add(key, f.getAttributes().get(key).getClass());
+                    objects.add(f.getAttributes().get(key));
+                }
+
+                SimpleFeatureType sft = builder.buildFeatureType();
+
+
+                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+                features.add(sf);
+                featureId++;
+            }
+
+
+            mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
 
             MapContext mapContext = MapBuilder.getInstance().createContext(crs);
             mapContext.layers().add(mapLayer);
 
             BufferedImage bufferImage;
             try {
+                System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
                 bufferImage = DefaultPortrayalService.getInstance().portray(mapContext, env, dim, true);
-                ImageIO.write(bufferImage, "png", new File("")); //@TODO fix the correct file destination.
-                String generatedImage = "";
+                File dst = File.createTempFile("img", "", comp.getDir());
+                ImageIO.write(bufferImage, "png", dst);
+
+                String generatedImage = comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName();
 
                 writer.startElement("img", comp);
                 writer.writeAttribute("id", id + "_Img", "style");
@@ -168,8 +208,6 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 if (styleImg != null) {
                     writer.writeAttribute("style", "position:relative;", "style");
                 }
-
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> url = " + generatedImage);
 
                 writer.writeAttribute("src", generatedImage, "src");
                 writer.endElement("img");
@@ -189,7 +227,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
      */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        final UILayer comp = (UILayer) component;
+        return;
     }
 
     /**
@@ -198,15 +236,15 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
 
-        final UILayer comp = (UILayer) component;
+        final UIMFLayer comp = (UIMFLayer) component;
         final Context model = (Context) comp.getModel();
         final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
-        final Layer layer = comp.getLayer();
+//        final Layer layer = comp.getLayer();
         final String formId = FacesUtils.getFormId(context, comp);
 
         final StringBuilder sb = new StringBuilder("Layer decode :");
         sb.append(" Model Id = ").append(model.getId());
-        sb.append(" Layer Id = ").append(layer.getId());
+//        sb.append(" MFLayer Id = ").append(layer.getId());
         sb.append(" Window Width = ").append(model.getWindowHeight());
         sb.append(" Window Height = ").append(model.getWindowWidth());
 
@@ -250,36 +288,36 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 if (layerProperty.contains("hidden")) {
                     final boolean test = !(value != null && value.equals("on"));
 //                    tmp.setHidden(layer.getId(), test);
-                    layer.setHidden(test);
+//                    layer.setHidden(test);
                     if (isDebug()) {
-                        System.out.println("La propriÃ©tÃ© hidden du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.isHidden(layer.getId()));
+//                        System.out.println("The property hidden of the layer " + layer.getId() + " has been modified :" + model.isHidden(layer.getId()));
                     }
                 } else if (layerProperty.contains("Opacity")) {
-                    model.setOpacity(layer.getId(), value);
+//                    model.setOpacity(layer.getId(), value);
                     if (isDebug()) {
-                        System.out.println("La propriÃ©tÃ© opacity du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getOpacity(layer.getId()));
+//                        System.out.println("The property opacity of the layer " + layer.getId() + " has been modified :" + model.getOpacity(layer.getId()));
                     }
                 } else if (layerProperty.contains("Time")) {
                     if (value == null) {
                         value = "";
                     }
-                    model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
-                    System.out.println(model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
+//                    model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
+//                    System.out.println(model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                     if (isDebug()) {
-                        System.out.println("La propriÃ©tÃ© time du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
+//                        System.out.println("The property time of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                     }
                 } else if (layerProperty.contains("Elevation")) {
                     if (value == null) {
                         value = "";
                     }
-                    model.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);
+//                    model.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);
                     if (isDebug()) {
-                        System.out.println("La propriÃ©tÃ© elevation du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
+//                        System.out.println("The property elevation of the layer " + layer.getId() + "has been modified :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
                     }
                 } else if (layerProperty.contains("DimRange")) {
-                    model.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
+//                    model.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
                     if (isDebug()) {
-                        System.out.println("La propriÃ©tÃ© dim_range du layer " + layer.getId() + " Ã  Ã©tÃ© modifiÃ©e :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
+//                        System.out.println("The property dim_range of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
                     }
                 }
 
@@ -291,15 +329,10 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             System.out.println("LAYER_CONTAINER_STYLE changed =" + params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
             comp.setStyle(params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
         }
-        /* try {
-        ctx.saveModel(context);
-        } catch (JAXBException ex) {
-        Logger.getLogger(LayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
 
         System.out.println(sb.toString());
         comp.setModel((AbstractModelBase) model);
-        comp.setLayer(model.getLayerFromId(layer.getId()));
+//        comp.setLayer(model.getLayerFromId(layer.getId()));
 
         return;
     }
