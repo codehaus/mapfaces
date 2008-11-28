@@ -22,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIScale;
 import org.mapfaces.taglib.ScaleTag;
+import org.mapfaces.component.UIMapPane;
 
 /**
  * @author Olivier Terral.
@@ -34,7 +35,7 @@ public class ScaleRenderer extends WidgetBaseRenderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-
+ 
         super.encodeBegin(context, component);
         final UIScale comp    = (UIScale) component;
         final String clientId = comp.getClientId(context);
@@ -52,7 +53,14 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
-        String jsObject = comp.getParent().getClientId(context);
+        String jsObject = null ;
+        comp_loop :
+        for (UIComponent comps : comp.getParent().getChildren()){
+            if(comps instanceof UIMapPane){
+                jsObject = comps.getClientId(context);
+                break comp_loop;
+            }
+        }
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }

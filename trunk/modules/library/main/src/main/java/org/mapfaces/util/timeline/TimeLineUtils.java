@@ -80,7 +80,7 @@ public class TimeLineUtils {
                     null,
                     null,
                     false,
-                    layer.getId() + " " + sdf.format(crrt),
+                    layer.getCompId()+ " " + sdf.format(crrt),
                     layer.getTitle(),
                     sdf.format(crrt),
                     sdf.format(crrt),

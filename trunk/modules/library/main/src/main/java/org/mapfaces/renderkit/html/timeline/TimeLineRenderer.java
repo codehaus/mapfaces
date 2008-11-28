@@ -366,8 +366,8 @@ public class TimeLineRenderer extends Renderer {
 
             writer.write(new StringBuilder("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n")
                     .append("        var parameters = {    'synchronized': 'true',\n")
-                    .append("                             'org.mapfaces.ajax.AJAX_LAYER_ID': '").append(FacesUtils.getFormId(context, component)).append(":").append((parentContext.getId())).append("_'+img.textContent.split(' ')[0],\n")
-                    .append("                             'refresh': '").append(FacesUtils.getFormId(context, component)).append(":").append((parentContext.getId())).append("_'+img.textContent.split(' ')[0],\n")
+                    .append("                             'org.mapfaces.ajax.AJAX_LAYER_ID': ").append("img.textContent.split(' ')[0],\n")
+                    .append("                             'refresh': ").append("img.textContent.split(' ')[0],\n")
                     .append("                              'Time': img.textContent.split(' ')[1],\n")
                     .append("                              'org.mapfaces.ajax.AJAX_CONTAINER_ID':'Time',\n")
                     .append("                              'render': 'true' //render the layers, always set to true after the first page loads\n")

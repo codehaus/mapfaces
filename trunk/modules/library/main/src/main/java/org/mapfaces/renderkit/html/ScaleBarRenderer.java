@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 
 import org.mapfaces.component.UIScaleBar;
 import org.mapfaces.taglib.ScaleBarTag;
+import org.mapfaces.component.UIMapPane;
 
 /**
  * @author Olivier Terral.
@@ -52,7 +53,14 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
-        String jsObject = comp.getParent().getClientId(context);
+        String jsObject = null ;
+        comp_loop :
+        for (UIComponent comps : comp.getParent().getChildren()){
+            if(comps instanceof UIMapPane){
+                jsObject = comps.getClientId(context);
+                break comp_loop;
+            }
+        }
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
