@@ -45,6 +45,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.geotools.data.wms.backend.AbstractKeyword;
 
+import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
@@ -529,5 +530,21 @@ public class FacesUtils {
             return session.getServletContext().getServerInfo();
         }
         return null;
+    }
+    
+    /**
+     * This method returns true if the mappane contains MFLayers.
+     * @param mappane
+     * @return
+     */
+    public static boolean containsMFLayers(UIMapPane mappane) {
+        if (mappane != null) {
+            for (UIComponent child : mappane.getChildren()) {
+                if (child instanceof UIMFLayer) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

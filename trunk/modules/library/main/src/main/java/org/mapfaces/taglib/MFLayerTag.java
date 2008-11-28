@@ -1,11 +1,28 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.taglib;
 
+import java.util.List;
+import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import org.mapfaces.component.UIMFLayer;
 
 /**
  *
@@ -21,7 +38,6 @@ public class MFLayerTag extends WidgetBaseTag {
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.MapPane.MFLayer";
-    
     private ValueExpression image = null;
     /**
      * The style class of the overall div that surrounds this component.
@@ -31,6 +47,18 @@ public class MFLayerTag extends WidgetBaseTag {
      * The style of the overall div that surrounds this component.
      */
     private ValueExpression style = null;
+    /**
+     * The Data FeatureCollection.
+     */
+    private ValueExpression value = null;
+    /**
+     * Size of the image.
+     */
+    private ValueExpression sizeImg = null;
+    /**
+     * Rotation of the image.
+     */
+    private ValueExpression rotation = null;
 
     /**
      * {@inheritDoc }
@@ -58,6 +86,18 @@ public class MFLayerTag extends WidgetBaseTag {
         component.setValueExpression("image", image);
         component.setValueExpression("style", style);
         component.setValueExpression("styleClass", styleClass);
+        component.setValueExpression("value", value);
+        component.setValueExpression("sizeImg", sizeImg);
+        component.setValueExpression("rotation", rotation);
+
+        final UIMFLayer mflayer = (UIMFLayer) component;
+
+        if (value != null) {
+            final FacesContext context = FacesContext.getCurrentInstance();
+            final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+            final ValueExpression vex = ef.createValueExpression(context.getELContext(), value.getExpressionString(), List.class);
+            mflayer.setFeatures((List) vex.getValue(context.getELContext()));
+        }
     }
 
     /**
@@ -70,6 +110,9 @@ public class MFLayerTag extends WidgetBaseTag {
         setImage(null);
         setStyle(null);
         setStyleClass(null);
+        setValue(null);
+        setSizeImg(null);
+        setRotation(null);
     }
 
     public ValueExpression getImage() {
@@ -94,5 +137,29 @@ public class MFLayerTag extends WidgetBaseTag {
 
     public void setStyle(ValueExpression style) {
         this.style = style;
+    }
+
+    public ValueExpression getValue() {
+        return value;
+    }
+
+    public void setValue(ValueExpression value) {
+        this.value = value;
+    }
+
+    public ValueExpression getSizeImg() {
+        return sizeImg;
+    }
+
+    public void setSizeImg(ValueExpression sizeImg) {
+        this.sizeImg = sizeImg;
+    }
+
+    public ValueExpression getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(ValueExpression rotation) {
+        this.rotation = rotation;
     }
 }

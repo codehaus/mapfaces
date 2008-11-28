@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author olivier
+ * @author Olivier Terral.
  */
 public class OWCv030toMFTransformer {
 

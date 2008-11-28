@@ -37,7 +37,6 @@ public class UIContext extends UIModelBase {
     public UIContext(){
         super();
         setRendererType("org.mapfaces.renderkit.html.models.Context"); // this component has a renderer
-        System.out.println("UIContext constructor----------------------");
     }
 
     /**

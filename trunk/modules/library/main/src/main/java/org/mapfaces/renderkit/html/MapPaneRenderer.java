@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
 
 import java.io.File;
@@ -27,6 +26,7 @@ import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
 
 import org.mapfaces.component.UILayer;
+import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
@@ -48,8 +48,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeBegin(context, component);
 
-        final UIMapPane comp  = (UIMapPane) component;
-        final boolean debug   = comp.isDebug();
+        final UIMapPane comp = (UIMapPane) component;
+        System.out.println("-------------------------------------- ENCODE BEGIN ------------------------------------------------------------------");
+        System.out.println("%%%%%%%%%%%%%%%%%%  mappane encodebegin nb fils mappane = "+comp.getChildCount());
+        for (UIComponent cc : comp.getChildren()) {
+            System.out.println("===============================   child class = "+cc.getClass());
+        }
+        
+        final boolean debug = comp.isDebug();
         final String clientId = comp.getClientId(context);
         final Context model;
         if (comp.getModel() != null && comp.getModel() instanceof Context) {
@@ -77,8 +83,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             style = "width:" + width + "px;height:" + height + "px;z-index:0;" + style;
         }
 
-        if (debug) System.out.println("        L'attribut style du MapPane est " + style);
-
+        if (debug) {
+            System.out.println("\t the style property of the MapPane is " + style);
+        }
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "id");
         if (styleClass == null) {
@@ -112,41 +119,54 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("style", "top:0px;left:0px;position:absolute;z-index: 749;", "style");
 
         final List<Layer> layers = model.getLayers();
-        final ServletContext sc  = (ServletContext) context.getExternalContext().getContext();
+        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
 
         final File dstDir = new File(sc.getRealPath("tmp"));
         if (!dstDir.exists()) {
             dstDir.mkdir();
         }
-        
+
         final String ctxPath = sc.getContextPath();
         final String srs = model.getSrs();
-
-        if (comp.getChildren() != null) {
-            removeChildren(context, component);
+        
+        if (debug) {
+            System.out.println("\t The model context of the Mappane contains " + layers.size() + " layers.");
         }
-        if (debug) System.out.println("Le MapPane contient " + layers.size() + " layers");
-
         comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
+        
+        boolean containsMFLayers = FacesUtils.containsMFLayers(comp);
+        
         for (final Layer temp : layers) {
             if (temp != null) {
 
                 final UILayer layer = new UILayer();
                 layer.setModel((AbstractModelBase) model);
                 if (temp.getId() != null) {
-                    layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId()+"_"+comp.getId()+"_"+temp.getId());
+                    layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                 } else {
                     temp.setId(layer.getId());
                 }
 
-                if (debug) layer.getAttributes().put("debug", true);
+                if (debug) {
+                    layer.getAttributes().put("debug", true);
+                }
                 layer.setDir(dstDir);
                 layer.setContextPath(ctxPath);
-                comp.getChildren().add(layer);
+                
+                comp.removeLayer(layer);
+                if (containsMFLayers) {
+                    comp.getChildren().add(0,layer);
+                }else {
+                    comp.addLayer(layer);
+                }
+                
+                
                 temp.setCompId(layer.getClientId(context));
-                System.out.println("[DEBUG] "+layer.getClientId(context));
+                System.out.println("[DEBUG] " + layer.getClientId(context));
                 layer.setLayer(temp);
-                if (debug) System.out.println(" Layer  ClientId" + layer.getClientId(context) + " layers");
+                if (debug) {
+                    System.out.println("\t UILayer  ClientId" + layer.getClientId(context));
+                }
             }
         }
 
@@ -156,6 +176,52 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         for (final UIComponent tmp : comp.getChildren()) {
             if (tmp instanceof UIWidgetBase) {
                 ((UIWidgetBase) tmp).setModel((AbstractModelBase) model);
+            }
+            System.out.println(">>>>>>>>>>>>>>>>>>   child class = "+tmp.getClass());
+        }
+        System.out.println("--------------------------END OF ENCODE BEGIN-------------------------------------");
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final UIMapPane comp = (UIMapPane) component;
+        final List<UIComponent> childrens = component.getChildren();
+        if (comp.isDebug()) {
+            System.out.println("[MapPane encodeChildren] " + component.getFamily() + " have " + childrens.size() + " children. ");
+        }
+        
+        final Context model;
+        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+            model = (Context) comp.getModel();
+        } else {
+            //The model context is null or not a Context instance
+            throw new UnsupportedOperationException("The model context is null or not supported yet !");
+        }
+        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+        final String ctxPath = sc.getContextPath();
+        final File dstDir = new File(sc.getRealPath("tmp"));
+        if ( ! dstDir.exists() ) {
+            dstDir.mkdir();
+        }
+                
+        for (final UIComponent tmp : childrens) {
+            if (comp.isDebug()) {
+                System.out.println("[MapPane encodeChildren] child family component  : " + tmp.getFamily());
+            }
+
+            //if the child component is a UIMFLayer then setting the contextmodel and file directory.
+            if (tmp instanceof UIMFLayer) {
+                UIMFLayer mfLayer = (UIMFLayer) tmp;
+                mfLayer.setModel((AbstractModelBase) model);
+                mfLayer.setDir(dstDir);
+                mfLayer.setContextPath(ctxPath);
+                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  encodeChildren Mappane : mflayer id = "+mfLayer.getId()+"  model = "+model+"   dstDir="+dstDir+"  ctxPath="+ctxPath);
+                FacesUtils.encodeRecursive(context, mfLayer);
+            } else {
+                FacesUtils.encodeRecursive(context, tmp);
             }
         }
     }
@@ -191,26 +257,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
         final String[] srsCode = model.getSrs().split(":");
 
-        writer.write(new StringBuilder("               ")
-                .append("    var mapOptions = {\n")
-                .append("                       id:'").append(jsObject).append("',\n")
-                .append("                       controls:[],\n")
-                .append("                       projection: new OpenLayers.Projection('EPSG:").append(srsCode[srsCode.length - 1]).append("'),\n")
-                .append("                       size: new OpenLayers.Size('").append(model.getWindowWidth()).append("','").append(model.getWindowHeight()).append("'),\n")
-                .append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n")
-                .append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx()).append(",").append(model.getMiny()).append(",").append(model.getMaxx()).append(",").append(model.getMaxy()).append("),\n")
-                .append("                       maxResolution: 'auto',\n")
-                .append("                       theme:  null ,\n")
-                .append("                       fractionnalZoom:  true ,\n")
-                .append("                       layersName:  '").append(model.getLayersCompId()).append("' ,\n")
-                .append("                       mfAjaxCompId:'").append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',\n")
-                .append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',\n")
-                .append("                       mfRequestId:'updateBboxOrWindow'\n")
-                .append("                   };\n")
-                .append("    window.").append(jsObject).append(" = new OpenLayers.Map('").append(comp.getClientId(context)).append("',mapOptions);\n")
-                .append("    if(!window.maps){window.maps = {};}\n")
-                .append("    window.maps.").append(jsObject).append(" = window.").append(jsObject).append(";\n")
-                .toString());
+        writer.write(new StringBuilder("               ").append("    var mapOptions = {\n").append("                       id:'").append(jsObject).append("',\n").append("                       controls:[],\n").append("                       projection: new OpenLayers.Projection('EPSG:").append(srsCode[srsCode.length - 1]).append("'),\n").append("                       size: new OpenLayers.Size('").append(model.getWindowWidth()).append("','").append(model.getWindowHeight()).append("'),\n").append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n").append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx()).append(",").append(model.getMiny()).append(",").append(model.getMaxx()).append(",").append(model.getMaxy()).append("),\n").append("                       maxResolution: 'auto',\n").append("                       theme:  null ,\n").append("                       fractionnalZoom:  true ,\n").append("                       layersName:  '").append(model.getLayersCompId()).append("' ,\n").append("                       mfAjaxCompId:'").append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',\n").append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',\n").append("                       mfRequestId:'updateBboxOrWindow'\n").append("                   };\n").append("    window.").append(jsObject).append(" = new OpenLayers.Map('").append(comp.getClientId(context)).append("',mapOptions);\n").append("    if(!window.maps){window.maps = {};}\n").append("    window.maps.").append(jsObject).append(" = window.").append(jsObject).append(";\n").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();
@@ -222,9 +269,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
-        final UIMapPane comp        = (UIMapPane) component;
+        final UIMapPane comp = (UIMapPane) component;
         final UIContext contextComp = (UIContext) comp.getParent();
-        final Context tmp           = (Context) contextComp.getModel();
+        final Context tmp = (Context) contextComp.getModel();
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             final Map params = context.getExternalContext().getRequestParameterMap();
