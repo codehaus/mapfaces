@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
 
+import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.component.UIMapPane;
@@ -130,6 +131,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         
         boolean containsMFLayers = FacesUtils.containsMFLayers(comp);
         
+        UIDiv jsfdiv = new UIDiv();
+        jsfdiv.setId(comp.getId()+"_layersDivContainer");
+                
         for (final Layer temp : layers) {
             if (temp != null && temp.getType() != null &&  ! temp.getType().equals("mapfaces_type")) {
 
@@ -149,9 +153,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 
                 comp.removeLayer(layer);
                 if (containsMFLayers) {
-                    comp.getChildren().add(0,layer);
+                    jsfdiv.getChildren().add(0,layer);
                 }else {
-                    comp.addLayer(layer);
+                    jsfdiv.getChildren().add(layer);
                 }
                 
                 
@@ -163,6 +167,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 }
             }
         }
+        comp.getChildren().add(jsfdiv);
 
         writer.flush();
 
@@ -180,7 +185,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UIMapPane comp = (UIMapPane) component;
-        final List<UIComponent> childrens = component.getChildren();
+        final List<UIComponent> childrens = component.getChildren().get(0).getChildren();
         if (comp.isDebug()) {
             System.out.println("[MapPane encodeChildren] " + component.getFamily() + " have " + childrens.size() + " children. ");
         }
@@ -204,6 +209,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 System.out.println("[MapPane encodeChildren] child family component  : " + tmp.getFamily());
             }
 
+            comp.getChildren().get(0).encodeBegin(context);
             //if the child component is a UIMFLayer then setting the contextmodel and file directory.
             if (tmp instanceof UIMFLayer) {
                 UIMFLayer mfLayer = (UIMFLayer) tmp;
@@ -214,6 +220,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             } else {
                 FacesUtils.encodeRecursive(context, tmp);
             }
+            comp.getChildren().get(0).encodeEnd(context);
         }
     }
 
