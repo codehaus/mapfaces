@@ -49,12 +49,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
 
         final UIMapPane comp = (UIMapPane) component;
-        System.out.println("-------------------------------------- ENCODE BEGIN ------------------------------------------------------------------");
-        System.out.println("%%%%%%%%%%%%%%%%%%  mappane encodebegin nb fils mappane = "+comp.getChildCount());
-        for (UIComponent cc : comp.getChildren()) {
-            System.out.println("===============================   child class = "+cc.getClass());
-        }
-        
         final boolean debug = comp.isDebug();
         final String clientId = comp.getClientId(context);
         final Context model;
@@ -137,7 +131,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         boolean containsMFLayers = FacesUtils.containsMFLayers(comp);
         
         for (final Layer temp : layers) {
-            if (temp != null) {
+            if (temp != null && temp.getType() != null &&  ! temp.getType().equals("mapfaces_type")) {
 
                 final UILayer layer = new UILayer();
                 layer.setModel((AbstractModelBase) model);
@@ -177,9 +171,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             if (tmp instanceof UIWidgetBase) {
                 ((UIWidgetBase) tmp).setModel((AbstractModelBase) model);
             }
-            System.out.println(">>>>>>>>>>>>>>>>>>   child class = "+tmp.getClass());
         }
-        System.out.println("--------------------------END OF ENCODE BEGIN-------------------------------------");
     }
 
     /**
@@ -218,7 +210,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 mfLayer.setModel((AbstractModelBase) model);
                 mfLayer.setDir(dstDir);
                 mfLayer.setContextPath(ctxPath);
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  encodeChildren Mappane : mflayer id = "+mfLayer.getId()+"  model = "+model+"   dstDir="+dstDir+"  ctxPath="+ctxPath);
                 FacesUtils.encodeRecursive(context, mfLayer);
             } else {
                 FacesUtils.encodeRecursive(context, tmp);
@@ -256,8 +247,34 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             jsObject = jsObject.replace(":", "");
         }
         final String[] srsCode = model.getSrs().split(":");
-
-        writer.write(new StringBuilder("               ").append("    var mapOptions = {\n").append("                       id:'").append(jsObject).append("',\n").append("                       controls:[],\n").append("                       projection: new OpenLayers.Projection('EPSG:").append(srsCode[srsCode.length - 1]).append("'),\n").append("                       size: new OpenLayers.Size('").append(model.getWindowWidth()).append("','").append(model.getWindowHeight()).append("'),\n").append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n").append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx()).append(",").append(model.getMiny()).append(",").append(model.getMaxx()).append(",").append(model.getMaxy()).append("),\n").append("                       maxResolution: 'auto',\n").append("                       theme:  null ,\n").append("                       fractionnalZoom:  true ,\n").append("                       layersName:  '").append(model.getLayersCompId()).append("' ,\n").append("                       mfAjaxCompId:'").append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',\n").append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',\n").append("                       mfRequestId:'updateBboxOrWindow'\n").append("                   };\n").append("    window.").append(jsObject).append(" = new OpenLayers.Map('").append(comp.getClientId(context)).append("',mapOptions);\n").append("    if(!window.maps){window.maps = {};}\n").append("    window.maps.").append(jsObject).append(" = window.").append(jsObject).append(";\n").toString());
+                
+        writer.write(new StringBuilder("               ").append("    var mapOptions = {\n").
+                                                          append("                       id:'").append(jsObject).append("',\n").
+                                                          append("                       controls:[],\n").
+                                                          append("                       projection: new OpenLayers.Projection('EPSG:").
+                                                          append(srsCode[srsCode.length - 1]).append("'),\n").
+                                                          append("                       size: new OpenLayers.Size('").
+                                                          append(model.getWindowWidth()).append("','").
+                                                          append(model.getWindowHeight()).append("'),\n").
+                                                          append("                       maxExtent: new OpenLayers.Bounds(").
+                                                          append(comp.getMaxExtent()).append("),\n").
+                                                          append("                       currentExtent: new OpenLayers.Bounds(").
+                                                          append(model.getMinx()).append(",").append(model.getMiny()).append(",").
+                                                          append(model.getMaxx()).append(",").append(model.getMaxy()).append("),\n").
+                                                          append("                       maxResolution: 'auto',\n").
+                                                          append("                       theme:  null ,\n").
+                                                          append("                       fractionnalZoom:  true ,\n").
+                                                          append("                       layersName:  '").append(model.getLayersCompId()).append("' ,\n").
+                                                          append("                       mfAjaxCompId:'").
+                                                          append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',\n").
+                                                          append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',\n").
+                                                          append("                       mfRequestId:'updateBboxOrWindow'\n").
+                                                          append("                   };\n").append("    window.").append(jsObject).
+                                                          append(" = new OpenLayers.Map('").append(comp.getClientId(context)).append("',mapOptions);\n").
+                                                          append("    if(!window.maps){window.maps = {};}\n").append("    window.maps.").
+                                                          append(jsObject).append(" = window.").append(jsObject).append(";\n").
+                                                          toString());
+        
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();
@@ -270,7 +287,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
         final UIMapPane comp = (UIMapPane) component;
-        final UIContext contextComp = (UIContext) comp.getParent();
+        final UIContext contextComp = (UIContext) FacesUtils.getParentUIContext(context, comp);
         final Context tmp = (Context) contextComp.getModel();
 
         if (context.getExternalContext().getRequestParameterMap() != null) {

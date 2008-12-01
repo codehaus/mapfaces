@@ -45,6 +45,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.geotools.data.wms.backend.AbstractKeyword;
 
+import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
@@ -479,6 +480,36 @@ public class FacesUtils {
         int result = 0;
         for (Layer layer : layers) {
             if (layer.getDimensionList() != null && layer.getTime() != null) {
+                result++;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * This method returns the number of layers UILayers as children of a mappane.
+     * @param layers
+     * @return
+     */
+    public static int getCountUILayers(UIMapPane mappane) {
+        int result = 0;
+        for (UIComponent child : mappane.getChildren()) {
+            if (child instanceof UILayer) {
+                result++;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * This method returns the number of layers UIMFLayers as children of a mappane.
+     * @param layers
+     * @return
+     */
+    public static int getCountUIMFLayers(UIMapPane mappane) {
+        int result = 0;
+        for (UIComponent child : mappane.getChildren()) {
+            if (child instanceof UIMFLayer) {
                 result++;
             }
         }

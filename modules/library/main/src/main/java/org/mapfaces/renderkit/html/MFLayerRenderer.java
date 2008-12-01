@@ -14,13 +14,14 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import org.geotools.display.exception.PortrayalException;
 import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.factory.CommonFactoryFinder;
@@ -46,6 +48,8 @@ import org.geotools.map.MapContext;
 import org.geotools.referencing.CRS;
 
 import org.geotools.style.MutableStyle;
+import org.geotools.style.RandomStyleFactory;
+import org.geotools.style.StyleConstants;
 import org.geotools.style.StyleFactory;
 import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.models.AbstractModelBase;
@@ -61,10 +65,13 @@ import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.Displacement;
+import org.opengis.style.ExternalGraphic;
+import org.opengis.style.Fill;
 import org.opengis.style.Graphic;
 import org.opengis.style.GraphicalSymbol;
 import org.opengis.style.Mark;
 import org.opengis.style.PointSymbolizer;
+import org.opengis.style.Stroke;
 
 /**
  * @author Mehdi Sidhoum.
@@ -94,12 +101,8 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 Integer.parseInt(model.getWindowWidth()),
                 Integer.parseInt(model.getWindowHeight()));
 
-
-//        final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
-        final String styleImg = "filter:alpha(opacity=1.0);opacity:1;";
-
-//        final String display = (layer.isHidden()) ? "display:none" : "display:block;";
-        final String display = "display:block;";
+        final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
+        final String display = (layer.isHidden()) ? "display:none" : "display:block;";
         final int size = (comp.getSize() != 0) ? comp.getSize() : 16;
         final double rotation = comp.getRotation();
 
@@ -110,8 +113,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
 
 
         //Add layer image if not the first page loads
-//        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
-        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay()) {
+        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
 
@@ -132,9 +134,9 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             final FeatureMapLayer mapLayer;
 
 
-//            String urlImage = comp.getImage();
+            String urlImage = comp.getImage();
             StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
-
+//            RandomStyleFactory randomfactStyle = new RandomStyleFactory();
 //            OnLineResource rsc = null;
 //            try {
 //                System.out.println(">>>>>>>>>>>>>   urlImage = "+urlImage);
@@ -143,19 +145,34 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
 //            } catch (URISyntaxException ex) {
 //                Logger.getLogger(MFLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-//            String format = "image/png";
+            String format = "image/png";
+            ImageIcon icon = new ImageIcon(new URL(urlImage));
+            
+            ExternalGraphic external = styleFactory.createExternalGraphic(icon, format, null);
+            
+//            Expression fillColor = styleFactory.colorExpression(Color.RED);
+//            Expression opacity = styleFactory.literalExpression(0.4d);
+//            Fill fill = styleFactory.createFill(null, fillColor, opacity);
 //
-//            ExternalGraphic external = styleFactory.createExternalGraphic(rsc, format, null);
-
-            Mark marker = styleFactory.createMark();
+//            Expression color = styleFactory.colorExpression(Color.WHITE);
+//            Expression width = styleFactory.literalExpression(0.5d);
+//            Expression join = styleFactory.literalExpression("bevel");
+//            Expression cap = styleFactory.literalExpression("round");
+//            float[] dashes = null;
+//            Expression strokeOffset = styleFactory.literalExpression(0d);
+//
+//            Stroke stroke = styleFactory.createStroke(color, opacity, width, join, cap, dashes, strokeOffset);
+//
+//            Mark marker = styleFactory.createMark(StyleConstants.MARK_CIRCLE, fill, stroke);
 
             List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
-
-//            symbols.add(external);
-            symbols.add(marker);
             Expression opacity = styleFactory.literalExpression(1d);
+            symbols.add(external);
+//            symbols.add(marker);
+
             Expression expSize = styleFactory.literalExpression(size);
             Expression expRotation = styleFactory.literalExpression(rotation);
+
             AnchorPoint anchor = null;
             Displacement disp = null;
             Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
@@ -203,7 +220,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
 
                 writer.startElement("img", comp);
                 writer.writeAttribute("id", id + "_Img", "style");
-                writer.writeAttribute("class", "MFlayerImg", "style");
+                writer.writeAttribute("class", "layerImg", "style");
 
                 if (styleImg != null) {
                     writer.writeAttribute("style", "position:relative;", "style");
@@ -239,20 +256,20 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         final UIMFLayer comp = (UIMFLayer) component;
         final Context model = (Context) comp.getModel();
         final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
-//        final Layer layer = comp.getLayer();
+        final Layer layer = comp.getLayer();
         final String formId = FacesUtils.getFormId(context, comp);
 
         final StringBuilder sb = new StringBuilder("Layer decode :");
         sb.append(" Model Id = ").append(model.getId());
-//        sb.append(" MFLayer Id = ").append(layer.getId());
-        sb.append(" Window Width = ").append(model.getWindowHeight());
-        sb.append(" Window Height = ").append(model.getWindowWidth());
+        sb.append(" MFLayer Id = ").append(layer.getId());
+        sb.append(" Window Height = ").append(model.getWindowHeight());
+        sb.append(" Window Width = ").append(model.getWindowWidth());
 
         if (context.getExternalContext().getRequestParameterMap() == null) {
             System.out.println(sb.toString());
             return;
         }
-
+        
         if (params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))) {
             final String bbox = params.get("bbox");
             sb.append("\n BBox = " + bbox);
@@ -287,38 +304,21 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 //Modify Context property
                 if (layerProperty.contains("hidden")) {
                     final boolean test = !(value != null && value.equals("on"));
-//                    tmp.setHidden(layer.getId(), test);
-//                    layer.setHidden(test);
-                    if (isDebug()) {
-//                        System.out.println("The property hidden of the layer " + layer.getId() + " has been modified :" + model.isHidden(layer.getId()));
-                    }
+                    layer.setHidden(test);
                 } else if (layerProperty.contains("Opacity")) {
-//                    model.setOpacity(layer.getId(), value);
-                    if (isDebug()) {
-//                        System.out.println("The property opacity of the layer " + layer.getId() + " has been modified :" + model.getOpacity(layer.getId()));
-                    }
+                    model.setOpacity(layer.getId(), value);
                 } else if (layerProperty.contains("Time")) {
                     if (value == null) {
                         value = "";
                     }
 //                    model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
-//                    System.out.println(model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
-                    if (isDebug()) {
-//                        System.out.println("The property time of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
-                    }
                 } else if (layerProperty.contains("Elevation")) {
                     if (value == null) {
                         value = "";
                     }
 //                    model.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);
-                    if (isDebug()) {
-//                        System.out.println("The property elevation of the layer " + layer.getId() + "has been modified :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
-                    }
                 } else if (layerProperty.contains("DimRange")) {
 //                    model.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
-                    if (isDebug()) {
-//                        System.out.println("The property dim_range of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
-                    }
                 }
 
             }
