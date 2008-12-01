@@ -17,6 +17,10 @@
     <!-- ******************** COMPONENTS ******************************* -->
     <!-- *************************************************************** -->
     <component>
+        <component-type>org.mapfaces.component.Div</component-type>
+        <component-class>org.mapfaces.component.UIDiv</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.DimRange</component-type>
         <component-class>org.mapfaces.component.UIDimRange</component-class>
     </component>
@@ -549,6 +553,12 @@
             <component-family>org.mapfaces.treebuilder.treepanel.treelines.TreeNodeInfo</component-family>
             <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeNodeInfoRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Div </description>
+            <component-family>org.mapfaces.Div</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>
