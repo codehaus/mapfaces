@@ -14,24 +14,23 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component;
 
-import javax.faces.component.UIPanel;
 import javax.faces.context.FacesContext;
 
 /**
  *
  * @author Mehdi Sidhoum.
  */
-public class UIDiv extends UIPanel {
+public class UIDiv extends UIWidgetBase {
+
     public static final String FAMILIY = "org.mapfaces.Div";
-    
+
     public UIDiv() {
         super();
         setRendererType("org.mapfaces.renderkit.html.Div");    // this component has a renderer
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -39,7 +38,7 @@ public class UIDiv extends UIPanel {
     public String getFamily() {
         return FAMILIY;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -60,5 +59,4 @@ public class UIDiv extends UIPanel {
         super.restoreState(context, values[0]);
 
     }
-
 }

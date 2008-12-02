@@ -23,6 +23,7 @@ package org.mapfaces.models;
  */
 import java.util.HashMap;
 
+import java.util.List;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
 public class DefaultLayer implements Layer {
@@ -70,6 +71,26 @@ public class DefaultLayer implements Layer {
      * JSF properties we need to know the id of its component
      * */
     private String compId;
+    
+    
+    // Attributes for MFLayer
+    /**
+     * This is the list of features for this uilayer component.
+     */
+    private List<Feature> features;
+    /**
+     * This is the url for the image png....
+     */
+    private String image;
+    /**
+     * Size of the image.
+     */
+    private int size;
+    /**
+     * Rotation of the image.
+     */
+    private double rotation;
+    
 
     public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
@@ -775,5 +796,45 @@ public class DefaultLayer implements Layer {
     @Override
     public void setCompId(final String compId) {
         this.compId = compId;
+    }
+
+    @Override
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    @Override
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
+
+    @Override
+    public String getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    @Override
+    public double getRotation() {
+        return rotation;
+    }
+
+    @Override
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 }
