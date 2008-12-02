@@ -203,13 +203,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if ( ! dstDir.exists() ) {
             dstDir.mkdir();
         }
-                
+            
+        comp.getChildren().get(0).encodeBegin(context);
         for (final UIComponent tmp : childrens) {
             if (comp.isDebug()) {
                 System.out.println("[MapPane encodeChildren] child family component  : " + tmp.getFamily());
             }
 
-            comp.getChildren().get(0).encodeBegin(context);
+            
             //if the child component is a UIMFLayer then setting the contextmodel and file directory.
             if (tmp instanceof UIMFLayer) {
                 UIMFLayer mfLayer = (UIMFLayer) tmp;
@@ -220,8 +221,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             } else {
                 FacesUtils.encodeRecursive(context, tmp);
             }
-            comp.getChildren().get(0).encodeEnd(context);
         }
+        comp.getChildren().get(0).encodeEnd(context);
     }
 
     /**
