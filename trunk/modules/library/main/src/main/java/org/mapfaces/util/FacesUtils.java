@@ -502,13 +502,13 @@ public class FacesUtils {
     }
     
     /**
-     * This method returns the number of layers UIMFLayers as children of a mappane.
+     * This method returns the number of layers UIMFLayers as children of a mappane container.
      * @param layers
      * @return
      */
-    public static int getCountUIMFLayers(UIMapPane mappane) {
+    public static int getCountUIMFLayers(UIComponent component) {
         int result = 0;
-        for (UIComponent child : mappane.getChildren()) {
+        for (UIComponent child : component.getChildren()) {
             if (child instanceof UIMFLayer) {
                 result++;
             }
