@@ -19,6 +19,7 @@ package org.mapfaces.models;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
@@ -185,4 +186,24 @@ public interface Layer extends Serializable {
     String getCompId();
 
     void setCompId(String id);
+    
+    /**
+     * properties for a MFLayer
+     */
+    public List<Feature> getFeatures();
+
+    public void setFeatures(List<Feature> features);
+
+    public String getImage();
+
+    public void setImage(String image);
+
+    public int getSize();
+
+    public void setSize(int size);
+
+    public double getRotation();
+
+    public void setRotation(double rotation);
+    
 }

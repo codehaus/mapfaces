@@ -25,6 +25,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
+import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 
@@ -1140,6 +1141,46 @@ public class TreeItem implements Layer, Context {
      */
     @Override
     public String getLayersCompId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Feature> getFeatures() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setFeatures(List<Feature> features) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getImage() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setImage(String image) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int getSize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setSize(int size) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public double getRotation() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setRotation(double rotation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
