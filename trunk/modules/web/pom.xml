@@ -127,48 +127,54 @@
     </dependency>
 
     <!-- lucene -->
-     <dependency>
+     <!--dependency>
 	 <groupId>org.apache.lucene</groupId>
          <artifactId>lucene-core</artifactId>
          <version>2.2.0</version>
-      </dependency>
+      </dependency-->
 
     <!-- constellation -->
       <dependency>
-        <groupId>org.constellation</groupId>
+        <groupId>org.constellation.xml-bindings</groupId>
         <artifactId>gml</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation</groupId>
+        <groupId>org.constellation.xml-bindings</groupId>
         <artifactId>kml</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation</groupId>
+        <groupId>org.constellation.xml-bindings</groupId>
         <artifactId>sld</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation</groupId>
+        <groupId>org.constellation.xml-bindings</groupId>
         <artifactId>ows</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation</groupId>
+        <groupId>org.constellation.storage</groupId>
         <artifactId>postgrid</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <exclusions>
+        <version>${constellation.version}</version>
+	<scope>provided</scope>
+        <!--exclusions>
                 <exclusion>
                     <artifactId>xercesImpl</artifactId>
                     <groupId>xerces</groupId>
                 </exclusion>
-            </exclusions>
+        </exclusions-->
       </dependency>
       <dependency>
-        <groupId>org.constellation</groupId>
+        <groupId>xerces</groupId>
+        <artifactId>xercesImpl</artifactId>
+	<version>2.2.1</version>	<scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.constellation.library</groupId>
         <artifactId>spatial-lucene</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${constellation.version}</version>
       </dependency>
 
       <!-- ajax4jsf -->

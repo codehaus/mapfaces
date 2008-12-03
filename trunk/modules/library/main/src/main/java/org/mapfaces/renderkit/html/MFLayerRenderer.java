@@ -173,12 +173,15 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             Expression expSize = styleFactory.literalExpression(size);
             Expression expRotation = styleFactory.literalExpression(rotation);
 
-            AnchorPoint anchor = null;
+            AnchorPoint anchor = styleFactory.createAnchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
             Displacement disp = null;
             Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
 
             PointSymbolizer symbol = styleFactory.createPointSymbolizer(graphic, "");
             MutableStyle mutableStyle = styleFactory.createStyle(symbol);
+            
+            //List of rules for this style.
+            // mutableStyle.featureTypeStyles().get(0).rules();
 
             //building a FeatureCollection for this layer.
             FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();

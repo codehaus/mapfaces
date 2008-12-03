@@ -226,8 +226,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             jsObject = jsObject.replace(":", "");
         }
         final String[] srsCode = model.getSrs().split(":");
-
-        writer.write(new StringBuilder("               ").append("    var mapOptions = {\n").
+        
+        writer.write(new StringBuilder(" if (typeof mapOptions == 'undefined') { \n").
+                append("    var mapOptions = {\n").
                 append("                       id:'").append(jsObject).append("',\n").
                 append("                       controls:[],\n").
                 append("                       projection: new OpenLayers.Projection('EPSG:").
@@ -248,10 +249,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',\n").
                 append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',\n").
                 append("                       mfRequestId:'updateBboxOrWindow'\n").
-                append("                   };\n").append("    window.").append(jsObject).
-                append(" = new OpenLayers.Map('").append(comp.getClientId(context)).append("',mapOptions);\n").
-                append("    if(!window.maps){window.maps = {};}\n").append("    window.maps.").
-                append(jsObject).append(" = window.").append(jsObject).append(";\n").
+                append("                   }; \n }\n").
+                append(" else { mapOptions.layersName = '").append(model.getLayersCompId()).append("' ;} \n").
+                append("    window.").append(jsObject).append(" = new OpenLayers.Map('").append(comp.getClientId(context)).append("',mapOptions);\n").
+                append("    if(!window.maps){window.maps = {};}\n").
+                append("    window.maps.").         append(jsObject).append(" = window.").append(jsObject).append(";\n").
                 toString());
 
         writer.endElement("script");
