@@ -365,7 +365,7 @@ public class UIMapPane extends UIWidgetBase {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-
+        maxExtent = (String) values[2];
     }
 
     /**
