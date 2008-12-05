@@ -21,6 +21,10 @@
         <component-class>org.mapfaces.component.UIDiv</component-class>
     </component>
     <component>
+        <component-type>org.mapfaces.component.ExtPanel</component-type>
+        <component-class>org.mapfaces.component.UIExtPanel</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.DimRange</component-type>
         <component-class>org.mapfaces.component.UIDimRange</component-class>
     </component>
@@ -559,6 +563,12 @@
             <component-family>org.mapfaces.Div</component-family>
             <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>ExtPanel </description>
+            <component-family>org.mapfaces.ExtPanel</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.ExtPanel</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.ExtPanelRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>

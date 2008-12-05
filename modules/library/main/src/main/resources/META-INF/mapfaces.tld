@@ -157,6 +157,153 @@
             </description>
         </attribute>
     </tag>
+    <!-- ExtPanel -->
+    <tag>
+        <name>ExtPanel</name>
+        <tag-class>org.mapfaces.taglib.ExtPanelTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            This is the tag that creates a simple panel component with css providing by extJs.
+        </description>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                an empty property element to show debugging output during stylesheet processing. Optional.
+            </description>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <description>A value binding that points to a bean property</description>
+            <name>binding</name>
+            <deferred-value>
+                <type>javax.faces.component.UIComponent</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                Flag indicating whether or not this component should be rendered
+                (during Render Response Phase), or processed on any subsequent
+                form submit.
+            </description>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The title of the panel header.
+            </description>
+        </attribute>
+        <attribute>
+            <name>headerStyle</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the header div.
+            </description>
+        </attribute>
+        <attribute>
+            <name>headerStyleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the header div.
+            </description>
+        </attribute>
+        <attribute>
+            <name>bodyStyle</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the body content.
+            </description>
+        </attribute>
+        <attribute>
+            <name>bodyStyleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the body.
+            </description>
+        </attribute>
+        <attribute>
+            <name>height</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                this is the height of the panel.
+            </description>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                this is the width of the panel.
+            </description>
+        </attribute>
+    </tag>
     
     <!-- DimRange -->
     <tag>

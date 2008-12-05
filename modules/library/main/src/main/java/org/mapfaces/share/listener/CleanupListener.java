@@ -29,7 +29,7 @@ public class CleanupListener implements ServletContextListener {
         } 
       } 
     } catch (Throwable e) { 
-      System.err.println("Failled to cleanup ClassLoader for webapp"); 
+      System.err.println("Failed to cleanup ClassLoader for webapp"); 
       e.printStackTrace(); 
     } 
   }
