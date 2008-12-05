@@ -30,7 +30,7 @@ import org.mapfaces.component.UIDiv;
  * @author Mehdi Sidhoum.
  */
 public class DivRenderer extends Renderer {
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.DivRenderer");
+    private static final Logger logger = Logger.getLogger("org.mapfaces.renderkit.html.DivRenderer");
     
     /**
      * {@inheritDoc }
