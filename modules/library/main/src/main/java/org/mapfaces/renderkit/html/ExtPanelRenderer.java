@@ -49,15 +49,13 @@ public class ExtPanelRenderer extends Renderer {
 
         final boolean debug = comp.isDebug();
         final String clientId = comp.getClientId(context);
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%   title = "+comp.getTitle());
         final String title = (comp.getTitle() != null)? comp.getTitle()  : "";
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> title = "+title);
-        final String style = comp.getStyle();
-        final String styleClass = comp.getStyleClass();
-        final String headerStyle = comp.getHeaderStyle();
-        final String headerStyleClass = comp.getHeaderStyleClass();
-        final String bodyStyle = comp.getBodyStyle();
-        final String bodyStyleClass = comp.getBodyStyleClass();
+        final String style = (comp.getStyle() != null)? comp.getStyle() : "";
+        final String styleClass = (comp.getStyleClass() != null)? comp.getStyleClass() : "";
+        final String headerStyle = (comp.getHeaderStyle() != null)? comp.getHeaderStyle() : "";
+        final String headerStyleClass = (comp.getHeaderStyleClass() != null)? comp.getHeaderStyleClass() : "";
+        final String bodyStyle = (comp.getBodyStyle() != null)? comp.getBodyStyle() : "";
+        final String bodyStyleClass = (comp.getBodyStyleClass() != null)? comp.getBodyStyleClass() : "";
         final int width = (comp.getWidth() != 0)? comp.getWidth() : 200;
         final int height = ( comp.getHeight() != 0)? comp.getHeight() : 200;
 
@@ -68,7 +66,7 @@ public class ExtPanelRenderer extends Renderer {
         
         writer.startElement("div", component);
         writer.writeAttribute("id", clientId, "clientId");
-        writer.writeAttribute("style", "left: 0px; top: 271px; width: "+width+"px; " + style, "style");
+        writer.writeAttribute("style", "left: 0px; top: 0px; width: "+width+"px; " + style, "style");
         writer.writeAttribute("class", "x-panel x-border-panel " + styleClass, "styleclass");
 
         writer.startElement("div", component);
@@ -96,8 +94,8 @@ public class ExtPanelRenderer extends Renderer {
         
         writer.startElement("div", component);
         writer.writeAttribute("id", clientId + "-ext-panel-body", "id");
-        writer.writeAttribute("class", "x-panel-bwrap", "class");
-        writer.writeAttribute("style", "width: "+width+"px;height:"+height+"px", "style");
+        writer.writeAttribute("class", "x-panel-bwrap "+bodyStyleClass, "class");
+        writer.writeAttribute("style", "width: "+width+"px;height:"+height+"px;"+bodyStyle, "style");
         
         writer.startElement("div", component);
         writer.writeAttribute("class", "x-panel-ml", "class");
