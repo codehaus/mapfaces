@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OWSContext version="0.3.0" id="ows-context-ex-1-v3" xmlns="http://www.opengis.net/ows-context" xmlns:gml="http://www.opengis.net/gml" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/ows-context http://www.ogcnetwork.net/schemas/owc/0.3.0/owsContext.xsd">
+	<General>                
+		<Window width="600" height="400"/>
+		<ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:3395">
+			<ows:LowerCorner>-20037507.067161847 -20037507.067161847</ows:LowerCorner>
+			<ows:UpperCorner>20037507.067161847 20037507.067161847</ows:UpperCorner>
+		</ows:BoundingBox>
+		<ows:Title>OWS Context version 0.3.0, BlueMarble Mercator example</ows:Title>
+	</General>
+	<ResourceList>
+		<!-- WMS Example -->
+                 <Layer name="BlueMarble" queryable="1" hidden="0">                        
+			<ows:Title>Blue Marble</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/constellation/WS/wms"/>
+			</Server>                    
+		</Layer>     
+                <Layer name="AO_Coriolis_(Temp)" queryable="1" hidden="1" opacity="0.7">                  
+			<ows:Title>AO_Coriolis_(Temp)</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                            <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/constellation/WS/wms"/>
+			</Server>      
+                        <StyleList>
+			    <Style current="1">
+                                <Name>dd</Name>
+                                <Title>dd</Title>
+                                <LegendURL hidden="1" width="135" height="20">
+				    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+						xlink:href="http://localhost:8080/constellation/WS/wms?WIDTH=135&amp;HEIGHT=20&amp;VERSION=1.1.0&amp;service=wms&amp;request=GetLegendGraphic&amp;format=image/png&amp;layer=AO_Coriolis_(Temp)" />
+                                </LegendURL>
+			    </Style>
+			</StyleList> 
+		</Layer>      
+	</ResourceList>
+</OWSContext>
