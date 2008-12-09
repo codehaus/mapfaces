@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -62,7 +63,13 @@ public class ExtPanelRenderer extends Renderer {
         //begin to render the component.
         ResponseWriter writer = context.getResponseWriter();
         
-        writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/css/ext-widgets.css", null) + "\"/>");
+        //Write the css once per page
+        final ExternalContext extContext = context.getExternalContext();
+        if (! extContext.getRequestMap().containsKey("cssflag.ExtPanel")) {
+            extContext.getRequestMap().put("cssflag.ExtPanel", Boolean.TRUE);
+            writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/css/ext-widgets.css", null) + "\"/>");
+        }
+        
         
         writer.startElement("div", component);
         writer.writeAttribute("id", clientId, "clientId");
