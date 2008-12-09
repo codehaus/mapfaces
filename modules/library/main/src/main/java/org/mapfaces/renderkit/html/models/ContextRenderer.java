@@ -82,7 +82,6 @@ public class ContextRenderer extends Renderer {
         writer.writeAttribute("rel", "stylesheet", "rel");
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
         writer.writeAttribute("type", "text/css", null);
-        writer.endElement("link");
 
         if (comp.isMootools()) {
             writer.startElement("script", component);

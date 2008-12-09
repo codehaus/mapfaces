@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-modules</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
   </parent>
 
 
@@ -135,27 +135,27 @@
 
     <!-- constellation -->
       <dependency>
-        <groupId>org.constellation.xml-bindings</groupId>
+        <groupId>org.constellation</groupId>
         <artifactId>gml</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation.xml-bindings</groupId>
+        <groupId>org.constellation</groupId>
         <artifactId>kml</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation.xml-bindings</groupId>
+        <groupId>org.constellation</groupId>
         <artifactId>sld</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation.xml-bindings</groupId>
+        <groupId>org.constellation</groupId>
         <artifactId>ows</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.constellation.storage</groupId>
+        <groupId>org.constellation</groupId>
         <artifactId>postgrid</artifactId>
         <version>${constellation.version}</version>
 	<scope>provided</scope>
@@ -172,7 +172,7 @@
 	<version>2.2.1</version>	<scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>org.constellation.library</groupId>
+        <groupId>org.constellation</groupId>
         <artifactId>spatial-lucene</artifactId>
         <version>${constellation.version}</version>
       </dependency>
