@@ -54,7 +54,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type","text/javascript","text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement.
-        String jsObject = null ;
+        String jsObject = "";
         comp_loop :
         for (UIComponent comps : comp.getParent().getChildren()){
             if(comps instanceof UIMapPane){
