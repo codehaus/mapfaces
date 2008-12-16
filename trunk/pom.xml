@@ -180,6 +180,12 @@
   </properties>
   <dependencyManagement>
     <dependencies>
+      <!-- constellation -->
+      <dependency>
+	<groupId>org.constellation.xml-bindings</groupId>
+	<artifactId>cstl-xml-ogc</artifactId>
+	<version>${constellation.version}</version>
+      </dependency>
 
       <!-- JSF -->
       <dependency>
@@ -281,6 +287,11 @@
       <dependency>
         <groupId>org.geotools</groupId>
         <artifactId>gt-api</artifactId>
+        <version>${geotools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotools</groupId>
+        <artifactId>gt-sld</artifactId>
         <version>${geotools.version}</version>
       </dependency>
 

@@ -94,6 +94,10 @@
       <groupId>org.geotools</groupId>
       <artifactId>gt-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-sld</artifactId>
+    </dependency>
 
     <!-- JSF -->
     <dependency>
@@ -153,11 +157,6 @@
       </dependency>
       <dependency>
         <groupId>org.constellation.xml-bindings</groupId>
-        <artifactId>cstl-xml-sld</artifactId>
-        <version>${constellation.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.constellation.xml-bindings</groupId>
         <artifactId>cstl-xml-ows</artifactId>
         <version>${constellation.version}</version>
       </dependency>
@@ -166,6 +165,11 @@
         <artifactId>cstl-store-postgrid</artifactId>
         <version>${constellation.version}</version>
 	<scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.constellation.xml-bindings</groupId>
+        <artifactId>cstl-xml-ogc</artifactId>
+        <version>${constellation.version}</version>
       </dependency>
       <!--dependency>
         <groupId>org.constellation.library</groupId>
