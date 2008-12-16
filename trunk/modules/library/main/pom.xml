@@ -143,33 +143,33 @@
     <!-- constellation -->
       <dependency>
         <groupId>org.constellation.xml-bindings</groupId>
-        <artifactId>gml</artifactId>
+        <artifactId>cstl-xml-gml</artifactId>
         <version>${constellation.version}</version>
       </dependency>	
       <dependency>
         <groupId>org.constellation.xml-bindings</groupId>
-        <artifactId>kml</artifactId>
+        <artifactId>cstl-xml-kml</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
         <groupId>org.constellation.xml-bindings</groupId>
-        <artifactId>sld</artifactId>
+        <artifactId>cstl-xml-sld</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
         <groupId>org.constellation.xml-bindings</groupId>
-        <artifactId>ows</artifactId>
+        <artifactId>cstl-xml-ows</artifactId>
         <version>${constellation.version}</version>
       </dependency>
       <dependency>
         <groupId>org.constellation.storage</groupId>
-        <artifactId>postgrid</artifactId>
+        <artifactId>cstl-store-postgrid</artifactId>
         <version>${constellation.version}</version>
 	<scope>provided</scope>
       </dependency>
       <!--dependency>
         <groupId>org.constellation.library</groupId>
-        <artifactId>spatial-lucene</artifactId>
+        <artifactId>cstl-lib-spatial-lucene</artifactId>
         <version>${constellation.version}</version>
       </dependency-->
      

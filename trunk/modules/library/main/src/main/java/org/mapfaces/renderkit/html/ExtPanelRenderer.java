@@ -88,7 +88,7 @@ public class ExtPanelRenderer extends Renderer {
         writer.startElement("div", component);
         writer.writeAttribute("id", clientId + "-ext-panel-head", "id");
         writer.writeAttribute("class", "x-panel-header x-unselectable " + headerStyleClass, "class");
-        writer.writeAttribute("style", headerStyle, "style");
+        writer.writeAttribute("style", "height:15px; "+headerStyle, "style");
 
         writer.startElement("span", component);
         writer.writeAttribute("id", component.getClientId(context) + "-ext-panel-title", "id");
