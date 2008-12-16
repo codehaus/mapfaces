@@ -16,9 +16,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.constellation.gml.v212.AbstractFeatureCollectionType;
+import org.geotools.internal.jaxb.v110.gml.AbstractFeatureCollectionType;
+
 import org.constellation.kml.v220.DocumentType;
-import org.constellation.ogc.v100.FilterType;
+import org.geotools.internal.jaxb.v100.ogc.FilterType;
  
 
 /**
