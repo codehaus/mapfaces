@@ -304,7 +304,6 @@
             </description>
         </attribute>
     </tag>
-    
     <!-- DimRange -->
     <tag>
         <name>DimRange</name>
@@ -826,7 +825,8 @@
                 Add debug message in server console.
             </description>
         </attribute>
-    </tag> <!-- Scale -->
+    </tag>
+    <!-- Scale -->
     <tag>
         <name>LocatorMap</name>
         <tag-class>org.mapfaces.taglib.LocatorMapTag</tag-class>
@@ -1079,7 +1079,8 @@
                 Add debug message in server console.
             </description>
         </attribute>
-    </tag>  <!-- Popup -->
+    </tag>
+     <!-- Popup -->
     <tag>
         <name>Popup</name>
         <tag-class>org.mapfaces.taglib.PopupTag</tag-class>
@@ -1436,6 +1437,7 @@
             </description>
         </attribute>
     </tag>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <!-- LayerControl -->
     <tag>
         <name>LayerControl</name>
@@ -1528,6 +1530,17 @@
             </description>
         </attribute>
         <attribute>
+            <name>styleClassTreeTable</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The styleClass of the TreeTable subcomponent.
+            </description>
+        </attribute>
+        <attribute>
             <name>styleTreePanel</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -1536,6 +1549,17 @@
             <rtexprvalue>false</rtexprvalue>
             <description>
                 The style of the TreePanel subcomponent.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleClassTreePanel</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The styleClass of the TreeTable subcomponent.
             </description>
         </attribute>
         <attribute>
@@ -1638,6 +1662,28 @@
             </description>
         </attribute>
         <attribute>
+            <name>styleLeafLines</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is the style for leaf treeLines sub components.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleNodeLines</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+               This is the style for node treeLines sub components.
+            </description>
+        </attribute>
+        <attribute>
             <name>mootools</name>
             <description>Allow to load mootools library or not, default to true</description>
             <required>false</required>
@@ -1649,6 +1695,24 @@
         <attribute>
             <name>minifyJS</name>
             <description>Allow to load the minify JavaScript library or the uncompressed library , default to true</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>displayAllLayers</name>
+            <description>Allow to load all layers in the treetable</description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>displayHeader</name>
+            <description>Allow to display treetable header</description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1721,7 +1785,19 @@
                 Flag that indicates if the colorMapEditoe component must be displayed or not.
             </description>
         </attribute>
+        <attribute>
+            <name>activateDnd</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the Drag n Drop must be enable or not.
+            </description>
+        </attribute>
     </tag>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <!-- MapPane -->
     <tag>
         <name>MapPane</name>
@@ -3103,7 +3179,6 @@
             <rtexprvalue>false</rtexprvalue>
         </attribute>
     </tag>
-    
     <tag>
         <name>MapScaleText</name>
         <tag-class>org.mapfaces.component.widgets.MapScaleTextTag</tag-class>
@@ -5296,7 +5371,7 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-          <attribute>
+        <attribute>
             <name>styleTools</name>
             <description>Allow to apply a style to tools components</description>
             <required>false</required>
@@ -6488,7 +6563,7 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-          <attribute>
+        <attribute>
             <name>styleTools</name>
             <description>Allow to apply a style to tools components</description>
             <required>false</required>
