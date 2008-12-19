@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib;
 
 import javax.el.ValueExpression;
@@ -22,6 +21,7 @@ import javax.faces.component.UIComponent;
 
 /**
  * @author Olivier Terral
+ * @author Kevin Delfour
  */
 public class LayerControlTag extends WidgetBaseTag {
 
@@ -38,9 +38,17 @@ public class LayerControlTag extends WidgetBaseTag {
      */
     private ValueExpression styleTreeTable = null;
     /**
+     * The styleClass of the treeTable sub component.
+     */
+    private ValueExpression styleClassTreeTable = null;
+    /**
      * The style of the treePanel sub component.
      */
     private ValueExpression styleTreePanel = null;
+     /**
+     * The styleClass of the treePanel sub component.
+     */
+    private ValueExpression styleClassTreePanel = null;
     /**
      * The width of the treeColumn sub component.
      */
@@ -69,7 +77,6 @@ public class LayerControlTag extends WidgetBaseTag {
      * The header title of the treeColumn sub component.
      */
     private ValueExpression headerTreeColumn = null;
-
     /**
      * This is the style for odd treeLines sub components.
      */
@@ -79,6 +86,14 @@ public class LayerControlTag extends WidgetBaseTag {
      */
     private ValueExpression styleEvenLines = null;
     /**
+     * This is the style for Leaf treeLines sub components.
+     */
+    private ValueExpression styleLeafLines = null;
+    /**
+     * This is the style for Node treeLines sub components.
+     */
+    private ValueExpression styleNodeLines = null;
+    /**
      * Boolean to load Mootools script or not.
      */
     private ValueExpression mootools = null;
@@ -87,29 +102,41 @@ public class LayerControlTag extends WidgetBaseTag {
      */
     private ValueExpression minifyJS = null;
     /**
+     *  Boolean to load all layers in treetable
+     */
+    private ValueExpression displayAllLayers = null;
+    /**
+     *  Boolean to add an header title to treetable
+     */
+    private ValueExpression displayHeader = null;
+    /**
      * Flag that indicates if the Elevation columns must be displayed or not.
      */
     private ValueExpression elevationColumn = null;
     /**
      * Flag that indicates if the visibility columns must be displayed or not.
      */
-    private ValueExpression  visibilityColumn = null;
+    private ValueExpression visibilityColumn = null;
     /**
      * Flag that indicates if the opacity columns must be displayed or not.
      */
-    private ValueExpression  opacityColumn = null;
+    private ValueExpression opacityColumn = null;
     /**
      * Flag that indicates if the time columns must be displayed or not.
      */
-    private ValueExpression  timeColumn = null;
+    private ValueExpression timeColumn = null;
     /**
      * Flag that indicates if the layerInfo  must be displayed or not.
      */
-    private ValueExpression  layerInfo = null;
+    private ValueExpression layerInfo = null;
     /**
      * Flag that indicates if colorMapEditor must be displayed or not.
      */
-    private ValueExpression  colorMapEditor = null;
+    private ValueExpression colorMapEditor = null;
+    /**
+     * Flag that indicates if Drag n Drop must enable
+     */
+    private ValueExpression activateDnd = null;
 
     /**
      * {@inheritDoc }
@@ -134,7 +161,9 @@ public class LayerControlTag extends WidgetBaseTag {
     public void release() {
         super.release();
         setStyleTreeTable(null);
+        setStyleClassTreeTable(null);
         setStyleTreePanel(null);
+        setStyleClassTreePanel(null);
         setWidthTreeColumn(null);
         setWidthElevationColumn(null);
         setWidthOpacityColumn(null);
@@ -142,16 +171,21 @@ public class LayerControlTag extends WidgetBaseTag {
         setWidthVisibilityColumn(null);
         setTitlePanel(null);
         setHeaderTreeColumn(null);
+        setStyleLeafLines(null);
+        setStyleNodeLines(null);
         setStyleEvenLines(null);
         setStyleOddLines(null);
         setMootools(null);
         setMinifyJS(null);
+        setDisplayAllLayers(null);
+        setDisplayHeader(null);
         setElevationColumn(null);
         setVisibilityColumn(null);
         setOpacityColumn(null);
         setTimeColumn(null);
         setLayerInfo(null);
         setColorMapEditor(null);
+        setActivateDnd(null);
     }
 
     /**
@@ -161,7 +195,9 @@ public class LayerControlTag extends WidgetBaseTag {
     protected void setProperties(final UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("styleTreeTable", styleTreeTable);
+        component.setValueExpression("styleClassTreeTable", styleClassTreeTable);
         component.setValueExpression("styleTreePanel", styleTreePanel);
+        component.setValueExpression("styleClassTreePanel", styleClassTreePanel);
         component.setValueExpression("widthTreeColumn", widthTreeColumn);
         component.setValueExpression("widthVisibilityColumn", widthVisibilityColumn);
         component.setValueExpression("widthOpacityColumn", widthOpacityColumn);
@@ -169,16 +205,20 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("widthTimeColumn", widthTimeColumn);
         component.setValueExpression("titlePanel", titlePanel);
         component.setValueExpression("headerTreeColumn", headerTreeColumn);
+        component.setValueExpression("styleLeafLines", styleLeafLines);
+        component.setValueExpression("styleNodeLines", styleNodeLines);
         component.setValueExpression("styleOddLines", styleOddLines);
         component.setValueExpression("styleEvenLines", styleEvenLines);
-        component.setValueExpression("mootools",mootools);
-        component.setValueExpression("minifyJS",minifyJS);
-        component.setValueExpression("elevationColumn", elevationColumn);
+        component.setValueExpression("mootools", mootools);
+        component.setValueExpression("minifyJS", minifyJS);
+        component.setValueExpression("displayAllLayers", displayAllLayers);
+        component.setValueExpression("displayHeader", displayHeader);
         component.setValueExpression("visibilityColumn", visibilityColumn);
         component.setValueExpression("opacityColumn", opacityColumn);
         component.setValueExpression("timeColumn", timeColumn);
         component.setValueExpression("layerInfo", layerInfo);
         component.setValueExpression("colorMapEditor", colorMapEditor);
+        component.setValueExpression("activateDnd", activateDnd);
     }
 
     public ValueExpression getStyleTreeTable() {
@@ -331,5 +371,61 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setColorMapEditor(ValueExpression colorMapEditor) {
         this.colorMapEditor = colorMapEditor;
+    }
+
+    public ValueExpression getStyleClassTreeTable() {
+        return styleClassTreeTable;
+    }
+
+    public void setStyleClassTreeTable(ValueExpression styleClassTreeTable) {
+        this.styleClassTreeTable = styleClassTreeTable;
+    }
+
+    public ValueExpression getStyleClassTreePanel() {
+        return styleClassTreePanel;
+    }
+
+    public void setStyleClassTreePanel(ValueExpression styleClassTreePanel) {
+        this.styleClassTreePanel = styleClassTreePanel;
+    }
+
+    public ValueExpression getStyleLeafLines() {
+        return styleLeafLines;
+    }
+
+    public void setStyleLeafLines(ValueExpression styleLeafLines) {
+        this.styleLeafLines = styleLeafLines;
+    }
+
+    public ValueExpression getStyleNodeLines() {
+        return styleNodeLines;
+    }
+
+    public void setStyleNodeLines(ValueExpression styleNodeLines) {
+        this.styleNodeLines = styleNodeLines;
+    }
+
+    public ValueExpression getDisplayAllLayers() {
+        return displayAllLayers;
+    }
+
+    public void setDisplayAllLayers(ValueExpression displayAllLayers) {
+        this.displayAllLayers = displayAllLayers;
+    }
+
+    public ValueExpression getDisplayHeader() {
+        return displayHeader;
+    }
+
+    public void setDisplayHeader(ValueExpression displayHeader) {
+        this.displayHeader = displayHeader;
+    }
+
+    public ValueExpression getActivateDnd() {
+        return activateDnd;
+    }
+
+    public void setActivateDnd(ValueExpression activateDnd) {
+        this.activateDnd = activateDnd;
     }
 }

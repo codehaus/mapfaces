@@ -14,74 +14,63 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component;
 
 import javax.faces.context.FacesContext;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
+ * @author Kevin Delfour.
  */
 public class UILayerControl extends UIWidgetBase {
 
-    public static final String FAMILIY = "org.mapfaces.LayerControl";
-    /**
-     * Add tree parameters
-     */
-    private DefaultMutableTreeNode rootnode,  node,  child,  children;
-    private DefaultTreeModel tree,  tmp;
+    /* Fields */
+    private DefaultTreeModel tree;
+    /* TreeTable style */
     private String styleTreeTable;
+    private String styleClassTreeTable;
+    /* TreePanel attributes */
+    private String titlePanel;
     private String styleTreePanel;
+    private String styleClassTreePanel;
+    /* Column attributes */
+    private String headerTreeColumn;
     private String widthTreeColumn;
     private String widthVisibilityColumn;
     private String widthOpacityColumn;
     private String widthElevationColumn;
     private String widthTimeColumn;
-    private String titlePanel;
-    private String headerTreeColumn;
+    /* TreePanel style lines attributes*/
     private String styleOddLines;
     private String styleEvenLines;
+    private String styleLeafLines;
+    private String styleNodeLines;
+    /* Laoding js script */
     private boolean mootools = false;
     private boolean minifyJS = true;
+    /* TreePanel attributes */
+    private boolean displayAllLayers = true;
+    private boolean displayHeader = true;
+    /* Others */
     private boolean visibilityColumn = true;
-    private boolean opacityColumn  = true;
+    private boolean opacityColumn = true;
     private boolean elevationColumn = true;
     private boolean timeColumn = true;
     private boolean layerInfo = true;
     private boolean colorMapEditor = true;   //Replace Dim_Range
+    /* Functionalities */
+    private boolean activateDnd = false;
+    public static final String FAMILIY = "org.mapfaces.LayerControl";
 
+    /* Constructor */
     public UILayerControl() {
         super();
         if (isDebug()) {
-            System.out.println("[UILayerControl] constructor----------------------");
+            System.out.println("[DEBUG] UILayerControl constructor");
         }
         setRendererType("org.mapfaces.renderkit.html.LayerControl"); // this component has a renderer
-    }
-
-    public DefaultTreeModel getTree() {
-        return this.tree;
-    }
-
-    public void setTree(DefaultTreeModel newvalue) {
-        this.tree = newvalue;
-    }
-
-    public void doAction() {
-        final DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getRoot();
-        root.setUserObject("node_modified");
-        System.out.println("Node modfied !");
-        tree.setRoot(root);
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getFamily() {
-        return FAMILIY;
     }
 
     /**
@@ -89,26 +78,35 @@ public class UILayerControl extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[19];
+        final Object values[] = new Object[28];
         values[0] = super.saveState(context);
-        values[1] = styleTreeTable;
-        values[2] = styleTreePanel;
-        values[3] = widthTreeColumn;
-        values[4] = widthVisibilityColumn;
-        values[5] = widthOpacityColumn;
-        values[6] = widthElevationColumn;
-        values[7] = widthTimeColumn;
-        values[8] = titlePanel;
-        values[9] = headerTreeColumn;
-        values[10] = elevationColumn;
-        values[11] = styleOddLines;
-        values[12] = styleEvenLines;
-        values[13] = visibilityColumn;
-        values[14] = opacityColumn ;
-        values[15] = timeColumn;
-        values[16] = layerInfo;
-        values[17] = colorMapEditor;
+        values[1] = tree;
+        values[2] = styleTreeTable;
+        values[3] = styleClassTreeTable;
+        values[4] = titlePanel;
+        values[5] = styleTreePanel;
+        values[6] = styleClassTreePanel;
+        values[7] = headerTreeColumn;
+        values[8] = widthTreeColumn;
+        values[9] = widthVisibilityColumn;
+        values[10] = widthOpacityColumn;
+        values[11] = widthElevationColumn;
+        values[12] = widthTimeColumn;
+        values[13] = styleOddLines;
+        values[14] = styleEvenLines;
+        values[15] = styleLeafLines;
+        values[16] = styleNodeLines;
+        values[17] = mootools;
         values[18] = minifyJS;
+        values[19] = displayAllLayers;
+        values[20] = displayHeader;
+        values[21] = visibilityColumn;
+        values[22] = opacityColumn;
+        values[23] = elevationColumn;
+        values[24] = timeColumn;
+        values[25] = layerInfo;
+        values[26] = colorMapEditor;
+        values[27] = activateDnd;
         return values;
     }
 
@@ -119,24 +117,50 @@ public class UILayerControl extends UIWidgetBase {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        styleTreeTable = (String) values[1];
-        styleTreePanel = (String) values[2];
-        widthTreeColumn = (String) values[3];
-        widthVisibilityColumn = (String) values[4];
-        widthOpacityColumn = (String) values[5];
-        widthElevationColumn = (String) values[6];
-        widthTimeColumn = (String) values[7];
-        titlePanel = (String) values[8];
-        headerTreeColumn = (String) values[9];
-        elevationColumn = (Boolean) values[10];
-        styleOddLines = (String) values[11];
-        styleEvenLines = (String) values[12];
-        visibilityColumn = (Boolean) values[13];
-        opacityColumn = (Boolean) values[14] ;
-        timeColumn = (Boolean) values[15];
-        layerInfo = (Boolean) values[16];
-        colorMapEditor = (Boolean) values[17];
+        tree = (DefaultTreeModel) values[1];
+        styleTreeTable = (String) values[2];
+        styleClassTreeTable = (String) values[3];
+        titlePanel = (String) values[4];
+        styleTreePanel = (String) values[5];
+        styleClassTreePanel = (String) values[6];
+        headerTreeColumn = (String) values[7];
+        widthTreeColumn = (String) values[8];
+        widthVisibilityColumn = (String) values[9];
+        widthOpacityColumn = (String) values[10];
+        widthElevationColumn = (String) values[11];
+        widthTimeColumn = (String) values[12];
+        styleOddLines = (String) values[13];
+        styleEvenLines = (String) values[14];
+        styleLeafLines = (String) values[15];
+        styleNodeLines = (String) values[16];
+        mootools = (Boolean) values[17];
         minifyJS = (Boolean) values[18];
+        displayAllLayers = (Boolean) values[19];
+        displayHeader = (Boolean) values[20];
+        visibilityColumn = (Boolean) values[21];
+        opacityColumn = (Boolean) values[22];
+        elevationColumn = (Boolean) values[23];
+        timeColumn = (Boolean) values[24];
+        layerInfo = (Boolean) values[25];
+        colorMapEditor = (Boolean) values[26];
+        activateDnd = (Boolean) values[27];
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getFamily() {
+        return FAMILIY;
+    }
+
+    /* Accessors */
+    public DefaultTreeModel getTree() {
+        return this.tree;
+    }
+
+    public void setTree(DefaultTreeModel newvalue) {
+        this.tree = newvalue;
     }
 
     public String getStyleTreeTable() {
@@ -289,5 +313,61 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setColorMapEditor(final boolean colorMapEditor) {
         this.colorMapEditor = colorMapEditor;
+    }
+
+    public String getStyleClassTreeTable() {
+        return styleClassTreeTable;
+    }
+
+    public void setStyleClassTreeTable(String styleClassTreeTable) {
+        this.styleClassTreeTable = styleClassTreeTable;
+    }
+
+    public String getStyleClassTreePanel() {
+        return styleClassTreePanel;
+    }
+
+    public void setStyleClassTreePanel(String styleClassTreePanel) {
+        this.styleClassTreePanel = styleClassTreePanel;
+    }
+
+    public String getStyleLeafLines() {
+        return styleLeafLines;
+    }
+
+    public void setStyleLeafLines(String styleLeafLines) {
+        this.styleLeafLines = styleLeafLines;
+    }
+
+    public String getStyleNodeLines() {
+        return styleNodeLines;
+    }
+
+    public void setStyleNodeLines(String styleNodeLines) {
+        this.styleNodeLines = styleNodeLines;
+    }
+
+    public boolean isDisplayAllLayers() {
+        return displayAllLayers;
+    }
+
+    public void setDisplayAllLayers(boolean displayAllLayers) {
+        this.displayAllLayers = displayAllLayers;
+    }
+
+    public boolean isDisplayHeader() {
+        return displayHeader;
+    }
+
+    public void setDisplayHeader(boolean displayHeader) {
+        this.displayHeader = displayHeader;
+    }
+
+    public boolean isActivateDnd() {
+        return activateDnd;
+    }
+
+    public void setActivateDnd(boolean activateDnd) {
+        this.activateDnd = activateDnd;
     }
 }
