@@ -209,6 +209,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_content:" + clientId, null);
             writer.writeAttribute("class", TreeStyle.default_mainBwrapStyle, null);
+            writer.writeAttribute("style", "height:100%;", null);
 
             //DIV Headers
             writer.startElement("div", component);
@@ -222,7 +223,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             writer.startElement("div", component);
             writer.writeAttribute("id", "panel_lines:" + clientId, null);
             writer.writeAttribute("class", "droppable-holder", null);
-            writer.writeAttribute("style", "overflow:auto;", null);
+            writer.writeAttribute("style", "overflow:auto;height:100%;", null);
 
             if (treepanel.isFrame()) {
                 writer.startElement("div", component);

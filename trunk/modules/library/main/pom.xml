@@ -176,6 +176,7 @@
         <artifactId>cstl-lib-spatial-lucene</artifactId>
         <version>${constellation.version}</version>
       </dependency-->
+
      
       <!-- ajax4jsf -->
       <dependency>
