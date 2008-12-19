@@ -12,17 +12,21 @@ var UtilsJs = {
 /*
  * String Utilities
  */
-function getSize(str){
-    if (str =='auto'){
+function gettheSize(str){
+    if (str!=null){
+        if (str =='auto'){
+            return 0;
+        }
+        if (str.contains('px')){
+            return  parseInt(str.substring(0,str.length - 2));
+        }
+        if (str.contains('em')){
+            return  parseInt(str.substring(0,str.length - 2));
+        }
+        return partseInt(str);
+    }else{
         return 0;
     }
-    if (str.contains('px')){
-        return  parseInt(str.substring(0,str.length - 2));
-    }
-    if (str.contains('em')){
-        return  parseInt(str.substring(0,str.length - 2));
-    }
-    return partseInt(str);
 }
 
 /*
