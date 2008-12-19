@@ -53,7 +53,8 @@ public class TreeLayoutUtils {
 //                System.out.println("[DEBUG] createTreeLines ID to add " + id + idnode);
                 treelines.setId(idLine + idnode);
                 panelgroup.setId(idPanel + idnode);
-
+//                panelgroup.setLayout("block");
+                
                 treelines.setNodeId(currentNode.getId());
                 treelines.setNodeInstance(currentNode);
 
@@ -91,7 +92,8 @@ public class TreeLayoutUtils {
 //            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + id + idnode);
             treelines.setId(idLine + idnode);
             panelgroup.setId(idPanel + idnode);
-
+//            panelgroup.setLayout("block");
+            
             treelines.setNodeId(currentNode.getId());
             treelines.setNodeInstance(currentNode);
 

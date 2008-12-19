@@ -16,13 +16,15 @@ var _COLOR_NODE_INITIAL       = "#AAAFFF";
 var _DROP_ZONE_INITIAL_HEIGHT = 2;
 var _DROP_ZONE_TWEEN_HEIGHT   = 20;
 var _DRAG_FADE                = 0.5;
+var _DnD_FUNCTION_PREPARE     = true;
 
 try{
-    window.addEvent('load',function() {
-        //window.onDomReady(function() {
+    //window.addEvent('load',function() {
+    window.onDomReady(function() {
         $$('.x-tree-dragable').each(function(drag) {
             prepareDnd(drag);
         });
+        _DnD_FUNCTION_PREPARE = false;
         return false;
     });
 }catch(err){
@@ -55,6 +57,7 @@ function prepareDnd(drag){
             });
         },
         onDrag: function(el) {
+            this.stop();
         },
         onComplete: function(el) {
         }
@@ -85,7 +88,7 @@ function onDropDropZone(el, droppable){
     var lineDroppable = droppable.getParent();
     var spanDroppable = lineDroppable.getParent();
     var indentDroppable = droppable.style.paddingLeft;
-    el.style.paddingLeft = getSize(indentDroppable)+"px";
+    el.style.paddingLeft = gettheSize(indentDroppable)+"px";
     insertAfter(spanDroppable.getParent(), spanEl, spanDroppable);
 }
 
@@ -101,7 +104,7 @@ function onDropDropFolder(el, droppable){
     var lineEl = liEl.getParent();
     var spanEl = lineEl.getParent();
     var indentDroppable = droppable.style.paddingLeft;
-    var newIndent = (getSize(indentDroppable) + 12);
+    var newIndent = (gettheSize(indentDroppable) + 12);
     el.style.paddingLeft = newIndent+"px;";
     lineUL.appendChild(spanEl);
 }
@@ -148,4 +151,12 @@ function createNewnode(){
     nodeSpan.id("newNode");
     nodeline.getParent().appendChild(nodeSpan);
     return false;
+}
+
+function reloadTreeTableDND(){
+    if (_DnD_FUNCTION_PREPARE){
+        $$('.x-tree-dragable').each(function(drag) {
+            prepareDnd(drag);
+        });
+    }
 }

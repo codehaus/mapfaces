@@ -136,7 +136,6 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setVarName("layer");
         treeTable.setMootools(addMootools);
         treeTable.setMinifyJS(addMinifyJs);
-        treeTable.setWidth(_Style_Width_Treetable);
         treeTable.setStyle(_Style_TreeTable + styleTreetable);
         treeTable.setStyleClass(styleClassTreeTable);
 
