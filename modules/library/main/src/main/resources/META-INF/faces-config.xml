@@ -10,6 +10,7 @@
         <phase-listener>org.mapfaces.share.listener.ResourcePhaseListener</phase-listener>
         <phase-listener>org.mapfaces.share.listener.ResourceLoaderPhaseListener</phase-listener>
         <phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener>
+        <phase-listener>org.mapfaces.share.listener.PhaseTracker</phase-listener>
     </lifecycle>        
     
     
