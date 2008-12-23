@@ -217,6 +217,14 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
                 bufferImage = DefaultPortrayalService.getInstance().portray(mapContext, env, dim, true);
                 File dst = File.createTempFile("img", "", comp.getDir());
+                
+                //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
+                if (comp.getDir().listFiles().length > 30) {
+                    for (File file : comp.getDir().listFiles()) {
+                        file.delete();
+                    }
+                }
+                
                 ImageIO.write(bufferImage, "png", dst);
 
                 String generatedImage = comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName();
