@@ -130,8 +130,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
             if (styleImg != null) {
                 writer.writeAttribute("style", "position:relative;", "style");
             }
-            
-            final URL url = mapLayer.query(env, dim);
+            URL url = new URL("http://");
+            if (mapLayer != null) {
+                url = mapLayer.query(env, dim);
+            }
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> url = "+url.toString());
 
             writer.writeAttribute("src", url.toString(), "src");
@@ -145,6 +147,11 @@ public class LayerRenderer extends WidgetBaseRenderer {
     }
 
     public WMSMapLayer createWMSLayer(final Layer layer) throws IOException, ServiceException {
+        
+        // to avoid a NullPointerException when creating an object org.geotools.data.wms.WebMapServer.
+        if (layer == null || layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
+            return null;
+        }
 
         final WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), layer.getName());
         final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
