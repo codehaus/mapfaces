@@ -162,7 +162,11 @@ public class FacesUtils {
     public static String getFormId(FacesContext context, UIComponent component) {
         UIComponent parent = component;
         while (!(parent instanceof UIForm)) {
-            parent = parent.getParent();
+            if (parent != null) {
+                parent = parent.getParent();
+            }else {
+                throw new IllegalStateException("You must specify a form for the mapfaces components.");
+            }
         }
         return parent.getClientId(context);
     }
