@@ -65,7 +65,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         final String height = model.getWindowHeight();
         final String width = model.getWindowWidth();
-
+        
         if (comp.getMaxExtent() == null) {
             comp.setMaxExtent(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }

@@ -149,9 +149,9 @@ public class LayerRenderer extends WidgetBaseRenderer {
     public WMSMapLayer createWMSLayer(final Layer layer) throws IOException, ServiceException {
         
         // to avoid a NullPointerException when creating an object org.geotools.data.wms.WebMapServer.
-        if (layer == null || layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
-            return null;
-        }
+//        if (layer == null || layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
+//            return null;
+//        }
 
         final WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), layer.getName());
         final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
