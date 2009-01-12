@@ -101,6 +101,14 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 Integer.parseInt(model.getWindowWidth()),
                 Integer.parseInt(model.getWindowHeight()));
 
+        // test if Dimension is not valid, width and height must be > 0.
+        if (dim.width <= 0) {
+            dim.width = 1;
+        }
+        if (dim.height <= 0) {
+            dim.height = 1;
+        }
+        
         final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
         final String display = (layer.isHidden()) ? "display:none" : "display:block;";
         final int size = (comp.getSize() != 0) ? comp.getSize() : 16;
