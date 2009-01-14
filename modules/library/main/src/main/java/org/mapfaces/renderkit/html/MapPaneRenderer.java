@@ -128,91 +128,70 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
         comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
-        boolean containsMFLayers = FacesUtils.containsMFLayers(comp);
+        removeChildren(context, component);
 
         for (final Layer temp : layers) {
-            if (temp != null && temp.getType() != null &&  ! temp.getType().equals("mapfaces_type")) {
+            if (temp != null && temp.getType() != null) {
+                if (!temp.getType().equals("mapfaces_type")) {
+                    final UILayer layer = new UILayer();
+                    layer.setModel((AbstractModelBase) model);
+                    if (temp.getId() != null) {
+                        layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                    } else {
+                        temp.setId(layer.getId());
+                    }
 
-                final UILayer layer = new UILayer();
-                layer.setModel((AbstractModelBase) model);
-                if (temp.getId() != null) {
-                    layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                    if (debug) {
+                        layer.getAttributes().put("debug", true);
+                    }
+                    layer.setDir(dstDir);
+                    layer.setContextPath(ctxPath);
+
+                    comp.getChildren().add(layer);
+
+
+                    temp.setCompId(layer.getClientId(context));
+                    System.out.println("[DEBUG] Layer " + layer.getClientId(context));
+                    layer.setLayer(temp);
+                    if (debug) {
+                        System.out.println("\t UILayer  ClientId" + layer.getClientId(context));
+                    }
                 } else {
-                    temp.setId(layer.getId());
-                }
+                    UIMFLayer mfLayer = new UIMFLayer();
+                    mfLayer.setModel((AbstractModelBase) model);
+                    mfLayer.setImage(temp.getImage());
+                    mfLayer.setFeatures(temp.getFeatures());
+                    mfLayer.setRotation(temp.getRotation());
+                    mfLayer.setSize(temp.getSize());
+                    
+                    if (temp.getId() != null) {
+                        mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                    } else {
+                        temp.setId(mfLayer.getId());
+                    }
+                    if (debug) {
+                        mfLayer.getAttributes().put("debug", true);
+                    }
+                    mfLayer.setDir(dstDir);
+                    mfLayer.setContextPath(ctxPath);
 
-                if (debug) {
-                    layer.getAttributes().put("debug", true);
-                }
-                layer.setDir(dstDir);
-                layer.setContextPath(ctxPath);
+                    comp.getChildren().add(mfLayer);
 
-                comp.removeLayer(layer);
-                if (containsMFLayers) {
-                    comp.getChildren().add(0,layer);
-                }else {
-                    comp.addLayer(layer);
-                }
-
-
-                temp.setCompId(layer.getClientId(context));
-                System.out.println("[DEBUG] " + layer.getClientId(context));
-                layer.setLayer(temp);
-                if (debug) {
-                    System.out.println("\t UILayer  ClientId" + layer.getClientId(context));
+                    temp.setCompId(mfLayer.getClientId(context));
+                    System.out.println("[DEBUG] MFLayer " + mfLayer.getClientId(context));
+                    mfLayer.setLayer(temp);
+                    if (debug) {
+                        System.out.println("\t UIMFLayer  ClientId" + mfLayer.getClientId(context));
+                    }
                 }
             }
         }
-
         writer.flush();
 
         //Setting the model to all children of the MapPane component
         for (final UIComponent tmp : comp.getChildren()) {
             if (tmp instanceof UIWidgetBase) {
                 ((UIWidgetBase) tmp).setModel((AbstractModelBase) model);
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        final UIMapPane comp = (UIMapPane) component;
-        final List<UIComponent> childrens = component.getChildren();
-        if (comp.isDebug()) {
-            System.out.println("[MapPane encodeChildren] " + component.getFamily() + " have " + childrens.size() + " children. ");
-        }
-
-        final Context model;
-        if (comp.getModel() != null && comp.getModel() instanceof Context) {
-            model = (Context) comp.getModel();
-        } else {
-            //The model context is null or not a Context instance
-            throw new UnsupportedOperationException("The model context is null or not supported yet !");
-        }
-        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-        final String ctxPath = sc.getContextPath();
-        final File dstDir = new File(sc.getRealPath("tmp"));
-        if ( ! dstDir.exists() ) {
-            dstDir.mkdir();
-        }
-
-        for (final UIComponent tmp : childrens) {
-            if (comp.isDebug()) {
-                System.out.println("[MapPane encodeChildren] child family component  : " + tmp.getFamily());
-            }
-
-            //if the child component is a UIMFLayer then setting the contextmodel and file directory.
-            if (tmp instanceof UIMFLayer) {
-                UIMFLayer mfLayer = (UIMFLayer) tmp;
-                mfLayer.setModel((AbstractModelBase) model);
-                mfLayer.setDir(dstDir);
-                mfLayer.setContextPath(ctxPath);
-                FacesUtils.encodeRecursive(context, mfLayer);
-            } else {
-                FacesUtils.encodeRecursive(context, tmp);
             }
         }
     }
@@ -247,9 +226,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             jsObject = jsObject.replace(":", "");
         }
         final String[] srsCode = model.getSrs().split(":");
-        // <script></script>
-
-        writer.write(new StringBuilder("if (typeof "+jsObject+"_mapOptions == 'undefined') { \n").
+        
+        writer.write(new StringBuilder(" if (typeof "+jsObject+"_mapOptions == 'undefined') { \n").
                 append("    var "+jsObject+"_mapOptions = {\n").
                 append("                       id:'").append(jsObject).append("',\n").
                 append("                       controls:[],\n").
@@ -277,6 +255,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 append("    if(!window.maps){window.maps = {};}\n").
                 append("    window.maps.").         append(jsObject).append(" = window.").append(jsObject).append(";\n").
                 toString());
+
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

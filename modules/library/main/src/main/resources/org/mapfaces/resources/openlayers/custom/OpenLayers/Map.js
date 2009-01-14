@@ -542,6 +542,13 @@ OpenLayers.Map = OpenLayers.Class({
     */
     sendAjaxRequest: function(parameters) {
         var window = this.getSize();
+        
+        //to fix a bug when the window is resized or firebug has been opened.
+        var badextent = false;
+        if(window.w == 100 && window.h == 100) {
+          badextent = true;
+        }
+        
         var bbox=this.getExtent().toBBOX();
         // if(this.getCurrentExtent() == null || bbox != this.getCurrentExtent().toBBOX()){
         var goodParameters = true;
@@ -554,7 +561,7 @@ OpenLayers.Map = OpenLayers.Class({
                           'render': 'true', //render the layers, always set to true after the first page loads
                           'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
                         };
-             if(!this.layersName)
+             if(!this.layersName || badextent)
                  goodParameters = false;
             
         }
