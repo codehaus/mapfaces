@@ -39,6 +39,7 @@
   <!-- =========================================================== -->
   <modules>
     <module>main</module>
+    <module>widget</module>
   </modules>
 
 
