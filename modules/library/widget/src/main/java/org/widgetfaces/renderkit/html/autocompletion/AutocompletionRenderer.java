@@ -32,10 +32,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.widgetfaces.adapter.autocompletion.adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
-import org.widgetfaces.share.interfaces.AjaxRendererInterface;
+import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.widgetfaces.share.utils.AjaxUtils;
-import org.widgetfaces.share.utils.Utils;
+import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.AjaxUtils;
 
 /**
  * @author kevin Delfour
@@ -136,7 +136,8 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         /* Enable ajax request */
         if (comp.isEnableAjax()) {
             final StringBuilder ajaxrequest = new StringBuilder();
-            final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
+            final AjaxUtils ajaxtools = new AjaxUtils();
+            final String urlRequest = ajaxtools.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
             ajaxrequest.append("new Request.HTML({").append("url:'").append(urlRequest).append("',").append("data:{").append("'javax.faces.ViewState':").append("$('javax.faces.ViewState').value").append(",").append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").append("}}).send();");
             str.append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('keydown',function(event){if(event.enter)").append(ajaxrequest).append("});").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('blur',function(event){").append(ajaxrequest).append("});");
         }
