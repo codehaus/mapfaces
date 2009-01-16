@@ -18,8 +18,8 @@ package org.widgetfaces.component.autocompletion;
 
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import org.widgetfaces.share.interfaces.AjaxInterface;
-import org.widgetfaces.share.interfaces.AjaxRendererInterface;
+import org.mapfaces.share.interfaces.AjaxInterface;
+import org.mapfaces.share.interfaces.AjaxRendererInterface;
 
 /**
  * <p>This AutoCompletion component using script for MooTools provides the
