@@ -145,8 +145,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 url = mapLayer.query(env, dim);
             }
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> url = " + url.toString());
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> map = " + FacesUtils.getParentUIMapPane(context, comp).getId());
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> model = " + model.getId());
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> mapPane = " + FacesUtils.getParentUIMapPane(context, comp).getId());
 
             writer.writeAttribute("src", url.toString(), "src");
             writer.endElement("img");
@@ -164,9 +163,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
     public WMSMapLayer createWMSLayer(final Layer layer) throws IOException, ServiceException {
 
         // to avoid a NullPointerException when creating an object org.geotools.data.wms.WebMapServer.
-//        if (layer == null || layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
-//            return null;
-//        }
+        if (layer == null || layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
+            System.out.println("[LayerRenderer] Error the getcapabilities returned null !");
+            return null;
+        }
 
         final WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), layer.getName());
         final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
