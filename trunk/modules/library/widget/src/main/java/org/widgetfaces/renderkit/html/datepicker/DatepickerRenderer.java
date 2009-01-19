@@ -119,22 +119,6 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     }
 
     /**
-     * <p>Render the ending of the current state of the specified UIComponent, following the rules described for
-     * encodeBegin() to acquire the appropriate value to be rendered.</p>
-     * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be rendered
-     * @throws java.io.IOException if an input/output error occurs while rendering
-     */
-    @Override
-    public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
-        final ResponseWriter writer = context.getResponseWriter();
-        final UIDatepicker comp = (UIDatepicker) component;
-        final StringBuilder str = new StringBuilder();
-        final UIForm formContainer = getForm(component);
-
-    }
-
-    /**
      * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext,
      * and store that state on the UIComponent.</p>
      * <p>During decoding, events may be enqueued for later processing (by event listeners that have registered an interest),
