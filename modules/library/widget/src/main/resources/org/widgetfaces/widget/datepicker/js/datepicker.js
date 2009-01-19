@@ -24,6 +24,8 @@
         * For any reuse or distribution, you must make clear to others the license terms of this work.
         * Any of these conditions can be waived if you get permission from the copyright holder.
 */
+var datePicker={version:"4.4.0",build:""};
+
 var datePickerController;
 
 (function() {
@@ -1442,5 +1444,10 @@ datePickerController = function() {
 
 })();
 
+alert('Function have been declared');
+
 datePickerController.addEvent(window, 'load', datePickerController.create);
+alert('addEvent load have been added');
+
 datePickerController.addEvent(window, 'unload', datePickerController.destroy);
+alert('addEvent unload have been added');

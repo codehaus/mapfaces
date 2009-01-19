@@ -337,7 +337,7 @@
         <body-content>JSP</body-content>
         <description>
             This is the tag that creates a component widget which provides the
-            functionality for text suggestion and completion
+            functionality for date suggestion and completion
         </description>
         <attribute>
             <name>debug</name>
