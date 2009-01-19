@@ -41,10 +41,8 @@ import org.widgetfaces.component.datepicker.UIDatepicker;
  */
 public class DatepickerRenderer extends Renderer implements AjaxRendererInterface {
 
-    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
     private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
     private static final String LOAD_Datepicker_css = "/org/widgetfaces/widget/datepicker/css/datepicker.css";
-    private static final String LOAD_Datepicker_more = "/org/widgetfaces/widget/datepicker/css/demo.css";
     private static final String datepickerClass = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
 
     /**
@@ -64,8 +62,15 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
         final UIDatepicker comp = (UIDatepicker) component;
-        writeHeaders(context, component);
-
+        
+        
+        //Write the scripts once per page
+        final ExternalContext extContext = context.getExternalContext();
+        if (!extContext.getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
+            extContext.getRequestMap().put("ajaxflag.DatePickerjs", Boolean.TRUE);
+            writeHeaders(context, component);
+        }
+        
         HtmlInputText input = new HtmlInputText();
         input.setId(comp.getId() + "_inputdate");
         input.setStyle(comp.getStyle());
@@ -212,11 +217,6 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         final ResponseWriter writer = context.getResponseWriter();
         final UIDatepicker comp = (UIDatepicker) component;
 
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
-        writer.endElement("script");
-
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker, null), null);
@@ -226,12 +226,6 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         writer.writeAttribute("type", "text/css", null);
         writer.writeAttribute("rel", "stylesheet", null);
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, LOAD_Datepicker_css, null), null);
-        writer.endElement("link");
-
-        writer.startElement("link", comp);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, LOAD_Datepicker_more, null), null);
         writer.endElement("link");
 
     }
