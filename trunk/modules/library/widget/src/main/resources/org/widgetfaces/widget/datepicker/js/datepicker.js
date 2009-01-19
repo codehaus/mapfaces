@@ -33,8 +33,9 @@ datePicker.languageinfo = navigator.language ? navigator.language : navigator.us
 datePicker.languageinfo = datePicker.languageinfo ? datePicker.languageinfo.toLowerCase().replace(/-[a-z]+$/, "") : 'en';
 
 // Load the appropriate language file
-var scriptFiles = document.getElementsByTagName('head')[0].getElementsByTagName('script');
-var loc = scriptFiles[scriptFiles.length - 1].src.substr(0, scriptFiles[scriptFiles.length - 1].src.lastIndexOf("/")) + "/lang/" + datePicker.languageinfo + ".js";
+//var scriptFiles = document.getElementsByTagName('head')[0].getElementsByTagName('script');
+//var loc = scriptFiles[scriptFiles.length - 1].src.substr(0, scriptFiles[scriptFiles.length - 1].src.lastIndexOf("/")) + "/lang/" + datePicker.languageinfo + ".js";
+var loc = "resource.jsf?r=/org/widgetfaces/widget/datepicker/js/lang/" + datePicker.languageinfo + ".js";
 
 var script  = document.createElement('script');
 script.type = "text/javascript";

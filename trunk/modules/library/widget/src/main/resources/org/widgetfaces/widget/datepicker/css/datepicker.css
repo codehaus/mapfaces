@@ -10,7 +10,7 @@ div.datePicker
         text-align:center;
 
         /* Change the font-size to suit your design's CSS. The following line is for the demo that has a 12px font-size defined on the body tag */
-        font:900 0.8em/0.8em Verdana, Sans-Serif;
+        font:900 10px/0.8em Verdana, Sans-Serif;
         
         /* For Example: If using the YUI font CSS, uncomment the following line to get a 10px font-size within the datePicker */
         /* font:900 77%/77% Verdana; */
