@@ -37,21 +37,21 @@ import org.mapfaces.util.XMLContextUtilities;
  */
 public class Adapter {
 
-   public static DefaultTreeModel OWC2Tree(final String fileUrl) throws JAXBException,UnsupportedEncodingException{
+    public static DefaultTreeModel OWC2Tree(final String fileUrl) throws JAXBException, UnsupportedEncodingException {
 
-        final FacesContext context              = FacesContext.getCurrentInstance();
-        final ServletContext sc                 = (ServletContext) context.getExternalContext().getContext();
-        final Context model                     = new XMLContextUtilities().readContext(sc.getRealPath(fileUrl));
-        final DefaultTreeModel tree             = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root       = new DefaultMutableTreeNode("root");
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+        final Context model = new XMLContextUtilities().readContext(sc.getRealPath(fileUrl));
+        final DefaultTreeModel tree = new DefaultTreeModel(null);
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
         final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);
-        final List<Layer> layers                = model.getLayers();
-        final int depth                         = 1;
+        final List<Layer> layers = model.getLayers();
+        final int depth = 1;
 
         //Then we get a list layers to construct the tree
-        for(int id=0, n=layers.size(); id<n; id++){
+        for (int id = 0, n = layers.size(); id < n; id++) {
             final Layer layer = layers.get(id);
-            contextOwc.add( new TreeNodeModel(layer, id+1, depth, id+1, false) );
+            contextOwc.add(new TreeNodeModel(layer, id + 1, depth, id + 1, false));
         }
 
         root.add(contextOwc);
@@ -61,24 +61,75 @@ public class Adapter {
 
     public static DefaultTreeModel context2Tree(final FacesContext context, final Context model) {
 
-        final DefaultTreeModel tree             = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root       = new DefaultMutableTreeNode("root");
-        final TreeItem treeItemRoot             = new TreeItem(model);
+        final DefaultTreeModel tree = new DefaultTreeModel(null);
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+        final TreeItem treeItemRoot = new TreeItem(model);
         final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(treeItemRoot);
-        final List<Layer> layers                = model.getLayers();
-        final int depth                         = 1;
+        final List<Layer> layers = model.getLayers();
+        final int depth = 1;
 
         root.add(contextOwc);
 
         //Then we get a list layers to construct the tree
-        for(int id=0, n=layers.size(); id<n; id++){
-            final Layer layer        = layers.get(id);
-            final TreeItem treeItem  = new TreeItem(layer);
-            final TreeNodeModel item = new TreeNodeModel(treeItem, id+1, depth, id+1, false);
+        for (int id = 0, n = layers.size(); id < n; id++) {
+            final Layer layer = layers.get(id);
+            final TreeItem treeItem = new TreeItem(layer);
+            final TreeNodeModel item = new TreeNodeModel(treeItem, id + 1, depth, id + 1, false);
             contextOwc.add(item);
         }
 
         tree.setRoot(root);
+        return tree;
+    }
+
+    public static DefaultTreeModel contextGrp2Tree(final FacesContext context, final Context model) {
+
+        final DefaultTreeModel tree = new DefaultTreeModel(null);
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+        boolean allLayerHaveGrp = true;
+        final List<Layer> layers = model.getLayers();
+        final int layerId = layers.size() - 1;
+        for (int id = layerId, n = -1; id > n; id--) {
+            final Layer layer = layers.get(id);
+            if (!layer.getGroup().equals("Raster") && !layer.getGroup().equals("Shape")) {
+                allLayerHaveGrp = false;
+            }
+        }
+
+        if (allLayerHaveGrp) {
+            final TreeItem treeItemRoot = new TreeItem(model);
+            final TreeItem treeItemRaster = new TreeItem("Fond de cartes", "Fond de cartes");
+            final TreeItem treeItemShape = new TreeItem("Couche de données", "Couche de données");
+
+            final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(treeItemRoot);
+            final DefaultMutableTreeNode contextRaster = new DefaultMutableTreeNode(treeItemRaster);
+            final DefaultMutableTreeNode contextShape = new DefaultMutableTreeNode(treeItemShape);
+
+
+            final int depth = 1;
+            
+            contextOwc.add(contextShape);
+            contextOwc.add(contextRaster);
+
+            root.add(contextOwc);
+
+            //Then we get a list layers to construct the tree
+            for (int id = layerId, n = -1; id > n; id--) {
+                final Layer layer = layers.get(id);
+                final TreeItem treeItem = new TreeItem(layer);
+                final TreeNodeModel item = new TreeNodeModel(treeItem, id + 1, depth, id + 1, false);
+                if (layer.getGroup().equals("Raster")) {
+                    contextRaster.add(item);
+                } else {
+                    contextShape.add(item);
+                }
+
+            }
+
+            tree.setRoot(root);
+        } else {
+            return context2Tree(context, model);
+        }
         return tree;
     }
 
@@ -120,5 +171,4 @@ public class Adapter {
 //        cal.set(2007, 5, 11, 15, 30, 25);
 //        centerDate =cal.getTime();
 //}
-
 }

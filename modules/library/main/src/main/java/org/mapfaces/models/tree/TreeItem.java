@@ -35,6 +35,8 @@ import org.mapfaces.models.Server;
 public class TreeItem implements Layer, Context {
 
     Object object;
+    String title, name;
+
 
     public TreeItem(final Object obj) {
         object = obj;
@@ -45,6 +47,11 @@ public class TreeItem implements Layer, Context {
                 //do something
             }
         }
+    }
+
+    public TreeItem(String title, String name){
+        setTitle(title);
+        setName(name);
     }
 
     /**
@@ -165,7 +172,10 @@ public class TreeItem implements Layer, Context {
      */
     @Override
     public String getName() {
-        if (object == null || object instanceof Context) {
+        if (object == null) {
+            return name;
+        }
+        if (object instanceof Context) {
             return "";
         }
         if (object instanceof Layer) {
@@ -256,7 +266,7 @@ public class TreeItem implements Layer, Context {
     @Override
     public String getTitle() {
         if (object == null) {
-            return "";
+            return title;
         }
         if (object instanceof Context) {
             return ((Context) object).getTitle();
@@ -369,7 +379,7 @@ public class TreeItem implements Layer, Context {
      */
     @Override
     public void setName(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.name = name;
     }
 
     /**
@@ -441,7 +451,7 @@ public class TreeItem implements Layer, Context {
      */
     @Override
     public void setTitle(String title) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.title = title;
     }
 
     /**
