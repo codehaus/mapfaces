@@ -169,7 +169,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         final int width = Integer.valueOf(size) - indentStyle;
         writer.startElement("div", component);
         writer.writeAttribute("id", "treenode:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("style", "text-align:left; width:" + width + "px; padding-left :" + indentStyle + "px; margin-right :-" + indentStyle + "px; " + styleUser, null);
+        writer.writeAttribute("style", "text-align:left; width:" + width + "px; padding-left :" + indentStyle + "px;" + styleUser, null);
         String classUser = "";
 
         if (treecolumn.getStyleClass() != null) {
