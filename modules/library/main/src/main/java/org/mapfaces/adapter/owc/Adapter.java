@@ -91,7 +91,8 @@ public class Adapter {
         final int layerId = layers.size() - 1;
         for (int id = layerId, n = -1; id > n; id--) {
             final Layer layer = layers.get(id);
-            if (!layer.getGroup().equals("Raster") && !layer.getGroup().equals("Shape")) {
+            
+            if (layer != null && layer.getGroup() != null && !layer.getGroup().equals("Raster") && !layer.getGroup().equals("Shape")) {
                 allLayerHaveGrp = false;
             }
         }
@@ -118,7 +119,7 @@ public class Adapter {
                 final Layer layer = layers.get(id);
                 final TreeItem treeItem = new TreeItem(layer);
                 final TreeNodeModel item = new TreeNodeModel(treeItem, id + 1, depth, id + 1, false);
-                if (layer.getGroup().equals("Raster")) {
+                if (layer != null && layer.getGroup() != null && layer.getGroup().equals("Raster")) {
                     contextRaster.add(item);
                 } else {
                     contextShape.add(item);
