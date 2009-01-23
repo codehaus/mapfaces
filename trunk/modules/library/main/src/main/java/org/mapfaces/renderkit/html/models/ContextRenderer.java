@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -77,14 +78,24 @@ public class ContextRenderer extends Renderer {
         writer.write("window.contextpath=\""+sc.getContextPath()+"\"");
         writer.endElement("script");*/
 
-        //Add MapFaces css
-        writer.startElement("link", component);
-        writer.writeAttribute("rel", "stylesheet", "rel");
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
-        writer.writeAttribute("type", "text/css", null);
-        writer.endElement("link");
+        //Write the resources files once per page
+        boolean resourcesFlag = false;
+        final ExternalContext extContext = context.getExternalContext();        
+        if (!extContext.getRequestMap().containsKey("mapfacesFlag.resourcesContext")) {
+            extContext.getRequestMap().put("mapfacesFlag.resourcesContext", Boolean.TRUE);
+            resourcesFlag = true;
+        }
 
-        if (comp.isMootools()) {
+        //Add MapFaces css
+        if (resourcesFlag) {
+            writer.startElement("link", component);
+            writer.writeAttribute("rel", "stylesheet", "rel");
+            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
+            writer.writeAttribute("type", "text/css", null);
+            writer.endElement("link");
+        }
+
+        if (comp.isMootools() && resourcesFlag) {
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
@@ -93,7 +104,7 @@ public class ContextRenderer extends Renderer {
 
         final boolean isMinifyJS = comp.isMinifyJS();
 
-        if (comp.isScriptaculous()) {
+        if (comp.isScriptaculous() && resourcesFlag) {
 
             //Add Prototype script
             writer.startElement("script", component);
@@ -119,20 +130,23 @@ public class ContextRenderer extends Renderer {
         }
 
         //Add OpenLayers scripts
-        if (isMinifyJS) {
+        if (isMinifyJS && resourcesFlag) {
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.write("var OpenLayers = { singleFile: true };");
             writer.endElement("script");
         }
-        writer.startElement("script", component);
-        if (isMinifyJS) {
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
-        } else {
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
+        
+        if (resourcesFlag) {
+            writer.startElement("script", component);
+            if (isMinifyJS) {
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
+            } else {
+                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
+            }
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.endElement("script");
         }
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.endElement("script");
 
 
         //Loading the context file if the model is null.

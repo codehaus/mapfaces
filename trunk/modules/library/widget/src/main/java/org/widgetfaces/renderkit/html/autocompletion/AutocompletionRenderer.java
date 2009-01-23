@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -65,7 +66,14 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
-        writeHeaders(context, component);
+
+        //Write the resources files once per page
+        final ExternalContext extContext = context.getExternalContext();
+        if (!extContext.getRequestMap().containsKey("ajaxFlag.Autocompleter")) {
+            extContext.getRequestMap().put("ajaxFlag.Autocompleter", Boolean.TRUE);
+            writeHeaders(context, component);
+        }
+
 
         HtmlInputText input = new HtmlInputText();
         input.setId(comp.getId() + "_input");
@@ -90,6 +98,15 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         for (UIComponent uIComponent : comp.getChildren()) {
             if (uIComponent instanceof HtmlInputText) {
                 inputPresence = true;
+                input = (HtmlInputText) uIComponent;
+            }
+        }
+
+        ValueExpression ve = comp.getValueExpression("value");
+        if (ve != null) {
+            if (ve.getValue(context.getELContext()) instanceof String) {
+                input.setValue(ve.getValue(context.getELContext()));
+                input.setValueExpression("value", ve);
             }
         }
 
@@ -132,7 +149,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
         str.append("document.addEvent('domready', function(){").append("var token_").append(comp.getId()).append("=").append(adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).append(";").append("new Autocompleter.Local('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input',").append("token_").append(comp.getId()).append(",{").append(buildOptions(context, component)).append("});");
-        
+
         /* Enable ajax request */
         if (comp.isEnableAjax()) {
             final StringBuilder ajaxrequest = new StringBuilder();
@@ -167,12 +184,18 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_input";
         String newValue = (String) parameterMap.get(keyParameterInput);
 
+        HtmlInputText inputchild = (HtmlInputText) comp.getChildren().get(0);
+
+
         ValueExpression ve = comp.getValueExpression("value");
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
+                inputchild.setValue(ve.getValue(context.getELContext()));
+                inputchild.setValueExpression("value", ve);
                 ve.setValue(context.getELContext(), newValue);
             }
         }
+        comp.setSubmittedValue(newValue);
 
     }
 
