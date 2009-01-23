@@ -85,7 +85,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             throw new UnsupportedOperationException(_Error_Null_Context);
         }
         
-        layerControl.setTree(Adapter.contextGrp2Tree(context, model));
+//        layerControl.setTree(Adapter.contextGrp2Tree(context, model));
+        layerControl.setTree(Adapter.context2Tree(context, model));
 
         final DefaultTreeModel tree = layerControl.getTree();
         if (tree == null) {

@@ -14,13 +14,13 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.widgetfaces.renderkit.html.autocompletion;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -66,11 +66,11 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
-
-        //Write the resources files once per page
+        
+        //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
-        if (!extContext.getRequestMap().containsKey("ajaxFlag.Autocompleter")) {
-            extContext.getRequestMap().put("ajaxFlag.Autocompleter", Boolean.TRUE);
+        if (!extContext.getRequestMap().containsKey("ajaxflag.Autocompleter")) {
+            extContext.getRequestMap().put("ajaxflag.Autocompleter", Boolean.TRUE);
             writeHeaders(context, component);
         }
 
