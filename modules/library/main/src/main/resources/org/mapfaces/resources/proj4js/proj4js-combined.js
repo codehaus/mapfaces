@@ -7,7 +7,7 @@
                 Note: This program is an almost direct port of the C library
                 Proj4.
 */
-/* ======================================================================
+/* =====================================================================
     proj4js.js
    ====================================================================== */
 
@@ -70,7 +70,7 @@ Proj4js = {
      * internal: http server path to library code.
      * TBD figure this out automatically
      */
-    libPath: window.OpenLayers._getScriptLocation()+"proj4js/",
+    libPath: null,
 
     /** 
     * Method: transform(source, dest, point)
@@ -367,7 +367,9 @@ Proj4js.Proj = OpenLayers.Class({
           this.srsAuth = '';
           this.srsProjNumber = this.srsCode;
       }
-
+      //Hack MAPFACES to prevent errors when OpenLayers compressed script is loaded 
+      if (Proj4js.libPath == null) 
+          Proj4js.libPath = (window.OpenLayers._getScriptLocation)?window.OpenLayers._getScriptLocation()+"proj4js/": "resource.jsf?r=/org/mapfaces/resources/proj4js/";
       var defs = Proj4js.loadProjDefinition(this);
       if (defs) {
           this.parseDefs(defs);
