@@ -62,9 +62,10 @@ import org.mapfaces.models.Server;
  */
 public class OWCv030toMFTransformer {
 
-    protected final ContextFactory contextFactory = new DefaultContextFactory();
+    private static final ContextFactory contextFactory = new DefaultContextFactory();
+    private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
 
-    public Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
+    public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
         Context ctx = contextFactory.createDefaultContext();
         ctx.setType(doc.getClass().toString());
         ctx.setVersion(doc.getVersion());
@@ -84,10 +85,10 @@ public class OWCv030toMFTransformer {
         return ctx;
     }
 
-    public List visitResourceList(List<LayerType> layerList) throws UnsupportedEncodingException, JAXBException {
+    public static List visitResourceList(List<LayerType> layerList) throws UnsupportedEncodingException, JAXBException {
         List<Layer> layers = new ArrayList<Layer>();
         HashMap<String, Server> servers = new HashMap<String, Server>();
-        final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
+        
         int i = 0;
         for (final LayerType layerType : layerList) {
             try {
@@ -130,6 +131,9 @@ public class OWCv030toMFTransformer {
                                     Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 end = System.currentTimeMillis() - start;
+                                if (webMapServers.get(wmsUrl) != null) {
+                                    System.out.println("[OWCv030toMFTransformer] webMapServer object created with geotools in : " + end+" ms");
+                                }
                             }
                         }
                         Server wms = contextFactory.createDefaultServer();
@@ -138,10 +142,14 @@ public class OWCv030toMFTransformer {
                         wms.setVersion(layerType.getServer().get(0).getVersion());
 
                         WMSCapabilities wmscapabilities = null;
+
+                        System.out.println("[OWCv030toMFTransformer] WebMapServer = " + webMapServers.get(wmsUrl));
+
                         if (webMapServers.get(wmsUrl) != null) {
                             wmscapabilities = webMapServers.get(wmsUrl).getCapabilities();
                         }
-
+                        
+                        System.out.println("[OWCv030toMFTransformer] wmscapabilities = "+wmscapabilities);
                         wms.setGTCapabilities(wmscapabilities);
                         if (servers.get(wmsUrl) != null) {
                             servers.put(wmsUrl, wms);
@@ -192,7 +200,7 @@ public class OWCv030toMFTransformer {
                         }
 
                         /*DimensionList*/
-                        HashMap allDims = visitDimensionList(layerType, webMapServers);
+                        HashMap allDims = visitDimensionList(layerType/*, webMapServers*/);
                         if (allDims.size() > 0) {
                             layer.setDimensionList(allDims);
                         }
@@ -315,7 +323,7 @@ public class OWCv030toMFTransformer {
         return result;
     }
 
-    private Dimension visitDimension(DimensionType dimType) {
+    private static Dimension visitDimension(DimensionType dimType) {
         Dimension dim = contextFactory.createDefaultDimension();
         dim.setCurrent(dimType.isCurrent());
         dim.setDefault(dimType.getDefault());
@@ -335,7 +343,7 @@ public class OWCv030toMFTransformer {
      * @param postgisflag this is a flag for postgis layers, if true the time parameter should be a null string in the initialization.
      * @return
      */
-    private Dimension visitDimensionFromGetCaps(AbstractDimension dimType, boolean postgisflag) {
+    private static Dimension visitDimensionFromGetCaps(AbstractDimension dimType, boolean postgisflag) {
         Dimension dim = contextFactory.createDefaultDimension();
         dim.setCurrent(true);
         dim.setDefault(dimType.getDefault());
@@ -354,7 +362,7 @@ public class OWCv030toMFTransformer {
         return dim;
     }
 
-    private HashMap visitDimensionList(LayerType layerType, HashMap<String, WebMapServer> webMapServers) {
+    private static HashMap visitDimensionList(LayerType layerType/*, HashMap<String, WebMapServer> webMapServers*/) {
         HashMap allDims = new HashMap<String, Dimension>();
         HashMap tmp = null;
         String wmsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
@@ -397,7 +405,7 @@ public class OWCv030toMFTransformer {
         return allDims;
     }
 
-    private HashMap<String, Dimension> visitDimensionListFromGetCaps(LayerType layerType, AbstractWMSCapabilities jaxbCapabilities) {
+    private static HashMap<String, Dimension> visitDimensionListFromGetCaps(LayerType layerType, AbstractWMSCapabilities jaxbCapabilities) {
         HashMap allDims = new HashMap<String, Dimension>();
         if (jaxbCapabilities != null) {
             AbstractLayer layer = jaxbCapabilities.getLayerFromName(layerType.getName());
@@ -422,7 +430,7 @@ public class OWCv030toMFTransformer {
         return null;
     }
 
-    private HashMap<String, String> visitStyleList(StyleListType styleListType) throws UnsupportedEncodingException, JAXBException {
+    private static HashMap<String, String> visitStyleList(StyleListType styleListType) throws UnsupportedEncodingException, JAXBException {
         HashMap<String, String> allStyles = new HashMap<String, String>();
 
         if (styleListType != null) {
