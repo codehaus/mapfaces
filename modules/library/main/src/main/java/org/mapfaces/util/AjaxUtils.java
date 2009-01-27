@@ -58,12 +58,12 @@ public class AjaxUtils {
         clearAjaxParameters();
     }
 
-    public String getRequestJs (String method, String url, String parameters){
+    public static String getRequestJs (String method, String url, String parameters){
 //        return "var requete = new Request({method: '"+method+"', url: '" +url+ "'}).send('" +parameters+ "');";
         return "var requete = new Request({method: '"+method+"',url: '" +url+ "'}).send('" +parameters+ "');";
     }
 
-    public String getAjaxServer(HttpServletRequest request) {
+    public static String getAjaxServer(HttpServletRequest request) {
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getRequestURI();
     }
 
