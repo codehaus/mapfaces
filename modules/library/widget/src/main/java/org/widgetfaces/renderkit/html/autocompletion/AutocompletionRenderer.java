@@ -43,11 +43,13 @@ import org.mapfaces.util.AjaxUtils;
  */
 public class AutocompletionRenderer extends Renderer implements AjaxRendererInterface {
 
-    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
-    private static final String LOAD_Autocompleter = "/org/widgetfaces/widget/autocompletion/js/autocompleter.js";
-    private static final String LOAD_Autocompleter_Local = "/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js";
+//    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
+//    private static final String LOAD_Autocompleter = "/org/widgetfaces/widget/autocompletion/js/autocompleter.js";
+//    private static final String LOAD_Autocompleter_Local = "/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js";
     private static final String LOAD_Autocompleter_Style = "/org/widgetfaces/widget/autocompletion/css/autocompleter.css";
-    private static final String LOAD_Observer = "/org/widgetfaces/widget/autocompletion/js/observer.js";
+//    private static final String LOAD_Observer = "/org/widgetfaces/widget/autocompletion/js/observer.js";
+    private static final String LOAD_Mootools_Min = "/org/widgetfaces/resources/compressed/mootools.min.js";
+    private static final String LOAD_Autocomp_Min = "/org/widgetfaces/resources/compressed/autocompletion.min.js";
 
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
@@ -73,7 +75,6 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
             extContext.getRequestMap().put("ajaxflag.Autocompleter", Boolean.TRUE);
             writeHeaders(context, component);
         }
-
 
         HtmlInputText input = new HtmlInputText();
         input.setId(comp.getId() + "_input");
@@ -139,6 +140,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
      * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
+    @SuppressWarnings("static-access")
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
@@ -154,6 +156,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         if (comp.isEnableAjax()) {
             final StringBuilder ajaxrequest = new StringBuilder();
             final AjaxUtils ajaxtools = new AjaxUtils();
+
             final String urlRequest = ajaxtools.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
             ajaxrequest.append("new Request.HTML({").append("url:'").append(urlRequest).append("',").append("data:{").append("'javax.faces.ViewState':").append("$('javax.faces.ViewState').value").append(",").append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").append("}}).send();");
             str.append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('keydown',function(event){if(event.enter)").append(ajaxrequest).append("});").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('blur',function(event){").append(ajaxrequest).append("});");
@@ -270,24 +273,34 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
 
-        writer.startElement("script", component);
+//        writer.startElement("script", component);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
+//        writer.endElement("script");
+//
+//        writer.startElement("script", comp);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocompleter, null), null);
+//        writer.endElement("script");
+//
+//        writer.startElement("script", comp);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocompleter_Local, null), null);
+//        writer.endElement("script");
+//
+//        writer.startElement("script", comp);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Observer, null), null);
+//        writer.endElement("script");
+//
+        writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools_Min, null), null);
         writer.endElement("script");
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocompleter, null), null);
-        writer.endElement("script");
-
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocompleter_Local, null), null);
-        writer.endElement("script");
-
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Observer, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocomp_Min, null), null);
         writer.endElement("script");
 
         writer.startElement("link", comp);

@@ -30,6 +30,8 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.ajax4jsf.ajax.html.AjaxLog;
+import org.ajax4jsf.framework.ajax.AjaxScript;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
@@ -41,8 +43,12 @@ import org.widgetfaces.component.datepicker.UIDatepicker;
  */
 public class DatepickerRenderer extends Renderer implements AjaxRendererInterface {
 
-    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
+//    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
+    private static final String LOAD_Mootools_Min = "/org/widgetfaces/resources/compressed/mootools.min.js";
+
+    private static final String LOAD_Datepicker_min = "/org/widgetfaces/resources/compressed/datepicker.min.js";
     private static final String LOAD_Datepicker_css = "/org/widgetfaces/widget/datepicker/css/datepicker.css";
+    
     private static final String datepickerClass = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
 
     /**
@@ -62,15 +68,16 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
         final UIDatepicker comp = (UIDatepicker) component;
-        
-        
+
+        AjaxLog myLog = new AjaxLog();
+
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
             extContext.getRequestMap().put("ajaxflag.DatePickerjs", Boolean.TRUE);
             writeHeaders(context, component);
         }
-        
+
         HtmlInputText input = new HtmlInputText();
         input.setId(comp.getId() + "_inputdate");
         input.setStyle(comp.getStyle());
@@ -99,6 +106,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
         if (!inputPresence) {
             comp.getChildren().add(input);
+            comp.getChildren().add(myLog);
         }
     }
 
@@ -117,6 +125,33 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
             Utils.encodeRecursive(context, tmp);
         }
     }
+
+    @Override
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+        final ResponseWriter writer = context.getResponseWriter();
+        final UIDatepicker comp = (UIDatepicker) component;
+        final StringBuilder str = new StringBuilder();
+        final UIForm formContainer = getForm(component);
+
+        writer.startElement("script", comp);
+        writer.writeAttribute("type", "text/javascript", null);
+        str.append("document.addEvent('domready', function(){").append("DatePickerReloading();");
+
+        /* Enable ajax request */
+        if (comp.isEnableAjax()) {
+            final StringBuilder ajaxrequest = new StringBuilder();
+            final AjaxUtils ajaxtools = new AjaxUtils();
+
+            final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
+            ajaxrequest.append("new Request.HTML({").append("url:'").append(urlRequest).append("',").append("data:{").append("'javax.faces.ViewState':").append("$('javax.faces.ViewState').value").append(",").append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").append("}}).send();");
+            str.append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('keydown',function(event){if(event.enter)").append(ajaxrequest).append("});").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('blur',function(event){").append(ajaxrequest).append("});");
+        }
+        str.append("});");
+
+        writer.write(str.toString());
+        writer.endElement("script");
+    }
+
 
     /**
      * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext,
@@ -201,9 +236,20 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         final ResponseWriter writer = context.getResponseWriter();
         final UIDatepicker comp = (UIDatepicker) component;
 
+
+//        writer.startElement("script", comp);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker, null), null);
+//        writer.endElement("script");
+
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools_Min, null), null);
+        writer.endElement("script");
+
+        writer.startElement("script", comp);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker_min, null), null);
         writer.endElement("script");
 
         writer.startElement("link", comp);

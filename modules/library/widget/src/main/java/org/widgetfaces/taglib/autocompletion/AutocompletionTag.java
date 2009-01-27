@@ -57,6 +57,7 @@ public class AutocompletionTag extends BaseELTag {
     private ValueExpression value = null;
     private ValueExpression services = null;
     private ValueExpression enableAjax = null;
+    private ValueExpression rendered = null;
 
 
 
@@ -115,7 +116,7 @@ public class AutocompletionTag extends BaseELTag {
         component.setValueExpression("value", getValue());
         component.setValueExpression("services", getServices());
         component.setValueExpression("enableAjax", getEnableAjax());
-
+        component.setValueExpression("rendered", getRendered());
     }
 
     /**
@@ -152,6 +153,7 @@ public class AutocompletionTag extends BaseELTag {
         setValue(null);
         setServices(null);
         setEnableAjax(null);
+        setRendered(null);
     }
 
     /**
@@ -545,6 +547,14 @@ public class AutocompletionTag extends BaseELTag {
     public void setEnableAjax(ValueExpression enableAjax) {
         this.enableAjax = enableAjax;
     }
+
+    /**
+     * @return the rendered
+     */
+    public ValueExpression getRendered() {
+        return rendered;
+    }
+
 
 }
 
