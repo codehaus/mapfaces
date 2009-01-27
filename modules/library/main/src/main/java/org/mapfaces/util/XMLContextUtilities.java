@@ -82,7 +82,7 @@ public  class XMLContextUtilities {
 
     private Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class net.opengis.owc.v030.OWSContextType")){
-            return (new OWCv030toMFTransformer()).visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
+            return OWCv030toMFTransformer.visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
         }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
 
     }
