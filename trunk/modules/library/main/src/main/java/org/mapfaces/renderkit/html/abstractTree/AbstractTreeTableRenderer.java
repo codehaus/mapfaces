@@ -84,8 +84,8 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         phaseStart = new Date();
         renderStart = new Date();
 
-        width = "width:auto";
-        height = "height:auto";
+        width = "width:100%";
+        height = "height:100%";
 
         /*
          * Tests
