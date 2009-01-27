@@ -97,13 +97,6 @@
             <plugin>
                 <groupId>net.sf.alchim</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compress</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <gzip>false</gzip>
                     <nomunge>true</nomunge>
