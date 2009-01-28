@@ -66,7 +66,6 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
     @Override
     @SuppressWarnings("static-access")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
         
         //Write the scripts once per page
