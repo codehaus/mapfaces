@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.widgetfaces.renderkit.html.datepicker;
 
 import java.io.IOException;
@@ -31,7 +32,6 @@ import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ajax4jsf.ajax.html.AjaxLog;
-import org.ajax4jsf.framework.ajax.AjaxScript;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
@@ -45,10 +45,8 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
 //    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
     private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
-
     private static final String LOAD_Datepicker_min = "/org/widgetfaces/resources/compressed/datepicker.min.js";
     private static final String LOAD_Datepicker_css = "/org/widgetfaces/widget/datepicker/css/datepicker.css";
-    
     private static final String datepickerClass = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
 
     /**
@@ -66,10 +64,8 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     @Override
     @SuppressWarnings("static-access")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        final ResponseWriter writer = context.getResponseWriter();
         final UIDatepicker comp = (UIDatepicker) component;
 
-        AjaxLog myLog = new AjaxLog();
 
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
@@ -101,12 +97,20 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         for (UIComponent uIComponent : comp.getChildren()) {
             if (uIComponent instanceof HtmlInputText) {
                 inputPresence = true;
+                input = (HtmlInputText) uIComponent;
+            }
+        }
+        
+        ValueExpression ve = comp.getValueExpression("value");
+        if (ve != null) {
+            if (ve.getValue(context.getELContext()) instanceof String) {
+                input.setValue(ve.getValue(context.getELContext()));
+                input.setValueExpression("value", ve);
             }
         }
 
         if (!inputPresence) {
             comp.getChildren().add(input);
-            comp.getChildren().add(myLog);
         }
     }
 
@@ -152,7 +156,6 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         writer.endElement("script");
     }
 
-
     /**
      * <p>Decode any new state of the specified UIComponent  from the request contained in the specified FacesContext,
      * and store that state on the UIComponent.</p>
@@ -172,9 +175,13 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_inputdate";
         String newValue = (String) parameterMap.get(keyParameterInput);
 
+        HtmlInputText inputchild = (HtmlInputText) comp.getChildren().get(0);
+        
         ValueExpression ve = comp.getValueExpression("value");
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
+                inputchild.setValue(ve.getValue(context.getELContext()));
+                inputchild.setValueExpression("value", ve);
                 ve.setValue(context.getELContext(), newValue);
             }
         }
