@@ -107,7 +107,6 @@
                         <aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/compressed/mootools.min.js</output>
                             <includes>
-                                <include>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/js/loading.js</include>
                                 <include>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/js/mootools-1.2-core.js</include>
                                 <include>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/js/mootools-1.2-more.js</include>
                             </includes>
