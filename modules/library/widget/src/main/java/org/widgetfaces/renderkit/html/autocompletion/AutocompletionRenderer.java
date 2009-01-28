@@ -43,12 +43,12 @@ import org.mapfaces.util.AjaxUtils;
  */
 public class AutocompletionRenderer extends Renderer implements AjaxRendererInterface {
 
-//    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
+    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
 //    private static final String LOAD_Autocompleter = "/org/widgetfaces/widget/autocompletion/js/autocompleter.js";
 //    private static final String LOAD_Autocompleter_Local = "/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js";
     private static final String LOAD_Autocompleter_Style = "/org/widgetfaces/widget/autocompletion/css/autocompleter.css";
 //    private static final String LOAD_Observer = "/org/widgetfaces/widget/autocompletion/js/observer.js";
-    private static final String LOAD_Mootools_Min = "/org/widgetfaces/resources/compressed/mootools.min.js";
+//    private static final String LOAD_Mootools_Min = "/org/widgetfaces/resources/compressed/mootools.min.js";
     private static final String LOAD_Autocomp_Min = "/org/widgetfaces/resources/compressed/autocompletion.min.js";
 
     /**
@@ -273,10 +273,10 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
 
-//        writer.startElement("script", component);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
-//        writer.endElement("script");
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
+        writer.endElement("script");
 //
 //        writer.startElement("script", comp);
 //        writer.writeAttribute("type", "text/javascript", null);
@@ -293,10 +293,10 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
 //        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Observer, null), null);
 //        writer.endElement("script");
 //
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools_Min, null), null);
-        writer.endElement("script");
+//        writer.startElement("script", comp);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools_Min, null), null);
+//        writer.endElement("script");
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);

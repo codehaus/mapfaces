@@ -44,7 +44,7 @@ import org.widgetfaces.component.datepicker.UIDatepicker;
 public class DatepickerRenderer extends Renderer implements AjaxRendererInterface {
 
 //    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
-    private static final String LOAD_Mootools_Min = "/org/widgetfaces/resources/compressed/mootools.min.js";
+    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
 
     private static final String LOAD_Datepicker_min = "/org/widgetfaces/resources/compressed/datepicker.min.js";
     private static final String LOAD_Datepicker_css = "/org/widgetfaces/widget/datepicker/css/datepicker.css";
@@ -244,7 +244,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools_Min, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
         writer.endElement("script");
 
         writer.startElement("script", comp);
