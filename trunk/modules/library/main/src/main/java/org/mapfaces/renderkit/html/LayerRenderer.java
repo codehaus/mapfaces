@@ -33,14 +33,17 @@ import org.geotools.map.WMSMapLayer;
 import org.geotools.ows.ServiceException;
 import org.geotools.referencing.CRS;
 
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.util.FacesUtils;
 
+import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.TransformException;
 
 /**
  * @author Olivier Terral.
@@ -87,7 +90,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
         final String display = (layer.isHidden()) ? "display:none" : "display:block;";
-
+        
+        //Create the Layer_WMS_0 div
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "style");
         writer.writeAttribute("class", "layerDiv", "style");
@@ -96,64 +100,55 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         //Add layer image if not the first page loads
         if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
+            
+                //Write the image DIV
+                writer.startElement("div", comp);
+                writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
+                
+                //Write the image element  -------------------------------------
+                writer.startElement("img", comp);
+                writer.writeAttribute("id", id + "_Img", "style");
+                writer.writeAttribute("class", "layerImg", "style");
 
-            writer.startElement("div", comp);
-            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
+                if (styleImg != null) {
+                    writer.writeAttribute("style", "position:relative;", "style");
+                }
+                
+                URL url = new URL("http://");
+                
+                //Generqte the URL contents
+                // 1. recuperate the existing info
+                final WMSMapLayer mapLayer;
 
-            final String srs = model.getSrs();
-            final CoordinateReferenceSystem crs;
-            try {
-                crs = CRS.decode(srs);
-            } catch (FactoryException ex) {
-                LOGGER.log(Level.SEVERE, "Invalide SRS definition : " + srs, ex);
-                //TODO should close divs and writer correctly is this happens
-                return;
-            }
+                try {
+                    mapLayer = createWMSLayer(layer);
+                } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
+                    //TODO should close divs and writer correctly is this happens
+                    return;
+                } catch (ServiceException ex) {
+                    LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
+                    //TODO should close divs and writer correctly is this happens
+                    return;
+                }
+                
+                // 2. define the new extent
+                final String srs = model.getSrs();
+                double[] imgExtentLowerCorner = { new Double(model.getMinx()), new Double(model.getMiny()) };
+                double[] imgExtentUpperCorner = { new Double(model.getMaxx()), new Double(model.getMaxy()) };
 
-            final ReferencedEnvelope env = new ReferencedEnvelope(
-                    new Double(model.getMinx()), new Double(model.getMaxx()),
-                    new Double(model.getMiny()), new Double(model.getMaxy()),
-                    crs);
-            final WMSMapLayer mapLayer;
+                // 3. get the URL fragment
+                if (mapLayer != null) {
+                    url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
+                }
+                
+                writer.writeAttribute("src", url.toString(), "src");
+                writer.endElement("img");
+                writer.endElement("div");
 
-            try {
-                mapLayer = createWMSLayer(layer);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
-                //TODO should close divs and writer correctly is this happens
-                return;
-            } catch (ServiceException ex) {
-                LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
-                //TODO should close divs and writer correctly is this happens
-                return;
-            }
-
-            if (debug) {
-                System.out.println("[PORTRAYING] for envelope : " + env + "and size : " + dim);
-            }
-
-            writer.startElement("img", comp);
-            writer.writeAttribute("id", id + "_Img", "style");
-            writer.writeAttribute("class", "layerImg", "style");
-
-            if (styleImg != null) {
-                writer.writeAttribute("style", "position:relative;", "style");
-            }
-
-            URL url = new URL("http://");
-            if (mapLayer != null) {
-                url = mapLayer.query(env, dim);
-            }
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> url = " + url.toString());
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> mapPane = " + FacesUtils.getParentUIMapPane(context, comp).getId());
-
-            writer.writeAttribute("src", url.toString(), "src");
-            writer.endElement("img");
-            writer.endElement("div");
-
-            if (debug) {
-                System.out.println("\tLayer removed");
-            }
+                if (debug) {
+                    System.out.println("\tLayer removed");
+                }
 
         }
         writer.endElement("div");

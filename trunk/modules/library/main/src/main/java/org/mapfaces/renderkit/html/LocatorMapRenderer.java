@@ -25,6 +25,7 @@ import org.mapfaces.component.UILocatorMap;
 import org.mapfaces.models.Context;
 import org.mapfaces.taglib.LocatorMapTag;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.component.UIMapPane;
 
 /**
  * @author Olivier Terral.
@@ -70,20 +71,26 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             String jsObject = comp.getClientId(context);
             if (jsObject.contains(":")) jsObject = jsObject.replace(":", "");
 
-
-            String mapJsObject = comp.getClientId(context);
-            if (mapJsObject.contains(":")) {
-                mapJsObject = mapJsObject.split(":")[0]+comp.getTargetContextCompId();
-            }else{
-                mapJsObject = comp.getTargetContextCompId();
+            //suppression des ":" pour nommer l'objet javascript correspondant correctement
+            String mapJsObject = null ;
+            comp_loop :
+            for (UIComponent comps : comp.getParent().getChildren()){
+                if(comps instanceof UIMapPane){
+                    mapJsObject = comps.getClientId(context);
+                    break comp_loop;
+                }
             }
-
-            final String[] srsCode = model.getSrs().split(":");
+            if (mapJsObject.contains(":")) {
+                //TODO don't commi this 
+                mapJsObject = mapJsObject.split(":")[0]+"mappane";
+            }else{
+                mapJsObject = "mappane";
+            }
             writer.write(new StringBuilder("    var ovmapOptions = {\n")
                     .append("                       id:'").append(jsObject).append("',\n")
                     .append("                       outsideViewport:true,")
                     .append("                       controls:[],\n")
-                    .append("                       projection: new OpenLayers.Projection('EPSG:").append(srsCode[srsCode.length - 1]).append("'),\n")
+                    .append("                       projection: new OpenLayers.Projection('").append(model.getSrs().toUpperCase()).append("'),\n")
                     .append("                       size: new OpenLayers.Size('300','150'),\n")
                     .append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n")
                     .append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx().toString()).append(",").append(model.getMiny().toString()).append(",").append(model.getMaxx().toString()).append(",").append(model.getMaxy().toString()).append("),\n")
