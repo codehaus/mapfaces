@@ -225,14 +225,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
-        final String[] srsCode = model.getSrs().split(":");
         
         writer.write(new StringBuilder(" if (typeof "+jsObject+"_mapOptions == 'undefined') { \n").
                 append("    var "+jsObject+"_mapOptions = {\n").
                 append("                       id:'").append(jsObject).append("',\n").
                 append("                       controls:[],\n").
-                append("                       projection: new OpenLayers.Projection('EPSG:").
-                append(srsCode[srsCode.length - 1]).append("'),\n").
+                append("                       projection: new OpenLayers.Projection('").
+                append(model.getSrs().toUpperCase()).append("'),\n").
                 append("                       size: new OpenLayers.Size('").
                 append(model.getWindowWidth()).append("','").
                 append(model.getWindowHeight()).append("'),\n").

@@ -47,11 +47,18 @@ import org.geotools.data.wms.backend.AbstractDimension;
 import org.geotools.data.wms.backend.AbstractLayer;
 import org.geotools.data.wms.backend.AbstractWMSCapabilities;
 
+import org.geotools.geometry.GeneralEnvelope;
+import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.ows.ServiceException;
+import org.geotools.referencing.CRS;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
+import org.opengis.geometry.Envelope;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.TransformException;
 
 
 /**
@@ -64,8 +71,10 @@ public class OWCv030toMFTransformer {
 
     private static final ContextFactory contextFactory = new DefaultContextFactory();
     private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.util.OWCv030toMFTransformer");
 
     public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
+        
         Context ctx = contextFactory.createDefaultContext();
         ctx.setType(doc.getClass().toString());
         ctx.setVersion(doc.getVersion());
@@ -73,11 +82,30 @@ public class OWCv030toMFTransformer {
         ctx.setTitle(doc.getGeneral().getTitle());
         BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
         ctx.setSrs(bbox.getCrs());
-        System.out.println(bbox.toString());
-        ctx.setBoundingBox(String.valueOf(bbox.getLowerCorner().get(0).doubleValue()),
-                String.valueOf(bbox.getLowerCorner().get(1).doubleValue()),
-                String.valueOf(bbox.getUpperCorner().get(0).doubleValue()),
-                String.valueOf(bbox.getUpperCorner().get(1).doubleValue()));
+        final CoordinateReferenceSystem crs;        //Crs with axis order : x,y or y,x        
+        final CoordinateReferenceSystem displayCrs; //Crs with axis order : x,y
+        final GeneralEnvelope env;        
+        Envelope displayEnv = null;
+        try {
+            crs = CRS.decode(bbox.getCrs());
+            displayCrs = CRS.decode(bbox.getCrs(), true);
+            env = new GeneralEnvelope(crs);
+            env.setRange(0, bbox.getLowerCorner().get(0), bbox.getUpperCorner().get(0));
+            env.setRange(1, bbox.getLowerCorner().get(1), bbox.getUpperCorner().get(1));
+            displayEnv = CRS.transform(env, displayCrs);
+        } catch (TransformException ex) {
+            LOGGER.log(Level.SEVERE, "Transform  envelop failed : " + bbox.getCrs(), ex);
+            return null;
+        } catch (FactoryException ex) {
+            LOGGER.log(Level.SEVERE, "Invalide SRS definition : " + bbox.getCrs(), ex);
+            return null;
+        }
+
+        ctx.setBoundingBox(
+                String.valueOf(displayEnv.getLowerCorner().getCoordinate()[0]),
+                String.valueOf(displayEnv.getLowerCorner().getCoordinate()[1]),
+                String.valueOf(displayEnv.getUpperCorner().getCoordinate()[0]),
+                String.valueOf(displayEnv.getUpperCorner().getCoordinate()[1]));
         ctx.setWindowSize(doc.getGeneral().getWindow().getWidth().toString(), doc.getGeneral().getWindow().getHeight().toString());
         List array = visitResourceList(doc.getResourceList().getLayer());
         ctx.setLayers((List<Layer>) array.get(0));
@@ -114,9 +142,9 @@ public class OWCv030toMFTransformer {
                                         WebMapServer wmserver = new WebMapServer(new URL(wmsUrl), layerType.getServer().get(0).getVersion());
                                         webMapServers.put(wmsUrl, wmserver);
                                     } catch (IOException ex) {
-                                        Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                                        LOGGER.log(Level.SEVERE, null, ex);
                                     } catch (ServiceException ex) {
-                                        Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                                        LOGGER.log(Level.SEVERE, null, ex);
                                     }
                                 }
                             };
@@ -128,7 +156,7 @@ public class OWCv030toMFTransformer {
                                 try {
                                     Thread.sleep(200);
                                 } catch (InterruptedException ex) {
-                                    Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                                    LOGGER.log(Level.SEVERE, null, ex);
                                 }
                                 end = System.currentTimeMillis() - start;
                                 if (webMapServers.get(wmsUrl) != null) {
@@ -313,7 +341,7 @@ public class OWCv030toMFTransformer {
                 }
                 i++;
             } catch (IOException ex) {
-                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
