@@ -97,7 +97,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
-
         //Add layer image if not the first page loads
         if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
             
@@ -142,6 +141,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
                 }
                 
+                System.out.println("Url = " + url);
                 writer.writeAttribute("src", url.toString(), "src");
                 writer.endElement("img");
                 writer.endElement("div");
