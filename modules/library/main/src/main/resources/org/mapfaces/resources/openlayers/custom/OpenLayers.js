@@ -252,6 +252,7 @@ if(!window.OpenLayers){
            "openlayers/custom/OpenLayers/Control/Graticule.js",
            "openlayers/custom/OpenLayers/Control/Save.js",
            "openlayers/custom/OpenLayers/Control/GetFeatureInfo.js",
+           "openlayers/custom/OpenLayers/Control/GetCoverageMatrix.js",
            "openlayers/custom/OpenLayers/Control/Navigation.js",
            "openlayers/custom/OpenLayers/Control/MousePosition.js",
            "openlayers/custom/OpenLayers/Control/OverviewMapExt.js",
