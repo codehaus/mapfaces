@@ -245,7 +245,8 @@ if(!window.OpenLayers){
             "openlayers/lib/OpenLayers/Lang/en.js",
             
     //File addes or modified for MapFaces
-           "proj4js/proj4js-combined.js",
+           "proj4js/lib/proj4js-combined.js",
+           "proj4js/custom/proj4jsExt.js",
            "openlayers/custom/OpenLayers/Map.js",
            "openlayers/custom/OpenLayers/Handler/MouseWheel.js",
            "openlayers/custom/OpenLayers/Control/ZoomBoxOut.js",
