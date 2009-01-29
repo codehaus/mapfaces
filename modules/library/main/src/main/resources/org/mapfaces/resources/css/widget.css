@@ -232,6 +232,17 @@
     background-repeat: no-repeat;
     cursor:pointer;
 }
+
+.mfButtonBar .olControlGetCoverageMatrixItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGetCoverageMatrixItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
 .mfButtonBar .olControlNavigationHistory {
     background-image: url("resource.jsf?r=/org/mapfaces/resources/img/navigation_history.png");
     background-repeat: no-repeat;
