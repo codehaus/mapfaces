@@ -31,8 +31,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import net.sf.jsfcomp.chartcreator.johann.IdentifiedChartFactory;
-import net.sf.jsfcomp.chartcreator.johann.IdentifiedSVGGraphics2D;
+import org.mapfaces.chart.extend.IdentifiedChartFactory;
+import org.mapfaces.chart.extend.IdentifiedSVGGraphics2D;
 import net.sf.jsfcomp.chartcreator.model.ChartAxisData;
 import net.sf.jsfcomp.chartcreator.model.ChartData;
 
