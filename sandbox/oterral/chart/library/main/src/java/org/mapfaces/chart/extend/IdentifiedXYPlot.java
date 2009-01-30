@@ -61,8 +61,7 @@ public class IdentifiedXYPlot extends XYPlot{
 
             ////////////////////////////////////////////////////////////////////
             if(g2 instanceof IdentifiedSVGGraphics2D){
-                System.out.println();
-                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("id",getDataset().getSeriesKey(index).toString());
+                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("serie",getDataset(index).getSeriesKey(0).toString());
             }
             ////////////////////////////////////////////////////////////////////
 
@@ -91,6 +90,13 @@ public class IdentifiedXYPlot extends XYPlot{
                         state.startSeriesPass(dataset, series, firstItem,
                                 lastItem, pass, passCount);
                         for (int item = firstItem; item <= lastItem; item++) {
+                            ////////////////////////////////////////////////////////////////////
+                            if(g2 instanceof IdentifiedSVGGraphics2D){
+                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("xValue",String.valueOf(getDataset(index).getXValue(0, item)));
+                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("yValue",String.valueOf(getDataset(index).getYValue(0, item)));
+                            }
+                            ////////////////////////////////////////////////////////////////////
+                            
                             renderer.drawItem(g2, state, dataArea, info,
                                     this, xAxis, yAxis, dataset, series, item,
                                     crosshairState, pass);

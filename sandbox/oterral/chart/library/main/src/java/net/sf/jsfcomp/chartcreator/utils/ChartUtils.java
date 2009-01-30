@@ -69,6 +69,7 @@ import org.jfree.ui.RectangleInsets;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -319,7 +320,7 @@ public class ChartUtils {
 
         if (type.equalsIgnoreCase("timeseries")) {
             if (dataset == null && datasets != null && (datasets.size() > 0)) {
-                chart = ChartFactory.createTimeSeriesChart("", xAxis, yAxis, datasets.get(0), legend, true, false);
+                chart = IdentifiedChartFactory.createTimeSeriesChart("", xAxis, yAxis, datasets.get(0), legend, true, false);
                 ChartUtils.addXYDataset(chart, datasets);
             } else chart = ChartFactory.createTimeSeriesChart("", xAxis, yAxis, dataset, legend, true, false);
         } else if (type.equalsIgnoreCase("xyline")) {
@@ -466,13 +467,14 @@ public class ChartUtils {
         }*/
         final SVGGraphics2D svgGenerator = new IdentifiedSVGGraphics2D(document);
         svgGenerator.getRoot(doc);
-        svgGenerator.getRoot().appendChild(addScriptTag(svgGenerator.getDOMFactory()));
         svgGenerator.setSVGCanvasSize(new Dimension(width, height));
         chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo);
         doc.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
          if (dynamic) {
             doc.appendChild(addTextTag(document));
-            doc.appendChild(addScriptTag(document));
+            doc.appendChild(addFileScriptTag(document));
+            doc.appendChild(addEffects(document));
+            doc.appendChild(addNavigation(document));
         }
         
         svgGenerator.stream(doc, new OutputStreamWriter(stream, "UTF-8"));
@@ -482,6 +484,13 @@ public class ChartUtils {
 //        System.out.println(svgDom.getDocumentElement().getChildNodes().getLength());
         
 
+    }
+
+    private static Node addFileScriptTag(Document document) {
+        Element script = document.createElement("script");
+        script.setAttribute("type", "text/ecmascript");
+        script.setAttribute("src", "http://localhost:8084/chartc/js/resources/openlayers/custom/OpenLayers.js");
+        return script;
     }
 
     private static void addXYDataset(JFreeChart chart, List<XYDataset> datasets) {
@@ -542,9 +551,92 @@ public class ChartUtils {
         text.appendChild(document.createTextNode("X:Y:"));
         return text;
     }
-    private static Element addScriptTag(Document document) {
+    
+    private static Node addNavigation(Document document) {
         Element script = document.createElement("script");
         script.setAttribute("type", "text/ecmascript");
+        script.appendChild(document.createCDATASection("\n"+"" +
+                "function addHandlers() {\n" +
+                "   //var chart  = new OpenLayers.Map('canvas');\n" +
+                "}\n" +
+                "window.onload = addHandlers;\n"));
+        script.appendChild(document.createCDATASection("\n"+"" +
+"       function movehandler(e) {var g = document.getElementById('canvas');\n"+
+"				  var offx=g.offsetLeft;\n"+
+"				  var offy=g.offsetTop;\n"+
+"				  var mx=(emethod?e.pageX:(document.body.scrollLeft+event.clientX))-offx;\n"+
+"				  var my=(emethod?e.pageY:(document.body.scrollTop+event.clientY))-offy;\n"+
+"				  var dx=mx-dragx;\n"+
+"				  var dy=my-dragy;\n"+
+"				  " +
+                "console.log(dx+' '+dy);if(dragging) {\n"+
+"				    if(currenttool==0) {\n"+
+"				      /*xmin=oxmin-((oxmax-oxmin)/swidth)*dx;\n"+
+"				      xmax=oxmax-((oxmax-oxmin)/swidth)*dx;\n"+
+"				      ymin=oymin+((oymax-oymin)/sheight)*dy;\n"+
+"				      ymax=oymax+((oymax-oymin)/sheight)*dy;*/\n"+
+"				      g.style.left=dx+'px';\n"+
+"				      g.style.top=dy+'px';\n"+
+"				    } else if(currenttool==1) {\n"+
+"				      if(dragx>mx) { xlow=mx;xhigh=dragx; }\n"+
+"				      else { xlow=dragx-5;xhigh=mx-5; }\n"+
+"				      if(dragy>my) { ylow=my;yhigh=dragy; }\n"+
+"				      else { ylow=dragy-5;yhigh=my-5; }\n"+
+"				      g.setselrect(resizerect,xlow,ylow,xhigh-xlow,yhigh-ylow);\n"+
+"				      xmin=oxmin+xlow/swidth*(oxmax-oxmin);\n"+
+"				      xmax=oxmax-(1-xhigh/swidth)*(oxmax-oxmin);\n"+
+"				      ymin=oymin+(1-yhigh/sheight)*(oymax-oymin);\n"+
+"				      ymax=oymax-ylow/sheight*(oymax-oymin);\n"+
+"				    }\n"+
+"				    return false;\n"+
+"				  }\n"+
+"	}\n"+
+        
+        ""));
+        script.appendChild(document.createCDATASection("\n"+"" +
+                "function draghandler(e) {console.log('draghandler : ');\n" +
+                "                var g = document.getElementById('canvas');\n"+
+"				  var fobj=emethod?e.target:event.srcElement;\n"+
+"				  while(fobj!=document.body&&fobj!=document) {\n"+
+"				    fobj=emethod?fobj.parentNode:fobj.parentElement;\n"+
+"				    if(fobj==document.getElementById('canvas')) {\n"+
+"				      dragging=true;\n"+
+"				    }\n"+
+"				  }\nconsole.log('dragging : '+dragging);\n"+
+"				  if(dragging) {\n"+
+"				    dobj=fobj;\n"+
+"				    var offx=g.offsetLeft;\n"+
+"				    var offy=g.offsetTop;\n"+
+"				    dragx=(emethod?e.pageX:(document.body.scrollLeft+event.clientX))-offx;\n"+
+"				    dragy=(emethod?e.pageY:(document.body.scrollTop+event.clientY))-offy;\n"+
+"				    //oxmin=xmin;oxmax=xmax;" +
+"                                   //oymin=ymin;oymax=ymax;console.log('addZEvent');\n"+
+"				    g.addEventListener('mousemove',movehandler, false);\n"+
+"				    if(currenttool==1) {\n"+
+"				      resizerect=g.createselrect(dragx,dragy,1,1);\n"+
+"				    }\n"+
+"				    return false;\n"+
+"				  }\n"+
+"				}" +
+                "var browser='';\n" +
+"	        if(navigator.userAgent.toLowerCase().indexOf('opera')!=-1) browser='opera';\n" +
+"		else if(navigator.userAgent.toLowerCase().indexOf('gecko')!=-1) browser='firefox';\n" +
+"		else if(navigator.userAgent.toLowerCase().indexOf('msie')!=-1) browser='msie'\n" +
+"		else if(navigator.userAgent.toLowerCase().indexOf('safari')!=-1) browser='safari';\n" +				
+"		var emethod = (browser=='firefox'||browser=='safari'||browser=='opera')?1:0;\n" +
+                "currenttool=0;\n" +
+                "//xmin = ;\n" +
+                "//xmax = ;\n" +
+                "//ymin = ;\n" +
+                "console.log(document.getElementById('canvas'));" +
+                "document.getElementById('canvas').addEventListener('mousedown', draghandler, false);\n" +
+                "\n"+
+                ""));
+        return script;
+    }
+
+    private static Element addEffects(Document document) {
+        Element script = document.createElement("script");
         script.appendChild(document.createCDATASection("\n"+
                 "var svgDocument = null;\n"+
              "svgDocument = window.document;\n"+
@@ -555,12 +647,14 @@ public class ChartUtils {
 
 "             // definition de la methode\n"+
 "             function addEvents () {\n"+
-                "   var list = svgDocument.documentElement.getElementsByTagName('polygon')\n"+
-"                   for(var i=0;i<list.length;i++){"+
-"                            var rectangle = list[i];   \n"+
-"                            rectangle.addEventListener('mouseover',highlight,false);\n"+
-"                            rectangle.addEventListener('mouseout',unhighlight,false);\n"+
-"                            rectangle.addEventListener('mousemove',moveText,false);\n"+
+                "   var list = svgDocument.documentElement.getElementsByTagName('line');\n"+
+"                   for(var i=0;i<list.length;i++){" +
+                "       if(i == list.length-1 && list[i].parentNode.nodeName == 'g')" +
+                "           list[i].parentNode.setAttribute('id','canvas');"+
+"                        var rectangle = list[i];   \n"+
+"                        rectangle.addEventListener('mouseover',highlight,false);\n"+
+"                        rectangle.addEventListener('mouseout',unhighlight,false);\n"+
+"                        rectangle.parentNode.addEventListener('mousemove',moveText,false);\n"+
 "                            "+
 "                   }"+
 "             }\n"+
