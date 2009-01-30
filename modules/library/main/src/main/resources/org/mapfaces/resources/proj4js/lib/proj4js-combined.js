@@ -630,55 +630,56 @@ Proj4js.Proj = Proj4js.Class({
  */
   parseDefs: function() {
       this.defData = Proj4js.defs[this.srsCode];
-      var paramName, paramVal;
-      var paramArray=this.defData.split("+");
+      var paramName, paramVal;      
+      if (this.defData) {
+          var paramArray=this.defData.split("+");
+          for (var prop=0; prop<paramArray.length; prop++) {
+              var property = paramArray[prop].split("=");
+              paramName = property[0].toLowerCase();
+              paramVal = property[1];
 
-      for (var prop=0; prop<paramArray.length; prop++) {
-          var property = paramArray[prop].split("=");
-          paramName = property[0].toLowerCase();
-          paramVal = property[1];
-
-          switch (paramName.replace(/\s/gi,"")) {  // trim out spaces
-              case "": break;   // throw away nameless parameter
-              case "title":  this.title = paramVal; break;
-              case "proj":   this.projName =  paramVal.replace(/\s/gi,""); break;
-              case "units":  this.units = paramVal.replace(/\s/gi,""); break;
-              case "datum":  this.datumCode = paramVal.replace(/\s/gi,""); break;
-              case "nadgrids": this.nagrids = paramVal.replace(/\s/gi,""); break;
-              case "ellps":  this.ellps = paramVal.replace(/\s/gi,""); break;
-              case "a":      this.a =  parseFloat(paramVal); break;  // semi-major radius
-              case "b":      this.b =  parseFloat(paramVal); break;  // semi-minor radius
-              // DGR 2007-11-20
-              case "rf":     this.rf = parseFloat(paramVal); break; // inverse flattening rf= a/(a-b)
-              case "lat_0":  this.lat0 = paramVal*Proj4js.common.D2R; break;        // phi0, central latitude
-              case "lat_1":  this.lat1 = paramVal*Proj4js.common.D2R; break;        //standard parallel 1
-              case "lat_2":  this.lat2 = paramVal*Proj4js.common.D2R; break;        //standard parallel 2
-              case "lat_ts": this.lat_ts = paramVal*Proj4js.common.D2R; break;      // used in merc and eqc
-              case "lon_0":  this.long0 = paramVal*Proj4js.common.D2R; break;       // lam0, central longitude
-              case "alpha":  this.alpha =  parseFloat(paramVal)*Proj4js.common.D2R; break;  //for somerc projection
-              case "lonc":   this.longc = paramVal*Proj4js.common.D2R; break;       //for somerc projection
-              case "x_0":    this.x0 = parseFloat(paramVal); break;  // false easting
-              case "y_0":    this.y0 = parseFloat(paramVal); break;  // false northing
-              case "k_0":    this.k0 = parseFloat(paramVal); break;  // projection scale factor
-              case "k":      this.k0 = parseFloat(paramVal); break;  // both forms returned
-              case "R_A":    this.R = true; break;   //Spheroid radius 
-              case "zone":   this.zone = parseInt(paramVal); break;  // UTM Zone
-              case "south":   this.utmSouth = true; break;  // UTM north/south
-              case "towgs84":this.datum_params = paramVal.split(","); break;
-              case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
-              case "from_greenwich": this.from_greenwich = paramVal*Proj4js.common.D2R; break;
-              // DGR 2008-07-09 : if pm is not a well-known prime meridian take
-              // the value instead of 0.0, then convert to radians
-              case "pm":     paramVal = paramVal.replace(/\s/gi,"");
-                             this.from_greenwich = Proj4js.PrimeMeridian[paramVal] ?
-                                Proj4js.PrimeMeridian[paramVal] : parseFloat(paramVal);
-                             this.from_greenwich *= Proj4js.common.D2R; 
-                             break;
-              case "no_defs": break; 
-              default: //alert("Unrecognized parameter: " + paramName);
-          } // switch()
-      } // for paramArray
-      this.deriveConstants();
+              switch (paramName.replace(/\s/gi,"")) {  // trim out spaces
+                  case "": break;   // throw away nameless parameter
+                  case "title":  this.title = paramVal; break;
+                  case "proj":   this.projName =  paramVal.replace(/\s/gi,""); break;
+                  case "units":  this.units = paramVal.replace(/\s/gi,""); break;
+                  case "datum":  this.datumCode = paramVal.replace(/\s/gi,""); break;
+                  case "nadgrids": this.nagrids = paramVal.replace(/\s/gi,""); break;
+                  case "ellps":  this.ellps = paramVal.replace(/\s/gi,""); break;
+                  case "a":      this.a =  parseFloat(paramVal); break;  // semi-major radius
+                  case "b":      this.b =  parseFloat(paramVal); break;  // semi-minor radius
+                  // DGR 2007-11-20
+                  case "rf":     this.rf = parseFloat(paramVal); break; // inverse flattening rf= a/(a-b)
+                  case "lat_0":  this.lat0 = paramVal*Proj4js.common.D2R; break;        // phi0, central latitude
+                  case "lat_1":  this.lat1 = paramVal*Proj4js.common.D2R; break;        //standard parallel 1
+                  case "lat_2":  this.lat2 = paramVal*Proj4js.common.D2R; break;        //standard parallel 2
+                  case "lat_ts": this.lat_ts = paramVal*Proj4js.common.D2R; break;      // used in merc and eqc
+                  case "lon_0":  this.long0 = paramVal*Proj4js.common.D2R; break;       // lam0, central longitude
+                  case "alpha":  this.alpha =  parseFloat(paramVal)*Proj4js.common.D2R; break;  //for somerc projection
+                  case "lonc":   this.longc = paramVal*Proj4js.common.D2R; break;       //for somerc projection
+                  case "x_0":    this.x0 = parseFloat(paramVal); break;  // false easting
+                  case "y_0":    this.y0 = parseFloat(paramVal); break;  // false northing
+                  case "k_0":    this.k0 = parseFloat(paramVal); break;  // projection scale factor
+                  case "k":      this.k0 = parseFloat(paramVal); break;  // both forms returned
+                  case "R_A":    this.R = true; break;   //Spheroid radius 
+                  case "zone":   this.zone = parseInt(paramVal); break;  // UTM Zone
+                  case "south":   this.utmSouth = true; break;  // UTM north/south
+                  case "towgs84":this.datum_params = paramVal.split(","); break;
+                  case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
+                  case "from_greenwich": this.from_greenwich = paramVal*Proj4js.common.D2R; break;
+                  // DGR 2008-07-09 : if pm is not a well-known prime meridian take
+                  // the value instead of 0.0, then convert to radians
+                  case "pm":     paramVal = paramVal.replace(/\s/gi,"");
+                                 this.from_greenwich = Proj4js.PrimeMeridian[paramVal] ?
+                                    Proj4js.PrimeMeridian[paramVal] : parseFloat(paramVal);
+                                 this.from_greenwich *= Proj4js.common.D2R; 
+                                 break;
+                  case "no_defs": break; 
+                  default: //alert("Unrecognized parameter: " + paramName);
+              } // switch()
+          } // for paramArray
+          this.deriveConstants();
+      }
   },
 
 /**
