@@ -109,12 +109,12 @@ public class ContextTag extends UIComponentELTag {
             compContext.setScriptaculous((Boolean) scriptaculous.getValue(FacesContext.getCurrentInstance().getELContext()));
         }
 
-        //setting the abstract model for the UIContext.
-        if (service != null) {
-            String fileUrl = service.getExpressionString();
-        } else {
-            throw new IllegalArgumentException("You must indicate a path to file to read");
-        }
+//        //setting the abstract model for the UIContext.
+//        if (service != null) {
+//            String fileUrl = service.getExpressionString();
+//        } else {
+//            throw new IllegalArgumentException("You must indicate a path to file to read");
+//        }
     }
 
     /**

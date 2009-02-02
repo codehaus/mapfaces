@@ -32,6 +32,7 @@ public class UIContext extends UIModelBase {
     private boolean scriptaculous = true;
     private boolean mootools = true;
     private boolean minifyJS = true;
+    private String service = "";
 
     /** Creates a new instance of UIAbstract */
     public UIContext(){
@@ -52,11 +53,12 @@ public class UIContext extends UIModelBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[4];
+        final Object values[] = new Object[10];
         values[0] = super.saveState(context);
         values[1] = scriptaculous;
         values[2] = mootools;
         values[3] = minifyJS;
+        values[4] = service;
         return values;
     }
 
@@ -70,6 +72,7 @@ public class UIContext extends UIModelBase {
         scriptaculous = (Boolean) values[1];
         mootools = (Boolean) values[2];
         minifyJS = (Boolean) values[3];
+        service = (String) values[4];
     }
 
     /**
@@ -113,6 +116,14 @@ public class UIContext extends UIModelBase {
 
     public void setMinifyJS(final boolean minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
     }
 
 }

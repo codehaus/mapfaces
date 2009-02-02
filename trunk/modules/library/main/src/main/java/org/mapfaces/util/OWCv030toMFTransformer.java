@@ -81,6 +81,9 @@ public class OWCv030toMFTransformer {
         ctx.setId(doc.getId());
         ctx.setTitle(doc.getGeneral().getTitle());
         BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
+
+        LOGGER.log(Level.INFO, "["+OWCv030toMFTransformer.class.getName()+"]  BoundingBoxType : CRS="+bbox.getCrs()+"   Lower corner="+bbox.getLowerCorner()+"   upper corner="+bbox.getUpperCorner()+"  dimension="+bbox.getDimensions());
+        
         ctx.setSrs(bbox.getCrs());
         final CoordinateReferenceSystem crs;        //Crs with axis order : x,y or y,x        
         final CoordinateReferenceSystem displayCrs; //Crs with axis order : x,y
