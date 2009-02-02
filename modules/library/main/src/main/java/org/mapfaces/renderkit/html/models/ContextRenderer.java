@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -50,13 +51,14 @@ import org.mapfaces.util.XMLContextUtilities;
  */
 public class ContextRenderer extends Renderer {
 
-    private static final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
-    private static final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    private static final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/openlayers/minify/zip.js";
-    private static final String MOOTOOLS_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";
-    private static final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
-    private static final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
+    private static final String WIDGET_CSS              = "/org/mapfaces/resources/css/widget.css";
+    private static final String OPENLAYERS_JS           = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
+    private static final String OPENLAYERS_MINIFY_JS    = "/org/mapfaces/resources/openlayers/minify/zip.js";
+    private static final String MOOTOOLS_JS             = "/org/mapfaces/resources/tree/js/moo1.2.js";
+    private static final String PROTOTYPE_JS            = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
+    private static final String SCRIPTACULOUS_JS        = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
+    
 
     /**
      * {@inheritDoc }
@@ -153,6 +155,15 @@ public class ContextRenderer extends Renderer {
         if (comp.getModel() == null) {
             Context ctx = null;
             String fileUrl = (String) component.getAttributes().get("service");
+
+            ValueExpression ve = comp.getValueExpression("service");
+            if (ve != null) {
+                if (ve.getValue(context.getELContext()) instanceof String) {
+                    fileUrl = (String) ve.getValue(context.getELContext());
+                }
+            }
+            
+            
             if (fileUrl == null || fileUrl.length() < 1) {
                 throw new IllegalArgumentException("You must indicate a path to file to read");
             }
