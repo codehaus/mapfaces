@@ -27,6 +27,9 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
  * @author Mehdi Sidhoum.
  */
 public interface Feature extends Serializable {
+    
+    public final static String POINT = "POINT";
+    public final static String POLYGON = "POLYGON";
 
     public String getName();
 
