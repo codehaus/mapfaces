@@ -14,13 +14,16 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
+import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +50,9 @@ import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
 import org.geotools.referencing.CRS;
 
+import org.geotools.style.MutableFeatureTypeStyle;
+import org.geotools.style.MutableRule;
 import org.geotools.style.MutableStyle;
-import org.geotools.style.RandomStyleFactory;
-import org.geotools.style.StyleConstants;
 import org.geotools.style.StyleFactory;
 import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.models.AbstractModelBase;
@@ -60,6 +63,8 @@ import org.mapfaces.util.FacesUtils;
 
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.filter.Filter;
+import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Expression;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -69,8 +74,8 @@ import org.opengis.style.ExternalGraphic;
 import org.opengis.style.Fill;
 import org.opengis.style.Graphic;
 import org.opengis.style.GraphicalSymbol;
-import org.opengis.style.Mark;
 import org.opengis.style.PointSymbolizer;
+import org.opengis.style.PolygonSymbolizer;
 import org.opengis.style.Stroke;
 
 /**
@@ -79,6 +84,7 @@ import org.opengis.style.Stroke;
 public class MFLayerRenderer extends WidgetBaseRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
+    private final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK};
 
     /**
      * {@inheritDoc }
@@ -108,7 +114,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         if (dim.height <= 0) {
             dim.height = 1;
         }
-        
+
         final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
         final String display = (layer.isHidden()) ? "display:none" : "display:block;";
         final int size = (comp.getSize() != 0) ? comp.getSize() : 16;
@@ -141,73 +147,34 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                     crs);
             final FeatureMapLayer mapLayer;
 
-
-            String urlImage = comp.getImage();
-            StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
-//            RandomStyleFactory randomfactStyle = new RandomStyleFactory();
-//            OnLineResource rsc = null;
-//            try {
-//                System.out.println(">>>>>>>>>>>>>   urlImage = "+urlImage);
-//                rsc = new OnLineResourceImpl(new URI("http://demo.geomatys.fr/mdweb2/resources/img/pushpins/1.png"));
-//                
-//            } catch (URISyntaxException ex) {
-//                Logger.getLogger(MFLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            String format = "image/png";
-            ImageIcon icon = new ImageIcon(new URL(urlImage));
-            
-            ExternalGraphic external = styleFactory.createExternalGraphic(icon, format, null);
-            
-//            Expression fillColor = styleFactory.colorExpression(Color.RED);
-//            Expression opacity = styleFactory.literalExpression(0.4d);
-//            Fill fill = styleFactory.createFill(null, fillColor, opacity);
-//
-//            Expression color = styleFactory.colorExpression(Color.WHITE);
-//            Expression width = styleFactory.literalExpression(0.5d);
-//            Expression join = styleFactory.literalExpression("bevel");
-//            Expression cap = styleFactory.literalExpression("round");
-//            float[] dashes = null;
-//            Expression strokeOffset = styleFactory.literalExpression(0d);
-//
-//            Stroke stroke = styleFactory.createStroke(color, opacity, width, join, cap, dashes, strokeOffset);
-//
-//            Mark marker = styleFactory.createMark(StyleConstants.MARK_CIRCLE, fill, stroke);
-
-            List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
-            Expression opacity = styleFactory.literalExpression(1d);
-            symbols.add(external);
-//            symbols.add(marker);
-
-            Expression expSize = styleFactory.literalExpression(size);
-            Expression expRotation = styleFactory.literalExpression(rotation);
-
-            AnchorPoint anchor = styleFactory.createAnchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
-            Displacement disp = null;
-            Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
-
-            PointSymbolizer symbol = styleFactory.createPointSymbolizer(graphic, "");
-            MutableStyle mutableStyle = styleFactory.createStyle(symbol);
-            
-            //List of rules for this style.
-            // mutableStyle.featureTypeStyles().get(0).rules();
+            int indexLayer = Integer.parseInt(comp.getLayer().getId().substring(comp.getLayer().getId().length() - 1));
+            final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
 
             //building a FeatureCollection for this layer.
             FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
             long featureId = 0;
-            for (Feature f : comp.getFeatures()) {
-                SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+            if (comp.getFeatures() != null && comp.getFeatures().size() != 0) {
+                Feature f = comp.getFeatures().get(0);
                 builder.setName(f.getName());
                 builder.setCRS(f.getCrs());
+                for (String key : f.getAttributes().keySet()) {
+                    if (key.equals("geometry")) {
+                        builder.add(key, Geometry.class);
+                    } else {
+                        builder.add(key, f.getAttributes().get(key).getClass());
+                    }
+                }
+            }
+            SimpleFeatureType sft = builder.buildFeatureType();
+
+            for (Feature f : comp.getFeatures()) {
 
                 List<Object> objects = new ArrayList<Object>();
 
                 for (String key : f.getAttributes().keySet()) {
-                    builder.add(key, f.getAttributes().get(key).getClass());
                     objects.add(f.getAttributes().get(key));
                 }
-
-                SimpleFeatureType sft = builder.buildFeatureType();
-
 
                 SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
                 features.add(sf);
@@ -225,14 +192,14 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
                 bufferImage = DefaultPortrayalService.getInstance().portray(mapContext, env, dim, true);
                 File dst = File.createTempFile("img", "", comp.getDir());
-                
+
                 //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
                 if (comp.getDir().listFiles().length > 30) {
                     for (File file : comp.getDir().listFiles()) {
                         file.delete();
                     }
                 }
-                
+
                 ImageIO.write(bufferImage, "png", dst);
 
                 String generatedImage = comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName();
@@ -256,6 +223,56 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         }
         writer.endElement("div");
         writer.flush();
+    }
+
+    public MutableStyle createStyle(String urlImage, int size, double rotation, int indexLayer) throws MalformedURLException {
+
+        final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
+        final StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
+        final MutableStyle style = styleFactory.createStyle();
+        final MutableFeatureTypeStyle fts = styleFactory.createFeatureTypeStyle();
+        final MutableRule rulePoint = styleFactory.createRule();
+        final MutableRule rulePolygon = styleFactory.createRule();
+
+
+        String format = "image/png";
+        ImageIcon icon = new ImageIcon(new URL(urlImage));
+
+        ExternalGraphic external = styleFactory.createExternalGraphic(icon, format, null);
+
+        List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
+        Expression opacity = styleFactory.literalExpression(1d);
+        symbols.add(external);
+
+        Expression expSize = styleFactory.literalExpression(size);
+        Expression expRotation = styleFactory.literalExpression(rotation);
+
+        AnchorPoint anchor = styleFactory.createAnchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
+        Displacement disp = null;
+        Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
+
+        Filter filterPoint = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POINT));
+        PointSymbolizer pointSymbol = styleFactory.createPointSymbolizer(graphic, "");
+
+        rulePoint.symbolizers().add(pointSymbol);
+        rulePoint.setFilter(filterPoint);
+
+        Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
+        Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer - 1]),
+                styleFactory.literalExpression(2),
+                styleFactory.literalExpression(0.8));
+        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer - 1]), styleFactory.literalExpression(0.1));
+        PolygonSymbolizer polygonSymbol = styleFactory.createPolygonSymbolizer(stroke, fill, "marker");
+
+        rulePolygon.symbolizers().add(polygonSymbol);
+        rulePolygon.setFilter(filterPolygon);
+
+        fts.rules().add(rulePolygon);
+        fts.rules().add(rulePoint);
+        style.featureTypeStyles().add(fts);
+
+
+        return style;
     }
 
     /**
@@ -288,7 +305,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             System.out.println(sb.toString());
             return;
         }
-        
+
         if (params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))) {
             final String bbox = params.get("bbox");
             sb.append("\n BBox = " + bbox);
