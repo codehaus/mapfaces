@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+                              "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+	<managed-bean>
+		<managed-bean-name>BarCharts</managed-bean-name>
+		<managed-bean-class>demo.BarCharts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sourceProvider</property-name>
+			<value>#{SourceProvider}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>PieCharts</managed-bean-name>
+		<managed-bean-class>demo.PieCharts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sourceProvider</property-name>
+			<value>#{SourceProvider}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>LineCharts</managed-bean-name>
+		<managed-bean-class>demo.LineCharts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sourceProvider</property-name>
+			<value>#{SourceProvider}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>AreaCharts</managed-bean-name>
+		<managed-bean-class>demo.AreaCharts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sourceProvider</property-name>
+			<value>#{SourceProvider}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>OtherCharts</managed-bean-name>
+		<managed-bean-class>demo.OtherCharts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sourceProvider</property-name>
+			<value>#{SourceProvider}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>Events</managed-bean-name>
+		<managed-bean-class>demo.Events</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>sourceProvider</property-name>
+			<value>#{SourceProvider}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>SourceProvider</managed-bean-name>
+		<managed-bean-class>demo.SourceProvider</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+
+</faces-config>
