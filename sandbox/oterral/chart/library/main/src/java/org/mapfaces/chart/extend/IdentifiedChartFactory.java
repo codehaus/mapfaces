@@ -5,6 +5,11 @@
 
 package org.mapfaces.chart.extend;
 
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Locale;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -23,6 +28,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.urls.StandardCategoryURLGenerator;
 import org.jfree.chart.urls.StandardXYURLGenerator;
@@ -126,9 +132,34 @@ public class IdentifiedChartFactory {
         renderer.setBaseToolTipGenerator(toolTipGenerator);
         renderer.setURLGenerator(urlGenerator);
         plot.setRenderer(renderer);
-
         JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,plot, legend);
+        
+        chart.setBackgroundPaint(Color.white);
+        
+        plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+        XYItemRenderer r = plot.getRenderer();
 
+        if (r instanceof XYLineAndShapeRenderer) {
+            renderer = (XYLineAndShapeRenderer) r;
+            renderer.setBaseShapesVisible(true);
+            renderer.setBaseShapesFilled(true);
+            Shape[] result = new Shape[10];
+            double size = 6.0;
+            double delta = size / 2.0;
+            int[] xpoints = null;
+            int[] ypoints = null;
+            // square
+            result[0] = new Rectangle2D.Double(-delta, -delta, size, size);
+            // circle
+            result[1] = new Ellipse2D.Double(-delta, -delta, size, size);
+            renderer.setSeriesShape(0, result[1], false);
+            renderer.setSeriesPaint(0, Color.black);
+        }
         return chart;
     }
 

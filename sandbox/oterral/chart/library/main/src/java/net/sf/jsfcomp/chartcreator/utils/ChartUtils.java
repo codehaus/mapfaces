@@ -18,15 +18,23 @@ package net.sf.jsfcomp.chartcreator.utils;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -47,11 +55,15 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.Zoomable;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.urls.StandardCategoryURLGenerator;
 import org.jfree.chart.urls.StandardPieURLGenerator;
@@ -66,10 +78,12 @@ import org.jfree.data.xy.WindDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleInsets;
+import org.w3c.dom.Attr;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -112,7 +126,7 @@ public class ChartUtils {
         } else if (orientation.equalsIgnoreCase("vertical")) {
             return PlotOrientation.VERTICAL;
         } else {
-            throw new RuntimeException("Unsupported plot orientation:\n"+ orientation);
+            throw new RuntimeException("Unsupported plot orientation:\n" + orientation);
         }
     }
 
@@ -161,7 +175,7 @@ public class ChartUtils {
             if (color.equalsIgnoreCase("white")) {
                 return Color.white;
             }
-            throw new RuntimeException("Unsupported chart color:\n"+ color);
+            throw new RuntimeException("Unsupported chart color:\n" + color);
         }
     }
 
@@ -173,7 +187,7 @@ public class ChartUtils {
         } else if (output.equalsIgnoreCase("svg")) {
             return "image/svg+xml";
         } else {
-            throw new RuntimeException("Unsupported output format:\n"+ output);
+            throw new RuntimeException("Unsupported output format:\n" + output);
         }
     }
     //Creates the chart with the given chart data
@@ -202,8 +216,8 @@ public class ChartUtils {
     }
 
     public static void setGeneralChartProperties(JFreeChart chart, ChartData chartData) {
-        chart.setBackgroundPaint(ChartUtils.getColor(chartData.getBackground()));
-        chart.getPlot().setBackgroundPaint(ChartUtils.getColor(chartData.getForeground()));
+        chart.setBackgroundPaint(ChartUtils.getColor(chartData.getBackground2()));
+        chart.getPlot().setBackgroundPaint(ChartUtils.getColor(chartData.getForeground2()));
         chart.setTitle(chartData.getTitle());
         chart.setAntiAlias(chartData.isAntialias());
 
@@ -228,7 +242,7 @@ public class ChartUtils {
             if (is3d == true) {
                 chart = ChartFactory.createBarChart3D("", xAxis, yAxis, dataset, plotOrientation, legend, true, false);
             } else {
-                chart = ChartFactory.createBarChart("", xAxis, yAxis, dataset, plotOrientation, legend, true, false);
+                chart = IdentifiedChartFactory.createBarChart("", xAxis, yAxis, dataset, plotOrientation, legend, true, false);
             }
             setBarOutline(chart, chartData);
         } else if (type.equalsIgnoreCase("stackedbar")) {
@@ -286,8 +300,8 @@ public class ChartUtils {
                 PiePlot3D plot = (PiePlot3D) chart.getPlot();
                 plot.setDepthFactor((float) chartData.getDepth() / 100);
             } else {
-               // chart = ChartFactory.createPieChart("", dataset, legend, true, false);
-                chart = IdentifiedChartFactory.createPieChart("", dataset,  true, false, Locale.FRENCH);
+                // chart = ChartFactory.createPieChart("", dataset, legend, true, false);
+                chart = IdentifiedChartFactory.createPieChart("", dataset, true, false, Locale.FRENCH);
             }
         } else if (type.equalsIgnoreCase("ring")) {
             chart = ChartFactory.createRingChart("", dataset, legend, true, false);
@@ -306,10 +320,11 @@ public class ChartUtils {
     public static JFreeChart createChartWithXYDataSet(ChartData chartData) {
         List<XYDataset> datasets = null;
         XYDataset dataset = null;
-        if(chartData.getDatasource() instanceof List)            
-            datasets = (List<XYDataset>) chartData.getDatasource();   
-        else
+        if (chartData.getDatasource() instanceof List) {
+            datasets = (List<XYDataset>) chartData.getDatasource();
+        } else {
             dataset = (XYDataset) chartData.getDatasource();
+        }
         String type = chartData.getType();
         String xAxis = chartData.getXlabel();
         String yAxis = chartData.getYlabel();
@@ -322,7 +337,9 @@ public class ChartUtils {
             if (dataset == null && datasets != null && (datasets.size() > 0)) {
                 chart = IdentifiedChartFactory.createTimeSeriesChart("", xAxis, yAxis, datasets.get(0), legend, true, false);
                 ChartUtils.addXYDataset(chart, datasets);
-            } else chart = ChartFactory.createTimeSeriesChart("", xAxis, yAxis, dataset, legend, true, false);
+            } else {
+                chart = ChartFactory.createTimeSeriesChart("", xAxis, yAxis, dataset, legend, true, false);
+            }
         } else if (type.equalsIgnoreCase("xyline")) {
             chart = ChartFactory.createXYLineChart("", xAxis, yAxis, dataset, plotOrientation, legend, true, false);
         } else if (type.equalsIgnoreCase("polar")) {
@@ -461,206 +478,270 @@ public class ChartUtils {
         final String svgNS = "http://www.w3.org/2000/svg";
         final Document document = domImpl.createDocument(svgNS, "svg", null);
         boolean dynamic = true;
-        Element doc = document.getDocumentElement();
+        Element root = document.getDocumentElement();
         /*if (dynamic) {
-            doc.appendChild(addScriptTag(document));
+        doc.appendChild(addScriptTag(document));
         }*/
         final SVGGraphics2D svgGenerator = new IdentifiedSVGGraphics2D(document);
-        svgGenerator.getRoot(doc);
+        svgGenerator.getRoot(root);
         svgGenerator.setSVGCanvasSize(new Dimension(width, height));
         chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo);
-        doc.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
-         if (dynamic) {
-            doc.appendChild(addTextTag(document));
-            doc.appendChild(addFileScriptTag(document));
-            doc.appendChild(addEffects(document));
-            doc.appendChild(addNavigation(document));
+        //root.setAttribute("onload", "loadOpenCharts('canvas');");
+        root.appendChild(addOpenChartScript(document));
+        root.appendChild(addInitScript(document));
+        String[] jsFiles = {"js/openlayers/lib/OpenLayers/Util.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes/Class.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes/Bounds.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes/Element.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes/LonLat.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes/Pixel.js",
+            "js/openlayers/lib/OpenLayers/BaseTypes/Size.js",
+            "js/openlayers/lib/OpenLayers/Ajax.js",
+            "js/openlayers/lib/OpenLayers/Request.js",
+            "js/openlayers/lib/OpenLayers/Request/XMLHttpRequest.js",
+            "js/openlayers/lib/OpenLayers/Events.js",
+            "js/openlayers/lib/OpenLayers/Handler.js",
+            "js/openlayers/lib/OpenLayers/Handler/Click.js",
+            "js/openlayers/lib/OpenLayers/Handler/Hover.js",
+            "js/openlayers/lib/OpenLayers/Handler/Point.js",
+            "js/openlayers/lib/OpenLayers/Handler/Path.js",
+            "js/openlayers/lib/OpenLayers/Handler/Polygon.js",
+            "js/openlayers/lib/OpenLayers/Handler/Feature.js",
+            "js/openlayers/lib/OpenLayers/Handler/Drag.js",
+            "js/openlayers/lib/OpenLayers/Handler/RegularPolygon.js",
+            "js/openlayers/lib/OpenLayers/Handler/Box.js",
+            "js/openlayers/lib/OpenLayers/Handler/MouseWheel.js",
+            "js/openlayers/lib/OpenLayers/Handler/Keyboard.js",
+            "js/openlayers/lib/OpenLayers/Control.js",
+            "js/openlayers/lib/OpenLayers/Control/Attribution.js",
+            "js/openlayers/lib/OpenLayers/Control/DragPan.js",
+            "js/openlayers/lib/OpenLayers/Control/ZoomBox.js",
+            "js/openlayers/lib/OpenLayers/Control/Navigation.js",
+            "js/openlayers/lib/OpenLayers/Control/MouseDefaults.js",
+            "js/openlayers/lib/OpenLayers/Control/KeyboardDefaults.js",
+            "js/openlayers/lib/OpenLayers/Control/ArgParser.js",
+            "js/openlayers/lib/OpenLayers/Control/NavigationHistory.js",
+            "js/openlayers/custom/OpenLayers/Map.js",
+            "js/openlayers/custom/OpenLayers/Handler/MouseWheel.js",
+            "js/openlayers/custom/OpenLayers/Control/Navigation.js",
+            "js/openlayers/custom/OpenLayers/Control/MousePosition.js",
+            "js/openlayers/custom/OpenLayers/Control/MouseWheelDefaults.js"
+        };
+        addScript(document, jsFiles);
+        root.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
+        //Add a draggable <rect> element with the same width and height as his parent 
+        NodeList gNodes = root.getElementsByTagName("g");
+
+        for (int i = 0; i < gNodes.getLength(); i++) {
+//            System.out.println(gNodes.getLength());
+//            System.out.println(gNodes.item(i).hasChildNodes());
+            if (gNodes.item(i).hasChildNodes() && (gNodes.item(i).getFirstChild().getAttributes().getNamedItem("serie") != null)) {
+
+                //Set default attributes tu the canvas
+                Attr id = document.createAttribute("id");
+                id.setNodeValue("canvas");
+                Attr widthAttr = document.createAttribute("width");
+                widthAttr.setNodeValue(String.valueOf(width));
+                Attr heightAttr = document.createAttribute("height");
+                heightAttr.setNodeValue(String.valueOf(height));
+                Attr xAttr = document.createAttribute("x");
+                xAttr.setNodeValue(String.valueOf(0));
+                Attr yAttr = document.createAttribute("y");
+                yAttr.setNodeValue(String.valueOf(0));
+                Attr style = document.createAttribute("style");
+                style.setNodeValue("cursor:move;");
+//                Attr dragEnable = document.createAttribute( "drag:enable");
+//                dragEnable.setNodeValue("true");   
+                gNodes.item(i).getAttributes().setNamedItem(id);
+                gNodes.item(i).getAttributes().setNamedItem(widthAttr);
+                gNodes.item(i).getAttributes().setNamedItem(heightAttr);
+                gNodes.item(i).getAttributes().setNamedItem(xAttr);
+                gNodes.item(i).getAttributes().setNamedItem(yAttr);
+                gNodes.item(i).getAttributes().setNamedItem(style);
+                //removeUselessChild(gNodes.item(i));
+                //Add rectangle and set as first child
+                /*Element rect = document.createElement("rect");
+                rect.setAttribute("width", String.valueOf(width));
+                rect.setAttribute("height", String.valueOf(height));
+                rect.setAttribute("fill", "blue");
+                rect.setAttribute("opacity", "0.1");*/
+
+                gNodes.item(i).insertBefore(gNodes.item(i - 1), gNodes.item(i).getFirstChild());
+                i--;
+                Node rectangleContainer = findGraphContainer(document);
+                if (rectangleContainer != null) {
+                    Node oldContainerParent = rectangleContainer.getParentNode();
+                    Node fill = document.createAttribute("fill");
+                    fill.setNodeValue("silver");
+                    Attr idRect = document.createAttribute("id");
+                    idRect.setNodeValue("canvasRect");
+                    rectangleContainer.getAttributes().setNamedItem(fill);
+                    rectangleContainer.getAttributes().setNamedItem(idRect);
+                    gNodes.item(i).insertBefore(rectangleContainer, gNodes.item(i).getFirstChild());
+                    gNodes.item(i).getParentNode().insertBefore(gNodes.item(i), gNodes.item(i).getParentNode().getFirstChild().getNextSibling());
+                    /*<clippath clipPathUnits="userSpaceOnUse" id="clipPath1">
+                    <path d="M0 0 L600 0 L600 400 L0 400 L0 0 Z"/>
+                    </clippath>*/
+                    
+                    /*Attr idClip = document.createAttribute("id");
+                    idClip.setNodeValue("clipPath0");
+                    Attr units = document.createAttribute("clipPathUnits");
+                    units.setNodeValue("userSpaceOnUse");
+                    Node clipPath = document.createElement("clippath");
+                    clipPath.getAttributes().setNamedItem(idClip);
+                    clipPath.getAttributes().setNamedItem(units);
+                    */
+                    Node path = document.createElement("path");
+                    Attr d = document.createAttribute("d");
+                    d.setNodeValue("M0 0 L600 0 L600 400 L0 400 L0 0 Z M104.5566 33.6406 L104.5566 222.7656 L495.4434 222.7656 L495.4434 33.6406 Z");
+                    path.getAttributes().setNamedItem(d);
+                    //clipPath.appendChild(path);          
+                    
+                    //gNodes.item(i).getParentNode().getFirstChild().appendChild(clipPath);
+                    
+                    //Attr clipPathAttr = document.createAttribute("clip-path");
+                    //clipPathAttr.setNodeValue("url(#clipPath0)");
+                    //gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().getFirstChild().getAttributes().setNamedItem(clipPathAttr);
+                    gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().replaceChild(
+                            path
+                            , gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().getFirstChild());
+                   
+                }
+                //gNodes.item(i).getParentNode().insertBefore(gNodes.item(i),);
+                //Remove useless child
+                //System.out.println (gNodes.item(i).getAttributes().getNamedItem("id"));
+                //Copy grid node into the canvas node
+                break;
+            }
         }
-        
-        svgGenerator.stream(doc, new OutputStreamWriter(stream, "UTF-8"));
+        if (dynamic) {
+            root.appendChild(addTextTag(document));
+            root.appendChild(addEffects(document));
+            // doc.appendChild(addNavigation(document));            
+            root.appendChild(addInitScript(document));
+        }
+
+        svgGenerator.stream(root, new OutputStreamWriter(stream, "UTF-8"));
 //        Document svgDom = svgGenerator.getDOMFactory();
 //        System.out.println(svgDom.getDocumentElement().getChildNodes().getLength());
 //        svgDom.getDocumentElement().appendChild(addScriptTag(svgGenerator.getDOMFactory()));
 //        System.out.println(svgDom.getDocumentElement().getChildNodes().getLength());
-        
+
 
     }
 
-    private static Node addFileScriptTag(Document document) {
+    private static Node addOpenChartScript(Document document) {
         Element script = document.createElement("script");
-        script.setAttribute("type", "text/ecmascript");
-        script.setAttribute("src", "http://localhost:8084/chartc/js/resources/openlayers/custom/OpenLayers.js");
+        script.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "js/openlayers/custom/OpenLayers.js");
         return script;
     }
 
-    private static void addXYDataset(JFreeChart chart, List<XYDataset> datasets) {
-        XYPlot plot = chart.getXYPlot();
-        plot.setOrientation(PlotOrientation.VERTICAL);
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
-        
-        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-        
-        XYItemRenderer renderer = (XYItemRenderer) plot.getRenderer();
-        renderer.setBasePaint(Color.black);
-       
-        // AXIS 2
-        NumberAxis axis2 = new NumberAxis("Range Axis 2");
-        axis2.setAutoRangeIncludesZero(false);
-        axis2.setLabelPaint(Color.red);
-        axis2.setTickLabelPaint(Color.red);
-        plot.setRangeAxis(1, axis2);
-        plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
-
-        XYDataset dataset2 = datasets.get(1);
-        plot.setDataset(1, dataset2);
-        plot.mapDatasetToRangeAxis(1, new Integer(1));
-        plot.setRenderer(1, new StandardXYItemRenderer());
-        plot.getRenderer(1).setSeriesPaint(0, Color.red);
-        
-        // AXIS 3
-        NumberAxis axis3 = new NumberAxis("Range Axis 3");
-        axis3.setLabelPaint(Color.blue);
-        axis3.setTickLabelPaint(Color.blue);
-        plot.setRangeAxis(2, axis3);
-
-        XYDataset dataset3 = datasets.get(2);
-        plot.setDataset(2, dataset3);
-        plot.mapDatasetToRangeAxis(2, new Integer(2));        
-        plot.setRenderer(2, new StandardXYItemRenderer());
-        plot.getRenderer(2).setSeriesPaint(0, Color.blue);
-
-        // AXIS 4        
-        NumberAxis axis4 = new NumberAxis("Range Axis 4");
-        axis4.setLabelPaint(Color.green);
-        axis4.setTickLabelPaint(Color.green);
-        plot.setRangeAxis(3, axis4);
-        
-        XYDataset dataset4 = datasets.get(3);
-        plot.setDataset(3, dataset4);
-        plot.mapDatasetToRangeAxis(3, new Integer(3));
-        
-        plot.setRenderer(3, new StandardXYItemRenderer());
-        plot.getRenderer(3).setSeriesPaint(0, Color.green);     
+    private static Node addInitScript(Document document) {
+        Element script = document.createElement("script");
+        script.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "js/init.js");
+        return script;
     }
-    
+
+    private static void addScript(Document document, String[] jsFiles) {
+        Element script = document.createElement("script");
+        for (int i = 0; i < jsFiles.length; i++) {
+            Element clone = (Element) script.cloneNode(false);
+            clone.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", jsFiles[i]);
+            document.getDocumentElement().appendChild(clone);
+        }
+    }
+
+    private static void addXYDataset(JFreeChart chart, List<XYDataset> datasets) {
+        try {
+            XYPlot plot = chart.getXYPlot();
+            plot.setOrientation(PlotOrientation.VERTICAL);
+            plot.setBackgroundPaint(Color.lightGray);
+            plot.setDomainGridlinePaint(Color.white);
+            plot.setRangeGridlinePaint(Color.white);
+
+            plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
+            renderer.setBaseShapesVisible(true);
+            renderer.setBaseShapesFilled(true);
+            renderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6), false);
+
+            // AXIS 2
+            NumberAxis axis2 = new NumberAxis("Range Axis 2");
+            axis2.setAutoRangeIncludesZero(false);
+            axis2.setLabelPaint(Color.red);
+            axis2.setTickLabelPaint(Color.red);
+            plot.setRangeAxis(1, axis2);
+            plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
+
+            XYDataset dataset2 = datasets.get(1);
+            plot.setDataset(1, dataset2);
+            plot.mapDatasetToRangeAxis(1, new Integer(1));
+            plot.setRenderer(1, (XYItemRenderer) renderer.clone());
+            plot.getRenderer(1).setSeriesPaint(0, Color.red);
+
+            // AXIS 3
+            NumberAxis axis3 = new NumberAxis("Range Axis 3");
+            axis3.setLabelPaint(Color.blue);
+            axis3.setTickLabelPaint(Color.blue);
+            plot.setRangeAxis(2, axis3);
+
+            XYDataset dataset3 = datasets.get(2);
+            plot.setDataset(2, dataset3);
+            plot.mapDatasetToRangeAxis(2, new Integer(2));
+            plot.setRenderer(2, (XYItemRenderer) renderer.clone());
+            plot.getRenderer(2).setSeriesPaint(0, Color.blue);
+
+            // AXIS 4
+            NumberAxis axis4 = new NumberAxis("Range Axis 4");
+            axis4.setLabelPaint(Color.green);
+            axis4.setTickLabelPaint(Color.green);
+            plot.setRangeAxis(3, axis4);
+
+            XYDataset dataset4 = datasets.get(3);
+            plot.setDataset(3, dataset4);
+            plot.mapDatasetToRangeAxis(3, new Integer(3));
+
+            plot.setRenderer(3, (XYItemRenderer) renderer.clone());
+            plot.getRenderer(3).setSeriesPaint(0, Color.green);
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private static Element addTextTag(Document document) {
         Element text = document.createElement("text");
         text.setAttribute("id", "text");
         text.appendChild(document.createTextNode("X:Y:"));
         return text;
     }
-    
-    private static Node addNavigation(Document document) {
-        Element script = document.createElement("script");
-        script.setAttribute("type", "text/ecmascript");
-        script.appendChild(document.createCDATASection("\n"+"" +
-                "function addHandlers() {\n" +
-                "   //var chart  = new OpenLayers.Map('canvas');\n" +
-                "}\n" +
-                "window.onload = addHandlers;\n"));
-        script.appendChild(document.createCDATASection("\n"+"" +
-"       function movehandler(e) {var g = document.getElementById('canvas');\n"+
-"				  var offx=g.offsetLeft;\n"+
-"				  var offy=g.offsetTop;\n"+
-"				  var mx=(emethod?e.pageX:(document.body.scrollLeft+event.clientX))-offx;\n"+
-"				  var my=(emethod?e.pageY:(document.body.scrollTop+event.clientY))-offy;\n"+
-"				  var dx=mx-dragx;\n"+
-"				  var dy=my-dragy;\n"+
-"				  " +
-                "console.log(dx+' '+dy);if(dragging) {\n"+
-"				    if(currenttool==0) {\n"+
-"				      /*xmin=oxmin-((oxmax-oxmin)/swidth)*dx;\n"+
-"				      xmax=oxmax-((oxmax-oxmin)/swidth)*dx;\n"+
-"				      ymin=oymin+((oymax-oymin)/sheight)*dy;\n"+
-"				      ymax=oymax+((oymax-oymin)/sheight)*dy;*/\n"+
-"				      g.style.left=dx+'px';\n"+
-"				      g.style.top=dy+'px';\n"+
-"				    } else if(currenttool==1) {\n"+
-"				      if(dragx>mx) { xlow=mx;xhigh=dragx; }\n"+
-"				      else { xlow=dragx-5;xhigh=mx-5; }\n"+
-"				      if(dragy>my) { ylow=my;yhigh=dragy; }\n"+
-"				      else { ylow=dragy-5;yhigh=my-5; }\n"+
-"				      g.setselrect(resizerect,xlow,ylow,xhigh-xlow,yhigh-ylow);\n"+
-"				      xmin=oxmin+xlow/swidth*(oxmax-oxmin);\n"+
-"				      xmax=oxmax-(1-xhigh/swidth)*(oxmax-oxmin);\n"+
-"				      ymin=oymin+(1-yhigh/sheight)*(oymax-oymin);\n"+
-"				      ymax=oymax-ylow/sheight*(oymax-oymin);\n"+
-"				    }\n"+
-"				    return false;\n"+
-"				  }\n"+
-"	}\n"+
-        
-        ""));
-        script.appendChild(document.createCDATASection("\n"+"" +
-                "function draghandler(e) {console.log('draghandler : ');\n" +
-                "                var g = document.getElementById('canvas');\n"+
-"				  var fobj=emethod?e.target:event.srcElement;\n"+
-"				  while(fobj!=document.body&&fobj!=document) {\n"+
-"				    fobj=emethod?fobj.parentNode:fobj.parentElement;\n"+
-"				    if(fobj==document.getElementById('canvas')) {\n"+
-"				      dragging=true;\n"+
-"				    }\n"+
-"				  }\nconsole.log('dragging : '+dragging);\n"+
-"				  if(dragging) {\n"+
-"				    dobj=fobj;\n"+
-"				    var offx=g.offsetLeft;\n"+
-"				    var offy=g.offsetTop;\n"+
-"				    dragx=(emethod?e.pageX:(document.body.scrollLeft+event.clientX))-offx;\n"+
-"				    dragy=(emethod?e.pageY:(document.body.scrollTop+event.clientY))-offy;\n"+
-"				    //oxmin=xmin;oxmax=xmax;" +
-"                                   //oymin=ymin;oymax=ymax;console.log('addZEvent');\n"+
-"				    g.addEventListener('mousemove',movehandler, false);\n"+
-"				    if(currenttool==1) {\n"+
-"				      resizerect=g.createselrect(dragx,dragy,1,1);\n"+
-"				    }\n"+
-"				    return false;\n"+
-"				  }\n"+
-"				}" +
-                "var browser='';\n" +
-"	        if(navigator.userAgent.toLowerCase().indexOf('opera')!=-1) browser='opera';\n" +
-"		else if(navigator.userAgent.toLowerCase().indexOf('gecko')!=-1) browser='firefox';\n" +
-"		else if(navigator.userAgent.toLowerCase().indexOf('msie')!=-1) browser='msie'\n" +
-"		else if(navigator.userAgent.toLowerCase().indexOf('safari')!=-1) browser='safari';\n" +				
-"		var emethod = (browser=='firefox'||browser=='safari'||browser=='opera')?1:0;\n" +
-                "currenttool=0;\n" +
-                "//xmin = ;\n" +
-                "//xmax = ;\n" +
-                "//ymin = ;\n" +
-                "console.log(document.getElementById('canvas'));" +
-                "document.getElementById('canvas').addEventListener('mousedown', draghandler, false);\n" +
-                "\n"+
-                ""));
-        return script;
-    }
 
     private static Element addEffects(Document document) {
         Element script = document.createElement("script");
-        script.appendChild(document.createCDATASection("\n"+
-                "var svgDocument = null;\n"+
-             "svgDocument = window.document;\n"+
-             "//alert(svgDocument.documentElement.getElementsByTagName('rect').length);\n"+
-"\n"+
-             "// definit une nouvelle propriete window reference top\n"+
-             "top.addEvents = addEvents;\n"+
-
-"             // definition de la methode\n"+
-"             function addEvents () {\n"+
-                "   var list = svgDocument.documentElement.getElementsByTagName('line');\n"+
-"                   for(var i=0;i<list.length;i++){" +
+        script.appendChild(document.createCDATASection("\n" +
+                "var svgDocument = null;\n" +
+                "svgDocument = window.document;\n" +
+                "//alert(svgDocument.getElementsByTagName('rect').length);\n" +
+                "\n" +
+                "// definit une nouvelle propriete window reference top\n" +
+                "top.addEvents = addEvents;\n" +
+                "             // definition de la methode\n" +
+                "             function addEvents () {\n" +
+                "   var list = svgDocument.getElementsByTagName('path');\n" +
+                "                   for(var i=0;i<list.length;i++){" +
                 "       if(i == list.length-1 && list[i].parentNode.nodeName == 'g')" +
-                "           list[i].parentNode.setAttribute('id','canvas');"+
-"                        var rectangle = list[i];   \n"+
-"                        rectangle.addEventListener('mouseover',highlight,false);\n"+
-"                        rectangle.addEventListener('mouseout',unhighlight,false);\n"+
-"                        rectangle.parentNode.addEventListener('mousemove',moveText,false);\n"+
-"                            "+
-"                   }"+
-"             }\n"+
-"             function moveText(evt) {" +
-                " var text = svgDocument.getElementById('text');\n"+
-"                 if (text == null){alert('text is null');   \n" +
+                "           list[i].parentNode.setAttribute('id','canvas');" +
+                "                        var rectangle = list[i];   \n" +
+                "                        rectangle.addEventListener('mouseover',highlight,false);\n" +
+                "                        rectangle.addEventListener('mouseout',unhighlight,false);\n" +
+                "                        //rectangle.addEventListener('mousemove',moveText,false);\n" +
+                "                            " +
+                "                   }" +
+                "             }\n" +
+                "             function moveText(evt) {" +
+                " var text = svgDocument.getElementById('text');\n" +
+                "                 if (text == null){alert('text is null');   \n" +
                 "     var text = svgDocument.createElement('text');   \n" +
                 "     evt.target.parentNode.appendChild(text); \n" +
                 "     text.setAttribute('id','text'); \n" +
@@ -668,41 +749,336 @@ public class ChartUtils {
                 "     text.setAttribute('height','100'); \n" +
                 "     text.setAttribute('fill','red'); \n" +
                 "     text.appendChild(document.createTextNode('X: Y: stronzo')); \n" +
-                " }"+
-"                 text.setAttribute('style','display:block;');\n"+
-"                 text.setAttribute('x',evt.clientX+10);\n"+
-"                 text.setAttribute('y',evt.clientY-10);\n" +
-"                 if(text.firstChild.data)\n"+
-"                      text.firstChild.data = 'X: '+evt.clientX+',Y: '+evt.clientY;\n"+
-"                 else if(text.firstChild.nodeValue)\n"+
-"                      text.firstChild.nodeValue= 'X: '+evt.clientX+',Y: '+evt.clientY;\n"+
-"             }"+
-"             function displayText(evt) {\n"+
-"                  var text = svgDocument.getElementById('text');   \n"+
-"                  if(text.getAttribute('style').indexOf('none;')!=-1){\n"+
-"                        text.setAttribute('style','display:block;');\n"+
-"                  } else{  text.setAttribute('style','display:none;');}\n"+
-"             }\n"+
-"             // methode ajoutee si element rectangle\n"+
-"             function highlight(evt) {\n"+
-"                 //evt.target.setAttribute('default-fill',evt.target.getAttribute('fill'));  \n"+
-"                 //evt.target.setAttribute('fill','yellow');\n" +
+                " }" +
+                "                 text.setAttribute('style','display:block;');\n" +
+                "                 text.setAttribute('x',evt.clientX+10);\n" +
+                "                 text.setAttribute('y',evt.clientY-10);\n" +
+                "                 if(text.firstChild.data)\n" +
+                "                      text.firstChild.data = 'X: '+evt.target.getAttribute('xValue')+',Y: '+parseInt(evt.target.getAttribute('yValue'));\n" +
+                "                 else if(text.firstChild.nodeValue)\n" +
+                "                      text.firstChild.nodeValue= 'X: '+evt.target.getAttribute('xValue')+',Y: '+parseInt(evt.target.getAttribute('yValue'));\n" +
+                "             }" +
+                "             function displayText(evt) {\n" +
+                "                  var text = svgDocument.getElementById('text');   \n" +
+                "                  if(text.getAttribute('style').indexOf('none;')!=-1){\n" +
+                "                        text.setAttribute('style','display:block;');\n" +
+                "                  } else{  text.setAttribute('style','display:none;');}\n" +
+                "             }\n" +
+                "             // methode ajoutee si element rectangle\n" +
+                "             function highlight(evt) {\n" +
+                "                 //evt.target.setAttribute('default-fill',evt.target.getAttribute('fill'));  \n" +
+                "                 //evt.target.setAttribute('fill','yellow');\n" +
+                "svgDocument.getElementById('text').style.display='block';moveText(evt);\n" +
                 " if (evt.target.getAttribute('stroke') == 'none') {\n" +
-"                     evt.target.setAttribute('default-stroke',evt.target.getAttribute('stroke'));  \n"+
-"                     evt.target.setAttribute('stroke','red');\n" +
-                " }"+
-"                 evt.target.setAttribute('default-stroke-width',evt.target.getAttribute('stroke-width'));  \n"+
-"                 evt.target.setAttribute('stroke-width','4');\n"+
-"             }\n"+
-"             function unhighlight(evt) {\n"+
-"                 //evt.target.setAttribute('fill',evt.target.getAttribute('default-fill'));  \n"+
-"                 if (evt.target.getAttribute('default-stroke'))\n" +
-                "     evt.target.setAttribute('stroke',evt.target.getAttribute('default-stroke'));  \n"+
-"                 evt.target.setAttribute('stroke-width',evt.target.getAttribute('default-stroke-width'));  \n"+
-"             }\n"+
-                
-"            addEvents();\n"+
-"        "));
+                "                     evt.target.setAttribute('default-stroke',evt.target.getAttribute('stroke'));  \n" +
+                "                     evt.target.setAttribute('stroke','yellow');\n" +
+                " }" +
+                "                 evt.target.setAttribute('default-stroke-width',evt.target.getAttribute('stroke-width'));  \n" +
+                "                 evt.target.setAttribute('stroke-width','4');\n" +
+                "             }\n" +
+                "             function unhighlight(evt) {\n" +
+                "                 //evt.target.setAttribute('fill',evt.target.getAttribute('default-fill'));  \n" +
+                "svgDocument.getElementById('text').style.display='none';\n" +
+                "                 if (evt.target.getAttribute('default-stroke'))\n" +
+                "     evt.target.setAttribute('stroke',evt.target.getAttribute('default-stroke'));  \n" +
+                "                 evt.target.setAttribute('stroke-width',evt.target.getAttribute('default-stroke-width'));  \n" +
+                "             }\n" +
+                "            loadOpenCharts('canvas');\n" +
+                "            addEvents();" +
+                "\n" +
+                "        "));
         return script;
+    }
+
+    private static Node findGraphContainer(Document document) {
+        NodeList rectNodes = document.getElementsByTagNameNS("http://www.w3.org/2000/svg", "rect");
+//        System.out.println(rectNodes.toString());
+//        System.out.println(rectNodes.getLength());
+//        System.out.println(rectNodes.item(0).toString());
+        for (int i = 0; i < rectNodes.getLength(); i++) {
+            if ((rectNodes != null) && (rectNodes.item(i) != null) && (rectNodes.item(i).getNextSibling() != null) && (rectNodes.item(i).getNextSibling().getNextSibling() != null) && (rectNodes.item(i).getAttributes() != null) && (rectNodes.item(i).getAttributes().getNamedItem("width") != null) && (rectNodes.item(i).getAttributes().getNamedItem("height") != null) && (rectNodes.item(i).getAttributes().getNamedItem("x") != null) && (rectNodes.item(i).getAttributes().getNamedItem("y") != null) && (rectNodes.item(i).getNextSibling().getNodeName().equals("line")) && (rectNodes.item(i).getNextSibling().getNextSibling().getNodeName().equals("text"))) {
+                return rectNodes.item(i);
+            }
+        }
+        return null;
+    }
+
+    private static void removeUselessChild(Node gNode) {
+
+        if (gNode.hasChildNodes()) {
+            NodeList nodes = gNode.getChildNodes();
+//             System.out.println(nodes.getLength());
+            for (int i = 0; i < nodes.getLength(); i++) {
+                //When we creates a Circle , batik trasnform it to 2 <PATH>, so I remove one path to prevent smooth dragging
+//                  System.out.println (gNode.getAttributes().getNamedItem("id"));
+                if ((nodes.item(i).getNodeName().equals("path")) && (nodes.item(i).getAttributes().getNamedItem("fill") != null) && (nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue().equals("none"))) {
+                    gNode.removeChild(nodes.item(i));
+                }
+            }
+        }
+    }
+
+    /**
+     * Zooms in on an anchor point (specified in screen coordinate space).
+     *
+     * @param x  the x value (in screen coordinates).
+     * @param y  the y value (in screen coordinates).
+     */
+    public static void zoomInBoth(double x, double y, JFreeChart chart, double zoomInFactor, boolean zoomAroundAnchor, ChartRenderingInfo info) {
+        Plot plot = chart.getPlot();
+        if (plot == null) {
+            return;
+        }
+        // here we tweak the notify flag on the plot so that only
+        // one notification happens even though we update multiple
+        // axes...
+//        boolean savedNotify = plot.isNotify();
+//        plot.setNotify(false);
+        zoomInDomain(x, y, chart, zoomInFactor, zoomAroundAnchor, info);
+        zoomInRange(x, y, chart, zoomInFactor, zoomAroundAnchor, info);
+//        plot.setNotify(savedNotify);
+    }
+
+    /**
+     * Decreases the length of the domain axis, centered about the given
+     * coordinate on the screen.  The length of the domain axis is reduced
+     * by the value of {@link #getZoomInFactor()}.
+     *
+     * @param x  the x coordinate (in screen coordinates).
+     * @param y  the y-coordinate (in screen coordinates).
+     */
+    public static void zoomInDomain(double x, double y, JFreeChart chart, double zoomInFactor, boolean zoomAroundAnchor, ChartRenderingInfo info) {
+        Plot plot = chart.getPlot();
+        if (plot instanceof Zoomable) {
+            // here we tweak the notify flag on the plot so that only
+            // one notification happens even though we update multiple
+            // axes...
+//            boolean savedNotify = plot.isNotify();
+//            plot.setNotify(false);
+            Zoomable z = (Zoomable) plot;
+            z.zoomDomainAxes(zoomInFactor, info.getPlotInfo(),
+                    translateScreenToJava2D(new Point((int) x, (int) y)),
+                    zoomAroundAnchor);
+//            plot.setNotify(savedNotify);
+        }
+    }
+
+    /**
+     * Decreases the length of the range axis, centered about the given
+     * coordinate on the screen.  The length of the range axis is reduced by
+     * the value of {@link #getZoomInFactor()}.
+     *
+     * @param x  the x-coordinate (in screen coordinates).
+     * @param y  the y coordinate (in screen coordinates).
+     */
+    public static void zoomInRange(double x, double y, JFreeChart chart, double zoomInFactor, boolean zoomAroundAnchor, ChartRenderingInfo info) {
+        Plot plot = chart.getPlot();
+        if (plot instanceof Zoomable) {
+            // here we tweak the notify flag on the plot so that only
+            // one notification happens even though we update multiple
+            // axes...
+//            boolean savedNotify = plot.isNotify();
+//            plot.setNotify(false);
+            Zoomable z = (Zoomable) plot;
+            z.zoomRangeAxes(zoomInFactor, info.getPlotInfo(),
+                    translateScreenToJava2D(new Point((int) x, (int) y)),
+                    zoomAroundAnchor);
+//            plot.setNotify(savedNotify);
+        }
+    }
+
+//    /**
+//     * Zooms out on an anchor point (specified in screen coordinate space).
+//     *
+//     * @param x  the x value (in screen coordinates).
+//     * @param y  the y value (in screen coordinates).
+//     */
+//    public void zoomOutBoth(double x, double y) {
+//        Plot plot = this.chart.getPlot();
+//        if (plot == null) {
+//            return;
+//        }
+//        // here we tweak the notify flag on the plot so that only
+//        // one notification happens even though we update multiple
+//        // axes...
+//        boolean savedNotify = plot.isNotify();
+//        plot.setNotify(false);
+//        zoomOutDomain(x, y);
+//        zoomOutRange(x, y);
+//        plot.setNotify(savedNotify);
+//    }
+//
+//    /**
+//     * Increases the length of the domain axis, centered about the given
+//     * coordinate on the screen.  The length of the domain axis is increased
+//     * by the value of {@link #getZoomOutFactor()}.
+//     *
+//     * @param x  the x coordinate (in screen coordinates).
+//     * @param y  the y-coordinate (in screen coordinates).
+//     */
+//    public void zoomOutDomain(double x, double y) {
+//        Plot plot = this.chart.getPlot();
+//        if (plot instanceof Zoomable) {
+//            // here we tweak the notify flag on the plot so that only
+//            // one notification happens even though we update multiple
+//            // axes...
+//            boolean savedNotify = plot.isNotify();
+//            plot.setNotify(false);
+//            Zoomable z = (Zoomable) plot;
+//            z.zoomDomainAxes(this.zoomOutFactor, this.info.getPlotInfo(),
+//                    translateScreenToJava2D(new Point((int) x, (int) y)),
+//                    this.zoomAroundAnchor);
+//            plot.setNotify(savedNotify);
+//        }
+//    }
+//
+//    /**
+//     * Increases the length the range axis, centered about the given
+//     * coordinate on the screen.  The length of the range axis is increased
+//     * by the value of {@link #getZoomOutFactor()}.
+//     *
+//     * @param x  the x coordinate (in screen coordinates).
+//     * @param y  the y-coordinate (in screen coordinates).
+//     */
+//    public void zoomOutRange(double x, double y) {
+//        Plot plot = this.chart.getPlot();
+//        if (plot instanceof Zoomable) {
+//            // here we tweak the notify flag on the plot so that only
+//            // one notification happens even though we update multiple
+//            // axes...
+//            boolean savedNotify = plot.isNotify();
+//            plot.setNotify(false);
+//            Zoomable z = (Zoomable) plot;
+//            z.zoomRangeAxes(this.zoomOutFactor, this.info.getPlotInfo(),
+//                    translateScreenToJava2D(new Point((int) x, (int) y)),
+//                    this.zoomAroundAnchor);
+//            plot.setNotify(savedNotify);
+//        }
+//    }
+    /**
+     * Translates a panel (component) location to a Java2D point.
+     *
+     * @param screenPoint  the screen location (<code>null</code> not
+     *                     permitted).
+     *
+     * @return The Java2D coordinates.
+     */
+    public static Point2D translateScreenToJava2D(Point screenPoint) {
+        //Insets insets = getInsets();
+        double x = (screenPoint.getX());
+        double y = (screenPoint.getY());
+        return new Point2D.Double(x, y);
+    }
+
+    /**
+     * Zooms in on a selected region.
+     *
+     * @param selection  the selected region.
+     */
+    public static void zoom(Rectangle2D selection, JFreeChart chart, ChartRenderingInfo info) {
+
+        // get the origin of the zoom selection in the Java2D space used for
+        // drawing the chart (that is, before any scaling to fit the panel)
+        Point2D selectOrigin = translateScreenToJava2D(new Point(
+                (int) Math.ceil(selection.getX()),
+                (int) Math.ceil(selection.getY())));
+        PlotRenderingInfo plotInfo = info.getPlotInfo();
+        Rectangle2D scaledDataArea = getScreenDataArea(
+                (int) selection.getCenterX(), (int) selection.getCenterY(), info);
+        if ((selection.getHeight() > 0) && (selection.getWidth() > 0)) {
+
+            double hLower = (selection.getMinX() - scaledDataArea.getMinX()) / scaledDataArea.getWidth();
+            double hUpper = (selection.getMaxX() - scaledDataArea.getMinX()) / scaledDataArea.getWidth();
+            double vLower = (scaledDataArea.getMaxY() - selection.getMaxY()) / scaledDataArea.getHeight();
+            double vUpper = (scaledDataArea.getMaxY() - selection.getMinY()) / scaledDataArea.getHeight();
+
+            Plot p = chart.getPlot();
+            if (p instanceof Zoomable) {
+                // here we tweak the notify flag on the plot so that only
+                // one notification happens even though we update multiple
+                // axes...
+//                boolean savedNotify = p.isNotify();
+//                p.setNotify(false);
+                Zoomable z = (Zoomable) p;
+                if (z.getOrientation() == PlotOrientation.HORIZONTAL) {
+                    z.zoomDomainAxes(vLower, vUpper, plotInfo, selectOrigin);
+                    z.zoomRangeAxes(hLower, hUpper, plotInfo, selectOrigin);
+                } else {
+                    z.zoomDomainAxes(hLower, hUpper, plotInfo, selectOrigin);
+                    z.zoomRangeAxes(vLower, vUpper, plotInfo, selectOrigin);
+                }
+//                p.setNotify(savedNotify);
+            }
+
+        }
+
+    }
+
+    /**
+     * Returns the data area for the chart (the area inside the axes) with the
+     * current scaling applied (that is, the area as it appears on screen).
+     *
+     * @return The scaled data area.
+     */
+    public static Rectangle2D getScreenDataArea(ChartRenderingInfo info) {
+        Rectangle2D dataArea = info.getPlotInfo().getDataArea();
+//        Insets insets = getInsets();
+//        double x = dataArea.getX() * this.scaleX + insets.left;
+//        double y = dataArea.getY() * this.scaleY + insets.top;
+//        double w = dataArea.getWidth() * this.scaleX;
+//        double h = dataArea.getHeight() * this.scaleY;
+        double x = dataArea.getX();
+        double y = dataArea.getY();
+        double w = dataArea.getWidth();
+        double h = dataArea.getHeight();
+        return new Rectangle2D.Double(x, y, w, h);
+    }
+
+    /**
+     * Applies any scaling that is in effect for the chart drawing to the
+     * given rectangle.
+     *
+     * @param rect  the rectangle (<code>null</code> not permitted).
+     *
+     * @return A new scaled rectangle.
+     */
+    public static Rectangle2D scale(Rectangle2D rect) {
+//        Insets insets = getInsets();
+//        double x = rect.getX() * getScaleX() + insets.left;
+//        double y = rect.getY() * getScaleY() + insets.top;
+//        double w = rect.getWidth() * getScaleX();
+//        double h = rect.getHeight() * getScaleY();
+        double x = rect.getX();
+        double y = rect.getY();
+        double w = rect.getWidth();
+        double h = rect.getHeight();
+        return new Rectangle2D.Double(x, y, w, h);
+    }
+
+    /**
+     * Returns the data area (the area inside the axes) for the plot or subplot,
+     * with the current scaling applied.
+     *
+     * @param x  the x-coordinate (for subplot selection).
+     * @param y  the y-coordinate (for subplot selection).
+     *
+     * @return The scaled data area.
+     */
+    public static Rectangle2D getScreenDataArea(int x, int y, ChartRenderingInfo info) {
+        PlotRenderingInfo plotInfo = null;
+        Rectangle2D result;
+        if (plotInfo.getSubplotCount() == 0) {
+            result = getScreenDataArea(info);
+        } else {
+            // get the origin of the zoom selection in the Java2D space used for
+            // drawing the chart (that is, before any scaling to fit the panel)
+            Point2D selectOrigin = translateScreenToJava2D(new Point(x, y));
+            int subplotIndex = plotInfo.getSubplotIndex(selectOrigin);
+            if (subplotIndex == -1) {
+                return null;
+            }
+            result = scale(plotInfo.getSubplotInfo(subplotIndex).getDataArea());
+        }
+        return result;
     }
 }

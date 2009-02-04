@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package net.sf.jsfcomp.chartcreator.renderkit;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -37,6 +40,8 @@ import net.sf.jsfcomp.chartcreator.component.UIChart;
 import net.sf.jsfcomp.chartcreator.model.ChartData;
 import net.sf.jsfcomp.chartcreator.utils.ChartConstants;
 import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -47,8 +52,9 @@ import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 public class ChartRenderer extends Renderer {
     
     boolean embed = false;
-    
+    String PIXEL = null;
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        System.out.println("Encoooooooooode begin");
         ResponseWriter writer = context.getResponseWriter();
         UIChart chart = (UIChart) component;
         setChartDataAtSession(context, chart);
@@ -94,6 +100,9 @@ public class ChartRenderer extends Renderer {
             if (embed) writer.startElement("embed", chart);         
             else writer.startElement("object", chart);
             
+            writer.writeAttribute("mfAjaxCompId", chart.getClientId(context) + "_Ajax", null);
+            writer.writeAttribute("mfFormId", FacesUtils.getFormId(context, component), null);
+            writer.writeAttribute("mfRequestId", "updateChart", null);
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
             writer.writeAttribute("border", "0", null);
@@ -118,31 +127,70 @@ public class ChartRenderer extends Renderer {
             }
 
         }
+        
+        /* Add a4j:support component */
+
+        final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
+        ajaxComp.setId(chart.getId() + "_Ajax");
+        ajaxComp.setAjaxSingle(true);
+        ajaxComp.setImmediate(true);
+        ajaxComp.setLimitToList(true);
+        ajaxComp.setReRender(chart.getClientId(context));
+        if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
+            chart.getChildren().add(ajaxComp);            
+            chart.setAjaxCompId(ajaxComp.getClientId(context));
+        }  
     }
 
     
 
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        UIChart chart = (UIChart) component;
+        UIChart comp = (UIChart) component;
 
-        if (chart.getOutput().equals("png") || chart.getOutput().equals("jpeg")) {
+        if (comp.getOutput().equals("png") || comp.getOutput().equals("jpeg")) {
             writer.endElement("img");
         } else {
             if (embed) writer.endElement("embed");
             else writer.endElement("object");
         }
-        if (chart.getGenerateMap() != null) {
-            writeImageMap(context, chart);
+        if (comp.getGenerateMap() != null) {
+            writeImageMap(context, comp);
         }
     }
-
-    // creates and puts the chart data to session for this chart object
-    private void setChartDataAtSession(FacesContext facesContext, UIChart chart) {
+     public void decode(final FacesContext context, final UIComponent component) {
+        super.decode(context, component);
+        final UIChart comp = (UIChart) component;
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String clientId = chart.getClientId(facesContext);
-        ChartData data = new ChartData(chart);
-        session.put(clientId, data);
+        String clientId = comp.getClientId(context);
+        System.out.println(session.get(clientId));
+        Object obj =  session.get(clientId);
+        if (obj != null) {
+            ChartData data = (ChartData) obj;
+            if (context.getExternalContext().getRequestParameterMap() != null) {
+                final Map params = context.getExternalContext().getRequestParameterMap(); 
+                if (params.size()>0 ){
+                   data.setRequestParameterMap(new HashMap(params));     
+                }                                
+            }
+        }
+    }
+    // creates and puts the chart data to session for this chart object
+    private void setChartDataAtSession(FacesContext facesContext, UIChart comp) {
+        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        String clientId = comp.getClientId(facesContext);
+        System.out.println(session.get(clientId));
+        if (session.get(clientId) == null) {
+            ChartData data = new ChartData(comp);    
+            System.out.println(data.getChart());
+            if (data.getChart() == null) {
+                JFreeChart chart = ChartUtils.createChartWithType(data);
+		ChartUtils.setGeneralChartProperties(chart, data);
+                data.setChart(chart);
+                data.setInfo(null);
+            }
+            session.put(clientId, data);
+        }
     }
 
     private void renderImageMapSupport(FacesContext context, UIChart uichart, ChartRenderingInfo chartRenderingInfo) {
