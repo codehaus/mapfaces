@@ -19,7 +19,10 @@ import java.util.Locale;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.svggen.SVGGraphics2DIOException;
+import org.apache.fop.layout.Space;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
@@ -28,12 +31,17 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.title.Title;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.time.Minute;
 import org.jfree.data.time.Month;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
@@ -50,7 +58,7 @@ public class Testeur {
 
     public static void main(String[] args) throws FileNotFoundException, SVGGraphics2DIOException, UnsupportedEncodingException {
 
-        testPieChart();
+        //testPieChart();
         testTimeSerieChart();
         
     }
@@ -80,43 +88,103 @@ public class Testeur {
         svgGenerator.stream(doc, new OutputStreamWriter(stream, "UTF-8"));
 
     }
+     /**
+     * Creates a sample dataset.
+     * 
+     * @param name  the dataset name.
+     * @param base  the starting value.
+     * @param start  the starting period.
+     * @param count  the number of values to generate.
+     *
+     * @return The dataset.
+     */
+    private static XYDataset createDataset(String name, double base, RegularTimePeriod start, int count) {
+
+        TimeSeries series = new TimeSeries(name, start.getClass());
+        RegularTimePeriod period = start;
+        double value = base;
+        for (int i = 0; i < count; i++) {
+            series.add(period, value);    
+            period = period.next();
+            value = value * (1 + (Math.random() - 0.495) / 10.0);
+        }
+
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(series);
+
+        return dataset;
+
+    }
 
     private static void testTimeSerieChart() throws FileNotFoundException, SVGGraphics2DIOException, UnsupportedEncodingException{
 
-        FileOutputStream stream = new FileOutputStream(new File("testtimeserie.svg"));
+        FileOutputStream stream = new FileOutputStream(new File("D:\\testtimeserie.svg"));
 
-        JFreeChart chart = IdentifiedChartFactory.createTimeSeriesChart(
-            "Legal & General Unit Trust Prices",  // title
-            "Date",             // x-axis label
-            "Price Per Unit",   // y-axis label
-            createXYDataset(),            // data
-            true,               // create legend?
-            true,               // generate tooltips?
-            false               // generate URLs?
+        XYDataset dataset1 = createDataset("Series 1", 100.0, new Minute(), 200);
+        
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(
+            "Multiple Axis Demo 1", 
+            "Time of Day", 
+            "Primary Range Axis",
+            dataset1, 
+            true, 
+            true, 
+            false
         );
 
         chart.setBackgroundPaint(Color.white);
-
-        XYPlot plot = (XYPlot) chart.getPlot();
+        chart.addSubtitle(new TextTitle("Four datasets and four range axes."));  
+        XYPlot plot = chart.getXYPlot();
+        plot.setOrientation(PlotOrientation.VERTICAL);
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
-        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-        plot.setDomainCrosshairVisible(true);
-        plot.setRangeCrosshairVisible(true);
+        
+        //plot.setAxisOffset(new Space(Space.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));
+        
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
+        renderer.setPaint(Color.black);
+       
+        // AXIS 2
+        NumberAxis axis2 = new NumberAxis("Range Axis 2");
+        axis2.setAutoRangeIncludesZero(false);
+        axis2.setLabelPaint(Color.red);
+        axis2.setTickLabelPaint(Color.red);
+        plot.setRangeAxis(0, axis2);
+        plot.setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_LEFT);
 
-        XYItemRenderer r = plot.getRenderer();
-        if (r instanceof XYLineAndShapeRenderer) {
-            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-            renderer.setBaseShapesVisible(true);
-            renderer.setBaseShapesFilled(true);
-            renderer.setDrawSeriesLineAsPath(true);
-        }
+        XYDataset dataset2 = createDataset("Series 2", 1000.0, new Minute(), 170);
+        plot.setDataset(0, dataset2);
+        plot.mapDatasetToRangeAxis(0, new Integer(0));
+        plot.setRenderer(0, new StandardXYItemRenderer());
+        plot.getRenderer(0).setSeriesPaint(0, Color.red);
+        
+        // AXIS 3
+        NumberAxis axis3 = new NumberAxis("Range Axis 3");
+        axis3.setLabelPaint(Color.blue);
+        axis3.setTickLabelPaint(Color.blue);
+        plot.setRangeAxis(1, axis3);
 
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+        XYDataset dataset3 = createDataset("Series 3", 10000.0, new Minute(), 170);
+        plot.setDataset(1, dataset3);
+        plot.mapDatasetToRangeAxis(1, new Integer(1));
+        
+        plot.setRenderer(1, new StandardXYItemRenderer());
+        plot.getRenderer(1).setSeriesPaint(0, Color.blue);
 
-
+        // AXIS 4        
+        NumberAxis axis4 = new NumberAxis("Range Axis 4");
+        axis4.setLabelPaint(Color.green);
+        axis4.setTickLabelPaint(Color.green);
+        plot.setRangeAxis(2, axis4);
+        
+        XYDataset dataset4 = createDataset("Series 4", 25.0, new Minute(), 200);
+        plot.setDataset(2, dataset4);
+        plot.mapDatasetToRangeAxis(2, new Integer(2));
+        
+        plot.setRenderer(2, new StandardXYItemRenderer());
+        plot.getRenderer(2).setSeriesPaint(0, Color.green);   
+        
 
         final DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
         final String svgNS = "http://www.w3.org/2000/svg";

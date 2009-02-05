@@ -82,6 +82,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -219,9 +220,10 @@ public class ChartUtils {
         chart.setBackgroundPaint(ChartUtils.getColor(chartData.getBackground2()));
         chart.getPlot().setBackgroundPaint(ChartUtils.getColor(chartData.getForeground2()));
         chart.setTitle(chartData.getTitle());
-        chart.setAntiAlias(chartData.isAntialias());
+        //AntiAlias makes some grid lines disappear
+        //chart.setAntiAlias(chartData.isAntialias());
 
-        // Alpha transparency (100% means opaque)
+        //Alpha transparency (100% means opaque)
         if (chartData.getAlpha() < 100) {
             chart.getPlot().setForegroundAlpha((float) chartData.getAlpha() / 100);
         }
@@ -489,7 +491,9 @@ public class ChartUtils {
         //root.setAttribute("onload", "loadOpenCharts('canvas');");
         root.appendChild(addOpenChartScript(document));
         root.appendChild(addInitScript(document));
-        String[] jsFiles = {"js/openlayers/lib/OpenLayers/Util.js",
+        String[] jsFiles = {
+            "js/openlayers/lib/OpenLayers/SingleFile.js",
+            "js/openlayers/lib/OpenLayers/Util.js",
             "js/openlayers/lib/OpenLayers/BaseTypes.js",
             "js/openlayers/lib/OpenLayers/BaseTypes/Class.js",
             "js/openlayers/lib/OpenLayers/BaseTypes/Bounds.js",
@@ -497,36 +501,36 @@ public class ChartUtils {
             "js/openlayers/lib/OpenLayers/BaseTypes/LonLat.js",
             "js/openlayers/lib/OpenLayers/BaseTypes/Pixel.js",
             "js/openlayers/lib/OpenLayers/BaseTypes/Size.js",
-            "js/openlayers/lib/OpenLayers/Ajax.js",
-            "js/openlayers/lib/OpenLayers/Request.js",
-            "js/openlayers/lib/OpenLayers/Request/XMLHttpRequest.js",
+            //            "js/openlayers/lib/OpenLayers/Ajax.js",
+            //            "js/openlayers/lib/OpenLayers/Request.js",
+            //            "js/openlayers/lib/OpenLayers/Request/XMLHttpRequest.js",
             "js/openlayers/lib/OpenLayers/Events.js",
             "js/openlayers/lib/OpenLayers/Handler.js",
             "js/openlayers/lib/OpenLayers/Handler/Click.js",
             "js/openlayers/lib/OpenLayers/Handler/Hover.js",
-            "js/openlayers/lib/OpenLayers/Handler/Point.js",
-            "js/openlayers/lib/OpenLayers/Handler/Path.js",
-            "js/openlayers/lib/OpenLayers/Handler/Polygon.js",
-            "js/openlayers/lib/OpenLayers/Handler/Feature.js",
+            //            "js/openlayers/lib/OpenLayers/Handler/Point.js",
+            //            "js/openlayers/lib/OpenLayers/Handler/Path.js",
+            //            "js/openlayers/lib/OpenLayers/Handler/Polygon.js",
+            //            "js/openlayers/lib/OpenLayers/Handler/Feature.js",
             "js/openlayers/lib/OpenLayers/Handler/Drag.js",
-            "js/openlayers/lib/OpenLayers/Handler/RegularPolygon.js",
+            //            "js/openlayers/lib/OpenLayers/Handler/RegularPolygon.js",
             "js/openlayers/lib/OpenLayers/Handler/Box.js",
             "js/openlayers/lib/OpenLayers/Handler/MouseWheel.js",
             "js/openlayers/lib/OpenLayers/Handler/Keyboard.js",
             "js/openlayers/lib/OpenLayers/Control.js",
-            "js/openlayers/lib/OpenLayers/Control/Attribution.js",
+            //            "js/openlayers/lib/OpenLayers/Control/Attribution.js",
             "js/openlayers/lib/OpenLayers/Control/DragPan.js",
             "js/openlayers/lib/OpenLayers/Control/ZoomBox.js",
-            "js/openlayers/lib/OpenLayers/Control/Navigation.js",
-            "js/openlayers/lib/OpenLayers/Control/MouseDefaults.js",
-            "js/openlayers/lib/OpenLayers/Control/KeyboardDefaults.js",
-            "js/openlayers/lib/OpenLayers/Control/ArgParser.js",
-            "js/openlayers/lib/OpenLayers/Control/NavigationHistory.js",
+            //            "js/openlayers/lib/OpenLayers/Control/Navigation.js",
+            //            "js/openlayers/lib/OpenLayers/Control/MouseDefaults.js",
+            //            "js/openlayers/lib/OpenLayers/Control/KeyboardDefaults.js",
+            //            "js/openlayers/lib/OpenLayers/Control/ArgParser.js",
+            //            "js/openlayers/lib/OpenLayers/Control/NavigationHistory.js",
             "js/openlayers/custom/OpenLayers/Map.js",
             "js/openlayers/custom/OpenLayers/Handler/MouseWheel.js",
             "js/openlayers/custom/OpenLayers/Control/Navigation.js",
-            "js/openlayers/custom/OpenLayers/Control/MousePosition.js",
-            "js/openlayers/custom/OpenLayers/Control/MouseWheelDefaults.js"
+//            "js/openlayers/custom/OpenLayers/Control/MousePosition.js",
+//            "js/openlayers/custom/OpenLayers/Control/MouseWheelDefaults.js"
         };
         addScript(document, jsFiles);
         root.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
@@ -538,7 +542,7 @@ public class ChartUtils {
 //            System.out.println(gNodes.item(i).hasChildNodes());
             if (gNodes.item(i).hasChildNodes() && (gNodes.item(i).getFirstChild().getAttributes().getNamedItem("serie") != null)) {
 
-                //Set default attributes tu the canvas
+                //Set default attributes to the canvas
                 Attr id = document.createAttribute("id");
                 id.setNodeValue("canvas");
                 Attr widthAttr = document.createAttribute("width");
@@ -559,59 +563,178 @@ public class ChartUtils {
                 gNodes.item(i).getAttributes().setNamedItem(xAttr);
                 gNodes.item(i).getAttributes().setNamedItem(yAttr);
                 gNodes.item(i).getAttributes().setNamedItem(style);
-                //removeUselessChild(gNodes.item(i));
-                //Add rectangle and set as first child
-                /*Element rect = document.createElement("rect");
-                rect.setAttribute("width", String.valueOf(width));
-                rect.setAttribute("height", String.valueOf(height));
-                rect.setAttribute("fill", "blue");
-                rect.setAttribute("opacity", "0.1");*/
 
+                //Remove Path node from the series who are useless
+                removeUselessChild(gNodes.item(i));
+                
+                //Add id to the container of grid lines
+                Attr canvasGridId = document.createAttribute("id");
+                canvasGridId.setNodeValue("canvasGrid");
+                gNodes.item(i - 1).getAttributes().setNamedItem(canvasGridId);
+          
+                //Insert the container of grid lines into the canvas node as first child
                 gNodes.item(i).insertBefore(gNodes.item(i - 1), gNodes.item(i).getFirstChild());
+
                 i--;
+                //Find the Rect element who defines the size of canvas container
                 Node rectangleContainer = findGraphContainer(document);
                 if (rectangleContainer != null) {
-                    Node oldContainerParent = rectangleContainer.getParentNode();
-                    Node fill = document.createAttribute("fill");
-                    fill.setNodeValue("silver");
+
+                    //Set fill and id attribute to the canvas container
                     Attr idRect = document.createAttribute("id");
-                    idRect.setNodeValue("canvasRect");
-                    rectangleContainer.getAttributes().setNamedItem(fill);
+                    idRect.setNodeValue("canvasContainer");
+                    Attr fill = document.createAttribute("fill");
+                    fill.setNodeValue("silver");
                     rectangleContainer.getAttributes().setNamedItem(idRect);
+                    rectangleContainer.getAttributes().setNamedItem(fill);
                     gNodes.item(i).insertBefore(rectangleContainer, gNodes.item(i).getFirstChild());
+
+                    //Coordinates of the top-left corner of canvas container in pixel
+                    Double containerOriginX = Double.valueOf(rectangleContainer.getAttributes().getNamedItem("x").getNodeValue());
+                    Double containerOriginY = Double.valueOf(rectangleContainer.getAttributes().getNamedItem("y").getNodeValue());
+
+                    //Width and height of canvas container
+                    Double containerWidth = Double.valueOf(rectangleContainer.getAttributes().getNamedItem("width").getNodeValue());
+                    Double containerHeight = Double.valueOf(rectangleContainer.getAttributes().getNamedItem("height").getNodeValue());
+
+                    //Coordinates of the bottom-right corner of canvas container in pixel
+                    Double containerMaxX = containerWidth + containerOriginX;
+                    Double containerMaxY = containerHeight + containerOriginY;
+
+                    //Coordinates of the top-left corner of canvas buffer in pixel
+                    Double bufferOriginX = containerOriginX - containerWidth;
+                    Double bufferOriginY = containerOriginY - containerHeight;
+
+                    //Coordinates of the bottom-right corner of canvas buffer in pixel
+                    Double bufferMaxX = containerWidth * 2 + containerOriginX;
+                    Double bufferMaxY = containerHeight * 2 + containerOriginY;
+
+
+//<rect x="-500" y="-500" clip-path="url(#clipPath1)" fill="red" width="1974.207" id="canvasRect" height="1652.4062" stroke="none"/>
+                    //gNodes.item(i).insertBefore(createRect(document, "bufferCanvas", -500,-500,2000,2000, "silver", "cursor:move;"), gNodes.item(i).getFirstChild());
+
+                    //Add a canvas buffer node as firstChild of canvas
+                    gNodes.item(i).insertBefore(createPath(document, "canvasBuffer", "M" + bufferOriginX + " " + bufferOriginY + " L" + bufferMaxX + " " + bufferOriginY + " L" + bufferMaxX + " " + bufferMaxY + " L" + bufferOriginX + " " + bufferMaxY + " L" + bufferOriginX + " " + bufferOriginY + " Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "silver", "cursor:move;"), gNodes.item(i).getFirstChild());
+
+                    //Add the canvas node as second child of svg element (after defs node) , before  the original Rect graph container
                     gNodes.item(i).getParentNode().insertBefore(gNodes.item(i), gNodes.item(i).getParentNode().getFirstChild().getNextSibling());
-                    /*<clippath clipPathUnits="userSpaceOnUse" id="clipPath1">
-                    <path d="M0 0 L600 0 L600 400 L0 400 L0 0 Z"/>
-                    </clippath>*/
-                    
-                    /*Attr idClip = document.createAttribute("id");
-                    idClip.setNodeValue("clipPath0");
-                    Attr units = document.createAttribute("clipPathUnits");
-                    units.setNodeValue("userSpaceOnUse");
-                    Node clipPath = document.createElement("clippath");
-                    clipPath.getAttributes().setNamedItem(idClip);
-                    clipPath.getAttributes().setNamedItem(units);
-                    */
-                    Node path = document.createElement("path");
-                    Attr d = document.createAttribute("d");
-                    d.setNodeValue("M0 0 L600 0 L600 400 L0 400 L0 0 Z M104.5566 33.6406 L104.5566 222.7656 L495.4434 222.7656 L495.4434 33.6406 Z");
-                    path.getAttributes().setNamedItem(d);
-                    //clipPath.appendChild(path);          
-                    
-                    //gNodes.item(i).getParentNode().getFirstChild().appendChild(clipPath);
-                    
-                    //Attr clipPathAttr = document.createAttribute("clip-path");
-                    //clipPathAttr.setNodeValue("url(#clipPath0)");
-                    //gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().getFirstChild().getAttributes().setNamedItem(clipPathAttr);
+
+                    //Replace the original Rect graph container by a Path graph container with a hole to see the canvas;
+                    Node path = createPath(document, "", "M0 0 L" + width + " 0 L" + width + " " + height + " L0 " + height + " L0 0 Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "white", "");
+                    //d.setNodeValue("M0 0 L    600       0 L    600           400        L0     400        L0 0 Z M    104.5566        33.6406     L    104.5566        222.7656           L    495.4434                222.7656           L    495.4434                33.6406     Z");
+                    // M0 0 L    1200      0 L    1200          800        L0     800        L0 0 Z M    121.2363        33.6406  L      121.2363        974.207            L    652.4062                974.207            L    652.4062                33.6406 Z
                     gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().replaceChild(
-                            path
-                            , gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().getFirstChild());
-                   
+                            path, gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().getFirstChild());
+                    
+                    
+                    //Enlarge the existing grid lines to the canvas buffer size
+                    //To calculation minx, miny, maxx, maxy we are agreed that lines are correctly arranged before adding buffer grid lines
+                    // in the first time the vertical lines are defined in a range order
+                    // in a second time the horizontal lines are defined in an inverse range order
+                    // Hera a TimeSeries chart grid lines example : 
+                    /*<g id="canvasGrid" stroke-linecap="butt" fill="white" text-rendering="optimizeLegibility" font-family="sans-serif" stroke-linejoin="bevel" stroke-dasharray="2,2"  stroke="white" stroke-width="0.5" stroke-miterlimit="0">
+                            <line fill="none" x1="532.674" x2="532.674" y1="-618.7656000000001" y2="1338.453"/>
+                            <line fill="none" x1="616.1007" x2="616.1007" y1="-618.7656000000001" y2="1338.453"/>
+                            <line fill="none" x1="699.5653" x2="699.5653" y1="-618.7656000000001" y2="1338.453"/>
+                            <line fill="none" x1="781.1406" x2="781.1406" y1="-618.7656000000001" y2="1338.453"/>
+                            <line fill="none" x1="863.6606" x2="863.6606" y1="-618.7656000000001" y2="1338.453"/>
+                            <line fill="none" x1="947.0874" x2="947.0874" y1="-618.7656000000001" y2="1338.453"/>
+                            <line fill="none" x1="1030.5519" x2="1030.5519" y1="-618.7656000000001" y2="1338.453"/>                            
+                            ...... other vertival lines
+                            <line fill="none" x1="-852.9707" x2="2069.6503" y1="685.5462" y2="685.5462"/>
+                            <line fill="none" x1="-852.9707" x2="2069.6503" y1="667.0812" y2="667.0812"/>
+                            <line fill="none" x1="-852.9707" x2="2069.6503" y1="648.6161" y2="648.6161"/>
+                            <line fill="none" x1="-852.9707" x2="2069.6503" y1="630.1511" y2="630.1511"/>
+                            <line fill="none" x1="-852.9707" x2="2069.6503" y1="611.6861" y2="611.6861"/>
+                            ...... other horizontal lines
+                     </g>*/
+                    Double minX = null;
+                    Double maxX = null;
+                    Double minY = null;
+                    Double maxY = null;
+                    Double intervalX = null;
+                    Double intervalY = null;
+                    Node canvasGrid = document.getElementById("canvasGrid");
+                    if (canvasGrid.hasChildNodes()) {
+                        NodeList gridLines = canvasGrid.getChildNodes();
+                        for (int j = 0; j < gridLines.getLength(); j++) {
+                            Node line = gridLines.item(j);
+                            if (line.getNodeName().equals("line")) {
+                                NamedNodeMap lineAttr = line.getAttributes();
+                                lineAttr.removeNamedItem("clip-path");
+                                if (lineAttr.getNamedItem("x1").getNodeValue().equals(lineAttr.getNamedItem("x2").getNodeValue())) {
+                                    
+                                    //Calcul min x value for an  vertical lines
+                                    if (minX == null)
+                                        minX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                                    
+                                    //Calcul interval between 2 vertical lines
+                                    if (intervalX == null && gridLines.item(j+1) != null)
+                                        intervalX = Double.valueOf(gridLines.item(j+1).getAttributes().getNamedItem("x1").getNodeValue())-Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                                    
+                                    
+                                    //Calcul max x value for an  vertical lines
+                                    if (maxX == null 
+                                            && gridLines.item(j+1) != null 
+                                            && gridLines.item(j+1).getAttributes().getNamedItem("y1").getNodeValue().equals(gridLines.item(j+1).getAttributes().getNamedItem("y2").getNodeValue()))
+                                        maxX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                                    
+                                    //Enlarge x attributes to buffer height
+                                    Attr y1 = document.createAttribute("y1");
+                                    y1.setNodeValue(String.valueOf(bufferOriginY));
+                                    lineAttr.setNamedItem(y1);
+                                    Attr y2 = document.createAttribute("y2");
+                                    y2.setNodeValue(String.valueOf(bufferMaxY));
+                                    lineAttr.setNamedItem(y2);
+                                    
+                                } else if (lineAttr.getNamedItem("y1").getNodeValue().equals(lineAttr.getNamedItem("y2").getNodeValue())) {
+                                    
+                                    //Calcul min y value for an  horizontal lines
+                                    if (maxY == null)
+                                        maxY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue());
+                                    
+                                    //Calcul interval between 2 horizontal lines
+                                    if (intervalY == null && gridLines.item(j+1) != null)
+                                        intervalY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue())-Double.valueOf(gridLines.item(j+1).getAttributes().getNamedItem("y1").getNodeValue());
+                                    
+                                    //Calcul max y value for an  horizontal lines
+                                    if (minY == null 
+                                            && gridLines.item(j+1) == null )
+                                        minY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue());
+                                    
+                                    //Enlarge x attributes to buffer width
+                                    Attr x1 = document.createAttribute("x1");
+                                    x1.setNodeValue(String.valueOf(bufferOriginX));
+                                    lineAttr.setNamedItem(x1);
+                                    Attr x2 = document.createAttribute("x2");
+                                    x2.setNodeValue(String.valueOf(bufferMaxX));
+                                    lineAttr.setNamedItem(x2);
+                                }
+                            }
+                        }
+                        //Add vertical grid lines to the canvas buffer
+                        while ((minX - intervalX) >= bufferOriginX) {
+                            minX = minX - intervalX;
+                            canvasGrid.appendChild(createLine(document, "", minX, minX, bufferOriginY , bufferMaxY, "", ""));                            
+                        }
+                        while ((maxX + intervalX) <= bufferMaxX) {
+                            maxX = maxX + intervalX;
+                            canvasGrid.appendChild(createLine(document, "", maxX, maxX, bufferOriginY , bufferMaxY, "", ""));                            
+                        }
+                        System.out.println(minY+" "+ intervalY+" "+maxY);
+                         //Add horizontal grid lines to the canvas buffer
+                        while ((minY - intervalY) >= bufferOriginY) {
+                            minY = minY - intervalY;
+                            canvasGrid.appendChild(createLine(document, "", bufferOriginX, bufferMaxX, minY, minY, "", ""));                            
+                        }
+                        while ((maxY + intervalY) <= bufferMaxY) {
+                            maxY = maxY + intervalY;
+                            canvasGrid.appendChild(createLine(document, "", bufferOriginX, bufferMaxX, maxY, maxY, "", ""));                            
+                        }
+                    }                    
+
                 }
-                //gNodes.item(i).getParentNode().insertBefore(gNodes.item(i),);
-                //Remove useless child
-                //System.out.println (gNodes.item(i).getAttributes().getNamedItem("id"));
-                //Copy grid node into the canvas node
+
                 break;
             }
         }
@@ -790,6 +913,81 @@ public class ChartUtils {
         return script;
     }
 
+    private static Element createPath(Document document, String id, String d, String fill, String style) {
+        Element elt = document.createElement("path");
+        Attr idAttr = document.createAttribute("id");
+        idAttr.setNodeValue(id);
+        Attr dAttr = document.createAttribute("d");
+        dAttr.setNodeValue(d);
+        Attr styleAttr = document.createAttribute("style");
+        styleAttr.setNodeValue(style);
+        Attr fillAttr = document.createAttribute("fill");
+        fillAttr.setNodeValue(fill);
+        elt.getAttributes().setNamedItem(idAttr);
+        elt.getAttributes().setNamedItem(dAttr);
+        elt.getAttributes().setNamedItem(styleAttr);
+        elt.getAttributes().setNamedItem(fillAttr);
+        return elt;
+    }
+
+    private static Element createRect(Document document, String id, double x, double y, double width, double height, String fill, String style) {
+        //Set default attributes tu the canvas
+        Element elt = document.createElement("rect");
+        Attr idAttr = document.createAttribute("id");
+        idAttr.setNodeValue(id);
+        Attr widthAttr = document.createAttribute("width");
+        widthAttr.setNodeValue(String.valueOf(width));
+        Attr heightAttr = document.createAttribute("height");
+        heightAttr.setNodeValue(String.valueOf(height));
+        Attr xAttr = document.createAttribute("x");
+        xAttr.setNodeValue(String.valueOf(x));
+        Attr yAttr = document.createAttribute("y");
+        yAttr.setNodeValue(String.valueOf(y));
+        Attr styleAttr = document.createAttribute("style");
+        styleAttr.setNodeValue(style);
+        Attr fillAttr = document.createAttribute("fill");
+        fillAttr.setNodeValue(fill);
+//                Attr dragEnable = document.createAttribute( "drag:enable");
+//                dragEnable.setNodeValue("true");   
+        elt.getAttributes().setNamedItem(idAttr);
+        elt.getAttributes().setNamedItem(widthAttr);
+        elt.getAttributes().setNamedItem(heightAttr);
+        elt.getAttributes().setNamedItem(xAttr);
+        elt.getAttributes().setNamedItem(yAttr);
+        elt.getAttributes().setNamedItem(styleAttr);
+        elt.getAttributes().setNamedItem(fillAttr);
+
+        return elt;
+    }
+    private static Element createLine(Document document, String id, double x1, double x2, double y1, double y2, String stroke, String style) {
+        //Set default attributes tu the canvas
+        Element elt = document.createElement("line");
+        Attr idAttr = document.createAttribute("id");
+        idAttr.setNodeValue(id);
+        Attr x1Attr = document.createAttribute("x1");
+        x1Attr.setNodeValue(String.valueOf(x1));
+        Attr x2Attr = document.createAttribute("x2");
+        x2Attr.setNodeValue(String.valueOf(x2));
+        Attr y1Attr = document.createAttribute("y1");
+        y1Attr.setNodeValue(String.valueOf(y1));
+        Attr y2Attr = document.createAttribute("y2");
+        y2Attr.setNodeValue(String.valueOf(y2));
+        Attr styleAttr = document.createAttribute("style");
+        styleAttr.setNodeValue(style);
+        Attr strokeAttr = document.createAttribute("stroke");
+        strokeAttr.setNodeValue(stroke);
+//                Attr dragEnable = document.createAttribute( "drag:enable");
+//                dragEnable.setNodeValue("true");   
+        elt.getAttributes().setNamedItem(idAttr);
+        elt.getAttributes().setNamedItem(x1Attr);
+        elt.getAttributes().setNamedItem(x2Attr);
+        elt.getAttributes().setNamedItem(y1Attr);
+        elt.getAttributes().setNamedItem(y2Attr);
+        elt.getAttributes().setNamedItem(styleAttr);
+        elt.getAttributes().setNamedItem(strokeAttr);
+
+        return elt;
+    }
     private static Node findGraphContainer(Document document) {
         NodeList rectNodes = document.getElementsByTagNameNS("http://www.w3.org/2000/svg", "rect");
 //        System.out.println(rectNodes.toString());

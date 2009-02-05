@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,6 +104,7 @@ public class ChartData extends JPanel implements Serializable {
     private boolean legendBorder;
     private float lineStokeWidth;
     private HashMap requestParameterMap;
+    private OutputStream stream;
     
     /** For serialization. */
     private static final long serialVersionUID = 6046366297214274674L;
@@ -2826,6 +2828,14 @@ public class ChartData extends JPanel implements Serializable {
 
     public void setInfo(ChartRenderingInfo info) {
         this.info = info;
+    }
+
+    public OutputStream getStream() {
+        return stream;
+    }
+
+    public void setStream(OutputStream stream) {
+        this.stream = stream;
     }
 
 }
