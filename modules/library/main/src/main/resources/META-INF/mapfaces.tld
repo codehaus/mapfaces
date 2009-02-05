@@ -1837,12 +1837,12 @@
         <attribute>
             <name>value</name>
             <deferred-value>
-                <type>org.mapfaces.model.ViewContextType</type>
+                <type>java.lang.Object</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
-                The new context defined by the user, the type is an Object ViewContextType.
+                The new context defined by the user, the type is an Object MapContext from geotools.
             </description>
         </attribute>
         <attribute>
@@ -6748,7 +6748,7 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
-    </tag>    
+    </tag>
     <!-- BuilderCheckColumn -->
     <tag>
         <name>BuilderCheckColumn</name>
