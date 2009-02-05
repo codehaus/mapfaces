@@ -61,6 +61,7 @@ public class MapPaneTag extends WidgetBaseTag {
     private ValueExpression google = null;
     private ValueExpression yahoo = null;
     private ValueExpression virtualEarth = null;
+    private ValueExpression value = null;
 
     /**
      * {@inheritDoc }
@@ -104,6 +105,7 @@ public class MapPaneTag extends WidgetBaseTag {
         component.setValueExpression("google",google);
         component.setValueExpression("yahoo",yahoo);
         component.setValueExpression("virtualEarth",virtualEarth);
+        component.setValueExpression("value",value);
     }
 
     /**
@@ -131,6 +133,7 @@ public class MapPaneTag extends WidgetBaseTag {
         google = null;
         yahoo = null;
         virtualEarth = null;
+        value = null;
     }
 
     public void setPanZoomBar(ValueExpression panZoomBar) {
@@ -203,5 +206,13 @@ public class MapPaneTag extends WidgetBaseTag {
 
     public void setMaxExtent(ValueExpression maxExtent) {
         this.maxExtent = maxExtent;
+    }
+
+    public ValueExpression getValue() {
+        return value;
+    }
+
+    public void setValue(ValueExpression value) {
+        this.value = value;
     }
 }

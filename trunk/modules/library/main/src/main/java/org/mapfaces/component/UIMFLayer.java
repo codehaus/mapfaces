@@ -63,6 +63,11 @@ public class UIMFLayer extends UIWidgetBase {
      */
     private double rotation;
 
+    /**
+     * Index of this layer in the Mapcontext object.
+     */
+    private int index;
+
     public UIMFLayer() {
         super();
         setRendererType("org.mapfaces.renderkit.html.MapPane.MFLayer");    // this component has a renderer
@@ -108,6 +113,7 @@ public class UIMFLayer extends UIWidgetBase {
         values[7] = size;
         values[8] = rotation;
         values[9] = contextPath;
+        values[10] = index;
         return values;
     }
 
@@ -127,6 +133,7 @@ public class UIMFLayer extends UIWidgetBase {
         setSize((Integer) values[7]);
         setRotation((Double) values[8]);
         setContextPath((String) values[9]);
+        setIndex((Integer) values[10]);
     }
 
     public String getStyle() {
@@ -183,5 +190,22 @@ public class UIMFLayer extends UIWidgetBase {
 
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
+    }
+
+    /**
+     * @return the index
+     */
+    public /**
+     * Index of this layer in the Mapcontext object.
+     */
+    int getIndex() {
+        return index;
+    }
+
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

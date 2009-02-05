@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -30,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -48,13 +48,17 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.FeatureMapLayer;
 import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
+import org.geotools.map.MapLayer;
 import org.geotools.referencing.CRS;
 
+import org.geotools.referencing.crs.DefaultGeocentricCRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.style.MutableFeatureTypeStyle;
 import org.geotools.style.MutableRule;
 import org.geotools.style.MutableStyle;
 import org.geotools.style.StyleFactory;
 import org.mapfaces.component.UIMFLayer;
+import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
@@ -115,8 +119,18 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             dim.height = 1;
         }
 
-        final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
-        final String display = (layer.isHidden()) ? "display:none" : "display:block;";
+        final boolean hidden;
+        final String opacity;
+        if (layer != null) {
+            hidden = layer.isHidden();
+            opacity = layer.getOpacity();
+        } else {
+            hidden = false;
+            opacity = "1";
+        }
+
+        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";
+        final String display = (hidden) ? "display:none" : "display:block;";
         final int size = (comp.getSize() != 0) ? comp.getSize() : 16;
         final double rotation = comp.getRotation();
 
@@ -125,9 +139,10 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
+        UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
 
         //Add layer image if not the first page loads
-        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
+        if (mappane.getInitDisplay() && !hidden) {
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
 
@@ -145,52 +160,63 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                     new Double(model.getMinx()), new Double(model.getMaxx()),
                     new Double(model.getMiny()), new Double(model.getMaxy()),
                     crs);
-            final FeatureMapLayer mapLayer;
 
-            int indexLayer = Integer.parseInt(comp.getLayer().getId().substring(comp.getLayer().getId().length() - 1));
-            final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
+            final MapContext mapContext;
+            if (mappane.getValueExpression("value") != null) {
+                ValueExpression ve = mappane.getValueExpression("value");
+                mapContext = (MapContext) ve.getValue(context.getELContext());
+            } else {
 
-            //building a FeatureCollection for this layer.
-            FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
-            long featureId = 0;
-            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-            if (comp.getFeatures() != null && comp.getFeatures().size() != 0) {
-                Feature f = comp.getFeatures().get(0);
-                builder.setName(f.getName());
-                builder.setCRS(f.getCrs());
-                for (String key : f.getAttributes().keySet()) {
-                    if (key.equals("geometry")) {
-                        builder.add(key, Geometry.class);
-                    } else {
-                        builder.add(key, f.getAttributes().get(key).getClass());
+                final int indexLayer = Integer.parseInt(comp.getLayer().getId().substring(comp.getLayer().getId().length() - 1));
+                final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
+
+                //building a FeatureCollection for this layer.
+                FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+                long featureId = 0;
+                SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+                if (comp.getFeatures() != null && comp.getFeatures().size() != 0) {
+                    Feature f = comp.getFeatures().get(0);
+                    builder.setName(f.getName());
+                    builder.setCRS(f.getCrs());
+                    for (String key : f.getAttributes().keySet()) {
+                        if (key.equals("geometry")) {
+                            builder.add(key, Geometry.class);
+                        } else {
+                            builder.add(key, f.getAttributes().get(key).getClass());
+                        }
                     }
                 }
-            }
-            SimpleFeatureType sft = builder.buildFeatureType();
+                SimpleFeatureType sft = builder.buildFeatureType();
 
-            for (Feature f : comp.getFeatures()) {
+                for (Feature f : comp.getFeatures()) {
+                    List<Object> objects = new ArrayList<Object>();
+                    for (String key : f.getAttributes().keySet()) {
+                        objects.add(f.getAttributes().get(key));
+                    }
 
-                List<Object> objects = new ArrayList<Object>();
-
-                for (String key : f.getAttributes().keySet()) {
-                    objects.add(f.getAttributes().get(key));
+                    SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+                    features.add(sf);
+                    featureId++;
                 }
 
-                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
-                features.add(sf);
-                featureId++;
+
+                final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
+
+                mapContext = MapBuilder.getInstance().createContext(crs);
+
+                mapContext.layers().add(mapLayer);
             }
-
-
-            mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
-
-            MapContext mapContext = MapBuilder.getInstance().createContext(crs);
-            mapContext.layers().add(mapLayer);
 
             BufferedImage bufferImage;
             try {
                 System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
-                bufferImage = DefaultPortrayalService.getInstance().portray(mapContext, env, dim, true);
+
+                int numberLayer = comp.getIndex();
+                MapLayer maplayer = mapContext.layers().get(numberLayer);
+                MapContext ctx = MapBuilder.getInstance().createContext(DefaultGeographicCRS.WGS84);
+                ctx.layers().add(maplayer);
+                bufferImage = DefaultPortrayalService.getInstance().portray(ctx, env, dim, true);
+
                 File dst = File.createTempFile("img", "", comp.getDir());
 
                 //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
