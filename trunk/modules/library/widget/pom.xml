@@ -131,15 +131,6 @@
                                 <exclude>**/*.js</exclude>
                             </excludes>
                         </aggregation>
-                        <aggregation>
-                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/datepicker.min.js</output>
-                            <includes>
-                                <include>${project.build.directory}/classes/org/widgetfaces/widget/datepicker/js/datepickerExtend.js</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/*.js</exclude>
-                            </excludes>
-                        </aggregation>
                     </aggregations>
                 </configuration>
             </plugin>

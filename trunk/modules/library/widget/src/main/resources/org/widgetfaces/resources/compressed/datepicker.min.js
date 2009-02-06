@@ -24,6 +24,71 @@
         * For any reuse or distribution, you must make clear to others the license terms of this work.
         * Any of these conditions can be waived if you get permission from the copyright holder.
 */
+
+if (typeof(AC) == "undefined") { AC = {}; }
+
+AC.Detector = {
+
+	getAgent: function() {
+		return navigator.userAgent.toLowerCase();
+	},
+	
+	// detect platform
+	isMac: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/mac/i);
+	},
+	
+	isWin: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/win/i);
+	},
+	
+	isWin2k: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return this.isWin(agent) && (agent.match(/nt\s*5/i));
+	},
+	
+	isWinVista: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return this.isWin(agent) && (agent.match(/nt\s*6/i));
+	},
+	
+	// detect browser
+	isWebKit: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/AppleWebKit/i);
+	},
+	
+	isOpera: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/opera/i);
+	},
+	
+	isIE: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/msie/i);
+	},
+	
+	isIEStrict: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/msie/i) && !this.isOpera(agent);
+	},
+	
+	isFirefox: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/firefox/i);
+	},
+	isChrome: function(userAgent) {
+		var agent = userAgent || this.getAgent();
+		return agent.match(/chrome/i);
+	}
+
+	
+};
+
+
+
 var datePickerJs={
     version:"4.4.0",
     build:""
@@ -43,18 +108,16 @@ var datePickerJs={
     script.type = "text/javascript";
     script.src  = loc;
     script.setAttribute("charset", "utf-8");
-    /*@cc_on
-/*@if(@_win32)
-        var bases = document.getElementsByTagName('base');
-        if (bases.length && bases[0].childNodes.length) {
-                bases[0].appendChild(script);
-        } else {
+    if (AC.Detector.isIE()) {
+            var bases = document.getElementsByTagName('base');
+            if (bases.length && bases[0].childNodes.length) {
+                    bases[0].appendChild(script);
+            } else {
                 document.getElementsByTagName('head')[0].appendChild(script);
-        };
-@else @*/
+            }
+    }
     document.getElementsByTagName('head')[0].appendChild(script);
-    /*@end
-@*/
+
     script  = null;
 
     // Defaults should the locale file not load
@@ -123,12 +186,10 @@ var datePickerJs={
 
                 // Internet Explorer fires the keydown event faster than the JavaScript engine can
                 // update the interface. The following attempts to fix this.
-                /*@cc_on
-                        @if(@_win32)
+                if (AC.Detector.isIE()) {
                                 if(new Date().getTime() - o.interval.getTime() < 100) return o.killEvent(e);
                                 o.interval = new Date();
-                        @end
-                        @*/
+                }
 
                 if ((kc > 49 && kc < 56) || (kc > 97 && kc < 104)) {
                     if (kc > 96) kc -= (96-48);
@@ -337,12 +398,10 @@ var datePickerJs={
                 e.preventDefault();
             };
 
-            /*@cc_on
-                @if(@_win32)
+            if (AC.Detector.isIE()) {
                 e.cancelBubble = true;
                 e.returnValue = false;
-                @end
-                @*/
+            }
             return false;
         };
         o.getElem = function() {
@@ -508,15 +567,13 @@ var datePickerJs={
                     o.div.style.top   = Math.abs(parseInt(pos[1] + elem.offsetHeight + 2)) + "px";
                 };
             };
-        /*@cc_on
-                @if(@_jscript_version <= 5.6)
-                if(o.staticPos) return;
-                o.iePopUp.style.top    = o.div.style.top;
-                o.iePopUp.style.left   = o.div.style.left;
-                o.iePopUp.style.width  = osw + "px";
-                o.iePopUp.style.height = (osh - 2) + "px";
-                @end
-                @*/
+            if (AC.Detector.isIE()) {
+                            if(o.staticPos) return;
+                            o.iePopUp.style.top    = o.div.style.top;
+                            o.iePopUp.style.left   = o.div.style.left;
+                            o.iePopUp.style.width  = osw + "px";
+                            o.iePopUp.style.height = (osh - 2) + "px";
+            }
         };
         o.equaliseDates = function() {
             var clearDayFound = false;
@@ -622,18 +679,15 @@ var datePickerJs={
                 var th = document.createElement('th');
                 if(details.thClassName) th.className = details.thClassName;
                 if(details.colspan) {
-                    /*@cc_on
-                                /*@if (@_win32)
-                                th.setAttribute('colSpan',details.colspan);
-                                @else @*/
+                if (AC.Detector.isIE()) {
+                         th.setAttribute('colSpan',details.colspan);
+                }
                     th.setAttribute('colspan',details.colspan);
-                /*@end
-                                @*/
+
                 };
-                /*@cc_on
-                        /*@if (@_win32)
+                if (AC.Detector.isIE()) {
                         th.unselectable = "on";
-                        /*@end@*/
+                }
                 return th;
             };
 
@@ -653,21 +707,19 @@ var datePickerJs={
                 };
             };
 
-            /*@cc_on
-                @if(@_jscript_version <= 5.6)
-                        if(!document.getElementById("iePopUpHack")) {
-                                o.iePopUp = document.createElement('iframe');
-                                o.iePopUp.src = "javascript:'<html></html>';";
-                                o.iePopUp.setAttribute('className','iehack');
-                                o.iePopUp.scrolling="no";
-                                o.iePopUp.frameBorder="0";
-                                o.iePopUp.name = o.iePopUp.id = "iePopUpHack";
-                                document.body.appendChild(o.iePopUp);
-                        } else {
-                                o.iePopUp = document.getElementById("iePopUpHack");
-                        };
-                @end
-                @*/
+            if (AC.Detector.isIE()) {
+                                    if(!document.getElementById("iePopUpHack")) {
+                                            o.iePopUp = document.createElement('iframe');
+                                            o.iePopUp.src = "javascript:'<html></html>';";
+                                            o.iePopUp.setAttribute('className','iehack');
+                                            o.iePopUp.scrolling="no";
+                                            o.iePopUp.frameBorder="0";
+                                            o.iePopUp.name = o.iePopUp.id = "iePopUpHack";
+                                            document.body.appendChild(o.iePopUp);
+                                    } else {
+                                            o.iePopUp = document.getElementById("iePopUpHack");
+                                    }
+            }
 
             if(typeof(fdLocale) == "object" && o.locale) {
                 datePicker.titles  = fdLocale.titles;
@@ -1085,11 +1137,9 @@ var datePickerJs={
             var todayY = today.getFullYear();
 
             var c = "class";
-            /*@cc_on
-                @if(@_win32)
+            if (AC.Detector.isIE()) {
                 c = "className";
-                @end
-                @*/
+            }
 
             var stub = String(tdy) + (String(tdm+1).length < 2 ? "0" + (tdm+1) : tdm+1);
 
@@ -1157,12 +1207,10 @@ var datePickerJs={
         };
         o.addKeyboardEvents = function() {
             datePickerController.addEvent(document, "keypress", o.events.onkeydown);
-            /*@cc_on
-                @if(@_win32)
-                datePickerController.removeEvent(document, "keypress", o.events.onkeydown);
-                datePickerController.addEvent(document, "keydown", o.events.onkeydown);
-                @end
-                @*/
+            if (AC.Detector.isIE()) {
+                            datePickerController.removeEvent(document, "keypress", o.events.onkeydown);
+                            datePickerController.addEvent(document, "keydown", o.events.onkeydown);
+            }
             if(window.devicePixelRatio) {
                 datePickerController.removeEvent(document, "keypress", o.events.onkeydown);
                 datePickerController.addEvent(document, "keydown", o.events.onkeydown);
@@ -1190,11 +1238,9 @@ var datePickerJs={
 
             o.opacityTo = o.noTransparency ? 99 : 90;
             o.div.style.display = "block";
-            /*@cc_on
-                @if(@_jscript_version <= 5.6)
-                if(!o.staticPos) o.iePopUp.style.display = "block";
-                @end
-                @*/
+            if (AC.Detector.isIE()) {
+                            if(!o.staticPos) o.iePopUp.style.display = "block";
+            }
 
             o.fade();
             o.visible = true;
@@ -1208,11 +1254,9 @@ var datePickerJs={
             datePickerController.removeEvent(document, "mouseup",  o.events.clearTimer);
             o.removeKeyboardEvents();
 
-            /*@cc_on
-                @if(@_jscript_version <= 5.6)
+            if (AC.Detector.isIE()) {
                 o.iePopUp.style.display = "none";
-                @end
-                @*/
+            }
 
             o.opacityTo = 0;
             o.fade();
@@ -1262,11 +1306,9 @@ var datePickerJs={
             clearTimeout(o.timer);
             o.fadeTimer = o.timer = null;
 
-            /*@cc_on
-                @if(@_jscript_version <= 5.6)
+            if (AC.Detector.isIE()) {
                 o.iePopUp = null;
-                @end
-                @*/
+            }
 
             if(!o.staticPos && document.getElementById(o.id.replace(/^fd-/, 'fd-but-'))) {
                 var butt = document.getElementById(o.id.replace(/^fd-/, 'fd-but-'));
@@ -1339,13 +1381,11 @@ var datePickerJs={
                 delete datePickers[dp];
             };
             datePickers = null;
-            /*@cc_on
-                @if(@_jscript_version <= 5.6)
+            if (AC.Detector.isIE()) {
                         if(document.getElementById("iePopUpHack")) {
                                 document.body.removeChild(document.getElementById("iePopUpHack"));
-                        };
-                @end
-                @*/
+                        }
+            }
             datePicker.script = null;
             removeEvent(window, 'load', datePickerController.create);
             removeEvent(window, 'unload', datePickerController.destroy);
@@ -1628,13 +1668,13 @@ var datePickerJs={
                 delete datePickers[dp];
             };
             datePickers = null;
-            /*@cc_on
-                @if(@_jscript_version <= 5.6)
-                        if(document.getElementById("iePopUpHack")) {
-                                document.body.removeChild(document.getElementById("iePopUpHack"));
-                        };
-                @end
-                @*/
+            
+            if (AC.Detector.isIE()) {
+              if(document.getElementById("iePopUpHack")) {
+                      document.body.removeChild(document.getElementById("iePopUpHack"));
+              }
+            }
+
             datePicker.script = null;
             removeEvent(window, 'load', datePickerController.create);
             removeEvent(window, 'unload', datePickerController.destroy);
