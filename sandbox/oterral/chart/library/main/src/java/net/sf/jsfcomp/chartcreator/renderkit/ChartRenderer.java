@@ -41,7 +41,7 @@ import net.sf.jsfcomp.chartcreator.model.ChartData;
 import net.sf.jsfcomp.chartcreator.utils.ChartConstants;
 import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
-import org.mapfaces.util.FacesUtils;
+import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -54,7 +54,6 @@ public class ChartRenderer extends Renderer {
     boolean embed = false;
     String PIXEL = null;
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        System.out.println("Encoooooooooode begin");
         ResponseWriter writer = context.getResponseWriter();
         UIChart chart = (UIChart) component;
         setChartDataAtSession(context, chart);
@@ -100,8 +99,10 @@ public class ChartRenderer extends Renderer {
             if (embed) writer.startElement("embed", chart);         
             else writer.startElement("object", chart);
             
+            writer.writeAttribute("onload", "onObjectLoad();", null); 
+            writer.writeAttribute("style", "display:none;", null); 
             writer.writeAttribute("mfAjaxCompId", chart.getClientId(context) + "_Ajax", null);
-            writer.writeAttribute("mfFormId", FacesUtils.getFormId(context, component), null);
+            writer.writeAttribute("mfFormId", ChartUtils.getFormId(context, component), null);
             writer.writeAttribute("mfRequestId", "updateChart", null);
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
@@ -136,7 +137,8 @@ public class ChartRenderer extends Renderer {
         ajaxComp.setImmediate(true);
         ajaxComp.setLimitToList(true);
         ajaxComp.setReRender(chart.getClientId(context));
-        if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
+        ajaxComp.setOnsubmit("");
+        if (ChartUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
             chart.getChildren().add(ajaxComp);            
             chart.setAjaxCompId(ajaxComp.getClientId(context));
         }  
@@ -188,6 +190,7 @@ public class ChartRenderer extends Renderer {
 		ChartUtils.setGeneralChartProperties(chart, data);
                 data.setChart(chart);
                 data.setInfo(null);
+                
             }
             session.put(clientId, data);
         }

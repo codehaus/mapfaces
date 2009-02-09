@@ -104,7 +104,6 @@ public class ChartData extends JPanel implements Serializable {
     private boolean legendBorder;
     private float lineStokeWidth;
     private HashMap requestParameterMap;
-    private OutputStream stream;
     
     /** For serialization. */
     private static final long serialVersionUID = 6046366297214274674L;
@@ -1071,16 +1070,16 @@ public class ChartData extends JPanel implements Serializable {
      */
     public Point2D translateScreenToJava2D(Point screenPoint) {
         Insets insets = getInsets();
-        
-        System.out.println("screenPoint X : "+ screenPoint.getX());
-        System.out.println("screenPoint Y : "+ screenPoint.getY());
-        System.out.println("insets  : "+ insets.toString());
-        System.out.println("scaleX : "+this.scaleX);
-        System.out.println("scaleY : "+this.scaleY);
+//        
+//        System.out.println("screenPoint X : "+ screenPoint.getX());
+//        System.out.println("screenPoint Y : "+ screenPoint.getY());
+//        System.out.println("insets  : "+ insets.toString());
+//        System.out.println("scaleX : "+this.scaleX);
+//        System.out.println("scaleY : "+this.scaleY);
         double x = (screenPoint.getX() - insets.left) / this.scaleX;
         double y = (screenPoint.getY() - insets.top) / this.scaleY;
-        System.out.println("X : "+x);
-        System.out.println("Y : "+y);
+//        System.out.println("X : "+x);
+//        System.out.println("Y : "+y);
         return new Point2D.Double(x, y);
     }
 
@@ -1676,9 +1675,10 @@ public class ChartData extends JPanel implements Serializable {
         if (plot == null) {
             return;
         }
-        System.out.println("PAn : "+x+" , "+y);
+//        System.out.println("PAn : "+x+" , "+y);
         zoomInDomain(x, y);
         zoomInRange(x, y);
+        
     }
     /**
      * Zooms in on an anchor point (specified in screen coordinate space).
@@ -1749,9 +1749,9 @@ public class ChartData extends JPanel implements Serializable {
 //            plot.setNotify(false);
             Zoomable z = (Zoomable) plot;
         
-        System.out.println("Point X : "+ x);
-        System.out.println("Point Y : "+ y);
-        System.out.println("Anchor : "+ this.zoomAroundAnchor);
+//        System.out.println("Point X : "+ x);
+//        System.out.println("Point Y : "+ y);
+//        System.out.println("Anchor : "+ this.zoomAroundAnchor);
             z.zoomRangeAxes(this.zoomFactor, this.info.getPlotInfo(),
                     translateScreenToJava2D(new Point((int) x, (int) y)),
                     this.zoomAroundAnchor);
@@ -1841,26 +1841,26 @@ public class ChartData extends JPanel implements Serializable {
         Point2D selectOrigin = translateScreenToJava2D(new Point(
                 (int) Math.ceil(selection.getX()),
                 (int) Math.ceil(selection.getY())));
-        System.out.println("selectOrigin : "+selection.getX());
-        System.out.println("selectOrigin : "+selection.getY());
+//        System.out.println("selectOrigin : "+selection.getX());
+//        System.out.println("selectOrigin : "+selection.getY());
         PlotRenderingInfo plotInfo = this.info.getPlotInfo();
-        System.out.println("plotInfo : "+plotInfo);
+//        System.out.println("plotInfo : "+plotInfo);
         Rectangle2D scaledDataArea = getScreenDataArea(
                 (int) selection.getCenterX(), (int) selection.getCenterY());
-        System.out.println("scaledDataArea : "+scaledDataArea.getBounds().toString());
+//        System.out.println("scaledDataArea : "+scaledDataArea.getBounds().toString());
         if ((selection.getHeight() > 0) && (selection.getWidth() > 0)) {
 
             double hLower = (selection.getMinX() - scaledDataArea.getMinX()) / scaledDataArea.getWidth();
             double hUpper = (selection.getMaxX() - scaledDataArea.getMinX()) / scaledDataArea.getWidth();
             double vLower = (scaledDataArea.getMaxY() - selection.getMaxY()) / scaledDataArea.getHeight();
             double vUpper = (scaledDataArea.getMaxY() - selection.getMinY()) / scaledDataArea.getHeight();
-            System.out.println("h lower : "+hLower+", h upper : "+ hUpper+", v lower : "+vLower+", v upper : "+vUpper);
+//            System.out.println("h lower : "+hLower+", h upper : "+ hUpper+", v lower : "+vLower+", v upper : "+vUpper);
             Plot p = this.chart.getPlot();
             if (p instanceof Zoomable) {
                 
-                System.out.println("p is zoomable");
-                System.out.println("zoomDomainAxes : "+vLower+", "+ vUpper+", "+plotInfo+", "+selectOrigin);
-                System.out.println("zoomRangeAxes : "+hLower+", "+ hUpper+", "+plotInfo+", "+selectOrigin);
+//                System.out.println("p is zoomable");
+//                System.out.println("zoomDomainAxes : "+vLower+", "+ vUpper+", "+plotInfo+", "+selectOrigin);
+//                System.out.println("zoomRangeAxes : "+hLower+", "+ hUpper+", "+plotInfo+", "+selectOrigin);
                 // here we tweak the notify flag on the plot so that only
                 // one notification happens even though we update multiple
                 // axes...
@@ -2813,7 +2813,6 @@ public class ChartData extends JPanel implements Serializable {
     public void setLegendBorder(boolean legendBorder) {
         this.legendBorder = legendBorder;
     }
-
     public float getLineStokeWidth() {
         return lineStokeWidth;
     }
@@ -2828,14 +2827,6 @@ public class ChartData extends JPanel implements Serializable {
 
     public void setInfo(ChartRenderingInfo info) {
         this.info = info;
-    }
-
-    public OutputStream getStream() {
-        return stream;
-    }
-
-    public void setStream(OutputStream stream) {
-        this.stream = stream;
     }
 
 }

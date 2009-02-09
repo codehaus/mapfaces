@@ -85,18 +85,18 @@ public class SourceProvider implements ISourceProvider {
          */
         private XYDataset createDataset(String name, double base, RegularTimePeriod start, int count) {
 
-//            TimeSeries series = new TimeSeries(name, start.getClass());
-//            RegularTimePeriod period = start;
-//            double value = base;
-//            for (int i = 0; i < count; i++) {
-//                series.add(period, value);    
-//                period = period.next();
-//                value = value * (1 + (Math.random() - 0.495) / 10.0);
-//            }
-//
-//            TimeSeriesCollection dataset = new TimeSeriesCollection();
-//            dataset.addSeries(series);
-            TimeSeries s1 = new TimeSeries("L&G European Index Trust", Month.class);
+            TimeSeries series = new TimeSeries(name, start.getClass());
+            RegularTimePeriod period = start;
+            double value = base;
+            for (int i = 0; i < count; i++) {
+                series.add(period, value);    
+                period = period.next();
+                value = value * (1 + (Math.random() - 0.495) / 10.0);
+            }
+
+            TimeSeriesCollection dataset = new TimeSeriesCollection();
+            dataset.addSeries(series);
+            /*TimeSeries s1 = new TimeSeries("L&G European Index Trust", Month.class);
             s1.add(new Month(2, 2001), 181.8);
             s1.add(new Month(3, 2001), 167.3);
             s1.add(new Month(4, 2001), 153.8);
@@ -167,17 +167,17 @@ public class SourceProvider implements ISourceProvider {
             dataset.addSeries(s1);
             dataset.addSeries(s2);
             dataset.addSeries(s3);
-            dataset.addSeries(s4);
+            dataset.addSeries(s4);*/
 
             return dataset;
 
         }
         public List<XYDataset> getMultipleXYDataset() {
             List list = new ArrayList();
-            list.add(createDataset("Series 1", 100.0, new Second(), 20));
-            list.add(createDataset("Series 2", 1000.0, new Second(), 20));
-            list.add(createDataset("Series 3", 10000.0, new Second(), 20));
-            list.add(createDataset("Series 4", 25.0, new Second(), 20));
+            list.add(createDataset("Series 1", 100.0, new Second(), 200));
+            list.add(createDataset("Series 2", 1000.0, new Second(), 200));
+            list.add(createDataset("Series 3", 10000.0, new Second(), 200));
+            list.add(createDataset("Series 4", 25.0, new Second(), 200));
             return list;            
         }
 	//Returns an implementation of an xy dataset
