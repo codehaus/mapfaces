@@ -41,6 +41,7 @@
   <modules>
     <module>library</module>
     <module>web</module>
+    <module>template</module>
   </modules>
 
 
