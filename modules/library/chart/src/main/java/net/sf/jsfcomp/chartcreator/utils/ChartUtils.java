@@ -483,20 +483,16 @@ public class ChartUtils {
         boolean navigation = true;
         boolean increaseDragSpeed = true;
         Element root = document.getDocumentElement();
-        /*if (dynamic) {
-        doc.appendChild(addScriptTag(document));
-        }*/
         final SVGGraphics2D svgGenerator = new IdentifiedSVGGraphics2D(document);
         svgGenerator.getRoot(root);
         svgGenerator.setSVGCanvasSize(new Dimension(width, height));
-        chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo);
-        
+        chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo); 
         
         System.out.println("le root a tant de noeud <g> "+root.getChildNodes().getLength());
         if (navigation) {
             addNavigation(svgGenerator, document, root, width, height);
             if (increaseDragSpeed) {
-                //optimizeSvgRendering(svgGenerator, document, root, width, height);
+                optimizeSvgRendering(document);
 //                replaceLinesByPolyline(svgGenerator, document, root, width, height);
 //                replacePathByCircle(svgGenerator, document, root, width, height);
             }
@@ -507,16 +503,17 @@ public class ChartUtils {
         }
         if (effects || navigation)
             addInit(document);
+        
         svgGenerator.stream(root, new OutputStreamWriter(stream, "UTF-8"));
 
 
     }
 
-    private static Node createCircleWithPath(Document document, Node item) {
+    private static Node createCircleFromPath(Document document, Node item) {
         String[] coordinates = item.getAttributes().getNamedItem("d").getNodeValue().split("C")[0].substring(1).split(" ");
-        int rayon = 2;
+        int rayon = 4;
         Node circle = createCircle(document, "", 
-                String.valueOf(Double.valueOf(coordinates[0])-(rayon/2)), 
+                String.valueOf(Double.valueOf(coordinates[0])-(3)), 
                 coordinates[1],
                 String.valueOf(rayon), "", "", "");
         
@@ -542,8 +539,7 @@ public class ChartUtils {
         return elt;
     }
 
-    private static Node createPolylineWithLines(Document document, String points , NamedNodeMap attributes) {
-        int rayon = 4;
+    private static Node createPolylineFromLines(Document document, String points , NamedNodeMap attributes) {
         Node polyline = createPolyline(document, "", 
                 points, "", "");
         
@@ -556,8 +552,7 @@ public class ChartUtils {
         }
         return polyline;
     }
-    private static void optimizeSvgRendering(SVGGraphics2D svgGenerator, 
-            Document document, Element root, int width, int height) {
+    private static void optimizeSvgRendering(Document document) {
         Node canvas  = document.getElementById("canvas");
         if (canvas != null) {
             NodeList childs = canvas.getChildNodes();
@@ -567,14 +562,11 @@ public class ChartUtils {
                     StringWriter points = new StringWriter();
                     NamedNodeMap lineAttributes = null;
                     while (childs.item(i).getNodeName().equals("line")) {
-//                    System.out.println(childs.item(i).getAttributes());
-//                    System.out.println(childs.item(i).getAttributes().getNamedItem("x1"));
-//                    System.out.println(childs.item(i).getAttributes().getNamedItem("x1").getNodeValue());
                         points.append(childs.item(i).getAttributes().getNamedItem("x1").getNodeValue())
                                 .append(",")
                                 .append(childs.item(i).getAttributes().getNamedItem("y1").getNodeValue())
                                 .append(" ");
-                        if (!childs.item(i+1).getNodeName().equals("line")) {
+                        if ((childs.item(i+1) != null) && !childs.item(i+1).getNodeName().equals("line")) {
                             lineAttributes = childs.item(i).getAttributes();
                             points.append(childs.item(i).getAttributes().getNamedItem("x2").getNodeValue())
                                 .append(",")
@@ -584,9 +576,7 @@ public class ChartUtils {
                         childs.item(i).getParentNode().removeChild(childs.item(i));
                     }
                     i--;
-//                    System.out.println(points.toString());
-//                    System.out.println(lineAttributes);
-                    childs.item(i).getParentNode().insertBefore(createPolylineWithLines(document, points.toString(), lineAttributes),  childs.item(i));
+                    childs.item(i).getParentNode().insertBefore(createPolylineFromLines(document, points.toString(), lineAttributes),  childs.item(i));
                 } else if(childs.item(i).getNodeName().equals("path") 
                         && childs.item(i).getAttributes().getNamedItem("serie") != null) {
                     //remove useless child
@@ -596,7 +586,7 @@ public class ChartUtils {
                         i--;
                     } else {
                         //replace the others by a circle
-                        canvas.replaceChild(createCircleWithPath(document, childs.item(i)),childs.item(i));
+                        canvas.replaceChild(createCircleFromPath(document, childs.item(i)),childs.item(i));
                     }
                 }
             }
@@ -629,7 +619,7 @@ public class ChartUtils {
                         }
                         childs.item(i).getParentNode().removeChild(childs.item(i));
                     }
-                    childs.item(i).getParentNode().insertBefore(createPolylineWithLines(document, points.toString(), lineAttributes),  childs.item(i));
+                    childs.item(i).getParentNode().insertBefore(createPolylineFromLines(document, points.toString(), lineAttributes),  childs.item(i));
                 }
             }
         }
@@ -650,7 +640,7 @@ public class ChartUtils {
                         canvas.removeChild(childs.item(i));
                     } else {
                         //replace the others by a circle
-                        canvas.replaceChild(createCircleWithPath(document, childs.item(i)),childs.item(i));
+                        canvas.replaceChild(createCircleFromPath(document, childs.item(i)),childs.item(i));
                     }
                 }
             }
@@ -691,10 +681,25 @@ public class ChartUtils {
         //Add a draggable <rect> element with the same width and height as his parent 
         NodeList gNodes = root.getElementsByTagName("g");
         System.out.println("le root a tantd enoeud <g> "+gNodes.getLength());
+        boolean canvasCreated = false;
         for (int i = 0; i < gNodes.getLength(); i++) {
+            if (i+1==gNodes.getLength()) {
+                //There is no data to display in the graph so the canvas rectangle doesn't exist 
+                //we must create one to have a background-color to seeing grid lines.
 
-            System.out.println("1 ");
-            if (gNodes.item(i).hasChildNodes() && (gNodes.item(i).getFirstChild().getAttributes().getNamedItem("serie") != null)) {
+                Element canvas = document.createElement("g");
+                //Set default attributes to the canvas
+                canvas.getAttributes().setNamedItem(createAttribute(document, "id", "canvas"));
+                canvas.getAttributes().setNamedItem(createAttribute(document, "width", String.valueOf(width)));
+                canvas.getAttributes().setNamedItem(createAttribute(document, "height", String.valueOf(height)));
+                canvas.getAttributes().setNamedItem(createAttribute(document, "x", String.valueOf(0)));
+                canvas.getAttributes().setNamedItem(createAttribute(document, "y", String.valueOf(0)));
+                canvas.getAttributes().setNamedItem(createAttribute(document, "cursor", "move"));
+                
+                gNodes.item(i).getParentNode().insertBefore(canvas,gNodes.item(i)); 
+                canvasCreated = true;
+            }
+            if (canvasCreated || (gNodes.item(i).hasChildNodes() && (gNodes.item(i).getFirstChild().getAttributes().getNamedItem("serie") != null))) {
                 
                 System.out.println("J'ai trouvé le canvas ou bien"+gNodes.item(i).getChildNodes().getLength());
                 //Set default attributes to the canvas
@@ -705,17 +710,14 @@ public class ChartUtils {
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document,"y",String.valueOf(0)));
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document,"cursor","move"));
                 System.out.println("J'ai trouvé le canvas"+gNodes.item(i).getChildNodes().getLength());
-                //Remove Path node from the series who are useless
-                //removeUselessChild(gNodes.item(i));
                 
                 //Add id to the container of grid lines
                 gNodes.item(i - 1).getAttributes().setNamedItem(createAttribute(document,"id","canvasGrid"));
-                System.out.println("J'ai trouvé le canvas grid "+gNodes.item(i - 1).getChildNodes().getLength());
                 
                 //Insert the container of grid lines into the canvas node as first child
                 gNodes.item(i).insertBefore(gNodes.item(i - 1), gNodes.item(i).getFirstChild());                
-                System.out.println("J'ai bouge  le canvas grid dans le canvas "+gNodes.item(i-1).getChildNodes().getLength());
                 i--;
+                
                 //Find the Rect element who defines the size of canvas container
                 Node rectangleContainer = findGraphContainer(document);
                 if (rectangleContainer != null) {
@@ -764,14 +766,9 @@ public class ChartUtils {
 
                     createBufferGridLines(document, bufferOriginX, bufferOriginY, bufferMaxX, bufferMaxY);
 
-                }
-                
-                System.out.println("J'ai retrouvé le canvas  "+gNodes.item(i-1).getChildNodes().getLength());
-                System.out.println("J'ai retrouvé le canvas  "+gNodes.item(i).getChildNodes().getLength());
-                break;
-            }
-            
-            System.out.println("2 ");
+                } 
+                return;
+            } 
         }
     }
 
