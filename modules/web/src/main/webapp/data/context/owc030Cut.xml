@@ -3,7 +3,7 @@
 	<General>
                 
 		<Window width="600" height="300"/>
-		<ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:4326">
+		<ows:BoundingBox crs="EPSG:4326">
                         <ows:LowerCorner>-125 22.5</ows:LowerCorner>
 			<ows:UpperCorner>-67 51</ows:UpperCorner>
 		</ows:BoundingBox>
