@@ -18,7 +18,6 @@ package net.sf.jsfcomp.chartcreator.renderkit;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,7 +38,6 @@ import org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator;
 import net.sf.jsfcomp.chartcreator.component.UIChart;
 import net.sf.jsfcomp.chartcreator.model.ChartData;
 import net.sf.jsfcomp.chartcreator.utils.ChartConstants;
-import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 
@@ -53,6 +51,7 @@ public class ChartRenderer extends Renderer {
     
     boolean embed = false;
     String PIXEL = null;
+    
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         UIChart chart = (UIChart) component;
@@ -110,6 +109,7 @@ public class ChartRenderer extends Renderer {
             writer.writeAttribute("height", String.valueOf(chart.getHeight()),  null);
             writer.writeAttribute("type", "image/svg+xml", null); 
             writer.writeAttribute("pluginspage", "http://www.adobe.com/svg/viewer/install/main.html", null);
+            
             if (embed) {               
                 writer.writeAttribute("src", chartURL, null); 
                 ChartUtils.renderPassThruImgAttributes(writer, chart); 

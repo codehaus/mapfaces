@@ -7,6 +7,7 @@ var bubbleSize = {
 
 // definition de la methode
 function addEvents (id) {
+    
     var elt = document.getElementById(id);
     if (elt && elt.hasChildNodes() && elt.childNodes.length > 0) {
         var list = elt.childNodes;
@@ -52,8 +53,7 @@ function createText(string, x , y) {
 }
 function calculPosition (evt) {
     //find the canvas container node
-    var canvasContainerElt = document.getElementById('canvasContainer');
-      
+    var canvasContainerElt = document.getElementById('canvasContainer');      
     
     //mouse coordinates
     var x = evt.clientX;
