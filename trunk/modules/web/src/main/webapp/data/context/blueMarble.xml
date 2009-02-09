@@ -10,7 +10,7 @@
     xsi:schemaLocation="http://www.opengis.net/ows-context http://www.ogcnetwork.net/schemas/owc/0.3.0/owsContext.xsd">
 	<General>                
 		<Window width="600" height="300"/>
-		<ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:4326">
+		<ows:BoundingBox crs="EPSG:4326">
 			<ows:LowerCorner>-180 -90</ows:LowerCorner>
 			<ows:UpperCorner>180 90</ows:UpperCorner>
 			<!--ows:LowerCorner>-90 -45</ows:LowerCorner>

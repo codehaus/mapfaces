@@ -39,7 +39,8 @@
   <!-- =========================================================== -->
   <modules>
     <module>main</module>
-    <module>widget</module>
+    <module>widget</module>    
+    <module>chart</module>
   </modules>
 
 

@@ -3,11 +3,14 @@
     
     <display-name>Mapfaces</display-name>
     
+    <!-- LISTENER -->
+
     <listener>
 	<listener-class>org.mapfaces.share.listener.SessionListener</listener-class>
     </listener>
     
- <!-- filtres pour a4j -->
+    <!-- FILTER-->
+
     <filter>
         <display-name>Ajax4jsf Filter</display-name>
         <filter-name>ajax4jsf</filter-name>
@@ -21,6 +24,8 @@
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
 
+    <!-- CONTEXT PARAM-->
+
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>
@@ -30,8 +35,7 @@
                 /WEB-INF/faces-config-treelayout.xml,
                 /WEB-INF/faces-config-timeline.xml
         </param-value>
-    </context-param>
-    
+    </context-param>    
     <context-param>
         <param-name>com.sun.faces.verifyObjects</param-name>
         <param-value>false</param-value>
@@ -40,6 +44,17 @@
         <param-name>com.sun.faces.validateXml</param-name>
         <param-value>true</param-value>
     </context-param>
+    <context-param>
+        <description>
+			When set to true(by default it is), Chartlet servlet is used to generate the chart, otherwise
+			a phaselistener is used
+        </description>
+        <param-name>net.sf.jsfcomp.chartcreator.USE_CHARTLET</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+    <!-- SERVLET -->
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -53,29 +68,27 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Chartlet</servlet-name>
+        <servlet-class>net.sf.jsfcomp.chartcreator.Chartlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Chartlet</servlet-name>
+        <url-pattern>*.chart</url-pattern>
+    </servlet-mapping>
+
+    <!-- SESSION CONFIG -->
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
+
+    <!-- WELCOME FILE-->
+
     <welcome-file-list>
 	<welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
-<!-- The tld files are loaded from the mapfaces jar in WEB-INF/lib -->
-    <!--jsp-config>
-        <taglib>
-            <taglib-uri>http://mapfaces.org/taglib</taglib-uri>
-            <taglib-location>/WEB-INF/tld/mapfaces.tld</taglib-location>
-        </taglib>
-        
-        <taglib>
-            <taglib-uri>http://mapfaces.org/taglib-tools</taglib-uri>
-            <taglib-location>/WEB-INF/tld/mapfaces-tools.tld</taglib-location>
-        </taglib>
-        
-        <taglib>
-            <taglib-uri>http://mapfaces.org/taglib-models</taglib-uri>
-            <taglib-location>/WEB-INF/tld/mapfaces-models.tld</taglib-location>
-        </taglib>
-    </jsp-config-->
+
     
 </web-app>
