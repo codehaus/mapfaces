@@ -165,7 +165,6 @@ public class ChartRenderer extends Renderer {
         final UIChart comp = (UIChart) component;
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         String clientId = comp.getClientId(context);
-        System.out.println(session.get(clientId));
         Object obj =  session.get(clientId);
         if (obj != null) {
             ChartData data = (ChartData) obj;
@@ -181,17 +180,23 @@ public class ChartRenderer extends Renderer {
     private void setChartDataAtSession(FacesContext facesContext, UIChart comp) {
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         String clientId = comp.getClientId(facesContext);
-        System.out.println(session.get(clientId));
+        boolean redraw = false;
         if (session.get(clientId) == null) {
-            ChartData data = new ChartData(comp);    
-            System.out.println(data.getChart());
-            if (data.getChart() == null) {
-                JFreeChart chart = ChartUtils.createChartWithType(data);
-		ChartUtils.setGeneralChartProperties(chart, data);
-                data.setChart(chart);
-                data.setInfo(null);
-                
+            redraw = true;
+        } else {
+            if (!comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
+                redraw = true;
+            } else {
+                redraw = false;
             }
+        }
+        if (redraw) {
+            System.out.println("redraaaaaaaaaaaaaw");
+            ChartData data = new ChartData(comp);
+            JFreeChart chart = ChartUtils.createChartWithType(data);
+            ChartUtils.setGeneralChartProperties(chart, data);
+            data.setChart(chart);
+            data.setInfo(null);
             session.put(clientId, data);
         }
     }
