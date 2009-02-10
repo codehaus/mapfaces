@@ -477,22 +477,24 @@ public class ChartUtils {
 
     public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height, ChartRenderingInfo chartRenderingInfo) throws SVGGraphics2DIOException, UnsupportedEncodingException {
 
-        //create the SVG -------------------------------------------------------
+        //create the SVG from chart
         final DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
         final String svgNS = "http://www.w3.org/2000/svg";
         final Document document = domImpl.createDocument(svgNS, "svg", null);
-        boolean effects = false;
-        boolean navigation = false;
-        boolean increaseDragSpeed = false;
-        Element root = document.getDocumentElement();
         final SVGGraphics2D svgGenerator = new IdentifiedSVGGraphics2D(document);
-        svgGenerator.getRoot(root);
         svgGenerator.setSVGCanvasSize(new Dimension(width, height));
         chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo);
-
-        System.out.println("le root a tant de noeud <g> " + root.getChildNodes().getLength());
+        
+        
+        //Add JavaScript 
+        boolean effects = false;
+        boolean navigation = true;
+        boolean increaseDragSpeed = false;        
+        Element root = document.getDocumentElement();
+        root.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
+        
         if (navigation) {
-            addNavigation(svgGenerator, document, root, width, height);
+            addNavigation(document, root, width, height);
             if (increaseDragSpeed) {
                 optimizeSvgRendering(document);
 //                replaceLinesByPolyline(svgGenerator, document, root, width, height);
@@ -500,7 +502,6 @@ public class ChartUtils {
             }
         }
         if (effects) {
-            //root.appendChild(addTextTag(document));
             addEffects(document);
         }
         if (effects || navigation) {
@@ -633,7 +634,7 @@ public class ChartUtils {
 
     }
 
-    private static void addNavigation(SVGGraphics2D svgGenerator, Document document, Element root, int width, int height) {
+    private static void addNavigation(Document document, Element root, int width, int height) {
         //root.setAttribute("onload", "loadOpenCharts('canvas');");
         String[] jsFiles = {
             "/org/mapfaces/resources/opencharts/lib/OpenLayers/SingleFile.js",
@@ -662,11 +663,9 @@ public class ChartUtils {
             "/org/mapfaces/resources/opencharts/custom/OpenLayers/Control/Navigation.js"
         };
         addScript(document, jsFiles);
-        root.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
 
         //Add a draggable <rect> element with the same width and height as his parent 
         NodeList gNodes = root.getElementsByTagName("g");
-        System.out.println("le root a tantd enoeud <g> " + gNodes.getLength());
         boolean canvasCreated = false;
         for (int i = 0; i < gNodes.getLength(); i++) {
             if (i + 1 == gNodes.getLength()) {
@@ -687,7 +686,6 @@ public class ChartUtils {
             }
             if (canvasCreated || (gNodes.item(i).hasChildNodes() && (gNodes.item(i).getFirstChild().getAttributes().getNamedItem("serie") != null))) {
 
-                System.out.println("J'ai trouvé le canvas ou bien" + gNodes.item(i).getChildNodes().getLength());
                 //Set default attributes to the canvas
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "id", "canvas"));
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "width", String.valueOf(width)));
@@ -695,7 +693,6 @@ public class ChartUtils {
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "x", String.valueOf(0)));
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "y", String.valueOf(0)));
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "cursor", "move"));
-                System.out.println("J'ai trouvé le canvas" + gNodes.item(i).getChildNodes().getLength());
 
                 //Add id to the container of grid lines
                 gNodes.item(i - 1).getAttributes().setNamedItem(createAttribute(document, "id", "canvasGrid"));
@@ -859,79 +856,46 @@ public class ChartUtils {
         return elt;
     }
 
-    private static Element createPath(Document document, String id, String d, String fill, String style) {
+    private static Element createPath(Document document, String id, String d, 
+            String fill, String style) {
+        
         Element elt = document.createElement("path");
-        Attr idAttr = document.createAttribute("id");
-        idAttr.setNodeValue(id);
-        Attr dAttr = document.createAttribute("d");
-        dAttr.setNodeValue(d);
-        Attr styleAttr = document.createAttribute("style");
-        styleAttr.setNodeValue(style);
-        Attr fillAttr = document.createAttribute("fill");
-        fillAttr.setNodeValue(fill);
-        elt.getAttributes().setNamedItem(idAttr);
-        elt.getAttributes().setNamedItem(dAttr);
-        elt.getAttributes().setNamedItem(styleAttr);
-        elt.getAttributes().setNamedItem(fillAttr);
+        elt.getAttributes().setNamedItem(createAttribute(document, "id", id));
+        elt.getAttributes().setNamedItem(createAttribute(document, "d", d));
+        elt.getAttributes().setNamedItem(createAttribute(document, "fill", fill));
+        elt.getAttributes().setNamedItem(createAttribute(document, "style", style));
+        
         return elt;
     }
 
-    private static Element createRect(Document document, String id, double x, double y, double width, double height, String fill, String style) {
+    private static Element createRect(Document document, String id, String x, 
+            String y, String width, String height, String fill, String style) {
+        
         //Set default attributes tu the canvas
         Element elt = document.createElement("rect");
-        Attr idAttr = document.createAttribute("id");
-        idAttr.setNodeValue(id);
-        Attr widthAttr = document.createAttribute("width");
-        widthAttr.setNodeValue(String.valueOf(width));
-        Attr heightAttr = document.createAttribute("height");
-        heightAttr.setNodeValue(String.valueOf(height));
-        Attr xAttr = document.createAttribute("x");
-        xAttr.setNodeValue(String.valueOf(x));
-        Attr yAttr = document.createAttribute("y");
-        yAttr.setNodeValue(String.valueOf(y));
-        Attr styleAttr = document.createAttribute("style");
-        styleAttr.setNodeValue(style);
-        Attr fillAttr = document.createAttribute("fill");
-        fillAttr.setNodeValue(fill);
-//                Attr dragEnable = document.createAttribute( "drag:enable");
-//                dragEnable.setNodeValue("true");   
-        elt.getAttributes().setNamedItem(idAttr);
-        elt.getAttributes().setNamedItem(widthAttr);
-        elt.getAttributes().setNamedItem(heightAttr);
-        elt.getAttributes().setNamedItem(xAttr);
-        elt.getAttributes().setNamedItem(yAttr);
-        elt.getAttributes().setNamedItem(styleAttr);
-        elt.getAttributes().setNamedItem(fillAttr);
+        elt.getAttributes().setNamedItem(createAttribute(document, "id", id));
+        elt.getAttributes().setNamedItem(createAttribute(document, "width", width));
+        elt.getAttributes().setNamedItem(createAttribute(document, "height", height));
+        elt.getAttributes().setNamedItem(createAttribute(document, "x", x));
+        elt.getAttributes().setNamedItem(createAttribute(document, "y", y));
+        elt.getAttributes().setNamedItem(createAttribute(document, "style", style));
+        elt.getAttributes().setNamedItem(createAttribute(document, "fill", fill));
 
         return elt;
     }
 
-    private static Element createLine(Document document, String id, double x1, double x2, double y1, double y2, String stroke, String style) {
+    private static Element createLine(Document document, String id, String x1, 
+            String x2, String y1, String y2, String stroke, String style) {
+        
         //Set default attributes tu the canvas
         Element elt = document.createElement("line");
-        Attr idAttr = document.createAttribute("id");
-        idAttr.setNodeValue(id);
-        Attr x1Attr = document.createAttribute("x1");
-        x1Attr.setNodeValue(String.valueOf(x1));
-        Attr x2Attr = document.createAttribute("x2");
-        x2Attr.setNodeValue(String.valueOf(x2));
-        Attr y1Attr = document.createAttribute("y1");
-        y1Attr.setNodeValue(String.valueOf(y1));
-        Attr y2Attr = document.createAttribute("y2");
-        y2Attr.setNodeValue(String.valueOf(y2));
-        Attr styleAttr = document.createAttribute("style");
-        styleAttr.setNodeValue(style);
-        Attr strokeAttr = document.createAttribute("stroke");
-        strokeAttr.setNodeValue(stroke);
-//                Attr dragEnable = document.createAttribute( "drag:enable");
-//                dragEnable.setNodeValue("true");   
-        elt.getAttributes().setNamedItem(idAttr);
-        elt.getAttributes().setNamedItem(x1Attr);
-        elt.getAttributes().setNamedItem(x2Attr);
-        elt.getAttributes().setNamedItem(y1Attr);
-        elt.getAttributes().setNamedItem(y2Attr);
-        elt.getAttributes().setNamedItem(styleAttr);
-        elt.getAttributes().setNamedItem(strokeAttr);
+        elt.getAttributes().setNamedItem(createAttribute(document, "id", id));
+        elt.getAttributes().setNamedItem(createAttribute(document, "x1", x1));
+        elt.getAttributes().setNamedItem(createAttribute(document, "x2", x2));
+        elt.getAttributes().setNamedItem(createAttribute(document, "y1", y1));
+        elt.getAttributes().setNamedItem(createAttribute(document, "y2", y2));
+        elt.getAttributes().setNamedItem(createAttribute(document, "style", style));
+        elt.getAttributes().setNamedItem(createAttribute(document, "stroke", stroke));
 
         return elt;
     }
@@ -977,12 +941,12 @@ public class ChartUtils {
                         //Calcul min x value for an  vertical lines
                         if (minX == null) {
                             minX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
-
                         }
                         //Calcul interval between 2 vertical lines
                         if (intervalX == null && gridLines.item(j + 1) != null) {
                             intervalX = Double.valueOf(gridLines.item(j + 1).getAttributes().getNamedItem("x1").getNodeValue()) - Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());                        //Calcul max x value for an  vertical lines
                         }
+                        //Calcul max x value for an  vertical lines
                         if (maxX == null && gridLines.item(j + 1) != null && gridLines.item(j + 1).getAttributes().getNamedItem("y1").getNodeValue().equals(gridLines.item(j + 1).getAttributes().getNamedItem("y2").getNodeValue())) {
                             maxX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
 
@@ -1008,28 +972,41 @@ public class ChartUtils {
                     }
                 }
             }
+            
             if ( minX != null && intervalX != null && maxX != null
                     && minY != null && intervalY != null && maxY != null
                     && bufferOriginX != null && bufferOriginY != null
                     && bufferMaxX != null && bufferMaxY != null) {
                 //Add vertical grid lines to the canvas buffer
-                while ((minX - intervalX) >= bufferOriginX) {
-                    minX = minX - intervalX;
-                    canvasGrid.appendChild(createLine(document, "", minX, minX, bufferOriginY, bufferMaxY, "", ""));
-                }
-                while ((maxX + intervalX) <= bufferMaxX) {
-                    maxX = maxX + intervalX;
-                    canvasGrid.appendChild(createLine(document, "", maxX, maxX, bufferOriginY, bufferMaxY, "", ""));
+                //WARNING :  when dataset is empty minx = maxx and intervalx = 0.0;
+                if (maxX > minX && intervalX > 0) {
+                    while ((minX - intervalX) >= bufferOriginX) {
+                        minX = minX - intervalX;
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(minX), 
+                                String.valueOf(minX), String.valueOf(bufferOriginY), 
+                                String.valueOf(bufferMaxY), "", ""));
+                    }
+                    while ((maxX + intervalX) <= bufferMaxX) {
+                        maxX = maxX + intervalX;
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(maxX), 
+                                String.valueOf(maxX), String.valueOf(bufferOriginY), 
+                                String.valueOf(bufferMaxY), "", ""));
+                    }
                 }
 
-                //Add horizontal grid lines to the canvas buffer
-                while ((minY - intervalY) >= bufferOriginY) {
-                    minY = minY - intervalY;
-                    canvasGrid.appendChild(createLine(document, "", bufferOriginX, bufferMaxX, minY, minY, "", ""));
-                }
-                while ((maxY + intervalY) <= bufferMaxY) {
-                    maxY = maxY + intervalY;
-                    canvasGrid.appendChild(createLine(document, "", bufferOriginX, bufferMaxX, maxY, maxY, "", ""));
+                //Add horizontal grid lines to the canvas buffer                
+                if (maxY > minY && intervalY > 0) {
+                    while ((minY - intervalY) >= bufferOriginY) {     
+                        minY = minY - intervalY;
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(bufferOriginX),
+                                String.valueOf(bufferMaxX), String.valueOf(minY), 
+                                String.valueOf(minY), "", ""));
+                    }
+                    while ((maxY + intervalY) <= bufferMaxY) {
+                        maxY = maxY + intervalY;
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(bufferOriginX), 
+                                String.valueOf(bufferMaxX), String.valueOf(maxY), String.valueOf(maxY), "", ""));
+                    }
                 }
             }
         }
@@ -1038,9 +1015,6 @@ public class ChartUtils {
 
     private static Node findGraphContainer(Document document) {
         NodeList rectNodes = document.getElementsByTagNameNS("http://www.w3.org/2000/svg", "rect");
-//        System.out.println(rectNodes.toString());
-//        System.out.println(rectNodes.getLength());
-//        System.out.println(rectNodes.item(0).toString());
         for (int i = 0; i < rectNodes.getLength(); i++) {
             if ((rectNodes != null) && (rectNodes.item(i) != null) && (rectNodes.item(i).getNextSibling() != null) && (rectNodes.item(i).getNextSibling().getNextSibling() != null) && (rectNodes.item(i).getAttributes() != null) && (rectNodes.item(i).getAttributes().getNamedItem("width") != null) && (rectNodes.item(i).getAttributes().getNamedItem("height") != null) && (rectNodes.item(i).getAttributes().getNamedItem("x") != null) && (rectNodes.item(i).getAttributes().getNamedItem("y") != null) && (rectNodes.item(i).getNextSibling().getNodeName().equals("line")) && (rectNodes.item(i).getNextSibling().getNextSibling().getNodeName().equals("text"))) {
                 return rectNodes.item(i);
@@ -1053,10 +1027,8 @@ public class ChartUtils {
 
         if (gNode.hasChildNodes()) {
             NodeList nodes = gNode.getChildNodes();
-//             System.out.println(nodes.getLength());
             for (int i = 0; i < nodes.getLength(); i++) {
                 //When we creates a Circle , batik trasnform it to 2 <PATH>, so I remove one path to prevent smooth dragging
-//                  System.out.println (gNode.getAttributes().getNamedItem("id"));
                 if ((nodes.item(i).getNodeName().equals("path")) && (nodes.item(i).getAttributes().getNamedItem("fill") != null) && (nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue().equals("none"))) {
                     gNode.removeChild(nodes.item(i));
                 }
