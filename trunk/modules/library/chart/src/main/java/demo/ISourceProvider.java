@@ -28,6 +28,8 @@ public interface ISourceProvider {
 	
 	public XYDataset getXYDataset();
 	
+	public XYDataset getEmptyXYDataset();
+        
 	public List<XYDataset> getMultipleXYDataset();
         
 	public XYDataset getFirstXYDataset();
