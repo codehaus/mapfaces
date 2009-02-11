@@ -200,68 +200,129 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         MapContext mapcontext = (MapContext) comp.getAttributes().get("value");
         if (mapcontext != null) {
-            for (MapLayer layer : mapcontext.layers()) {
+
+            //one layer for the entire mpacontext ------------------------------
+            int idlayer = -1;
+            //adding the feature collection into the new layer.
+            final ContextFactory contextFactory = new DefaultContextFactory();
+            Server wms = contextFactory.createDefaultServer();
+            wms.setHref("");
+            wms.setService("mapfaces_service");
+            wms.setVersion("1.0");
+
+            LayerType layerType = new LayerType();
+            layerType.setId("MapFaces_Layer_MF_" + idlayer);
+            layerType.setGroup("mapfaces_group");
+            layerType.setName("abstractlayer");
+            layerType.setHidden(false);
+            layerType.setOpacity(BigDecimal.ONE);
+
+            Layer layermodel = contextFactory.createDefaultLayer();
+            layermodel.setId(layerType.getId());
+            layermodel.setGroup(layerType.getGroup());
+            layermodel.setName(layerType.getName());
+            layermodel.setHidden(layerType.isHidden());
+            layermodel.setOpacity(layerType.getOpacity().toString());
+            layermodel.setTitle("mapfaces_title");
+            layermodel.setServer(wms);
+            layermodel.setType("mapfaces_abstracttype");
+            layermodel.setOutputFormat("image/gif");
+            layermodel.setQueryable(true);
+
+            layermodel.setCompId(FacesUtils.getParentUIModelBase(context, comp).getId() + "_" + comp.getId() + "_" + layermodel.getId());
+
+            UIMFLayer mfLayer = new UIMFLayer();
+            mfLayer.setIndex(idlayer);
+            mfLayer.setModel((AbstractModelBase) model);
 
 
-                int idlayer = mapcontext.layers().indexOf(layer);
-
-                //adding the feature collection into the new layer.
-                final ContextFactory contextFactory = new DefaultContextFactory();
-                Server wms = contextFactory.createDefaultServer();
-                wms.setHref("");
-                wms.setService("mapfaces_service");
-                wms.setVersion("1.0");
-
-                LayerType layerType = new LayerType();
-                layerType.setId("MapFaces_Layer_MF_" + idlayer);
-                layerType.setGroup("mapfaces_group");
-                layerType.setName("abstractlayer");
-                layerType.setHidden(false);
-                layerType.setOpacity(BigDecimal.ONE);
-
-                Layer layermodel = contextFactory.createDefaultLayer();
-                layermodel.setId(layerType.getId());
-                layermodel.setGroup(layerType.getGroup());
-                layermodel.setName(layerType.getName());
-                layermodel.setHidden(layerType.isHidden());
-                layermodel.setOpacity(layerType.getOpacity().toString());
-                layermodel.setTitle("mapfaces_title");
-                layermodel.setServer(wms);
-                layermodel.setType("mapfaces_abstracttype");
-                layermodel.setOutputFormat("image/gif");
-                layermodel.setQueryable(true);
-
-                layermodel.setCompId(FacesUtils.getParentUIModelBase(context, comp).getId() + "_" + comp.getId() + "_" + layermodel.getId());
-
-                UIMFLayer mfLayer = new UIMFLayer();
-                mfLayer.setIndex(idlayer);
-                mfLayer.setModel((AbstractModelBase) model);
+            mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + layermodel.getId());
 
 
-                mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + layermodel.getId());
-
-
-                if (debug) {
-                    mfLayer.getAttributes().put("debug", true);
-                }
-                mfLayer.setDir(dstDir);
-                mfLayer.setContextPath(ctxPath);
-
-                comp.getChildren().add(mfLayer);
-
-                layermodel.setCompId(mfLayer.getClientId(context));
-                System.out.println("[DEBUG] MFLayer from Mapcontext :  " + mfLayer.getClientId(context));
-                mfLayer.setLayer(layermodel);
-
-                if (debug) {
-                    System.out.println("\t UIMFLayer  ClientId" + mfLayer.getClientId(context));
-                }
-
-                model.removeLayerFromId(layermodel.getId());
-                model.addLayer(layermodel);
-
-
+            if (debug) {
+                mfLayer.getAttributes().put("debug", true);
             }
+            mfLayer.setDir(dstDir);
+            mfLayer.setContextPath(ctxPath);
+
+            comp.getChildren().add(mfLayer);
+
+            layermodel.setCompId(mfLayer.getClientId(context));
+            System.out.println("[DEBUG] MFLayer from Mapcontext :  " + mfLayer.getClientId(context));
+            mfLayer.setLayer(layermodel);
+
+            if (debug) {
+                System.out.println("\t UIMFLayer  ClientId" + mfLayer.getClientId(context));
+            }
+
+            model.removeLayerFromId(layermodel.getId());
+            model.addLayer(layermodel);
+
+
+
+            //one layer by maplayer --------------------------------------------
+//            for (MapLayer layer : mapcontext.layers()) {
+//
+//
+//                int idlayer = mapcontext.layers().indexOf(layer);
+//
+//                //adding the feature collection into the new layer.
+//                final ContextFactory contextFactory = new DefaultContextFactory();
+//                Server wms = contextFactory.createDefaultServer();
+//                wms.setHref("");
+//                wms.setService("mapfaces_service");
+//                wms.setVersion("1.0");
+//
+//                LayerType layerType = new LayerType();
+//                layerType.setId("MapFaces_Layer_MF_" + idlayer);
+//                layerType.setGroup("mapfaces_group");
+//                layerType.setName("abstractlayer");
+//                layerType.setHidden(false);
+//                layerType.setOpacity(BigDecimal.ONE);
+//
+//                Layer layermodel = contextFactory.createDefaultLayer();
+//                layermodel.setId(layerType.getId());
+//                layermodel.setGroup(layerType.getGroup());
+//                layermodel.setName(layerType.getName());
+//                layermodel.setHidden(layerType.isHidden());
+//                layermodel.setOpacity(layerType.getOpacity().toString());
+//                layermodel.setTitle("mapfaces_title");
+//                layermodel.setServer(wms);
+//                layermodel.setType("mapfaces_abstracttype");
+//                layermodel.setOutputFormat("image/gif");
+//                layermodel.setQueryable(true);
+//
+//                layermodel.setCompId(FacesUtils.getParentUIModelBase(context, comp).getId() + "_" + comp.getId() + "_" + layermodel.getId());
+//
+//                UIMFLayer mfLayer = new UIMFLayer();
+//                mfLayer.setIndex(idlayer);
+//                mfLayer.setModel((AbstractModelBase) model);
+//
+//
+//                mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + layermodel.getId());
+//
+//
+//                if (debug) {
+//                    mfLayer.getAttributes().put("debug", true);
+//                }
+//                mfLayer.setDir(dstDir);
+//                mfLayer.setContextPath(ctxPath);
+//
+//                comp.getChildren().add(mfLayer);
+//
+//                layermodel.setCompId(mfLayer.getClientId(context));
+//                System.out.println("[DEBUG] MFLayer from Mapcontext :  " + mfLayer.getClientId(context));
+//                mfLayer.setLayer(layermodel);
+//
+//                if (debug) {
+//                    System.out.println("\t UIMFLayer  ClientId" + mfLayer.getClientId(context));
+//                }
+//
+//                model.removeLayerFromId(layermodel.getId());
+//                model.addLayer(layermodel);
+//
+//
+//            }
         comp.setInitDisplay(true);
         }
 

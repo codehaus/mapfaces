@@ -1194,4 +1194,9 @@ public class TreeItem implements Layer, Context {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public ReferencedEnvelope getEnvelope() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

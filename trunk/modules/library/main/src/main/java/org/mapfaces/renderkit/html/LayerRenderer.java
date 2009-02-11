@@ -31,9 +31,7 @@ import org.geotools.data.wms.WebMapServer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.WMSMapLayer;
 import org.geotools.ows.ServiceException;
-import org.geotools.referencing.CRS;
 
-import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;

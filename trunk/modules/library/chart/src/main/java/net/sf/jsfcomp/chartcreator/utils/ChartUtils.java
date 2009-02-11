@@ -135,6 +135,11 @@ public class ChartUtils {
     }
 
     public static Color getColor(String color) {
+
+        if(color.trim().isEmpty()){
+            return null;
+        }
+
         // HTML colors (#FFFFFF format)
         if (color.startsWith("#")) {
             return new Color(Integer.parseInt(color.substring(1), 16));
@@ -220,7 +225,14 @@ public class ChartUtils {
     }
 
     public static void setGeneralChartProperties(JFreeChart chart, ChartData chartData) {
-        chart.setBackgroundPaint(ChartUtils.getColor(chartData.getBackground2()));
+        Color color = ChartUtils.getColor(chartData.getBackground2());
+        if(color == null){
+            chart.setBackgroundPaint(new Color(0f, 0f, 0f, 0f));
+            chart.getPlot().setBackgroundAlpha(0f);
+        }else{
+            chart.setBackgroundPaint(ChartUtils.getColor(chartData.getBackground2()));
+        }
+        
         chart.getPlot().setBackgroundPaint(ChartUtils.getColor(chartData.getForeground2()));
         chart.setTitle(chartData.getTitle());
         //AntiAlias makes some grid lines disappear

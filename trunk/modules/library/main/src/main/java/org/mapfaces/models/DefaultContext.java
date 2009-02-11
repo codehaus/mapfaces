@@ -28,7 +28,12 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.referencing.CRS;
 import org.mapfaces.util.XMLContextUtilities;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * @author Olivier Terral.
@@ -234,6 +239,24 @@ public class DefaultContext extends AbstractModelBase implements Context {
     @Override
     public void setSrs(String srs) {
         this.srs = srs;
+    }
+
+    @Override
+    public ReferencedEnvelope getEnvelope(){
+        CoordinateReferenceSystem crs = null;
+        try {
+            crs = CRS.decode(this.srs);
+        } catch (NoSuchAuthorityCodeException ex) {
+            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FactoryException ex) {
+            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        double dminx = Double.parseDouble(this.minx);
+        double dmaxx = Double.parseDouble(this.maxx);
+        double dminy = Double.parseDouble(this.miny);
+        double dmaxy = Double.parseDouble(this.maxy);
+
+        return new ReferencedEnvelope(dminx, dmaxx, dminy, dmaxy, crs);
     }
 
     /**
