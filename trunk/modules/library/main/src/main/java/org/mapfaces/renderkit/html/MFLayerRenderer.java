@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -51,7 +52,6 @@ import org.geotools.map.MapContext;
 import org.geotools.map.MapLayer;
 import org.geotools.referencing.CRS;
 
-import org.geotools.referencing.crs.DefaultGeocentricCRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.style.MutableFeatureTypeStyle;
 import org.geotools.style.MutableRule;
@@ -167,7 +167,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 mapContext = (MapContext) ve.getValue(context.getELContext());
             } else {
 
-                final int indexLayer = Integer.parseInt(comp.getLayer().getId().substring(comp.getLayer().getId().length() - 1));
+                final int indexLayer = comp.getBindingIndex();
                 final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
 
                 //building a FeatureCollection for this layer.
@@ -291,10 +291,10 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         rulePoint.setFilter(filterPoint);
 
         Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
-        Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer - 1]),
+        Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer]),
                 styleFactory.literalExpression(2),
                 styleFactory.literalExpression(0.8));
-        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer - 1]), styleFactory.literalExpression(0.1));
+        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
         PolygonSymbolizer polygonSymbol = styleFactory.createPolygonSymbolizer(stroke, fill, "marker");
 
         rulePolygon.symbolizers().add(polygonSymbol);

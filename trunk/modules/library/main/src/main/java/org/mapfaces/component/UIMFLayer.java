@@ -67,6 +67,11 @@ public class UIMFLayer extends UIWidgetBase {
      * Index of this layer in the Mapcontext object.
      */
     private int index;
+    
+    /**
+     * this index is used for binding multi components for example layer and timeline bandinfo and rows in datatables.
+     */
+    private int bindingIndex;
 
     public UIMFLayer() {
         super();
@@ -114,6 +119,7 @@ public class UIMFLayer extends UIWidgetBase {
         values[8] = rotation;
         values[9] = contextPath;
         values[10] = index;
+        values[11] = bindingIndex;
         return values;
     }
 
@@ -134,6 +140,7 @@ public class UIMFLayer extends UIWidgetBase {
         setRotation((Double) values[8]);
         setContextPath((String) values[9]);
         setIndex((Integer) values[10]);
+        setBindingIndex((Integer) values[11]);
     }
 
     public String getStyle() {
@@ -207,5 +214,13 @@ public class UIMFLayer extends UIWidgetBase {
      */
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public int getBindingIndex() {
+        return bindingIndex;
+    }
+
+    public void setBindingIndex(int bindingIndex) {
+        this.bindingIndex = bindingIndex;
     }
 }

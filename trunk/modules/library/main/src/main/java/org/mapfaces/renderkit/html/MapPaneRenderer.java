@@ -37,6 +37,7 @@ import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.DefaultLayer;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 import org.mapfaces.util.ContextFactory;
@@ -174,6 +175,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         mfLayer.setFeatures(temp.getFeatures());
                         mfLayer.setRotation(temp.getRotation());
                         mfLayer.setSize(temp.getSize());
+                        
+                        mfLayer.setBindingIndex(((DefaultLayer) temp).getGroupId());
 
                         if (temp.getId() != null) {
                             mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
