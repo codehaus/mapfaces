@@ -26,8 +26,14 @@ var initZoom = function(){
         }
     }
 };
-
 //OpenLayers.Event.observe(window, 'load', initZoom);
+
+function setMfIds(chartId, formId, ajaxCompId) {
+      window.mfChartId = chartId;
+      window.mfFormId = formId;
+      window.mfAjaxCompId = ajaxCompId;
+}
+top.setMfIds = setMfIds;
 
 OpenLayers.Map = OpenLayers.Class({
     
@@ -548,47 +554,7 @@ OpenLayers.Map = OpenLayers.Class({
         
     },
     
-    /*
-     *Send A4J request to refrsh layers when a moveend event is triggered
-     */
-    sendAjaxRequest: function(parameters) {
-        var window = this.getSize();
-        
-        //to fix a bug when the window is resized or firebug has been opened.
-        var badextent = false;
-        if(window.w == 100 && window.h == 100) {
-            badextent = true;
-        }
-        
-        var bbox=this.getExtent().toBBOX();
-        // if(this.getCurrentExtent() == null || bbox != this.getCurrentExtent().toBBOX()){
-        var goodParameters = true;
-        if(parameters.type == "moveend"){
-            var  parameters = {    
-                'synchronized': 'true',
-                'refresh': this.layersName,
-                'bbox': bbox,
-                'window': window.w+','+window.h,
-                'render': 'true', //render the layers, always set to true after the first page loads
-                'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
-            };
-            if(!this.layersName || badextent)
-                goodParameters = false;
-            
-        }
-        parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
-        if(goodParameters){
-            A4J.AJAX.Submit( "updateChart","form1",
-            null,
-            {   
-                'control':this,
-                'single':true,
-                'parameters': parameters ,
-                'actionUrl':window.location
-            } 
-        );
-        }
-    },  
+   
     
     /**
      * APIMethod: getCurrentExtent
@@ -2307,123 +2273,89 @@ OpenLayers.Map = OpenLayers.Class({
         }
         this.setCenter(center, this.getZoomForExtent(bounds));
     },
+    /*
+     *Send A4J request to refrsh layers when a moveend event is triggered
+     */
+    
+    sendAjaxRequest: function(parameters) {      
+        this.mfChartId = window.mfChartId;  
+        this.mfFormId = window.mfFormId;
+        this.mfAjaxCompId = window.mfAjaxCompId;
+        
+        var tag = top.document.getElementById(this.mfChartId);
+        
+        parameters[this.mfAjaxCompId] = this.mfAjaxCompId;           
+        parameters['refresh'] = this.mfChartId;
+        
+        if (top.A4J) {
+            top.A4J.AJAX.Submit( "updateChart", this.mfFormId,
+            null,
+            {   
+                'control':this,
+                'parameters': parameters ,
+                'actionUrl' : top.location.href
+            }
+        );
+            //Clone the tag containing the SVg document 
+        if (tag){   
+                var elt = top.document.createElement(tag.nodeName);                    
+                elt.setAttribute('id', this.mfChartId );
+                elt.setAttribute('style',"display:none;");
+                tag.id=this.mfChartId +'clone';
+                tag.parentNode.insertBefore(elt,tag);
+        }
+        } else {
+            alert('A4J is not defined');
+        }
+    },  
     /** 
-     * APIMethod: zoomToPixelExtent
+     * APIMethod: zoomToBox:
      * Zoom to the extent specify in pixel.
      */
     zoomToBox: function(bounds, out) {
-        var host = window.location.href.split("?")[0]+"?";
-        var params = window.location.href.split("?")[1].split("&");
-        //alert(host+"ts="+(new Date()).getMilliseconds()+"&"+params[1]+ "&BOX="+bounds.left+ "," +bounds.bottom+ "," +bounds.right+ "," +bounds.top);
-        var href = host+"ts="+(new Date()).getMilliseconds()+"&"+params[1]+ "&BOX="+bounds.left+ "," +bounds.bottom+ "," +bounds.right+ "," +bounds.top;
-        
-        if (!isNaN(bounds.left) || !isNaN(bounds.bottom) || !isNaN(bounds.right) || !isNaN(bounds.top)){ 
-              var objectTag = top.document.getElementsByTagName("object").item(0);
-              var  parameters = {                 
-                  'refresh': objectTag.getAttribute("id"),
-                  'org.mapfaces.chart.BOX': bounds.left+ "," +bounds.top+ "," +bounds.right+ "," +bounds.bottom,
-                  'org.mapfaces.chart.CONTAINER_SIZE': this.div.getAttribute("width") + "," + this.div.getAttribute("height"),
-                  'org.mapfaces.chart.ZOOMIN': (!out), 
-                  'org.mapfaces.chart.ZOOMOUT': out 
-              };
-
-
-              var ajaxCompId = objectTag.getAttribute("mfAjaxCompId");
-              // parameters[ajaxCompId] = ajaxCompId;
-              parameters["form1:chart2_Ajax"] = "form1:chart2_Ajax";
-              //top.document.getElementsByTagName("object").item(0).data = href;   alert(top.A4J.AJAX.Submit);
-              top.onSubmit();
-              top.A4J.AJAX.Submit( "updateChart","form1",
-              null,
-              {   
-                  'control':this,
-                  'single':true,
-                  'parameters': parameters ,
-                  'actionUrl' : top.location.href
-              } 
-          );
+       
+        if (!isNaN(bounds.left) || !isNaN(bounds.bottom) || !isNaN(bounds.right) || !isNaN(bounds.top)){
+            var  parameters = {            
+                'org.mapfaces.chart.BOX': bounds.left+ "," +bounds.top+ "," +bounds.right+ "," +bounds.bottom,
+                'org.mapfaces.chart.CONTAINER_SIZE': this.div.getAttribute("width") + "," + this.div.getAttribute("height"),
+                'org.mapfaces.chart.ZOOMIN': (!out), 
+                'org.mapfaces.chart.ZOOMOUT': out 
+            };
+            this.sendAjaxRequest(parameters);
         }
     },
     /** 
-     * APIMethod: zoomToPixelExtent
-     * Zoom to the full extent and recenter.
+     * APIMethod: zoomToPixel:
+     * Zoom to the pixel.
      */
     zoomToPixel: function(pixel, out) {
-        var host = window.location.href.split("?")[0]+"?";
-        var params = window.location.href.split("?")[1].split("&");
-        //alert(host+"ts="+(new Date()).getMilliseconds()+"&"+params[1]+ "&BOX="+bounds.left+ "," +bounds.bottom+ "," +bounds.right+ "," +bounds.top);
-        var href = host+"ts="+(new Date()).getMilliseconds()+"&"+params[1]+ "&PIXEL="+pixel.x+ "," +pixel.y;
-         //alert("&PIXEL="+pixel.x+ "," +pixel.y);
-         
-        if (!isNaN(pixel.x) || !isNaN(pixel.y)){
-          if(top.document.getElementsByTagName("object").item(0))
-              var objectTag = top.document.getElementsByTagName("object").item(0);
-          else
-              var objectTag = top.document.getElementsByTagName("embed").item(0);  
-          var  parameters = {                 
-              'refresh': objectTag.getAttribute("id"),
-              'org.mapfaces.chart.PIXEL': pixel.x+ "," +pixel.y,
-              'org.mapfaces.chart.CONTAINER_SIZE': this.div.getAttribute("width") + "," + this.div.getAttribute("height"),
-              'org.mapfaces.chart.ZOOMIN': (!out), 
-              'org.mapfaces.chart.ZOOMOUT': out 
-          };
-
-
-          var ajaxCompId = objectTag.getAttribute("mfAjaxCompId");
-          // parameters[ajaxCompId] = ajaxCompId;
-          parameters["form1:chart2_Ajax"] = "form1:chart2_Ajax";
-          //top.document.getElementsByTagName("object").item(0).data = href;   alert(top.A4J.AJAX.Submit);
-          //alert(ajaxCompId+" "+objectTag.getAttribute("mfRequestId")+" "+objectTag.getAttribute("mfFormId"));
-          top.onSubmit();
-          top.A4J.AJAX.Submit( "updateChart","form1",
-                    null,
-                    {   
-                        'control':this,
-                        'single':true,
-                        'parameters': parameters ,
-                        'actionUrl' : top.location.href
-                    }
-          );
-        }
-    }, /** 
-     * APIMethod: zoomToPixelExtent
-     * Zoom to the full extent and recenter.
-     */
-    panToPixel: function(pixel) {
-        var host = window.location.href.split("?")[0]+"?";
-        var params = window.location.href.split("?")[1].split("&");
-        //alert(host+"ts="+(new Date()).getMilliseconds()+"&"+params[1]+ "&BOX="+bounds.left+ "," +bounds.bottom+ "," +bounds.right+ "," +bounds.top);
-        var href = host+"ts="+(new Date()).getMilliseconds()+"&"+params[1]+ "&PIXEL="+pixel.x+ "," +pixel.y;
         
         if (!isNaN(pixel.x) || !isNaN(pixel.y)){ 
-              if(top.document.getElementsByTagName("object").item(0))
-                  var objectTag = top.document.getElementsByTagName("object").item(0);
-              else
-                  var objectTag = top.document.getElementsByTagName("embed").item(0); 
-              var  parameters = {                 
-                  'refresh': objectTag.getAttribute("id"),
-                  'org.mapfaces.chart.OFFSET': this.canvasContainer.getAttribute("x")+ "," +this.canvasContainer.getAttribute("y"),
-                  'org.mapfaces.chart.TRANSLATE': this.div.getAttribute("x")+ "," +this.div.getAttribute("y"),
-                  'org.mapfaces.chart.CONTAINER_SIZE': this.canvasContainer.getAttribute("width") + "," + this.canvasContainer.getAttribute("height"),
-                  'org.mapfaces.chart.PAN': true
-              };
-
-
-              var ajaxCompId = objectTag.getAttribute("mfAjaxCompId");
-              // parameters[ajaxCompId] = ajaxCompId;
-              parameters["form1:chart2_Ajax"] = "form1:chart2_Ajax";
-              //top.document.getElementsByTagName("object").item(0).data = href;   alert(top.A4J.AJAX.Submit);
-              //alert(ajaxCompId+" "+objectTag.getAttribute("mfRequestId")+" "+objectTag.getAttribute("mfFormId"));
-              top.onSubmit();
-              top.A4J.AJAX.Submit( "updateChart","form1",
-              null,
-              {   
-                  'control':this,
-                  'single':true,
-                  'parameters': parameters ,
-                  'actionUrl' : top.location.href
-              } 
-          );
+            var  parameters = {                 
+                'org.mapfaces.chart.PIXEL': pixel.x+ "," +pixel.y,
+                'org.mapfaces.chart.CONTAINER_SIZE': this.div.getAttribute("width") + "," + this.div.getAttribute("height"),
+                'org.mapfaces.chart.ZOOMIN': (!out), 
+                'org.mapfaces.chart.ZOOMOUT': out 
+            };
+          
+            this.sendAjaxRequest(parameters);
+          
+        }
+    }, /** 
+     * APIMethod: panToPixel:
+     * Pan to the pixel.
+     */
+    panToPixel: function(pixel) {
+        
+        if (!isNaN(pixel.x) || !isNaN(pixel.y)){  
+            var  parameters = {                 
+                'org.mapfaces.chart.OFFSET': this.canvasContainer.getAttribute("x")+ "," +this.canvasContainer.getAttribute("y"),
+                'org.mapfaces.chart.TRANSLATE': this.div.getAttribute("x")+ "," +this.div.getAttribute("y"),
+                'org.mapfaces.chart.CONTAINER_SIZE': this.canvasContainer.getAttribute("width") + "," + this.canvasContainer.getAttribute("height"),
+                'org.mapfaces.chart.PAN': true
+            };
+              
+            this.sendAjaxRequest(parameters);
         }
     },
     /** 

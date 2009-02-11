@@ -73,6 +73,7 @@ import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.statistics.BoxAndWhiskerXYDataset;
+import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.OHLCDataset;
 import org.jfree.data.xy.WindDataset;
@@ -470,12 +471,20 @@ public class ChartUtils {
         }
     }
 
-    public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height) throws SVGGraphics2DIOException, UnsupportedEncodingException {
-        ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
-        writeChartAsSVG(stream, chart, width, height, chartRenderingInfo);
+    public static void writeChartAsSVG(OutputStream stream, ChartData chartData, ChartRenderingInfo info) throws SVGGraphics2DIOException, UnsupportedEncodingException { 
+        if (chartData.getType().equals("timeseries")) {
+            writeChartAsSVG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight(), info, true);
+        } else {   
+            writeChartAsSVG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight(), info, false);
+        }
     }
 
-    public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height, ChartRenderingInfo chartRenderingInfo) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+    public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+        ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
+        writeChartAsSVG(stream, chart, width, height, chartRenderingInfo, false);
+    }
+
+    public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height, ChartRenderingInfo chartRenderingInfo, boolean isDynamic) throws SVGGraphics2DIOException, UnsupportedEncodingException {
 
         //create the SVG from chart
         final DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
@@ -485,31 +494,30 @@ public class ChartUtils {
         svgGenerator.setSVGCanvasSize(new Dimension(width, height));
         chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo);
         
-        
-        //Add JavaScript 
-        boolean effects = false;
-        boolean navigation = true;
-        boolean increaseDragSpeed = false;        
         Element root = document.getDocumentElement();
         root.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
         
-        if (navigation) {
-            addNavigation(document, root, width, height);
-            if (increaseDragSpeed) {
-                optimizeSvgRendering(document);
-//                replaceLinesByPolyline(svgGenerator, document, root, width, height);
-//                replacePathByCircle(svgGenerator, document, root, width, height);
+        //Add JavaScript 
+        if (isDynamic) {
+            boolean effects = false;
+            boolean navigation = true;
+            boolean increaseDragSpeed = false;     
+            if (navigation) {
+                addNavigation(document, root, width, height);
+                if (increaseDragSpeed) {
+                    optimizeSvgRendering(document);
+    //                replaceLinesByPolyline(svgGenerator, document, root, width, height);
+    //                replacePathByCircle(svgGenerator, document, root, width, height);
+                }
+            }
+            if (effects) {
+                addEffects(document);
+            }
+            if (effects || navigation) {
+                addInit(document);
             }
         }
-        if (effects) {
-            addEffects(document);
-        }
-        if (effects || navigation) {
-            addInit(document);
-        }
         svgGenerator.stream(root, new OutputStreamWriter(stream, "UTF-8"));
-
-
     }
 
     private static Node createCircleFromPath(Document document, Node item) {
@@ -702,9 +710,10 @@ public class ChartUtils {
                 i--;
 
                 //Find the Rect element who defines the size of canvas container
-                Node rectangleContainer = findGraphContainer(document);
+                Node rectangleContainer = findCanvasContainer(document);
+                    System.out.println("J'ai trouvé le canvasContainer ou pas");
                 if (rectangleContainer != null) {
-
+                    System.out.println("J'ai trouvé le canvasContainer");
                     //Set fill and id attribute to the canvas container
                     rectangleContainer.getAttributes().setNamedItem(createAttribute(document, "id", "canvasContainer"));
                     rectangleContainer.getAttributes().setNamedItem(createAttribute(document, "fill", "silver"));
@@ -740,8 +749,8 @@ public class ChartUtils {
                     //Add the canvas node as second child of svg element (after defs node) , before  the original Rect graph container
                     gNodes.item(i).getParentNode().insertBefore(gNodes.item(i), gNodes.item(i).getParentNode().getFirstChild().getNextSibling());
 
-                    //Replace the original Rect graph container by a Path graph container with a hole to see the canvas;
-                    Node path = createPath(document, "", "M0 0 L" + width + " 0 L" + width + " " + height + " L0 " + height + " L0 0 Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "white", "");
+                    //Replace the original Rect chart container by a Path graph container with a hole to see the canvas;
+                    Node path = createPath(document, "", "M0 0 L" + width + " 0 L" + width + " " + height + " L0 " + height + " L0 0 Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "", "");
                     //d.setNodeValue("M0 0 L    600       0 L    600           400        L0     400        L0 0 Z M    104.5566        33.6406     L    104.5566        222.7656           L    495.4434                222.7656           L    495.4434                33.6406     Z");
                     // M0 0 L    1200      0 L    1200          800        L0     800        L0 0 Z M    121.2363        33.6406  L      121.2363        974.207            L    652.4062                974.207            L    652.4062                33.6406 Z
                     gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().replaceChild(
@@ -1013,14 +1022,33 @@ public class ChartUtils {
 
     }
 
-    private static Node findGraphContainer(Document document) {
-        NodeList rectNodes = document.getElementsByTagNameNS("http://www.w3.org/2000/svg", "rect");
-        for (int i = 0; i < rectNodes.getLength(); i++) {
-            if ((rectNodes != null) && (rectNodes.item(i) != null) && (rectNodes.item(i).getNextSibling() != null) && (rectNodes.item(i).getNextSibling().getNextSibling() != null) && (rectNodes.item(i).getAttributes() != null) && (rectNodes.item(i).getAttributes().getNamedItem("width") != null) && (rectNodes.item(i).getAttributes().getNamedItem("height") != null) && (rectNodes.item(i).getAttributes().getNamedItem("x") != null) && (rectNodes.item(i).getAttributes().getNamedItem("y") != null) && (rectNodes.item(i).getNextSibling().getNodeName().equals("line")) && (rectNodes.item(i).getNextSibling().getNextSibling().getNodeName().equals("text"))) {
-                return rectNodes.item(i);
-            }
+    private static Node findCanvasContainer(Document document) {
+        NodeList rectNodes = document.getElementsByTagNameNS(ChartConstants.SVG_NS, "rect");
+        
+        Node canvasContainer = null;
+        if(rectNodes.getLength() >0 && rectNodes.item(rectNodes.getLength()-1) != null 
+                && rectNodes.item(rectNodes.getLength()-1).getParentNode().getChildNodes().getLength() == 1) {
+            canvasContainer = rectNodes.item(rectNodes.getLength()-1);               
         }
-        return null;
+       
+        for (int i = 0; i < rectNodes.getLength()-1; i++) {            
+             System.out.println( ""+ (canvasContainer.getAttributes().getNamedItem("width").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("width").getNodeValue()))+
+                     (canvasContainer.getAttributes().getNamedItem("height").equals(rectNodes.item(i).getAttributes().getNamedItem("height")))+
+                     (canvasContainer.getAttributes().getNamedItem("x").equals(rectNodes.item(i).getAttributes().getNamedItem("x")))+
+                     (canvasContainer.getAttributes().getNamedItem("y").equals(rectNodes.item(i).getAttributes().getNamedItem("y"))));
+            if ((rectNodes != null) && (rectNodes.item(i) != null) 
+                    && (canvasContainer != null) 
+                    && (rectNodes.item(i).getAttributes() != null) 
+                    && (canvasContainer.getAttributes() != null) 
+                    && (canvasContainer.getAttributes().getNamedItem("width").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("width").getNodeValue()))
+                    && (canvasContainer.getAttributes().getNamedItem("height").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("height").getNodeValue()))
+                    && (canvasContainer.getAttributes().getNamedItem("x").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("x").getNodeValue()))
+                    && (canvasContainer.getAttributes().getNamedItem("y").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("y").getNodeValue()))
+                    ) {
+                rectNodes.item(i).getParentNode().removeChild(rectNodes.item(i));
+            }
+        }      
+        return canvasContainer;
     }
 
     private static void removeUselessChild(Node gNode) {

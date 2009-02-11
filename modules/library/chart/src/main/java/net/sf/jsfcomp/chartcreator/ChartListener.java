@@ -169,7 +169,7 @@ public class ChartListener implements PhaseListener {
         } else if (chartData.getOutput().equalsIgnoreCase("jpeg")) {
             ChartUtilities.writeChartAsJPEG(stream, chart, chartData.getWidth(), chartData.getHeight());
         } else if (chartData.getOutput().equalsIgnoreCase("svg")) {
-            ChartUtils.writeChartAsSVG(stream, chart, chartData.getWidth(), chartData.getHeight(), info);
+            ChartUtils.writeChartAsSVG(stream, chartData, info);
         }
         stream.flush();
         stream.close();
@@ -185,7 +185,7 @@ public class ChartListener implements PhaseListener {
         } else if (chartData.getOutput().equalsIgnoreCase("jpeg")) {
             ChartUtilities.writeChartAsJPEG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight());
         } else if (chartData.getOutput().equalsIgnoreCase("svg")) {
-            ChartUtils.writeChartAsSVG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight(), info);
+            ChartUtils.writeChartAsSVG(stream, chartData, info);
         }
         chartData.setInfo(info);
         stream.flush();

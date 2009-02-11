@@ -182,9 +182,9 @@ public class SourceProvider implements ISourceProvider {
     public List<XYDataset> getMultipleXYDataset() {
         List list = new ArrayList();
         list.add(createDataset("Series 1", 100.0, new Second(), 200));
-//            list.add(createDataset("Series 2", 1000.0, new Second(), 200));
-//            list.add(createDataset("Series 3", 10000.0, new Second(), 200));
-//            list.add(createDataset("Series 4", 25.0, new Second(), 200));
+            list.add(createDataset("Series 2", 1000.0, new Second(), 200));
+            list.add(createDataset("Series 3", 10000.0, new Second(), 200));
+            list.add(createDataset("Series 4", 25.0, new Second(), 200));
         return list;
     }
     //Returns an implementation of an xy dataset

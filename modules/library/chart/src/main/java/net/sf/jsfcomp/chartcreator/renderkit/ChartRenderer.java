@@ -78,6 +78,21 @@ public class ChartRenderer extends Renderer {
             writer.writeAttribute("src", chartURL, null);
             ChartUtils.renderPassThruImgAttributes(writer, chart);
         } else {
+            String jsSuffix = clientId.replace(":","");
+//            writer.startElement("script", chart);
+//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.write ( 
+//                "" +
+//                "function onLoad"+jsSuffix+"(id) { " +
+//                "     " +
+//                "window.getMfChartId(id);" +
+//                "     if (document.getElementById(id)) \n " +
+//                "          document.getElementById(id).style.display='block'; \n " +
+//                "     while(document.getElementById(id+'clone') != null) \n " +
+//                "          document.getElementById(id).parentNode.removeChild(document.getElementById(id+'clone')); \n " +
+//                "}" 
+//                );
+//            writer.endElement("script");
             //IE doesn't support SVG without the Adobe SVG Viewer (ASV)
             /*There is 2 different way to define an SVG document into browser 
             
@@ -98,11 +113,10 @@ public class ChartRenderer extends Renderer {
             if (embed) writer.startElement("embed", chart);         
             else writer.startElement("object", chart);
             
-            writer.writeAttribute("onload", "onObjectLoad();", null); 
+            String formId = ChartUtils.getFormId(context, component);
+            
+            writer.writeAttribute("onload", "function onLoad"+jsSuffix+"(chartId, formId, ajaxCompId) { if(window.setMfIds)window.setMfIds(chartId, formId, ajaxCompId);var elt = document.getElementById(chartId);if (elt) elt.style.display='block';while(document.getElementById(chartId+'clone') != null)  elt.parentNode.removeChild(document.getElementById(chartId+'clone'));};onLoad"+jsSuffix+"('" + clientId + "','" + formId + "','" + clientId + "_Ajax');", null); 
             writer.writeAttribute("style", "display:none;", null); 
-            writer.writeAttribute("mfAjaxCompId", chart.getClientId(context) + "_Ajax", null);
-            writer.writeAttribute("mfFormId", ChartUtils.getFormId(context, component), null);
-            writer.writeAttribute("mfRequestId", "updateChart", null);
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
             writer.writeAttribute("border", "0", null);
@@ -191,7 +205,6 @@ public class ChartRenderer extends Renderer {
             }
         }
         if (redraw) {
-            System.out.println("redraaaaaaaaaaaaaw");
             ChartData data = new ChartData(comp);
             JFreeChart chart = ChartUtils.createChartWithType(data);
             ChartUtils.setGeneralChartProperties(chart, data);
@@ -247,7 +260,7 @@ public class ChartRenderer extends Renderer {
             } else if (data.getOutput().equalsIgnoreCase("jpeg")) {
                 ChartUtilities.writeChartAsJPEG(out, chart, data.getWidth(), data.getHeight(), chartRenderingInfo);
             } else if (data.getOutput().equalsIgnoreCase("svg")) {
-                ChartUtils.writeChartAsSVG(out, chart, data.getWidth(), data.getHeight(), chartRenderingInfo);
+                ChartUtils.writeChartAsSVG(out, data, chartRenderingInfo);
             }
             renderImageMapSupport(context, uichart, chartRenderingInfo);
             writer.write(ChartUtilities.getImageMap(uichart.getGenerateMap(), chartRenderingInfo, new StandardToolTipTagFragmentGenerator(), new URLTagFragmentGenerator(uichart.getId())));
