@@ -212,10 +212,17 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 
                 int numberLayer = comp.getIndex();
-                MapLayer maplayer = mapContext.layers().get(numberLayer);
-                MapContext ctx = MapBuilder.getInstance().createContext(DefaultGeographicCRS.WGS84);
-                ctx.layers().add(maplayer);
-                bufferImage = DefaultPortrayalService.getInstance().portray(ctx, env, dim, true);
+
+                if(numberLayer < 0){
+                    // draw complete context in this layer
+                    bufferImage = DefaultPortrayalService.getInstance().portray(mapContext, env, dim, true);
+                }else{
+                    // draw a single layer from the map context
+                    MapLayer maplayer = mapContext.layers().get(numberLayer);
+                    MapContext ctx = MapBuilder.getInstance().createContext(crs);
+                    ctx.layers().add(maplayer);
+                    bufferImage = DefaultPortrayalService.getInstance().portray(ctx, env, dim, true);
+                }
 
                 File dst = File.createTempFile("img", "", comp.getDir());
 

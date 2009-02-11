@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
+import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
  * @author Olivier Terral.
@@ -79,6 +80,8 @@ public interface Context extends Serializable {
 
     void setSrs(String srs);
 
+    ReferencedEnvelope getEnvelope();
+    
     DescriptionURL getLogoURL();
 
     String getMaxScaleDenominator();
