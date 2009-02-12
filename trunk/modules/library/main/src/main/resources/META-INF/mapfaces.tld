@@ -608,6 +608,86 @@
                 Flag to activate the measureArea functionnality.
             </description>
         </attribute>
+        <attribute>
+            <name>selectionZoomBox</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a selection by bounding box button, 
+                you must to set values for the attached attributes : 
+                colorSelectionBox,focusIdSelectionBox,northIdSelectionBox,
+                southIdSelectionBox,eastIdSelectionBox,westIdSelectionBox otherwise a default values will be set.
+            </description>
+        </attribute>
+        <attribute>
+            <name>colorSelectionBox</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The color style for the border of the bounding box.
+            </description>
+        </attribute>
+        <attribute>
+            <name>focusIdSelectionBox</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of an element to have a focus after the selection is done, this feature is used in several search application.
+            </description>
+        </attribute>
+        <attribute>
+            <name>northIdSelectionBox</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of an input element to have the value of latitude MaxY.
+            </description>
+        </attribute>
+        <attribute>
+            <name>eastIdSelectionBox</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of an input element to have the value of longitude MaxX.
+            </description>
+        </attribute>
+        <attribute>
+            <name>southIdSelectionBox</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of an input element to have the value of latitude MinY.
+            </description>
+        </attribute>
+        <attribute>
+            <name>westIdSelectionBox</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of an input element to have the value of longitude MinX.
+            </description>
+        </attribute>
     </tag>
     <!-- CursorTrack -->
     <tag>

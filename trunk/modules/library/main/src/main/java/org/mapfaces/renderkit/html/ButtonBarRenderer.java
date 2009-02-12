@@ -113,6 +113,19 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isMeasureArea()) {
                 writer.write(",\nmeasureArea: true");
             }
+                        
+            if (comp.isSelectionZoomBox()) {
+                
+                final String northId = comp.getNorthIdSelectionBox();
+                final String southId = comp.getSouthIdSelectionBox();
+                final String eastId = comp.getEastIdSelectionBox();
+                final String westId = comp.getWestIdSelectionBox();
+                final String focusId = comp.getFocusIdSelectionBox();
+                final String colorBox = comp.getColorSelectionBox();                
+                
+                writer.write(",\nselectionZoomBox: true");
+                writer.write(",\nselectionZoomBoxOptions: {north:'"+northId+"',south:'"+southId+"',east:'"+eastId+"',west:'"+westId+"',focusId:'"+focusId+"',color:'"+colorBox+"'}");
+            }
 
             writer.write("\n});\n");
 

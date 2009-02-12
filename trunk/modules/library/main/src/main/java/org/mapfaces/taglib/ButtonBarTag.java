@@ -49,6 +49,13 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression featureInfo = null;
     private ValueExpression measureDistance = null;
     private ValueExpression measureArea = null;
+    private ValueExpression selectionZoomBox = null;
+    private ValueExpression colorSelectionBox = null;
+    private ValueExpression focusIdSelectionBox = null;
+    private ValueExpression northIdSelectionBox = null;
+    private ValueExpression southIdSelectionBox = null;
+    private ValueExpression eastIdSelectionBox = null;
+    private ValueExpression westIdSelectionBox = null;
 
     /**
      * {@inheritDoc }
@@ -86,6 +93,13 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("featureInfo",featureInfo);
         component.setValueExpression("measureDistance",measureDistance);
         component.setValueExpression("measureArea",measureArea);
+        component.setValueExpression("selectionZoomBox",selectionZoomBox);
+        component.setValueExpression("colorSelectionBox",colorSelectionBox);
+        component.setValueExpression("focusIdSelectionBox",focusIdSelectionBox);
+        component.setValueExpression("northIdSelectionBox",northIdSelectionBox);
+        component.setValueExpression("southIdSelectionBox",southIdSelectionBox);
+        component.setValueExpression("eastIdSelectionBox",eastIdSelectionBox);
+        component.setValueExpression("westIdSelectionBox",westIdSelectionBox);
 
     }
 
@@ -109,6 +123,13 @@ public class ButtonBarTag extends WidgetBaseTag {
         setFeatureInfo(null);
         setMeasureDistance(null);
         setMeasureArea(null);
+        setSelectionZoomBox(null);
+        setColorSelectionBox(null);
+        setFocusIdSelectionBox(null);
+        setNorthIdSelectionBox(null);
+        setSouthIdSelectionBox(null);
+        setEastIdSelectionBox(null);
+        setWestIdSelectionBox(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -209,5 +230,61 @@ public class ButtonBarTag extends WidgetBaseTag {
 
     public void setMeasureArea(ValueExpression measureArea) {
         this.measureArea = measureArea;
+    }
+
+    public ValueExpression getSelectionZoomBox() {
+        return selectionZoomBox;
+    }
+
+    public void setSelectionZoomBox(ValueExpression selectionZoomBox) {
+        this.selectionZoomBox = selectionZoomBox;
+    }
+
+    public ValueExpression getColorSelectionBox() {
+        return colorSelectionBox;
+    }
+
+    public void setColorSelectionBox(ValueExpression colorSelectionBox) {
+        this.colorSelectionBox = colorSelectionBox;
+    }
+
+    public ValueExpression getFocusIdSelectionBox() {
+        return focusIdSelectionBox;
+    }
+
+    public void setFocusIdSelectionBox(ValueExpression focusIdSelectionBox) {
+        this.focusIdSelectionBox = focusIdSelectionBox;
+    }
+
+    public ValueExpression getNorthIdSelectionBox() {
+        return northIdSelectionBox;
+    }
+
+    public void setNorthIdSelectionBox(ValueExpression northIdSelectionBox) {
+        this.northIdSelectionBox = northIdSelectionBox;
+    }
+
+    public ValueExpression getSouthIdSelectionBox() {
+        return southIdSelectionBox;
+    }
+
+    public void setSouthIdSelectionBox(ValueExpression southIdSelectionBox) {
+        this.southIdSelectionBox = southIdSelectionBox;
+    }
+
+    public ValueExpression getEastIdSelectionBox() {
+        return eastIdSelectionBox;
+    }
+
+    public void setEastIdSelectionBox(ValueExpression eastIdSelectionBox) {
+        this.eastIdSelectionBox = eastIdSelectionBox;
+    }
+
+    public ValueExpression getWestIdSelectionBox() {
+        return westIdSelectionBox;
+    }
+
+    public void setWestIdSelectionBox(ValueExpression westIdSelectionBox) {
+        this.westIdSelectionBox = westIdSelectionBox;
     }
 }

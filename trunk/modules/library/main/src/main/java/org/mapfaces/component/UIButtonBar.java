@@ -26,7 +26,6 @@ import javax.faces.context.FacesContext;
 public class UIButtonBar extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.ButtonBar";
-
     private boolean zoomIn = true;
     private boolean zoomOut = true;
     private boolean pan = true;
@@ -39,6 +38,13 @@ public class UIButtonBar extends UIWidgetBase {
     private boolean featureInfo = false;
     private boolean measureDistance = false;
     private boolean measureArea = false;
+    private boolean selectionZoomBox = false;
+    private String colorSelectionBox = "blue";
+    private String focusIdSelectionBox = "";
+    private String northIdSelectionBox = "";
+    private String southIdSelectionBox = "";
+    private String eastIdSelectionBox = "";
+    private String westIdSelectionBox = "";
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -62,7 +68,7 @@ public class UIButtonBar extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[14];
+        final Object values[] = new Object[25];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -76,6 +82,13 @@ public class UIButtonBar extends UIWidgetBase {
         values[10] = featureInfo;
         values[11] = measureDistance;
         values[12] = measureArea;
+        values[13] = selectionZoomBox;
+        values[14] = colorSelectionBox;
+        values[15] = focusIdSelectionBox;
+        values[16] = northIdSelectionBox;
+        values[17] = southIdSelectionBox;
+        values[18] = eastIdSelectionBox;
+        values[19] = westIdSelectionBox;
         return values;
     }
 
@@ -94,10 +107,17 @@ public class UIButtonBar extends UIWidgetBase {
         panEffect = (Boolean) values[6];
         floatingBar = (Boolean) values[7];
         graticule = (Boolean) values[8];
-        save = (boolean) (Boolean) values[9];
-        featureInfo = (boolean) (Boolean) values[10];
-        measureDistance = (boolean) (Boolean) values[11];
-        measureArea = (boolean) (Boolean) values[12];
+        save = (Boolean) values[9];
+        featureInfo = (Boolean) values[10];
+        measureDistance = (Boolean) values[11];
+        measureArea = (Boolean) values[12];
+        selectionZoomBox = (Boolean) values[13];
+        colorSelectionBox = (String) values[14];
+        focusIdSelectionBox = (String) values[15];
+        northIdSelectionBox = (String) values[16];
+        southIdSelectionBox = (String) values[17];
+        eastIdSelectionBox = (String) values[18];
+        westIdSelectionBox = (String) values[19];
     }
 
     public boolean isZoomIn() {
@@ -157,11 +177,11 @@ public class UIButtonBar extends UIWidgetBase {
     }
 
     public boolean isGraticule() {
-       return graticule;
+        return graticule;
     }
 
     public void setGraticule(final boolean graticule) {
-       this.graticule = graticule;
+        this.graticule = graticule;
     }
 
     public boolean isSave() {
@@ -196,4 +216,59 @@ public class UIButtonBar extends UIWidgetBase {
         this.measureArea = measureArea;
     }
 
+    public boolean isSelectionZoomBox() {
+        return selectionZoomBox;
+    }
+
+    public void setSelectionZoomBox(final boolean selectionZoomBox) {
+        this.selectionZoomBox = selectionZoomBox;
+    }
+
+    public String getColorSelectionBox() {
+        return colorSelectionBox;
+    }
+
+    public void setColorSelectionBox(final String colorSelectionBox) {
+        this.colorSelectionBox = colorSelectionBox;
+    }
+
+    public String getFocusIdSelectionBox() {
+        return focusIdSelectionBox;
+    }
+
+    public void setFocusIdSelectionBox(final String focusIdSelectionBox) {
+        this.focusIdSelectionBox = focusIdSelectionBox;
+    }
+
+    public String getNorthIdSelectionBox() {
+        return northIdSelectionBox;
+    }
+
+    public void setNorthIdSelectionBox(final String northIdSelectionBox) {
+        this.northIdSelectionBox = northIdSelectionBox;
+    }
+
+    public String getSouthIdSelectionBox() {
+        return southIdSelectionBox;
+    }
+
+    public void setSouthIdSelectionBox(final String southIdSelectionBox) {
+        this.southIdSelectionBox = southIdSelectionBox;
+    }
+
+    public String getEastIdSelectionBox() {
+        return eastIdSelectionBox;
+    }
+
+    public void setEastIdSelectionBox(final String eastIdSelectionBox) {
+        this.eastIdSelectionBox = eastIdSelectionBox;
+    }
+
+    public String getWestIdSelectionBox() {
+        return westIdSelectionBox;
+    }
+
+    public void setWestIdSelectionBox(final String westIdSelectionBox) {
+        this.westIdSelectionBox = westIdSelectionBox;
+    }
 }

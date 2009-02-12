@@ -67,7 +67,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
     @SuppressWarnings("static-access")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final UIAutocompletion comp = (UIAutocompletion) component;
-        
+
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.Autocompleter")) {
@@ -186,11 +186,13 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_input";
         String newValue = (String) parameterMap.get(keyParameterInput);
 
-        HtmlInputText inputchild = (HtmlInputText) comp.getChildren().get(0);
-
+        HtmlInputText inputchild = null;
+        if (comp.getChildren().size() != 0) {
+            inputchild = (HtmlInputText) comp.getChildren().get(0);
+        }
 
         ValueExpression ve = comp.getValueExpression("value");
-        if (ve != null) {
+        if (ve != null && inputchild != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 inputchild.setValue(ve.getValue(context.getELContext()));
                 inputchild.setValueExpression("value", ve);
