@@ -59,11 +59,7 @@ public class IdentifiedXYPlot extends XYPlot{
                 }
             }
 
-            ////////////////////////////////////////////////////////////////////
-            if(g2 instanceof IdentifiedSVGGraphics2D){
-                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("serie",getDataset(index).getSeriesKey(0).toString());
-            }
-            ////////////////////////////////////////////////////////////////////
+            
 
             XYItemRendererState state = renderer.initialise(g2, dataArea, this,
                     dataset, info);
@@ -92,8 +88,9 @@ public class IdentifiedXYPlot extends XYPlot{
                         for (int item = firstItem; item <= lastItem; item++) {
                             ////////////////////////////////////////////////////////////////////
                             if(g2 instanceof IdentifiedSVGGraphics2D){
-                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("xValue",String.valueOf(getDataset(index).getXValue(0, item)));
-                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("yValue",String.valueOf(getDataset(index).getYValue(0, item)));
+                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("serie",getDataset(index).getSeriesKey(series).toString());
+                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("xValue",String.valueOf(getDataset(index).getXValue(series, item)));
+                                ((IdentifiedSVGGraphics2D)g2).addSVGAttribut("yValue",String.valueOf(getDataset(index).getYValue(series, item)));
                             }
                             ////////////////////////////////////////////////////////////////////
                             

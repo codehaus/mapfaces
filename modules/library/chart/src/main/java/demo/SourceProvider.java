@@ -98,7 +98,7 @@ public class SourceProvider implements ISourceProvider {
         
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(series);*/
-        TimeSeries s1 = new TimeSeries("L&G European Index Trust", Month.class);
+        TimeSeries s1 = new TimeSeries("LG European Index Trust", Month.class);
         s1.add(new Month(2, 2001), 181.8);
         s1.add(new Month(3, 2001), 167.3);
         s1.add(new Month(4, 2001), 153.8);
@@ -118,7 +118,7 @@ public class SourceProvider implements ISourceProvider {
         s1.add(new Month(6, 2002), 137.0);
         s1.add(new Month(7, 2002), 132.8);
 
-        TimeSeries s2 = new TimeSeries("L&G UK Index Trust MF", Month.class);
+        TimeSeries s2 = new TimeSeries("LG UK Index Trust MF", Month.class);
         s2.add(new Month(2, 2001), 129.6);
         s2.add(new Month(3, 2001), 123.2);
         s2.add(new Month(4, 2001), 117.2);
@@ -137,7 +137,7 @@ public class SourceProvider implements ISourceProvider {
         s2.add(new Month(5, 2002), 111.6);
         s2.add(new Month(6, 2002), 108.8);
         s2.add(new Month(7, 2002), 101.6);
-        TimeSeries s3 = new TimeSeries("L&G European Index Trust Men", Month.class);
+        TimeSeries s3 = new TimeSeries("LG European Index Trust Men", Month.class);
         s3.add(new Month(2, 2003), 181.8);
         s3.add(new Month(3, 2003), 167.3);
         s3.add(new Month(4, 2003), 153.8);
@@ -156,7 +156,7 @@ public class SourceProvider implements ISourceProvider {
         s3.add(new Month(5, 2002), 139.8);
         s3.add(new Month(6, 2002), 137.0);
         s3.add(new Month(7, 2002), 132.8);
-        TimeSeries s4 = new TimeSeries("L&G European Index Trust Women", Month.class);
+        TimeSeries s4 = new TimeSeries("LG European Index Trust Women", Month.class);
         s4.add(new Month(1, 2002), 142.9);
         s4.add(new Month(2, 2002), 138.7);
         s4.add(new Month(3, 2002), 137.3);
@@ -165,14 +165,14 @@ public class SourceProvider implements ISourceProvider {
         s4.add(new Month(6, 2002), 137.0);
         s4.add(new Month(7, 2002), 132.8);
         TimeSeriesCollection dataset = new TimeSeriesCollection();
-        dataset.setDomainIsPointsInTime(true);
-        //if (name.equals("Series 1"))
+        //dataset.setDomainIsPointsInTime(true);
+//        if (name.equals("Series 1"))
         dataset.addSeries(s1);
-        //if (name.equals("Series 2"))
+//        if (name.equals("Series 2"))
         dataset.addSeries(s2);
-        //if (name.equals("Series 3"))
+//        if (name.equals("Series 3"))
         dataset.addSeries(s3);
-        //if (name.equals("Series 4"))
+//        if (name.equals("Series 4"))
         dataset.addSeries(s4);
 
         return dataset;
@@ -182,9 +182,9 @@ public class SourceProvider implements ISourceProvider {
     public List<XYDataset> getMultipleXYDataset() {
         List list = new ArrayList();
         list.add(createDataset("Series 1", 100.0, new Second(), 200));
-            list.add(createDataset("Series 2", 1000.0, new Second(), 200));
-            list.add(createDataset("Series 3", 10000.0, new Second(), 200));
-            list.add(createDataset("Series 4", 25.0, new Second(), 200));
+//            list.add(createDataset("Series 2", 1000.0, new Second(), 200));
+//            list.add(createDataset("Series 3", 10000.0, new Second(), 200));
+//            list.add(createDataset("Series 4", 25.0, new Second(), 200));
         return list;
     }
     //Returns an implementation of an xy dataset
