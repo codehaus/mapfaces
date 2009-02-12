@@ -71,12 +71,7 @@ public class ChartListener implements PhaseListener {
         ChartRenderingInfo info = new ChartRenderingInfo();
         //JFreeChart chart = ChartUtils.createChartWithType(chartData);
         JFreeChart chart = chartData.getChart();
-        Iterator<String> it = phaseEvent.getFacesContext().getExternalContext().getRequestParameterMap().keySet().iterator();
-        while (it.hasNext()) {
-            String tmp = it.next();
-            System.out.println("key : " + tmp + " , entry : " + phaseEvent.getFacesContext().getExternalContext().getRequestParameterMap().get(tmp));
-        }
-        System.out.println("chartDAta == "+chartData);
+       
         if (chartData.getRequestParameterMap()!= null) {
             String zoomin = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMIN");
             String zoomout = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMOUT");
@@ -102,28 +97,19 @@ public class ChartListener implements PhaseListener {
                         ,Double.valueOf(tab[1])
                         ,Double.valueOf(tab[2])-Double.valueOf(tab[0])
                         ,Double.valueOf(tab[3])-Double.valueOf(tab[1])));
-                System.out.println("jesuis rentré org.mapfaces.chart.tab" 
-                        + (Double.valueOf(tab[2])-Double.valueOf(tab[0]))
-                        + (Double.valueOf(tab[3])-Double.valueOf(tab[1]))
-                        );
 
             } else if (pan!=null && pan.equals("true") && translate!=null) {
                     double offsetx = Double.valueOf(offset.split(",")[0]);
                     double offsety = Double.valueOf(offset.split(",")[1]);
                     double width = Double.valueOf(container.split(",")[0]);
                     double height = Double.valueOf(container.split(",")[1]);
-                    System.out.println((offsetx+(width/2)-Double.valueOf(translate.split(",")[0])));
                     chartData.pan((offsetx+(width/2)-Double.valueOf(translate.split(",")[0]))
                             ,(offsety+(height/2)-Double.valueOf(translate.split(",")[1]))
                             );
             }
             chartData.setRequestParameterMap(null);
         }
-        /*System.out.println("renderingInfo == " + chartData.getInfo());
-        if (chartData.getInfo() != null) {
-           
-        }*/
-        System.out.println("jesuis sorti");
+       
         try {
             if (externalContext.getResponse() instanceof HttpServletResponse) {
                 writeChartWithServletResponse((HttpServletResponse) externalContext.getResponse(), chartData);

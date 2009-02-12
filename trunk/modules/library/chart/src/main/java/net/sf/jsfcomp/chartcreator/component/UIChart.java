@@ -48,7 +48,7 @@ public class UIChart extends UIComponentBase {
     private String xlabel;
     private String ylabel;
     private String orientation;
-    private String colors;
+    private String colors = "black,red,lightgray,blue,green,yellow,pink,orange,gray,magenta,cyan,darkgray";
     private Boolean is3d;
     private Boolean legend;
     private Boolean antialias;

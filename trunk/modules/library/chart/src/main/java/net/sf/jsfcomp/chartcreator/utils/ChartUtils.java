@@ -135,12 +135,6 @@ public class ChartUtils {
     }
 
     public static Color getColor(String color) {
-
-        if(color.trim().isEmpty()){
-            return null;
-        }
-
-        // HTML colors (#FFFFFF format)
         if (color.startsWith("#")) {
             return new Color(Integer.parseInt(color.substring(1), 16));
         } else {
@@ -203,16 +197,27 @@ public class ChartUtils {
     public static JFreeChart createChartWithType(ChartData chartData) {
         JFreeChart chart = null;
         Object datasource = chartData.getDatasource();
-        if (datasource instanceof PieDataset) {
-            chart = createChartWithPieDataSet(chartData);
-        } else if (datasource instanceof CategoryDataset) {
-            chart = createChartWithCategoryDataSet(chartData);
-        } else if (datasource instanceof XYDataset) {
-            chart = createChartWithXYDataSet(chartData);
-        } else if (datasource instanceof List) {  //List<XYDataset>
-            chart = createChartWithXYDataSet(chartData);
+        if ((datasource instanceof List) && ((List) datasource).size() > 0) {  //List<XYDataset>
+            Dataset dataset = (Dataset) ((List) datasource).get(0);
+            if (dataset instanceof PieDataset) {
+                chart = createChartWithPieDataSet(chartData);
+            } else if (dataset instanceof CategoryDataset) {
+                chart = createChartWithCategoryDataSet(chartData);
+            } else if (dataset instanceof XYDataset) {
+                chart = createChartWithXYDataSet(chartData);
+            } else {
+                throw new RuntimeException("Unsupported chart type");
+            }
         } else {
-            throw new RuntimeException("Unsupported chart type");
+            if (datasource instanceof PieDataset) {
+                chart = createChartWithPieDataSet(chartData);
+            } else if (datasource instanceof CategoryDataset) {
+                chart = createChartWithCategoryDataSet(chartData);
+            } else if (datasource instanceof XYDataset) {
+                chart = createChartWithXYDataSet(chartData);
+            } else {
+                throw new RuntimeException("Unsupported chart type");
+            }
         }
 
         if (chartData.getLegendFontSize() > 0) {
@@ -337,8 +342,10 @@ public class ChartUtils {
     public static JFreeChart createChartWithXYDataSet(ChartData chartData) {
         List<XYDataset> datasets = null;
         XYDataset dataset = null;
+        boolean isList = false;
         if (chartData.getDatasource() instanceof List) {
             datasets = (List<XYDataset>) chartData.getDatasource();
+            dataset = datasets.get(0);
         } else {
             dataset = (XYDataset) chartData.getDatasource();
         }
@@ -351,12 +358,7 @@ public class ChartUtils {
         PlotOrientation plotOrientation = ChartUtils.getPlotOrientation(chartData.getOrientation());
 
         if (type.equalsIgnoreCase("timeseries")) {
-            if (dataset == null && datasets != null && (datasets.size() > 0)) {
-                chart = IdentifiedChartFactory.createTimeSeriesChart("", xAxis, yAxis, datasets.get(0), legend, true, false);
-                ChartUtils.addXYDataset(chart, datasets);
-            } else {
-                chart = ChartFactory.createTimeSeriesChart("", xAxis, yAxis, dataset, legend, true, false);
-            }
+            chart = IdentifiedChartFactory.createTimeSeriesChart("", xAxis, yAxis, dataset, legend, true, false); 
         } else if (type.equalsIgnoreCase("xyline")) {
             chart = ChartFactory.createXYLineChart("", xAxis, yAxis, dataset, plotOrientation, legend, true, false);
         } else if (type.equalsIgnoreCase("polar")) {
@@ -382,7 +384,12 @@ public class ChartUtils {
         } else if (type.equalsIgnoreCase("wind")) {
             chart = ChartFactory.createWindPlot("", xAxis, yAxis, (WindDataset) dataset, legend, true, false);
         }
-
+        
+        //If there is multiple datasets
+        if (datasets != null) {                       
+            ChartUtils.addXYDataset(chart, datasets);           
+        }
+        
         if (chart.getPlot() instanceof XYPlot) {
             chart.getXYPlot().setDomainGridlinesVisible(chartData.isDomainGridLines());
             chart.getXYPlot().setRangeGridlinesVisible(chartData.isRangeGridLines());
@@ -392,8 +399,8 @@ public class ChartUtils {
             }
         }
 
-        setXYSeriesColors(chart, chartData);
-
+        //setXYSeriesColors(chart, chartData);
+        setXYDatasetColors(chart, chartData);
         setXYExtensions(chart, chartData);
 
         return chart;
@@ -421,6 +428,60 @@ public class ChartUtils {
             String[] colors = chartData.getColors().split(",");
             for (int i = 0; i < colors.length; i++) {
                 plot.getRenderer().setSeriesPaint(i, ChartUtils.getColor(colors[i].trim()));
+            }
+        }
+    }
+    
+    private static void setXYDatasetColors(JFreeChart chart, ChartData chartData) {
+        if (chart.getPlot() instanceof XYPlot && chartData.getColors() != null) {
+            XYPlot plot = (XYPlot) chart.getPlot();            
+            String[] colors = chartData.getColors().split(",");
+            plot.setBackgroundPaint(Color.lightGray);
+            plot.setDomainGridlinePaint(Color.yellow);
+            plot.setRangeGridlinePaint(Color.yellow);
+            plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+            boolean shape = true;
+            
+            //Define the renderer of the XYPlot with a line and a shape (point, rectangle, triangle, square...)
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
+            if (shape) {
+                //Set if shape  are visible or not
+                renderer.setBaseShapesVisible(true);
+                //Set if points are filled or not
+                //default to false because it creates 2 <path> tag (SVG output) for one point
+                renderer.setBaseShapesFilled(false);
+                //Shape will be drawn with an Ellipse
+                renderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6), false);
+            }
+
+            /**/
+            int i = 0;
+            int cpt = 0;
+            while (i < plot.getDatasetCount()) {
+                try {
+                    Color color = ChartUtils.getColor(colors[cpt].trim());
+                    NumberAxis axis = new NumberAxis("Range Axis " + (i + 1));
+                    axis.setAutoRangeIncludesZero(false);
+                    axis.setLabelPaint(color);
+                    axis.setTickLabelPaint(color);
+                    plot.setRangeAxis(i, axis);
+                    if ((i % 2) == 0) {
+                        plot.setRangeAxisLocation(i, AxisLocation.BOTTOM_OR_LEFT);
+                    } else {
+                        plot.setRangeAxisLocation(i, AxisLocation.TOP_OR_RIGHT);
+                    }
+                    plot.mapDatasetToRangeAxis(i, new Integer(i));
+                    plot.setRenderer(i, (XYItemRenderer) renderer.clone());
+                    int j = 0;
+                    while (j < plot.getDataset(i).getSeriesCount()) {
+                         plot.getRenderer(i).setSeriesPaint(j, ChartUtils.getColor(colors[cpt].trim()));
+                         j++;
+                         cpt++;
+                    }
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                i++;
             }
         }
     }
@@ -483,10 +544,10 @@ public class ChartUtils {
         }
     }
 
-    public static void writeChartAsSVG(OutputStream stream, ChartData chartData, ChartRenderingInfo info) throws SVGGraphics2DIOException, UnsupportedEncodingException { 
+    public static void writeChartAsSVG(OutputStream stream, ChartData chartData, ChartRenderingInfo info) throws SVGGraphics2DIOException, UnsupportedEncodingException {
         if (chartData.getType().equals("timeseries")) {
             writeChartAsSVG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight(), info, true);
-        } else {   
+        } else {
             writeChartAsSVG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight(), info, false);
         }
     }
@@ -505,21 +566,21 @@ public class ChartUtils {
         final SVGGraphics2D svgGenerator = new IdentifiedSVGGraphics2D(document);
         svgGenerator.setSVGCanvasSize(new Dimension(width, height));
         chart.draw(svgGenerator, new Rectangle2D.Double(0, 0, width, height), chartRenderingInfo);
-        
+
         Element root = document.getDocumentElement();
         root.appendChild(svgGenerator.getRoot().getChildNodes().item(2));
-        
+
         //Add JavaScript 
         if (isDynamic) {
-            boolean effects = false;
+            boolean effects = true;
             boolean navigation = true;
-            boolean increaseDragSpeed = false;     
+            boolean increaseDragSpeed = false;
             if (navigation) {
                 addNavigation(document, root, width, height);
                 if (increaseDragSpeed) {
                     optimizeSvgRendering(document);
-    //                replaceLinesByPolyline(svgGenerator, document, root, width, height);
-    //                replacePathByCircle(svgGenerator, document, root, width, height);
+                //                replaceLinesByPolyline(svgGenerator, document, root, width, height);
+                //                replacePathByCircle(svgGenerator, document, root, width, height);
                 }
             }
             if (effects) {
@@ -529,7 +590,7 @@ public class ChartUtils {
                 addInit(document);
             }
         }
-        svgGenerator.stream(root, new OutputStreamWriter(stream, "UTF-8"));
+        svgGenerator.stream(root, new OutputStreamWriter(stream, "ISO-8859-1"));
     }
 
     private static Node createCircleFromPath(Document document, Node item) {
@@ -595,13 +656,13 @@ public class ChartUtils {
                     childs.item(i).getParentNode().insertBefore(createPolylineFromLines(document, points.toString(), lineAttributes), childs.item(i));
                 } else if (childs.item(i).getNodeName().equals("path") && childs.item(i).getAttributes().getNamedItem("serie") != null) {
                     //remove useless child
-                    if ((childs.item(i).getAttributes().getNamedItem("fill") != null) && (childs.item(i).getAttributes().getNamedItem("fill").getNodeValue().equals("none"))) {
-                        canvas.removeChild(childs.item(i));
-                        i--;
-                    } else {
+//                    if ((childs.item(i).getAttributes().getNamedItem("fill") != null) && (childs.item(i).getAttributes().getNamedItem("fill").getNodeValue().equals("none"))) {
+//                        canvas.removeChild(childs.item(i));
+//                        i--;
+//                    } else {
                         //replace the others by a circle
                         canvas.replaceChild(createCircleFromPath(document, childs.item(i)), childs.item(i));
-                    }
+//                    }
                 }
             }
         }
@@ -723,9 +784,7 @@ public class ChartUtils {
 
                 //Find the Rect element who defines the size of canvas container
                 Node rectangleContainer = findCanvasContainer(document);
-                    System.out.println("J'ai trouvé le canvasContainer ou pas");
                 if (rectangleContainer != null) {
-                    System.out.println("J'ai trouvé le canvasContainer");
                     //Set fill and id attribute to the canvas container
                     rectangleContainer.getAttributes().setNamedItem(createAttribute(document, "id", "canvasContainer"));
                     rectangleContainer.getAttributes().setNamedItem(createAttribute(document, "fill", "silver"));
@@ -762,7 +821,7 @@ public class ChartUtils {
                     gNodes.item(i).getParentNode().insertBefore(gNodes.item(i), gNodes.item(i).getParentNode().getFirstChild().getNextSibling());
 
                     //Replace the original Rect chart container by a Path graph container with a hole to see the canvas;
-                    Node path = createPath(document, "", "M0 0 L" + width + " 0 L" + width + " " + height + " L0 " + height + " L0 0 Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "", "");
+                    Node path = createPath(document, "chartContainer", "M0 0 L" + width + " 0 L" + width + " " + height + " L0 " + height + " L0 0 Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "", "");
                     //d.setNodeValue("M0 0 L    600       0 L    600           400        L0     400        L0 0 Z M    104.5566        33.6406     L    104.5566        222.7656           L    495.4434                222.7656           L    495.4434                33.6406     Z");
                     // M0 0 L    1200      0 L    1200          800        L0     800        L0 0 Z M    121.2363        33.6406  L      121.2363        974.207            L    652.4062                974.207            L    652.4062                33.6406 Z
                     gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().replaceChild(
@@ -785,54 +844,20 @@ public class ChartUtils {
         }
     }
 
-    private static void addXYDataset(JFreeChart chart, List<XYDataset> datasets) {
-        try {
-            XYPlot plot = chart.getXYPlot();
-            plot.setOrientation(PlotOrientation.VERTICAL);
-            plot.setBackgroundPaint(Color.lightGray);
-            plot.setDomainGridlinePaint(Color.white);
-            plot.setRangeGridlinePaint(Color.white);
-            plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-
+    private static void addXYDataset(JFreeChart chart, List<XYDataset> datasets) {   
+        
             if (datasets.size() > 1) {
-                XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();
-                renderer.setBaseShapesVisible(true);
-                renderer.setBaseShapesFilled(true);
-                renderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6), false);
-
+                XYPlot plot = chart.getXYPlot();
                 Iterator iterator = datasets.listIterator();
                 int i = 1;
-                Random r = new Random();
-                //datasets[0] already draw on the chart so pass it
-                //datasets.remove(0);
+                //datasets[0] already draw on the chart so we pass it
                 iterator.next();
-                while (iterator.hasNext()) {
-                    
-                    Color  c = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
-                    XYDataset next = (XYDataset) iterator.next();// AXIS 2
-
-                    NumberAxis axis = new NumberAxis("Range Axis " + (i + 1));
-                    axis.setAutoRangeIncludesZero(false);
-                    Color color = c;
-                    axis.setLabelPaint(c);
-                    axis.setTickLabelPaint(c);
-                    plot.setRangeAxis(i, axis);
-                    if ((i % 2) == 0) {
-                        plot.setRangeAxisLocation(i, AxisLocation.BOTTOM_OR_LEFT);
-                    } else {
-                        plot.setRangeAxisLocation(i, AxisLocation.TOP_OR_RIGHT);
-                    }
-                    XYDataset dataset = next;
-                    plot.setDataset(i, dataset);
-                    plot.mapDatasetToRangeAxis(i, new Integer(i));
-                    plot.setRenderer(i, (XYItemRenderer) renderer.clone());
-                    plot.getRenderer(i).setSeriesPaint(0, c);
+                while (iterator.hasNext()) { 
+                    XYDataset f = (XYDataset) iterator.next();
+                    plot.setDataset(i, f);
                     i++;
                 }
             }
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private static Element addTextTag(Document document) {
@@ -877,21 +902,21 @@ public class ChartUtils {
         return elt;
     }
 
-    private static Element createPath(Document document, String id, String d, 
+    private static Element createPath(Document document, String id, String d,
             String fill, String style) {
-        
+
         Element elt = document.createElement("path");
         elt.getAttributes().setNamedItem(createAttribute(document, "id", id));
         elt.getAttributes().setNamedItem(createAttribute(document, "d", d));
         elt.getAttributes().setNamedItem(createAttribute(document, "fill", fill));
         elt.getAttributes().setNamedItem(createAttribute(document, "style", style));
-        
+
         return elt;
     }
 
-    private static Element createRect(Document document, String id, String x, 
+    private static Element createRect(Document document, String id, String x,
             String y, String width, String height, String fill, String style) {
-        
+
         //Set default attributes tu the canvas
         Element elt = document.createElement("rect");
         elt.getAttributes().setNamedItem(createAttribute(document, "id", id));
@@ -905,9 +930,9 @@ public class ChartUtils {
         return elt;
     }
 
-    private static Element createLine(Document document, String id, String x1, 
+    private static Element createLine(Document document, String id, String x1,
             String x2, String y1, String y2, String stroke, String style) {
-        
+
         //Set default attributes tu the canvas
         Element elt = document.createElement("line");
         elt.getAttributes().setNamedItem(createAttribute(document, "id", id));
@@ -993,39 +1018,36 @@ public class ChartUtils {
                     }
                 }
             }
-            
-            if ( minX != null && intervalX != null && maxX != null
-                    && minY != null && intervalY != null && maxY != null
-                    && bufferOriginX != null && bufferOriginY != null
-                    && bufferMaxX != null && bufferMaxY != null) {
+
+            if (minX != null && intervalX != null && maxX != null && minY != null && intervalY != null && maxY != null && bufferOriginX != null && bufferOriginY != null && bufferMaxX != null && bufferMaxY != null) {
                 //Add vertical grid lines to the canvas buffer
                 //WARNING :  when dataset is empty minx = maxx and intervalx = 0.0;
                 if (maxX > minX && intervalX > 0) {
                     while ((minX - intervalX) >= bufferOriginX) {
                         minX = minX - intervalX;
-                        canvasGrid.appendChild(createLine(document, "", String.valueOf(minX), 
-                                String.valueOf(minX), String.valueOf(bufferOriginY), 
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(minX),
+                                String.valueOf(minX), String.valueOf(bufferOriginY),
                                 String.valueOf(bufferMaxY), "", ""));
                     }
                     while ((maxX + intervalX) <= bufferMaxX) {
                         maxX = maxX + intervalX;
-                        canvasGrid.appendChild(createLine(document, "", String.valueOf(maxX), 
-                                String.valueOf(maxX), String.valueOf(bufferOriginY), 
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(maxX),
+                                String.valueOf(maxX), String.valueOf(bufferOriginY),
                                 String.valueOf(bufferMaxY), "", ""));
                     }
                 }
 
                 //Add horizontal grid lines to the canvas buffer                
                 if (maxY > minY && intervalY > 0) {
-                    while ((minY - intervalY) >= bufferOriginY) {     
+                    while ((minY - intervalY) >= bufferOriginY) {
                         minY = minY - intervalY;
                         canvasGrid.appendChild(createLine(document, "", String.valueOf(bufferOriginX),
-                                String.valueOf(bufferMaxX), String.valueOf(minY), 
+                                String.valueOf(bufferMaxX), String.valueOf(minY),
                                 String.valueOf(minY), "", ""));
                     }
                     while ((maxY + intervalY) <= bufferMaxY) {
                         maxY = maxY + intervalY;
-                        canvasGrid.appendChild(createLine(document, "", String.valueOf(bufferOriginX), 
+                        canvasGrid.appendChild(createLine(document, "", String.valueOf(bufferOriginX),
                                 String.valueOf(bufferMaxX), String.valueOf(maxY), String.valueOf(maxY), "", ""));
                     }
                 }
@@ -1036,45 +1058,39 @@ public class ChartUtils {
 
     private static Node findCanvasContainer(Document document) {
         NodeList rectNodes = document.getElementsByTagNameNS(ChartConstants.SVG_NS, "rect");
-        
+
         Node canvasContainer = null;
-        if(rectNodes.getLength() >0 && rectNodes.item(rectNodes.getLength()-1) != null 
-                && rectNodes.item(rectNodes.getLength()-1).getParentNode().getChildNodes().getLength() == 1) {
-            canvasContainer = rectNodes.item(rectNodes.getLength()-1);               
+        if (rectNodes.getLength() > 0 && rectNodes.item(rectNodes.getLength() - 1) != null && rectNodes.item(rectNodes.getLength() - 1).getParentNode().getChildNodes().getLength() == 1) {
+            canvasContainer = rectNodes.item(rectNodes.getLength() - 1);
         }
-       
-        for (int i = 0; i < rectNodes.getLength()-1; i++) {            
-             System.out.println( ""+ (canvasContainer.getAttributes().getNamedItem("width").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("width").getNodeValue()))+
-                     (canvasContainer.getAttributes().getNamedItem("height").equals(rectNodes.item(i).getAttributes().getNamedItem("height")))+
-                     (canvasContainer.getAttributes().getNamedItem("x").equals(rectNodes.item(i).getAttributes().getNamedItem("x")))+
-                     (canvasContainer.getAttributes().getNamedItem("y").equals(rectNodes.item(i).getAttributes().getNamedItem("y"))));
+
+        for (int i = 0; i < rectNodes.getLength() - 1; i++) {
             if ((rectNodes != null) && (rectNodes.item(i) != null) 
                     && (canvasContainer != null) 
                     && (rectNodes.item(i).getAttributes() != null) 
                     && (canvasContainer.getAttributes() != null) 
-                    && (canvasContainer.getAttributes().getNamedItem("width").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("width").getNodeValue()))
-                    && (canvasContainer.getAttributes().getNamedItem("height").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("height").getNodeValue()))
-                    && (canvasContainer.getAttributes().getNamedItem("x").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("x").getNodeValue()))
-                    && (canvasContainer.getAttributes().getNamedItem("y").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("y").getNodeValue()))
-                    ) {
+                    && (canvasContainer.getAttributes().getNamedItem("width").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("width").getNodeValue())) 
+                    && (canvasContainer.getAttributes().getNamedItem("height").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("height").getNodeValue())) 
+                    && (canvasContainer.getAttributes().getNamedItem("x").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("x").getNodeValue())) 
+                    && (canvasContainer.getAttributes().getNamedItem("y").getNodeValue().equals(rectNodes.item(i).getAttributes().getNamedItem("y").getNodeValue()))) {
                 rectNodes.item(i).getParentNode().removeChild(rectNodes.item(i));
             }
-        }      
+        }
         return canvasContainer;
     }
 
-    private static void removeUselessChild(Node gNode) {
-
-        if (gNode.hasChildNodes()) {
-            NodeList nodes = gNode.getChildNodes();
-            for (int i = 0; i < nodes.getLength(); i++) {
-                //When we creates a Circle , batik trasnform it to 2 <PATH>, so I remove one path to prevent smooth dragging
-                if ((nodes.item(i).getNodeName().equals("path")) && (nodes.item(i).getAttributes().getNamedItem("fill") != null) && (nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue().equals("none"))) {
-                    gNode.removeChild(nodes.item(i));
-                }
-            }
-        }
-    }
+//    private static void removeUselessChild(Node gNode) {
+//
+//        if (gNode.hasChildNodes()) {
+//            NodeList nodes = gNode.getChildNodes();
+//            for (int i = 0; i < nodes.getLength(); i++) {
+//                //When we creates a Circle , batik trasnform it to 2 <PATH>, so I remove one path to prevent smooth dragging
+//                if ((nodes.item(i).getNodeName().equals("path")) && (nodes.item(i).getAttributes().getNamedItem("fill") != null) && (nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue().equals("none"))) {
+//                    gNode.removeChild(nodes.item(i));
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Zooms in on an anchor point (specified in screen coordinate space).
