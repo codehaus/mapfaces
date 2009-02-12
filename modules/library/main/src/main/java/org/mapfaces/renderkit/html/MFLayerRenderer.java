@@ -327,14 +327,15 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
         final Layer layer = comp.getLayer();
         final String formId = FacesUtils.getFormId(context, comp);
+        UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
 
         final StringBuilder sb = new StringBuilder("Layer decode :");
         sb.append(" Model Id = ").append(model.getId());
         sb.append(" MFLayer Id = ").append(layer.getId());
         sb.append(" Window Height = ").append(model.getWindowHeight());
         sb.append(" Window Width = ").append(model.getWindowWidth());
-
-        if (context.getExternalContext().getRequestParameterMap() == null) {
+        
+        if (context.getExternalContext().getRequestParameterMap() == null && mappane.isDebug()) {
             System.out.println(sb.toString());
             return;
         }

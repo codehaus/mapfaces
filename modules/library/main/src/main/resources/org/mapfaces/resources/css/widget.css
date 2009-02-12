@@ -269,6 +269,26 @@
     background-color:white;
 }
 
+.olControlNavToolbar .olControlSelectionZoomBoxItemInactive { 
+  background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
+  background-repeat: no-repeat;
+}
+.olControlNavToolbar .olControlSelectionZoomBoxItemActive { 
+  background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
+  background-color: orange;
+  background-repeat: no-repeat;
+}
+.mfButtonBar .olControlSelectionZoomBoxItemInactive {
+background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
+background-repeat:no-repeat;
+cursor:pointer;
+}
+.mfButtonBar .olControlSelectionZoomBoxItemActive {
+background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
+background-repeat:no-repeat;
+cursor:pointer;
+}
+
 .olHandlerBoxZoomBox {
     border: 2px solid white;
     position: absolute;

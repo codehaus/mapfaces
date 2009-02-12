@@ -250,6 +250,7 @@ if(!window.OpenLayers){
            "openlayers/custom/OpenLayers/Map.js",
            "openlayers/custom/OpenLayers/Handler/MouseWheel.js",
            "openlayers/custom/OpenLayers/Control/ZoomBoxOut.js",
+           "openlayers/custom/OpenLayers/Control/SelectionZoomBox.js",
            "openlayers/custom/OpenLayers/Control/Graticule.js",
            "openlayers/custom/OpenLayers/Control/Save.js",
            "openlayers/custom/OpenLayers/Control/GetFeatureInfo.js",

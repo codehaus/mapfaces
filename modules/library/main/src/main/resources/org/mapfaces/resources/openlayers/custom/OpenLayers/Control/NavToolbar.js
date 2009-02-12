@@ -88,6 +88,12 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
                     'measurepartial': handleMeasurements});  
            tab.push(ma);
         }
+        
+        //Add SelectionZoomBox button
+        if(options.selectionZoomBox) {
+          tab.push(new OpenLayers.Control.SelectionZoomBox(options.selectionZoomBoxOptions));
+        }
+      
         if(tab.length > 0)
           this.addControls(tab);
     },
