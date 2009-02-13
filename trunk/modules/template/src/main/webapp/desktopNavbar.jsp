@@ -28,7 +28,7 @@
             
             <li>
                 <a4j:commandLink id="geovisualizationa4jlink" onclick="if(_App_Tabs){return false;}else{_Home_Tabs=false;_App_Tabs=true;}" 
-                                 oncomplete="webAppPageWrapper();" 
+                                 oncomplete="webAppPageWrapper(); main_formapp_Mappane.zoomToMaxExtent();" 
                                  reRender="toRefresh" 
                                  actionListener="#{switchTab.goAppActionEvent}">
                     <h:outputText id="geovizualizationlinklabel" value="Application"/>
