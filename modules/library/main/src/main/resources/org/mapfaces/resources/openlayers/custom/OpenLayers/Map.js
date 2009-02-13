@@ -22,7 +22,7 @@
 var initZoom = function(){
     if(window.maps){
         for(var map in window.maps){
-            if(map && window.maps[map]) window.maps[map].zoomToMaxExtent();
+            if(map && window.maps[map]) window.maps[map].zoomToExtent(window.maps[map].currentExtent);
         }
     }
 };
