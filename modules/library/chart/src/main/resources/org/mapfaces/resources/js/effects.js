@@ -4,7 +4,7 @@ var bubbleSize = {
     width : 220,
     height : 100
 };
-var defaultColor = "green";
+var defaultColor = "black";
 // definition de la methode
 function addEvents (id) {
     
