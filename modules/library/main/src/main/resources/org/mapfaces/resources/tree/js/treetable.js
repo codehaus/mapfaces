@@ -11,31 +11,31 @@ var TreeTableJs = {
 };
 
 var dispEffectNone = function(div){
-    if (browser=="Microsoft Internet Explorer"){
+//    if (browser=="Microsoft Internet Explorer"){
         div.style.display="block";
         div.style.opacity="1";
         div.style.filter="alpha(opacity=100)";
-    }else{
-    	div.setStyles({
-            display:'block',
-            opacity: 1
-	});
-        div.tween('opacity',1);
-    }
+//    }else{
+//    	div.setStyles({
+//            display:'block',
+//            opacity: 1
+//	});
+//        div.tween('opacity',1);
+//    }
 };
 
 var dispEffectBlock = function(div){
-    if (browser=="Microsoft Internet Explorer"){
+//    if (browser=="Microsoft Internet Explorer"){
         div.style.display="none";
         div.style.opacity="0";
         div.style.filter="alpha(opacity=0)";
-    }else{
-        div.setStyles({
-            display:'none',
-            opacity: 0
-	});
-        div.tween('opacity',0);
-    }
+//    }else{
+//        div.setStyles({
+//            display:'none',
+//            opacity: 0
+//	});
+//        div.tween('opacity',0);
+//    }
 };
 
 
