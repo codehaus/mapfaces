@@ -18,7 +18,7 @@
     <div id="desktopNavbar">
         <ul>
             <li>
-                <a4j:commandLink id="homea4jlink" onclick=" if(_Home_Tabs){return false;}else{_Home_Tabs=true;_App_Tabs=false;}" 
+                <a4j:commandLink id="homea4jlink" onclick="if(_Home_Tabs){return false;}else{_Home_Tabs=true;_App_Tabs=false;}" 
                                  oncomplete="homePageWrapper();" 
                                  reRender="toRefresh" 
                                  actionListener="#{switchTab.goHomeActionEvent}">
@@ -28,7 +28,7 @@
             
             <li>
                 <a4j:commandLink id="geovisualizationa4jlink" onclick="if(_App_Tabs){return false;}else{_Home_Tabs=false;_App_Tabs=true;}" 
-                                 oncomplete="webAppPageWrapper(); main_formapp_Mappane.zoomToMaxExtent();" 
+                                 oncomplete="webAppPageWrapper();" 
                                  reRender="toRefresh" 
                                  actionListener="#{switchTab.goAppActionEvent}">
                     <h:outputText id="geovizualizationlinklabel" value="Application"/>
