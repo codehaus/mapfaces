@@ -55,6 +55,9 @@
     <attribute>
       <name>rendered</name>
       <required>false</required>
+      <deferred-value>
+          <type>boolean</type>
+       </deferred-value>
       <rtexprvalue>false</rtexprvalue>
       <description>
                 Flag indicating whether or not this component should be rendered
