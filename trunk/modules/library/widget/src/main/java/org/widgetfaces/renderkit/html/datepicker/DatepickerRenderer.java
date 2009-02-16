@@ -31,7 +31,6 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.ajax4jsf.ajax.html.AjaxLog;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
@@ -100,7 +99,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
                 input = (HtmlInputText) uIComponent;
             }
         }
-        
+
         ValueExpression ve = comp.getValueExpression("value");
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
@@ -144,7 +143,6 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         /* Enable ajax request */
         if (comp.isEnableAjax()) {
             final StringBuilder ajaxrequest = new StringBuilder();
-            final AjaxUtils ajaxtools = new AjaxUtils();
 
             final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
             ajaxrequest.append("new Request.HTML({").append("url:'").append(urlRequest).append("',").append("data:{").append("'javax.faces.ViewState':").append("$('javax.faces.ViewState').value").append(",").append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").append("}}).send();");
@@ -176,7 +174,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         String newValue = (String) parameterMap.get(keyParameterInput);
 
         HtmlInputText inputchild = (HtmlInputText) comp.getChildren().get(0);
-        
+
         ValueExpression ve = comp.getValueExpression("value");
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
