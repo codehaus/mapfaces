@@ -20,9 +20,11 @@ window.addEvent('domready', function(){
     MochaUI.Modal = new MochaUI.Modal();
     MochaUI.NewWindowsFromHTML = new MochaUI.NewWindowsFromHTML();
 
-    initializeWindows();
+    initializeWindows();    
     
-    homePageWrapper();
+    //One time the Mocha page is bought click on the "home" link 
+    //Fix bug :  when we are on the map page and we do F5 the home page doesn't appears
+    document.getElementById('main_form:homea4jlink').onclick();
     
     MochaUI.Desktop.desktop.setStyles({
         //'background': '#fff',
@@ -168,6 +170,13 @@ function webAppPageWrapper(){
         'width' : '100%'
     });
     
+    if (window.maps) {
+         for (var i in window.maps) {
+             var map = window.maps[i];
+             if (map && map.div && map.div.style.display != 'none')
+                 map.zoomToExtent(map.currentExtent);
+         }
+    }    
 }
 
 
