@@ -170,13 +170,7 @@ function webAppPageWrapper(){
         'width' : '100%'
     });
     
-    if (window.maps) {
-         for (var i in window.maps) {
-             var map = window.maps[i];
-             if (map && map.div && map.div.style.display != 'none')
-                 map.zoomToExtent(map.currentExtent);
-         }
-    }    
+   window.reloadAllMaps();
 }
 
 

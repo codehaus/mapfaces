@@ -11,7 +11,7 @@ import javax.faces.event.ActionEvent;
 public class TabsBean {
 
     private boolean displayHome = true;
-    private boolean displayApp = false;
+    private boolean displayApp = true;
 
     public TabsBean() {
     }
