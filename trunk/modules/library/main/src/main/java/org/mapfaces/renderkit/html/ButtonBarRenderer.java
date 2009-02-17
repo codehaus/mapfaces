@@ -67,10 +67,19 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
          */
         if(jsObject.contains(":"))
             jsObject = jsObject.replace(":","");
-
+        
+        writer.write(new StringBuilder("").
+                append("if(!window.controlToAdd" + jsObject + "){window.controlToAdd" + jsObject + " = [];}\n").
+                append("window.controlToAdd" + jsObject + ".push(function() {" +
+                "").toString());
+        
         if(comp.isHistory()){
-            writer.write("var nav = new OpenLayers.Control.NavigationHistory();\n");
-            writer.write(jsObject+".addControl(nav);\n");
+            
+            writer.write(
+                "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavigationHistory) {\n" +
+                    "window.nav = new OpenLayers.Control.NavigationHistory();\n");
+            writer.write(jsObject+".addControl(window.nav);\n" +
+                "}\n");
         }
         if(comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()){
 
@@ -78,7 +87,9 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isFloatingBar()) idDivbar = comp.getId();
             else                      idDivbar = comp.getClientId(context);
 
-            writer.write("var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('"+idDivbar+"')");
+            writer.write("\n" +
+                "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavToolbar) {\n" +                    
+                    "var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({\n'div':OpenLayers.Util.getElement('"+idDivbar+"')");
 
             if(comp.isZoomIn())
                 writer.write(",\nzoomIn: true");
@@ -129,7 +140,10 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
 
             writer.write("\n});\n");
 
-        writer.write(jsObject+".addControl("+jsObject+comp.getId()+");");
+        writer.write(jsObject+".addControl("+jsObject+comp.getId()+");\n" +
+                "}\n" +
+            "});\n" +
+            "window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1]();");
         }
         writer.endElement("script");
         writer.endElement("div");
