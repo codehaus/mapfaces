@@ -951,7 +951,7 @@ public class TimeLineRenderer extends Renderer {
             writer.write("var TIMELINE_SINGLE_FILE = true;");
             writer.endElement("script");
             writer.startElement("script", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/minify/zip.js", null), null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/compressed/timeline.min.js", null), null);
             writer.writeAttribute("type", "text/javascript", null);
             writer.endElement("script");
 
