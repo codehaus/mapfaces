@@ -249,6 +249,7 @@ if(!window.OpenLayers){
                 "proj4js/lib/proj4js-combined.js",
                 "proj4js/custom/proj4jsExt.js",
                 "openlayers/custom/OpenLayers/Map.js",
+                "openlayers/custom/OpenLayers/UtilExt.js",
                 "openlayers/custom/OpenLayers/Handler/MouseWheel.js",
                 "openlayers/custom/OpenLayers/Control/ZoomBoxOut.js",
                 "openlayers/custom/OpenLayers/Control/SelectionZoomBox.js",
@@ -267,7 +268,8 @@ if(!window.OpenLayers){
                 "openlayers/custom/OpenLayers/Control/NavToolbar.js",
                 "openlayers/lib/OpenLayers/Lang/fr.js",
                 "openlayers/custom/OpenLayers/Lang/enExt.js",
-                "openlayers/custom/OpenLayers/Lang/frExt.js"
+                "openlayers/custom/OpenLayers/Lang/frExt.js",
+                "js/mfUtil.js"
                 ); // etc.
         }else{
             jsfiles = new Array(

@@ -413,9 +413,11 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomIn.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomOut.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/EditingToolbar.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang.js</include>                               
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/LangExt.js</include>    
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang/en.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Map.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Map.js</include>                                
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/UtilExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Handler/MouseWheel.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ZoomBoxOut.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/Graticule.js</include>
@@ -434,6 +436,7 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang/fr.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Lang/enExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Lang/frExt.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/js/mfUtils.js</include>
                             </includes>
                         </aggregation>
                     </aggregations>
