@@ -96,7 +96,7 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
      * Text to prefix the scale denominator used as a title for the scale bar
      *     element.  Default is "scale 1:".
      */
-    scaleText: "scale 1:",
+    scaleText: '',
     
     /**
      * Property: thousandsSeparator
@@ -120,7 +120,7 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
             inches: [63360, 12, 1]
         },
         metric: {
-            units: ['kilometers', 'meters', 'centimeters'],
+            units: [OpenLayers.i18n("scaleUnitsKilometers"), OpenLayers.i18n("scaleUnitsMeters"), OpenLayers.i18n("scaleUnitsCentimeters")],
             abbr: ['km', 'm', 'cm'],
             inches: [39370.07874, 39.370079, 0.393701]
         }
@@ -302,12 +302,11 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
      *     map scale will be used.
      */
     update: function(scale) {
-        if(this.map == null || !this.map.getScale()) {
-            return;
-        }
+        if(this.map == null || (this.map.baseLayer == null) || !this.map.getScale()) return;
+       
         this.scale = (scale != undefined) ? scale : this.map.getScale();
         // update the element title and width
-        this.element.title = this.scaleText + OpenLayers.Number.format(this.scale);
+        this.element.title = OpenLayers.i18n("scale", {'scaleDenom':OpenLayers.Number.format(this.scale)});
         this.element.style.width = this.maxWidth + 'px';
         // check each measurement unit in the display system
         var comp = this.getComp();
@@ -409,7 +408,7 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
             labelText = '';
             labelBox.className = this.displayClass + 'LabelBox';
             labelBox.style.textAlign = 'center';
-            labelBox.style.width = Math.round(numDiv * this.subProps.pixels) + 'px'
+            labelBox.style.width = Math.round(numDiv * this.subProps.pixels) + 'px';
             labelBox.style.left = Math.round(alignmentOffset[this.align]) + 'px';
             labelBox.style.overflow = 'hidden';
         }
@@ -418,7 +417,11 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
         } else {
             labelText += ' ' + this.subProps.units;
         }
-        labelBox.appendChild(document.createTextNode(labelText));
+        var text = document.createTextNode(labelText);
+        /*Add support for utf-8, charset is a global js variable*/
+       /* if(charset == "utf-8" && stringUtils)
+        	text.data = stringUtils.utf8.decode(text.data);*/
+        labelBox.appendChild(text);
         this.labelContainer.appendChild(labelBox);
     },
     

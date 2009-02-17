@@ -27,13 +27,13 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control.Scale, {
         }
         scale = Math.round(scale);        
         var scaleStr =""+scale+"";
-        if (scale >= 1000 && scale < 1000000) {
+        /*if (scale >= 1000 && scale < 1000000) {
            scaleStr= scaleStr.substring(0, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
         } else  if (scaleStr >= 1000000 && scaleStr < 1000000000) {
            scaleStr = scaleStr.substring(0, scaleStr.length-6)+"."+scaleStr.substring(scaleStr.length-6, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
         } else {
             scaleStr=scale;
-        }    
+        }    */
         this.element.innerHTML = OpenLayers.i18n("scale", {'scaleDenom':scaleStr});
     }, 
 
