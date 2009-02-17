@@ -3534,7 +3534,7 @@ this.myChain.callChain()
 if($("aboutGeomatysLink")){$("aboutGeomatysLink").addEvent("click",function(A){new Event(A).stop();
 MochaUI.aboutGeomatys()
 })
-}MochaUI.loggerPopup=function(){new MochaUI.Window({id:"sdnlogger",title:"Seadatanet Logger",loadMethod:"iframe",contentURL:"logger.jsf",width:450,height:500})
+}MochaUI.loggerPopup=function(){new MochaUI.Window({id:"sdnlogger",title:"Logger",loadMethod:"iframe",contentURL:"logger.jsf",width:450,height:500})
 };
 if($("loggerpopup")){$("loggerpopup").addEvent("click",function(A){new Event(A).stop();
 MochaUI.loggerPopup()

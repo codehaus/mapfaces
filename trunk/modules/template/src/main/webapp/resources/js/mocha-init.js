@@ -26,7 +26,7 @@ initializeWindows = function(){
     MochaUI.loggerPopup = function(){
         new MochaUI.Window({
             id:"sdnlogger",
-            title:"Seadatanet Logger",
+            title:"Logger",
             loadMethod:"iframe",
             contentURL:"logger.jsf",
             width:450,
