@@ -18,7 +18,6 @@ package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -26,7 +25,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.component.abstractTree.UITreeBase;
@@ -52,8 +50,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
     /* Script Js and Css Style link */
-    private static final String MOO_JS = "/org/mapfaces/resources/tree/js/moo1.2.js";
-    private static final String LOAD_JS = "/org/mapfaces/resources/tree/js/load.js";
+    private static final String Loading_Mootools_min     = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
+    private static final String Loading_Tree_min         = "/org/mapfaces/resources/compressed/tree.min.js";
+
     //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
 //    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
 //    private final String TREETABLE_JS = "/org/mapfaces/resources/treetable/js/treetable.1.0.js";
@@ -332,7 +331,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_JS, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Mootools_min, null), null);
+        writer.endElement("script");
+
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Tree_min, null), null);
         writer.endElement("script");
 
     }

@@ -53,8 +53,8 @@ public class ContextRenderer extends Renderer {
 
     private static final String WIDGET_CSS              = "/org/mapfaces/resources/css/widget.css";
     private static final String OPENLAYERS_JS           = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    private static final String OPENLAYERS_MINIFY_JS    = "/org/mapfaces/resources/openlayers/minify/zip.js";
-    private static final String MOOTOOLS_JS             = "/org/mapfaces/resources/tree/js/moo1.2.js";
+    private static final String OPENLAYERS_MINIFY_JS    = "/org/mapfaces/resources/openlayers/custom/OpenLayersLite.js";
+    private static final String MOOTOOLS_JS             = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
     private static final String PROTOTYPE_JS            = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
     private static final String SCRIPTACULOUS_JS        = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
@@ -132,12 +132,12 @@ public class ContextRenderer extends Renderer {
         }
 
         //Add OpenLayers scripts
-        if (isMinifyJS && resourcesFlag) {
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.write("var OpenLayers = { singleFile: true };");
-            writer.endElement("script");
-        }
+//        if (isMinifyJS && resourcesFlag) {
+//            writer.startElement("script", component);
+//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.write("var OpenLayers = { singleFile: true };");
+//            writer.endElement("script");
+//        }
         
         if (resourcesFlag) {
             writer.startElement("script", component);
