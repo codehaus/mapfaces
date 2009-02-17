@@ -43,10 +43,19 @@ OpenLayers.Control.SelectionZoomBox = OpenLayers.Class(OpenLayers.Control, {
             var bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat,
                                                maxXY.lon, maxXY.lat);
             //this.map.zoomToExtent(bounds);
-            document.getElementById(this.north).value= maxXY.lat;
-            document.getElementById(this.south).value=minXY.lat;
-            document.getElementById(this.east).value=maxXY.lon;
-            document.getElementById(this.west).value=minXY.lon;
+            if (document.getElementById(this.north)) {
+             document.getElementById(this.north).value= maxXY.lat;   
+            }
+            if (document.getElementById(this.south)) {
+             document.getElementById(this.south).value=minXY.lat;   
+            }
+            if (document.getElementById(this.east)) {
+              document.getElementById(this.east).value=maxXY.lon;
+            }
+            if (document.getElementById(this.west)) {
+              document.getElementById(this.west).value=minXY.lon;
+            }
+            
             if(this.searchFormBox){
                  this.map.removeLayer(this.searchFormBox);
                  this.searchFormBox=null;

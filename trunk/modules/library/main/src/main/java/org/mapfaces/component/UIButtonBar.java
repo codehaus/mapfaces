@@ -45,6 +45,7 @@ public class UIButtonBar extends UIWidgetBase {
     private String southIdSelectionBox = "";
     private String eastIdSelectionBox = "";
     private String westIdSelectionBox = "";
+    private String targetPopupId = "";
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -68,7 +69,7 @@ public class UIButtonBar extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[25];
+        final Object values[] = new Object[26];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -89,6 +90,7 @@ public class UIButtonBar extends UIWidgetBase {
         values[17] = southIdSelectionBox;
         values[18] = eastIdSelectionBox;
         values[19] = westIdSelectionBox;
+        values[20] = targetPopupId;
         return values;
     }
 
@@ -118,6 +120,7 @@ public class UIButtonBar extends UIWidgetBase {
         southIdSelectionBox = (String) values[17];
         eastIdSelectionBox = (String) values[18];
         westIdSelectionBox = (String) values[19];
+        targetPopupId = (String) values[20];
     }
 
     public boolean isZoomIn() {
@@ -270,5 +273,13 @@ public class UIButtonBar extends UIWidgetBase {
 
     public void setWestIdSelectionBox(final String westIdSelectionBox) {
         this.westIdSelectionBox = westIdSelectionBox;
+    }
+
+    public String getTargetPopupId() {
+        return targetPopupId;
+    }
+
+    public void setTargetPopupId(String targetPopupId) {
+        this.targetPopupId = targetPopupId;
     }
 }

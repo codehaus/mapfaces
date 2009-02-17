@@ -53,7 +53,7 @@
 }
 
 .mfScaleBar .olControlScaleBarBarAlt {
-   /* height: 1px;
+    /* height: 1px;
     top: 14px;
     background: #333;*/
     border: 1px solid #999999;
@@ -106,7 +106,6 @@
     background-color:white;
     position:relative;
     border:1px solid #CCCCCC;
-    
 }
 .mfLayerControl{
     width:600px;
@@ -270,23 +269,23 @@
 }
 
 .olControlNavToolbar .olControlSelectionZoomBoxItemInactive { 
-  background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
-  background-repeat: no-repeat;
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
+    background-repeat: no-repeat;
 }
 .olControlNavToolbar .olControlSelectionZoomBoxItemActive { 
-  background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
-  background-color: orange;
-  background-repeat: no-repeat;
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
+    background-color: orange;
+    background-repeat: no-repeat;
 }
 .mfButtonBar .olControlSelectionZoomBoxItemInactive {
-background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
-background-repeat:no-repeat;
-cursor:pointer;
+    background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
+    background-repeat:no-repeat;
+    cursor:pointer;
 }
 .mfButtonBar .olControlSelectionZoomBoxItemActive {
-background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
-background-repeat:no-repeat;
-cursor:pointer;
+    background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
+    background-repeat:no-repeat;
+    cursor:pointer;
 }
 
 .olHandlerBoxZoomBox {
@@ -309,57 +308,61 @@ cursor:pointer;
 .special { background-color: #50ea70; color: red; }
 
 .track{
-height:10px;
-left:50%;
-margin-left:-128px;
-position:relative;
-top:25px;
-width:256px;
-z-index:20000;
- }
+    height:10px;
+    left:50%;
+    margin-left:-128px;
+    position:relative;
+    top:25px;
+    width:256px;
+    z-index:20000;
+}
 .mfDimRange{
-        height:100px;
-        position:relative;
+    height:100px;
+    position:relative;
 }
 /*Coloramp*/
 .mfDimRange .range{
-	font-size:12px;
-	font-weight:bold;
-	position:absolute;
-
-	
-	
+    font-size:12px;
+    font-weight:bold;
+    position:absolute;
 }
 .mfDimRange .range input{
-	width:50px;
-	text-align:right;
-	height:19px;
+    width:50px;
+    text-align:right;
+    height:19px;
 }
 .mfDimRange .minRange{
-   left:50%;
-   margin-left:-125px;
-   margin-top:-15px;
-	
+    left:50%;
+    margin-left:-125px;
+    margin-top:-15px;
+    
 }
 .mfDimRange .maxRange{
-   left:50%;
-   margin-left:80px;
-   margin-top:-15px;
-        
+    left:50%;
+    margin-left:80px;
+    margin-top:-15px;
+    
 }
 .mfDimRange .colorRamp{
-  position : absolute;
-  left:50%;   
-  margin-left:-62.5px;
-	
+    position : absolute;
+    left:50%;   
+    margin-left:-62.5px;
+    
 }
 .mfDimRange .colorRamp img{
-	height : 20px;
-	width:135px;
+    height : 20px;
+    width:135px;
 }
 .mfDimRange .colorDiv{
-	
+    
 }
 .mfDimRange .colorDivSpan{
-	
+    
+}
+
+.mfPopupInvisible{
+    display:none;
+}
+.mfPopup{
+    display:block;
 }

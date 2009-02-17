@@ -65,7 +65,7 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
         }
         //Add GetFeatureInfo button
         if(options.getFeatureInfo)
-          tab.push(new OpenLayers.Control.GetFeatureInfo());
+          tab.push(new OpenLayers.Control.GetFeatureInfo(options.getFeatureInfoOptions));
       
         //Add GetCoverage button
         //if(options.getCoverage)
