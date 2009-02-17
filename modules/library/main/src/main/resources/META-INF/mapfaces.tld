@@ -688,6 +688,17 @@
                 The id of an input element to have the value of longitude MinX.
             </description>
         </attribute>
+        <attribute>
+            <name>targetPopupId</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of the target popup if the getFeatureInfo is enabled.
+            </description>
+        </attribute>
     </tag>
     <!-- CursorTrack -->
     <tag>

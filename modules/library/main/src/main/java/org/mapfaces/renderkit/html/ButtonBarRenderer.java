@@ -22,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIButtonBar;
 import org.mapfaces.component.UIMapPane;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Olivier Terral.
@@ -38,7 +39,12 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
         final UIButtonBar comp = (UIButtonBar) component;
         final String clientId  = comp.getClientId(context);
-
+        
+        String formId = FacesUtils.getFormId(context, component);
+        if (formId == null && clientId.contains(":")) {
+            formId = clientId.substring(0, clientId.indexOf(":"));
+        }
+        
         writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
 
@@ -116,7 +122,10 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
                 writer.write(",\npanEffect: true");
 
             if (comp.isFeatureInfo()) {
+                final String targetPopupId = comp.getTargetPopupId();
+                
                 writer.write(",\ngetFeatureInfo: true");
+                writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'"+formId+":"+targetPopupId+"'}");
             }
             if (comp.isMeasureDistance()) {
                 writer.write(",\nmeasureDistance: true");

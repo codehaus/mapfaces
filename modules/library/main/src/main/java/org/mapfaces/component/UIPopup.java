@@ -26,11 +26,15 @@ import javax.faces.context.FacesContext;
 public class UIPopup extends UIWidgetBase{
 
     public static final String FAMILIY = "org.mapfaces.Popup";
+    
+    private String innerHTML = null;
+    private String top = "0px";
+    private String left = "0px";
+    private int width = 300;
+    private int height = 200;
 
     public UIPopup() {
         super();
-        if(isDebug())
-            System.out.println("[UIPopup] constructor----------------------");
         setRendererType("org.mapfaces.renderkit.html.Popup"); // this component has a renderer
     }
 
@@ -47,8 +51,13 @@ public class UIPopup extends UIWidgetBase{
      */
     @Override
      public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[1];
+        final Object values[] = new Object[10];
         values[0] = super.saveState(context);
+        values[1] = top;
+        values[2] = left;
+        values[3] = width;
+        values[4] = height;
+        values[5] = innerHTML;
         return values;
     }
 
@@ -59,6 +68,51 @@ public class UIPopup extends UIWidgetBase{
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
+        top = (String) values[1];
+        left = (String) values[2];
+        width = (Integer) values[3];
+        height = (Integer) values[4];
+        innerHTML = (String) values[5];
+    }
+
+    public String getInnerHTML() {
+        return innerHTML;
+    }
+
+    public void setInnerHTML(String innerHTML) {
+        this.innerHTML = innerHTML;
+    }
+
+    public String getTop() {
+        return top;
+    }
+
+    public void setTop(String top) {
+        this.top = top;
+    }
+
+    public String getLeft() {
+        return left;
+    }
+
+    public void setLeft(String left) {
+        this.left = left;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }
