@@ -225,14 +225,14 @@
                     <jswarn>false</jswarn>
                     <aggregations>
                         <aggregation>
-                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/mootools.min.js</output>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/mootools.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/mootools-1.2-core.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/mootools-1.2-more.js</include>
                             </includes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/tree.min.js</output>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/tree.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/tree/js/utils.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/tree/js/treetable.js</include>
@@ -240,7 +240,7 @@
                             </includes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/timeline.min.js</output>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/timeline.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/timeline-api.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/bundle.js</include>
@@ -252,7 +252,7 @@
                             </includes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/openlayers.min.js</output>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/openlayers.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Util.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes.js</include>
