@@ -123,7 +123,7 @@ if(!window.OpenLayers){
                 //            "openlayers/lib/OpenLayers/Layer/WMS.js",
                 //            "openlayers/lib/OpenLayers/Layer/WMS/Untiled.js",
                 //            "openlayers/lib/OpenLayers/Layer/GeoRSS.js",
-                //            "openlayers/lib/OpenLayers/Layer/Boxes.js",
+                "openlayers/lib/OpenLayers/Layer/Boxes.js",
                 //            "openlayers/lib/OpenLayers/Layer/TMS.js",
                 //            "openlayers/lib/OpenLayers/Layer/TileCache.js",
                 //            "openlayers/lib/OpenLayers/Popup/Anchored.js",
@@ -269,13 +269,11 @@ if(!window.OpenLayers){
                 "openlayers/lib/OpenLayers/Lang/fr.js",
                 "openlayers/custom/OpenLayers/Lang/enExt.js",
                 "openlayers/custom/OpenLayers/Lang/frExt.js",
-                "js/mfUtil.js"
+                "js/mfUtils.js"
                 ); // etc.
         }else{
             jsfiles = new Array(
-                "compressed/openlayers.min.js",
-                "proj4js/lib/proj4js-combined.js",
-                "proj4js/custom/proj4jsExt.js"
+                "compressed/openlayers.min.js"
                 );
         }
         var agent = navigator.userAgent;
