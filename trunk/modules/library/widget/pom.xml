@@ -107,14 +107,14 @@
                 <configuration>
                     <force>true</force>
                     <nomunge>true</nomunge>
-                    <nosuffix>false</nosuffix>
+                    <nosuffix>true</nosuffix>
                     <jswarn>false</jswarn>
                     <aggregations>
                         <aggregation>
                             <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mootools.min.js</output>
                             <includes>
-                                <include>${basedir}/src/main/resources/org/widgetfaces/resources/js/mootools-1.2-core.js</include>
-                                <include>${basedir}/src/main/resources/org/widgetfaces/resources/js/mootools-1.2-more.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/js/mootools-1.2-core.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/js/mootools-1.2-more.js</include>
                             </includes>
                             <excludes>
                                 <exclude>**/*.js</exclude>
@@ -123,9 +123,9 @@
                         <aggregation>
                             <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/autocompletion.min.js</output>
                             <includes>
-                                <include>${basedir}/src/main/resources/org/widgetfaces/widget/autocompletion/js/autocompleter.js</include>
-                                <include>${basedir}/src/main/resources/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js</include>
-                                <include>${basedir}/src/main/resources/org/widgetfaces/widget/autocompletion/js/observer.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/observer.js</include>
                             </includes>
                             <excludes>
                                 <exclude>**/*.js</exclude>
