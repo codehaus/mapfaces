@@ -68,7 +68,7 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
           tab.push(new OpenLayers.Control.GetFeatureInfo(options.getFeatureInfoOptions));
       
         //Add GetCoverage button
-        //if(options.getCoverage)
+        if(options.getCoverage)
           tab.push(new OpenLayers.Control.GetCoverageMatrix());
       
         //Add Measure distance
