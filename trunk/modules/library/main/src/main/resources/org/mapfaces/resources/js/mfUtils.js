@@ -34,6 +34,9 @@ function reloadAllMaps() {
         }
     }
 }
+
+////Add onload function to window to zoom the map to the maxExtent
+OpenLayers.Event.observe(window, 'load', reloadAllMaps);
 //window.reloadAllMaps();
 
 //window.test = function(){

@@ -18,16 +18,6 @@
  * layers (<OpenLayers.Layer>) to the map. 
  */
 
-//Add onload function to window to zoom the map to the maxExtent
-var initZoom = function(){
-    if(window.maps){
-        for(var map in window.maps){
-            if(map && window.maps[map]) window.maps[map].zoomToExtent(window.maps[map].currentExtent);
-        }
-    }
-};
-
-OpenLayers.Event.observe(window, 'load', initZoom);
 
 OpenLayers.Map = OpenLayers.Class({
     
