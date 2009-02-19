@@ -71,14 +71,13 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
             System.out.println("show PX " +comp.isShowPX());
         }
         writer.write(new StringBuilder("").
-        append("if (!window.controlToAdd" + jsObject + ") { \n ").
-        append("    window.controlToAdd" + jsObject + " = []; \n ").
-        append("} \n ").
-        append("window.controlToAdd" + jsObject + ".push(function() {\n").toString());
-        writer.write("" +
-        "    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.MousePosition) { \n " +
-        "        var mp = new OpenLayers.Control.MousePosition({ \n " +
-        "            'div':OpenLayers.Util.getElement('" + clientId + "')");
+        append("if (!window.controlToAdd" + jsObject + ") { \n").
+        append("    window.controlToAdd" + jsObject + " = []; \n").
+        append("} \n").
+        append("window.controlToAdd" + jsObject + ".push(function() {\n").
+        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.MousePosition) { \n" ).
+        append("        var mp = new OpenLayers.Control.MousePosition({'div':OpenLayers.Util.getElement('" + clientId + "')").toString());
+        
         if (comp.isShowPX()) {
             writer.write(",\nPX: true");
         }
@@ -94,12 +93,13 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         if (comp.isShowDM()) {
             writer.write(",\nDM: true");
         }
-        writer.write("" +
-        "        \n });\n" +
-        "    } \n " +
-        "    "+jsObject + ".addControl(mp); \n " +
-        "}); \n ");
-        writer.write("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n ");
+        
+        writer.write(new StringBuilder("").
+        append("        \n}); \n").
+        append("        window."+jsObject + ".addControl(mp); \n").
+        append("    } \n").
+        append("}); \n").
+        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

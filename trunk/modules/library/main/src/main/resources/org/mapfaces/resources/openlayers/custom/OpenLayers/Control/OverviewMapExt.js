@@ -53,7 +53,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control.OverviewMap
         
         this.extentRectangle = document.createElement('div');
         this.extentRectangle.style.position = 'absolute';
-        this.extentRectangle.style.zIndex = 1000;  //HACK
+        this.extentRectangle.style.zIndex = this.map.Z_INDEX_BASE['Control']; 
         this.extentRectangle.className = this.displayClass+'ExtentRectangle';
 
 //        this.element.appendChild(this.mapDiv);  

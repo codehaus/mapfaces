@@ -13,9 +13,10 @@
  *     <OpenLayers.Lang.translate>.  Entry bodies are normal strings or
  *     strings formatted for use with <OpenLayers.String.format> calls.
  */
-OpenLayers.Lang.en.srs = "Srs: " ;
-OpenLayers.Lang.en.scale = "Scale: 1 / " ;
+OpenLayers.Lang.en.srs = "Srs: ${srsCode}" ;
+OpenLayers.Lang.en.scale = "Scale: 1 / ${scaleDenom}" ;
 OpenLayers.Lang.en.loadingTitle = "Loading ${nbLayers} layer(s)";
+OpenLayers.Lang.en.displaySystem = "english";
 OpenLayers.Lang.en.scaleUnitsKilometers = "kilometers";
 OpenLayers.Lang.en.scaleUnitsMeters = "meters";
 OpenLayers.Lang.en.scaleUnitsCentimeters = "centimeters";

@@ -1,3 +1,4 @@
+
 /*
  *    Mapfaces -
  *    http://www.mapfaces.org
@@ -14,8 +15,8 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
+
 
 import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Color;
@@ -82,9 +83,6 @@ import org.opengis.style.PointSymbolizer;
 import org.opengis.style.PolygonSymbolizer;
 import org.opengis.style.Stroke;
 
-/**
- * @author Mehdi Sidhoum.
- */
 public class MFLayerRenderer extends WidgetBaseRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
@@ -97,7 +95,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         assertValid(context, component);
         final UIMFLayer comp = (UIMFLayer) component;
-
+        
         // suppress rendering if "rendered" property on the component is false.
         if (!comp.isRendered()) {
             return;
@@ -107,6 +105,17 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         final String id = comp.getAttributes().get("id").toString();
         final Layer layer = comp.getLayer();
         final Context model = (Context) comp.getModel();
+        setModelAtSession(context, comp, model);
+        
+        final String srs = model.getSrs();
+        final CoordinateReferenceSystem crs;
+        try {
+            crs = CRS.decode(srs);
+        } catch (FactoryException ex) {
+            LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
+            return;
+        }
+        
         final Dimension dim = new Dimension(
                 Integer.parseInt(model.getWindowWidth()),
                 Integer.parseInt(model.getWindowHeight()));
@@ -139,118 +148,81 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
-        UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
 
+
+        UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
+        MapContext mapContext;
+        if (mappane.getValueExpression("value") != null) {
+            ValueExpression ve = mappane.getValueExpression("value");
+            mapContext = (MapContext) ve.getValue(context.getELContext());
+        } else {
+
+            final int indexLayer = comp.getBindingIndex();
+            final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
+
+            //building a FeatureCollection for this layer.
+            FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+            long featureId = 0;
+            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+            if (comp.getFeatures() != null && comp.getFeatures().size() != 0) {
+                Feature f = comp.getFeatures().get(0);
+                builder.setName(f.getName());
+                builder.setCRS(f.getCrs());
+                for (String key : f.getAttributes().keySet()) {
+                    if (key.equals("geometry")) {
+                        builder.add(key, Geometry.class);
+                    } else {
+                        builder.add(key, f.getAttributes().get(key).getClass());
+                    }
+                }
+            }
+            SimpleFeatureType sft = builder.buildFeatureType();
+            for (Feature f : comp.getFeatures()) {
+                List<Object> objects = new ArrayList<Object>();
+                for (String key : f.getAttributes().keySet()) {
+                    objects.add(f.getAttributes().get(key));
+                }
+
+                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+                features.add(sf);
+                featureId++;
+            }
+
+
+            final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
+            mapContext = MapBuilder.getInstance().createContext(crs);
+            mapContext.layers().add(mapLayer);
+            
+        }
+        
+        //if we want to load just one layer of the mapContext
+        if (mapContext.layers().size() > 1 &&  comp.getIndex() > -1) {            
+            // draw a single layer from the map context
+            MapLayer maplayer = mapContext.layers().get(comp.getIndex());
+            mapContext.layers().removeAll(mapContext.layers());
+            mapContext.layers().add(maplayer);
+        }
+        
+        setMapContextAtSession(context, comp, mapContext);
+        
         //Add layer image if not the first page loads
         if (mappane.getInitDisplay() && !hidden) {
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
 
-            final String srs = model.getSrs();
-            final CoordinateReferenceSystem crs;
-            try {
-                crs = CRS.decode(srs);
-            } catch (FactoryException ex) {
-                LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
-                writer.endElement("div");
-                return;
+            //Set the chartURL
+            String url = null;
+            String viewId = context.getViewRoot().getViewId();
+            String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);            
+            url = actionURL + "?ts=" + System.currentTimeMillis() + "&mfLayerId=" + clientId;
+            writer.startElement("img", comp);
+            writer.writeAttribute("id", id + "_Img", "style");
+            writer.writeAttribute("class", "layerImg", "style");
+            if (styleImg != null) {
+                writer.writeAttribute("style", "position:relative;", "style");
             }
-
-            final ReferencedEnvelope env = new ReferencedEnvelope(
-                    new Double(model.getMinx()), new Double(model.getMaxx()),
-                    new Double(model.getMiny()), new Double(model.getMaxy()),
-                    crs);
-
-            final MapContext mapContext;
-            if (mappane.getValueExpression("value") != null) {
-                ValueExpression ve = mappane.getValueExpression("value");
-                mapContext = (MapContext) ve.getValue(context.getELContext());
-            } else {
-
-                final int indexLayer = comp.getBindingIndex();
-                final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
-
-                //building a FeatureCollection for this layer.
-                FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
-                long featureId = 0;
-                SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-                if (comp.getFeatures() != null && comp.getFeatures().size() != 0) {
-                    Feature f = comp.getFeatures().get(0);
-                    builder.setName(f.getName());
-                    builder.setCRS(f.getCrs());
-                    for (String key : f.getAttributes().keySet()) {
-                        if (key.equals("geometry")) {
-                            builder.add(key, Geometry.class);
-                        } else {
-                            builder.add(key, f.getAttributes().get(key).getClass());
-                        }
-                    }
-                }
-                SimpleFeatureType sft = builder.buildFeatureType();
-
-                for (Feature f : comp.getFeatures()) {
-                    List<Object> objects = new ArrayList<Object>();
-                    for (String key : f.getAttributes().keySet()) {
-                        objects.add(f.getAttributes().get(key));
-                    }
-
-                    SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
-                    features.add(sf);
-                    featureId++;
-                }
-
-
-                final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
-
-                mapContext = MapBuilder.getInstance().createContext(crs);
-
-                mapContext.layers().add(mapLayer);
-            }
-
-            BufferedImage bufferImage;
-            try {
-                System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
-
-                int numberLayer = comp.getIndex();
-
-                if(numberLayer < 0){
-                    // draw complete context in this layer
-                    bufferImage = DefaultPortrayalService.getInstance().portray(mapContext, env, dim, true);
-                }else{
-                    // draw a single layer from the map context
-                    MapLayer maplayer = mapContext.layers().get(numberLayer);
-                    MapContext ctx = MapBuilder.getInstance().createContext(crs);
-                    ctx.layers().add(maplayer);
-                    bufferImage = DefaultPortrayalService.getInstance().portray(ctx, env, dim, true);
-                }
-
-                File dst = File.createTempFile("img", "", comp.getDir());
-
-                //Check if the length of the tmp folder is greather than 30 files and delete all files if it occurs.
-                if (comp.getDir().listFiles().length > 30) {
-                    for (File file : comp.getDir().listFiles()) {
-                        file.delete();
-                    }
-                }
-
-                ImageIO.write(bufferImage, "png", dst);
-
-                String generatedImage = comp.getContextPath() + "/" + comp.getDir().getName() + "/" + dst.getName();
-
-                writer.startElement("img", comp);
-                writer.writeAttribute("id", id + "_Img", "style");
-                writer.writeAttribute("class", "layerImg", "style");
-
-                if (styleImg != null) {
-                    writer.writeAttribute("style", "position:relative;", "style");
-                }
-
-                writer.writeAttribute("src", generatedImage, "src");
-                writer.endElement("img");
-
-            } catch (PortrayalException ex) {
-                Logger.getLogger(MFLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            writer.writeAttribute("src", url, "src");
+            writer.endElement("img");
             writer.endElement("div");
 
         }
@@ -334,7 +306,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         sb.append(" MFLayer Id = ").append(layer.getId());
         sb.append(" Window Height = ").append(model.getWindowHeight());
         sb.append(" Window Width = ").append(model.getWindowWidth());
-        
+
         if (context.getExternalContext().getRequestParameterMap() == null && mappane.isDebug()) {
             System.out.println(sb.toString());
             return;
@@ -405,6 +377,20 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
 //        comp.setLayer(model.getLayerFromId(layer.getId()));
 
         return;
+    }
+    // creates and puts the chart data to session for this chart object
+    private void setModelAtSession(FacesContext facesContext, UIMFLayer comp, Context context) {
+        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        String clientId = comp.getClientId(facesContext);
+        session.put(clientId + "_model", context);
+        LOGGER.log(Level.WARNING, "Model saved in  session map for the layer\n id: " + clientId + "\n");
+    }
+
+    private void setMapContextAtSession(FacesContext facesContext, UIMFLayer comp, MapContext context) {
+        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        String clientId = comp.getClientId(facesContext);
+        session.put(clientId + "_mapContext", context);
+        LOGGER.log(Level.WARNING, "MapContext saved in  session map for the layer\n id: " + clientId + "\n");
     }
 
     private void assertValid(final FacesContext context, final UIComponent component) {

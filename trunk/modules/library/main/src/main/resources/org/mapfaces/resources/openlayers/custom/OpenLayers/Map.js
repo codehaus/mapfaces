@@ -30,7 +30,7 @@ OpenLayers.Map = OpenLayers.Class({
         Overlay: 325,
         Feature: 725,
         Popup: 750,
-        Control: 1000
+        Control: 150
     },
     /**
      * Constant: EVENT_TYPES
@@ -543,14 +543,32 @@ OpenLayers.Map = OpenLayers.Class({
         // if(this.getCurrentExtent() == null || bbox != this.getCurrentExtent().toBBOX()){
         var goodParameters = true;
         if(parameters.type == "moveend"){
+            //
+            var layersAll = this.layersName.split(",");
+            var layersVisible = "";
+             //if the layer has a firstChild , there is  a image displayed so the layer is visible
+            for (var i=0; i<layersAll.length; i++) {               
+                if (document.getElementById(layersAll[i]) && document.getElementById(layersAll[i]).firstChild) {                    
+                    layersVisible +=layersAll[i];
+                    if (i+1 != layersAll.length) {
+                        layersVisible += ",";
+                    }
+                }
+            }
+            //if there is no layer visible or this is the first page load, all the layers are requested
+            //TODO: make the difference between firstPageLoad and no layer visible
+            if (layersVisible == "")
+                layersVisible = this.layersName;
+            
             var  parameters = {    
                           'synchronized': 'true',
-                          'refresh': this.layersName,
+                          'refresh': layersVisible,
                           'bbox': bbox,
                           'window': window.w+','+window.h,
                           'render': 'true', //render the layers, always set to true after the first page loads
                           'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
                         };
+             
              if(!this.layersName || badextent)
                  goodParameters = false;
             
@@ -2045,7 +2063,7 @@ OpenLayers.Map = OpenLayers.Class({
         if (this.baseLayer != null) {
             units = this.baseLayer.units;
         }else{
-            units = this.units;
+            units = this.getProjectionObject().proj.units;
         }
         return units;
     },
@@ -2065,7 +2083,7 @@ OpenLayers.Map = OpenLayers.Class({
             scale = OpenLayers.Util.getScaleFromResolution(res, units);
         }else{
             var res1 = this.getResolution();
-            var units1 = this.units;
+            var units1 = this.getUnits();
             scale = OpenLayers.Util.getScaleFromResolution(res1, units1);
         }
         return scale;

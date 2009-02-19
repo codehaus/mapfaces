@@ -32,7 +32,7 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
      * {String} Display system for scale bar - metric or english supported.
      *     Default is metric.
      */
-    displaySystem: 'metric',
+    displaySystem: OpenLayers.i18n('displaySystem'),
 
     /**
      * APIProperty: minWidth
@@ -223,6 +223,7 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
         this.element.appendChild(this.graphicsContainer);
         this.element.appendChild(this.labelContainer);
         this.element.appendChild(this.numbersContainer);
+        this.div.appendChild(this.element);
     },
     
     /**
@@ -302,7 +303,7 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
      *     map scale will be used.
      */
     update: function(scale) {
-        if(this.map == null || (this.map.baseLayer == null) || !this.map.getScale()) return;
+        if(this.map == null || !this.map.getScale()) return;
        
         this.scale = (scale != undefined) ? scale : this.map.getScale();
         // update the element title and width
@@ -523,19 +524,84 @@ OpenLayers.Control.ScaleBar = OpenLayers.Class(OpenLayers.Control, {
                 var compNum = comp[unitIndex][vi];
                 if((compNum.score < score) ||
                    ((compNum.score == score) && (compNum.tie < tie))) {
-                    this.subProps = {
-                        length: compNum.value,
-                        pixels: ppdu * compNum.value,
-                        units: system.units[unitIndex],
-                        abbr: system.abbr[unitIndex],
-                        dec: compNum.dec 
-                    };
+                     this.createSubProps(compNum, system, unitIndex, ppdu);                   
                     score = compNum.score;
                     tie = compNum.tie;
                 }
             }
         }
     },
+     createSubProps: function(compNum, system, unitIndex, ppdu) {
+        var scale = compNum.value;
+        if (!scale) {
+            return;
+        }
+        scale = Math.round(scale);      
+        var unitsStr ="";      
+        var unitsAbbrStr ="";
+        
+         if (scale >= 10000 && scale < 1000000) {
+            unitsStr = system.units[unitIndex];
+            unitsAbbrStr = system.abbr[unitIndex];
+            scale = Math.round(scale / 1000);
+        } else if (scale >= 1000000 ) {            
+            unitsStr = system.units[unitIndex];
+            unitsAbbrStr = system.abbr[unitIndex];
+            scale = Math.round(scale / 1000000);
+        } else {
+            unitsStr = system.units[unitIndex];
+            unitsAbbrStr = system.abbr[unitIndex];
+            scale = Math.round(scale);
+        }    
+              
+        var scaleStr =""+scale+""; 
+        
+        if (scale >= 1000 && scale < 1000000) {
+            scaleStr= scaleStr.substring(0, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
+        } else  if (scaleStr >= 1000000 && scaleStr < 1000000000) {
+            scaleStr = scaleStr.substring(0, scaleStr.length-6)+"."+scaleStr.substring(scaleStr.length-6, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
+        } else if (scale < 1000) {
+            scaleStr=scale;
+        } 
+        
+        this.subProps =  {
+                        length: compNum.value,
+                        pixels: ppdu * compNum.value,
+                        units: unitsStr,
+                        abbr: unitsAbbrStr,
+                        dec: compNum.dec 
+        };
+    }, 
+    updateScale: function(scale) {
+        var scale = this.map.getScale();
+        if (!scale) {
+            return;
+        }
+        scale = Math.round(scale);      
+        var unitsStr ="";
+        
+         if (scale >= 10000 && scale < 1000000) {
+            unitsStr = this.measurementProperties[this.displaySystem].abbr[1];
+            scale = Math.round(scale / 1000);
+        } else if (scale >= 1000000 ) {            
+            unitsStr = this.measurementProperties[this.displaySystem].abbr[0];
+            scale = Math.round(scale / 1000000);
+        } else {
+            unitsStr = this.measurementProperties[this.displaySystem].abbr[2];
+            scale = Math.round(scale);
+        }    
+              
+        var scaleStr =""+scale+""; 
+        
+        if (scale >= 1000 && scale < 1000000) {
+            scaleStr= scaleStr.substring(0, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
+        } else  if (scaleStr >= 1000000 && scaleStr < 1000000000) {
+            scaleStr = scaleStr.substring(0, scaleStr.length-6)+"."+scaleStr.substring(scaleStr.length-6, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
+        } else if (scale < 1000) {
+            scaleStr=scale;
+        } 
+        this.element.innerHTML = OpenLayers.i18n("scale", {'scaleDenom':scaleStr+" "+unitsStr});
+    }, 
     
     /**
      * Method: styleValue

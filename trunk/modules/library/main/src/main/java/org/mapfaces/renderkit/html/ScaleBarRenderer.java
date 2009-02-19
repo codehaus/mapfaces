@@ -64,9 +64,17 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
-
-        writer.write("var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')});\n");
-        writer.write(jsObject + ".addControl(scb);\n");
+        writer.write(new StringBuilder("").
+        append("if (!window.controlToAdd" + jsObject + ") { \n").
+        append("    window.controlToAdd" + jsObject + " = []; \n").
+        append("} \n").
+        append("window.controlToAdd" + jsObject + ".push(function() {\n").
+        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.ScaleBar) { \n").
+        append("        var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')}); \n").
+        append("        "+jsObject + ".addControl(scb); \n").
+        append("    } \n").
+        append("}) \n").
+        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();
