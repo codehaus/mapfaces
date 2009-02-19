@@ -108,7 +108,7 @@ public class MfLayerListener implements PhaseListener {
         writeLayer(context, id, stream);
     }
 
-    private void writeLayer(FacesContext context, String id, OutputStream stream) throws IOException {
+    private synchronized void writeLayer(FacesContext context, String id, OutputStream stream) throws IOException {
         Map sessionMap = context.getExternalContext().getSessionMap();
         Context model = (Context) sessionMap.get(id + "_model");
         if (model != null) {
@@ -142,7 +142,7 @@ public class MfLayerListener implements PhaseListener {
             if (mapContext != null) {
                 try {
                     System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
-                    DefaultPortrayalService.getInstance().portray(mapContext, env, stream, "image/png", dim, true);
+                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true);
                 } catch (PortrayalException ex) {
                     Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {

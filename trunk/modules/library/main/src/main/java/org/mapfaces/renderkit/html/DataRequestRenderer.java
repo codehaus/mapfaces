@@ -93,7 +93,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         if (popup != null) {
             popupWidth = popup.getWidth();
             popupHeight = popup.getHeight();
-            System.out.println("%%%%%%%%%%%%%%%   popup child of DataRequest popupWidth = " + popupWidth + "   popupHeight = " + popupHeight);
+            System.out.println("[DATARequestRenderer] decode process : popupWidth = " + popupWidth + "   popupHeight = " + popupHeight+"    popup = "+popup);
         }
 
 
