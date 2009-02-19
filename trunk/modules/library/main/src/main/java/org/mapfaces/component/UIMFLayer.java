@@ -23,9 +23,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 
-/**
- * @author Mehdi Sidhoum.
- */
+
 public class UIMFLayer extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane.MFLayer";
@@ -200,12 +198,10 @@ public class UIMFLayer extends UIWidgetBase {
     }
 
     /**
+     * Index of this layer in the Mapcontext object.
      * @return the index
      */
-    public /**
-     * Index of this layer in the Mapcontext object.
-     */
-    int getIndex() {
+    public int getIndex() {
         return index;
     }
 
