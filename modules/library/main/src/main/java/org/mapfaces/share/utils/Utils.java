@@ -19,6 +19,7 @@ package org.mapfaces.share.utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,7 @@ import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeNodeModel;
 
 /**
@@ -157,5 +159,20 @@ public class Utils {
                 showArborescence(tmp);
             }
         }
+    }
+    
+    /**
+     * This method return the count of layer WMS from a list, it is used to separate the mflayers and real wms layers.
+     * @param list
+     * @return
+     */
+    public static int getWMSLayerscount(List<Layer> list) {
+        int result = 0;
+        for (Layer layer : list) {
+            if (layer != null && ! layer.getType().equals("mapfaces")) {
+                result++;
+            }
+        }
+        return result;
     }
 }

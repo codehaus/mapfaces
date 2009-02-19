@@ -50,7 +50,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
 
         final String style = (String) comp.getAttributes().get("style");
         if (style != null) writer.writeAttribute("style",style,"style");
-        else               writer.writeAttribute("style","position:absolute;z-index:1000;","style");
+        else               writer.writeAttribute("style","position:absolute;z-index:150;","style");
 
         final String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) writer.writeAttribute("class",styleclass,"styleclass");

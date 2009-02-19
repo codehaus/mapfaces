@@ -1090,7 +1090,7 @@
             </description>
         </attribute>
     </tag>
-     <!-- Popup -->
+    <!-- Popup -->
     <tag>
         <name>Popup</name>
         <tag-class>org.mapfaces.taglib.PopupTag</tag-class>
@@ -1170,14 +1170,25 @@
                 Add debug message in server console.
             </description>
         </attribute>
+        <attribute>
+            <name>iframe</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the innerHtml will be added in a iframe tag.
+            </description>
+        </attribute>
     </tag>
-     <!-- Popup -->
+     <!-- DataRequest -->
     <tag>
-        <name>Popup</name>
-        <tag-class>org.mapfaces.taglib.PopupTag</tag-class>
+        <name>DataRequest</name>
+        <tag-class>org.mapfaces.taglib.DataRequestTag</tag-class>
         <body-content>JSP</body-content>
         <description>
-            This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes .
+            This is the tag that creates a component to perform a request and set an output as a child component like popup or others output component.
         </description>
         <attribute>
             <name>id</name>
@@ -1208,36 +1219,47 @@
             </deferred-value>
         </attribute>
         <attribute>
-            <name>value</name>
+            <name>dataResult</name>
             <deferred-value>
-                <type>org.mapfaces.model.ViewContextType</type>
+                <type>java.lang.Object</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
-                The new context defined by the user, the type is an Object ViewContextType.
+                This is a serializable object witch is containing in a Feature from MFlayer component. Note: it can be used for wms or no wms layers, this object is String for wms layers.
             </description>
         </attribute>
         <attribute>
-            <name>styleClass</name>
+            <name>outputFormat</name>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
-                The style class of the overall div that surrounds this component.
+                The outputFormat of the data.
             </description>
         </attribute>
         <attribute>
-            <name>style</name>
+            <name>url</name>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
-                The style of the overall div that surrounds this component.
+                The output url of the request.
+            </description>
+        </attribute>
+        <attribute>
+            <name>targetPopupId</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The id of the target popup.
             </description>
         </attribute>
         <attribute>

@@ -32,6 +32,7 @@ public class UIPopup extends UIWidgetBase{
     private String left = "0px";
     private int width = 300;
     private int height = 200;
+    private boolean iframe;
 
     public UIPopup() {
         super();
@@ -58,6 +59,7 @@ public class UIPopup extends UIWidgetBase{
         values[3] = width;
         values[4] = height;
         values[5] = innerHTML;
+        values[6] = iframe;
         return values;
     }
 
@@ -73,6 +75,7 @@ public class UIPopup extends UIWidgetBase{
         width = (Integer) values[3];
         height = (Integer) values[4];
         innerHTML = (String) values[5];
+        iframe = (Boolean) values[6];
     }
 
     public String getInnerHTML() {
@@ -113,6 +116,14 @@ public class UIPopup extends UIWidgetBase{
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public boolean isIframe() {
+        return iframe;
+    }
+
+    public void setIframe(boolean iframe) {
+        this.iframe = iframe;
     }
 
 }

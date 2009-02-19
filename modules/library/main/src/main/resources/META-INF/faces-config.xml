@@ -19,6 +19,10 @@
     <!-- ******************** COMPONENTS ******************************* -->
     <!-- *************************************************************** -->
     <component>
+        <component-type>org.mapfaces.component.DataRequest</component-type>
+        <component-class>org.mapfaces.component.UIDataRequest</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.component.Div</component-type>
         <component-class>org.mapfaces.component.UIDiv</component-class>
     </component>
@@ -571,6 +575,12 @@
             <component-family>org.mapfaces.ExtPanel</component-family>
             <renderer-type>org.mapfaces.renderkit.html.ExtPanel</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.ExtPanelRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>DataRequest is no visual component, it is used to handle data request for getFeatureInfo or getCoverage and redirect the value in output components like a Popup</description>
+            <component-family>org.mapfaces.DataRequest</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.DataRequest</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.DataRequestRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>
