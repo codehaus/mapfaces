@@ -15,15 +15,9 @@
  */
 package net.sf.jsfcomp.chartcreator;
 
-import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.faces.context.ExternalContext;
@@ -37,14 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jsfcomp.chartcreator.model.ChartData;
 import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 
-import org.apache.batik.dom.GenericDOMImplementation;
-import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
