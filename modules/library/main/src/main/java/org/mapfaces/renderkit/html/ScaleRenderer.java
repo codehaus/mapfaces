@@ -65,8 +65,17 @@ public class ScaleRenderer extends WidgetBaseRenderer {
             jsObject = jsObject.replace(":", "");
         }
 
-        writer.write("var sc = new OpenLayers.Control.Scale(OpenLayers.Util.getElement('" + clientId + "'));\n");
-        writer.write(jsObject + ".addControl(sc);\n");
+        writer.write(new StringBuilder("").
+        append("if (!window.controlToAdd" + jsObject + ") { \n").
+        append("    window.controlToAdd" + jsObject + " = []; \n").
+        append("} \n").
+        append("window.controlToAdd" + jsObject + ".push(function() {\n").
+        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.Scale) { \n").
+        append("        var sc = new OpenLayers.Control.Scale({'div': OpenLayers.Util.getElement('" + clientId + "')}); \n").
+        append("        window."+jsObject + ".addControl(sc); \n").
+        append("    } \n").
+        append("}) \n").
+        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

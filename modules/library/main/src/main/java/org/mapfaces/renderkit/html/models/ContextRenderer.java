@@ -57,7 +57,7 @@ public class ContextRenderer extends Renderer {
     private static final String MOOTOOLS_JS             = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
     private static final String PROTOTYPE_JS            = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
     private static final String SCRIPTACULOUS_JS        = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
-    private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/minify/zip.js";
+    private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     
 
     /**
