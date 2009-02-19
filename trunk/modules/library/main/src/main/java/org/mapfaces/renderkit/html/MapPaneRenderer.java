@@ -228,7 +228,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             layermodel.setOpacity(layerType.getOpacity().toString());
             layermodel.setTitle("mapfaces_title");
             layermodel.setServer(wms);
-            layermodel.setType("mapfaces_abstracttype");
+            layermodel.setType("mapfaces");
             layermodel.setOutputFormat("image/gif");
             layermodel.setQueryable(true);
 

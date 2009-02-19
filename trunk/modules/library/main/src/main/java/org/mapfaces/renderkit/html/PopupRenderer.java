@@ -171,86 +171,86 @@ public class PopupRenderer extends WidgetBaseRenderer {
             System.out.println("        PopupRenderer decode");
         }
 
-        if (context.getExternalContext().getRequestParameterMap() != null) {
-            final Context model = (Context) comp.getModel();
-            final Map params = context.getExternalContext().getRequestParameterMap();
-            
-            String X = "170";
-            String Y = "160";
-            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo")) {
-                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y") != null) {
-                    Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
-                    final int realTop = (new Integer(Y)) - comp.getHeight();
-                    comp.setTop("top:" + realTop + "px;");
-                }
-                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X") != null) {
-                    X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
-                    final int realLeft = (new Integer(X)) - (comp.getWidth() / 2);
-                    comp.setLeft("left:" + realLeft + "px;");
-                }
-
-                final int innerWidth = comp.getWidth() - 73;
-                final int innerHeight = comp.getHeight() - 75;
-                final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
-                comp.setInnerHTML(new StringBuilder("<iframe style='width:")
-                        .append(innerWidth)
-                        .append("px;height:")
-                        .append(innerHeight)
-                        .append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:3000;' id='popup' name='popup' src='")
-                        .append(queryLayer.getServer().getHref())
-                        .append("?BBOX=").append(model.getBoundingBox())
-                        .append("&STYLES=")
-                        .append("&FORMAT=").append(queryLayer.getOutputFormat())
-                        .append("&INFO_FORMAT=text/html")
-                        .append("&VERSION=").append(queryLayer.getServer().getVersion())
-                        .append("&SRS=").append(model.getSrs().toUpperCase())
-                        .append("&REQUEST=GetFeatureInfo")
-                        .append("&LAYERS=").append(queryLayer.getName())
-                        .append("&QUERY_LAYERS=").append(queryLayer.getName())
-                        .append("&WIDTH=").append(model.getWindowWidth())
-                        .append("&HEIGHT=").append(model.getWindowHeight())
-                        .append("&X=").append(X)
-                        .append("&Y=").append(Y)
-                        .append("'></iframe>").toString());
-            } else if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getCoverage")) {
-
-                final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
-
-                String elevation = null;
-                if (queryLayer.getElevation() != null) {
-                    elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
-                }
-                String time = null;
-                if (queryLayer.getTime() != null) {
-                    time = queryLayer.getTime().getUserValue();
-                }
-                String[] windowPixel = null;
-                if ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL") != null) {
-                    windowPixel = ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL")).split(",");
-                }
-                String innerHTML = "<iframe style='display:none' id='popup' name='popup' src='" + queryLayer.getServer().getHref().substring(0, queryLayer.getServer().getHref().lastIndexOf("/")) + "/wcs" + 
-                        "?BBOX=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI");
-                if (elevation != null) {
-                    innerHTML += "," + elevation;
-                }
-                innerHTML += "&STYLES=" + "&FORMAT=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") + 
-                        "&VERSION=" + "1.0.0" + "&CRS=" + model.getSrs() + 
-                        "&REQUEST=GetCoverage'" + "&COVERAGE=" + queryLayer.getName() + 
-                        "&WIDTH=" + windowPixel[0] + "&HEIGHT=" + windowPixel[1];
-                if (time != null) {
-                    innerHTML += "&TIME=" + time;
-                }
-                innerHTML += "'></iframe>";
-                // innerHTML = "<iframe style='display:none' id='popup' name='popup' src='http://demo.geomatys.fr/constellation/WS/wcs?bbox=-14978036.532703482,-5209751.837462081,-10369409.907256257,-1402625.4947013294,5.0,5.0&styles=&format=matrix&version=1.0.0&crs=EPSG:3395&request=GetCoverage&coverage=AO_Coriolis_(Temp)&width=1259&height=176&time=2007-06-20T12:00:00Z'></iframe>";
-                comp.setInnerHTML(innerHTML);
-                System.out.println("innerHTML = " + innerHTML);
-            } else {
-                //init the popup innerHtml in others decode process
-                comp.setInnerHTML(null);
-            }
-            comp.setModel((AbstractModelBase) model);
-
-        }
+//        if (context.getExternalContext().getRequestParameterMap() != null) {
+//            final Context model = (Context) comp.getModel();
+//            final Map params = context.getExternalContext().getRequestParameterMap();
+//            
+//            String X = "170";
+//            String Y = "160";
+//            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo")) {
+//                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y") != null) {
+//                    Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
+//                    final int realTop = (new Integer(Y)) - comp.getHeight();
+//                    comp.setTop("top:" + realTop + "px;");
+//                }
+//                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X") != null) {
+//                    X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
+//                    final int realLeft = (new Integer(X)) - (comp.getWidth() / 2);
+//                    comp.setLeft("left:" + realLeft + "px;");
+//                }
+//
+//                final int innerWidth = comp.getWidth() - 73;
+//                final int innerHeight = comp.getHeight() - 75;
+//                final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
+//                comp.setInnerHTML(new StringBuilder("<iframe style='width:")
+//                        .append(innerWidth)
+//                        .append("px;height:")
+//                        .append(innerHeight)
+//                        .append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:3000;' id='popup' name='popup' src='")
+//                        .append(queryLayer.getServer().getHref())
+//                        .append("?BBOX=").append(model.getBoundingBox())
+//                        .append("&STYLES=")
+//                        .append("&FORMAT=").append(queryLayer.getOutputFormat())
+//                        .append("&INFO_FORMAT=text/html")
+//                        .append("&VERSION=").append(queryLayer.getServer().getVersion())
+//                        .append("&SRS=").append(model.getSrs().toUpperCase())
+//                        .append("&REQUEST=GetFeatureInfo")
+//                        .append("&LAYERS=").append(queryLayer.getName())
+//                        .append("&QUERY_LAYERS=").append(queryLayer.getName())
+//                        .append("&WIDTH=").append(model.getWindowWidth())
+//                        .append("&HEIGHT=").append(model.getWindowHeight())
+//                        .append("&X=").append(X)
+//                        .append("&Y=").append(Y)
+//                        .append("'></iframe>").toString());
+//            } else if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getCoverage")) {
+//
+//                final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
+//
+//                String elevation = null;
+//                if (queryLayer.getElevation() != null) {
+//                    elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
+//                }
+//                String time = null;
+//                if (queryLayer.getTime() != null) {
+//                    time = queryLayer.getTime().getUserValue();
+//                }
+//                String[] windowPixel = null;
+//                if ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL") != null) {
+//                    windowPixel = ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL")).split(",");
+//                }
+//                String innerHTML = "<iframe style='display:none' id='popup' name='popup' src='" + queryLayer.getServer().getHref().substring(0, queryLayer.getServer().getHref().lastIndexOf("/")) + "/wcs" + 
+//                        "?BBOX=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI");
+//                if (elevation != null) {
+//                    innerHTML += "," + elevation;
+//                }
+//                innerHTML += "&STYLES=" + "&FORMAT=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") + 
+//                        "&VERSION=" + "1.0.0" + "&CRS=" + model.getSrs() + 
+//                        "&REQUEST=GetCoverage'" + "&COVERAGE=" + queryLayer.getName() + 
+//                        "&WIDTH=" + windowPixel[0] + "&HEIGHT=" + windowPixel[1];
+//                if (time != null) {
+//                    innerHTML += "&TIME=" + time;
+//                }
+//                innerHTML += "'></iframe>";
+//                // innerHTML = "<iframe style='display:none' id='popup' name='popup' src='http://demo.geomatys.fr/constellation/WS/wcs?bbox=-14978036.532703482,-5209751.837462081,-10369409.907256257,-1402625.4947013294,5.0,5.0&styles=&format=matrix&version=1.0.0&crs=EPSG:3395&request=GetCoverage&coverage=AO_Coriolis_(Temp)&width=1259&height=176&time=2007-06-20T12:00:00Z'></iframe>";
+//                comp.setInnerHTML(innerHTML);
+//                System.out.println("innerHTML = " + innerHTML);
+//            } else {
+//                //init the popup innerHtml in others decode process
+//                comp.setInnerHTML(null);
+//            }
+//            comp.setModel((AbstractModelBase) model);
+//
+//        }
         return;
     }
 }

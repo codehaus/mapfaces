@@ -21,20 +21,24 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- * @author Olivier Terral (Geomatys).
+ *
+ * @author Mehdi Sidhoum (Geomatys).
  */
-public class PopupTag extends WidgetBaseTag {
-
+public class DataRequestTag extends WidgetBaseTag {
+    
     /**
      * <p>The standard component type for this component.</p>
      */
-    public static final String COMP_TYPE = "org.mapfaces.component.Popup";
+    public static final String COMP_TYPE = "org.mapfaces.component.DataRequest";
     /**
      * <p>The standard renderer type for this component.</p>
      */
-    public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.Popup";
+    public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.DataRequest";
     
-    private ValueExpression iframe = null;
+    private ValueExpression outputFormat = null;
+    private ValueExpression url = null;
+    private ValueExpression dataResult = null;
+    private ValueExpression targetPopupId = null;
 
     /**
      * {@inheritDoc }
@@ -59,7 +63,10 @@ public class PopupTag extends WidgetBaseTag {
     protected void setProperties(UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
-        component.setValueExpression("iframe", iframe);
+        component.setValueExpression("outputFormat", outputFormat);
+        component.setValueExpression("url", url);
+        component.setValueExpression("dataResult", dataResult);
+        component.setValueExpression("targetPopupId", targetPopupId);
     }
 
     /**
@@ -69,15 +76,42 @@ public class PopupTag extends WidgetBaseTag {
     public void release() {
         // allways call the superclass method
         super.release();
-        iframe = null;
+        outputFormat = null;
+        url = null;
+        dataResult = null;
+        targetPopupId = null;
     }
 
-    public ValueExpression getIframe() {
-        return iframe;
+    public ValueExpression getOutputFormat() {
+        return outputFormat;
     }
 
-    public void setIframe(ValueExpression iframe) {
-        this.iframe = iframe;
+    public void setOutputFormat(ValueExpression outputFormat) {
+        this.outputFormat = outputFormat;
+    }
+
+    public ValueExpression getUrl() {
+        return url;
+    }
+
+    public void setUrl(ValueExpression url) {
+        this.url = url;
+    }
+
+    public ValueExpression getDataResult() {
+        return dataResult;
+    }
+
+    public void setDataResult(ValueExpression dataResult) {
+        this.dataResult = dataResult;
+    }
+
+    public ValueExpression getTargetPopupId() {
+        return targetPopupId;
+    }
+
+    public void setTargetPopupId(ValueExpression targetPopupId) {
+        this.targetPopupId = targetPopupId;
     }
 
 }
