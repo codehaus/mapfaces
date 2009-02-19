@@ -140,11 +140,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         removeChildren(context, component);
         
             for (final Layer temp : layers) {
+                
+                //skipping MFlayers from a dynamic Mapcontext get by attribute value.
                 if (temp.getId().contains("_MF_")) {
                     continue;
                 }
                 if (temp != null && temp.getType() != null) {
-                    if (!temp.getType().equals("mapfaces_type")) {
+                    if (!temp.getType().equals("mapfaces")) {
                         final UILayer layer = new UILayer();
                         layer.setModel((AbstractModelBase) model);
                         if (temp.getId() != null) {
