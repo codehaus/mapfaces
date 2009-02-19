@@ -76,9 +76,7 @@ if(!window.OpenLayers){
      
     if(singleFile) {
         var jsfiles = new Array(
-           "compressed/openlayers.min.js",
-           "proj4js/lib/proj4js-combined.js",
-           "proj4js/custom/proj4jsExt.js"
+           "compressed/openlayers.min.js"
         );
 
         var agent = navigator.userAgent;

@@ -145,6 +145,12 @@ if(!window.OpenLayers){
                 "openlayers/lib/OpenLayers/Handler/Box.js",
                 "openlayers/lib/OpenLayers/Handler/MouseWheel.js",
                 "openlayers/lib/OpenLayers/Handler/Keyboard.js",
+                "openlayers/lib/OpenLayers/Lang.js",
+                "openlayers/custom/OpenLayers/LangExt.js",
+                "openlayers/lib/OpenLayers/Lang/en.js",
+                "openlayers/lib/OpenLayers/Lang/fr.js",
+                "openlayers/custom/OpenLayers/Lang/enExt.js",
+                "openlayers/custom/OpenLayers/Lang/frExt.js",
                 "openlayers/lib/OpenLayers/Control.js",
                 "openlayers/lib/OpenLayers/Control/Attribution.js",
                 "openlayers/lib/OpenLayers/Control/Button.js",
@@ -242,8 +248,6 @@ if(!window.OpenLayers){
                 "openlayers/lib/OpenLayers/Control/ZoomOut.js",
                 //            "openlayers/lib/OpenLayers/Control/ZoomPanel.js",
                 "openlayers/lib/OpenLayers/Control/EditingToolbar.js",
-                "openlayers/lib/OpenLayers/Lang.js",
-                "openlayers/lib/OpenLayers/Lang/en.js",
             
                 //File addes or modified for MapFaces
                 "proj4js/lib/proj4js-combined.js",
@@ -266,9 +270,6 @@ if(!window.OpenLayers){
                 "openlayers/custom/OpenLayers/Control/MeasureArea.js",
                 "openlayers/custom/OpenLayers/Format/GeoJSON.js",
                 "openlayers/custom/OpenLayers/Control/NavToolbar.js",
-                "openlayers/lib/OpenLayers/Lang/fr.js",
-                "openlayers/custom/OpenLayers/Lang/enExt.js",
-                "openlayers/custom/OpenLayers/Lang/frExt.js",
                 "js/mfUtils.js"
                 ); // etc.
         }else{
