@@ -182,8 +182,13 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
                 for (String key : f.getAttributes().keySet()) {
                     objects.add(f.getAttributes().get(key));
                 }
-
-                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+                
+                String simpleFeatureId = String.valueOf(featureId);
+                if (f.getId() != null) {
+                    simpleFeatureId = f.getId();
+                }
+                
+                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(simpleFeatureId));
                 features.add(sf);
                 featureId++;
             }
@@ -230,7 +235,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         writer.flush();
     }
 
-    public MutableStyle createStyle(String urlImage, int size, double rotation, int indexLayer) throws MalformedURLException {
+    public static MutableStyle createStyle(String urlImage, int size, double rotation, int indexLayer) throws MalformedURLException {
 
         final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
         final StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);

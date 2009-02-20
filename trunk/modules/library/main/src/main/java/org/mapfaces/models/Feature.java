@@ -30,6 +30,10 @@ public interface Feature extends Serializable {
     
     public final static String POINT = "POINT";
     public final static String POLYGON = "POLYGON";
+    
+    public String getId();
+    
+    public void setId(String id);
 
     public String getName();
 
@@ -46,4 +50,8 @@ public interface Feature extends Serializable {
     public Geometry getGeometry();
 
     public void setGeometry(Geometry geometry);
+    
+    public Object getUserObject();
+
+    public void setUserObject(Object object);
 }

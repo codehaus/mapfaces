@@ -36,7 +36,6 @@ public class DataRequestTag extends WidgetBaseTag {
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.DataRequest";
     
     private ValueExpression outputFormat = null;
-    private ValueExpression url = null;
     private ValueExpression dataResult = null;
     private ValueExpression targetPopupId = null;
 
@@ -64,7 +63,6 @@ public class DataRequestTag extends WidgetBaseTag {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("outputFormat", outputFormat);
-        component.setValueExpression("url", url);
         component.setValueExpression("dataResult", dataResult);
         component.setValueExpression("targetPopupId", targetPopupId);
     }
@@ -77,7 +75,6 @@ public class DataRequestTag extends WidgetBaseTag {
         // allways call the superclass method
         super.release();
         outputFormat = null;
-        url = null;
         dataResult = null;
         targetPopupId = null;
     }
@@ -88,14 +85,6 @@ public class DataRequestTag extends WidgetBaseTag {
 
     public void setOutputFormat(ValueExpression outputFormat) {
         this.outputFormat = outputFormat;
-    }
-
-    public ValueExpression getUrl() {
-        return url;
-    }
-
-    public void setUrl(ValueExpression url) {
-        this.url = url;
     }
 
     public ValueExpression getDataResult() {

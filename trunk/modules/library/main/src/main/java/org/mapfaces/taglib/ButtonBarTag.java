@@ -56,7 +56,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression southIdSelectionBox = null;
     private ValueExpression eastIdSelectionBox = null;
     private ValueExpression westIdSelectionBox = null;
-    private ValueExpression targetPopupId = null;
+    private ValueExpression targetDataRequestId = null;
     
     /**
      * {@inheritDoc }
@@ -101,7 +101,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("southIdSelectionBox",southIdSelectionBox);
         component.setValueExpression("eastIdSelectionBox",eastIdSelectionBox);
         component.setValueExpression("westIdSelectionBox",westIdSelectionBox);
-        component.setValueExpression("targetPopupId",targetPopupId);
+        component.setValueExpression("targetDataRequestId",targetDataRequestId);
 
     }
 
@@ -132,7 +132,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         setSouthIdSelectionBox(null);
         setEastIdSelectionBox(null);
         setWestIdSelectionBox(null);
-        setTargetPopupId(null);
+        setTargetDataRequestId(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -291,11 +291,11 @@ public class ButtonBarTag extends WidgetBaseTag {
         this.westIdSelectionBox = westIdSelectionBox;
     }
 
-    public ValueExpression getTargetPopupId() {
-        return targetPopupId;
+    public ValueExpression getTargetDataRequestId() {
+        return targetDataRequestId;
     }
 
-    public void setTargetPopupId(ValueExpression targetPopupId) {
-        this.targetPopupId = targetPopupId;
+    public void setTargetDataRequestId(ValueExpression targetDataRequestId) {
+        this.targetDataRequestId = targetDataRequestId;
     }
 }

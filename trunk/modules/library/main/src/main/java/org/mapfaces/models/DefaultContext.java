@@ -665,4 +665,11 @@ public class DefaultContext extends AbstractModelBase implements Context {
             Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public java.awt.Dimension getDimension() {
+        return new java.awt.Dimension(
+                Integer.parseInt(this.getWindowWidth()),
+                Integer.parseInt(this.getWindowHeight()));
+    }
 }

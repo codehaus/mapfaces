@@ -108,6 +108,14 @@ public class MfLayerListener implements PhaseListener {
         writeLayer(context, id, stream);
     }
 
+    /**
+     * This method portray for every Layers
+     * @TODO the synchronized keyword must be removed after a fix in gt-working dur ton an Exception RecursiveSearchException.
+     * @param context
+     * @param id
+     * @param stream
+     * @throws java.io.IOException
+     */
     private synchronized void writeLayer(FacesContext context, String id, OutputStream stream) throws IOException {
         Map sessionMap = context.getExternalContext().getSessionMap();
         Context model = (Context) sessionMap.get(id + "_model");

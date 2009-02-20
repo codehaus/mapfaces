@@ -31,10 +31,6 @@ public class UIDataRequest extends UIWidgetBase {
      */
     private String outputFormat = "text/html";
     /**
-     * This is the generated url.
-     */
-    private String url = "";
-    /**
      * This is a serializable object witch is containing in a Feature from MFlayer component. Note: it can be used for wms or no wms layers, this object is String for wms layers.
      */
     private Object dataResult;
@@ -66,9 +62,8 @@ public class UIDataRequest extends UIWidgetBase {
         final Object values[] = new Object[10];
         values[0] = super.saveState(context);
         values[1] = outputFormat;
-        values[2] = url;
-        values[3] = dataResult;
-        values[4] = targetPopupId;
+        values[2] = dataResult;
+        values[3] = targetPopupId;
 
         return values;
     }
@@ -81,9 +76,8 @@ public class UIDataRequest extends UIWidgetBase {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         outputFormat = (String) values[1];
-        url = (String) values[2];
-        dataResult = values[3];
-        targetPopupId = (String) values[4];
+        dataResult = values[2];
+        targetPopupId = (String) values[3];
     }
 
     public String getOutputFormat() {
@@ -92,14 +86,6 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setOutputFormat(String outputFormat) {
         this.outputFormat = outputFormat;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public Object getDataResult() {

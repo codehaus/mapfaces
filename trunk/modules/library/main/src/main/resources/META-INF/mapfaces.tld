@@ -689,14 +689,14 @@
             </description>
         </attribute>
         <attribute>
-            <name>targetPopupId</name>
+            <name>targetDataRequestId</name>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
-                The id of the target popup if the getFeatureInfo is enabled.
+                The id of the target datarequest component if the featureInfo attribute is setted to true value.
             </description>
         </attribute>
     </tag>
@@ -1238,17 +1238,6 @@
             <rtexprvalue>false</rtexprvalue>
             <description>
                 The outputFormat of the data.
-            </description>
-        </attribute>
-        <attribute>
-            <name>url</name>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description>
-                The output url of the request.
             </description>
         </attribute>
         <attribute>
