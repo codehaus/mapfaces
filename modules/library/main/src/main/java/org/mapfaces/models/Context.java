@@ -82,6 +82,8 @@ public interface Context extends Serializable {
 
     ReferencedEnvelope getEnvelope();
     
+    java.awt.Dimension getDimension();
+    
     DescriptionURL getLogoURL();
 
     String getMaxScaleDenominator();

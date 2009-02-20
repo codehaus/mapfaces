@@ -26,12 +26,27 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
  */
 public class DefaultFeature implements Feature {
 
+    private String id;
     private String name;
     private DefaultGeographicCRS crs;
     private Map<String, Object> attributes;
     private Geometry geometry;
+    /**
+     * This object must be serializable
+     */
+    private Object userObject;
 
     public DefaultFeature() {
+    }
+    
+    @Override
+    public String getId() {
+        return id;
+    }
+    
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -72,5 +87,15 @@ public class DefaultFeature implements Feature {
     @Override
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
+    }
+    
+    @Override
+    public Object getUserObject() {
+        return userObject;
+    }
+
+    @Override
+    public void setUserObject(Object object) {
+        this.userObject = object;
     }
 }

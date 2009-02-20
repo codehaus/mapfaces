@@ -45,7 +45,7 @@ public class UIButtonBar extends UIWidgetBase {
     private String southIdSelectionBox = "";
     private String eastIdSelectionBox = "";
     private String westIdSelectionBox = "";
-    private String targetPopupId = "";
+    private String targetDataRequestId = "";
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -90,7 +90,7 @@ public class UIButtonBar extends UIWidgetBase {
         values[17] = southIdSelectionBox;
         values[18] = eastIdSelectionBox;
         values[19] = westIdSelectionBox;
-        values[20] = targetPopupId;
+        values[20] = targetDataRequestId;
         return values;
     }
 
@@ -120,7 +120,7 @@ public class UIButtonBar extends UIWidgetBase {
         southIdSelectionBox = (String) values[17];
         eastIdSelectionBox = (String) values[18];
         westIdSelectionBox = (String) values[19];
-        targetPopupId = (String) values[20];
+        targetDataRequestId = (String) values[20];
     }
 
     public boolean isZoomIn() {
@@ -275,11 +275,11 @@ public class UIButtonBar extends UIWidgetBase {
         this.westIdSelectionBox = westIdSelectionBox;
     }
 
-    public String getTargetPopupId() {
-        return targetPopupId;
+    public String getTargetDataRequestId() {
+        return targetDataRequestId;
     }
 
-    public void setTargetPopupId(String targetPopupId) {
-        this.targetPopupId = targetPopupId;
+    public void setTargetDataRequestId(String targetDataRequestId) {
+        this.targetDataRequestId = targetDataRequestId;
     }
 }

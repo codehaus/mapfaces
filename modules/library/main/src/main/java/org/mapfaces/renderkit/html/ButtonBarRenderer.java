@@ -122,10 +122,10 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
                 writer.write(",\npanEffect: true");
 
             if (comp.isFeatureInfo()) {
-                final String targetPopupId = comp.getTargetPopupId();
+                final String targetDataRequestId = comp.getTargetDataRequestId();
                 
                 writer.write(",\ngetFeatureInfo: true");
-                writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'"+formId+":"+targetPopupId+"'}");
+                writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'"+formId+":"+targetDataRequestId+"'}");
             }
             if (comp.isMeasureDistance()) {
                 writer.write(",\nmeasureDistance: true");

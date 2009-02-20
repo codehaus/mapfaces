@@ -1199,4 +1199,9 @@ public class TreeItem implements Layer, Context {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public java.awt.Dimension getDimension() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

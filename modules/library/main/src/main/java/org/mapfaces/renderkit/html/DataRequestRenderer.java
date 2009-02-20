@@ -16,20 +16,43 @@
  */
 package org.mapfaces.renderkit.html;
 
+import com.vividsolutions.jts.geom.Geometry;
+import java.awt.Rectangle;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import org.geotools.display.exception.PortrayalException;
+import org.geotools.display.service.DefaultPortrayalService;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.simple.SimpleFeatureImpl;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.filter.identity.FeatureIdImpl;
+import org.geotools.map.FeatureMapLayer;
+import org.geotools.map.MapBuilder;
+import org.geotools.map.MapContext;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.style.MutableStyle;
 import org.mapfaces.component.UIDataRequest;
 import org.mapfaces.component.UIPopup;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FeatureVisitor;
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  *
@@ -46,6 +69,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         final UIDataRequest comp = (UIDataRequest) component;
         final String clientId = comp.getClientId(context);
 
+        ResponseWriter responseWriter = context.getResponseWriter();
+
+        responseWriter.startElement("div", comp);
+
+        responseWriter.writeAttribute("id", clientId, "id");
+
     }
 
     /**
@@ -57,7 +86,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         if (responseWriter == null) {
             responseWriter = FacesUtils.getResponseWriter2(context);
         }
-
+        responseWriter.endElement("div");
         responseWriter.flush();
     }
 
@@ -93,34 +122,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         if (popup != null) {
             popupWidth = popup.getWidth();
             popupHeight = popup.getHeight();
-            System.out.println("[DATARequestRenderer] decode process : popupWidth = " + popupWidth + "   popupHeight = " + popupHeight+"    popup = "+popup);
         }
 
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             final Context model = (Context) comp.getModel();
-
-            final List<Layer> layersWMS = new ArrayList<Layer>();
-            String layersNameString = "";
-            int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
-            int loop = 0;
-            for (Layer queryLayer : model.getVisibleLayers()) {
-                if (queryLayer.getType().equals("mapfaces_type")) {
-                    //@TODO do something to generate an Object List of Result from the attached features
-                    System.out.println(">>>>>>>>>>>   MFLayer detected for GetFeatureInfo, skiping theme because it is a special layer for Mapfaces.");
-                    continue;
-                }else {
-                    loop++;
-                    if (! layersWMS.contains(queryLayer)) {
-                        layersWMS.add(queryLayer);
-                        layersNameString += queryLayer.getName();
-                        if (loop != nbWmsLayers) {
-                            layersNameString += ",";
-                        }
-                    }
-                }
-            }
-
 
             final Map params = context.getExternalContext().getRequestParameterMap();
 
@@ -144,39 +150,169 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     }
                 }
 
+                final List<Layer> layersWMS = new ArrayList<Layer>();
+                String layersNameString = "";
+                int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
+                int loop = 0;
+                List<Feature> featureInfoList = new ArrayList<Feature>();
+                boolean MFlayerExist = false;
+
+                for (Layer queryLayer : model.getVisibleLayers()) {
+                    if (queryLayer.getType().equals("mapfaces")) {
+
+                        Map mapFeaturesLayer = new HashMap<String, Feature>();
+
+
+                        //@TODO do something to generate an Object List of Result from the attached features
+                        MFlayerExist = true;
+                        final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
+                        final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
+                        System.out.println("========= boundingbox = " + model.getBoundingBox());
+                        System.out.println("========= X = " + featureInfo_X);
+                        System.out.println("========= Y = " + featureInfo_Y);
+                        System.out.println("========= MFlayer = " + queryLayer.getId() + "    features size = " + queryLayer.getFeatures().size());
+
+//                        fillFeatureListIntersect(featureInfoList, 
+//                                                 queryLayer.getFeatures(),
+//                                                 model.getBoundingBox(),
+//                                                 featureInfo_X,
+//                                                 featureInfo_Y);
+
+                        MapContext mapContext;
+
+                        MutableStyle mutableStyle = null;
+
+                        //building a FeatureCollection for this layer.
+                        FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+                        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+
+                        try {
+                            mutableStyle = MFLayerRenderer.createStyle(queryLayer.getImage(), queryLayer.getSize(), queryLayer.getRotation(), 1);
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
+                        if (queryLayer.getFeatures() != null && queryLayer.getFeatures().size() != 0) {
+
+                            Feature f = queryLayer.getFeatures().get(0);
+                            builder.setName(f.getName());
+                            layerCrs = f.getCrs();
+                            builder.setCRS(layerCrs);
+                            for (String key : f.getAttributes().keySet()) {
+                                if (key.equals("geometry")) {
+                                    builder.add(key, Geometry.class);
+                                } else {
+                                    builder.add(key, f.getAttributes().get(key).getClass());
+                                }
+                            }
+                        }
+
+                        SimpleFeatureType sft = builder.buildFeatureType();
+                        for (Feature f : queryLayer.getFeatures()) {
+                            if (!mapFeaturesLayer.containsKey(f.getId())) {
+                                mapFeaturesLayer.put(f.getId(), f);
+                            }
+
+                            List<Object> objects = new ArrayList<Object>();
+                            for (String key : f.getAttributes().keySet()) {
+                                objects.add(f.getAttributes().get(key));
+                            }
+
+                            SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(f.getId()));
+                            features.add(sf);
+                        }
+
+                        final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
+                        mapLayer.setSelectable(true);
+                        mapContext = MapBuilder.getInstance().createContext(layerCrs);
+                        mapContext.layers().add(mapLayer);
+                        Rectangle rect = new Rectangle(Integer.parseInt(featureInfo_X), Integer.parseInt(featureInfo_Y), 1, 1);
+                        FeatureVisitor featureVisitor = new FeatureVisitor();
+                        try {
+                            DefaultPortrayalService.visit(mapContext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
+                        } catch (PortrayalException ex) {
+                            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        //Adding the resulting feature into the final list of features for dataResult ValueExpression value.
+                        for (org.opengis.feature.Feature f : featureVisitor.getFeatureList()) {
+                            if (f instanceof org.opengis.feature.simple.SimpleFeature) {
+                                org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
+
+                                Feature resultFeature = (Feature) mapFeaturesLayer.get(ff.getID());
+                                if (resultFeature != null && !featureInfoList.contains(resultFeature)) {
+                                    featureInfoList.add(resultFeature);
+                                }
+                            }
+                        }
+                        mapFeaturesLayer.clear();
+
+                    } else {
+                        loop++;
+                        if (!layersWMS.contains(queryLayer)) {
+                            layersWMS.add(queryLayer);
+                            layersNameString += queryLayer.getName();
+                            if (loop != nbWmsLayers) {
+                                layersNameString += ",";
+                            }
+                        }
+                    }
+                }
+
+                //setting the value expression for dataResult if not null
+                ValueExpression ve = comp.getValueExpression("dataResult");
+                if (ve != null) {
+                    ve.setValue(context.getELContext(), featureInfoList);
+                    comp.setValueExpression("dataResult", ve);
+                }
+                comp.setDataResult(featureInfoList);
+                if (featureInfoList.size() == 0 ){
+                    popup.setRendered(false);
+                }else {
+                    popup.setRendered(true);
+                }
+
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;
+                String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
 
                 if (popup != null && popup.isIframe()) {
-                    
+
                     StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;overflow-x:auto;overflow-y:auto;'>");
-                    //@TODO factorization of serves wms, one request by server and QUERY_LAYERS must contains all layers name
+                    //@TODO factorization of servers wms, one request by server and QUERY_LAYERS must contains all layers name
                     for (Layer queryLayer : layersWMS) {
-                        innerHtml.append("<iframe style='width:").append(innerWidth).append("px;height:").append(innerHeight)
-                            .append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='")
-                            .append(queryLayer.getServer().getHref())
-                            .append("?BBOX=").append(model.getBoundingBox())
-                            .append("&STYLES=")
-                            .append("&FORMAT=").append(queryLayer.getOutputFormat())
-                            .append("&INFO_FORMAT=text/html")
-                            .append("&VERSION=").append(queryLayer.getServer().getVersion())
-                            .append("&SRS=").append(model.getSrs().toUpperCase())
-                            .append("&REQUEST=GetFeatureInfo")
-                            .append("&LAYERS=").append(queryLayer.getName())
-                            .append("&QUERY_LAYERS=").append(queryLayer.getName())
-                            .append("&WIDTH=").append(model.getWindowWidth())
-                            .append("&HEIGHT=").append(model.getWindowHeight())
-                            .append("&X=").append(X)
-                            .append("&Y=").append(Y)
-                            .append("'></iframe>");
+                        innerHtml.append("<iframe style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
+                                append(queryLayer.getServer().getHref()).
+                                append("?BBOX=").append(model.getBoundingBox()).
+                                append("&STYLES=").
+                                append("&FORMAT=").append(queryLayer.getOutputFormat()).
+                                append("&INFO_FORMAT=").append(outputFormat).
+                                append("&VERSION=").append(queryLayer.getServer().getVersion()).
+                                append("&SRS=").append(model.getSrs().toUpperCase()).
+                                append("&REQUEST=GetFeatureInfo").
+                                append("&LAYERS=").append(queryLayer.getName()).
+                                append("&QUERY_LAYERS=").append(queryLayer.getName()).
+                                append("&WIDTH=").append(model.getWindowWidth()).
+                                append("&HEIGHT=").append(model.getWindowHeight()).
+                                append("&X=").append(X).
+                                append("&Y=").append(Y).
+                                append("'></iframe><br/>");
                     }
                     innerHtml.append("</div>");
                     popup.setInnerHTML(innerHtml.toString());
-                    
+
+                    //setting the value expression for dataResult if not null
+                    if (ve != null && (ve.getValue(context.getELContext()) instanceof String)) {
+                        ve.setValue(context.getELContext(), innerHtml);
+                        comp.setValueExpression("dataResult", ve);
+                    }
+                    comp.setDataResult(innerHtml);
+
                 }
 
             } else if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getCoverage")) {
-                
+
                 final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
 
                 String elevation = null;
@@ -219,5 +355,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
         }
         return;
+    }
+
+    public void fillFeatureListIntersect(List<Feature> listTofill, List<Feature> FeaturelistLayer, String boundingBox, String x, String y) {
+        for (Feature f : FeaturelistLayer) {
+//            System.out.println("===== "+f.getGeometry().intersects(arg0));
+        }
     }
 }
