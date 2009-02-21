@@ -156,6 +156,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 int loop = 0;
                 List<Feature> featureInfoList = new ArrayList<Feature>();
                 boolean MFlayerExist = false;
+                int countFeature = comp.getFeatureCount();
 
                 for (Layer queryLayer : model.getVisibleLayers()) {
                     if (queryLayer.getType().equals("mapfaces")) {
@@ -167,21 +168,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         MFlayerExist = true;
                         final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
                         final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
-                        System.out.println("========= boundingbox = " + model.getBoundingBox());
-                        System.out.println("========= X = " + featureInfo_X);
-                        System.out.println("========= Y = " + featureInfo_Y);
-                        System.out.println("========= MFlayer = " + queryLayer.getId() + "    features size = " + queryLayer.getFeatures().size());
-
-//                        fillFeatureListIntersect(featureInfoList, 
-//                                                 queryLayer.getFeatures(),
-//                                                 model.getBoundingBox(),
-//                                                 featureInfo_X,
-//                                                 featureInfo_Y);
 
                         MapContext mapContext;
-
                         MutableStyle mutableStyle = null;
-
                         //building a FeatureCollection for this layer.
                         FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
                         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
@@ -241,7 +230,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
 
                                 Feature resultFeature = (Feature) mapFeaturesLayer.get(ff.getID());
-                                if (resultFeature != null && !featureInfoList.contains(resultFeature)) {
+                                if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
                                     featureInfoList.add(resultFeature);
                                 }
                             }
@@ -268,16 +257,17 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
                 comp.setDataResult(featureInfoList);
                 if (featureInfoList.size() == 0 ){
-                    popup.setRendered(false);
+                    popup.setHidden(true);
                 }else {
-                    popup.setRendered(true);
+                    popup.setHidden(false);
                 }
 
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;
                 String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
-
-                if (popup != null && popup.isIframe()) {
+                String featureCount = (comp.getFeatureCount() != 0 ) ? String.valueOf(comp.getFeatureCount()) : "";
+                
+                if (popup != null && popup.isIframe() && ! comp.isMfLayersOnly()) {
 
                     StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;overflow-x:auto;overflow-y:auto;'>");
                     //@TODO factorization of servers wms, one request by server and QUERY_LAYERS must contains all layers name
@@ -297,10 +287,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 append("&HEIGHT=").append(model.getWindowHeight()).
                                 append("&X=").append(X).
                                 append("&Y=").append(Y).
+                                append("&FEATURE_COUNT=").append(featureCount).
                                 append("'></iframe><br/>");
                     }
                     innerHtml.append("</div>");
                     popup.setInnerHTML(innerHtml.toString());
+                    popup.setHidden(false);
 
                     //setting the value expression for dataResult if not null
                     if (ve != null && (ve.getValue(context.getELContext()) instanceof String)) {
@@ -349,17 +341,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 //init the popup innerHtml in others decode process
                 if (popup != null && popup.isIframe()) {
                     popup.setInnerHTML(null);
+                    popup.setHidden(true);
                 }
             }
             comp.setModel((AbstractModelBase) model);
 
         }
         return;
-    }
-
-    public void fillFeatureListIntersect(List<Feature> listTofill, List<Feature> FeaturelistLayer, String boundingBox, String x, String y) {
-        for (Feature f : FeaturelistLayer) {
-//            System.out.println("===== "+f.getGeometry().intersects(arg0));
-        }
     }
 }

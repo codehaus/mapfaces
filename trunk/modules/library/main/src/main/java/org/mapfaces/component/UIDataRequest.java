@@ -27,9 +27,9 @@ public class UIDataRequest extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.DataRequest";
     /**
-     * This is the output format of the request. default is text/html, you can use text/xml or simple text.
+     * Format of feature information. The default value is application/vnd.ogc.wms_xml. Other options are text/xml, text/html, and text/plain.
      */
-    private String outputFormat = "text/html";
+    private String outputFormat = "application/vnd.ogc.wms_xml";
     /**
      * This is a serializable object witch is containing in a Feature from MFlayer component. Note: it can be used for wms or no wms layers, this object is String for wms layers.
      */
@@ -40,6 +40,14 @@ public class UIDataRequest extends UIWidgetBase {
      */
     private String targetPopupId = "";
     
+    /**
+     * This is a flag to allow the getFeatureInfo only on MFlayers type
+     */
+    private boolean mfLayersOnly;
+    /**
+     * Number of features per layer allowed. The default is 1.
+     */
+    private int featureCount;
 
     public UIDataRequest() {
         super();
@@ -64,6 +72,8 @@ public class UIDataRequest extends UIWidgetBase {
         values[1] = outputFormat;
         values[2] = dataResult;
         values[3] = targetPopupId;
+        values[4] = mfLayersOnly;
+        values[5] = featureCount;
 
         return values;
     }
@@ -78,6 +88,8 @@ public class UIDataRequest extends UIWidgetBase {
         outputFormat = (String) values[1];
         dataResult = values[2];
         targetPopupId = (String) values[3];
+        mfLayersOnly = (Boolean) values[4];
+        featureCount = (Integer) values[5];
     }
 
     public String getOutputFormat() {
@@ -102,5 +114,21 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setTargetPopupId(String targetPopupId) {
         this.targetPopupId = targetPopupId;
+    }
+
+    public boolean isMfLayersOnly() {
+        return mfLayersOnly;
+    }
+
+    public void setMfLayersOnly(boolean mfLayersOnly) {
+        this.mfLayersOnly = mfLayersOnly;
+    }
+
+    public int getFeatureCount() {
+        return featureCount;
+    }
+
+    public void setFeatureCount(int featureCount) {
+        this.featureCount = featureCount;
     }
 }
