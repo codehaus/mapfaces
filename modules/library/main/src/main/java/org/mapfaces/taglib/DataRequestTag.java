@@ -38,6 +38,8 @@ public class DataRequestTag extends WidgetBaseTag {
     private ValueExpression outputFormat = null;
     private ValueExpression dataResult = null;
     private ValueExpression targetPopupId = null;
+    private ValueExpression mfLayersOnly = null;
+    private ValueExpression featureCount = null;
 
     /**
      * {@inheritDoc }
@@ -65,6 +67,8 @@ public class DataRequestTag extends WidgetBaseTag {
         component.setValueExpression("outputFormat", outputFormat);
         component.setValueExpression("dataResult", dataResult);
         component.setValueExpression("targetPopupId", targetPopupId);
+        component.setValueExpression("mfLayersOnly", mfLayersOnly);
+        component.setValueExpression("featureCount", featureCount);
     }
 
     /**
@@ -77,6 +81,8 @@ public class DataRequestTag extends WidgetBaseTag {
         outputFormat = null;
         dataResult = null;
         targetPopupId = null;
+        mfLayersOnly = null;
+        featureCount = null;
     }
 
     public ValueExpression getOutputFormat() {
@@ -101,6 +107,22 @@ public class DataRequestTag extends WidgetBaseTag {
 
     public void setTargetPopupId(ValueExpression targetPopupId) {
         this.targetPopupId = targetPopupId;
+    }
+
+    public ValueExpression getMfLayersOnly() {
+        return mfLayersOnly;
+    }
+
+    public void setMfLayersOnly(ValueExpression mfLayersOnly) {
+        this.mfLayersOnly = mfLayersOnly;
+    }
+
+    public ValueExpression getFeatureCount() {
+        return featureCount;
+    }
+
+    public void setFeatureCount(ValueExpression featureCount) {
+        this.featureCount = featureCount;
     }
 
 }

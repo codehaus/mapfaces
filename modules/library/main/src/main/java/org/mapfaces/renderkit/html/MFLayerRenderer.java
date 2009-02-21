@@ -271,7 +271,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer]),
                 styleFactory.literalExpression(2),
                 styleFactory.literalExpression(0.8));
-        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
+        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.31));
         PolygonSymbolizer polygonSymbol = styleFactory.createPolygonSymbolizer(stroke, fill, "marker");
 
         rulePolygon.symbolizers().add(polygonSymbol);
@@ -377,7 +377,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
             comp.setStyle(params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
         }
 
-        System.out.println(sb.toString());
+//        System.out.println(sb.toString());
         comp.setModel((AbstractModelBase) model);
 //        comp.setLayer(model.getLayerFromId(layer.getId()));
 

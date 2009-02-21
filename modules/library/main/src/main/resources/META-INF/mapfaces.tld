@@ -1262,6 +1262,28 @@
                 Add debug message in server console.
             </description>
         </attribute>
+        <attribute>
+            <name>mfLayersOnly</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Allow getfeatureInfo on mflayers only.
+            </description>
+        </attribute>
+        <attribute>
+            <name>featureCount</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Number of features per layer allowed. The default is all features count in the intersection.
+            </description>
+        </attribute>
     </tag>
      <!-- MeasureDistance -->
     <tag>
