@@ -60,10 +60,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeBegin(context, component);
         final UIMapPane comp = (UIMapPane) component;
-        if (comp.isDebug()) {
+        if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] MapPaneRenderer ENCOD BEGIN");
         }
-        final boolean debug = comp.isDebug();
         final String clientId = comp.getClientId(context);
         final Context model;
         if (comp.getModel() != null && comp.getModel() instanceof Context) {
@@ -91,7 +90,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             style = "width:" + width + "px;height:" + height + "px;z-index:0;" + style;
         }
 
-        if (debug) {
+        if (this.debug) {
             System.out.println("\t the style property of the MapPane is " + style);
         }
         writer.startElement("div", comp);
@@ -137,20 +136,20 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         final String ctxPath = sc.getContextPath();
         final String srs = model.getSrs();
 
-        if (debug) {
+        if (this.debug) {
             System.out.println("\t The model context of the Mappane contains " + layers.size() + " layers.");
         }
         comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
         removeChildren(context, component);
 
-        if (comp.isDebug()) {
+        if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
 
-        for (final Layer temp : layers) {
-            if (temp.getId().contains("_MF_")) {
-                continue;
+        for (final Layer temp : layers) { 
+            if (this.debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] The current layer is a :  " + temp.getType() + " layer.");
             }
             if (temp != null && temp.getType() != null) {
                 switch (temp.getType()) {
@@ -187,14 +186,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         uiMCLayer.setModel((AbstractModelBase) model);
                         uiMCLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() 
                                 + "_" + comp.getId() + "_" + temp.getId());
-                        if (debug) {
-                            uiMCLayer.getAttributes().put("debug", true);
-                        }
                         uiMCLayer.setDir(dstDir);
                         uiMCLayer.setContextPath(ctxPath);
                         comp.getChildren().add(uiMCLayer);
                         temp.setCompId(uiMCLayer.getClientId(context));
-                        System.out.println("[DEBUG] MFLayer from Mapcontext :  " + uiMCLayer.getClientId(context));
                         uiMCLayer.setLayer(temp);
                         model.removeLayerFromId(temp.getId());
                         model.addLayer((MapContextLayer)temp);
@@ -207,7 +202,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         uiFLayer.setFeatures(tmp.getFeatures());
                         uiFLayer.setRotation(tmp.getRotation());
                         uiFLayer.setSize(tmp.getSize());
-
                         uiFLayer.setBindingIndex(tmp.getGroupId());
 
                         if (temp.getId() != null) {
@@ -217,15 +211,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         }
                         uiFLayer.setDir(dstDir);
                         uiFLayer.setContextPath(ctxPath);
-
-
-                        if (comp.isDebug()) {
-                            LOGGER.log(Level.INFO, "[DEBUG] Add an UIFeatureLayer  id : " + uiFLayer.getClientId(context));
-                        }
                         comp.getChildren().add(uiFLayer);
-
                         tmp.setCompId(uiFLayer.getClientId(context));
                         uiFLayer.setLayer(tmp);
+                        model.removeLayerFromId(temp.getId());
+                        model.addLayer((FeatureLayer)temp);
                         break;
                     default:
                         break;
@@ -239,7 +229,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             
             //adding all the MapContext layers  into an allInOne layer.
             final ContextFactory contextFactory = new DefaultContextFactory();
-            DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer();
+            DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(-1);
             UIMapContextLayer mfLayer = new UIMapContextLayer();
             mfLayer.setModel((AbstractModelBase) model);
             mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + mcLayer.getId());
@@ -252,7 +242,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             System.out.println("[DEBUG] MFLayer from Mapcontext :  " + mfLayer.getClientId(context));
             mfLayer.setLayer(mcLayer);
 
-            if (debug) {
+            if (this.debug) {
                 System.out.println("\t UIMapContextLayer  ClientId" + mfLayer.getClientId(context));
             }
 
@@ -262,14 +252,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
 
         writer.flush();
-        if (comp.isDebug()) {
+        if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] La mappane a  " + comp.getChildren().size() + " fils");
         }
         //Setting the model to all children of the MapPane component
         for (final UIComponent tmp : comp.getChildren()) {
             if (tmp instanceof UIWidgetBase) {
                 ((UIWidgetBase) tmp).setModel((AbstractModelBase) model);
-                ((UIWidgetBase) tmp).setDebug(comp.isDebug());
+                ((UIWidgetBase) tmp).setDebug(this.debug);
             }
         }
     }
@@ -281,7 +271,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeEnd(context, component);
         final UIMapPane comp = (UIMapPane) component;
-        if (comp.isDebug()) {
+        if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] MapPaneRenderer ENCOD END");
         }
         final Context model;
@@ -361,7 +351,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
         final UIMapPane comp = (UIMapPane) component;
-        if (comp.isDebug()) {
+        if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] MapPaneRenderer DECODE");
         }
         final UIContext contextComp = (UIContext) FacesUtils.getParentUIContext(context, comp);

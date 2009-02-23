@@ -17,8 +17,9 @@
 
 package org.mapfaces.models.layer;
 
+import java.io.Serializable;
 import org.mapfaces.models.*;
 
-public interface MapContextLayer extends Layer {
+public interface MapContextLayer extends Layer,Serializable {
     
 }

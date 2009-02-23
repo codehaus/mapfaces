@@ -78,7 +78,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] \t\tparams.get('refresh') =  " +params.get("refresh"));
             LOGGER.log(Level.INFO, "[DEBUG] \t\tcomp.getClientId(context) =  " +comp.getClientId(context));
-            LOGGER.log(Level.INFO, "[DEBUG] \t\tparams.get('refresh'').equals(comp.getClientId(context)) " +params.get("refresh").equals(comp.getClientId(context)));
+            //LOGGER.log(Level.INFO, "[DEBUG] \t\tparams.get('refresh'').equals(comp.getClientId(context)) " +params.get("refresh").equals(comp.getClientId(context)));
         }
         if (params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))) {
             final String  bbox= params.get("bbox");

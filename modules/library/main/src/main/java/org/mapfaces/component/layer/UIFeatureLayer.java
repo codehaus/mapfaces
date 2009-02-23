@@ -104,12 +104,13 @@ public class UIFeatureLayer extends UILayer {
         final Object values[] = new Object[15];
         values[0] = super.saveState(context);
         values[1] = dir;
-        values[2] = image;
-        values[3] = size;
-        values[4] = rotation;
-        values[5] = contextPath;
-        values[6] = index;
-        values[7] = bindingIndex;
+        values[2] = features;
+        values[3] = image;
+        values[4] = size;
+        values[5] = rotation;
+        values[6] = contextPath;
+        values[7] = index;
+        values[8] = bindingIndex;
         return values;
     }
 

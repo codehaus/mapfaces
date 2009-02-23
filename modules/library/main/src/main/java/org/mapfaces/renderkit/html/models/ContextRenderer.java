@@ -219,7 +219,7 @@ public class ContextRenderer extends Renderer {
                 if (obj instanceof MapContext) {
                     //adding all the MapContext layers  into an allInOne layer.
                     final ContextFactory contextFactory = new DefaultContextFactory();
-                    ctx.addLayer(contextFactory.createDefaultMapContextLayer());
+                    ctx.addLayer(contextFactory.createDefaultMapContextLayer(-1));
                 }
             }
             comp.setModel((AbstractModelBase) ctx);

@@ -17,10 +17,11 @@
 
 package org.mapfaces.models.layer;
 
+import java.io.Serializable;
 import org.mapfaces.models.*;
 import java.util.List;
 
-public interface FeatureLayer extends Layer {
+public interface FeatureLayer extends Layer,Serializable {
     
     public List<Feature> getFeatures();
 
