@@ -23,7 +23,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultFeature;
-import org.mapfaces.models.DefaultLayer;
+import org.mapfaces.models.layer.DefaultFeatureLayer;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Server;
 import org.mapfaces.share.listener.ResourcePhaseListener;
@@ -167,7 +167,7 @@ public class MapBean {
 
                 HttpServletRequest request = (HttpServletRequest) facesCtxt.getExternalContext().getRequest();
 
-                DefaultLayer layer = (DefaultLayer) contextFactory.createDefaultLayer();
+                DefaultFeatureLayer layer = (DefaultFeatureLayer) contextFactory.createDefaultLayer();
 
                 layer.setGroupId(indexLayer);
 
@@ -177,8 +177,6 @@ public class MapBean {
                 layer.setHidden(layerType.isHidden());
                 layer.setOpacity(layerType.getOpacity().toString());
                 layer.setTitle("mapfaces_title");
-                layer.setServer(wms);
-                layer.setType("mapfaces");
                 layer.setOutputFormat("image/gif");
                 layer.setQueryable(true);
                 //@TODO temporary hack due to the number of png is limited, use instead a large of png set.
