@@ -22,7 +22,7 @@ import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.UIMFLayer;
+import org.mapfaces.component.layer.UIFeatureLayer;
 
 /**
  *
@@ -90,7 +90,7 @@ public class MFLayerTag extends WidgetBaseTag {
         component.setValueExpression("sizeImg", sizeImg);
         component.setValueExpression("rotation", rotation);
 
-        final UIMFLayer mflayer = (UIMFLayer) component;
+        final UIFeatureLayer mflayer = (UIFeatureLayer) component;
 
         if (value != null) {
             final FacesContext context = FacesContext.getCurrentInstance();
