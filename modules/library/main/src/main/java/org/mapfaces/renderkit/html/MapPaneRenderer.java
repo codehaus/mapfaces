@@ -146,8 +146,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
-
-        for (final Layer temp : layers) { 
+        
+        for (final Layer temp : layers) {
             if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The current layer is a :  " + temp.getType() + " layer.");
             }
@@ -214,8 +214,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         comp.getChildren().add(uiFLayer);
                         tmp.setCompId(uiFLayer.getClientId(context));
                         uiFLayer.setLayer(tmp);
-                        model.removeLayerFromId(temp.getId());
-                        model.addLayer((FeatureLayer)temp);
                         break;
                     default:
                         break;
