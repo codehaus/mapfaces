@@ -271,7 +271,7 @@ public class MFLayerRenderer extends WidgetBaseRenderer {
         Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer]),
                 styleFactory.literalExpression(2),
                 styleFactory.literalExpression(0.8));
-        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.31));
+        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
         PolygonSymbolizer polygonSymbol = styleFactory.createPolygonSymbolizer(stroke, fill, "marker");
 
         rulePolygon.symbolizers().add(polygonSymbol);

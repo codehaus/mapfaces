@@ -55,33 +55,35 @@ OpenLayers.Control.GetFeatureInfo= OpenLayers.Class(OpenLayers.Control, {
                     //alert(this.map.getLonLatFromPixel(new OpenLayers.Pixel(evt.xy.x, evt.xy.y)));
                   }    
                 },
-//    activate: function () {
-//        if (this.active) {
-//            return false;
-//        }
-//        if (this.handler) {
-//            this.handler.activate();
-//        }
-//        this.active = true;
-//        this.events.triggerEvent("activate");
-//        return true;
-//    },
-//                /**
-//     * Method: deactivate
-//     */
-//    deactivate: function() {
-//        if (this.active) { 
-//            if(document.getElementById('form:getFeatureInfo'))document.getElementById('form:getFeatureInfo').style.display='none';
-//       
-//            if (this.handler) {
-//                this.handler.deactivate();
-//            }
-//            this.active = false;
-//            this.events.triggerEvent("deactivate");
-//            return true;
-//        }
-//        return false;
-//    },
+    activate: function () {
+
+        if (this.active) {
+            return false;
+        }
+        if (this.handler) {
+            this.handler.activate();
+this.map.div.style.cursor='pointer';
+        }
+        this.active = true;
+        this.events.triggerEvent("activate");
+        return true;
+    },
+    /**
+     * Method: deactivate
+     */
+    deactivate: function() {
+
+        if (this.active) {
+ 	    this.map.div.style.cursor='none';
+            if (this.handler) {
+                this.handler.deactivate();
+            }
+            this.active = false;
+            this.events.triggerEvent("deactivate");
+            return true;
+        }
+        return false;
+    },
 /**
      * Method: deactivate
      */
