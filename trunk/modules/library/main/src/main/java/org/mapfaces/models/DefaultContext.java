@@ -60,15 +60,13 @@ public class DefaultContext extends AbstractModelBase implements Context {
     /**
      * {@inheritDoc }
      */
-    @Override
-    public String getType() {
+    public String getContextType() {
         return type;
     }
 
     /**
      * {@inheritDoc }
      */
-    @Override
     public void setType(String type) {
         this.type = type;
     }

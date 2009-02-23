@@ -15,33 +15,11 @@
  */
 package org.mapfaces.share.listener;
 
-import java.net.URL;
 
-import javax.swing.ImageIcon;
-import org.geotools.factory.CommonFactoryFinder;
 
-import org.geotools.style.MutableFeatureTypeStyle;
-import org.geotools.style.MutableRule;
-import org.geotools.style.StyleFactory;
 
-import org.opengis.filter.Filter;
-import org.opengis.filter.FilterFactory2;
-import org.opengis.filter.expression.Expression;
-import org.opengis.style.AnchorPoint;
-import org.opengis.style.Displacement;
-import org.opengis.style.ExternalGraphic;
-import org.opengis.style.Fill;
-import org.opengis.style.Graphic;
-import org.opengis.style.GraphicalSymbol;
-import org.opengis.style.PointSymbolizer;
-import org.opengis.style.PolygonSymbolizer;
-import org.opengis.style.Stroke;
-import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import java.util.logging.Level;
@@ -57,19 +35,14 @@ import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapContext;
 import org.geotools.referencing.CRS;
-import org.geotools.style.MutableStyle;
 import org.mapfaces.models.Context;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import org.geotools.map.MapBuilder;
-import org.geotools.map.MapLayer;
-import org.mapfaces.models.Feature;
+import java.util.Date;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 public class MfLayerListener implements PhaseListener {
 
-    private final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK};
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.share.listener.MFLayerListener");
 
     public void afterPhase(PhaseEvent phaseEvent) {
@@ -149,8 +122,11 @@ public class MfLayerListener implements PhaseListener {
 
             if (mapContext != null) {
                 try {
-                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
-                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true);
+                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);                    
+                    long start = (new Date()).getTime();
+                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true); System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
+                    long end = (new Date()).getTime();
+                    System.out.println("[PORTRAYING END] time : "+(end-start) +" ms");          
                 } catch (PortrayalException ex) {
                     Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {

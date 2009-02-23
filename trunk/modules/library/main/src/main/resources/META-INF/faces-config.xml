@@ -83,12 +83,20 @@
         <component-class>org.mapfaces.component.UILocatorMap</component-class>
     </component>
     <component>
-        <component-type>org.mapfaces.component.MapPane.Layer</component-type>
+        <component-type>org.mapfaces.component.Layer</component-type>
         <component-class>org.mapfaces.component.UILayer</component-class>
     </component>
     <component>
-        <component-type>org.mapfaces.component.MapPane.MFLayer</component-type>
-        <component-class>org.mapfaces.component.UIMFLayer</component-class>
+        <component-type>org.mapfaces.component.FeatureLayer</component-type>
+        <component-class>org.mapfaces.component.layer.UIFeatureLayer</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.MapContextLayer</component-type>
+        <component-class>org.mapfaces.component.layer.UIMapContextLayer</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.WmsLayer</component-type>
+        <component-class>org.mapfaces.component.layer.UIWmsLayer</component-class>
     </component>
     <component>
         <component-type>org.mapfaces.component.LayerControl</component-type>
@@ -323,15 +331,27 @@
         </renderer>
         <renderer>
             <description>Renders a layer . </description>
-            <component-family>org.mapfaces.MapPane.Layer</component-family>
-            <renderer-type>org.mapfaces.renderkit.html.MapPane.Layer</renderer-type>
+            <component-family>org.mapfaces.Layer</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.Layer</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.LayerRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Renders a speciallayer from a collection of features. </description>
-            <component-family>org.mapfaces.MapPane.MFLayer</component-family>
-            <renderer-type>org.mapfaces.renderkit.html.MapPane.MFLayer</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.html.MFLayerRenderer</renderer-class>
+            <component-family>org.mapfaces.FeatureLayer</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.FeatureLayer</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.layer.FeatureLayerRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Renders a wms. </description>
+            <component-family>org.mapfaces.WmsLayer</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.WmsLayer</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.layer.WmsLayerRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Renders a MapContext in one layer. </description>
+            <component-family>org.mapfaces.MapContextLayer</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.MapContextLayer</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.layer.MapContextLayerRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Renders an LayerControl </description>

@@ -55,6 +55,7 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
+import org.mapfaces.models.layer.WmsLayer;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -185,14 +186,37 @@ public class OWCv030toMFTransformer {
                         if (servers.get(wmsUrl) != null) {
                             servers.put(wmsUrl, wms);
                         }
-                        Layer layer = contextFactory.createDefaultLayer();
+                        WmsLayer layer = (WmsLayer) contextFactory.createDefaultWmsLayer();
 
                         /* Server */
                         layer.setServer(wms);
 
                         /* Type */
-                        layer.setType(layerType.getServer().get(0).getService().value());
-
+                        switch (layerType.getServer().get(0).getService()) {
+                            case URN_OGC_SERVICE_TYPE_WMS:
+                                layer.setType(org.mapfaces.models.LayerType.WMS);
+                                break;
+                            case URN_OGC_SERVICE_TYPE_WFS:
+                                layer.setType(org.mapfaces.models.LayerType.WFS);
+                                break;
+                            case URN_OGC_SERVICE_TYPE_GML:
+                                layer.setType(org.mapfaces.models.LayerType.GML);
+                                break;
+                            case URN_OGC_SERVICE_TYPE_KML:
+                                layer.setType(org.mapfaces.models.LayerType.KML);
+                                break;
+                            case URN_OGC_SERVICE_TYPE_WCS:
+                                layer.setType(org.mapfaces.models.LayerType.WCS);
+                                break;
+                            case URN_OGC_SERVICE_TYPE_SLD:
+                                layer.setType(org.mapfaces.models.LayerType.SLD);
+                                break;
+                            case URN_OGC_SERVICE_TYPE_FES:
+                                layer.setType(org.mapfaces.models.LayerType.FES);
+                                break;
+                            default:
+                                break;
+                        }
                         /* Id */
                         if (layerType.getId() == null) {
                             layerType.setId("MapFaces_Layer_WMS_" + i);
@@ -510,4 +534,9 @@ public class OWCv030toMFTransformer {
         }
         return allStyles;
     }
+    
+//    public static transformGTMapContextToMFLayer(MapContext){
+//        
+//    }
+            
 }

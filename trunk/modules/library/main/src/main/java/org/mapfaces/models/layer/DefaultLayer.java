@@ -15,16 +15,16 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.models;
+package org.mapfaces.models.layer;
 
-/**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
- */
+
 import java.util.HashMap;
 
-import java.util.List;
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.mapfaces.models.DescriptionURL;
+import org.mapfaces.models.Dimension;
+import org.mapfaces.models.Layer;
+import org.mapfaces.models.LayerType;
 
 public class DefaultLayer implements Layer {
 
@@ -37,7 +37,7 @@ public class DefaultLayer implements Layer {
      * bbox
      */
     private ReferencedEnvelope refEnv;
-    private String type;
+    public LayerType type = LayerType.DEFAULT;
     private String id;
     private String name;
     private boolean queryable;
@@ -65,32 +65,11 @@ public class DefaultLayer implements Layer {
     private String styles;
     private String sldBody;
     private String sld;
-    private Server server;
 
     /*
      * JSF properties we need to know the id of its component
      * */
     private String compId;
-    
-    
-    // Attributes for MFLayer
-    /**
-     * This is the list of features for this uilayer component.
-     */
-    private List<Feature> features;
-    /**
-     * This is the url for the image png....
-     */
-    private String image;
-    /**
-     * Size of the image.
-     */
-    private int size;
-    /**
-     * Rotation of the image.
-     */
-    private double rotation;
-    
 
     public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
@@ -542,7 +521,7 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public String getType() {
+    public LayerType getType() {
         return type;
     }
 
@@ -550,7 +529,7 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public void setType(final String type) {
+    public void setType(final LayerType type) {
         this.type = type;
     }
 
@@ -702,69 +681,6 @@ public class DefaultLayer implements Layer {
         this.groupId = groupId;
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getStyles() {
-        return this.styles;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getSld() {
-        return this.sld;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getSldBody() {
-        return this.sldBody;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setStyles(final String styles) {
-        this.styles = styles;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setSld(final String sld) {
-        this.sld = sld;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setSldBody(final String sldBody) {
-        this.sldBody = sldBody;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setServer(final Server server) {
-        this.server = server;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Server getServer() {
-        return this.server;
-    }
 
     /**
      * {@inheritDoc }
@@ -798,43 +714,4 @@ public class DefaultLayer implements Layer {
         this.compId = compId;
     }
 
-    @Override
-    public List<Feature> getFeatures() {
-        return features;
-    }
-
-    @Override
-    public void setFeatures(List<Feature> features) {
-        this.features = features;
-    }
-
-    @Override
-    public String getImage() {
-        return image;
-    }
-
-    @Override
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Override
-    public int getSize() {
-        return size;
-    }
-
-    @Override
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    @Override
-    public double getRotation() {
-        return rotation;
-    }
-
-    @Override
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-    }
 }
