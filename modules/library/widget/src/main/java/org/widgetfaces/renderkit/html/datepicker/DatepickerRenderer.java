@@ -173,10 +173,13 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_inputdate";
         String newValue = (String) parameterMap.get(keyParameterInput);
 
-        HtmlInputText inputchild = (HtmlInputText) comp.getChildren().get(0);
+        HtmlInputText inputchild = null;
+        if (comp.getChildren().size() != 0) {
+            inputchild = (HtmlInputText) comp.getChildren().get(0);
+        }
 
         ValueExpression ve = comp.getValueExpression("value");
-        if (ve != null) {
+        if (ve != null && inputchild != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 inputchild.setValue(ve.getValue(context.getELContext()));
                 inputchild.setValueExpression("value", ve);
