@@ -22,7 +22,8 @@ package org.mapfaces.models.layer;
  * @author Mehdi Sidhoum.
  */
 import java.util.List;
-import org.mapfaces.models.*;
+import org.mapfaces.models.Feature;
+import org.mapfaces.models.LayerType;
 
 
 public class DefaultFeatureLayer extends DefaultLayer implements FeatureLayer {   
@@ -81,5 +82,6 @@ public class DefaultFeatureLayer extends DefaultLayer implements FeatureLayer {
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
+
     
 }

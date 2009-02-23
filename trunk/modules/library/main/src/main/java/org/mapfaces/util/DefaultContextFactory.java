@@ -36,7 +36,7 @@ import org.mapfaces.models.layer.WmsLayer;
 /**
  * @author Kevin Delfour
  */
-public class DefaultContextFactory implements ContextFactory{
+public class DefaultContextFactory implements ContextFactory {
 
     /**
      * {@inheritDoc }
@@ -69,30 +69,44 @@ public class DefaultContextFactory implements ContextFactory{
     public Dimension createDefaultDimension() {
         return new DefaultDimension();
     }
-    
+
     /**
      * {@inheritDoc }
      */
-    public Layer createDefaultMapContextLayer() {
+    public Layer createDefaultMapContextLayer(int indexLayer) {
 
         Layer layer = new DefaultMapContextLayer();
-        layer.setId("MapFaces_Layer_MF_" + -1);
+        layer.setId("MapFaces_Layer_MC_" + String.valueOf(indexLayer));
         layer.setGroup("mapfaces_group");
         layer.setName("abstractlayer");
         layer.setHidden(false);
         layer.setOpacity("1");
-        layer.setTitle("MapContext 'all in one' layer");
+        layer.setTitle("MapContext 'all in one' layer" + String.valueOf(indexLayer));
         layer.setType(org.mapfaces.models.LayerType.MAPCONTEXT);
         layer.setOutputFormat("image/png");
         layer.setQueryable(true);
-        
+
         return layer;
     }
 
     public Layer createDefaultWmsLayer() {
-        return new DefaultWmsLayer();
+        Layer layer = new DefaultWmsLayer();
+        layer.setType(org.mapfaces.models.LayerType.WMS);
+        return layer;
     }
-    public Layer createDefaultFeatureLayer() {
-        return new DefaultFeatureLayer();
+
+    public Layer createDefaultFeatureLayer(int indexLayer) {
+        Layer layer = new DefaultFeatureLayer();
+        layer.setId("MapFaces_Layer_F_" + String.valueOf(indexLayer));
+        layer.setGroupId(indexLayer);
+        layer.setGroup("mapfaces_group");
+        layer.setName("markers");
+        layer.setHidden(false);
+        layer.setOpacity("1");
+        layer.setTitle("Feature layer" + String.valueOf(indexLayer));
+        layer.setOutputFormat("image/gif");
+        layer.setType(org.mapfaces.models.LayerType.FEATURE);
+        layer.setQueryable(true);
+        return layer;
     }
 }
