@@ -74,7 +74,7 @@ this.map.div.style.cursor='pointer';
     deactivate: function() {
 
         if (this.active) {
- 	    this.map.div.style.cursor='none';
+ 	    this.map.div.style.cursor='default';
             if (this.handler) {
                 this.handler.deactivate();
             }
