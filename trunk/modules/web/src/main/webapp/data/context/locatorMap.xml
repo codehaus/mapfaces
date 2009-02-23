@@ -3,8 +3,8 @@
 	<General>                
 		<Window width="300" height="150"/>
 		<ows:BoundingBox crs="EPSG:4326">
-			<ows:LowerCorner>-180 -90</ows:LowerCorner>
-			<ows:UpperCorner>180 90</ows:UpperCorner>
+			<ows:LowerCorner>-90 -180</ows:LowerCorner>
+			<ows:UpperCorner>90 180</ows:UpperCorner>
 		</ows:BoundingBox>
 		<ows:Title>OWS Context version 0.3.0, Metacarta world map example</ows:Title>
 	</General>

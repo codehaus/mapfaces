@@ -4,10 +4,9 @@
 		<Window width="1000" height="500"/>
 		<ows:BoundingBox crs="EPSG:4326">
 			<!--ows:LowerCorner>-117.44667178362664 32.57086210449395</ows:LowerCorner>
-			<ows:UpperCorner>-116.74066794885977 32.921986352104064</ows:UpperCorner-->
-                        
-			<ows:LowerCorner>142 -45</ows:LowerCorner>
-			<ows:UpperCorner>150 -38</ows:UpperCorner>
+			<ows:UpperCorner>-116.74066794885977 32.921986352104064</ows:UpperCorner-->                        
+			<ows:LowerCorner>-45 142</ows:LowerCorner>
+			<ows:UpperCorner>-38 150</ows:UpperCorner>
 		</ows:BoundingBox>
 		<ows:Title>OWS Context version 0.3.0 tasmania WMS example</ows:Title>
 	</General>

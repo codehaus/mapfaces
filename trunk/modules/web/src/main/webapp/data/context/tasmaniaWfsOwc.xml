@@ -3,8 +3,8 @@
 	<General>                
 		<Window width="1000" height="500"/>
 		<ows:BoundingBox crs="EPSG:4326">                        
-			<ows:LowerCorner>143.83482400000003 -43.648056</ows:LowerCorner>
-			<ows:UpperCorner>148.47914100000003 -39.573891</ows:UpperCorner>
+			<ows:LowerCorner>-45 142</ows:LowerCorner>
+			<ows:UpperCorner>-38 150</ows:UpperCorner>
 		</ows:BoundingBox>
 		<ows:Title>OWS Context version 0.3.0 tasmania WFS example</ows:Title>
 		<ows:Abstract>Works for all WMS spec and only for WFS 1.0.0</ows:Abstract>
