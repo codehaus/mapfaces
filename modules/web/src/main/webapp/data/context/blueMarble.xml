@@ -11,8 +11,8 @@
 	<General>                
 		<Window width="600" height="300"/>
 		<ows:BoundingBox crs="EPSG:4326">
-			<ows:LowerCorner>-180 -90</ows:LowerCorner>
-			<ows:UpperCorner>180 90</ows:UpperCorner>
+			<ows:LowerCorner>-90 -180</ows:LowerCorner>
+			<ows:UpperCorner>90 180</ows:UpperCorner>
 			<!--ows:LowerCorner>-90 -45</ows:LowerCorner>
 			<ows:UpperCorner>90 45</ows:UpperCorner-->
 		</ows:BoundingBox>
