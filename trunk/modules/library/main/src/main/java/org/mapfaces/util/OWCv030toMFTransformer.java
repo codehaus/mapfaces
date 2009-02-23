@@ -175,13 +175,14 @@ public class OWCv030toMFTransformer {
 
                         WMSCapabilities wmscapabilities = null;
 
-                        System.out.println("[OWCv030toMFTransformer] WebMapServer = " + webMapServers.get(wmsUrl));
-
                         if (webMapServers.get(wmsUrl) != null) {
                             wmscapabilities = webMapServers.get(wmsUrl).getCapabilities();
+                        } else {
+                           LOGGER.log(Level.SEVERE, "[OWCv030toMFTransformer] WebMapServer from this service " + wmsUrl + " is null");
                         }
-                        
-                        System.out.println("[OWCv030toMFTransformer] wmscapabilities = "+wmscapabilities);
+                        if (wmscapabilities == null) {
+                           LOGGER.log(Level.SEVERE, "[OWCv030toMFTransformer] WmsCapabilities from this service " + wmsUrl + " is null");                            
+                        }
                         wms.setGTCapabilities(wmscapabilities);
                         if (servers.get(wmsUrl) != null) {
                             servers.put(wmsUrl, wms);

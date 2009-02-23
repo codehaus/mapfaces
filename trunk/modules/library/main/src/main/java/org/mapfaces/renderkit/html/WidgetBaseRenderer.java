@@ -31,7 +31,7 @@ import org.mapfaces.util.FacesUtils;
 public class WidgetBaseRenderer extends Renderer {
 
     ResponseWriter writer = null;
-    public boolean debug;
+    public boolean debug = false;
     private String clientId;
     private String style = null;
     private String styleClass = null;
@@ -51,10 +51,9 @@ public class WidgetBaseRenderer extends Renderer {
         final UIWidgetBase comp = (UIWidgetBase) component;
         if (comp.isDebug()) {
             this.debug = true;
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGIN");
-        } else if ((Boolean) comp.getAttributes().get("debug")) {
-             this.debug = (Boolean) comp.getAttributes().get("debug");
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGIN");
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGINNNN"+comp.isDebug());
+        } else {
+             this.debug = false;
         }
       
         if (FacesUtils.getParentUIModelBase(context, component) == null) {

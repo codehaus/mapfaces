@@ -58,7 +58,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         super.encodeBegin(context, component);
         final UIWmsLayer comp = (UIWmsLayer) component;
         
-        if (debug)
+        if (this.debug)
             LOGGER.log(Level.INFO, "[DEBUG] clientId : "+ comp.getClientId(context) + ", id : " + comp.getId());
         
         final ResponseWriter writer = context.getResponseWriter();
@@ -67,9 +67,9 @@ public class WmsLayerRenderer extends LayerRenderer {
         final WmsLayer layer = (WmsLayer) comp.getLayer();
         
         if (model == null)
-            if (debug)
+            if (this.debug)
                 LOGGER.log(Level.INFO, "[DEBUG] model is null ");
-        else if (debug)
+        else if (this.debug)
             LOGGER.log(Level.INFO, "[DEBUG] model id : "+ model.getId());
 
         final String styleImg = "filter:alpha(opacity=" + (new Float(layer.getOpacity()) * 100) + ");opacity:" + layer.getOpacity() + ";";
@@ -81,7 +81,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
-        if (debug) 
+        if (this.debug) 
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()));
            
         //Add layer image if not the first page loads
@@ -138,7 +138,8 @@ public class WmsLayerRenderer extends LayerRenderer {
                     url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
                 }
                 
-                LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : "+ url);
+                if (this.debug) 
+                    LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : "+ url);
                 writer.writeAttribute("src", url.toString(), "src");
                 writer.endElement("img");
                 writer.endElement("div");
