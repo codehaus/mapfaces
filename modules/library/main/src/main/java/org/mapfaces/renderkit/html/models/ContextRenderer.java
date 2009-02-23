@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.models;
 
 import java.io.File;
@@ -22,7 +21,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,12 +35,15 @@ import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
+import org.geotools.map.MapContext;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.models.Context;
+import org.mapfaces.util.ContextFactory;
+import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.XMLContextUtilities;
 
 /**
@@ -51,14 +52,14 @@ import org.mapfaces.util.XMLContextUtilities;
  */
 public class ContextRenderer extends Renderer {
 
-    private static final String WIDGET_CSS              = "/org/mapfaces/resources/css/widget.css";
-    private static final String OPENLAYERS_JS           = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    private static final String OPENLAYERS_MINIFY_JS    = "/org/mapfaces/resources/openlayers/custom/OpenLayersLite.js";
-    private static final String MOOTOOLS_JS             = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
-    private static final String PROTOTYPE_JS            = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
-    private static final String SCRIPTACULOUS_JS        = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
+    private static final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
+    private static final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
+    private static final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayersLite.js";
+    private static final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
+    private static final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
+    private static final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
-    
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.ContextRenderer");
 
     /**
      * {@inheritDoc }
@@ -67,12 +68,12 @@ public class ContextRenderer extends Renderer {
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
 
-        if (comp.isDebug()) System.out.println("ContextRenderer encodeBegin");
-
-
+        if (comp.isDebug()) {
+            LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE BEGIN");
+        }
         assertValid(context, component);
         final ResponseWriter writer = context.getResponseWriter();
-        final ServletContext sc     = (ServletContext) context.getExternalContext().getContext();
+        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
 
         //Add the context path variable to load openlayers with the good url , see  custom/OpenLayers.js
         /*writer.startElement("script", component);
@@ -82,7 +83,7 @@ public class ContextRenderer extends Renderer {
 
         //Write the resources files once per page
         boolean resourcesFlag = false;
-        final ExternalContext extContext = context.getExternalContext();        
+        final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("mapfacesFlag.resourcesContext")) {
             extContext.getRequestMap().put("mapfacesFlag.resourcesContext", Boolean.TRUE);
             resourcesFlag = true;
@@ -138,7 +139,7 @@ public class ContextRenderer extends Renderer {
 //            writer.write("var OpenLayers = { singleFile: true };");
 //            writer.endElement("script");
 //        }
-        
+
         if (resourcesFlag) {
             writer.startElement("script", component);
             if (isMinifyJS) {
@@ -162,8 +163,8 @@ public class ContextRenderer extends Renderer {
                     fileUrl = (String) ve.getValue(context.getELContext());
                 }
             }
-            
-            
+
+
             if (fileUrl == null || fileUrl.length() < 1) {
                 throw new IllegalArgumentException("You must indicate a path to file to read");
             }
@@ -179,7 +180,9 @@ public class ContextRenderer extends Renderer {
                 if (fileUrl.startsWith("file://.sicade")) {
 
                     File mapcontextFile = new File(System.getProperty("user.home"));
-                    System.out.println("[Try to load the mapcontext from a file] user home = "+System.getProperty("user.home")+"  system = "+System.getProperty("os.name", ""));
+                    if (comp.isDebug()) {
+                        LOGGER.log(Level.INFO, "[DEBBUG] [Try to load the mapcontext from a file] user home = " + System.getProperty("user.home") + "  system = " + System.getProperty("os.name", ""));
+                    }
                     if (System.getProperty("os.name", "").startsWith("Windows")) {
                         mapcontextFile = new File(mapcontextFile, "Application Data\\Sicade");
                     } else {
@@ -189,7 +192,9 @@ public class ContextRenderer extends Renderer {
                     for (String s : tabString) {
                         mapcontextFile = new File(mapcontextFile, s);
                     }
-                    System.out.println("[Loading Mapcontext file] path = "+mapcontextFile);
+                    if (comp.isDebug()) {
+                        LOGGER.log(Level.INFO, "[DEBBUG] [Loading Mapcontext file] path = " + mapcontextFile);
+                    }
                     try {
                         ctx = (new XMLContextUtilities()).readContext(new FileReader(mapcontextFile));
                     } catch (JAXBException ex) {
@@ -206,11 +211,21 @@ public class ContextRenderer extends Renderer {
                         Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+
+                Object obj = comp.getAttributes().get("value");
+                //If a MapContext is specified in value attribute, 2 ways: 
+                //- add a Layer who will display the context in a allInOne layer
+                //- TODO add all the layers separetely
+                if (obj instanceof MapContext) {
+                    //adding all the MapContext layers  into an allInOne layer.
+                    final ContextFactory contextFactory = new DefaultContextFactory();
+                    ctx.addLayer(contextFactory.createDefaultMapContextLayer());
+                }
             }
             comp.setModel((AbstractModelBase) ctx);
         } else {
             if (comp.isDebug()) {
-                System.out.println("Context already exist");
+                LOGGER.log(Level.INFO, "[DEBBUG] Context already exist");
             }
         }
 
@@ -223,10 +238,10 @@ public class ContextRenderer extends Renderer {
         ajaxComp.setLimitToList(true);
         ajaxComp.setReRender(comp.getId());
         if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
-            comp.getChildren().add(ajaxComp);            
+            comp.getChildren().add(ajaxComp);
             comp.setAjaxCompId(ajaxComp.getClientId(context));
         }
-        
+
     }
 
     /**
@@ -236,7 +251,7 @@ public class ContextRenderer extends Renderer {
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
         if (comp.isDebug()) {
-            System.out.println("ContextRenderer  children");
+            LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE CHILDREN");
         }
         for (final UIComponent tmp : component.getChildren()) {
             if (tmp instanceof UIWidgetBase) {
@@ -262,7 +277,7 @@ public class ContextRenderer extends Renderer {
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
         if (comp.isDebug()) {
-            System.out.println("ContextRenderer encodeEnd");
+            LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE END");
         }
         context.getResponseWriter().flush();
     }
@@ -274,7 +289,7 @@ public class ContextRenderer extends Renderer {
     public void decode(final FacesContext context, final UIComponent component) {
         final UIContext comp = (UIContext) component;
         if (comp.isDebug()) {
-            System.out.println("ContextRenderer decode");
+            LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer DECODE");
         }
         if (context.getExternalContext().getRequestParameterMap() != null) {
             final Context tmp = (Context) comp.getModel();
@@ -294,13 +309,17 @@ public class ContextRenderer extends Renderer {
             }
             comp.setModel((AbstractModelBase) tmp);
             if (comp.isDebug()) {
-                System.out.println("    Nouveaux parametres du context : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
+                LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer New context parameters : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }
         }
     }
 
     private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null)   throw new NullPointerException("context should not be null");
-        if (component == null) throw new NullPointerException("component should not be null");
+        if (context == null) {
+            throw new NullPointerException("context should not be null");
+        }
+        if (component == null) {
+            throw new NullPointerException("component should not be null");
+        }
     }
 }

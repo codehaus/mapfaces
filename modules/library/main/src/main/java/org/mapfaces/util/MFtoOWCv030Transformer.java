@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.util;
 
 import java.io.UnsupportedEncodingException;
@@ -46,10 +45,11 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
+import org.mapfaces.models.layer.WmsLayer;
 
 public class MFtoOWCv030Transformer {
 
-    private final net.opengis.owc.v030.ObjectFactory factory_owc_030       = new net.opengis.owc.v030.ObjectFactory();
+    private final net.opengis.owc.v030.ObjectFactory factory_owc_030 = new net.opengis.owc.v030.ObjectFactory();
     private final org.constellation.ows.v100.ObjectFactory factory_ows_100 = new org.constellation.ows.v100.ObjectFactory();
 
     public OWSContextType visit(Context ctx) throws UnsupportedEncodingException, JAXBException {
@@ -62,7 +62,6 @@ public class MFtoOWCv030Transformer {
 //        ctx.setLayers((List<Layer>) array.get(0));
         return doc;
     }
-
 
     private GeneralType visitGeneral(Context ctx) {
         GeneralType general = factory_owc_030.createGeneralType();
@@ -123,25 +122,28 @@ public class MFtoOWCv030Transformer {
         return general;
     }
 
-    private ResourceListType visitResourceList(List<Layer> layers) {
+    private ResourceListType visitResourceList(List<Layer> layers) throws UnsupportedEncodingException {
         ResourceListType list = factory_owc_030.createResourceListType();
-        for(int i=0;i<layers.size();i++){
+        for (int i = 0; i < layers.size(); i++) {
             Layer layer = layers.get(i);
             LayerType layerType = factory_owc_030.createLayerType();
             //layerType.getAvailableCRS().add(e);
             //layerType.setDataURL(value);
             //layerType.setDepth(value);
-            if(layer.getDimensionList() != null)
+            if (layer.getDimensionList() != null) {
                 layerType.setDimensionList(visitDimensionList(layer.getDimensionList()));
             //layerType.setExtension(value);
-            if(layer.getGroup() != null)
+            }
+            if (layer.getGroup() != null) {
                 layerType.setGroup(layer.getGroup());
+            }
             layerType.setHidden(layer.isHidden());
             layerType.setId(layer.getId());
             //layerType.setInlineGeometry(value);
-            if(layer.getMaxFeatures() != null)
+            if (layer.getMaxFeatures() != null) {
                 layerType.setMaxFeatures(new BigInteger(layer.getMaxFeatures()));
-            if(layer.getMaxScaleDenominator() != null)
+            }
+            if (layer.getMaxScaleDenominator() != null) {
                 layerType.setMaxScaleDenominator(new Double(layer.getMaxScaleDenominator()));
 //            if(layer.getMetadataURL() != null){
 //                URLType url = factory_owc_030.createURLType();
@@ -153,39 +155,69 @@ public class MFtoOWCv030Transformer {
 //                url.setOnlineResource(onLineResource);
 //                layerType.setMetadataURL(url);
 //            }
-            if(layer.getMinScaleDenominator() != null)
+            }
+            if (layer.getMinScaleDenominator() != null) {
                 layerType.setMinScaleDenominator(new Double(layer.getMinScaleDenominator()));
+            }
             layerType.setName(layer.getName());
             layerType.setOpacity(new BigDecimal(layer.getOpacity()));
 //            if(layer.getParameterList() != null)
 //                layerType.setParameterList(layer.getParameterList());
             layerType.setQueryable(new Boolean(layer.isQueryable()));
-            if(layer.getResponseCRS() != null)
+            if (layer.getResponseCRS() != null) {
                 layerType.setResponseCRS(layer.getResponseCRS());
-            if(layer.getResX() != null)
+            }
+            if (layer.getResX() != null) {
                 layerType.setResx(layer.getResX());
-            if(layer.getResY() != null)
+            }
+            if (layer.getResY() != null) {
                 layerType.setResy(layer.getResY());
-            if(layer.getResZ() != null)
+            }
+            if (layer.getResZ() != null) {
                 layerType.setResz(layer.getResZ());
-            if(layer.getStyles() != null || layer.getSld() != null || layer.getSldBody() != null)
-                layerType.setStyleList(visitStyles(layer));
-            if(layer.getOutputFormat() != null)
+            }
+            if (layer.getOutputFormat() != null) {
                 layerType.getOutputFormat().add(layer.getOutputFormat());
-            if(layer.getServer() != null)
-                layerType.getServer().add(visitServer(layer.getServer()));
+            }
+            if (layerType.getServer() != null) {
+                switch (layerType.getServer().get(0).getService()) {
+                    case URN_OGC_SERVICE_TYPE_WMS:
+                        WmsLayer wms = (WmsLayer) layer;
+                        if (wms.getServer() != null) {
+                            layerType.getServer().add(visitServer(wms.getServer()));
+                        }
+                        if (wms.getStyles() != null || wms.getSld() != null || wms.getSldBody() != null) {
+                            layerType.setStyleList(visitStyles(wms));
+                        }
+                        break;
+                    case URN_OGC_SERVICE_TYPE_FES:
+                        throw new UnsupportedEncodingException("This type of layer is unsupported, only URN_OGC_SERVICE_TYPE_WMS is supported");
+                    case URN_OGC_SERVICE_TYPE_GML:
+                        throw new UnsupportedEncodingException("This type of layer is unsupported, only URN_OGC_SERVICE_TYPE_WMS is supported");
+                    case URN_OGC_SERVICE_TYPE_KML:
+                        throw new UnsupportedEncodingException("This type of layer is unsupported, only URN_OGC_SERVICE_TYPE_WMS is supported");
+                    case URN_OGC_SERVICE_TYPE_SLD:
+                        throw new UnsupportedEncodingException("This type of layer is unsupported, only URN_OGC_SERVICE_TYPE_WMS is supported");
+                    case URN_OGC_SERVICE_TYPE_WFS:
+                        throw new UnsupportedEncodingException("This type of layer is unsupported, only URN_OGC_SERVICE_TYPE_WMS is supported");
+                    case URN_OGC_SERVICE_TYPE_WCS:
+                        throw new UnsupportedEncodingException("This type of layer is unsupported, only URN_OGC_SERVICE_TYPE_WMS is supported");
+
+                }
+
+            }
+
             list.getLayer().add(layerType);
         }
         return list;
 
     }
 
-
     private DimensionListType visitDimensionList(HashMap<String, Dimension> dimensionList) {
         DimensionListType dimList = factory_owc_030.createDimensionListType();
-        for(Entry dimEntry : dimensionList.entrySet()){
+        for (Entry dimEntry : dimensionList.entrySet()) {
             Dimension dim = (Dimension) dimEntry.getValue();
-            DimensionType dimType =  factory_owc_030.createDimensionType();
+            DimensionType dimType = factory_owc_030.createDimensionType();
             dimType.setCurrent(dim.isCurrent());
             dimType.setDefault(dim.getDefault());
             dimType.setMultipleValues(dim.isMultipleValues());
@@ -201,7 +233,7 @@ public class MFtoOWCv030Transformer {
     }
 
     private ServerType visitServer(Server server) {
-        ServerType  serverType= factory_owc_030.createServerType();
+        ServerType serverType = factory_owc_030.createServerType();
         serverType.setService(ServiceType.fromValue(server.getService()));
 //        if(server.getTitle() != null)
 //            serverType.setTitle(server.getTitle());
@@ -213,7 +245,7 @@ public class MFtoOWCv030Transformer {
         return serverType;
     }
 
-    private StyleType visitSld(Layer layer) {
+    private StyleType visitSld(WmsLayer layer) {
         StyleType styleType = factory_owc_030.createStyleType();
 //        styleType.getAbstract(layer.getName());
         styleType.setCurrent(true);
@@ -226,7 +258,7 @@ public class MFtoOWCv030Transformer {
         return styleType;
     }
 
-    private StyleType visitSldBody(Layer layer) {
+    private StyleType visitSldBody(WmsLayer layer) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -237,7 +269,8 @@ public class MFtoOWCv030Transformer {
         url.setOnlineResource(onLineResource);
         return url;
     }
-    private StyleType visitStyleName(Layer layer) {
+
+    private StyleType visitStyleName(WmsLayer layer) {
         StyleType styleType = factory_owc_030.createStyleType();
 //        styleType.getAbstract(layer.getName());
         styleType.setCurrent(true);
@@ -247,14 +280,15 @@ public class MFtoOWCv030Transformer {
         return styleType;
     }
 
-    private StyleListType visitStyles(Layer layer) {
+    private StyleListType visitStyles(WmsLayer layer) {
         StyleListType styleList = factory_owc_030.createStyleListType();
-        if(layer.getStyles() != null )
-                styleList.getStyle().add(visitStyleName(layer));
-        else if(layer.getSld() != null)
-                styleList.getStyle().add(visitSld(layer));
-        else if(layer.getSldBody() != null)
-                styleList.getStyle().add(visitSldBody(layer));
+        if (layer.getStyles() != null) {
+            styleList.getStyle().add(visitStyleName(layer));
+        } else if (layer.getSld() != null) {
+            styleList.getStyle().add(visitSld(layer));
+        } else if (layer.getSldBody() != null) {
+            styleList.getStyle().add(visitSldBody(layer));
+        }
         return styleList;
     }
 }

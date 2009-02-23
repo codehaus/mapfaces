@@ -46,8 +46,8 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotools.data.wms.backend.AbstractKeyword;
 
 import org.mapfaces.component.UILayer;
-import org.mapfaces.component.UIMFLayer;
 import org.mapfaces.component.UIMapPane;
+import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
@@ -506,14 +506,14 @@ public class FacesUtils {
     }
     
     /**
-     * This method returns the number of layers UIMFLayers as children of a mappane container.
+     * This method returns the number of layers UIFeatureLayers as children of a mappane container.
      * @param layers
      * @return
      */
-    public static int getCountUIMFLayers(UIComponent component) {
+    public static int getCountUIFeatureLayers(UIComponent component) {
         int result = 0;
         for (UIComponent child : component.getChildren()) {
-            if (child instanceof UIMFLayer) {
+            if (child instanceof UIFeatureLayer) {
                 result++;
             }
         }
@@ -575,7 +575,7 @@ public class FacesUtils {
     public static boolean containsMFLayers(UIMapPane mappane) {
         if (mappane != null) {
             for (UIComponent child : mappane.getChildren()) {
-                if (child instanceof UIMFLayer) {
+                if (child instanceof UIFeatureLayer) {
                     return true;
                 }
             }

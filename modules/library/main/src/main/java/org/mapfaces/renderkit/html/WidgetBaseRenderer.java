@@ -14,11 +14,12 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -27,36 +28,35 @@ import javax.faces.render.Renderer;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.util.FacesUtils;
 
-/**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
- */
 public class WidgetBaseRenderer extends Renderer {
 
     ResponseWriter writer = null;
-    private boolean debug;
+    public boolean debug;
     private String clientId;
     private String style = null;
     private String styleClass = null;
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.WidgetBaseRenderer");
 
     /**
      * {@inheritDoc }
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
-        writer = context.getResponseWriter();
-        clientId = component.getClientId(context);
+        this.writer = context.getResponseWriter();
+        this.clientId = component.getClientId(context);
         final UIWidgetBase comp = (UIWidgetBase) component;
-        debug = comp.isDebug();
-        if (debug) {
-            System.out.println("[WidgetBaseRenderer]    Proceed to encodeBegin for the component " + comp.getFamily());
+        if (comp.isDebug()) {
+            this.debug = true;
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGIN");
+        } else if ((Boolean) comp.getAttributes().get("debug")) {
+             this.debug = (Boolean) comp.getAttributes().get("debug");
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGIN");
         }
-
+      
         if (FacesUtils.getParentUIModelBase(context, component) == null) {
             throw new NullPointerException("UIModelBase should not be null");
         } else if (comp.getModel() == null) {
@@ -83,13 +83,16 @@ public class WidgetBaseRenderer extends Renderer {
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        if (this.debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE CHILDREN \n");
+        }
         final List<UIComponent> childrens = component.getChildren();
-        if (isDebug()) {
-            System.out.println("[WidgetBaseRenderer] EncodeChildren : the component " + component.getFamily() + " has " + childrens.size() + " children.");
+        if (this.debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] Le composant " + component.getFamily() + " has " + childrens.size() + " children :");
         }
         for (final UIComponent tmp : childrens) {
-            if (isDebug()) {
-                System.out.println("[WidgetBaseRenderer] EncodeChildren : child family : " + tmp.getFamily());
+            if (this.debug) {
+                LOGGER.log(Level.INFO, "[DEBUG]  \tChild family's " + tmp.getFamily());
             }
             FacesUtils.encodeRecursive(context, tmp);
         }
@@ -100,8 +103,8 @@ public class WidgetBaseRenderer extends Renderer {
      */
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
-        if (isDebug()) {
-            System.out.println("[WidgetBaseRenderer] Proceed to encodeEnd for the component " + component.getFamily());
+        if (this.debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE END \n");
         }
     }
 
@@ -110,8 +113,8 @@ public class WidgetBaseRenderer extends Renderer {
      */
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
-        if (isDebug()) {
-            System.out.println("[WidgetBaseRenderer] Proceed to decode for the component " + component.getFamily());
+        if (this.debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer DECODE \n");
         }
     }
 

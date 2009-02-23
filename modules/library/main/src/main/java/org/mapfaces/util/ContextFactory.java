@@ -32,4 +32,8 @@ public interface ContextFactory {
     public Server createDefaultServer();
     public Dimension createDefaultDimension();
 
+    public Layer createDefaultFeatureLayer();
+    public Layer createDefaultWmsLayer();
+    public Layer createDefaultMapContextLayer();
+
 }

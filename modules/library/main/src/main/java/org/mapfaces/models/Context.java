@@ -32,8 +32,8 @@ public interface Context extends Serializable {
 
     void setId(String id);
 
-    String getType();
-
+    String getContextType();
+    
     void setType(String type);
 
     String getVersion();

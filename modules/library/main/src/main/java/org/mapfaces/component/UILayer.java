@@ -18,6 +18,8 @@
 package org.mapfaces.component;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import org.mapfaces.models.Layer;
 
@@ -27,7 +29,7 @@ import org.mapfaces.models.Layer;
  */
 public class UILayer extends UIWidgetBase {
 
-    public static final String FAMILIY = "org.mapfaces.MapPane.Layer";
+    public static final String FAMILIY = "org.mapfaces.Layer";
 
     private Layer layer;
     /*
@@ -43,12 +45,11 @@ public class UILayer extends UIWidgetBase {
      */
     private String style;
 
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.component.UILayer");
+    
     public UILayer() {
         super();
-        setRendererType("org.mapfaces.renderkit.html.MapPane.Layer");    // this component has a renderer
-        if (isDebug()) {
-            System.out.println("[UILayer] constructor-----------------");
-        }
+        setRendererType("org.mapfaces.renderkit.html.Layer");    // this component has a renderer
     }
 
     /**

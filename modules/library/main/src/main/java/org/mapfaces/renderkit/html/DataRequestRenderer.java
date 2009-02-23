@@ -48,6 +48,9 @@ import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.layer.FeatureLayer;
+import org.mapfaces.models.layer.WmsLayer;
+import org.mapfaces.renderkit.html.layer.FeatureLayerRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.FeatureVisitor;
@@ -150,101 +153,124 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     }
                 }
 
-                final List<Layer> layersWMS = new ArrayList<Layer>();
+                final List<WmsLayer> layersWMS = new ArrayList<WmsLayer>();
                 String layersNameString = "";
                 int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
                 int loop = 0;
                 List<Feature> featureInfoList = new ArrayList<Feature>();
-                boolean MFlayerExist = false;
+                boolean FeatureLayerExist = false;
                 int countFeature = comp.getFeatureCount();
 
                 for (Layer queryLayer : model.getVisibleLayers()) {
-                    if (queryLayer.getType().equals("mapfaces")) {
-
-                        Map mapFeaturesLayer = new HashMap<String, Feature>();
-
-
-                        //@TODO do something to generate an Object List of Result from the attached features
-                        MFlayerExist = true;
-                        final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
-                        final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
-
-                        MapContext mapContext;
-                        MutableStyle mutableStyle = null;
-                        //building a FeatureCollection for this layer.
-                        FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
-                        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-
-                        try {
-                            mutableStyle = MFLayerRenderer.createStyle(queryLayer.getImage(), queryLayer.getSize(), queryLayer.getRotation(), 1);
-                        } catch (MalformedURLException ex) {
-                            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
-                        if (queryLayer.getFeatures() != null && queryLayer.getFeatures().size() != 0) {
-
-                            Feature f = queryLayer.getFeatures().get(0);
-                            builder.setName(f.getName());
-                            layerCrs = f.getCrs();
-                            builder.setCRS(layerCrs);
-                            for (String key : f.getAttributes().keySet()) {
-                                if (key.equals("geometry")) {
-                                    builder.add(key, Geometry.class);
-                                } else {
-                                    builder.add(key, f.getAttributes().get(key).getClass());
+                    if (queryLayer != null && queryLayer.getType() != null) {
+                        switch (queryLayer.getType()) {
+                            case DEFAULT:
+                                break;
+                            case WMS:
+                                loop++;
+                                if (!layersWMS.contains(queryLayer)) {
+                                    layersWMS.add((WmsLayer) queryLayer);
+                                    layersNameString += queryLayer.getName();
+                                    if (loop != nbWmsLayers) {
+                                        layersNameString += ",";
+                                    }
                                 }
-                            }
-                        }
+                                break;
+                            case WFS:
+                                break;
+                            case WCS:
+                                break;
+                            case SLD:
+                                break;
+                            case FES:
+                                break;
+                            case GML:
+                                break;
+                            case KML:
+                                break;
+                            case MAPCONTEXT:
 
-                        SimpleFeatureType sft = builder.buildFeatureType();
-                        for (Feature f : queryLayer.getFeatures()) {
-                            if (!mapFeaturesLayer.containsKey(f.getId())) {
-                                mapFeaturesLayer.put(f.getId(), f);
-                            }
+                                break;
+                            case FEATURE:
+                                FeatureLayer temp  = (FeatureLayer) queryLayer;
+                                Map mapFeaturesLayer = new HashMap<String, Feature>();
 
-                            List<Object> objects = new ArrayList<Object>();
-                            for (String key : f.getAttributes().keySet()) {
-                                objects.add(f.getAttributes().get(key));
-                            }
 
-                            SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(f.getId()));
-                            features.add(sf);
-                        }
+                                //@TODO do something to generate an Object List of Result from the attached features
+                                FeatureLayerExist = true;
+                                final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
+                                final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
 
-                        final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
-                        mapLayer.setSelectable(true);
-                        mapContext = MapBuilder.getInstance().createContext(layerCrs);
-                        mapContext.layers().add(mapLayer);
-                        Rectangle rect = new Rectangle(Integer.parseInt(featureInfo_X), Integer.parseInt(featureInfo_Y), 1, 1);
-                        FeatureVisitor featureVisitor = new FeatureVisitor();
-                        try {
-                            DefaultPortrayalService.visit(mapContext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
-                        } catch (PortrayalException ex) {
-                            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                                MapContext mapContext;
+                                MutableStyle mutableStyle = null;
+                                //building a FeatureCollection for this layer.
+                                FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+                                SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 
-                        //Adding the resulting feature into the final list of features for dataResult ValueExpression value.
-                        for (org.opengis.feature.Feature f : featureVisitor.getFeatureList()) {
-                            if (f instanceof org.opengis.feature.simple.SimpleFeature) {
-                                org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
-
-                                Feature resultFeature = (Feature) mapFeaturesLayer.get(ff.getID());
-                                if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
-                                    featureInfoList.add(resultFeature);
+                                try {
+                                    mutableStyle = FeatureLayerRenderer.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
+                                } catch (MalformedURLException ex) {
+                                    Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                            }
-                        }
-                        mapFeaturesLayer.clear();
 
-                    } else {
-                        loop++;
-                        if (!layersWMS.contains(queryLayer)) {
-                            layersWMS.add(queryLayer);
-                            layersNameString += queryLayer.getName();
-                            if (loop != nbWmsLayers) {
-                                layersNameString += ",";
-                            }
+                                DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
+                                if (temp.getFeatures() != null && temp.getFeatures().size() != 0) {
+
+                                    Feature f = temp.getFeatures().get(0);
+                                    builder.setName(f.getName());
+                                    layerCrs = f.getCrs();
+                                    builder.setCRS(layerCrs);
+                                    for (String key : f.getAttributes().keySet()) {
+                                        if (key.equals("geometry")) {
+                                            builder.add(key, Geometry.class);
+                                        } else {
+                                            builder.add(key, f.getAttributes().get(key).getClass());
+                                        }
+                                    }
+                                }
+
+                                SimpleFeatureType sft = builder.buildFeatureType();
+                                for (Feature f : temp.getFeatures()) {
+                                    if (!mapFeaturesLayer.containsKey(f.getId())) {
+                                        mapFeaturesLayer.put(f.getId(), f);
+                                    }
+
+                                    List<Object> objects = new ArrayList<Object>();
+                                    for (String key : f.getAttributes().keySet()) {
+                                        objects.add(f.getAttributes().get(key));
+                                    }
+
+                                    SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(f.getId()));
+                                    features.add(sf);
+                                }
+
+                                final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
+                                mapLayer.setSelectable(true);
+                                mapContext = MapBuilder.getInstance().createContext(layerCrs);
+                                mapContext.layers().add(mapLayer);
+                                Rectangle rect = new Rectangle(Integer.parseInt(featureInfo_X), Integer.parseInt(featureInfo_Y), 1, 1);
+                                FeatureVisitor featureVisitor = new FeatureVisitor();
+                                try {
+                                    DefaultPortrayalService.visit(mapContext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
+                                } catch (PortrayalException ex) {
+                                    Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                                //Adding the resulting feature into the final list of features for dataResult ValueExpression value.
+                                for (org.opengis.feature.Feature f : featureVisitor.getFeatureList()) {
+                                    if (f instanceof org.opengis.feature.simple.SimpleFeature) {
+                                        org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
+
+                                        Feature resultFeature = (Feature) mapFeaturesLayer.get(ff.getID());
+                                        if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
+                                            featureInfoList.add(resultFeature);
+                                        }
+                                    }
+                                }
+                                mapFeaturesLayer.clear();
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
@@ -256,22 +282,23 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("dataResult", ve);
                 }
                 comp.setDataResult(featureInfoList);
-                if (featureInfoList.size() == 0 ){
+                if (featureInfoList.size() == 0) {
                     popup.setHidden(true);
-                }else {
+                } else {
                     popup.setHidden(false);
                 }
 
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;
                 String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
-                String featureCount = (comp.getFeatureCount() != 0 ) ? String.valueOf(comp.getFeatureCount()) : "";
-                
-                if (popup != null && popup.isIframe() && ! comp.isMfLayersOnly()) {
+                String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
+
+                if (popup != null && popup.isIframe() && !comp.isFeatureLayersOnly()) {
 
                     StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;overflow-x:auto;overflow-y:auto;'>");
+                    
                     //@TODO factorization of servers wms, one request by server and QUERY_LAYERS must contains all layers name
-                    for (Layer queryLayer : layersWMS) {
+                    for (WmsLayer queryLayer : layersWMS) {
                         innerHtml.append("<iframe style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
                                 append(queryLayer.getServer().getHref()).
                                 append("?BBOX=").append(model.getBoundingBox()).
@@ -306,35 +333,37 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             } else if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getCoverage")) {
 
                 final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
-
-                String elevation = null;
-                if (queryLayer.getElevation() != null) {
-                    elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
-                }
-                String time = null;
-                if (queryLayer.getTime() != null) {
-                    time = queryLayer.getTime().getUserValue();
-                }
-                String[] windowPixel = null;
-                if ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL") != null) {
-                    windowPixel = ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL")).split(",");
-                }
-                String innerHTML = "<iframe style='display:none' id='popup' name='popup' src='" + queryLayer.getServer().getHref().substring(0, queryLayer.getServer().getHref().lastIndexOf("/")) + "/wcs" +
-                        "?BBOX=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI");
-                if (elevation != null) {
-                    innerHTML += "," + elevation;
-                }
-                innerHTML += "&STYLES=" + "&FORMAT=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") +
-                        "&VERSION=" + "1.0.0" + "&CRS=" + model.getSrs() +
-                        "&REQUEST=GetCoverage'" + "&COVERAGE=" + queryLayer.getName() +
-                        "&WIDTH=" + windowPixel[0] + "&HEIGHT=" + windowPixel[1];
-                if (time != null) {
-                    innerHTML += "&TIME=" + time;
-                }
-                innerHTML += "'></iframe>";
-                // innerHTML = "<iframe style='display:none' id='popup' name='popup' src='http://demo.geomatys.fr/constellation/WS/wcs?bbox=-14978036.532703482,-5209751.837462081,-10369409.907256257,-1402625.4947013294,5.0,5.0&styles=&format=matrix&version=1.0.0&crs=EPSG:3395&request=GetCoverage&coverage=AO_Coriolis_(Temp)&width=1259&height=176&time=2007-06-20T12:00:00Z'></iframe>";
-                if (popup != null && popup.isIframe()) {
-                    popup.setInnerHTML(innerHTML);
+                
+                if (queryLayer instanceof WmsLayer) {
+                    String elevation = null;
+                    if (queryLayer.getElevation() != null) {
+                        elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
+                    }
+                    String time = null;
+                    if (queryLayer.getTime() != null) {
+                        time = queryLayer.getTime().getUserValue();
+                    }
+                    String[] windowPixel = null;
+                    if ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL") != null) {
+                        windowPixel = ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL")).split(",");
+                    }
+                    String innerHTML = "<iframe style='display:none' id='popup' name='popup' src='" + ((WmsLayer) queryLayer).getServer().getHref().substring(0, ((WmsLayer) queryLayer).getServer().getHref().lastIndexOf("/")) + "/wcs" +
+                            "?BBOX=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI");
+                    if (elevation != null) {
+                        innerHTML += "," + elevation;
+                    }
+                    innerHTML += "&STYLES=" + "&FORMAT=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") +
+                            "&VERSION=" + "1.0.0" + "&CRS=" + model.getSrs() +
+                            "&REQUEST=GetCoverage'" + "&COVERAGE=" + queryLayer.getName() +
+                            "&WIDTH=" + windowPixel[0] + "&HEIGHT=" + windowPixel[1];
+                    if (time != null) {
+                        innerHTML += "&TIME=" + time;
+                    }
+                    innerHTML += "'></iframe>";
+                    // innerHTML = "<iframe style='display:none' id='popup' name='popup' src='http://demo.geomatys.fr/constellation/WS/wcs?bbox=-14978036.532703482,-5209751.837462081,-10369409.907256257,-1402625.4947013294,5.0,5.0&styles=&format=matrix&version=1.0.0&crs=EPSG:3395&request=GetCoverage&coverage=AO_Coriolis_(queryLayer)&width=1259&height=176&time=2007-06-20T12:00:00Z'></iframe>";
+                    if (popup != null && popup.isIframe()) {
+                        popup.setInnerHTML(innerHTML);
+                    }
                 }
 
             } else {

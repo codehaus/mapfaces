@@ -96,12 +96,12 @@ public  class XMLContextUtilities {
 
     public void  writeContext(Context ctx, File output) throws JAXBException, UnsupportedEncodingException, IOException {
         JAXBElement elt;
-        if(ctx.getType().contains("OWSContextType")){
+        if(ctx.getContextType().contains("OWSContextType")){
             elt = writeOWC(ctx);
-        }else if( ctx.getType().contains("ViewContextType") ){
+        }else if( ctx.getContextType().contains("ViewContextType") ){
             elt = writeWMC(ctx);
         }else throw new UnsupportedOperationException("The version of your context file " +
-                               "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
+                               "isn't supported yet !!!!! Type : "+ ctx.getContextType() +", version : "+ctx.getVersion()+
                                ", only OWC 0.3.0 is supported !!!!!");
 
         marshal(elt,output);
@@ -112,7 +112,7 @@ public  class XMLContextUtilities {
             return writeOWC030(ctx);
         }
         throw new UnsupportedOperationException("The version of your context file " +
-               "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
+               "isn't supported yet !!!!! Type : "+ ctx.getContextType() +", version : "+ctx.getVersion()+
                ", only OWC 0.3.0 is supported !!!!!");
     }
 
@@ -219,7 +219,7 @@ public  class XMLContextUtilities {
 //           return factory_wmc_110.createViewContext((new MFtoWMCv110Transformer()).visit(ctx));
 //        }
         throw new UnsupportedOperationException("The version of your context file " +
-               "isn't supported yet !!!!! Type : "+ ctx.getType() +", version : "+ctx.getVersion()+
+               "isn't supported yet !!!!! Type : "+ ctx.getContextType() +", version : "+ctx.getVersion()+
                ", only OWC 0.3.0 is supported !!!!!");
     }
 

@@ -40,6 +40,8 @@ public interface Layer extends Serializable {
     HashMap<String, Dimension> getDimensionList();
 
     String getGroup();
+    
+    int getGroupId();
 
     String getId();
 
@@ -83,6 +85,8 @@ public interface Layer extends Serializable {
     void setDepth(String depth);
 
     void setGroup(String group);
+    
+    void setGroupId(int group);    
 
     void setHidden(boolean hidden);
 
@@ -118,13 +122,9 @@ public interface Layer extends Serializable {
 
     void setTitle(String title);
 
-    void setServer(Server server);
+    LayerType getType();
 
-    Server getServer();
-
-    String getType();
-
-    void setType(String type);
+    void setType(LayerType type);
 
     String getLegendUrl();
 
@@ -163,22 +163,6 @@ public interface Layer extends Serializable {
 
     void setDimensionList(HashMap<String, Dimension> dimensionList);
 
-    /* *
-     * Getters and setters for styles parameters
-     *
-     * */
-    String getStyles();
-
-    String getSld();
-
-    String getSldBody();
-
-    void setStyles(String styles);
-
-    void setSld(String sld);
-
-    void setSldBody(String sldBody);
-
     /*
      * properties needed by JSF
      * */
@@ -187,23 +171,6 @@ public interface Layer extends Serializable {
 
     void setCompId(String id);
     
-    /**
-     * properties for a MFLayer
-     */
-    public List<Feature> getFeatures();
-
-    public void setFeatures(List<Feature> features);
-
-    public String getImage();
-
-    public void setImage(String image);
-
-    public int getSize();
-
-    public void setSize(int size);
-
-    public double getRotation();
-
-    public void setRotation(double rotation);
+   
     
 }

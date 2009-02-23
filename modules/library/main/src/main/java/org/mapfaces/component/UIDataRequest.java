@@ -116,11 +116,11 @@ public class UIDataRequest extends UIWidgetBase {
         this.targetPopupId = targetPopupId;
     }
 
-    public boolean isMfLayersOnly() {
+    public boolean isFeatureLayersOnly() {
         return mfLayersOnly;
     }
 
-    public void setMfLayersOnly(boolean mfLayersOnly) {
+    public void setFeatureLayersOnly(boolean mfLayersOnly) {
         this.mfLayersOnly = mfLayersOnly;
     }
 

@@ -29,7 +29,7 @@ public class UILayerControl extends UIWidgetBase {
     /* Fields */
     private DefaultTreeModel tree;
     /* TreeTable style */
-    private String styleTreeTable;
+    private String styleTreeTable = "width: 100%; height: 100%;";
     private String styleClassTreeTable;
     /* TreePanel attributes */
     private String titlePanel;
@@ -56,10 +56,10 @@ public class UILayerControl extends UIWidgetBase {
     /* Others */
     private boolean visibilityColumn = true;
     private boolean opacityColumn = true;
-    private boolean elevationColumn = true;
-    private boolean timeColumn = true;
-    private boolean layerInfo = true;
-    private boolean colorMapEditor = true;   //Replace Dim_Range
+    private boolean elevationColumn = false;
+    private boolean timeColumn = false;
+    private boolean layerInfo = false;
+    private boolean colorMapEditor = false;   //Replace Dim_Range
     /* Functionalities */
     private boolean activateDnd = false;
     public static final String FAMILIY = "org.mapfaces.LayerControl";

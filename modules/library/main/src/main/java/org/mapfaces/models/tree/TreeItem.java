@@ -25,8 +25,8 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
-import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.LayerType;
 import org.mapfaces.models.Server;
 
 /**
@@ -454,37 +454,6 @@ public class TreeItem implements Layer, Context {
         this.title = title;
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setServer(Server server) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Server getServer() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getType() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setType(String type) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     /**
      * {@inheritDoc }
@@ -651,55 +620,7 @@ public class TreeItem implements Layer, Context {
     public void setDimensionList(HashMap<String, Dimension> dimensionList) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getStyles() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getSld() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getSldBody() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setStyles(String styles) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setSld(String sld) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setSldBody(String sldBody) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     /**
      * {@inheritDoc }
      */
@@ -1154,54 +1075,37 @@ public class TreeItem implements Layer, Context {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public List<Feature> getFeatures() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setFeatures(List<Feature> features) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getImage() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setImage(String image) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setSize(int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public double getRotation() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setRotation(double rotation) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+   
 
     @Override
     public ReferencedEnvelope getEnvelope() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public int getGroupId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setGroupId(int group) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public LayerType getType() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    public String getContextType() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    public void setType(LayerType type) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setType(String type) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     @Override
     public java.awt.Dimension getDimension() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }

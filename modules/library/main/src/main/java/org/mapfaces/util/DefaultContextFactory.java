@@ -16,14 +16,22 @@
  */
 package org.mapfaces.util;
 
+import java.math.BigDecimal;
+import net.opengis.owc.v030.LayerType;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.DefaultDimension;
-import org.mapfaces.models.DefaultLayer;
+import org.mapfaces.models.layer.DefaultLayer;
 import org.mapfaces.models.DefaultServer;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
+import org.mapfaces.models.layer.DefaultFeatureLayer;
+import org.mapfaces.models.layer.DefaultMapContextLayer;
+import org.mapfaces.models.layer.DefaultWmsLayer;
+import org.mapfaces.models.layer.FeatureLayer;
+import org.mapfaces.models.layer.MapContextLayer;
+import org.mapfaces.models.layer.WmsLayer;
 
 /**
  * @author Kevin Delfour
@@ -60,5 +68,31 @@ public class DefaultContextFactory implements ContextFactory{
     @Override
     public Dimension createDefaultDimension() {
         return new DefaultDimension();
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    public Layer createDefaultMapContextLayer() {
+
+        Layer layer = new DefaultMapContextLayer();
+        layer.setId("MapFaces_Layer_MF_" + -1);
+        layer.setGroup("mapfaces_group");
+        layer.setName("abstractlayer");
+        layer.setHidden(false);
+        layer.setOpacity("1");
+        layer.setTitle("MapContext 'all in one' layer");
+        layer.setType(org.mapfaces.models.LayerType.MAPCONTEXT);
+        layer.setOutputFormat("image/png");
+        layer.setQueryable(true);
+        
+        return layer;
+    }
+
+    public Layer createDefaultWmsLayer() {
+        return new DefaultWmsLayer();
+    }
+    public Layer createDefaultFeatureLayer() {
+        return new DefaultFeatureLayer();
     }
 }
