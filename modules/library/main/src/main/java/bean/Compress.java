@@ -117,7 +117,7 @@ public class Compress {
                 //String mbPath = "c:\\www\\geomatys\\trunk\\mapbuilder\\mapbuilder\\lib";                
 		//String olPath = args[4];
 		String[] olFiles = new String[] {
-				 "openlayers/lib/OpenLayers/Util.js",
+            "openlayers/lib/OpenLayers/Util.js",
             "openlayers/lib/OpenLayers/BaseTypes.js",
             "openlayers/lib/OpenLayers/BaseTypes/Class.js",
             "openlayers/lib/OpenLayers/BaseTypes/Bounds.js",
