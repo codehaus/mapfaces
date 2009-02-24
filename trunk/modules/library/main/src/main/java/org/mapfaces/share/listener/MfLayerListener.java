@@ -83,7 +83,7 @@ public class MfLayerListener implements PhaseListener {
 
     /**
      * This method portray for every Layers
-     * @TODO the synchronized keyword must be removed after a fix in gt-working dur ton an Exception RecursiveSearchException.
+     * @TODO the synchronized keyword must be removed after a fix in gt-working due to an Exception RecursiveSearchException.
      * @param context
      * @param id
      * @param stream

@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -60,6 +61,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  *
  * @author Mehdi Sidhoum (Geomatys).
+ * @author Olivier Terral (Geomatys).
  */
 public class DataRequestRenderer extends WidgetBaseRenderer {
 
@@ -141,7 +143,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                     if (popup != null) {
                         final int realTop = (new Integer(Y)) - popup.getHeight();
-                        ;
                         popup.setTop("top:" + realTop + "px;");
                     }
                 }
@@ -189,14 +190,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             case KML:
                                 break;
                             case MAPCONTEXT:
-
                                 break;
                             case FEATURE:
                                 FeatureLayer temp  = (FeatureLayer) queryLayer;
                                 Map mapFeaturesLayer = new HashMap<String, Feature>();
 
-
-                                //@TODO do something to generate an Object List of Result from the attached features
                                 FeatureLayerExist = true;
                                 final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
                                 final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
@@ -292,12 +290,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 final int innerHeight = popupHeight - 75;
                 String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
                 String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
-
-                if (popup != null && popup.isIframe() && !comp.isFeatureLayersOnly()) {
-
+                
+                if (popup != null && popup.isIframe() && ! comp.isFeatureLayerOnly()) {
+                    
                     StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;overflow-x:auto;overflow-y:auto;'>");
                     
-                    //@TODO factorization of servers wms, one request by server and QUERY_LAYERS must contains all layers name
+                    //@TODO factorization of servers wms, one request by server and the QUERY_LAYERS parameter must contains all layers name : layersNameString.
                     for (WmsLayer queryLayer : layersWMS) {
                         innerHtml.append("<iframe style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
                                 append(queryLayer.getServer().getHref()).

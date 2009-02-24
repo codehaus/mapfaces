@@ -38,7 +38,7 @@ public class DataRequestTag extends WidgetBaseTag {
     private ValueExpression outputFormat = null;
     private ValueExpression dataResult = null;
     private ValueExpression targetPopupId = null;
-    private ValueExpression mfLayersOnly = null;
+    private ValueExpression featureLayerOnly = null;
     private ValueExpression featureCount = null;
 
     /**
@@ -67,7 +67,7 @@ public class DataRequestTag extends WidgetBaseTag {
         component.setValueExpression("outputFormat", outputFormat);
         component.setValueExpression("dataResult", dataResult);
         component.setValueExpression("targetPopupId", targetPopupId);
-        component.setValueExpression("mfLayersOnly", mfLayersOnly);
+        component.setValueExpression("featureLayerOnly", featureLayerOnly);
         component.setValueExpression("featureCount", featureCount);
     }
 
@@ -81,7 +81,7 @@ public class DataRequestTag extends WidgetBaseTag {
         outputFormat = null;
         dataResult = null;
         targetPopupId = null;
-        mfLayersOnly = null;
+        featureLayerOnly = null;
         featureCount = null;
     }
 
@@ -109,20 +109,20 @@ public class DataRequestTag extends WidgetBaseTag {
         this.targetPopupId = targetPopupId;
     }
 
-    public ValueExpression getMfLayersOnly() {
-        return mfLayersOnly;
-    }
-
-    public void setMfLayersOnly(ValueExpression mfLayersOnly) {
-        this.mfLayersOnly = mfLayersOnly;
-    }
-
     public ValueExpression getFeatureCount() {
         return featureCount;
     }
 
     public void setFeatureCount(ValueExpression featureCount) {
         this.featureCount = featureCount;
+    }
+
+    public ValueExpression getFeatureLayerOnly() {
+        return featureLayerOnly;
+    }
+
+    public void setFeatureLayerOnly(ValueExpression featureLayerOnly) {
+        this.featureLayerOnly = featureLayerOnly;
     }
 
 }

@@ -46,8 +46,8 @@ import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class MapPaneRenderer extends WidgetBaseRenderer {
 

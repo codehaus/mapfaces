@@ -31,7 +31,7 @@ public class UIDataRequest extends UIWidgetBase {
      */
     private String outputFormat = "application/vnd.ogc.wms_xml";
     /**
-     * This is a serializable object witch is containing in a Feature from MFlayer component. Note: it can be used for wms or no wms layers, this object is String for wms layers.
+     * This is a serializable object witch is containing in a Feature from FeatureLayer model. Note: it can be used for wms or no wms layers, this object is String for wms layers.
      */
     private Object dataResult;
     
@@ -43,7 +43,7 @@ public class UIDataRequest extends UIWidgetBase {
     /**
      * This is a flag to allow the getFeatureInfo only on MFlayers type
      */
-    private boolean mfLayersOnly;
+    private boolean featureLayerOnly;
     /**
      * Number of features per layer allowed. The default is 1.
      */
@@ -72,7 +72,7 @@ public class UIDataRequest extends UIWidgetBase {
         values[1] = outputFormat;
         values[2] = dataResult;
         values[3] = targetPopupId;
-        values[4] = mfLayersOnly;
+        values[4] = featureLayerOnly;
         values[5] = featureCount;
 
         return values;
@@ -88,7 +88,7 @@ public class UIDataRequest extends UIWidgetBase {
         outputFormat = (String) values[1];
         dataResult = values[2];
         targetPopupId = (String) values[3];
-        mfLayersOnly = (Boolean) values[4];
+        featureLayerOnly = (Boolean) values[4];
         featureCount = (Integer) values[5];
     }
 
@@ -116,12 +116,12 @@ public class UIDataRequest extends UIWidgetBase {
         this.targetPopupId = targetPopupId;
     }
 
-    public boolean isFeatureLayersOnly() {
-        return mfLayersOnly;
+    public boolean isFeatureLayerOnly() {
+        return featureLayerOnly;
     }
 
-    public void setFeatureLayersOnly(boolean mfLayersOnly) {
-        this.mfLayersOnly = mfLayersOnly;
+    public void setFeatureLayerOnly(boolean featureLayerOnly) {
+        this.featureLayerOnly = featureLayerOnly;
     }
 
     public int getFeatureCount() {

@@ -169,7 +169,7 @@ public class Utils {
     public static int getWMSLayerscount(List<Layer> list) {
         int result = 0;
         for (Layer layer : list) {
-            if (layer != null && ! layer.getType().equals("mapfaces")) {
+            if (layer != null && layer.getType().equals(org.mapfaces.models.LayerType.WMS)) {
                 result++;
             }
         }
