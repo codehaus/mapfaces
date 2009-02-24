@@ -15,52 +15,42 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layer;
 
-import org.mapfaces.renderkit.html.*;
 import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import org.geotools.display.exception.PortrayalException;
-import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureCollections;
 import org.geotools.feature.simple.SimpleFeatureImpl;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.filter.identity.FeatureIdImpl;
-import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.FeatureMapLayer;
 import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
 import org.geotools.map.MapLayer;
 import org.geotools.referencing.CRS;
 
-import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.style.MutableFeatureTypeStyle;
 import org.geotools.style.MutableRule;
 import org.geotools.style.MutableStyle;
 import org.geotools.style.StyleFactory;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
@@ -83,6 +73,11 @@ import org.opengis.style.PointSymbolizer;
 import org.opengis.style.PolygonSymbolizer;
 import org.opengis.style.Stroke;
 
+/**
+ * @author Mehdi Sidhoum (Geomatys).
+ * @author Olivier Terral (Geomatys).
+ */
+
 public class FeatureLayerRenderer extends MapContextLayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
@@ -93,24 +88,24 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-        
+
         assertValid(context, component);
-        
+
         // suppress rendering if "rendered" property on the component is false.
         if (!component.isRendered()) {
             return;
         }
-        
+
         final UIFeatureLayer comp = (UIFeatureLayer) component;
         if (comp.isDebug()) {
             this.debug = true;
-            LOGGER.log(Level.INFO, "[this.debug] ENCODE BEGIN  clientId : "+ comp.getClientId(context) + ", id : " + comp.getId());
+            LOGGER.log(Level.INFO, "[this.debug] ENCODE BEGIN  clientId : " + comp.getClientId(context) + ", id : " + comp.getId());
         }
-        
+
         if (this.debug) {
             LOGGER.log(Level.INFO, "[this.debug] clientId : " + comp.getClientId(context) + ", id : " + comp.getId());
         }
-        
+
         final ResponseWriter writer = context.getResponseWriter();
         final String clientId = comp.getClientId(context);
         final String id = comp.getAttributes().get("id").toString();
@@ -143,7 +138,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         if (layer != null) {
             hidden = layer.isHidden();
             opacity = layer.getOpacity();
-        } else {            
+        } else {
             LOGGER.log(Level.WARNING, "[MapContextLayerRenderer] layer is null ");
             hidden = false;
             opacity = "1";
@@ -161,7 +156,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
 
         UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
         MapContext mapContext;
-        
+
         final int indexLayer = comp.getBindingIndex();
         final MutableStyle mutableStyle = createStyle(comp.getImage(), size, rotation, indexLayer);
 

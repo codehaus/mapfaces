@@ -21,12 +21,10 @@ package org.mapfaces.models.layer;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-import java.io.Serializable;
 import org.mapfaces.models.*;
 
+public interface WmsLayer extends Layer {
 
-public interface  WmsLayer extends Layer,Serializable {
-    
     String getStyles();
 
     String getSld();
