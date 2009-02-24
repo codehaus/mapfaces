@@ -242,9 +242,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     features.add(sf);
                                 }
 
-                                final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
+                                final FeatureMapLayer mapLayer = MapBuilder.createFeatureLayer(features, mutableStyle);
                                 mapLayer.setSelectable(true);
-                                mapContext = MapBuilder.getInstance().createContext(layerCrs);
+                                mapContext = MapBuilder.createContext(layerCrs);
                                 mapContext.layers().add(mapLayer);
                                 Rectangle rect = new Rectangle(Integer.parseInt(featureInfo_X), Integer.parseInt(featureInfo_Y), 1, 1);
                                 FeatureVisitor featureVisitor = new FeatureVisitor();

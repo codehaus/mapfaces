@@ -266,7 +266,6 @@
                   <!--aggregation>
 			    <output>${project.build.sourceDirectory}/../webapp/resources/js/all.js</output>
 			    <includes>
-				<!--include>${basedir}/src/licenses/license.js</include-->
 				<include>**/mootools-1.2-core.js</include>
 				<include>**/mootools-1.2-more.js</include>
 				<include>**/mocha.js</include>

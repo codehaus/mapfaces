@@ -23,7 +23,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 
 /**
- * @author Kevin Delfour
+ * @author Olivier Terral (Geomatys).
  */
 public interface ContextFactory {
 
