@@ -37,9 +37,6 @@ public class UICursorTrack extends UIWidgetBase {
     public UICursorTrack() {
         super();
         setRendererType("org.mapfaces.renderkit.html.CursorTrack"); // this component has a renderer
-        if (isDebug()) {
-            System.out.println("[UICursorTrack] constructor----------------------");
-        }
     }
 
     /**

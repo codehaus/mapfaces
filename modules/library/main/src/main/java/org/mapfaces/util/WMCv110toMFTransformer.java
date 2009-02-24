@@ -37,7 +37,6 @@ class WMCv110toMFTransformer {
         ctx.setTitle(doc.getGeneral().getTitle());
 //        BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
 //        ctx.setSrs(bbox.getCrs());
-//        System.out.println(bbox.toString());
 //        ctx.setBoundingBox(String.valueOf(bbox.getLowerCorner().get(0).doubleValue()),
 //                            String.valueOf(bbox.getLowerCorner().get(1).doubleValue()),
 //                            String.valueOf(bbox.getUpperCorner().get(0).doubleValue()),

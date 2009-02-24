@@ -17,6 +17,7 @@
  */
 package org.mapfaces.renderkit.html.layer;
 
+import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.renderkit.html.*;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,6 +38,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIMapContextLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.FacesUtils;
 
 import org.opengis.referencing.FactoryException;
@@ -63,9 +65,9 @@ public class MapContextLayerRenderer extends LayerRenderer {
         final ResponseWriter writer = context.getResponseWriter();
         final String clientId = comp.getClientId(context);
         final String id = comp.getAttributes().get("id").toString();
-        final Layer layer = comp.getLayer();
+        final MapContextLayer layer = (MapContextLayer) comp.getLayer();
         final Context model = (Context) comp.getModel();
-        setModelAtSession(context, comp, model);
+        setModelAtSession(context, comp);
 
         final String srs = model.getSrs();
         final CoordinateReferenceSystem crs;
@@ -106,17 +108,19 @@ public class MapContextLayerRenderer extends LayerRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
-
-
         UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
-        MapContext mapContext = null;
-
-        if (mappane.getValueExpression("value") != null) {
-            ValueExpression ve = mappane.getValueExpression("value");
-            mapContext = (MapContext) ve.getValue(context.getELContext());
-            setMapContextAtSession(context, comp, mapContext);
+       
+        //If a MapContext is specified in value attribute, layer will display the context in a allInOne layer
+        Object obj = comp.getValue();
+        if (obj instanceof MapContext) {
+            layer.setMapContext((MapContext) obj);
         }
-
+        
+        //Save the mapContext in session for MfLayerListener can rendering it
+        if (layer.getMapContext() != null) {
+            setMapContextAtSession(context, comp, layer.getMapContext());
+        }
+       
         if (debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !hidden));        //Add layer image if not the first page loads
         }

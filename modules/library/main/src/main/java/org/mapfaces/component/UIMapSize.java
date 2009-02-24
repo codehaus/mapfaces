@@ -36,8 +36,6 @@ public class UIMapSize extends UIWidgetBase{
 
     public UIMapSize() {
         super();
-        if(isDebug())
-            System.out.println("[UIMapSize] constructor----------------------");
         setRendererType("org.mapfaces.renderkit.html.MapSize"); // this component has a renderer
     }
 

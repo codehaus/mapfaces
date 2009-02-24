@@ -206,7 +206,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 
                                 try {
-                                    mutableStyle = FeatureLayerRenderer.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
+                                    mutableStyle = FacesUtils.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
                                 } catch (MalformedURLException ex) {
                                     Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
                                 }

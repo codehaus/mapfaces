@@ -24,9 +24,6 @@ public class UIDimRange extends UIWidgetBase implements StateHolder {
     public UIDimRange() {
         super();
         setRendererType("org.mapfaces.renderkit.html.DimRange"); // this component has a renderer
-        if(isDebug())
-            System.out.println("    UIDimRange constructor----------------------");
-
     }
 
     /**

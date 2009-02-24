@@ -91,7 +91,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
 
         if (this.debug) {
-            System.out.println("\t the style property of the MapPane is " + style);
+            LOGGER.log(Level.INFO, "\t the style property of the MapPane is " + style);
         }
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "id");
@@ -124,21 +124,22 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             writer.writeAttribute("id", clientId + "_MapFaces_Container", "id");
         }
         writer.writeAttribute("style", "top:0px;left:0px;position:absolute;z-index: 749;", "style");
-
+        
+        MapContext mapcontext = (MapContext) comp.getValue();
+        if (mapcontext != null) {
+            //adding all the MapContext layers  into an allInOne layer.
+            final ContextFactory contextFactory = new DefaultContextFactory();
+            DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
+            mcLayer.setMapContext(mapcontext);
+            model.removeLayerFromId(mcLayer.getId());
+            model.addLayer((MapContextLayer) mcLayer);
+        }
+        
+        
         final List<Layer> layers = model.getLayers();
         final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-
-        final File dstDir = new File(sc.getRealPath("tmp"));
-        if (!dstDir.exists()) {
-            dstDir.mkdir();
-        }
-
-        final String ctxPath = sc.getContextPath();
         final String srs = model.getSrs();
 
-        if (this.debug) {
-            System.out.println("\t The model context of the Mappane contains " + layers.size() + " layers.");
-        }
         comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
         removeChildren(context, component);
@@ -146,10 +147,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
-        
+
         for (final Layer temp : layers) {
             if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] The current layer is a :  " + temp.getType() + " layer.");
+                LOGGER.log(Level.INFO, "[DEBUG] The current layer is a :  " + temp.getType() + " layer.");
             }
             if (temp != null && temp.getType() != null) {
                 switch (temp.getType()) {
@@ -163,8 +164,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         } else {
                             temp.setId(layer.getId());
                         }
-                        layer.setDir(dstDir);
-                        layer.setContextPath(ctxPath);
                         comp.getChildren().add(layer);
                         temp.setCompId(layer.getClientId(context));
                         layer.setLayer((WmsLayer) temp);
@@ -184,15 +183,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     case MAPCONTEXT:
                         UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
-                        uiMCLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() 
-                                + "_" + comp.getId() + "_" + temp.getId());
-                        uiMCLayer.setDir(dstDir);
-                        uiMCLayer.setContextPath(ctxPath);
-                        comp.getChildren().add(uiMCLayer);
+                        uiMCLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         temp.setCompId(uiMCLayer.getClientId(context));
                         uiMCLayer.setLayer(temp);
-                        model.removeLayerFromId(temp.getId());
-                        model.addLayer((MapContextLayer)temp);
+                        if (((MapContextLayer)temp).getMapContext() != null ) {
+                             uiMCLayer.setValue(((MapContextLayer)temp).getMapContext());
+                        }
+                        comp.getChildren().add(uiMCLayer);
                         break;
                     case FEATURE:
                         FeatureLayer tmp = (FeatureLayer) temp;
@@ -209,8 +206,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         } else {
                             tmp.setId(uiFLayer.getId());
                         }
-                        uiFLayer.setDir(dstDir);
-                        uiFLayer.setContextPath(ctxPath);
                         comp.getChildren().add(uiFLayer);
                         tmp.setCompId(uiFLayer.getClientId(context));
                         uiFLayer.setLayer(tmp);
@@ -222,32 +217,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
 //          
 
-        MapContext mapcontext = (MapContext) comp.getAttributes().get("value");
-        if (mapcontext != null) {
-            
-            //adding all the MapContext layers  into an allInOne layer.
-            final ContextFactory contextFactory = new DefaultContextFactory();
-            DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(-1);
-            UIMapContextLayer mfLayer = new UIMapContextLayer();
-            mfLayer.setModel((AbstractModelBase) model);
-            mfLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + mcLayer.getId());
-            mfLayer.setDir(dstDir);
-            mfLayer.setContextPath(ctxPath);
 
-            comp.getChildren().add(mfLayer);
-
-            mcLayer.setCompId(mfLayer.getClientId(context));
-            System.out.println("[DEBUG] MFLayer from Mapcontext :  " + mfLayer.getClientId(context));
-            mfLayer.setLayer(mcLayer);
-
-            if (this.debug) {
-                System.out.println("\t UIMapContextLayer  ClientId" + mfLayer.getClientId(context));
-            }
-
-            model.removeLayerFromId(mcLayer.getId());
-            model.addLayer((MapContextLayer) mcLayer);
-            comp.setInitDisplay(true);
-        }
 
         writer.flush();
         if (this.debug) {

@@ -130,9 +130,7 @@ public class OWCv030toMFTransformer {
                         if (!wmsUrl.contains("http://")) {                            //TODO
 //                                if(wmsUrl.startsWith("/")){
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
-//                                    System.out.println(wmsUrl);
-//                                    System.out.println(((ServletContext) (FacesContext.getCurrentInstance().getExternalContext().getContext())).getContextPath());
-//
+
 //
 //                                }else{
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
@@ -164,7 +162,7 @@ public class OWCv030toMFTransformer {
                                 }
                                 end = System.currentTimeMillis() - start;
                                 if (webMapServers.get(wmsUrl) != null) {
-                                    System.out.println("[OWCv030toMFTransformer] webMapServer object created with geotools in : " + end+" ms");
+                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotools in : " + end+" ms");
                                 }
                             }
                         }
@@ -471,7 +469,7 @@ public class OWCv030toMFTransformer {
                 boolean postgisflag = false;
                 if (layer != null && layer.getKeywordList() != null && FacesUtils.matchesKeywordfromList(layer.getKeywordList().getKeyword(), "Vector datas")) {
                     postgisflag = true;
-                    System.out.println("[" + layerType.getName() + "] postgis layer detected ! ");
+                    LOGGER.log(Level.INFO,"[" + layerType.getName() + "] postgis layer detected ! ");
                 }
 
                 List<AbstractDimension> dims = layer.getAbstractDimension();

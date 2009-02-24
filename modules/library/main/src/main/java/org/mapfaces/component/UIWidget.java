@@ -29,8 +29,6 @@ public class UIWidget extends UIWidgetBase{
 
     public UIWidget() {
         super();
-        if(isDebug())
-            System.out.println("[UIWidget] constructor----------------------");
         setRendererType("org.mapfaces.renderkit.html.Widget"); // this component has a renderer
     }
 
