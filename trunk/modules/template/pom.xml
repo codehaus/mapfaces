@@ -179,7 +179,8 @@
       <dependency>
         <groupId>xerces</groupId>
         <artifactId>xercesImpl</artifactId>
-	<version>2.2.1</version>	<scope>provided</scope>
+	<version>2.2.1</version>
+	<scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.constellation.library</groupId>
@@ -240,7 +241,6 @@
 		    <jswarn>false</jswarn> 
 		    <aggregations>
 			<aggregation>
-			    <!--removeIncluded>true</removeIncluded-->
 			    <output>${project.build.directory}/${project.build.finalName}/resources/js/all.js</output>
 			    <includes>
 				<!--include>${basedir}/src/licenses/license.js</include-->
@@ -262,6 +262,29 @@
 				<include>**/ui.css</include>
 			    </includes>
 			</aggregation>
+<!-- Only for NetBeans devs who doesn't use Maven plugin -->
+                  <!--aggregation>
+			    <output>${project.build.sourceDirectory}/../webapp/resources/js/all.js</output>
+			    <includes>
+				<!--include>${basedir}/src/licenses/license.js</include-->
+				<include>**/mootools-1.2-core.js</include>
+				<include>**/mootools-1.2-more.js</include>
+				<include>**/mocha.js</include>
+				<include>**/mocha-init.js</include>
+				<include>**/start.js</include>
+				<include>**/browserdetect.js</include>
+			    </includes>
+			    <excludes>
+				<exclude>**/excanvas-compressed.js</exclude>
+			    </excludes>
+			</aggregation>
+			<aggregation>
+			    <output>${project.build.sourceDirectory}/../webapp/resources/css/all.css</output>
+			    <includes>
+				<include>**/content.css</include>
+				<include>**/ui.css</include>
+			    </includes>
+			</aggregation--> 
 		    </aggregations>
 		</configuration>
 		</plugin>

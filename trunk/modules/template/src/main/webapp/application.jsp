@@ -7,7 +7,8 @@
 
 
 
-<mf-model:Context id="owsVisuContext" service="map-context.xml" scriptaculous="false" minifyJS="false" mootools="false" debug="false">
+<mf-model:Context id="owsVisuContext" minifyJS="false" service="map-context.xml" 
+    scriptaculous="false" mootools="false" debug="false">
     
     <%--  The main mappane is englobed with a h:panelGroup tag
     with a styleClass ="mochaMainAppColumn" to fix it in the main column  --%>

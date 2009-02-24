@@ -170,7 +170,8 @@ function webAppPageWrapper(){
         'width' : '100%'
     });
     
-   window.reloadAllMaps();
+    if (window.reloadAllMaps)
+        window.reloadAllMaps();
 }
 
 
