@@ -10,7 +10,23 @@
         <f:view>
             <h:form id="form1">	
                 <%--c:chart output="svg" id="chart1" datasource="#{OtherCharts.sourceProvider.XYDataset}" type="xystep" legend="false" colors="magenta,#CACACA,blue" xlabel="X" ylabel="Y"></c:chart>
-                --%><c:chart output="svg" id="chart2" width="600" height="400" rangeGridLines="true" domainGridLines="true" datasource="#{OtherCharts.sourceProvider.multipleXYDataset}" title="Multiple Axis Demo 1" type="timeseries" legend="true" xlabel="Time of Day" ylabel="Primary Axes"></c:chart>
+                --%>
+            <c:chart output="svg" background="white" id="chart2" width="800" height="400" 
+                rangeGridLines="true" 
+                domainGridLines="true" datasource="#{OtherCharts.sourceProvider.XYDataset}" 
+                title="Multiple XYDataset Demo" type="timeseries" 
+                legend="true" xlabel="Time of Day" ylabel="Primary Axes" colors="black,red,blue,green,cyan,magenta"></c:chart>
+            <%--c:chart output="svg" background="magenta" id="chart22" width="800" height="400" 
+                rangeGridLines="true" 
+                domainGridLines="true" datasource="#{OtherCharts.sourceProvider.emptyXYDataset}" 
+                title="Empty XYDataset Demo" type="timeseries" 
+                legend="true" xlabel="Time of Day" ylabel="Primary Axes"></c:chart--%>
+            <%--c:chart output="svg" background="cyan" id="chart32" width="800" height="400" 
+                rangeGridLines="true" 
+                domainGridLines="true" datasource="#{OtherCharts.sourceProvider.XYDataset}" 
+                title="Unique XYDataset Demo" type="timeseries" 
+                legend="true" xlabel="Time of Day" ylabel="Primary Axes"></c:chart--%>
+                
                 <%--c:chart output="svg" id="chart3" datasource="#{OtherCharts.sourceProvider.XYDataset}" type="xyline" background="#FFFFCC" title="I love JSF Chart Creator"></c:chart>
                                 <c:chart output="svg" id="chart4" datasource="#{OtherCharts.sourceProvider.XYDataset}" type="polar" orientation="horizontal" height="150" width="200"></c:chart>
                                 --%>
@@ -52,33 +68,7 @@
             Drag : mouse left click and drag </p>
         </f:view>
         <script type="text/javascript">
-                function onSubmit() {
-                    //alert(document.getElementsByTagName("object").item(0).cloneNode(true));
-                    
-                    if (document.getElementsByTagName("object").item(0)){                        
-                        var obj = document.createElement("object");
-                        var id = document.getElementsByTagName("object").item(0).id;                        
-                        obj.setAttribute("id", id);
-                        obj.style.display = "none";
-                        document.getElementsByTagName("object").item(0).id="clone";
-                        document.forms[0].insertBefore(obj,document.getElementById("clone"));
-                    } else if (document.getElementsByTagName("embed").item(0)) {
-                        var obj = document.createElement("embed");
-                        var id = document.getElementsByTagName("embed").item(0).id;
-                        obj.setAttribute("id", id);
-                        obj.style.display = "none";
-                        document.getElementsByTagName("embed").item(0).id="clone";
-                        document.forms[0].insertBefore(obj,document.getElementById("clone"));
-                    }
-                }
-                function onObjectLoad() {
-                     if (document.getElementsByTagName("object").item(0))
-                          document.getElementsByTagName("object").item(0).style.display="block";
-                     if (document.getElementsByTagName("embed").item(0))
-                          document.getElementsByTagName("embed").item(0).style.display="block";
-                     if(document.getElementById("clone") != null)
-                          document.forms[0].removeChild(document.getElementById("clone"));
-                }
+               // function onLoadform1chart2(chartId, formId, ajaxCompId) { window.setMfIds(chartId, formId, ajaxCompId);var elt = document.getElementById(chartId);if (elt) elt.style.display='block';while(document.getElementById(chartId+'clone') != null)  elt.parentNode.removeChild(document.getElementById(chartId+'clone'));}
         </script>
     </body>	
 </html>  

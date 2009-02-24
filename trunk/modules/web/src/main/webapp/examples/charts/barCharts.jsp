@@ -8,9 +8,9 @@
 	<body>
 		<f:view>
 			<h:form id="form1">	
-				<c:chart 
+				<%--c:chart 
 					datasource="#{BarCharts.sourceProvider.categoryDataset}" 
-                                        output="svg"
+                                        output="png"
 					type="stackedbar" is3d="true" 
                                         colors="magenta,#CACACA,blue" 
                                         title="Chart with Clickable Regions and Tooltips" 
@@ -19,7 +19,7 @@
                                         ongeneratedimagemapclick="stackedChartClick">
 					<c:chartAxis domain="true" 
                                         verticalTickLabels="true"/>
-				</c:chart>
+				</c:chart--%>
 				<c:chart id="chart1" 
                                 datasource="#{BarCharts.sourceProvider.categoryDataset}" 
                                 type="#{BarCharts.type}" is3d="true" 

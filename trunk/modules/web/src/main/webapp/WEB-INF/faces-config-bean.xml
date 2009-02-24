@@ -9,8 +9,13 @@
         <managed-bean-name>treebean</managed-bean-name>
         <managed-bean-class>bean.TreetableBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+    <managed-bean>
+        <managed-bean-name>map</managed-bean-name>
+        <managed-bean-class>org.mapfaces.web.bean.MapBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-
+    
     <!-- Charts beans -->
     <managed-bean>
         <managed-bean-name>BarCharts</managed-bean-name>

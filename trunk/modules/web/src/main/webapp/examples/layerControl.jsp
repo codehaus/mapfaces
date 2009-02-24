@@ -13,10 +13,22 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         </head>
         <body>                    
-            <h:form id='form'>               
-                <mf-model:Context service="data/context/blueMarble.xml" value="#{map.mapContext}">                        
-                    <mf:MapPane id="mp" navigation="true"></mf:MapPane>
-                    <mf:LayerControl id="lc"></mf:LayerControl>
+            <h:form id='form'>       
+                <a4j:commandLink id="addMapContext"
+                                                 title="Next position"
+                                                 actionListener="#{map.addMapContextLayer}" 
+                                                 reRender="form:cx" >
+                                                     addMapContextLayer
+               </a4j:commandLink>
+               <a4j:commandLink id="addFeatures"
+                                                 title="Next position"
+                                                 actionListener="#{map.addFeatureLayer}" 
+                                                 reRender="form:cx" >
+                                                     addFeatureLayer
+               </a4j:commandLink>
+                <mf-model:Context id="cx" debug="true" service="data/context/blueMarble.xml" value="#{map.features}">                        
+                    <mf:MapPane id="mp" debug="true" navigation="true"></mf:MapPane>
+                    <mf:LayerControl id="lc" ></mf:LayerControl>
                 </mf-model:Context>
             </h:form>
         </body>
