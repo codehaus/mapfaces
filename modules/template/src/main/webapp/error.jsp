@@ -2,7 +2,7 @@
 
 <html><body>
         <style>body{background:#aacded;}</style>
-        <h1 style="color: white">SeaDataNet Loading page Error</h1>
+        <h1 style="color: white">Loading page Error</h1>
         <div style="border:2px blue ridge;background:LightCyan;">
             <pre>
   <%
