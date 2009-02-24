@@ -4,7 +4,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
-import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,23 +13,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import net.opengis.owc.v030.LayerType;
+import javax.faces.event.ActionEvent;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.simple.SimpleFeatureImpl;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.filter.identity.FeatureIdImpl;
+import org.geotools.map.FeatureMapLayer;
 import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.style.MutableStyle;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultFeature;
-import org.mapfaces.models.layer.DefaultFeatureLayer;
 import org.mapfaces.models.Feature;
-import org.mapfaces.models.Server;
-import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.ContextFactory;
-import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesUtils;
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
@@ -37,10 +40,12 @@ public class MapBean {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.web.bean.MapBean");
     public MapContext mapContext = null;
+    private List<Feature> features = null;
 
     public MapContext getMapContext() {
         if (mapContext == null) {
             Context model = (Context) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("model");
+            System.out.println("##################### model ? " + model);
             if (model != null) {
                 final String srs = model.getSrs();
                 final CoordinateReferenceSystem crs;
@@ -50,25 +55,69 @@ public class MapBean {
                     LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
                     return null;
                 }
-                MapContext context = MapBuilder.getInstance().createContext(crs);
-                return context;
-            } else {
-                return null;
+               mapContext = MapBuilder.getInstance().createContext(crs);               
+            } 
+        }
+        
+            System.out.println("##################### mapContext ? " + mapContext);
+        return mapContext;
+    }
+
+    public void addMapContextLayer(ActionEvent actionEvent) {
+        try {
+
+            final MutableStyle mutableStyle;
+            //building a FeatureCollection for this layer.
+            FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = FeatureCollections.newCollection();
+            long featureId = 0;
+            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+            List<Feature> features = buildFeatureList("EPSG:4326");
+            mutableStyle = FacesUtils.createStyle("http://localhost:8084/mf/resource/skin/default/img/europa.gif", 10, 0, new Integer(String.valueOf(Math.round(Math.random())*10)));
+            if (features != null && features.size() != 0) {
+                Feature f = features.get(0);
+                builder.setName(f.getName());
+                builder.setCRS(f.getCrs());
+                for (String key : f.getAttributes().keySet()) {
+                    if (key.equals("geometry")) {
+                        builder.add(key, Geometry.class);
+                    } else {
+                        builder.add(key, f.getAttributes().get(key).getClass());
+                    }
+                }
             }
-        } else {
-            return mapContext;
+            SimpleFeatureType sft = builder.buildFeatureType();
+            for (Feature f : features) {
+                List<Object> objects = new ArrayList<Object>();
+                for (String key : f.getAttributes().keySet()) {
+                    objects.add(f.getAttributes().get(key));
+                }
+
+                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+                featureCollection.add(sf);
+                featureId++;
+            }
+            FeatureMapLayer layer = MapBuilder.getInstance().createFeatureLayer(featureCollection, mutableStyle);
+            if (mapContext != null) {
+                mapContext.layers().add(layer);
+                System.out.println("Le mapConetxt a " +  mapContext.layers().size());
+            } else {
+                System.out.println("MapContext is null");
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MapBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
+    public  void addFeatureLayer(ActionEvent actionEvent) {
+        features = buildFeatureList("EPSG:4326");
+    }
     public static List<Feature> buildFeatureList(String srs) {
         List<Feature> result = new ArrayList<Feature>();
         GeometryFactory geomBuilder = new GeometryFactory();
 
-
         for (int i = 0; i < 100; i++) {
             DefaultFeature feature = new DefaultFeature();
-            feature.setName("marker" + i);
+            feature.setName("Feature " + i);
             try {
                 feature.setCrs((DefaultGeographicCRS) CRS.decode(srs));
             } catch (Exception exp) {
@@ -121,82 +170,6 @@ public class MapBean {
         return result;
     }
 
-    public void addBasicMfLayer() {
-        FacesContext facesCtxt = FacesContext.getCurrentInstance();
-        if (facesCtxt != null) {
-
-            UIContext uiContext = (UIContext) FacesUtils.findComponentById(facesCtxt, facesCtxt.getViewRoot(), "contextId");
-            if (uiContext == null) {
-                return; // if there is no context of mapfaces then this method do nothing.
-            }
-            UIMapPane mappane = null;
-            //getting the mappane from this UIContext
-            for (UIComponent comp : uiContext.getChildren()) {
-                if (comp instanceof UIMapPane) {
-                    mappane = (UIMapPane) comp;
-                    break;
-                }
-            }
-            int indexLayer = 0;
-            if (mappane != null) {
-                int nblayers = mappane.getChildCount();
-                indexLayer = nblayers + 1;
-            } else {
-                indexLayer++;
-            }
-
-            Context ctx = (Context) uiContext.getModel();
-            final String contextSrs = ctx.getSrs();
-            List<Feature> features = buildFeatureList(contextSrs);
-
-
-            if (features.size() != 0) {
-                //adding the feature collection into the new layer.
-                final ContextFactory contextFactory = new DefaultContextFactory();
-                Server wms = contextFactory.createDefaultServer();
-                wms.setHref("");
-                wms.setService("mapfaces_service");
-                wms.setVersion("1.0");
-
-                LayerType layerType = new LayerType();
-                layerType.setId("MapFaces_Layer_MFS_" + indexLayer);
-                layerType.setGroup("mapfaces_group");
-                layerType.setName("markers");
-                layerType.setHidden(false);
-                layerType.setOpacity(new BigDecimal(1));
-
-                HttpServletRequest request = (HttpServletRequest) facesCtxt.getExternalContext().getRequest();
-
-                DefaultFeatureLayer layer = (DefaultFeatureLayer) contextFactory.createDefaultLayer();
-
-                layer.setGroupId(indexLayer);
-
-                layer.setId(layerType.getId());
-                layer.setGroup(layerType.getGroup());
-                layer.setName(layerType.getName());
-                layer.setHidden(layerType.isHidden());
-                layer.setOpacity(layerType.getOpacity().toString());
-                layer.setTitle("mapfaces_title");
-                layer.setOutputFormat("image/gif");
-                layer.setQueryable(true);
-                //@TODO temporary hack due to the number of png is limited, use instead a large of png set.
-                if (indexLayer > 9) {
-                    indexLayer = 1;
-                }
-                layer.setImage(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + ResourcePhaseListener.getURL(facesCtxt, "/org/mapfaces/resources/img/markers/" + indexLayer + ".png", null));
-                layer.setSize(18);
-                layer.setCompId(FacesUtils.getParentUIModelBase(facesCtxt, mappane).getId() + "_" + mappane.getId() + "_" + layer.getId());
-                layer.setFeatures(features);
-
-                ctx.removeLayerFromId(layer.getId());
-                ctx.addLayer(layer);
-
-            } else {
-                //if there is no features to display we remove the attached layer
-                ctx.removeLayerFromId("MapFaces_Layer_MFS_" + indexLayer);
-            }
-        }
-    }
 
     public void clearCache() {
         System.out.println("Map bean : clear cache ... Done");
@@ -204,5 +177,13 @@ public class MapBean {
 
     public void dispose() {
         System.out.println("Map bean : dispose ... Done");
+    }
+
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
     }
 }
