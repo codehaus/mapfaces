@@ -55,7 +55,7 @@ public class MapBean {
                     LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
                     return null;
                 }
-               mapContext = MapBuilder.getInstance().createContext(crs);               
+               mapContext = MapBuilder.createContext(crs);               
             } 
         }
         
@@ -96,7 +96,7 @@ public class MapBean {
                 featureCollection.add(sf);
                 featureId++;
             }
-            FeatureMapLayer layer = MapBuilder.getInstance().createFeatureLayer(featureCollection, mutableStyle);
+            FeatureMapLayer layer = MapBuilder.createFeatureLayer(featureCollection, mutableStyle);
             if (mapContext != null) {
                 mapContext.layers().add(layer);
                 System.out.println("Le mapConetxt a " +  mapContext.layers().size());

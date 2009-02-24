@@ -22,9 +22,8 @@ import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
 import org.geotools.display.primitive.GraphicFeatureJ2D;
-import org.geotools.display.primitive.GraphicJ2D;
-import org.geotools.display.service.AbstractGraphicVisitor;
-import org.geotools.map.CoverageMapLayer;
+import org.geotools.display.primitive.GraphicCoverageJ2D;
+import org.geotools.display.canvas.AbstractGraphicVisitor;
 import org.opengis.feature.Feature;
 
 /**
@@ -41,16 +40,11 @@ public class FeatureVisitor extends AbstractGraphicVisitor {
     }
 
     @Override
-    public void visit(GraphicJ2D arg0, CoverageMapLayer arg1, Shape arg2) {
+    public void visit(GraphicCoverageJ2D arg0, Shape arg2) {
     }
     
     public List<Feature> getFeatureList() {
         return featureList;
-    }
-
-    @Override
-    public String getResult() {
-        return "";
     }
 
 }

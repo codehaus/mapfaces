@@ -168,8 +168,8 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         }
 
 
-        final FeatureMapLayer mapLayer = MapBuilder.getInstance().createFeatureLayer(features, mutableStyle);
-        mapContext = MapBuilder.getInstance().createContext(crs);
+        final FeatureMapLayer mapLayer = MapBuilder.createFeatureLayer(features, mutableStyle);
+        mapContext = MapBuilder.createContext(crs);
         mapContext.layers().add(mapLayer);
 
         if (this.debug) {

@@ -14,10 +14,9 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util;
 
-import java.math.BigDecimal;
-import net.opengis.owc.v030.LayerType;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.DefaultDimension;
@@ -29,12 +28,9 @@ import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.DefaultFeatureLayer;
 import org.mapfaces.models.layer.DefaultMapContextLayer;
 import org.mapfaces.models.layer.DefaultWmsLayer;
-import org.mapfaces.models.layer.FeatureLayer;
-import org.mapfaces.models.layer.MapContextLayer;
-import org.mapfaces.models.layer.WmsLayer;
 
 /**
- * @author Kevin Delfour
+ * @author Olivier Terral (Geomatys).
  */
 public class DefaultContextFactory implements ContextFactory {
 
