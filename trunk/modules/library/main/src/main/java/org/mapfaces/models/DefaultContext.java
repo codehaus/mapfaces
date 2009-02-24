@@ -465,7 +465,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public String getOpacity(final String layerId) {
+    public String getLayerOpacity(final String layerId) {
         final Layer tmp = getLayerFromId(layerId);
         if(tmp != null)
             return tmp.getOpacity();
@@ -476,7 +476,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public void setOpacity(final String layerId, final String value) {
+    public void setLayerOpacity(final String layerId, final String value) {
         final Layer tmp = getLayerFromId(layerId);
         if(tmp != null)
             tmp.setOpacity(value);
@@ -486,7 +486,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public boolean isHidden(final String layerId) {
+    public boolean isLayerHidden(final String layerId) {
         final Layer tmp = getLayerFromId(layerId);
         if(tmp != null)
             return tmp.isHidden();
@@ -497,7 +497,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public void setHidden(final String layerId, final boolean vis) {
+    public void setLayerHidden(final String layerId, final boolean vis) {
         final Layer tmp = getLayerFromId(layerId);
         if(tmp != null)
             tmp.setHidden(vis);

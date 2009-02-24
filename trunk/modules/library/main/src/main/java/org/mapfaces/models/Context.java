@@ -116,13 +116,13 @@ public interface Context extends Serializable {
 
     Layer getLayerFromId(String id);
 
-    String getOpacity(String id);
+    String getLayerOpacity(String id);
 
-    void setOpacity(String id, String value);
+    void setLayerOpacity(String id, String value);
 
-    boolean isHidden(String id);
+    boolean isLayerHidden(String id);
 
-    void setHidden(String id, boolean test);
+    void setLayerHidden(String id, boolean test);
 
     void addLayer(Layer layer);
 
