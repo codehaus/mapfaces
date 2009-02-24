@@ -17,9 +17,20 @@
 
 package org.mapfaces.models.layer;
 
+import org.geotools.map.MapContext;
 import org.mapfaces.models.LayerType;
 
 public class DefaultMapContextLayer extends DefaultLayer implements MapContextLayer {
     
    public LayerType type = LayerType.MAPCONTEXT;
+   
+   private transient MapContext mapContext = null;
+
+    public MapContext getMapContext() {
+        return mapContext;
+    }
+
+    public void setMapContext(MapContext mapContext) {
+        this.mapContext = mapContext;
+    }
 }

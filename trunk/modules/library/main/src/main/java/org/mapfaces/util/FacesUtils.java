@@ -17,8 +17,11 @@
 
 package org.mapfaces.util;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,10 +44,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import javax.swing.ImageIcon;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.geotools.data.wms.backend.AbstractKeyword;
 
+import org.geotools.factory.CommonFactoryFinder;
+import org.geotools.style.MutableFeatureTypeStyle;
+import org.geotools.style.MutableRule;
+import org.geotools.style.MutableStyle;
+import org.geotools.style.StyleFactory;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIFeatureLayer;
@@ -54,12 +63,63 @@ import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
+import org.opengis.filter.FilterFactory2;
+import org.opengis.style.ExternalGraphic;
+import org.opengis.style.GraphicalSymbol;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.vecmath.Color3b;
+import org.geotools.display.exception.PortrayalException;
+import org.geotools.display.service.DefaultPortrayalService;
+import org.geotools.factory.CommonFactoryFinder;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.simple.SimpleFeatureImpl;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.filter.identity.FeatureIdImpl;
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.map.FeatureMapLayer;
+import org.geotools.map.MapBuilder;
+import org.geotools.map.MapContext;
+import org.geotools.map.MapLayer;
+import org.geotools.referencing.CRS;
 
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.style.MutableFeatureTypeStyle;
+import org.geotools.style.MutableRule;
+import org.geotools.style.MutableStyle;
+import org.geotools.style.StyleFactory;
+import org.mapfaces.component.layer.UIFeatureLayer;
+import org.mapfaces.component.UIMapPane;
+import org.mapfaces.models.AbstractModelBase;
+import org.mapfaces.models.Context;
+import org.mapfaces.models.Feature;
+import org.mapfaces.models.Layer;
+import org.mapfaces.util.FacesUtils;
+
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.filter.Filter;
+import org.opengis.filter.FilterFactory2;
+import org.opengis.filter.expression.Expression;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.style.AnchorPoint;
+import org.opengis.style.Displacement;
+import org.opengis.style.ExternalGraphic;
+import org.opengis.style.Fill;
+import org.opengis.style.Graphic;
+import org.opengis.style.GraphicalSymbol;
+import org.opengis.style.PointSymbolizer;
+import org.opengis.style.PolygonSymbolizer;
+import org.opengis.style.Stroke;
 /**
  * @author Mehdi Sidhoum.
  * @author Olivier Terral.
  */
 public class FacesUtils {
+    
+    private final static Color colors[] = { Color.BLACK, Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK, Color.DARK_GRAY, Color.LIGHT_GRAY};
 
     public static void encodeRecursive(final FacesContext context,
             final UIComponent component) throws IOException {
@@ -78,6 +138,14 @@ public class FacesUtils {
             }
         }
         component.encodeEnd(context);
+    }
+
+    public static int getNewIndex(Context ctx) {
+        if (ctx == null ) {
+            return 1;
+        } else {            
+            return ctx.getLayers().size();
+        }
     }
 
     /**
@@ -581,5 +649,62 @@ public class FacesUtils {
             }
         }
         return false;
+    }
+    /**
+     * This method return a MutableStyle for a FeatureLayer .
+     * @param urlImage image to display if the feature is a point
+     * @param size 
+     * @param rotation
+     * @param indexLayer
+     * @return
+     */
+    public static MutableStyle createStyle(String urlImage, int size, double rotation, int indexLayer) throws MalformedURLException {
+
+        final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
+        final StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
+        final MutableStyle style = styleFactory.createStyle();
+        final MutableFeatureTypeStyle fts = styleFactory.createFeatureTypeStyle();
+        final MutableRule rulePoint = styleFactory.createRule();
+        final MutableRule rulePolygon = styleFactory.createRule();
+
+
+        String format = "image/png";
+        ImageIcon icon = new ImageIcon(new URL(urlImage));
+
+        ExternalGraphic external = styleFactory.createExternalGraphic(icon, format, null);
+
+        List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
+        Expression opacity = styleFactory.literalExpression(1d);
+        symbols.add(external);
+
+        Expression expSize = styleFactory.literalExpression(size);
+        Expression expRotation = styleFactory.literalExpression(rotation);
+
+        AnchorPoint anchor = styleFactory.createAnchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
+        Displacement disp = null;
+        Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
+
+        Filter filterPoint = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POINT));
+        PointSymbolizer pointSymbol = styleFactory.createPointSymbolizer(graphic, "");
+
+        rulePoint.symbolizers().add(pointSymbol);
+        rulePoint.setFilter(filterPoint);
+
+        Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
+        Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer]),
+                styleFactory.literalExpression(2),
+                styleFactory.literalExpression(0.8));
+        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
+        PolygonSymbolizer polygonSymbol = styleFactory.createPolygonSymbolizer(stroke, fill, "marker");
+
+        rulePolygon.symbolizers().add(polygonSymbol);
+        rulePolygon.setFilter(filterPolygon);
+
+        fts.rules().add(rulePolygon);
+        fts.rules().add(rulePoint);
+        style.featureTypeStyles().add(fts);
+
+
+        return style;
     }
 }

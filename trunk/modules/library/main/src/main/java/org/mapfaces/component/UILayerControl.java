@@ -68,9 +68,6 @@ public class UILayerControl extends UIWidgetBase {
     /* Constructor */
     public UILayerControl() {
         super();
-        if (isDebug()) {
-            System.out.println("[DEBUG] UILayerControl constructor");
-        }
         setRendererType("org.mapfaces.renderkit.html.LayerControl"); // this component has a renderer
     }
 

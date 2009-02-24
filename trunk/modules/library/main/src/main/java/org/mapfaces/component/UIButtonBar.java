@@ -51,9 +51,6 @@ public class UIButtonBar extends UIWidgetBase {
     public UIButtonBar() {
         super();
         setRendererType("org.mapfaces.renderkit.html.ButtonBar"); // this component has a renderer
-        if (isDebug()) {
-            System.out.println("[UIButtonBar] constructor----------------------");
-        }
     }
 
     /**

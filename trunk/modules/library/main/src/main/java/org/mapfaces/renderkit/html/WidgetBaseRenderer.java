@@ -18,6 +18,7 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
@@ -26,6 +27,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
 import org.mapfaces.component.UIWidgetBase;
+import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.util.FacesUtils;
 
 public class WidgetBaseRenderer extends Renderer {
@@ -51,7 +53,7 @@ public class WidgetBaseRenderer extends Renderer {
         final UIWidgetBase comp = (UIWidgetBase) component;
         if (comp.isDebug()) {
             this.debug = true;
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGINNNN"+comp.isDebug());
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGIN "+comp.isDebug());
         } else {
              this.debug = false;
         }
@@ -125,7 +127,15 @@ public class WidgetBaseRenderer extends Renderer {
             throw new NullPointerException("component should not be null");
         }
     }
-
+    // creates and puts the model data to session for this chart object
+    public void setModelAtSession(FacesContext facesContext, UIWidgetBase comp) {
+        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        String compClientId = comp.getClientId(facesContext);
+        session.put(compClientId + "_model", comp.getModel());
+        if (debug) {
+            LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "\n");
+        }
+    }
     void removeChildren(final FacesContext context, final UIComponent component) {
         final List<UIComponent> children = component.getChildren();
         for (int i = children.size() - 1; i >= 0; i--) {

@@ -133,7 +133,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
                         value = "";
                     }
                     model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
-                    System.out.println(model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                     if (isDebug()) {
                         LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property time of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
                     }
@@ -166,15 +165,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
         return;
     }
     
-    // creates and puts the chart data to session for this chart object
-    public void setModelAtSession(FacesContext facesContext, UILayer comp, Context context) {
-        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String clientId = comp.getClientId(facesContext);
-        session.put(clientId + "_model", context);
-        if (debug) {
-            LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + clientId + "\n");
-        }
-    }
+   
     /**
      * {@inheritDoc }
      */ 

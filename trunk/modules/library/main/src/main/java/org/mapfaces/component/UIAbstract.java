@@ -29,7 +29,6 @@ public class UIAbstract extends UIWidgetBase {
     /** Creates a new instance of UIAbstract */
     public UIAbstract() {
         super();
-        if(isDebug()) System.out.println("[UIAbstract] constructor----------------------");
         setRendererType("org.mapfaces.renderkit.html.Abstract"); // this component has a renderer
     }
 

@@ -90,7 +90,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
     @Override
     public Object saveState(final FacesContext context) {
         if (values == null) {
-            values = new Object[8];
+            values = new Object[9];
         }
         values[0] = super.saveState(context);
         values[1] = title;
@@ -100,6 +100,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         //values[5] = JAXBElt;
         values[6] = ajaxCompId;
         values[7] = model;
+        values[8] = debug;
         return values;
     }
 
@@ -115,6 +116,7 @@ public abstract class UIModelBase extends UICommand implements StateHolder {
         //JAXBElt         = (JAXBElement) values[5];
         ajaxCompId      = (String) values[6];
         model           = (AbstractModelBase) values[7];
+        debug           = (Boolean) values[8];
     }
 
     public String getAjaxCompId() {

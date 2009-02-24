@@ -46,7 +46,8 @@ public class MfLayerListener implements PhaseListener {
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.share.listener.MFLayerListener");
 
     public void afterPhase(PhaseEvent phaseEvent) {
-        String compId = (String) phaseEvent.getFacesContext().getExternalContext().getRequestParameterMap().get("mfLayerId");
+        FacesContext context = phaseEvent.getFacesContext();
+        String compId = (String) context.getExternalContext().getRequestParameterMap().get("mfLayerId");
         if (compId != null) {
             handleMfLayerRequest(phaseEvent, compId);
         }

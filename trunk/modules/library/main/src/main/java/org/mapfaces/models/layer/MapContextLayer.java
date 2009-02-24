@@ -17,8 +17,13 @@
 
 package org.mapfaces.models.layer;
 
+import org.geotools.map.MapContext;
 import org.mapfaces.models.*;
 
 public interface MapContextLayer extends Layer {
+    
+    public MapContext getMapContext();
+
+    public void setMapContext(MapContext mapContext);
     
 }
