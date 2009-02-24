@@ -14,32 +14,37 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.models.tree;
 
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.List;
-import javax.servlet.ServletContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.apache.commons.lang.StringUtils;
 
 import org.mapfaces.models.Context;
-import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
-import org.mapfaces.models.LayerType;
-import org.mapfaces.models.Server;
 
 /**
- * @author Kevin Delfour (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys).
+ * @author Kevin Delfour (Geomatys).
  */
-public class TreeItem implements Layer, Context {
+public class TreeItem implements Serializable {
 
-    Object object;
-    String title, name;
+    private Object userObject;
+    private String title = "",  name = "";
 
-
+    /**
+     * Creates a new instance of treeItem by passing a serializable object.
+     * @param obj
+     */
     public TreeItem(final Object obj) {
-        object = obj;
+        userObject = obj;
         if (obj != null) {
             if (obj instanceof Layer) {
                 // do something
@@ -49,1063 +54,295 @@ public class TreeItem implements Layer, Context {
         }
     }
 
-    public TreeItem(String title, String name){
+    /**
+     * This is a simple constructor of treeItem with just a title and a name.
+     * @param title
+     * @param name
+     */
+    public TreeItem(String title, String name) {
         setTitle(title);
         setName(name);
     }
 
     /**
-     * {@inheritDoc }
+     * 	Research a getter method corresponding to attribute property
+     * @param base - The base object whose property value is to be returned, or null to resolve a top-level variable.
+     * @param property - The property or variable to be resolved.
+     * @return if the getter method exist, return this method else return null 
      */
-    @Override
-    public void setUserValue(final String string, final String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getDataUrl() {
-        if (object == null || !(object instanceof Context)) {
-            return "";
-        }
-        //@TODO by reflection.
-        return ((Layer) object).getDataUrl();
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getDepth() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public HashMap<String, Dimension> getDimensionList() {
-        if (object == null || object instanceof Context) {
-            return null;
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getDimensionList();
+    public Method getMethod(final Object base, final Object property) {
+        // Fisrt capitalize PropName
+        final String propName = StringUtils.capitalize(property.toString());
+        final Class classe = base.getClass();
+        // Search in base class methods the getter correspond to the attribut
+        for (Method method : classe.getMethods()) {
+            if ((method.getName().equals("get" + propName)) || (method.getName().equals("is" + propName))) {
+                return method;
+            }
         }
         return null;
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for dataUrl when the userObject is an instance of Layer.
      */
-    @Override
+    public String getDataUrl() {
+        final Method methode = getMethod(userObject, "DataUrl");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
+    /**
+     * This is a getter for DimensionList when the userObject is an instance of Layer.
+     */
+    public HashMap<String, Dimension> getDimensionList() {
+        final Method methode = getMethod(userObject, "DimensionList");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (HashMap) methode.invoke(userObject) : null;
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * This is a getter for Group when the userObject is an instance of Layer.
+     */
     public String getGroup() {
-        if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getGroup();
+        final Method methode = getMethod(userObject, "Group");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Group when the userObject is an instance of Layer or Context or other object which contains an id property with the getter method.
      */
-    @Override
     public String getId() {
-        if (object == null) {
-            return "";
-        }
-        if (object instanceof Context) {
-            return ((Context) object).getId();
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getId();
+        final Method methode = getMethod(userObject, "Id");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Name when the userObject is an instance of Layer.
      */
-    @Override
-    public String getInlineGeometry() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMaxFeatures() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMaxScaleDenominator() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMetadataUrl() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMinScaleDenominator() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
     public String getName() {
-        if (object == null) {
-            return name;
-        }
-        if (object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getName();
+        final Method methode = getMethod(userObject, "Name");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : name;
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Opacity when the userObject is an instance of Layer.
      */
-    @Override
     public String getOpacity() {
-        if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getOpacity();
+        final Method methode = getMethod(userObject, "Opacity");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for OutputFormat when the userObject is an instance of Layer.
      */
-    @Override
     public String getOutputFormat() {
-        if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getOutputFormat();
+        final Method methode = getMethod(userObject, "OutputFormat");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Title when the userObject is an instance of Layer or Context or another bean object that contains the property title .
      */
-    @Override
-    public boolean isQueryable() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public ReferencedEnvelope getRefEnv() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getResX() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getResY() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getResZ() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getResponseCRS() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
     public String getTitle() {
-        if (object == null) {
-            return title;
-        }
-        if (object instanceof Context) {
-            return ((Context) object).getTitle();
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getTitle();
+        final Method methode = getMethod(userObject, "Title");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : title;
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Hidden when the userObject is an instance of Layer or Context or another bean object that contains the property hidden .
      */
-    @Override
     public boolean isHidden() {
-        if (object == null) {
-            return false;
-        }
-        if (object instanceof Context) {
-            return ((Context) object).isHidden(null);
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).isHidden();
+        final Method methode = getMethod(userObject, "Hidden");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (Boolean) methode.invoke(userObject) : false;
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for LegendUrl when the userObject is an instance of Layer.
      */
-    @Override
-    public void setDataUrl(String dataUrl) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getLegendUrl() {
+        final Method methode = getMethod(userObject, "LegendUrl");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for UserValueElevation when the userObject is an instance of Layer.
      */
-    @Override
-    public void setDepth(String depth) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getUserValueElevation() {
+        final Method methode = getMethod(userObject, "UserValueElevation");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for UserValueDimRange when the userObject is an instance of Layer.
      */
-    @Override
-    public void setGroup(String group) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getUserValueDimRange() {
+        final Method methode = getMethod(userObject, "UserValueDimRange");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Elevation when the userObject is an instance of Layer.
      */
-    @Override
-    public void setHidden(boolean hidden) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Dimension getElevation() {
+        final Method methode = getMethod(userObject, "Elevation");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (Dimension) methode.invoke(userObject) : null;
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for Time when the userObject is an instance of Layer.
      */
-    @Override
-    public void setId(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Dimension getTime() {
+        final Method methode = getMethod(userObject, "Time");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (Dimension) methode.invoke(userObject) : null;
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
-     * {@inheritDoc }
+     * This is a getter for CompId when the userObject is an instance of Layer.
      */
-    @Override
-    public void setInlineGeometry(String inlineGeometry) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getCompId() {
+        final Method methode = getMethod(userObject, "CompId");
+        try {
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMaxFeatures(String maxFeatures) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMaxScaleDenominator(String maxScaleDenominator) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMetadataUrl(String metadataUrl) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMinScaleDenominator(String minScaleDenominator) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setOpacity(String opacity) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setOutputFormat(String outputFormat) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setQueryable(boolean queryable) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setRefEnv(ReferencedEnvelope refEnv) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setResX(String resX) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setResY(String resY) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setResZ(String resZ) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setResponseCRS(String responseCRS) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
     public void setTitle(String title) {
         this.title = title;
-    }
-
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getLegendUrl() {
-        if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getLegendUrl();
-        }
-        return "";
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setLegendUrl(String legendUrl) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getElevations() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getTimes() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setElevations(String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getUserValueElevation() {
-        if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getUserValueElevation();
-        }
-        return "";
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getUserValueTime() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getUserValueDimension(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getUserValueDimRange() {
-        if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getUserValueDimRange();
-        }
-        return "";
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Dimension getElevation() {
-        if (object == null || object instanceof Context) {
-            return null;
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getElevation();
-        }
-        return null;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Dimension getTime() {
-        if (object == null || object instanceof Context) {
-            return null;
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getTime();
-        }
-        return null;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Dimension getDimension(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getAttrDimension(String name, String attrName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setDimension(String name, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setDimension(Dimension dim) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setAttrDimension(String name, String attrName, String attrValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setDimensionList(HashMap<String, Dimension> dimensionList) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getVersion() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setVersion(String version) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getWindowSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setWindowSize(String width, String height) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getWindowWidth() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setWindowWidth(String windowWidth) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getWindowHeight() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setWindowHeight(String windowHeight) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getBoundingBox() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setBoundingBox(String minx, String miny, String maxx, String maxy) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMinx() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMinx(String minx) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMiny() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMiny(String miny) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMaxx() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMaxx(String maxx) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMaxy() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setMaxy(String maxy) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getSrs() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setSrs(String srs) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<Layer> getLayers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setLayers(List<Layer> layers) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<Layer> getHiddenLayers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<Layer> getVisibleLayers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<Layer> getQueryableLayers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<Layer> getNoQueryableLayers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<Layer> getGroupLayers(String nameOfGroup) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Layer getLayerFromId(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getOpacity(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setOpacity(String id, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean isHidden(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setHidden(String id, boolean test) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void addLayer(Layer layer) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void removeLayerFromId(String layerId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public Dimension getLayerDimension(String layerId, String dimName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setLayerDimension(String layerId, Dimension dim) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getLayerAttrDimension(String layerId, String dimName, String attrDimName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setLayerAttrDimension(String layerId, String dimName, String attrDimName, String attrValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getLayersId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getHiddenLayersId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getVisibleLayersId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getQueryableLayersId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getNoQueryableLayersId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getGroupLayersId(String nameOfGroup) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public HashMap<String, Server> getWmsServers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setWmsServers(HashMap<String, Server> servers) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public HashMap<String, Server> getWfsServers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setWfsServers(HashMap<String, Server> servers) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void save(ServletContext sc, String fileUrl) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public DescriptionURL getLogoURL() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public DescriptionURL getDescriptionURL() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getAbstract() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public DescriptionURL getMetadataURL() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getCompId() {
-       if (object == null || object instanceof Context) {
-            return "";
-        }
-        if (object instanceof Layer) {
-            return ((Layer) object).getCompId();
-        }
-        return "";
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setCompId(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getLayersCompId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-   
-
-    @Override
-    public ReferencedEnvelope getEnvelope() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public int getGroupId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setGroupId(int group) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public LayerType getType() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    public String getContextType() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    public void setType(LayerType type) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setType(String type) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    @Override
-    public java.awt.Dimension getDimension() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

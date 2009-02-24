@@ -325,8 +325,8 @@ public class OWCv030toMFTransformer {
 //                            if(layerType.getId()==null)
 //                            layerType.setId(Utils.generateUniqueId("MapFaces_Layer_WFS_"));
 //                            wfsLayer.setId(layerType.getId());
-//                            if(layerType.getOpacity()!=null)
-//                            wfsLayer.setOpacity(layerType.getOpacity().toString());
+//                            if(layerType.getLayerOpacity()!=null)
+//                            wfsLayer.setLayerOpacity(layerType.getLayerOpacity().toString());
 //                            if (wfsLayer == null) {
 //                            break;
 //                            }

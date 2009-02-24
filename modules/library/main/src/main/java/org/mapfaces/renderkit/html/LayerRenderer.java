@@ -118,15 +118,15 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 //Modify Context property
                 if (layerProperty.contains("hidden")) {
                     final boolean test = !(value != null && value.equals("on"));
-//                    tmp.setHidden(layer.getId(), test);
+//                    tmp.setLayerHidden(layer.getId(), test);
                     layer.setHidden(test);
                     if (isDebug()) {
-                         LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property hidden of the layer " + layer.getId() + " has been modified :" + model.isHidden(layer.getId()));
+                         LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property hidden of the layer " + layer.getId() + " has been modified :" + model.isLayerHidden(layer.getId()));
                     }
                 } else if (layerProperty.contains("Opacity")) {
-                    model.setOpacity(layer.getId(), value);
+                    model.setLayerOpacity(layer.getId(), value);
                     if (isDebug()) {
-                         LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property opacity of the layer " + layer.getId() + " has been modified :" + model.getOpacity(layer.getId()));
+                         LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property opacity of the layer " + layer.getId() + " has been modified :" + model.getLayerOpacity(layer.getId()));
                     }
                 } else if (layerProperty.contains("Time")) {
                     if (value == null) {
