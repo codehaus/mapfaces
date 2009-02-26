@@ -44,66 +44,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import javax.swing.ImageIcon;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.geotools.data.wms.backend.AbstractKeyword;
 
-import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.style.MutableFeatureTypeStyle;
-import org.geotools.style.MutableRule;
-import org.geotools.style.MutableStyle;
-import org.geotools.style.StyleFactory;
 import org.mapfaces.component.UILayer;
-import org.mapfaces.component.UIMapPane;
-import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.treelayout.UITreeLines;
-import org.mapfaces.models.Layer;
-import org.opengis.filter.FilterFactory2;
-import org.opengis.style.ExternalGraphic;
-import org.opengis.style.GraphicalSymbol;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.vecmath.Color3b;
-import org.geotools.display.exception.PortrayalException;
-import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureCollections;
-import org.geotools.feature.simple.SimpleFeatureImpl;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.filter.identity.FeatureIdImpl;
-import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.FeatureMapLayer;
-import org.geotools.map.MapBuilder;
-import org.geotools.map.MapContext;
-import org.geotools.map.MapLayer;
-import org.geotools.referencing.CRS;
 
-import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.style.MutableFeatureTypeStyle;
 import org.geotools.style.MutableRule;
 import org.geotools.style.MutableStyle;
 import org.geotools.style.StyleFactory;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
-import org.mapfaces.util.FacesUtils;
 
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Expression;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.Displacement;
 import org.opengis.style.ExternalGraphic;
@@ -113,13 +79,17 @@ import org.opengis.style.GraphicalSymbol;
 import org.opengis.style.PointSymbolizer;
 import org.opengis.style.PolygonSymbolizer;
 import org.opengis.style.Stroke;
+
 /**
- * @author Mehdi Sidhoum.
- * @author Olivier Terral.
+ * @author Mehdi Sidhoum (Geomatys).
+ * @author Olivier Terral (Geomatys).
  */
 public class FacesUtils {
-    
-    private final static Color colors[] = { Color.BLACK, Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK, Color.DARK_GRAY, Color.LIGHT_GRAY};
+
+    /**
+     * this array of colors have a binding with the png markers witih index 0 to 9.
+     */
+    public final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK, Color.DARK_GRAY, Color.LIGHT_GRAY, Color.BLACK};
 
     public static void encodeRecursive(final FacesContext context,
             final UIComponent component) throws IOException {
@@ -141,9 +111,9 @@ public class FacesUtils {
     }
 
     public static int getNewIndex(Context ctx) {
-        if (ctx == null ) {
+        if (ctx == null) {
             return 1;
-        } else {            
+        } else {
             return ctx.getLayers().size();
         }
     }
@@ -232,7 +202,7 @@ public class FacesUtils {
         while (!(parent instanceof UIForm)) {
             if (parent != null) {
                 parent = parent.getParent();
-            }else {
+            } else {
                 throw new IllegalStateException("You must specify a form for the mapfaces components.");
             }
         }
@@ -557,7 +527,7 @@ public class FacesUtils {
         }
         return result;
     }
-    
+
     /**
      * This method returns the number of layers UILayers as children of a mappane.
      * @param layers
@@ -572,7 +542,7 @@ public class FacesUtils {
         }
         return result;
     }
-    
+
     /**
      * This method returns the number of layers UIFeatureLayers as children of a mappane container.
      * @param layers
@@ -634,7 +604,7 @@ public class FacesUtils {
         }
         return null;
     }
-    
+
     /**
      * This method returns true if the mappane contains MFLayers.
      * @param mappane
@@ -650,6 +620,7 @@ public class FacesUtils {
         }
         return false;
     }
+
     /**
      * This method return a MutableStyle for a FeatureLayer .
      * @param urlImage image to display if the feature is a point
