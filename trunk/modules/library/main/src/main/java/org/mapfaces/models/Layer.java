@@ -22,11 +22,19 @@ import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys).
  */
 public interface Layer extends Serializable {
 
 //    public Parameter getParameterList();
+    
+    /**
+     * This method returns a hashmap that contains all values of tokens in the group property when group1\group2\... are the map keys.
+     * @return
+     */
+    HashMap<String, Serializable> getMapGroupHierarchiesValues();
+    
+    void setMapGroupHierarchiesValues(HashMap<String, Serializable> map);
 
     DescriptionURL getMetadataURL();
 
