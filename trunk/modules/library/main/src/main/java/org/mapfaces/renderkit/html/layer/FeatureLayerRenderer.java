@@ -60,7 +60,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 public class FeatureLayerRenderer extends MapContextLayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
-    private final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK};
 
     /**
      * {@inheritDoc }
