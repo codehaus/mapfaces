@@ -18,6 +18,7 @@
 package org.mapfaces.models.layer;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -65,6 +66,7 @@ public class DefaultLayer implements Layer {
     private String styles;
     private String sldBody;
     private String sld;
+    private HashMap<String, Serializable> MapGroupHierarchiesValues;
 
     /*
      * JSF properties we need to know the id of its component
@@ -712,6 +714,16 @@ public class DefaultLayer implements Layer {
     @Override
     public void setCompId(final String compId) {
         this.compId = compId;
+    }
+
+    @Override
+    public HashMap<String, Serializable> getMapGroupHierarchiesValues() {
+        return MapGroupHierarchiesValues;
+    }
+
+    @Override
+    public void setMapGroupHierarchiesValues(HashMap<String, Serializable> map) {
+        this.MapGroupHierarchiesValues = map;
     }
 
 }

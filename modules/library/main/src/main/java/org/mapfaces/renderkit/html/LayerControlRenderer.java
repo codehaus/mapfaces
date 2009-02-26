@@ -86,8 +86,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             throw new UnsupportedOperationException(_Error_Null_Context);
         }
         
-//        layerControl.setTree(Adapter.contextGrp2Tree(context, model));
-        layerControl.setTree(Adapter.context2Tree(context, model));
+        layerControl.setTree(Adapter.ContextGroupedLayers2Tree(model));
+//        layerControl.setTree(Adapter.context2Tree(context, model));
 
         final DefaultTreeModel tree = layerControl.getTree();
         if (tree == null) {
@@ -136,7 +136,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         final UITreeTable treeTable = new UITreeTable();
         treeTable.setId(layerControl.getId() + "_TreeTable");
         treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
-        treeTable.setVarName("layer");
+        treeTable.setVarName("treeItem");
         treeTable.setMootools(addMootools);
         treeTable.setMinifyJS(addMinifyJs);
         treeTable.setStyle(_Style_TreeTable + styleTreetable);
@@ -165,7 +165,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         /* -- TreeColumn Declaration -- */
         final UITreeColumn treecolumn = new UITreeColumn();
         treecolumn.setId(treePanel.getId() + "_Layers");
-        treecolumn.setValue("#{layer.title}");
+        treecolumn.setValue("#{treeItem.title}");
         if (headerTreeColumn == null || headerTreeColumn.isEmpty()) {
             treecolumn.setHeaderTitle("Layers grouped");
         } else {
@@ -182,7 +182,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         if (addVisibilityColumn) {
             final UIVisibilityColumn vc = new UIVisibilityColumn();
             vc.setId(vc.getLayerProperty());
-            vc.setValue("#{!layer.hidden}");
+            vc.setValue("#{!treeItem.hidden}");
             vc.setHeaderIcon(_Style_EyeImage_Url);
             vc.setHeaderTitle(_Info_Visibility_Title);
             if (widthVisibilityColumn == null || widthVisibilityColumn.isEmpty()) {
@@ -197,7 +197,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         if (addOpacityColumn) {
             final UIOpacityColumn oc = new UIOpacityColumn();
             oc.setId(oc.getLayerProperty());
-            oc.setValue("#{layer.opacity}");
+            oc.setValue("#{treeItem.opacity}");
             oc.setHeaderIcon(_Style_CloudyImage_Url);
             if (widthOpacityColumn == null || widthOpacityColumn.isEmpty()) {
                 oc.setWidth(_Style_Width_Opacitycolumn);
@@ -211,7 +211,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         if (addElevationColumn) {
             final UIElevationColumn ec = new UIElevationColumn();
             ec.setId(ec.getLayerProperty());
-            ec.setValue("#{layer.userValueElevation}");
+            ec.setValue("#{treeItem.userValueElevation}");
             ec.setHeaderIcon(_Style_CloudyImage_Url);
             if (widthElevationColumn == null || widthElevationColumn.isEmpty()) {
                 ec.setWidth(_Style_Width_Elevationcolumn);
@@ -245,11 +245,11 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
                 final UIOutput o4 = new UIOutput();
                 final UIOutput o5 = new UIOutput();
                 final UIOutput o6 = new UIOutput();
-                o4.setValue("Id : #{layer.id}");
-                o1.setValue("Name : #{layer.name}");
-                o3.setValue("Group : #{layer.group}");
-                o5.setValue("Format : #{layer.outputFormat}");
-                o6.setValue("Legende : #{layer.legendUrl}");
+                o4.setValue("Id : #{treeItem.id}");
+                o1.setValue("Name : #{treeItem.name}");
+                o3.setValue("Group : #{treeItem.group}");
+                o5.setValue("Format : #{treeItem.outputFormat}");
+                o6.setValue("Legende : #{treeItem.legendUrl}");
                 tni.getChildren().add(o4);
                 tni.getChildren().add(o1);
                 tni.getChildren().add(o6);
@@ -259,8 +259,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             if (layerControl.isColorMapEditor()) {
                 final UIDimRange dr = new UIDimRange();
                 //            dr.setUIModel(getUIModel());
-                dr.setValue("#{layer.userValueDimRange}");
-                dr.setLayerCompId("#{layer.id}");
+                dr.setValue("#{treeItem.userValueDimRange}");
+                dr.setLayerCompId("#{treeItem.id}");
                 tni.getChildren().add(dr);
             }
             treePanel.getChildren().add(tni);

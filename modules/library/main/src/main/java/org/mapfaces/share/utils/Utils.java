@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
@@ -174,5 +175,25 @@ public class Utils {
             }
         }
         return result;
+    }
+    
+    /**
+     * This method return a string array from a string and a delimiter, the array contains all tokens.
+     * @param str
+     * @return
+     */
+    public static String[] splitStringToArray(String str, String delim) {
+        if (str == null) {
+            return new String[]{""};
+        }
+
+        StringTokenizer tokens = new StringTokenizer(str, delim);
+        String[] array = new String[tokens.countTokens()];
+        int i = 0;
+        while (tokens.hasMoreTokens()) {
+            array[i] = tokens.nextToken();
+            i++;
+        }
+        return array;
     }
 }

@@ -71,6 +71,8 @@ public class TreeItem implements Serializable {
      * @return if the getter method exist, return this method else return null 
      */
     public Method getMethod(final Object base, final Object property) {
+        if (base == null || property == null)
+            return null;
         // Fisrt capitalize PropName
         final String propName = StringUtils.capitalize(property.toString());
         final Class classe = base.getClass();
@@ -344,5 +346,21 @@ public class TreeItem implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("TreeItem :").append('\n');
+        if (name != null) {
+            s.append("name: ").append(name).append('\n');
+        }
+        if (title != null) {
+            s.append("title: ").append(title).append('\n');
+        }
+        if (userObject != null) {
+            s.append("userObject: ").append(userObject).append('\n');
+        }
+//        return s.toString();
+        return (name == null || name.equals("")) ? getName() : name;
     }
 }
