@@ -678,4 +678,55 @@ public class FacesUtils {
 
         return style;
     }
+    
+    /**
+     * This method get a value of parameter from an url, it is used for getMap wms requests. 
+     * @param param
+     * @param url
+     * @return
+     */
+    public static String getParameterValue(String param, String url) {
+        if (param == null || url == null || url.equals("")) {
+            return null;
+        }
+        Pattern patternParam = Pattern.compile("(?i)" + param+"=");
+        Matcher matcherParam = patternParam.matcher(url);
+        if (matcherParam.find()) {
+            String subst = url.substring(url.lastIndexOf(matcherParam.group()));
+            String result;
+            if (subst.contains("&")) {
+                result = subst.substring(subst.indexOf("=") + 1, subst.indexOf("&"));
+            } else {
+                result = subst.substring(subst.indexOf("=") + 1);
+            }
+            return result;
+        }
+        return "";
+    }
+
+    /**
+     * this method set a new value for a parameter in url, it is commonly used for wms getmap requests.
+     * @param param
+     * @param value
+     * @param url
+     * @return
+     */
+    public static String setParameterValueAndGetUrl(String param, String value, String url) {
+        if (param == null || param.equals("") || url == null) {
+            return url;
+        } else {
+            Pattern patternParam = Pattern.compile("(?i)" + param+"=");
+            Matcher matcherParam = patternParam.matcher(url);
+            if (matcherParam.find()) {
+                String subst = url.substring(0, matcherParam.end());
+                String temp = url.substring(matcherParam.end());
+                String endStr = temp.substring(temp.indexOf("&"));
+                subst = subst.concat(value);
+                subst = subst.concat(endStr);
+                return subst;
+            } else {
+                return url;
+            }
+        }
+    }
 }
