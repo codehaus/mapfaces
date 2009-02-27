@@ -35,6 +35,8 @@ public class DefaultWmsLayer extends DefaultLayer implements WmsLayer {
     
     public Server server = null;
     
+    private String urlGetMap = null;
+    
     
     public String getStyles() {
         return this.styles;
@@ -66,5 +68,13 @@ public class DefaultWmsLayer extends DefaultLayer implements WmsLayer {
 
     public Server getServer() {
         return this.server;
+    }
+
+    public String getUrlGetMap() {
+        return urlGetMap;
+    }
+
+    public void setUrlGetMap(String urlGetMap) {
+        this.urlGetMap = urlGetMap;
     }
 }

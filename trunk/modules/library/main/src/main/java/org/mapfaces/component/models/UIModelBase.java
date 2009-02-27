@@ -24,7 +24,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.models.AbstractModelBase;
 
 /**
- * @author Mehdi Sidhoum
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public abstract class UIModelBase extends UICommand implements StateHolder {
 

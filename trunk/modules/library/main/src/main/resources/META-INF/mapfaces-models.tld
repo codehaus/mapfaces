@@ -21,7 +21,7 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
-                The new context defined by the user, the type is an Object MapContext from geotools.
+                The new context defined by the user, the type is an Object MapContext from geotools or a List of layers model.
             </description>
         </attribute>
         <attribute>
