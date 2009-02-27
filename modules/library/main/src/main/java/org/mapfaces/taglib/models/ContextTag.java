@@ -42,7 +42,7 @@ public class ContextTag extends UIComponentELTag {
      */
     private ValueExpression service = null;
     /**
-     * The Context string value.
+     * The value expression that represents a list of layers.
      */
     private ValueExpression value = null;
     /**

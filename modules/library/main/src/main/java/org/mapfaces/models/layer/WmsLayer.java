@@ -40,4 +40,8 @@ public interface WmsLayer extends Layer {
     public void setServer(final Server server);
 
     public Server getServer();
+    
+    public String getUrlGetMap();
+    
+    public void setUrlGetMap(String urlGetMap);
 }

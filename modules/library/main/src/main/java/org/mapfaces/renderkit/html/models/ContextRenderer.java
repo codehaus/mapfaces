@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.models;
 
 import java.io.File;
@@ -21,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -47,13 +47,14 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
+import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.XMLContextUtilities;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class ContextRenderer extends Renderer {
 
@@ -215,7 +216,7 @@ public class ContextRenderer extends Renderer {
                         Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }        
+            }
         } else {
             ctx = (Context) comp.getModel();
             if (comp.isDebug()) {
@@ -226,7 +227,7 @@ public class ContextRenderer extends Renderer {
         //If a MapContext is specified in value attribute, 2 ways: 
         //- add a Layer who will display the context in a allInOne layer
         //- TODO add all the layers separetely
-            
+
         final ContextFactory contextFactory = new DefaultContextFactory();
         if (ctx == null) {
             ctx = contextFactory.createDefaultContext();
@@ -235,21 +236,42 @@ public class ContextRenderer extends Renderer {
             //add all the MapContext (gt) layers  into an allInOne layer.
             MapContextLayer layer = (MapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(ctx));
             layer.setMapContext((MapContext) obj);
-            ctx.addLayer(layer); 
-            
+            ctx.addLayer(layer);
+
         } else if (obj instanceof Context) {
             //TODO add layers at the end of the context if it exists
         } else if (obj instanceof List) {
             //add the list of feature (mapfaces) into a FeatureLayer
-            List list = (List) obj;   
-            if (list != null && list.get(0) instanceof Feature) {
+            List list = (List) obj;
+            if (list != null && list.size() != 0 && list.get(0) instanceof Feature) {
                 FeatureLayer layer = (FeatureLayer) contextFactory.createDefaultFeatureLayer(FacesUtils.getNewIndex(ctx));
                 layer.setFeatures(list);
                 layer.setImage("http://localhost:8080/mf/resource/skin/default/img/europa.gif");
                 layer.setGroup("features");
                 layer.setRotation(20);
-                layer.setSize(10);                
-                ctx.addLayer(layer); 
+                layer.setSize(10);
+                ctx.addLayer(layer);
+            } else {
+                //else if there are no features in the list but it contains Layers
+                int layercount = (ctx != null && ctx.getLayers() != null) ? ctx.getLayers().size() : 0;
+                int loop = 0;
+                for (Object l : list) {
+                    loop++;
+                    if (l instanceof WmsLayer) {
+                        WmsLayer wmsLayer = (WmsLayer) l;
+                        wmsLayer.setId("MapFaces_Layer_WMS_" + layercount + loop);
+
+                        if (!ctx.getLayers().contains(wmsLayer)) {
+                            ctx.addLayer(wmsLayer);
+                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
+                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
+                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
+                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
+                        }
+
+                    }
+                //@TODO add here more cases for instanceof layer.
+                }
             }
         }
         comp.setModel((AbstractModelBase) ctx);
@@ -302,11 +324,11 @@ public class ContextRenderer extends Renderer {
         final UIContext comp = (UIContext) component;
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE END");
-        }        
+        }
         setModelAtSession(context, comp);
         context.getResponseWriter().flush();
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -348,12 +370,11 @@ public class ContextRenderer extends Renderer {
             throw new NullPointerException("component should not be null");
         }
     }
-    
-     // creates and puts the model data to session for this chart object
+    // creates and puts the model data to session for this chart object
     public void setModelAtSession(FacesContext facesContext, UIContext comp) {
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         String compClientId = comp.getClientId(facesContext);
-        session.put( "model", comp.getModel());
+        session.put("model", comp.getModel());
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "\n");
         }
