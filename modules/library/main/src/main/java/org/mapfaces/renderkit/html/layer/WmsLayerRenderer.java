@@ -138,11 +138,27 @@ public class WmsLayerRenderer extends LayerRenderer {
             }
 
             if (layer instanceof DefaultWmsGetMapLayer) {
-                String completeUrl = layer.getUrlGetMap().concat("&SRS=&BBOX=&WIDTH=&HEIGHT=&FORMAT=image/png&TRANSPARENT=TRUE&EXCEPTIONS=application/vnd.ogc.se_xml");
+                String completeUrl = layer.getUrlGetMap().concat("&TRANSPARENT=TRUE&EXCEPTIONS=application/vnd.ogc.se_xml");
+                if (! completeUrl.contains("SRS=")) {
+                    completeUrl = completeUrl.concat("&SRS=");
+                }
+                if (! completeUrl.contains("BBOX=")) {
+                    completeUrl = completeUrl.concat("&BBOX=");
+                }
+                if (! completeUrl.contains("WIDTH=")) {
+                    completeUrl = completeUrl.concat("&WIDTH=");
+                }
+                if (! completeUrl.contains("HEIGHT=")) {
+                    completeUrl = completeUrl.concat("&HEIGHT=");
+                }
+                if (! completeUrl.contains("VERSION=")) {
+                    completeUrl = completeUrl.concat("&VERSION=");
+                }
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("VERSION","1.3.0", completeUrl);
                 
                 url = new URL(completeUrl);
             }
@@ -150,6 +166,7 @@ public class WmsLayerRenderer extends LayerRenderer {
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : " + url);
             }
+            System.out.println(">>>>>>>>>>> url = "+url.toString()+"\n");
             writer.writeAttribute("src", url.toString(), "src");
             writer.endElement("img");
             writer.endElement("div");

@@ -738,7 +738,13 @@ public class FacesUtils {
             if (matcherParam.find()) {
                 String subst = url.substring(0, matcherParam.end());
                 String temp = url.substring(matcherParam.end());
-                String endStr = temp.substring(temp.indexOf("&"));
+                String endStr;
+                if (temp.contains("&")) {
+                    endStr = temp.substring(temp.indexOf("&"));
+                }else {
+                    endStr = "";
+                }
+
                 subst = subst.concat(value);
                 subst = subst.concat(endStr);
                 return subst;

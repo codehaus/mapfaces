@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -45,6 +46,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
+import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
@@ -254,6 +256,18 @@ public class ContextRenderer extends Renderer {
                 ctx.addLayer(layer);
             } else {
                 //else if there are no features in the list but it contains Layers
+                
+                //clear the context from all WmsGetMapLayers.
+                List<Layer> layerToRemove = new ArrayList<Layer>();
+                for (Layer lay : ctx.getLayers()) {
+                    if (lay instanceof DefaultWmsGetMapLayer) {
+                        layerToRemove.add(lay);
+                    }
+                }
+                for (Layer lay : layerToRemove) {
+                    ctx.removeLayerFromId(lay.getId());
+                }
+                
                 int layercount = (ctx != null && ctx.getLayers() != null) ? ctx.getLayers().size() : 0;
                 layercount = layercount - FacesUtils.getCountWMSGetMapLayers(ctx);
                 int loop = 0;
@@ -261,15 +275,18 @@ public class ContextRenderer extends Renderer {
                     loop++;
                     if (l instanceof DefaultWmsGetMapLayer) {
                         DefaultWmsGetMapLayer wmsLayer = (DefaultWmsGetMapLayer) l;
-                        
+                        if (ctx.getLayers().contains(wmsLayer)) {
+                            continue;
+                        }
+
                         wmsLayer.setId("MapFaces_Layer_WMS_" + (layercount + loop) );
                         
                         if (!ctx.getLayersId().contains(wmsLayer.getId())) {
                             ctx.addLayer(wmsLayer);
-                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
-                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
-                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
-                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
+//                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
+//                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
+//                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
+//                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
                         }
 
                     }
