@@ -651,16 +651,16 @@ public class FacesUtils {
 
         final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
         final StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
-        final MutableStyle style = styleFactory.createStyle();
-        final MutableFeatureTypeStyle fts = styleFactory.createFeatureTypeStyle();
-        final MutableRule rulePoint = styleFactory.createRule();
-        final MutableRule rulePolygon = styleFactory.createRule();
+        final MutableStyle style = styleFactory.style();
+        final MutableFeatureTypeStyle fts = styleFactory.featureTypeStyle();
+        final MutableRule rulePoint = styleFactory.rule();
+        final MutableRule rulePolygon = styleFactory.rule();
 
 
         String format = "image/png";
         ImageIcon icon = new ImageIcon(new URL(urlImage));
 
-        ExternalGraphic external = styleFactory.createExternalGraphic(icon, format, null);
+        ExternalGraphic external = styleFactory.externalGraphic(icon, null);
 
         List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
         Expression opacity = styleFactory.literalExpression(1d);
@@ -669,22 +669,22 @@ public class FacesUtils {
         Expression expSize = styleFactory.literalExpression(size);
         Expression expRotation = styleFactory.literalExpression(rotation);
 
-        AnchorPoint anchor = styleFactory.createAnchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
+        AnchorPoint anchor = styleFactory.anchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
         Displacement disp = null;
-        Graphic graphic = styleFactory.createGraphic(symbols, opacity, expSize, expRotation, anchor, disp);
+        Graphic graphic = styleFactory.graphic(symbols, opacity, expSize, expRotation, anchor, disp);
 
         Filter filterPoint = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POINT));
-        PointSymbolizer pointSymbol = styleFactory.createPointSymbolizer(graphic, "");
+        PointSymbolizer pointSymbol = styleFactory.pointSymbolizer(graphic, "");
 
         rulePoint.symbolizers().add(pointSymbol);
         rulePoint.setFilter(filterPoint);
 
         Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
-        Stroke stroke = styleFactory.createStroke(styleFactory.colorExpression(colors[indexLayer]),
+        Stroke stroke = styleFactory.stroke(styleFactory.colorExpression(colors[indexLayer]),
                 styleFactory.literalExpression(2),
                 styleFactory.literalExpression(0.8));
-        Fill fill = styleFactory.createFill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
-        PolygonSymbolizer polygonSymbol = styleFactory.createPolygonSymbolizer(stroke, fill, "marker");
+        Fill fill = styleFactory.fill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
+        PolygonSymbolizer polygonSymbol = styleFactory.polygonSymbolizer(stroke, fill, "marker");
 
         rulePolygon.symbolizers().add(polygonSymbol);
         rulePolygon.setFilter(filterPolygon);

@@ -215,7 +215,7 @@
       <dependency>
         <groupId>org.opengis</groupId>
         <artifactId>geoapi</artifactId>
-        <version>2.2-SNAPSHOT</version>
+        <version>2.3-SNAPSHOT</version>
       </dependency>
 
       <!-- Geotools -->
