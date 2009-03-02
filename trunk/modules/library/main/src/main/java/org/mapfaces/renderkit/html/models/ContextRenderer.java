@@ -263,10 +263,10 @@ public class ContextRenderer extends Renderer {
 
                         if (!ctx.getLayers().contains(wmsLayer)) {
                             ctx.addLayer(wmsLayer);
-                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
-                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
-                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
-                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
+//                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
+//                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
+//                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
+//                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
                         }
 
                     }
