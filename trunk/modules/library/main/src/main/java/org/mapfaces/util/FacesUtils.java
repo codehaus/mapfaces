@@ -67,6 +67,7 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 
+import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Expression;
@@ -108,6 +109,23 @@ public class FacesUtils {
             }
         }
         component.encodeEnd(context);
+    }
+
+    /**
+     * This method returns the count of wmsGetmapLayers contained in a context model.
+     * @param ctx
+     * @return
+     */
+    public static int getCountWMSGetMapLayers(Context ctx) {
+        if (ctx == null)
+            return 0;
+        int result = 0;
+        for (Layer layer : ctx.getLayers()) {
+            if (layer instanceof DefaultWmsGetMapLayer) {
+                result ++;
+            }
+        }
+        return result;
     }
 
     public static int getNewIndex(Context ctx) {

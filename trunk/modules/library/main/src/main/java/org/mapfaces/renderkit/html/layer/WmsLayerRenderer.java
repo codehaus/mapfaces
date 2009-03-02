@@ -33,6 +33,7 @@ import org.geotools.ows.ServiceException;
 
 import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.util.FacesUtils;
 
@@ -102,26 +103,28 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             URL url = new URL("http://");
 
-            //Generqte the URL contents
+            //Generate the URL contents
             // 1. recuperate the existing info
-            final WMSMapLayer mapLayer;
+            WMSMapLayer mapLayer = null;
+            if (!(layer instanceof DefaultWmsGetMapLayer)) {
 
-            try {
-                mapLayer = createWMSMapLayer(layer);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
-                //TODO should close divs and writer correctly is this happens
-                writer.writeAttribute("src", url.toString(), "src");
-                writer.endElement("img");
-                writer.endElement("div");
-                return;
-            } catch (ServiceException ex) {
-                LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
-                //TODO should close divs and writer correctly is this happens
-                writer.writeAttribute("src", url.toString(), "src");
-                writer.endElement("img");
-                writer.endElement("div");
-                return;
+                try {
+                    mapLayer = createWMSMapLayer(layer);
+                } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
+                    //TODO should close divs and writer correctly is this happens
+                    writer.writeAttribute("src", url.toString(), "src");
+                    writer.endElement("img");
+                    writer.endElement("div");
+                    return;
+                } catch (ServiceException ex) {
+                    LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
+                    //TODO should close divs and writer correctly is this happens
+                    writer.writeAttribute("src", url.toString(), "src");
+                    writer.endElement("img");
+                    writer.endElement("div");
+                    return;
+                }
             }
 
             // 2. define the new extent
@@ -132,23 +135,16 @@ public class WmsLayerRenderer extends LayerRenderer {
             // 3. get the URL fragment
             if (mapLayer != null) {
                 url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
-            } else {
-                if (layer.getUrlGetMap() != null) {
-                    String completeUrl = layer.getUrlGetMap().concat("&SRS=&BBOX=&WIDTH=&HEIGHT=&FORMAT=image/png&TRANSPARENT=TRUE&EXCEPTIONS=application/vnd.ogc.se_xml");
-                    completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
-                    completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0]+","+imgExtentLowerCorner[1]+","+imgExtentUpperCorner[0]+","+imgExtentUpperCorner[1], completeUrl);
-                    completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
-                    completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);                    
-//                    String appendUrl = "&SRS="+srs+
-//                                       "&BBOX="+imgExtentLowerCorner[0]+","+imgExtentLowerCorner[1]+","+imgExtentUpperCorner[0]+","+imgExtentUpperCorner[1]+
-//                                       "&WIDTH="+dim.getWidth()+
-//                                       "&HEIGHT="+dim.getHeight()+
-//                                       "&FORMAT=image/png"+
-//                                       "&TRANSPARENT=TRUE"+
-//                                       "&EXCEPTIONS=application/vnd.ogc.se_xml";
-//                    url = new URL(layer.getUrlGetMap().concat(appendUrl));
-                    url = new URL(completeUrl);
-                }
+            }
+
+            if (layer instanceof DefaultWmsGetMapLayer) {
+                String completeUrl = layer.getUrlGetMap().concat("&SRS=&BBOX=&WIDTH=&HEIGHT=&FORMAT=image/png&TRANSPARENT=TRUE&EXCEPTIONS=application/vnd.ogc.se_xml");
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
+                
+                url = new URL(completeUrl);
             }
 
             if (this.debug) {
