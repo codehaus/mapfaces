@@ -15,25 +15,12 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.util;
-
-import org.mapfaces.models.Context;
-import org.mapfaces.models.Dimension;
-import org.mapfaces.models.Layer;
-import org.mapfaces.models.Server;
+package org.mapfaces.models.layer;
 
 /**
- * @author Olivier Terral (Geomatys).
+ *
+ * @author Mehdi Sidhoum (Geomatys).
  */
-public interface ContextFactory {
-
-    public Context createDefaultContext();
-    public Layer createDefaultLayer();
-    public Server createDefaultServer();
-    public Dimension createDefaultDimension();
-    public Layer createDefaultFeatureLayer(int index);
-    public Layer createDefaultWmsLayer();
-    public Layer createDefaultWmsGetMapLayer();
-    public Layer createDefaultMapContextLayer(int index);
+public class DefaultWmsGetMapLayer extends DefaultWmsLayer{
 
 }

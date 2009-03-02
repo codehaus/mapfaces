@@ -27,6 +27,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.DefaultFeatureLayer;
 import org.mapfaces.models.layer.DefaultMapContextLayer;
+import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.DefaultWmsLayer;
 
 /**
@@ -87,6 +88,12 @@ public class DefaultContextFactory implements ContextFactory {
 
     public Layer createDefaultWmsLayer() {
         Layer layer = new DefaultWmsLayer();
+        layer.setType(org.mapfaces.models.LayerType.WMS);
+        return layer;
+    }
+    
+    public Layer createDefaultWmsGetMapLayer() {
+        Layer layer = new DefaultWmsGetMapLayer();
         layer.setType(org.mapfaces.models.LayerType.WMS);
         return layer;
     }

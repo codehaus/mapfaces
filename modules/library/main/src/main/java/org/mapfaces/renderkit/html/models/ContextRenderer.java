@@ -45,6 +45,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
+import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.models.layer.WmsLayer;
@@ -254,19 +255,21 @@ public class ContextRenderer extends Renderer {
             } else {
                 //else if there are no features in the list but it contains Layers
                 int layercount = (ctx != null && ctx.getLayers() != null) ? ctx.getLayers().size() : 0;
+                layercount = layercount - FacesUtils.getCountWMSGetMapLayers(ctx);
                 int loop = 0;
                 for (Object l : list) {
                     loop++;
-                    if (l instanceof WmsLayer) {
-                        WmsLayer wmsLayer = (WmsLayer) l;
-                        wmsLayer.setId("MapFaces_Layer_WMS_" + layercount + loop);
-
-                        if (!ctx.getLayers().contains(wmsLayer)) {
+                    if (l instanceof DefaultWmsGetMapLayer) {
+                        DefaultWmsGetMapLayer wmsLayer = (DefaultWmsGetMapLayer) l;
+                        
+                        wmsLayer.setId("MapFaces_Layer_WMS_" + (layercount + loop) );
+                        
+                        if (!ctx.getLayersId().contains(wmsLayer.getId())) {
                             ctx.addLayer(wmsLayer);
-//                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
-//                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
-//                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
-//                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
+                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
+                            System.out.println("=========   wmsLayer getName = " + wmsLayer.getName());
+                            System.out.println("=========   wmsLayer server getHref = " + wmsLayer.getServer().getHref());
+                            System.out.println("=========   wmsLayer getId = " + wmsLayer.getId());
                         }
 
                     }
