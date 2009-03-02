@@ -167,7 +167,7 @@ public class Adapter {
         final int depth = 1;
         int i = 0;
         Map<List, DefaultMutableTreeNode> nodes = new HashMap<List, DefaultMutableTreeNode>();
-        
+
         for (Layer layer : layers) {
             List path = new ArrayList();
 
@@ -175,13 +175,13 @@ public class Adapter {
                 String group = layer.getGroup();
                 HashMap<String, Serializable> map = layer.getMapGroupHierarchiesValues();
                 String[] array = Utils.splitStringToArray(group, "/");
-                
+
                 if (array.length != 0) {
                     String key = array[0];
                     if (map != null && map.get(key) != null) {
                         TreeNodeModel item;
                         path.add(map.get(key));
-                        
+
                         if (!nodes.containsKey(path)) {
                             final TreeItem treeItem = new TreeItem(map.get(key));
                             item = new TreeNodeModel(treeItem, i + 1, depth, i + 1, false);
@@ -211,13 +211,14 @@ public class Adapter {
             } else {
                 final TreeItem treeItem = new TreeItem(layer);
                 final TreeNodeModel item = new TreeNodeModel(treeItem, i + 1, depth, i + 1, false);
-                if (!nodes.containsKey(layer)) {
-                    root.add(item);
-                    
-                    path.add(layer);
+
+                path.add(layer);
+                if (!nodes.containsKey(path)) {
                     nodes.put(path, item);
+                    root.add(item);
                 }
-            }            
+            }
+            i++;
         }
         nodes.clear();
         tree.setRoot(root);
@@ -229,11 +230,11 @@ public class Adapter {
         if (indexArray + 1 < array.length) {
             String key = array[indexArray + 1];
             if (map != null && map.get(key) != null) {
-                
+
                 List appendpath = new ArrayList();
                 appendpath.addAll(path);
                 appendpath.add(map.get(key));
-                
+
                 if (!nodes.containsKey(appendpath)) {
                     final TreeItem treeItem = new TreeItem(map.get(key));
                     final TreeNodeModel item = new TreeNodeModel(treeItem, indexNode + 1, node.getDepth() + 1, indexNode + 1, false);
@@ -244,11 +245,11 @@ public class Adapter {
                     concatNodesFromArray((TreeNodeModel) nodes.get(appendpath), array, map, indexNode, indexArray + 1, nodes, layer, appendpath);
                 }
             } else {
-                
+
                 List appendpath = new ArrayList();
                 appendpath.addAll(path);
                 appendpath.add(key);
-                
+
                 if (!nodes.containsKey(appendpath)) {
                     final TreeItem treeItem = new TreeItem(key, key);
                     final TreeNodeModel item = new TreeNodeModel(treeItem, indexNode + 1, node.getDepth() + 1, indexNode + 1, false);
@@ -282,7 +283,7 @@ public class Adapter {
         WmsLayer layer0 = new DefaultWmsLayer();
         layer0.setName("Layer0");
         layer0.setGroup("feature/context");
-        
+
         WmsLayer layer1 = new DefaultWmsLayer();
         layer1.setName("Layer1");
         layer1.setGroup("/dimension/feature/context");
@@ -373,7 +374,7 @@ public class Adapter {
         map10.put("feature", f10);
         map10.put("context", c3);
         layer10.setMapGroupHierarchiesValues(map10);
-        
+
         WmsLayer layer11 = new DefaultWmsLayer();
         layer11.setName("Layer11");
         layer11.setGroup("dimension/node11/feature/context");
@@ -383,18 +384,29 @@ public class Adapter {
         map11.put("context", c5);
         layer11.setMapGroupHierarchiesValues(map11);
 
-        layers.add(layer0);
-        layers.add(layer1);
-        layers.add(layer2);
-        layers.add(layer3);
-        layers.add(layer4);
-        layers.add(layer5);
-        layers.add(layer6);
-        layers.add(layer7);
-        layers.add(layer8);
-        layers.add(layer9);
-        layers.add(layer10);
-        layers.add(layer11);
+        WmsLayer layer12 = new DefaultWmsLayer();
+        layer12.setName("bluemarble");
+        //layer12.setGroup("world maps");
+
+        WmsLayer layer13 = new DefaultWmsLayer();
+        layer13.setName("Demis world");
+        //layer13.setGroup("world maps");
+
+        layers.add(layer12);
+        layers.add(layer13);
+        //layers.add(layer0);
+//        layers.add(layer1);
+//        layers.add(layer2);
+//        layers.add(layer3);
+//        layers.add(layer4);
+//        layers.add(layer5);
+//        layers.add(layer6);
+//        layers.add(layer7);
+//        layers.add(layer8);
+//        layers.add(layer9);
+//        layers.add(layer10);
+//        layers.add(layer11);
+
 
         context.setLayers((List) layers);
 

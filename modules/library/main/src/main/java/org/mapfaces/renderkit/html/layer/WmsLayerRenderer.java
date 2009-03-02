@@ -134,8 +134,20 @@ public class WmsLayerRenderer extends LayerRenderer {
                 url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
             } else {
                 if (layer.getUrlGetMap() != null) {
-                    //@TODO build the correct getMapUrl with the bbox and crs
-                    url = new URL(layer.getUrlGetMap());
+                    String completeUrl = layer.getUrlGetMap().concat("&SRS=&BBOX=&WIDTH=&HEIGHT=&FORMAT=image/png&TRANSPARENT=TRUE&EXCEPTIONS=application/vnd.ogc.se_xml");
+                    completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
+                    completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0]+","+imgExtentLowerCorner[1]+","+imgExtentUpperCorner[0]+","+imgExtentUpperCorner[1], completeUrl);
+                    completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
+                    completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);                    
+//                    String appendUrl = "&SRS="+srs+
+//                                       "&BBOX="+imgExtentLowerCorner[0]+","+imgExtentLowerCorner[1]+","+imgExtentUpperCorner[0]+","+imgExtentUpperCorner[1]+
+//                                       "&WIDTH="+dim.getWidth()+
+//                                       "&HEIGHT="+dim.getHeight()+
+//                                       "&FORMAT=image/png"+
+//                                       "&TRANSPARENT=TRUE"+
+//                                       "&EXCEPTIONS=application/vnd.ogc.se_xml";
+//                    url = new URL(layer.getUrlGetMap().concat(appendUrl));
+                    url = new URL(completeUrl);
                 }
             }
 
@@ -169,6 +181,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                 LOGGER.log(Level.SEVERE, "[WmsLayerRenderer] Error the getcapabilities returned null !!!!!  url = " + layer.getServer().getHref());
                 return null;
             }else {
+                //in this case there is a getMap url attached on the Layer, then we skip the building of WMSMapLayer object.
                 return null;
             }
         }

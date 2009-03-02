@@ -37,7 +37,7 @@ public abstract class UITreeLinesBase extends UITreeBase implements AjaxInterfac
     private int             row;
     private int             depth;
     private boolean         hasChildren = false;
-    private boolean         toRender = false;
+    private boolean         toRender = true;
 
 
     /* Accessors */
