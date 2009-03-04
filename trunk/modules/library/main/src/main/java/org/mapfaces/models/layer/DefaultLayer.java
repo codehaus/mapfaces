@@ -725,5 +725,19 @@ public class DefaultLayer implements Layer {
     public void setMapGroupHierarchiesValues(HashMap<String, Serializable> map) {
         this.MapGroupHierarchiesValues = map;
     }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public DefaultLayer clone() {
+        DefaultLayer object = null;
+        try {
+            object =  (DefaultLayer) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+		cnse.printStackTrace(System.err);
+        }
+        return object;
+    }
 
 }

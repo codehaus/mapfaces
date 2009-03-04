@@ -20,11 +20,12 @@ package org.mapfaces.models;
 import java.io.Serializable;
 import java.util.HashMap;
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.opengis.util.Cloneable;
 
 /**
  * @author Olivier Terral (Geomatys).
  */
-public interface Layer extends Serializable {
+public interface Layer extends Serializable, Cloneable {
 
 //    public Parameter getParameterList();
     

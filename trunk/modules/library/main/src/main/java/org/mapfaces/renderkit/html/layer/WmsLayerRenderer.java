@@ -137,7 +137,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                 url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
             }
 
-            if (layer instanceof DefaultWmsGetMapLayer) {
+            if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {
                 
                 String begin = layer.getUrlGetMap().substring(0, layer.getUrlGetMap().indexOf("&SLD_BODY"));
                 String temp = layer.getUrlGetMap().substring(layer.getUrlGetMap().indexOf("&SLD_BODY"));
@@ -169,7 +169,15 @@ public class WmsLayerRenderer extends LayerRenderer {
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : " + url);
             }
-            writer.writeAttribute("src", url.toString(), "src");
+            
+            if ( ! (layer instanceof DefaultWmsGetMapLayer) ) {
+                writer.writeAttribute("src", url.toString(), "src");
+            }else {
+                /* if this layer is an instance of DefaultWmsGetMapLayer then the src attribute must be an empty string due to a strange behaviour on web browser with too longer urls.
+                 * a temporary solution is to store the getMap url into a javascript variable and then set this src attribute by the js method document.getElementById( this img tag id ).
+                */
+                writer.writeAttribute("src", "", "src");
+            }
             writer.endElement("img");
             
             //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.
