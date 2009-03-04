@@ -90,7 +90,7 @@ public class MfLayerListener implements PhaseListener {
      * @param stream
      * @throws java.io.IOException
      */
-    private synchronized void writeLayer(FacesContext context, String id, OutputStream stream) throws IOException {
+    private void writeLayer(FacesContext context, String id, OutputStream stream) throws IOException {
         Map sessionMap = context.getExternalContext().getSessionMap();
         Context model = (Context) sessionMap.get(id + "_model");
         if (model != null) {

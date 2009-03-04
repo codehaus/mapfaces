@@ -138,7 +138,13 @@ public class WmsLayerRenderer extends LayerRenderer {
             }
 
             if (layer instanceof DefaultWmsGetMapLayer) {
-                String completeUrl = layer.getUrlGetMap().concat("&TRANSPARENT=TRUE&EXCEPTIONS=application/vnd.ogc.se_xml");
+                
+                String begin = layer.getUrlGetMap().substring(0, layer.getUrlGetMap().indexOf("&SLD_BODY"));
+                String temp = layer.getUrlGetMap().substring(layer.getUrlGetMap().indexOf("&SLD_BODY"));
+                begin += "&TRANSPARENT=TRUE";
+                begin += temp;
+                
+                String completeUrl = begin;
                 if (! completeUrl.contains("SRS=")) {
                     completeUrl = completeUrl.concat("&SRS=");
                 }
@@ -151,14 +157,11 @@ public class WmsLayerRenderer extends LayerRenderer {
                 if (! completeUrl.contains("HEIGHT=")) {
                     completeUrl = completeUrl.concat("&HEIGHT=");
                 }
-                if (! completeUrl.contains("VERSION=")) {
-                    completeUrl = completeUrl.concat("&VERSION=");
-                }
+                
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("VERSION","1.3.0", completeUrl);
                 
                 url = new URL(completeUrl);
             }
@@ -166,9 +169,14 @@ public class WmsLayerRenderer extends LayerRenderer {
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : " + url);
             }
-            System.out.println(">>>>>>>>>>> url = "+url.toString()+"\n");
             writer.writeAttribute("src", url.toString(), "src");
             writer.endElement("img");
+            
+            //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.
+            if (layer instanceof DefaultWmsGetMapLayer) {
+                writer.write("<script>var url"+comp.getId() + "_ImgSrc = '"+url.toString()+"';\n document.getElementById('" + comp.getId() + "_Img').src=url"+comp.getId() + "_ImgSrc;\n </script>\n");
+            }
+            
             writer.endElement("div");
 
         }
