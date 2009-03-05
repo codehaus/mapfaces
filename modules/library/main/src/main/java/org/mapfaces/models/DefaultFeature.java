@@ -14,27 +14,29 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General  License for more details.
  */
+
 package org.mapfaces.models;
 
 import com.vividsolutions.jts.geom.Geometry;
+import java.io.Serializable;
 import java.util.Map;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 /**
  *
- * @author Mehdi Sidhoum
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class DefaultFeature implements Feature {
 
     private String id;
     private String name;
     private DefaultGeographicCRS crs;
-    private Map<String, Object> attributes;
+    private Map<String, Serializable> attributes;
     private Geometry geometry;
     /**
      * This object must be serializable
      */
-    private Object userObject;
+    private Serializable userObject;
 
     public DefaultFeature() {
     }
@@ -70,12 +72,12 @@ public class DefaultFeature implements Feature {
     }
 
     @Override
-    public Map<String, Object> getAttributes() {
+    public Map<String, Serializable> getAttributes() {
         return attributes;
     }
 
     @Override
-    public void setAttributes(Map<String, Object> attributes) {
+    public void setAttributes(Map<String, Serializable> attributes) {
         this.attributes = attributes;
     }
 
@@ -90,12 +92,12 @@ public class DefaultFeature implements Feature {
     }
     
     @Override
-    public Object getUserObject() {
+    public Serializable getUserObject() {
         return userObject;
     }
 
     @Override
-    public void setUserObject(Object object) {
+    public void setUserObject(Serializable object) {
         this.userObject = object;
     }
 }

@@ -17,10 +17,59 @@
 
 package org.mapfaces.models.layer;
 
+import java.util.List;
+import org.mapfaces.models.Feature;
+
 /**
- *
+ * this model is for wms layers with an existing url getMap, 
+ * this layer have a list of features and a list of sublayers composite 
+ * when a factorization process has been launched on the layercontrol component.
+ * 
  * @author Mehdi Sidhoum (Geomatys).
  */
-public class DefaultWmsGetMapLayer extends DefaultWmsLayer{
+public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
+    
+    /**
+     * This is a list of sublayers, most of time this list is null, but it can take values when a factorization is launched.
+     */
+    private List<WmsGetMapEntry> composite;
+    
+    /**
+     * This is the list of features. it is usefull to have this list for getFeatureInfo request on this layer.
+     */
+    private List<Feature> features = null;
+
+    public List<WmsGetMapEntry> getComposite() {
+        return composite;
+    }
+
+    public void setComposite(List<WmsGetMapEntry> composite) {
+        this.composite = composite;
+    }
+
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
+    
+    /**
+     * Returns a boolean value if the composite list of this layer contains the WmsGetMapEntry entry passed in parameter. 
+     * @param entry
+     * @return
+     */
+    public boolean containsEntryLayer(WmsGetMapEntry entry) {
+        if (entry != null) {
+            for (WmsGetMapEntry ent : this.composite) {
+                if (entry.getIdentifier() != null && entry.getIdentifier().equals(ent.getIdentifier())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
 
 }
