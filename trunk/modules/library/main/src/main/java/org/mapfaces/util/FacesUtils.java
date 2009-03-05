@@ -14,12 +14,18 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.util;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,6 +33,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.FactoryFinder;
@@ -55,15 +63,21 @@ import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.treelayout.UITreeLines;
 import javax.swing.ImageIcon;
+import javax.xml.bind.JAXBException;
 import org.geotools.factory.CommonFactoryFinder;
 
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.sld.MutableStyledLayerDescriptor;
 import org.geotools.style.MutableFeatureTypeStyle;
 import org.geotools.style.MutableRule;
 import org.geotools.style.MutableStyle;
 import org.geotools.style.StyleFactory;
+import org.geotools.style.sld.XMLUtilities;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 
@@ -117,12 +131,13 @@ public class FacesUtils {
      * @return
      */
     public static int getCountWMSGetMapLayers(Context ctx) {
-        if (ctx == null)
+        if (ctx == null) {
             return 0;
+        }
         int result = 0;
         for (Layer layer : ctx.getLayers()) {
             if (layer instanceof DefaultWmsGetMapLayer) {
-                result ++;
+                result++;
             }
         }
         return result;
@@ -696,7 +711,7 @@ public class FacesUtils {
 
         return style;
     }
-    
+
     /**
      * This method get a value of parameter from an url, it is used for getMap wms requests. 
      * @param param
@@ -707,7 +722,7 @@ public class FacesUtils {
         if (param == null || url == null || url.equals("")) {
             return null;
         }
-        Pattern patternParam = Pattern.compile("(?i)" + param+"=");
+        Pattern patternParam = Pattern.compile("(?i)" + param + "=");
         Matcher matcherParam = patternParam.matcher(url);
         if (matcherParam.find()) {
             String subst = url.substring(url.lastIndexOf(matcherParam.group()));
@@ -733,7 +748,7 @@ public class FacesUtils {
         if (param == null || param.equals("") || url == null) {
             return url;
         } else {
-            Pattern patternParam = Pattern.compile("(?i)" + param+"=");
+            Pattern patternParam = Pattern.compile("(?i)" + param + "=");
             Matcher matcherParam = patternParam.matcher(url);
             if (matcherParam.find()) {
                 String subst = url.substring(0, matcherParam.end());
@@ -741,7 +756,7 @@ public class FacesUtils {
                 String endStr;
                 if (temp.contains("&")) {
                     endStr = temp.substring(temp.indexOf("&"));
-                }else {
+                } else {
                     endStr = "";
                 }
 
@@ -752,5 +767,117 @@ public class FacesUtils {
                 return url;
             }
         }
+    }
+
+    /**
+     * This method builds a feature.
+     */
+    public static DefaultFeature buildFeature(String identifier, String srs, Double[] bbox, GeometryFactory geomBuilder, String toponym, String title, String resume, Serializable obj) {
+        DefaultFeature feature = new DefaultFeature();
+        feature.setId(identifier);
+        try {
+            feature.setCrs((DefaultGeographicCRS) CRS.decode(srs));
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
+        Map<String, Serializable> attributes = new HashMap<String, Serializable>();
+        double minx = bbox[0];
+        double miny = bbox[1];
+        double maxx = bbox[2];
+        double maxy = bbox[3];
+
+        Coordinate[] coords = new Coordinate[]{
+            new Coordinate(minx, miny),
+            new Coordinate(minx, maxy),
+            new Coordinate(maxx, maxy),
+            new Coordinate(maxx, miny),
+            new Coordinate(minx, miny),
+        };
+
+        LinearRing linear = geomBuilder.createLinearRing(coords);
+        Geometry geometry = geomBuilder.createPolygon(linear, new LinearRing[0]);
+
+        final String featuretype;
+        if (geometry.getArea() == 0) {
+            featuretype = Feature.POINT;
+            geometry = geomBuilder.createPoint(coords[0]);
+        } else {
+            featuretype = Feature.POLYGON;
+        }
+
+        attributes.put("geometry", geometry);
+        attributes.put("type", featuretype);
+        attributes.put("toponym", toponym);
+        attributes.put("title", title);
+        attributes.put("abstract", resume);
+        attributes.put("result", obj);
+        feature.setUserObject(obj);
+        feature.setAttributes(attributes);
+        feature.setGeometry(geometry);
+
+        return feature;
+    }
+    
+    /**
+     * This method replace all special characters encoded by urlFormat to valid XML which can be marshalled by JAXB.
+     * @param str
+     * @return
+     */
+    public static String convertSpecialCharsToValidXml(String str) {
+        if (str != null) {
+            str = str.replaceAll("%3C", "<");
+            str = str.replaceAll("%3E", ">");
+            str = str.replaceAll("%3D", "=");
+            str = str.replaceAll("%22", "\"");
+            str = str.replaceAll("%2F", "/");
+            str = str.replaceAll("%23", "#");
+            str = str.replaceAll("%20", " ");
+            str = str.replace('+', ' ');
+        }
+        return str;
+    }
+    
+    /**
+     * Encode a string from xml to a valid Url format.
+     * @param str
+     * @return
+     */
+    public static String convertSpecialCharsToUrlXml(String str) {
+        if (str != null) {
+            str = str.replaceAll("<","%3C");
+            str = str.replaceAll(">","%3E");
+            str = str.replaceAll("=","%3D");
+            str = str.replaceAll("\"","%22");
+            str = str.replaceAll("/","%2F");
+            str = str.replaceAll("#","%23");
+            str = str.replaceAll(" ","%20");
+            str = str.replace(' ','+');
+        }
+        return str;
+    }
+
+    public static MutableStyledLayerDescriptor getSLDfromGetmapUrl(String url) {
+        MutableStyledLayerDescriptor result = null;
+        if (url == null) {
+            return result;
+        }
+        String sldbody = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + FacesUtils.getParameterValue("SLD_BODY", url);
+        sldbody = convertSpecialCharsToValidXml(sldbody);
+
+        XMLUtilities xmlUtils = new XMLUtilities();
+        try {
+            byte[] arrayByte = null;
+            try {
+                arrayByte = sldbody.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayByte);
+            result = xmlUtils.readSLD(inputStream, org.geotools.style.sld.Specification.StyledLayerDescriptor.V_1_0_0);
+        } catch (JAXBException ex) {
+            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
     }
 }

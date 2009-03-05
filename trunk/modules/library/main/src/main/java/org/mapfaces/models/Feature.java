@@ -43,15 +43,15 @@ public interface Feature extends Serializable {
 
     public void setCrs(DefaultGeographicCRS crs);
 
-    public Map<String, Object> getAttributes();
+    public Map<String, Serializable> getAttributes();
 
-    public void setAttributes(Map<String, Object> attributes);
+    public void setAttributes(Map<String, Serializable> attributes);
 
     public Geometry getGeometry();
 
     public void setGeometry(Geometry geometry);
     
-    public Object getUserObject();
+    public Serializable getUserObject();
 
-    public void setUserObject(Object object);
+    public void setUserObject(Serializable object);
 }
