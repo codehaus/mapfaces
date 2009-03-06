@@ -1,11 +1,11 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * Namespace: OpenLayers.Element
+ * Namespace: OpenCharts.Element
  */
-OpenLayers.Element = {
+OpenCharts.Element = {
 
     /**
      * APIFunction: visible
@@ -17,7 +17,7 @@ OpenLayers.Element = {
      * {Boolean} Is the element visible?
      */
     visible: function(element) {
-        return OpenLayers.Util.getElement(element).style.display != 'none';
+        return OpenCharts.Util.getElement(element).style.display != 'none';
     },
 
     /**
@@ -29,10 +29,10 @@ OpenLayers.Element = {
      */
     toggle: function() {
         for (var i=0, len=arguments.length; i<len; i++) {
-            var element = OpenLayers.Util.getElement(arguments[i]);
-            var display = OpenLayers.Element.visible(element) ? 'hide' 
+            var element = OpenCharts.Util.getElement(arguments[i]);
+            var display = OpenCharts.Element.visible(element) ? 'hide' 
                                                               : 'show';
-            OpenLayers.Element[display](element);
+            OpenCharts.Element[display](element);
         }
     },
 
@@ -46,7 +46,7 @@ OpenLayers.Element = {
      */
     hide: function() {
         for (var i=0, len=arguments.length; i<len; i++) {
-            var element = OpenLayers.Util.getElement(arguments[i]);
+            var element = OpenCharts.Util.getElement(arguments[i]);
             element.style.display = 'none';
         }
     },
@@ -60,7 +60,7 @@ OpenLayers.Element = {
      */
     show: function() {
         for (var i=0, len=arguments.length; i<len; i++) {
-            var element = OpenLayers.Util.getElement(arguments[i]);
+            var element = OpenCharts.Util.getElement(arguments[i]);
             element.style.display = '';
         }
     },
@@ -73,7 +73,7 @@ OpenLayers.Element = {
      * element - {DOMElement}
      */
     remove: function(element) {
-        element = OpenLayers.Util.getElement(element);
+        element = OpenCharts.Util.getElement(element);
         element.parentNode.removeChild(element);
     },
 
@@ -87,7 +87,7 @@ OpenLayers.Element = {
      * {Integer} The offset height of the element passed in
      */
     getHeight: function(element) {
-        element = OpenLayers.Util.getElement(element);
+        element = OpenCharts.Util.getElement(element);
         return element.offsetHeight;
     },
 
@@ -102,8 +102,8 @@ OpenLayers.Element = {
      *          dimensions of the element passed in.
      */
     getDimensions: function(element) {
-        element = OpenLayers.Util.getElement(element);
-        if (OpenLayers.Element.getStyle(element, 'display') != 'none') {
+        element = OpenCharts.Util.getElement(element);
+        if (OpenCharts.Element.getStyle(element, 'display') != 'none') {
             return {width: element.offsetWidth, height: element.offsetHeight};
         }
     
@@ -152,7 +152,7 @@ OpenLayers.Element = {
      * {DOMElement} The element.
      */
     addClass: function(element, name) {
-        if(!OpenLayers.Element.hasClass(element, name)) {
+        if(!OpenCharts.Element.hasClass(element, name)) {
             element.className += (element.className ? " " : "") + name;
         }
         return element;
@@ -173,7 +173,7 @@ OpenLayers.Element = {
     removeClass: function(element, name) {
         var names = element.className;
         if(names) {
-            element.className = OpenLayers.String.trim(
+            element.className = OpenCharts.String.trim(
                 names.replace(
                     new RegExp("(^|\\s+)" + name + "(\\s+|$)"), " "
                 )
@@ -195,10 +195,10 @@ OpenLayers.Element = {
      * {DOMElement} The element.
      */
     toggleClass: function(element, name) {
-        if(OpenLayers.Element.hasClass(element, name)) {
-            OpenLayers.Element.removeClass(element, name);
+        if(OpenCharts.Element.hasClass(element, name)) {
+            OpenCharts.Element.removeClass(element, name);
         } else {
-            OpenLayers.Element.addClass(element, name);
+            OpenCharts.Element.addClass(element, name);
         }
         return element;
     },
@@ -214,11 +214,11 @@ OpenLayers.Element = {
      * {?}
      */
     getStyle: function(element, style) {
-        element = OpenLayers.Util.getElement(element);
+        element = OpenCharts.Util.getElement(element);
 
         var value = null;
         if (element && element.style) {
-            value = element.style[OpenLayers.String.camelize(style)];
+            value = element.style[OpenCharts.String.camelize(style)];
             if (!value) {
                 if (document.defaultView && 
                     document.defaultView.getComputedStyle) {
@@ -226,14 +226,14 @@ OpenLayers.Element = {
                     var css = document.defaultView.getComputedStyle(element, null);
                     value = css ? css.getPropertyValue(style) : null;
                 } else if (element.currentStyle) {
-                    value = element.currentStyle[OpenLayers.String.camelize(style)];
+                    value = element.currentStyle[OpenCharts.String.camelize(style)];
                 }
             }
         
             var positions = ['left', 'top', 'right', 'bottom'];
             if (window.opera &&
-                (OpenLayers.Util.indexOf(positions,style) != -1) &&
-                (OpenLayers.Element.getStyle(element, 'position') == 'static')) { 
+                (OpenCharts.Util.indexOf(positions,style) != -1) &&
+                (OpenCharts.Element.getStyle(element, 'position') == 'static')) { 
                 value = 'auto';
             }
         }

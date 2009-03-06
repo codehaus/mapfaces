@@ -1,21 +1,21 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Handler.js
- * @requires OpenLayers/Events.js
+ * @requires OpenCharts/Handler.js
+ * @requires OpenCharts/Events.js
  */
 
 /**
- * Class: OpenLayers.handler.Keyboard
+ * Class: OpenCharts.handler.Keyboard
  * A handler for keyboard events.  Create a new instance with the
- *     <OpenLayers.Handler.Keyboard> constructor.
+ *     <OpenCharts.Handler.Keyboard> constructor.
  * 
  * Inherits from:
- *  - <OpenLayers.Handler> 
+ *  - <OpenCharts.Handler> 
  */
-OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
+OpenCharts.Handler.Keyboard = OpenCharts.Class(OpenCharts.Handler, {
 
     /* http://www.quirksmode.org/js/keys.html explains key x-browser
         key handling quirks in pretty nice detail */
@@ -33,11 +33,11 @@ OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
     eventListener: null,
 
     /**
-     * Constructor: OpenLayers.Handler.Keyboard
+     * Constructor: OpenCharts.Handler.Keyboard
      * Returns a new keyboard handler.
      * 
      * Parameters:
-     * control - {<OpenLayers.Control>} The control that is making use of
+     * control - {<OpenCharts.Control>} The control that is making use of
      *     this handler.  If a handler is being used without a control, the
      *     handlers setMap method must be overridden to deal properly with
      *     the map.
@@ -49,9 +49,9 @@ OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
      *     handler.
      */
     initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
+        OpenCharts.Handler.prototype.initialize.apply(this, arguments);
         // cache the bound event listener method so it can be unobserved later
-        this.eventListener = OpenLayers.Function.bindAsEventListener(
+        this.eventListener = OpenCharts.Function.bindAsEventListener(
             this.handleKeyEvent, this
         );
     },
@@ -62,16 +62,16 @@ OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
     destroy: function() {
         this.deactivate();
         this.eventListener = null;
-        OpenLayers.Handler.prototype.destroy.apply(this, arguments);
+        OpenCharts.Handler.prototype.destroy.apply(this, arguments);
     },
 
     /**
      * Method: activate
      */
     activate: function() {
-        if (OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+        if (OpenCharts.Handler.prototype.activate.apply(this, arguments)) {
             for (var i=0, len=this.KEY_EVENTS.length; i<len; i++) {
-                OpenLayers.Event.observe(
+                OpenCharts.Event.observe(
                     document, this.KEY_EVENTS[i], this.eventListener);
             }
             return true;
@@ -85,9 +85,9 @@ OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
      */
     deactivate: function() {
         var deactivated = false;
-        if (OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+        if (OpenCharts.Handler.prototype.deactivate.apply(this, arguments)) {
             for (var i=0, len=this.KEY_EVENTS.length; i<len; i++) {
-                OpenLayers.Event.stopObserving(
+                OpenCharts.Event.stopObserving(
                     document, this.KEY_EVENTS[i], this.eventListener);
             }
             deactivated = true;
@@ -104,5 +104,5 @@ OpenLayers.Handler.Keyboard = OpenLayers.Class(OpenLayers.Handler, {
         }
     },
 
-    CLASS_NAME: "OpenLayers.Handler.Keyboard"
+    CLASS_NAME: "OpenCharts.Handler.Keyboard"
 });

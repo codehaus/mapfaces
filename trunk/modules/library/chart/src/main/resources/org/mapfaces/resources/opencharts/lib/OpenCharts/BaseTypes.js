@@ -1,27 +1,27 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/BaseTypes/Class.js
- * @requires OpenLayers/BaseTypes/LonLat.js
- * @requires OpenLayers/BaseTypes/Size.js
- * @requires OpenLayers/BaseTypes/Pixel.js
- * @requires OpenLayers/BaseTypes/Bounds.js
- * @requires OpenLayers/BaseTypes/Element.js
- * @requires OpenLayers/Lang/en.js
+ * @requires OpenCharts/BaseTypes/Class.js
+ * @requires OpenCharts/BaseTypes/LonLat.js
+ * @requires OpenCharts/BaseTypes/Size.js
+ * @requires OpenCharts/BaseTypes/Pixel.js
+ * @requires OpenCharts/BaseTypes/Bounds.js
+ * @requires OpenCharts/BaseTypes/Element.js
+ * @requires OpenCharts/Lang/en.js
  */
  
 /** 
- * Header: OpenLayers Base Types
- * OpenLayers custom string, number and function functions are described here.
+ * Header: OpenCharts Base Types
+ * OpenCharts custom string, number and function functions are described here.
  */
 
 /**
- * Namespace: OpenLayers.String
+ * Namespace: OpenCharts.String
  * Contains convenience functions for string manipulation.
  */
-OpenLayers.String = {
+OpenCharts.String = {
 
     /**
      * APIFunction: startsWith
@@ -137,28 +137,28 @@ OpenLayers.String = {
     },
     
     /**
-     * Property: OpenLayers.String.numberRegEx
+     * Property: OpenCharts.String.numberRegEx
      * Used to test strings as numbers.
      */
     numberRegEx: /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/,
     
     /**
-     * APIFunction: OpenLayers.String.isNumeric
+     * APIFunction: OpenCharts.String.isNumeric
      * Determine whether a string contains only a numeric value.
      *
      * Examples:
      * (code)
-     * OpenLayers.String.isNumeric("6.02e23") // true
-     * OpenLayers.String.isNumeric("12 dozen") // false
-     * OpenLayers.String.isNumeric("4") // true
-     * OpenLayers.String.isNumeric(" 4 ") // false
+     * OpenCharts.String.isNumeric("6.02e23") // true
+     * OpenCharts.String.isNumeric("12 dozen") // false
+     * OpenCharts.String.isNumeric("4") // true
+     * OpenCharts.String.isNumeric(" 4 ") // false
      * (end)
      *
      * Returns:
      * {Boolean} String contains only a number.
      */
     isNumeric: function(value) {
-        return OpenLayers.String.numberRegEx.test(value);
+        return OpenCharts.String.numberRegEx.test(value);
     }
 
 };
@@ -175,9 +175,9 @@ if (!String.prototype.startsWith) {
      * {Boolean} Whether or not this string starts with the string passed in.
      */
     String.prototype.startsWith = function(sStart) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                {'newMethod':'OpenLayers.String.startsWith'}));
-        return OpenLayers.String.startsWith(this, sStart);
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                                {'newMethod':'OpenCharts.String.startsWith'}));
+        return OpenCharts.String.startsWith(this, sStart);
     };
 }
 
@@ -193,9 +193,9 @@ if (!String.prototype.contains) {
      * {Boolean} Whether or not this string contains with the string passed in.
      */
     String.prototype.contains = function(str) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                  {'newMethod':'OpenLayers.String.contains'}));
-        return OpenLayers.String.contains(this, str);
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                                  {'newMethod':'OpenCharts.String.contains'}));
+        return OpenCharts.String.contains(this, str);
     };
 }
 
@@ -209,9 +209,9 @@ if (!String.prototype.trim) {
      *          trailing spaces removed
      */
     String.prototype.trim = function() {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                      {'newMethod':'OpenLayers.String.trim'}));
-        return OpenLayers.String.trim(this);
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                                      {'newMethod':'OpenCharts.String.trim'}));
+        return OpenCharts.String.trim(this);
     };
 }
 
@@ -226,17 +226,17 @@ if (!String.prototype.camelize) {
      * {String} The string, camelized
      */
     String.prototype.camelize = function() {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                  {'newMethod':'OpenLayers.String.camelize'}));
-        return OpenLayers.String.camelize(this);
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                                  {'newMethod':'OpenCharts.String.camelize'}));
+        return OpenCharts.String.camelize(this);
     };
 }
 
 /**
- * Namespace: OpenLayers.Number
+ * Namespace: OpenCharts.Number
  * Contains convenience functions for manipulating numbers.
  */
-OpenLayers.Number = {
+OpenCharts.Number = {
 
     /**
      * Property: decimalSeparator
@@ -289,9 +289,9 @@ OpenLayers.Number = {
     format: function(num, dec, tsep, dsep) {
         dec = (typeof dec != "undefined") ? dec : 0; 
         tsep = (typeof tsep != "undefined") ? tsep :
-            OpenLayers.Number.thousandsSeparator; 
+            OpenCharts.Number.thousandsSeparator; 
         dsep = (typeof dsep != "undefined") ? dsep :
-            OpenLayers.Number.decimalSeparator;
+            OpenCharts.Number.decimalSeparator;
 
         if (dec != null) {
             num = parseFloat(num.toFixed(dec));
@@ -339,17 +339,17 @@ if (!Number.prototype.limitSigDigs) {
      *           If null, 0, or negative value passed in, returns 0
      */
     Number.prototype.limitSigDigs = function(sig) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                              {'newMethod':'OpenLayers.Number.limitSigDigs'}));
-        return OpenLayers.Number.limitSigDigs(this, sig);
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                              {'newMethod':'OpenCharts.Number.limitSigDigs'}));
+        return OpenCharts.Number.limitSigDigs(this, sig);
     };
 }
 
 /**
- * Namespace: OpenLayers.Function
+ * Namespace: OpenCharts.Function
  * Contains convenience functions for function manipulation.
  */
-OpenLayers.Function = {
+OpenCharts.Function = {
     /**
      * APIFunction: bind
      * Bind a function to an object.  Method to easily create closures with
@@ -408,11 +408,11 @@ if (!Function.prototype.bind) {
      *            argument.
      */
     Function.prototype.bind = function() {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                {'newMethod':'OpenLayers.Function.bind'}));
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                                {'newMethod':'OpenCharts.Function.bind'}));
         // new function takes the same arguments with this function up front
         Array.prototype.unshift.apply(arguments, [this]);
-        return OpenLayers.Function.bind.apply(null, arguments);
+        return OpenCharts.Function.bind.apply(null, arguments);
     };
 }
 
@@ -429,17 +429,17 @@ if (!Function.prototype.bindAsEventListener) {
      * {Function}
      */
     Function.prototype.bindAsEventListener = function(object) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                        {'newMethod':'OpenLayers.Function.bindAsEventListener'}));
-        return OpenLayers.Function.bindAsEventListener(this, object);
+        OpenCharts.Console.warn(OpenCharts.i18n("methodDeprecated",
+                        {'newMethod':'OpenCharts.Function.bindAsEventListener'}));
+        return OpenCharts.Function.bindAsEventListener(this, object);
     };
 }
 
 /**
- * Namespace: OpenLayers.Array
+ * Namespace: OpenCharts.Array
  * Contains convenience functions for array manipulation.
  */
-OpenLayers.Array = {
+OpenCharts.Array = {
 
     /**
      * APIMethod: filter

@@ -1,12 +1,12 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * Class: OpenLayers.Pixel
+ * Class: OpenCharts.Pixel
  * This class represents a screen coordinate, in x and y coordinates
  */
-OpenLayers.Pixel = OpenLayers.Class({
+OpenCharts.Pixel = OpenCharts.Class({
     
     /**
      * APIProperty: x
@@ -21,15 +21,15 @@ OpenLayers.Pixel = OpenLayers.Class({
     y: 0.0,
     
     /**
-     * Constructor: OpenLayers.Pixel
-     * Create a new OpenLayers.Pixel instance
+     * Constructor: OpenCharts.Pixel
+     * Create a new OpenCharts.Pixel instance
      *
      * Parameters:
      * x - {Number} The x coordinate
      * y - {Number} The y coordinate
      *
      * Returns:
-     * An instance of OpenLayers.Pixel
+     * An instance of OpenCharts.Pixel
      */
     initialize: function(x, y) {
         this.x = parseFloat(x);
@@ -52,10 +52,10 @@ OpenLayers.Pixel = OpenLayers.Class({
      * Return a clone of this pixel object
      *
      * Returns:
-     * {<OpenLayers.Pixel>} A clone pixel
+     * {<OpenCharts.Pixel>} A clone pixel
      */
     clone:function() {
-        return new OpenLayers.Pixel(this.x, this.y); 
+        return new OpenCharts.Pixel(this.x, this.y); 
     },
     
     /**
@@ -63,7 +63,7 @@ OpenLayers.Pixel = OpenLayers.Class({
      * Determine whether one pixel is equivalent to another
      *
      * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     * px - {<OpenCharts.Pixel>}
      *
      * Returns:
      * {Boolean} The point passed in as parameter is equal to this. Note that
@@ -86,26 +86,26 @@ OpenLayers.Pixel = OpenLayers.Class({
      * y - {Integer}
      *
      * Returns:
-     * {<OpenLayers.Pixel>} A new Pixel with this pixel's x&y augmented by the 
+     * {<OpenCharts.Pixel>} A new Pixel with this pixel's x&y augmented by the 
      * values passed in.
      */
     add:function(x, y) {
         if ( (x == null) || (y == null) ) {
-            var msg = OpenLayers.i18n("pixelAddError");
-            OpenLayers.Console.error(msg);
+            var msg = OpenCharts.i18n("pixelAddError");
+            OpenCharts.Console.error(msg);
             return null;
         }
-        return new OpenLayers.Pixel(this.x + x, this.y + y);
+        return new OpenCharts.Pixel(this.x + x, this.y + y);
     },
 
     /**
     * APIMethod: offset
     * 
     * Parameters
-    * px - {<OpenLayers.Pixel>}
+    * px - {<OpenCharts.Pixel>}
     * 
     * Returns:
-    * {<OpenLayers.Pixel>} A new Pixel with this pixel's x&y augmented by the 
+    * {<OpenCharts.Pixel>} A new Pixel with this pixel's x&y augmented by the 
     *                      x&y values of the pixel passed in.
     */
     offset:function(px) {
@@ -116,5 +116,5 @@ OpenLayers.Pixel = OpenLayers.Class({
         return newPx;
     },
 
-    CLASS_NAME: "OpenLayers.Pixel"
+    CLASS_NAME: "OpenCharts.Pixel"
 });

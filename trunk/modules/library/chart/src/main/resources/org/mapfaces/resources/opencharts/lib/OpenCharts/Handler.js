@@ -1,13 +1,13 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Events.js
+ * @requires OpenCharts/Events.js
  */
 
 /**
- * Class: OpenLayers.Handler
+ * Class: OpenCharts.Handler
  * Base class to construct a higher-level handler for event sequences.  All
  *     handlers have activate and deactivate methods.  In addition, they have
  *     methods named like browser events.  When a handler is activated, any
@@ -27,7 +27,7 @@
  *     themselves may make temporary changes, but in general are expected to
  *     return the application in the same state that they found it.
  */
-OpenLayers.Handler = OpenLayers.Class({
+OpenCharts.Handler = OpenCharts.Class({
 
     /**
      * Property: id
@@ -37,7 +37,7 @@ OpenLayers.Handler = OpenLayers.Class({
         
     /**
      * APIProperty: control
-     * {<OpenLayers.Control>}. The control that initialized this handler.  The
+     * {<OpenCharts.Control>}. The control that initialized this handler.  The
      *     control is assumed to have a valid map property - that map is used
      *     in the handler's own setMap method.
      */
@@ -45,13 +45,13 @@ OpenLayers.Handler = OpenLayers.Class({
 
     /**
      * Property: map
-     * {<OpenLayers.Map>}
+     * {<OpenCharts.Map>}
      */
     map: null,
 
     /**
      * APIProperty: keyMask
-     * {Integer} Use bitwise operators and one or more of the OpenLayers.Handler
+     * {Integer} Use bitwise operators and one or more of the OpenCharts.Handler
      *     constants to construct a keyMask.  The keyMask is used by
      *     <checkModifiers>.  If the keyMask matches the combination of keys
      *     down on an event, checkModifiers returns true.
@@ -59,11 +59,11 @@ OpenLayers.Handler = OpenLayers.Class({
      * Example:
      * (code)
      *     // handler only responds if the Shift key is down
-     *     handler.keyMask = OpenLayers.Handler.MOD_SHIFT;
+     *     handler.keyMask = OpenCharts.Handler.MOD_SHIFT;
      *
      *     // handler only responds if Ctrl-Shift is down
-     *     handler.keyMask = OpenLayers.Handler.MOD_SHIFT |
-     *                       OpenLayers.Handler.MOD_CTRL;
+     *     handler.keyMask = OpenCharts.Handler.MOD_SHIFT |
+     *                       OpenCharts.Handler.MOD_CTRL;
      * (end)
      */
     keyMask: null,
@@ -80,16 +80,16 @@ OpenLayers.Handler = OpenLayers.Class({
      *     Note that this property is not part of the stable API.  Use of the
      *     evt property should be restricted to controls in the library
      *     or other applications that are willing to update with changes to
-     *     the OpenLayers code.
+     *     the OpenCharts code.
      */
     evt: null,
 
     /**
-     * Constructor: OpenLayers.Handler
+     * Constructor: OpenCharts.Handler
      * Construct a handler.
      *
      * Parameters:
-     * control - {<OpenLayers.Control>} The control that initialized this
+     * control - {<OpenCharts.Control>} The control that initialized this
      *     handler.  The control is assumed to have a valid map property; that
      *     map is used in the handler's own setMap method.
      * callbacks - {Object} An object whose properties correspond to abstracted
@@ -100,16 +100,16 @@ OpenLayers.Handler = OpenLayers.Class({
      *     the handler.
      */
     initialize: function(control, callbacks, options) {
-        OpenLayers.Util.extend(this, options);
+        OpenCharts.Util.extend(this, options);
         this.control = control;
         this.callbacks = callbacks;
         if (control.map) {
             this.setMap(control.map); 
         }
 
-        OpenLayers.Util.extend(this, options);
+        OpenCharts.Util.extend(this, options);
         
-        this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
+        this.id = OpenCharts.Util.createUniqueID(this.CLASS_NAME + "_");
     },
     
     /**
@@ -134,9 +134,9 @@ OpenLayers.Handler = OpenLayers.Class({
         }
         /* calculate the keyboard modifier mask for this event */
         var keyModifiers =
-            (evt.shiftKey ? OpenLayers.Handler.MOD_SHIFT : 0) |
-            (evt.ctrlKey  ? OpenLayers.Handler.MOD_CTRL  : 0) |
-            (evt.altKey   ? OpenLayers.Handler.MOD_ALT   : 0);
+            (evt.shiftKey ? OpenCharts.Handler.MOD_SHIFT : 0) |
+            (evt.ctrlKey  ? OpenCharts.Handler.MOD_CTRL  : 0) |
+            (evt.altKey   ? OpenCharts.Handler.MOD_ALT   : 0);
     
         /* if it differs from the handler object's key mask,
            bail out of the event handler */
@@ -155,7 +155,7 @@ OpenLayers.Handler = OpenLayers.Class({
             return false;
         }
         // register for event handlers defined on this class.
-        var events = OpenLayers.Events.prototype.BROWSER_EVENTS;
+        var events = OpenCharts.Events.prototype.BROWSER_EVENTS;
         for (var i=0, len=events.length; i<len; i++) {
             if (this[events[i]]) {
                 this.register(events[i], this[events[i]]); 
@@ -177,7 +177,7 @@ OpenLayers.Handler = OpenLayers.Class({
             return false;
         }
         // unregister event handlers defined on this class.
-        var events = OpenLayers.Events.prototype.BROWSER_EVENTS;
+        var events = OpenCharts.Events.prototype.BROWSER_EVENTS;
         for (var i=0, len=events.length; i<len; i++) {
             if (this[events[i]]) {
                 this.unregister(events[i], this[events[i]]); 
@@ -255,31 +255,31 @@ OpenLayers.Handler = OpenLayers.Class({
         this.control = this.map = null;        
     },
 
-    CLASS_NAME: "OpenLayers.Handler"
+    CLASS_NAME: "OpenCharts.Handler"
 });
 
 /**
- * Constant: OpenLayers.Handler.MOD_NONE
+ * Constant: OpenCharts.Handler.MOD_NONE
  * If set as the <keyMask>, <checkModifiers> returns false if any key is down.
  */
-OpenLayers.Handler.MOD_NONE  = 0;
+OpenCharts.Handler.MOD_NONE  = 0;
 
 /**
- * Constant: OpenLayers.Handler.MOD_SHIFT
+ * Constant: OpenCharts.Handler.MOD_SHIFT
  * If set as the <keyMask>, <checkModifiers> returns false if Shift is down.
  */
-OpenLayers.Handler.MOD_SHIFT = 1;
+OpenCharts.Handler.MOD_SHIFT = 1;
 
 /**
- * Constant: OpenLayers.Handler.MOD_CTRL
+ * Constant: OpenCharts.Handler.MOD_CTRL
  * If set as the <keyMask>, <checkModifiers> returns false if Ctrl is down.
  */
-OpenLayers.Handler.MOD_CTRL  = 2;
+OpenCharts.Handler.MOD_CTRL  = 2;
 
 /**
- * Constant: OpenLayers.Handler.MOD_ALT
+ * Constant: OpenCharts.Handler.MOD_ALT
  * If set as the <keyMask>, <checkModifiers> returns false if Alt is down.
  */
-OpenLayers.Handler.MOD_ALT   = 4;
+OpenCharts.Handler.MOD_ALT   = 4;
 
 

@@ -1,13 +1,13 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Handler.js
+ * @requires OpenCharts/Handler.js
  */
 
 /**
- * Class: OpenLayers.Handler.Drag
+ * Class: OpenCharts.Handler.Drag
  * The drag handler is used to deal with sequences of browser events related
  *     to dragging.  The handler is used by controls that want to know when
  *     a drag sequence begins, when a drag is happening, and when it has
@@ -22,12 +22,12 @@
  *     the 'down' and 'up' callbacks will be called, but not the 'done'
  *     callback.
  *
- * Create a new drag handler with the <OpenLayers.Handler.Drag> constructor.
+ * Create a new drag handler with the <OpenCharts.Handler.Drag> constructor.
  *
  * Inherits from:
- *  - <OpenLayers.Handler>
+ *  - <OpenCharts.Handler>
  */
-OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
+OpenCharts.Handler.Drag = OpenCharts.Class(OpenCharts.Handler, {
   
     /** 
      * Property: started
@@ -51,13 +51,13 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
 
     /** 
      * Property: last
-     * {<OpenLayers.Pixel>} The last pixel location of the drag.
+     * {<OpenCharts.Pixel>} The last pixel location of the drag.
      */
     last: null,
 
     /** 
      * Property: start
-     * {<OpenLayers.Pixel>} The first pixel location of the drag.
+     * {<OpenCharts.Pixel>} The first pixel location of the drag.
      */
     start: null,
 
@@ -85,11 +85,11 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
     timeoutId: null,
 
     /**
-     * Constructor: OpenLayers.Handler.Drag
-     * Returns OpenLayers.Handler.Drag
+     * Constructor: OpenCharts.Handler.Drag
+     * Returns OpenCharts.Handler.Drag
      * 
      * Parameters:
-     * control - {<OpenLayers.Control>} The control that is making use of
+     * control - {<OpenCharts.Control>} The control that is making use of
      *     this handler.  If a handler is being used without a control, the
      *     handlers setMap method must be overridden to deal properly with
      *     the map.
@@ -101,7 +101,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
      * options - {Object} 
      */
     initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
+        OpenCharts.Handler.prototype.initialize.apply(this, arguments);
     },
     
     /**
@@ -173,7 +173,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
     mousedown: function (evt) {
         var propagate = true;
         this.dragging = false;
-        if (this.checkModifiers(evt) && OpenLayers.Event.isLeftClick(evt)) {
+        if (this.checkModifiers(evt) && OpenCharts.Event.isLeftClick(evt)) {
             this.started = true;
             this.start = evt.xy;
             this.last = evt.xy;
@@ -181,7 +181,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
             this.map.div.style.cursor = "move";
             this.down(evt);
             this.callback("down", [evt.xy]);
-            OpenLayers.Event.stop(evt);
+            OpenCharts.Event.stop(evt);
             
             if(!this.oldOnselectstart) {
                 this.oldOnselectstart = (document.onselectstart) ? document.onselectstart : function() { return true; };
@@ -194,6 +194,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
             this.start = null;
             this.last = null;
         }
+        
         return propagate;
     },
 
@@ -210,7 +211,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
     mousemove: function (evt) {
         if (this.started && !this.timeoutId && (evt.xy.x != this.last.x || evt.xy.y != this.last.y)) {
             if (this.interval > 0) {
-                this.timeoutId = setTimeout(OpenLayers.Function.bind(this.removeTimeout, this), this.interval);
+                this.timeoutId = setTimeout(OpenCharts.Function.bind(this.removeTimeout, this), this.interval);
             }
             this.dragging = true;
             this.move(evt);
@@ -270,7 +271,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
      * {Boolean} Let the event propagate.
      */
     mouseout: function (evt) {
-        if (this.started && OpenLayers.Util.mouseLeft(evt, this.map.div)) {
+        if (this.started && OpenCharts.Util.mouseLeft(evt, this.map.div)) {
             var dragged = (this.start != this.last);
             this.started = false; 
             this.dragging = false;
@@ -314,7 +315,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
      */
     activate: function() {
         var activated = false;
-        if(OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+        if(OpenCharts.Handler.prototype.activate.apply(this, arguments)) {
             this.dragging = false;
             activated = true;
         }
@@ -330,7 +331,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
      */
     deactivate: function() {
         var deactivated = false;
-        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+        if(OpenCharts.Handler.prototype.deactivate.apply(this, arguments)) {
             this.started = false;
             this.dragging = false;
             this.start = null;
@@ -340,5 +341,5 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
         return deactivated;
     },
 
-    CLASS_NAME: "OpenLayers.Handler.Drag"
+    CLASS_NAME: "OpenCharts.Handler.Drag"
 });

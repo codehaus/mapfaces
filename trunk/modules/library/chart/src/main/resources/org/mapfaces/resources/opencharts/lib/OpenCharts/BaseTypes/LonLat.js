@@ -1,12 +1,12 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * Class: OpenLayers.LonLat
+ * Class: OpenCharts.LonLat
  * This class represents a longitude and latitude pair
  */
-OpenLayers.LonLat = OpenLayers.Class({
+OpenCharts.LonLat = OpenCharts.Class({
 
     /** 
      * APIProperty: lon
@@ -21,7 +21,7 @@ OpenLayers.LonLat = OpenLayers.Class({
     lat: 0.0,
 
     /**
-     * Constructor: OpenLayers.LonLat
+     * Constructor: OpenCharts.LonLat
      * Create a new map location.
      *
      * Parameters:
@@ -42,7 +42,7 @@ OpenLayers.LonLat = OpenLayers.Class({
      * Return a readable string version of the lonlat
      *
      * Returns:
-     * {String} String representation of OpenLayers.LonLat object. 
+     * {String} String representation of OpenCharts.LonLat object. 
      *           (ex. <i>"lon=5,lat=42"</i>)
      */
     toString:function() {
@@ -53,7 +53,7 @@ OpenLayers.LonLat = OpenLayers.Class({
      * APIMethod: toShortString
      * 
      * Returns:
-     * {String} Shortened String representation of OpenLayers.LonLat object. 
+     * {String} Shortened String representation of OpenCharts.LonLat object. 
      *         (ex. <i>"5, 42"</i>)
      */
     toShortString:function() {
@@ -64,11 +64,11 @@ OpenLayers.LonLat = OpenLayers.Class({
      * APIMethod: clone
      * 
      * Returns:
-     * {<OpenLayers.LonLat>} New OpenLayers.LonLat object with the same lon 
+     * {<OpenCharts.LonLat>} New OpenCharts.LonLat object with the same lon 
      *                       and lat values
      */
     clone:function() {
-        return new OpenLayers.LonLat(this.lon, this.lat);
+        return new OpenCharts.LonLat(this.lon, this.lat);
     },
 
     /** 
@@ -79,27 +79,27 @@ OpenLayers.LonLat = OpenLayers.Class({
      * lat - {Float}
      * 
      * Returns:
-     * {<OpenLayers.LonLat>} A new OpenLayers.LonLat object with the lon and 
+     * {<OpenCharts.LonLat>} A new OpenCharts.LonLat object with the lon and 
      *                       lat passed-in added to this's. 
      */
     add:function(lon, lat) {
         if ( (lon == null) || (lat == null) ) {
-            var msg = OpenLayers.i18n("lonlatAddError");
-            OpenLayers.Console.error(msg);
+            var msg = OpenCharts.i18n("lonlatAddError");
+            OpenCharts.Console.error(msg);
             return null;
         }
-        return new OpenLayers.LonLat(this.lon + lon, this.lat + lat);
+        return new OpenCharts.LonLat(this.lon + lon, this.lat + lat);
     },
 
     /** 
      * APIMethod: equals
      * 
      * Parameters:
-     * ll - {<OpenLayers.LonLat>}
+     * ll - {<OpenCharts.LonLat>}
      * 
      * Returns:
      * {Boolean} Boolean value indicating whether the passed-in 
-     *           <OpenLayers.LonLat> object has the same lon and lat 
+     *           <OpenCharts.LonLat> object has the same lon and lat 
      *           components as this.
      *           Note: if ll passed in is null, returns false
      */
@@ -118,14 +118,14 @@ OpenLayers.LonLat = OpenLayers.Class({
      *    *in place*: if you want a *new* lonlat, use .clone() first.
      *
      * Parameters: 
-     * source - {<OpenLayers.Projection>} Source projection. 
-     * dest   - {<OpenLayers.Projection>} Destination projection. 
+     * source - {<OpenCharts.Projection>} Source projection. 
+     * dest   - {<OpenCharts.Projection>} Destination projection. 
      *
      * Returns:
-     * {<OpenLayers.LonLat>} Itself, for use in chaining operations.
+     * {<OpenCharts.LonLat>} Itself, for use in chaining operations.
      */
     transform: function(source, dest) {
-        var point = OpenLayers.Projection.transform(
+        var point = OpenCharts.Projection.transform(
             {'x': this.lon, 'y': this.lat}, source, dest);
         this.lon = point.x;
         this.lat = point.y;
@@ -136,10 +136,10 @@ OpenLayers.LonLat = OpenLayers.Class({
      * APIMethod: wrapDateLine
      * 
      * Parameters:
-     * maxExtent - {<OpenLayers.Bounds>}
+     * maxExtent - {<OpenCharts.Bounds>}
      * 
      * Returns:
-     * {<OpenLayers.LonLat>} A copy of this lonlat, but wrapped around the 
+     * {<OpenCharts.LonLat>} A copy of this lonlat, but wrapped around the 
      *                       "dateline" (as specified by the borders of 
      *                       maxExtent)
      */
@@ -162,12 +162,12 @@ OpenLayers.LonLat = OpenLayers.Class({
         return newLonLat;
     },
 
-    CLASS_NAME: "OpenLayers.LonLat"
+    CLASS_NAME: "OpenCharts.LonLat"
 });
 
 /** 
  * Function: fromString
- * Alternative constructor that builds a new <OpenLayers.LonLat> from a 
+ * Alternative constructor that builds a new <OpenCharts.LonLat> from a 
  *     parameter string
  * 
  * Parameters:
@@ -175,11 +175,11 @@ OpenLayers.LonLat = OpenLayers.Class({
  *                 (ex. <i>"5,40"</i>)
  * 
  * Returns:
- * {<OpenLayers.LonLat>} New <OpenLayers.LonLat> object built from the 
+ * {<OpenCharts.LonLat>} New <OpenCharts.LonLat> object built from the 
  *                       passed-in String.
  */
-OpenLayers.LonLat.fromString = function(str) {
+OpenCharts.LonLat.fromString = function(str) {
     var pair = str.split(",");
-    return new OpenLayers.LonLat(parseFloat(pair[0]), 
+    return new OpenCharts.LonLat(parseFloat(pair[0]), 
                                  parseFloat(pair[1]));
 };
