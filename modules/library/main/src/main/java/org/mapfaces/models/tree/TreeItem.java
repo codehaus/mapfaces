@@ -363,4 +363,12 @@ public class TreeItem implements Serializable {
 //        return s.toString();
         return (name == null || name.equals("")) ? getName() : name;
     }
+
+    public Object getUserObject() {
+        return userObject;
+    }
+
+    public void setUserObject(Object userObject) {
+        this.userObject = userObject;
+    }
 }

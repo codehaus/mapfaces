@@ -188,6 +188,14 @@ public class DefaultLayer implements Layer {
     public void setHidden(final boolean hidden) {
         this.hidden = hidden;
     }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHidden(final boolean hidden, final String identifierSLD) {
+        this.hidden = hidden;
+    }
 
     /**
      * {@inheritDoc }

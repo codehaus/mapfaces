@@ -37,6 +37,7 @@ import org.apache.commons.lang.StringUtils;
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
+import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.AjaxUtils;
@@ -147,7 +148,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         final ResponseWriter writer         = context.getResponseWriter();
         final UITreeLinesBase treeline      = (UITreeLinesBase) component.getParent();
         final TreeNodeModel node            = treeline.getNodeInstance();
-
+        
         if (component.getChildCount() != 0) {
             for (final UIComponent tmp : component.getChildren()) {
                 Utils.encodeRecursive(context, tmp);

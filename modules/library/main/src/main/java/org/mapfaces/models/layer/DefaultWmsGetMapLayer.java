@@ -19,6 +19,7 @@ package org.mapfaces.models.layer;
 
 import java.util.List;
 import org.mapfaces.models.Feature;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * this model is for wms layers with an existing url getMap, 
@@ -28,12 +29,11 @@ import org.mapfaces.models.Feature;
  * @author Mehdi Sidhoum (Geomatys).
  */
 public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
-    
+
     /**
      * This is a list of sublayers, most of time this list is null, but it can take values when a factorization is launched.
      */
     private List<WmsGetMapEntry> composite;
-    
     /**
      * This is the list of features. it is usefull to have this list for getFeatureInfo request on this layer.
      */
@@ -54,7 +54,7 @@ public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
     public void setFeatures(List<Feature> features) {
         this.features = features;
     }
-    
+
     /**
      * Returns a boolean value if the composite list of this layer contains the WmsGetMapEntry entry passed in parameter. 
      * @param entry
@@ -70,6 +70,33 @@ public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
         }
         return false;
     }
-    
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setHidden(final boolean hidden, final String identifierSLD) {
+        if (identifierSLD != null) {
+            String sld_body = FacesUtils.getParameterValue("SLD_BODY", getUrlGetMap());
+            if (hidden) {
+                //remove the identifier from the getMapUrl if exists
+                if (sld_body != null && sld_body.contains(identifierSLD)) {
+                    sld_body = sld_body.replaceFirst(identifierSLD, "");
+                }
+            } else {
+                //add the identifier in the getMapurl if not exists
+                String literaltagBegin = "%3Cogc:Literal%3E";
+                String literaltagEnd = "%3C%2Fogc:Literal%3E";
+                if (sld_body.contains(literaltagBegin + literaltagEnd) && ! sld_body.contains(identifierSLD)) {
+                    sld_body = sld_body.replaceFirst(literaltagBegin + literaltagEnd, literaltagBegin + identifierSLD + literaltagEnd);
+                }
+            }
+            String newUrl = FacesUtils.setParameterValueAndGetUrl("SLD_BODY", sld_body, getUrlGetMap());
+            this.setUrlGetMap(newUrl);
+        } else {
+            this.setHidden(hidden);
+        }
+        
+    }
+    
 }

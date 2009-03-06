@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import org.mapfaces.component.UILayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.util.FacesUtils;
 
 
@@ -117,9 +119,16 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
                 //Modify Context property
                 if (layerProperty.contains("hidden")) {
+                    
+                    String sldIdentifier = params.get("WmsGetMapEntry_SLD_identifier");
+                    
                     final boolean test = !(value != null && value.equals("on"));
 //                    tmp.setLayerHidden(layer.getId(), test);
-                    layer.setHidden(test);
+                    if (layer instanceof DefaultWmsGetMapLayer) {
+                        ((DefaultWmsGetMapLayer)layer).setHidden(test, sldIdentifier);
+                    }else {
+                        layer.setHidden(test);
+                    }
                     if (isDebug()) {
                          LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property hidden of the layer " + layer.getId() + " has been modified :" + model.isLayerHidden(layer.getId()));
                     }
