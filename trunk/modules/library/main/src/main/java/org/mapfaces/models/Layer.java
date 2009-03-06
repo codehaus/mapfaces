@@ -97,6 +97,8 @@ public interface Layer extends Serializable, Cloneable {
     void setGroupId(int group);    
 
     void setHidden(boolean hidden);
+    
+    void setHidden(boolean hidden, String SLDidentifier);
 
     void setId(String id);
 

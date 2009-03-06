@@ -37,7 +37,9 @@ import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.DefaultDimension;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.DefaultWmsLayer;
+import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
@@ -263,6 +265,18 @@ public class Adapter {
         } else {
             final TreeItem treeItemLayer = new TreeItem(layer);
             final TreeNodeModel itemLayer = new TreeNodeModel(treeItemLayer, indexNode + 1, node.getDepth(), indexNode + 1, false);
+            
+            //Adding children for the layer if it contains elements in the composite list.
+            if (layer instanceof DefaultWmsGetMapLayer) {
+                List<WmsGetMapEntry> entriesLayers = ((DefaultWmsGetMapLayer) layer).getComposite();
+                if (entriesLayers != null && entriesLayers.size() != 0) {
+                    for (WmsGetMapEntry entry : entriesLayers) {
+                        final TreeItem treeItemEntryLayer = new TreeItem(entry);
+                        final TreeNodeModel itemEntryLayer = new TreeNodeModel(treeItemEntryLayer, indexNode + 1, node.getDepth() + 1, indexNode + 1, false);
+                        itemLayer.add(itemEntryLayer);
+                    }
+                }
+            }
             node.add(itemLayer);
         }
     }
@@ -391,6 +405,18 @@ public class Adapter {
         WmsLayer layer13 = new DefaultWmsLayer();
         layer13.setName("Demis world");
         //layer13.setGroup("world maps");
+        
+        DefaultWmsGetMapLayer layer14 = new DefaultWmsGetMapLayer();
+        layer14.setGroup("dimension/node11/feature/context");
+        List<WmsGetMapEntry> entires = new ArrayList<WmsGetMapEntry>();
+        entires.add(new WmsGetMapEntry());
+        entires.add(new WmsGetMapEntry());
+        entires.add(new WmsGetMapEntry());
+        entires.add(new WmsGetMapEntry());
+        entires.add(new WmsGetMapEntry());
+        layer14.setComposite(entires);
+        
+        
 
         layers.add(layer12);
         layers.add(layer13);
@@ -405,7 +431,8 @@ public class Adapter {
 //        layers.add(layer8);
 //        layers.add(layer9);
 //        layers.add(layer10);
-//        layers.add(layer11);
+        layers.add(layer11);
+        layers.add(layer14);
 
 
         context.setLayers((List) layers);

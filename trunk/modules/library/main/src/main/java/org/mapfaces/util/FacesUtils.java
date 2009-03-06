@@ -880,4 +880,20 @@ public class FacesUtils {
         
         return result;
     }
+    
+    /**
+     * This method returns a number of occurences occ in the string s.
+     */
+    public static int getOccurence(String s, String occ) {
+        if (!s.contains(occ)) {
+            return 0;
+        } else {
+            int nbocc = 0;
+            while (s.indexOf(occ) != -1) {
+                s = s.substring(s.indexOf(occ) + 1);
+                nbocc++;
+            }
+            return nbocc;
+        }
+    }
 }
