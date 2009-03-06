@@ -49,16 +49,20 @@ import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
  */
 public class ChartRenderer extends Renderer {
     
-    boolean embed = false;
+    boolean embed = true;
     String PIXEL = null;
     
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         UIChart chart = (UIChart) component;
         setChartDataAtSession(context, chart);
 
         String clientId = chart.getClientId(context);
-        
+        String formId = ChartUtils.getFormId(context, component);
+        String jsSuffix = clientId.replace(":","");
+        String onloadFunc = new StringBuffer("function onLoad").append(jsSuffix).append("(chartId, formId, ajaxCompId) { if(window.setMfIds)window.setMfIds(chartId, formId, ajaxCompId);var elt = document.getElementById(chartId);if (elt) elt.style.display='block';while(document.getElementById(chartId+'clone') != null)  elt.parentNode.removeChild(document.getElementById(chartId+'clone'));};")
+                .append("onLoad").append(jsSuffix).append("('").append(clientId).append("','").append(formId).append("','").append(clientId).append("_Ajax');").toString();
         //Set the chartURL
         String chartURL = null;
         if (ChartUtils.useServlet(context)) {
@@ -77,8 +81,16 @@ public class ChartRenderer extends Renderer {
             writer.writeAttribute("height", String.valueOf(chart.getHeight()), null);
             writer.writeAttribute("src", chartURL, null);
             ChartUtils.renderPassThruImgAttributes(writer, chart);
+        } else if(chart.getOutput().equals("vml")){
+            writer.startElement("iframe", chart);
+            writer.writeAttribute("id", clientId, null);
+            writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
+            writer.writeAttribute("height", String.valueOf(chart.getHeight()), null);
+            writer.writeAttribute("src", chartURL, null); 
+            writer.writeAttribute("style", "display:none; margin: 0px; padding: 0px; border: none;", null); 
+            writer.writeAttribute("onload", onloadFunc, null); 
+            
         } else {
-            String jsSuffix = clientId.replace(":","");
 //            writer.startElement("script", chart);
 //            writer.writeAttribute("type", "text/javascript", null);
 //            writer.write ( 
@@ -113,15 +125,19 @@ public class ChartRenderer extends Renderer {
             if (embed) writer.startElement("embed", chart);         
             else writer.startElement("object", chart);
             
-            String formId = ChartUtils.getFormId(context, component);
-            
-            writer.writeAttribute("onload", "function onLoad"+jsSuffix+"(chartId, formId, ajaxCompId) { if(window.setMfIds)window.setMfIds(chartId, formId, ajaxCompId);var elt = document.getElementById(chartId);if (elt) elt.style.display='block';while(document.getElementById(chartId+'clone') != null)  elt.parentNode.removeChild(document.getElementById(chartId+'clone'));};onLoad"+jsSuffix+"('" + clientId + "','" + formId + "','" + clientId + "_Ajax');", null); 
+            writer.writeAttribute("onload", onloadFunc, null); 
+            /* 
+               BUG Chrome and Safari :  when we set 'display:none;' these 2 browsers 
+               load 2 times the SVG doc, once when the page loads and second 
+               when the display is set to block. By default is set to none to make the reRender smoother
+            */
             writer.writeAttribute("style", "display:none;", null); 
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
             writer.writeAttribute("border", "0", null);
             writer.writeAttribute("height", String.valueOf(chart.getHeight()),  null);
-            writer.writeAttribute("type", "image/svg+xml", null); 
+            
+            writer.writeAttribute("type", ChartUtils.resolveContentType(chart.getOutput()), null); 
             writer.writeAttribute("pluginspage", "http://www.adobe.com/svg/viewer/install/main.html", null);
             
             if (embed) {               
@@ -130,10 +146,10 @@ public class ChartRenderer extends Renderer {
             } else {                
                 writer.writeAttribute("data", chartURL, null);
                 ChartUtils.renderPassThruImgAttributes(writer, chart);
-                writer.startElement("param", chart);
-                writer.writeAttribute("name", "src", null);
-                writer.writeAttribute("value", chartURL, null);
-                writer.endElement("param");
+//                writer.startElement("param", chart);
+//                writer.writeAttribute("name", "src", null);
+//                writer.writeAttribute("value", chartURL, null);
+//                writer.endElement("param");
                 writer.write("alt : ");
                 writer.startElement("a", chart);
                 writer.writeAttribute("href", chartURL, null);
@@ -166,7 +182,9 @@ public class ChartRenderer extends Renderer {
 
         if (comp.getOutput().equals("png") || comp.getOutput().equals("jpeg")) {
             writer.endElement("img");
-        } else {
+        }  else if(comp.getOutput().equals("vml")){
+            writer.endElement("iframe");
+        }else {
             if (embed) writer.endElement("embed");
             else writer.endElement("object");
         }
@@ -198,8 +216,8 @@ public class ChartRenderer extends Renderer {
         if (session.get(clientId) == null) {
             redraw = true;
         } else {
-            System.out.println("comp.getDatasource() "+comp.getDatasource());
-            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
+//            System.out.println("comp.getDatasource() "+comp.getDatasource());
+//            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
             if (comp.getDatasource() != null && !comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
                 redraw = true;
             } else {
@@ -261,8 +279,6 @@ public class ChartRenderer extends Renderer {
                 ChartUtilities.writeChartAsPNG(out, chart, data.getWidth(), data.getHeight(), chartRenderingInfo);
             } else if (data.getOutput().equalsIgnoreCase("jpeg")) {
                 ChartUtilities.writeChartAsJPEG(out, chart, data.getWidth(), data.getHeight(), chartRenderingInfo);
-            } else if (data.getOutput().equalsIgnoreCase("svg")) {
-                ChartUtils.writeChartAsSVG(out, data, chartRenderingInfo);
             }
             renderImageMapSupport(context, uichart, chartRenderingInfo);
             writer.write(ChartUtilities.getImageMap(uichart.getGenerateMap(), chartRenderingInfo, new StandardToolTipTagFragmentGenerator(), new URLTagFragmentGenerator(uichart.getId())));

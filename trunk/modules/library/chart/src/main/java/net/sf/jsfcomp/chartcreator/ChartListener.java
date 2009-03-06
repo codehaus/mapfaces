@@ -57,9 +57,6 @@ public class ChartListener implements PhaseListener {
         Map sessionMap = externalContext.getSessionMap();
 
         ChartData chartData = (ChartData) sessionMap.get(id);
-        ChartRenderingInfo info = new ChartRenderingInfo();
-        //JFreeChart chart = ChartUtils.createChartWithType(chartData);
-        JFreeChart chart = chartData.getChart();
        
         if (chartData.getRequestParameterMap()!= null) {
             String zoomin = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMIN");
@@ -110,7 +107,6 @@ public class ChartListener implements PhaseListener {
             e.printStackTrace();
         } finally {
             sessionMap.put(id, chartData);
-            //emptySession(sessionMap, id);
             facesContext.responseComplete();
         }
     }
@@ -145,6 +141,8 @@ public class ChartListener implements PhaseListener {
             ChartUtilities.writeChartAsJPEG(stream, chart, chartData.getWidth(), chartData.getHeight());
         } else if (chartData.getOutput().equalsIgnoreCase("svg")) {
             ChartUtils.writeChartAsSVG(stream, chartData, info);
+        } else if (chartData.getOutput().equalsIgnoreCase("vml")) {
+            ChartUtils.writeChartAsVML(stream, chartData, info);
         }
         stream.flush();
         stream.close();
@@ -161,6 +159,8 @@ public class ChartListener implements PhaseListener {
             ChartUtilities.writeChartAsJPEG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight());
         } else if (chartData.getOutput().equalsIgnoreCase("svg")) {
             ChartUtils.writeChartAsSVG(stream, chartData, info);
+        } else if (chartData.getOutput().equalsIgnoreCase("vml")) {
+            ChartUtils.writeChartAsVML(stream, chartData, info);
         }
         chartData.setInfo(info);
         stream.flush();

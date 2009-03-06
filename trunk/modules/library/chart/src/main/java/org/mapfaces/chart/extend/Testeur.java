@@ -135,7 +135,7 @@ public class Testeur {
         chart.addSubtitle(new TextTitle("Four datasets and four range axes."));  
         XYPlot plot = chart.getXYPlot();
         plot.setOrientation(PlotOrientation.VERTICAL);
-        plot.setBackgroundPaint(Color.lightGray);
+        plot.setBackgroundPaint(Color.white);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
         
