@@ -349,7 +349,6 @@ public class PeriodUtilities {
      * @return
      */
     public static Date getDateFromString(String dateString) throws ParseException {
-        System.out.println(dateString);
         Date response = null;
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
