@@ -8,14 +8,17 @@
     </head>
     <body>
         <f:view>
-            <h:form id="form1">	
+            <h:form id="form1"  >	
+                <%--a4j:log popup="true" level="ALL" ></a4j:log--%>
+
+
                 <%--c:chart output="svg" id="chart1" datasource="#{OtherCharts.sourceProvider.XYDataset}" type="xystep" legend="false" colors="magenta,#CACACA,blue" xlabel="X" ylabel="Y"></c:chart>
                 --%>
-            <c:chart output="svg" background="white" id="chart2" width="800" height="400" 
+            <c:chart output="svg"  background="white" id="chart2" width="800" height="400" 
                 rangeGridLines="true" 
-                domainGridLines="true" datasource="#{OtherCharts.sourceProvider.XYDataset}" 
+                domainGridLines="true" datasource="#{OtherCharts.sourceProvider.multipleXYDataset}" 
                 title="Multiple XYDataset Demo" type="timeseries" 
-                legend="true" xlabel="Time of Day" ylabel="Primary Axes" colors="black,red,blue,green,cyan,magenta"></c:chart>
+                legend="true" xlabel="Time of Day" ylabel="Primary Axes" ></c:chart>
             <%--c:chart output="svg" background="magenta" id="chart22" width="800" height="400" 
                 rangeGridLines="true" 
                 domainGridLines="true" datasource="#{OtherCharts.sourceProvider.emptyXYDataset}" 
@@ -63,12 +66,10 @@
             
             <h2>Instructions : </h2>
             <p >Zoom in : wheel up 
-            Zoom out : wheel down </p>
+            Zoom out : wheel down 
             Zoom box : CTRL+ mouse left click and drag
             Drag : mouse left click and drag </p>
         </f:view>
-        <script type="text/javascript">
-               // function onLoadform1chart2(chartId, formId, ajaxCompId) { window.setMfIds(chartId, formId, ajaxCompId);var elt = document.getElementById(chartId);if (elt) elt.style.display='block';while(document.getElementById(chartId+'clone') != null)  elt.parentNode.removeChild(document.getElementById(chartId+'clone'));}
-        </script>
+       
     </body>	
 </html>  
