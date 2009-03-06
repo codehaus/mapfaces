@@ -134,12 +134,12 @@ public class IdentifiedChartFactory {
         plot.setRenderer(renderer);
         JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,plot, legend);
         
-        chart.setBackgroundPaint(Color.white);
+//        chart.setBackgroundPaint(Color.white);
         
         plot = (XYPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
+        plot.setBackgroundPaint(Color.white);
+        plot.setDomainGridlinePaint(Color.darkGray);
+        plot.setRangeGridlinePaint(Color.black);
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
         XYItemRenderer r = plot.getRenderer();
@@ -158,7 +158,8 @@ public class IdentifiedChartFactory {
             // circle
             result[1] = new Ellipse2D.Double(-delta, -delta, size, size);
             renderer.setSeriesShape(0, result[1], false);
-            renderer.setSeriesPaint(0, Color.black);
+            renderer.setSeriesPaint(0, Color.cyan);
+            
         }
         return chart;
     }

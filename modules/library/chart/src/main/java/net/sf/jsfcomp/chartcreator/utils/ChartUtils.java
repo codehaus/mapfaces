@@ -22,11 +22,14 @@ import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -39,12 +42,16 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import org.mapfaces.chart.extend.IdentifiedChartFactory;
 import org.mapfaces.chart.extend.IdentifiedSVGGraphics2D;
 import net.sf.jsfcomp.chartcreator.model.ChartAxisData;
 import net.sf.jsfcomp.chartcreator.model.ChartData;
-
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.svggen.SVGGraphics2DIOException;
@@ -95,6 +102,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
  */
 public class ChartUtils {
 
+    private static final Logger LOGGER = Logger.getLogger("net.sf.jsfcomp.chartcreator.utils.ChartUtils");
     private static String passthruImgAttributes[] = {
         "alt",
         "styleClass",
@@ -189,6 +197,8 @@ public class ChartUtils {
             return "img/jpeg";
         } else if (output.equalsIgnoreCase("svg")) {
             return "image/svg+xml";
+        } else if (output.equalsIgnoreCase("vml")) {
+            return "text/html";
         } else {
             throw new RuntimeException("Unsupported output format:\n" + output);
         }
@@ -239,6 +249,7 @@ public class ChartUtils {
         }
 
         chart.getPlot().setBackgroundPaint(ChartUtils.getColor(chartData.getForeground2()));
+      
         chart.setTitle(chartData.getTitle());
         //AntiAlias makes some grid lines disappear
         //chart.setAntiAlias(chartData.isAntialias());
@@ -290,7 +301,7 @@ public class ChartUtils {
             chart = ChartFactory.createGanttChart("", xAxis, yAxis, (IntervalCategoryDataset) dataset, legend, true, false);
         }
 
-        CategoryPlot plot = (CategoryPlot) chart.getCategoryPlot();
+        CategoryPlot plot = (CategoryPlot) chart.getCategoryPlot();      
         plot.setDomainGridlinesVisible(chartData.isDomainGridLines());
         plot.setRangeGridlinesVisible(chartData.isRangeGridLines());
         if (chartData.getGenerateMap() != null) {
@@ -393,7 +404,6 @@ public class ChartUtils {
         if (chart.getPlot() instanceof XYPlot) {
             chart.getXYPlot().setDomainGridlinesVisible(chartData.isDomainGridLines());
             chart.getXYPlot().setRangeGridlinesVisible(chartData.isRangeGridLines());
-
             if (chartData.getGenerateMap() != null) {
                 chart.getXYPlot().getRenderer().setURLGenerator(new StandardXYURLGenerator(""));
             }
@@ -401,7 +411,7 @@ public class ChartUtils {
 
         //setXYSeriesColors(chart, chartData);
         setXYDatasetColors(chart, chartData);
-        setXYExtensions(chart, chartData);
+//        setXYExtensions(chart, chartData);
 
         return chart;
     }
@@ -434,11 +444,15 @@ public class ChartUtils {
 
     private static void setXYDatasetColors(JFreeChart chart, ChartData chartData) {
         if (chart.getPlot() instanceof XYPlot && chartData.getColors() != null) {
+            
             XYPlot plot = (XYPlot) chart.getPlot();
             String[] colors = chartData.getColors().split(",");
-            plot.setBackgroundPaint(Color.lightGray);
-            plot.setDomainGridlinePaint(Color.black);
+            plot.setBackgroundPaint(chartData.getBackground());
+            //these 2 lines display the color of gridlines but I've seen no color when the two are 
+            //set to black so  we must set darkgray
+            plot.setDomainGridlinePaint(Color.darkGray);
             plot.setRangeGridlinePaint(Color.black);
+            
             plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 
             //Define the renderer of the XYPlot with a line and a shape (point, rectangle, triangle, square...)
@@ -448,24 +462,25 @@ public class ChartUtils {
             renderer.setBaseShapesFilled(false);
 //            //Series 0 shape will be drawn with an Ellipse
 //            renderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6), false);
-            
-            int total = 0;
-            for (int l = 0; l < plot.getDatasetCount(); l++) {
-                for (int m = 0; m < plot.getDataset(l).getSeriesCount(); m++) {
-                    total += plot.getDataset(l).getItemCount(m);
-                }
-            }
-            if (total < 50) {
-                //Set if shape  are visible or not
-                renderer.setBaseShapesVisible(true);
-            } else {
-                renderer.setBaseShapesVisible(false);
-            }
+
+//            int total = 0;
+//            for (int l = 0; l < plot.getDatasetCount(); l++) {
+//                for (int m = 0; m < plot.getDataset(l).getSeriesCount(); m++) {
+//                    total += plot.getDataset(l).getItemCount(m);
+//                }
+//            }
+//            if (total < 50) {
+//                //Set if shape  are visible or not
+//                renderer.setBaseShapesVisible(true);
+//            } else {
+//                renderer.setBaseShapesVisible(false);
+//            }
             /**/
             int i = 0;
             int cpt = 0;
             while (i < plot.getDatasetCount()) {
                 try {
+                    System.out.println("Datesets  " + i + ChartUtils.getColor(colors[cpt].trim()));
                     Color color = ChartUtils.getColor(colors[cpt].trim());
                     NumberAxis axis = new NumberAxis("Range Axis " + (i + 1));
                     axis.setAutoRangeIncludesZero(false);
@@ -481,12 +496,13 @@ public class ChartUtils {
                     int j = 0;
                     while (j < plot.getDataset(i).getSeriesCount()) {
                         renderer.setDrawSeriesLineAsPath(false);
-                        plot.setRenderer(i, (XYItemRenderer) renderer.clone());//                
+                        System.out.println("Series " + j + ChartUtils.getColor(colors[cpt].trim()));
+                        plot.setRenderer(i, (XYItemRenderer) renderer.clone());
                         plot.getRenderer(i).setSeriesPaint(j, ChartUtils.getColor(colors[cpt].trim()));
                         j++;
                         cpt++;
                     }
-                    } catch (CloneNotSupportedException ex) {
+                } catch (CloneNotSupportedException ex) {
                     Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 i++;
@@ -552,7 +568,55 @@ public class ChartUtils {
         }
     }
 
-    public static void writeChartAsSVG(OutputStream stream, ChartData chartData, ChartRenderingInfo info) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+    private static void SVGtoVML(ByteArrayOutputStream in, OutputStream out) {
+//        final StringWriter strWriter = new StringWriter();
+
+        Source source = new StreamSource(new ByteArrayInputStream(in.toByteArray()));
+        try {
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transform = tf.newTransformer(
+                    new StreamSource("http://localhost:8084/mf/resource.jsf?r=/org/mapfaces/svgtovml/xsl/svg2vml.xsl"));
+
+            StreamResult result = new StreamResult(out);
+            transform.transform(source, result);
+//        //erase the <xml... tag ------------------------------------------------
+//        final StringBuffer buffer = strWriter.getBuffer();
+//        int i = buffer.indexOf("\n");
+//        buffer.replace(0, i+1, "");
+//
+//        System.out.println(buffer.toString());
+        } catch (TransformerException ex) {
+            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
+    public static void writeChartAsVML(OutputStream stream, JFreeChart chart, int width, int height) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+        try {
+            final ByteArrayOutputStream outPipe = new ByteArrayOutputStream();
+            final Writer writer = new OutputStreamWriter(outPipe, "UTF-8");
+            writeChartAsSVG(writer, chart, width, height);
+            writer.flush();
+            SVGtoVML(outPipe, stream);
+        } catch (IOException ex) {
+            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void writeChartAsVML(OutputStream stream, ChartData chartData, ChartRenderingInfo info) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+        try {
+            final ByteArrayOutputStream outPipe = new ByteArrayOutputStream();
+            final Writer writer = new OutputStreamWriter(outPipe, "UTF-8");
+            writeChartAsSVG(writer, chartData, info);
+            writer.flush();
+            SVGtoVML(outPipe, stream);
+        } catch (IOException ex) {
+            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void writeChartAsSVG(Object stream, ChartData chartData, ChartRenderingInfo info) throws SVGGraphics2DIOException, UnsupportedEncodingException {
         if (chartData.getType().equals("timeseries")) {
             writeChartAsSVG(stream, chartData.getChart(), chartData.getWidth(), chartData.getHeight(), info, true);
         } else {
@@ -560,12 +624,12 @@ public class ChartUtils {
         }
     }
 
-    public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+    public static void writeChartAsSVG(Object stream, JFreeChart chart, int width, int height) throws SVGGraphics2DIOException, UnsupportedEncodingException {
         ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
         writeChartAsSVG(stream, chart, width, height, chartRenderingInfo, false);
     }
 
-    public static void writeChartAsSVG(OutputStream stream, JFreeChart chart, int width, int height, ChartRenderingInfo chartRenderingInfo, boolean isDynamic) throws SVGGraphics2DIOException, UnsupportedEncodingException {
+    private static void writeChartAsSVG(Object out, JFreeChart chart, int width, int height, ChartRenderingInfo chartRenderingInfo, boolean isDynamic) throws SVGGraphics2DIOException, UnsupportedEncodingException {
 
         //create the SVG from chart
         final DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
@@ -580,25 +644,45 @@ public class ChartUtils {
 
         //Add JavaScript 
         if (isDynamic) {
-            boolean effects = true;
             boolean navigation = true;
-            boolean increaseDragSpeed = false;
             if (navigation) {
-                addNavigation(document, root, width, height);
-                if (increaseDragSpeed) {
-                    optimizeSvgRendering(document);
-                //                replaceLinesByPolyline(svgGenerator, document, root, width, height);
-                //                replacePathByCircle(svgGenerator, document, root, width, height);
+                prepareSvgForNavigation(document, root, width, height);
+                
+                boolean compressedScript = true;
+                boolean script = true;
+                boolean effects = true;
+                boolean increaseDragSpeed = true;
+                
+                if (compressedScript) {
+                    boolean bsScript = false;
+                    if (bsScript) {
+                        addBsScript(document);
+                    } else {
+                        addMinScript(document);
+                    }
+                } else if (script) {
+                    addOpenChartsScript(document);
+                    if (effects) {
+                        addEffects(document);
+                    }
+                    if (effects || navigation) {
+                        addInit(document);
+                    }
+                    if (increaseDragSpeed) {
+                        //                    optimizeSvgRendering(document);
+                        //                    replaceLinesByPolyline(svgGenerator, document, root, width, height);
+                        //                    replacePathByCircle(svgGenerator, document, root, width, height);
+                    }
                 }
             }
-            if (effects) {
-                addEffects(document);
-            }
-            if (effects || navigation) {
-                addInit(document);
-            }
         }
-        svgGenerator.stream(root, new OutputStreamWriter(stream, "ISO-8859-1"));
+        if (out instanceof OutputStream) {
+            svgGenerator.stream(root, new OutputStreamWriter((OutputStream) out, "ISO-8859-1"));
+        } else if (out instanceof Writer) {
+            svgGenerator.stream(root, (Writer) out);
+        } else {
+            LOGGER.log(Level.SEVERE, "The out variable must be an instance of Writer or OutputStream !!!!!");
+        }
     }
 
     private static Node createCircleFromPath(Document document, Node item) {
@@ -636,9 +720,11 @@ public class ChartUtils {
                 points, "", "");
 
         NamedNodeMap eltAttributes = polyline.getAttributes();
-        for (int i = 0; i < attributes.getLength(); i++) {
-            if (attributes.item(i).getNodeName().equals("serie") || attributes.item(i).getNodeName().equals("stroke")) {
-                eltAttributes.setNamedItem(attributes.item(i).cloneNode(true));
+        if (attributes != null && attributes.getLength() > 0 && eltAttributes != null) {
+            for (int i = 0; i < attributes.getLength(); i++) {
+                if (attributes.item(i).getNodeName().equals("serie") || attributes.item(i).getNodeName().equals("stroke")) {
+                    eltAttributes.setNamedItem(attributes.item(i).cloneNode(true));
+                }
             }
         }
         return polyline;
@@ -659,6 +745,9 @@ public class ChartUtils {
                             points.append(childs.item(i).getAttributes().getNamedItem("x2").getNodeValue()).append(",").append(childs.item(i).getAttributes().getNamedItem("y2").getNodeValue()).append(" ");
                         }
                         childs.item(i).getParentNode().removeChild(childs.item(i));
+                        if (childs.item(i) == null) {
+                            break;
+                        }
                     }
                     i--;
                     childs.item(i).getParentNode().insertBefore(createPolylineFromLines(document, points.toString(), lineAttributes), childs.item(i));
@@ -723,35 +812,8 @@ public class ChartUtils {
 
     }
 
-    private static void addNavigation(Document document, Element root, int width, int height) {
-        //root.setAttribute("onload", "loadOpenCharts('canvas');");
-        String[] jsFiles = {
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/SingleFile.js",
-            "/org/mapfaces/resources/opencharts/custom/OpenLayers.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Util.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Class.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Bounds.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Element.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/LonLat.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Pixel.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Size.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Events.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Click.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Hover.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Drag.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Box.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/MouseWheel.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Keyboard.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Control.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Control/DragPan.js",
-            "/org/mapfaces/resources/opencharts/lib/OpenLayers/Control/ZoomBox.js",
-            "/org/mapfaces/resources/opencharts/custom/OpenLayers/Map.js",
-            "/org/mapfaces/resources/opencharts/custom/OpenLayers/Handler/MouseWheel.js",
-            "/org/mapfaces/resources/opencharts/custom/OpenLayers/Control/Navigation.js"
-        };
-        addScript(document, jsFiles);
+    private static void prepareSvgForNavigation(Document document, Element root, int width, int height) {
+
 
         //Add a draggable <rect> element with the same width and height as his parent 
         NodeList gNodes = root.getElementsByTagName("g");
@@ -769,8 +831,10 @@ public class ChartUtils {
                 canvas.getAttributes().setNamedItem(createAttribute(document, "x", String.valueOf(0)));
                 canvas.getAttributes().setNamedItem(createAttribute(document, "y", String.valueOf(0)));
                 canvas.getAttributes().setNamedItem(createAttribute(document, "cursor", "move"));
-                canvas.getAttributes().setNamedItem(createAttribute(document, "fill", "black"));
-                canvas.getAttributes().setNamedItem(createAttribute(document, "stroke", "black"));
+                //The canvas is black and the gridlines are white .
+                //TODO set the grdlines to black and the canvas to white in the JFreeChart
+//                canvas.getAttributes().setNamedItem(createAttribute(document, "fill", "black"));
+//                canvas.getAttributes().setNamedItem(createAttribute(document, "stroke", "none"));
 
                 gNodes.item(i).getParentNode().insertBefore(canvas, gNodes.item(i));
                 canvasCreated = true;
@@ -784,8 +848,10 @@ public class ChartUtils {
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "x", String.valueOf(0)));
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "y", String.valueOf(0)));
                 gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "cursor", "move"));
-                gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "fill", "black"));
-                gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "stroke", "black"));
+                //The canvas is black and the gridlines are white .
+                //TODO set the grdlines to black and the canvas to white in the JFreeChart
+//                gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "fill", "black"));
+//                gNodes.item(i).getAttributes().setNamedItem(createAttribute(document, "stroke", "none"));
 
                 //Add id to the container of grid lines
                 gNodes.item(i - 1).getAttributes().setNamedItem(createAttribute(document, "id", "canvasGrid"));
@@ -827,17 +893,24 @@ public class ChartUtils {
                     //gNodes.item(i).insertBefore(createRect(document, "bufferCanvas", -500,-500,2000,2000, "silver", "cursor:move;"), gNodes.item(i).getFirstChild());
 
                     //Add a canvas buffer node as firstChild of canvas
-                    gNodes.item(i).insertBefore(createPath(document, "canvasBuffer", "M" + bufferOriginX + " " + bufferOriginY + " L" + bufferMaxX + " " + bufferOriginY + " L" + bufferMaxX + " " + bufferMaxY + " L" + bufferOriginX + " " + bufferMaxY + " L" + bufferOriginX + " " + bufferOriginY + " Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "silver", "cursor:move;"), gNodes.item(i).getFirstChild());
+//                    gNodes.item(i).insertBefore(createPath(document, "canvasBuffer", "M" + bufferOriginX + " " + bufferOriginY + " L" + bufferMaxX + " " + bufferOriginY + " L" + bufferMaxX + " " + bufferMaxY + " L" + bufferOriginX + " " + bufferMaxY + " L" + bufferOriginX + " " + bufferOriginY + " Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "silver", "cursor:move;"), gNodes.item(i).getFirstChild());
+                    gNodes.item(i).insertBefore(createRect(document, "canvasBuffer", String.valueOf(bufferOriginX), String.valueOf(bufferOriginY), String.valueOf((bufferMaxX - bufferOriginX)), String.valueOf((bufferMaxY - bufferOriginY)), "white", "cursor:move;"), gNodes.item(i).getFirstChild());
 
                     //Add the canvas node as second child of svg element (after defs node) , before  the original Rect graph container
                     gNodes.item(i).getParentNode().insertBefore(gNodes.item(i), gNodes.item(i).getParentNode().getFirstChild().getNextSibling());
 
                     //Replace the original Rect chart container by a Path graph container with a hole to see the canvas;
-                    Node path = createPath(document, "chartContainer", "M0 0 L" + width + " 0 L" + width + " " + height + " L0 " + height + " L0 0 Z M" + containerOriginX + " " + containerOriginY + " L" + containerOriginX + " " + containerMaxY + " L" + containerMaxX + " " + containerMaxY + " L" + containerMaxX + " " + containerOriginY + " Z", "", "");
+                    Node path = createPath(document, "chartContainer", new StringBuffer("M0 0 L" + width + " 0 ").append("L" + width + " " + height + " L0 " + height).append(" L0 0 Z M").append(containerOriginX + " " + containerOriginY).append(" L" + containerOriginX + " " + containerMaxY).append(" L" + containerMaxX + " " + containerMaxY).append(" L" + containerMaxX + " " + containerOriginY + " Z").toString(), "", "");
                     //d.setNodeValue("M0 0 L    600       0 L    600           400        L0     400        L0 0 Z M    104.5566        33.6406     L    104.5566        222.7656           L    495.4434                222.7656           L    495.4434                33.6406     Z");
                     // M0 0 L    1200      0 L    1200          800        L0     800        L0 0 Z M    121.2363        33.6406  L      121.2363        974.207            L    652.4062                974.207            L    652.4062                33.6406 Z
-                    gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().replaceChild(
-                            path, gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling().getFirstChild());
+
+                    //Find the ChartContainer parent to clone its fill and stroke  attributes, if it's SVG it doesn't render its colors correctly
+                    Node graphContainerParent = gNodes.item(i).getParentNode().getFirstChild().getNextSibling().getNextSibling();
+                    path.getAttributes().setNamedItem(graphContainerParent.getAttributes().getNamedItem("fill").cloneNode(true));
+                    path.getAttributes().setNamedItem(graphContainerParent.getAttributes().getNamedItem("stroke").cloneNode(true));
+
+                    graphContainerParent.replaceChild(
+                            path, graphContainerParent.getFirstChild());
 
                     createBufferGridLines(document, bufferOriginX, bufferOriginY, bufferMaxX, bufferMaxY);
 
@@ -847,13 +920,20 @@ public class ChartUtils {
         }
     }
 
-    private static void addScript(Document document, String[] jsFiles) {
+    private static void addScript(Document document, String[] jsFiles, String charset) {
         Element script = document.createElement("script");
+        script.setAttributeNS(null, "type", "text/javascript");
         for (int i = 0; i < jsFiles.length; i++) {
             Element clone = (Element) script.cloneNode(false);
             clone.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), jsFiles[i], null));
+            //only for scrip compressed with bananascript.com
+            clone.setAttributeNS(null, "charset", charset);
+
             document.getDocumentElement().appendChild(clone);
         }
+//        Node cdata = (Node) document.createCDATASection("(document.body) ? document.body.onload = init : init();");
+//        script.appendChild(cdata);
+//        document.getDocumentElement().appendChild(script);
     }
 
     private static void addXYDataset(JFreeChart chart, List<XYDataset> datasets) {
@@ -880,16 +960,76 @@ public class ChartUtils {
         return text;
     }
 
+    private static void addOpenChartsScript(Document document) {
+        String charset = "UTF-8";
+        String[] jsFiles = {
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/SingleFile.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Util.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes/Class.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes/Bounds.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes/Element.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes/LonLat.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes/Pixel.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/BaseTypes/Size.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Events.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Map.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/MapExt.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler/Click.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler/Hover.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler/Drag.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler/Box.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler/MouseWheel.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Handler/Keyboard.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Control.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry/Rectangle.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry/Point.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry/LineString.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry/Polygon.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry/MultiLineString.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Geometry/Surface.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Renderer.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Renderer/Elements.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Renderer/ElementsExt.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Renderer/SVG.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Renderer/SVGExt.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Renderer/Canvas.js",
+            "/org/mapfaces/resources/opencharts/lib/OpenCharts/Renderer/VML.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Renderer/VMLExt.js",
+            //File addes or modified for MapFaces
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Handler/MouseWheel.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Control/DragPan.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Control/ZoomBox.js",
+            "/org/mapfaces/resources/opencharts/custom/OpenCharts/Control/Navigation.js"
+        };
+        addScript(document, jsFiles, charset);
+    }
+
+    private static void addMinScript(Document document) {
+        String[] file = new String[1];
+        file[0] = "/org/mapfaces/resources/compressed/opencharts.min.js";
+        addScript(document, file, "UTF-8");
+    }
+
+    private static void addBsScript(Document document) {
+        String[] file = new String[1];
+        file[0] = "/org/mapfaces/resources/compressed/opencharts.bs.js";
+        addScript(document, file, "ISO-8859-1");
+    }
+
     private static void addEffects(Document document) {
         String[] file = new String[1];
         file[0] = "/org/mapfaces/resources/js/effects.js";
-        addScript(document, file);
+        addScript(document, file, "UTF-8");
     }
 
     private static void addInit(Document document) {
         String[] file = new String[1];
         file[0] = "/org/mapfaces/resources/js/init.js";
-        addScript(document, file);
+        addScript(document, file, "UTF-8");
     }
 
     private static Attr createAttribute(Document document, String nodeName, String nodeValue) {

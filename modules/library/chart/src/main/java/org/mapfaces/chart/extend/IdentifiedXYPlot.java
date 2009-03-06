@@ -1,5 +1,6 @@
 package org.mapfaces.chart.extend;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import org.jfree.chart.axis.ValueAxis;
@@ -58,7 +59,7 @@ public class IdentifiedXYPlot extends FastXYPlot {
             ValueAxis yAxis = getRangeAxisForDataset(index);
             XYItemRenderer renderer = getRenderer(index);
             if (renderer == null) {
-                    System.out.println("renderer(index) is null");
+//                    System.out.println("renderer(index) is null");
                 renderer = getRenderer();
                 if (renderer == null) { // no default renderer available
                     return foundData;
@@ -78,7 +79,7 @@ public class IdentifiedXYPlot extends FastXYPlot {
 
             SeriesRenderingOrder seriesOrder = getSeriesRenderingOrder();
             if (seriesOrder == SeriesRenderingOrder.REVERSE) {
-                System.out.println("je suis dans le reverse");
+//                System.out.println("je suis dans le reverse");
                 //render series in reverse order
                 for (int pass = 0; pass < passCount; pass++) {
                     super.renderedPixels.clear();                     // need to clear every pass or else shapes won't be drawn correctly
@@ -90,7 +91,7 @@ public class IdentifiedXYPlot extends FastXYPlot {
                             continue;
                         }
                         if (state.getProcessVisibleItemsOnly()) {
-                            System.out.println("je suis dans le getProcessVisibleItemsOnly");
+//                            System.out.println("je suis dans le getProcessVisibleItemsOnly");
 
                             int[] itemBounds = RendererUtilities.findLiveItems(
                                     dataset, series, xAxis.getLowerBound(),
@@ -104,12 +105,12 @@ public class IdentifiedXYPlot extends FastXYPlot {
                                 ////////////////////////////////////////////////////////////////////
                                 if (renderer instanceof XYLineAndShapeRenderer && (lastItem-firstItem) < 80) {
                                    ((XYLineAndShapeRenderer) getRenderer(index)).setBaseShapesVisible(true);
-                                    System.out.println("je suis dans le afstXYyyy plot"+(lastItem-firstItem) );
+//                                    System.out.println("je suis dans le afstXYyyy plot"+(lastItem-firstItem) );
                                     renderer =  ((XYLineAndShapeRenderer) getRenderer(index));
                                 }else {
                                     
                                    ((XYLineAndShapeRenderer) getRenderer(index)).setBaseShapesVisible(false);
-                                    System.out.println("je suis dans le afstXYyyy2 plot"+(lastItem-firstItem) );
+//                                    System.out.println("je suis dans le afstXYyyy2 plot"+(lastItem-firstItem) );
                                     renderer =  ((XYLineAndShapeRenderer) getRenderer(index));
                                 }
                                 if (g2 instanceof IdentifiedSVGGraphics2D) {
@@ -127,7 +128,7 @@ public class IdentifiedXYPlot extends FastXYPlot {
                     }
                 }
             } else {
-                System.out.println("je suis dans le order");
+//                System.out.println("je suis dans le order");
 
                 //render series in forward order
                 for (int pass = 0; pass < passCount; pass++) {
@@ -137,31 +138,28 @@ public class IdentifiedXYPlot extends FastXYPlot {
                         int firstItem = 0;
                         int lastItem = dataset.getItemCount(series) - 1;
                         if (state.getProcessVisibleItemsOnly()) {
-                            System.out.println("je suis dans le getProcessVisibleItemsOnly");
+//                            System.out.println("je suis dans le getProcessVisibleItemsOnly");
 
                             int[] itemBounds = RendererUtilities.findLiveItems(
                                     dataset, series, xAxis.getLowerBound(),
                                     xAxis.getUpperBound());
                             firstItem = itemBounds[0];
                             lastItem = itemBounds[1];
-                            if (renderer instanceof XYLineAndShapeRenderer && itemBounds.length > 50) {
-                                //((XYLineAndShapeRenderer) renderer).setBaseShapesVisible(false);
-                                System.out.println("je suis dans le afstXY plot " +(lastItem-firstItem) );
-                            }
                         }
                         for (int item = firstItem; item <= lastItem; item++) {
                             if (disableOptimization || !hasRendered(dataset, xAxis, yAxis, domainEdge, rangeEdge, dataArea, series, item)) {
                                 ////////////////////////////////////////////////////////////////////
                                 if (renderer instanceof XYLineAndShapeRenderer && (lastItem-firstItem) < 50) {
                                    ((XYLineAndShapeRenderer) getRenderer(index)).setBaseShapesVisible(true);
-                                    System.out.println("je suis dans le afstXY plot"+(lastItem-firstItem) );
+//                                    System.out.println("je suis dans le afstXY plot"+(lastItem-firstItem) );
                                     renderer =  ((XYLineAndShapeRenderer) getRenderer(index));
                                 }else {
                                     
                                    ((XYLineAndShapeRenderer) getRenderer(index)).setBaseShapesVisible(false);
-                                    System.out.println("je suis dans le afstXY2 plot"+(lastItem-firstItem) );
+//                                    System.out.println("je suis dans le afstXY2 plot"+(lastItem-firstItem) );
                                     renderer =  ((XYLineAndShapeRenderer) getRenderer(index));
                                 }
+                                renderer.setSeriesPaint(0, Color.ORANGE);
                                 if (g2 instanceof IdentifiedSVGGraphics2D) {
                                     ((IdentifiedSVGGraphics2D) g2).addSVGAttribut("serie", getDataset(index).getSeriesKey(series).toString());
                                     ((IdentifiedSVGGraphics2D) g2).addSVGAttribut("xValue", String.valueOf(getDataset(index).getXValue(series, item)));

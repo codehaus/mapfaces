@@ -35,38 +35,41 @@ import org.jfree.chart.JFreeChart;
  * 
  * Servlet generating the chart image
  */
-public class Chartlet extends HttpServlet{
+public class Chartlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("chartId");
-		ChartData chartData = (ChartData) request.getSession().getAttribute(id);
-		JFreeChart chart = ChartUtils.createChartWithType(chartData);
-		ChartUtils.setGeneralChartProperties(chart, chartData);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("chartId");
+        ChartData chartData = (ChartData) request.getSession().getAttribute(id);
+        JFreeChart chart = ChartUtils.createChartWithType(chartData);
+        ChartUtils.setGeneralChartProperties(chart, chartData);
 
-		try {
-			writeChart(response, chart, chartData);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			emptySession(request,id);
-		}
-	}
-	
-	private void writeChart(HttpServletResponse response, JFreeChart chart, ChartData chartData) throws IOException{
-		OutputStream stream = response.getOutputStream();
-		response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
-		
-		if(chartData.getOutput().equalsIgnoreCase("png"))
-			ChartUtilities.writeChartAsPNG(stream, chart, chartData.getWidth(), chartData.getHeight());
-		else if (chartData.getOutput().equalsIgnoreCase("jpeg"))
-			ChartUtilities.writeChartAsJPEG(stream, chart, chartData.getWidth(), chartData.getHeight());		
-		else if (chartData.getOutput().equalsIgnoreCase("svg"))
-			ChartUtils.writeChartAsSVG(stream, chart, chartData.getWidth(), chartData.getHeight());
-		stream.flush();
-		stream.close();
-	}
-	
-	private void emptySession(HttpServletRequest request, String id) {
-		request.getSession().removeAttribute(id);
-	}
+        try {
+            writeChart(response, chart, chartData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            emptySession(request, id);
+        }
+    }
+
+    private void writeChart(HttpServletResponse response, JFreeChart chart, ChartData chartData) throws IOException {
+        OutputStream stream = response.getOutputStream();
+        response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
+
+        if (chartData.getOutput().equalsIgnoreCase("png")) {
+            ChartUtilities.writeChartAsPNG(stream, chart, chartData.getWidth(), chartData.getHeight());
+        } else if (chartData.getOutput().equalsIgnoreCase("jpeg")) {
+            ChartUtilities.writeChartAsJPEG(stream, chart, chartData.getWidth(), chartData.getHeight());
+        } else if (chartData.getOutput().equalsIgnoreCase("svg")) {
+            ChartUtils.writeChartAsSVG(stream, chart, chartData.getWidth(), chartData.getHeight());
+        } else if (chartData.getOutput().equalsIgnoreCase("vml")) {
+            ChartUtils.writeChartAsVML(stream, chart, chartData.getWidth(), chartData.getHeight());
+        }
+        stream.flush();
+        stream.close();
+    }
+
+    private void emptySession(HttpServletRequest request, String id) {
+        request.getSession().removeAttribute(id);
+    }
 }
