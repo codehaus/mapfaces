@@ -4,6 +4,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +125,7 @@ public class MapBean {
                 exp.printStackTrace();
             }
 
-            Map<String, Object> attributes = new HashMap<String, Object>();
+            Map<String, Serializable> attributes = new HashMap<String, Serializable>();
             List<Object> objects = new ArrayList<Object>();
             double x1 = (Math.random() - Math.random()) * 180;
             double x2 = (Math.random() - Math.random()) * 180;
