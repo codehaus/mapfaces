@@ -1,22 +1,22 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the clear BSD license.
- * See http://svn.openlayers.org/trunk/openlayers/license.txt 
+ * See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt 
  * for the full text of the license. */
 
 /**
- * @requires OpenLayers/Handler.js
+ * @requires OpenCharts/Handler.js
  */
 
 /**
- * Class: OpenLayers.Handler.Hover
+ * Class: OpenCharts.Handler.Hover
  * The hover handler is to be used to emulate mouseovers on objects
  *      on the map that aren't DOM elements. For example one can use
  *      this handler to send WMS/GetFeatureInfo requests as the user
  *      moves the mouve over the map.
  * 
  * Inherits from:
- *  - <OpenLayers.Handler> 
+ *  - <OpenCharts.Handler> 
  */
-OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
+OpenCharts.Handler.Hover = OpenCharts.Class(OpenCharts.Handler, {
 
     /**
      * APIProperty: delay
@@ -41,7 +41,7 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
 
     /**
      * Property: px
-     * {<OpenLayers.Pixel>} The location of the last mousemove, expressed
+     * {<OpenCharts.Pixel>} The location of the last mousemove, expressed
      *      in pixels.
      */
     px: null,
@@ -53,11 +53,11 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
     timerId: null,
  
     /**
-     * Constructor: OpenLayers.Handler.Hover
+     * Constructor: OpenCharts.Handler.Hover
      * Construct a hover handler.
      *
      * Parameters:
-     * control - {<OpenLayers.Control>} The control that initialized this
+     * control - {<OpenCharts.Control>} The control that initialized this
      *     handler.  The control is assumed to have a valid map property; that
      *     map is used in the handler's own setMap method.
      * callbacks - {Object} An object whose properties correspond to abstracted
@@ -68,7 +68,7 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
      *     the handler.
      */
     initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
+        OpenCharts.Handler.prototype.initialize.apply(this, arguments);
     },
 
     /**
@@ -76,7 +76,7 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
      * Called when the mouse moves on the map.
      *
      * Parameters:
-     * evt - {<OpenLayers.Event>}
+     * evt - {<OpenCharts.Event>}
      *
      * Returns:
      * {Boolean} Continue propagating this event.
@@ -88,9 +88,9 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
             this.px = evt.xy;
             // clone the evt so original properties can be accessed even
             // if the browser deletes them during the delay
-            evt = OpenLayers.Util.extend({}, evt);
+            evt = OpenCharts.Util.extend({}, evt);
             this.timerId = window.setTimeout(
-                OpenLayers.Function.bind(this.delayedCall, this, evt),
+                OpenCharts.Function.bind(this.delayedCall, this, evt),
                 this.delay
             );
         }
@@ -102,13 +102,13 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
      * Called when the mouse goes out of the map.
      *
      * Parameters:
-     * evt - {<OpenLayers.Event>}
+     * evt - {<OpenCharts.Event>}
      *
      * Returns:
      * {Boolean} Continue propagating this event.
      */
     mouseout: function(evt) {
-        if (OpenLayers.Util.mouseLeft(evt, this.map.div)) {
+        if (OpenCharts.Util.mouseLeft(evt, this.map.div)) {
             this.clearTimer();
             this.callback('move', [evt]);
         }
@@ -120,7 +120,7 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
      * Determine whether the mouse move is within the optional pixel tolerance.
      *
      * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     * px - {<OpenCharts.Pixel>}
      *
      * Returns:
      * {Boolean} The mouse move is within the pixel tolerance.
@@ -155,7 +155,7 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
      * Triggers pause callback.
      *
      * Parameters:
-     * evt - {<OpenLayers.Event>}
+     * evt - {<OpenCharts.Event>}
      */
     delayedCall: function(evt) {
         this.callback('pause', [evt]);
@@ -170,12 +170,12 @@ OpenLayers.Handler.Hover = OpenLayers.Class(OpenLayers.Handler, {
      */
     deactivate: function() {
         var deactivated = false;
-        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+        if(OpenCharts.Handler.prototype.deactivate.apply(this, arguments)) {
             this.clearTimer();
             deactivated = true;
         }
         return deactivated;
     },
 
-    CLASS_NAME: "OpenLayers.Handler.Hover"
+    CLASS_NAME: "OpenCharts.Handler.Hover"
 });

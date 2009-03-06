@@ -1,17 +1,17 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 
 /**
- * @requires OpenLayers/Util.js
+ * @requires OpenCharts/Util.js
  */
 
 /**
- * Namespace: OpenLayers.Event
+ * Namespace: OpenCharts.Event
  * Utility functions for event handling.
  */
-OpenLayers.Event = {
+OpenCharts.Event = {
 
     /** 
      * Property: observers 
@@ -160,7 +160,7 @@ OpenLayers.Event = {
      * node the event was triggered on and traversing the DOM upwards
      */
     findElement: function(event, tagName) {
-        var element = OpenLayers.Event.element(event);
+        var element = OpenCharts.Event.element(event);
         while (element.parentNode && (!element.tagName ||
               (element.tagName.toUpperCase() != tagName.toUpperCase()))){
             element = element.parentNode;
@@ -178,7 +178,7 @@ OpenLayers.Event = {
      * useCapture - {Boolean} 
      */
     observe: function(elementParam, name, observer, useCapture) {
-        var element = OpenLayers.Util.getElement(elementParam);
+        var element = OpenCharts.Util.getElement(elementParam);
         useCapture = useCapture || false;
 
         if (name == 'keypress' &&
@@ -198,7 +198,7 @@ OpenLayers.Event = {
             if (element.id) {
                 idPrefix = element.id + "_" + idPrefix;
             }
-            element._eventCacheID = OpenLayers.Util.createUniqueID(idPrefix);
+            element._eventCacheID = OpenCharts.Util.createUniqueID(idPrefix);
         }
 
         var cacheID = element._eventCacheID;
@@ -234,10 +234,10 @@ OpenLayers.Event = {
      * elementParam - {DOMElement || String} 
      */
     stopObservingElement: function(elementParam) {
-        var element = OpenLayers.Util.getElement(elementParam);
+        var element = OpenCharts.Util.getElement(elementParam);
         var cacheID = element._eventCacheID;
 
-        this._removeElementObservers(OpenLayers.Event.observers[cacheID]);
+        this._removeElementObservers(OpenCharts.Event.observers[cacheID]);
     },
 
     /**
@@ -256,7 +256,7 @@ OpenLayers.Event = {
                                      entry.name,
                                      entry.observer,
                                      entry.useCapture);
-                var removed = OpenLayers.Event.stopObserving.apply(this, args);
+                var removed = OpenCharts.Event.stopObserving.apply(this, args);
             }
         }
     },
@@ -276,7 +276,7 @@ OpenLayers.Event = {
     stopObserving: function(elementParam, name, observer, useCapture) {
         useCapture = useCapture || false;
     
-        var element = OpenLayers.Util.getElement(elementParam);
+        var element = OpenCharts.Util.getElement(elementParam);
         var cacheID = element._eventCacheID;
 
         if (name == 'keypress') {
@@ -288,7 +288,7 @@ OpenLayers.Event = {
 
         // find element's entry in this.observers cache and remove it
         var foundEntry = false;
-        var elementObservers = OpenLayers.Event.observers[cacheID];
+        var elementObservers = OpenCharts.Event.observers[cacheID];
         if (elementObservers) {
     
             // find the specific event type in the element's list
@@ -302,7 +302,7 @@ OpenLayers.Event = {
     
                     elementObservers.splice(i, 1);
                     if (elementObservers.length == 0) {
-                        delete OpenLayers.Event.observers[cacheID];
+                        delete OpenCharts.Event.observers[cacheID];
                     }
                     foundEntry = true;
                     break; 
@@ -328,37 +328,37 @@ OpenLayers.Event = {
      *   stopObservingElement on each. 
      */
     unloadCache: function() {
-        // check for OpenLayers.Event before checking for observers, because
-        // OpenLayers.Event may be undefined in IE if no map instance was
+        // check for OpenCharts.Event before checking for observers, because
+        // OpenCharts.Event may be undefined in IE if no map instance was
         // created
-        if (OpenLayers.Event && OpenLayers.Event.observers) {
-            for (var cacheID in OpenLayers.Event.observers) {
-                var elementObservers = OpenLayers.Event.observers[cacheID];
-                OpenLayers.Event._removeElementObservers.apply(this, 
+        if (OpenCharts.Event && OpenCharts.Event.observers) {
+            for (var cacheID in OpenCharts.Event.observers) {
+                var elementObservers = OpenCharts.Event.observers[cacheID];
+                OpenCharts.Event._removeElementObservers.apply(this, 
                                                            [elementObservers]);
             }
-            OpenLayers.Event.observers = false;
+            OpenCharts.Event.observers = false;
         }
     },
 
-    CLASS_NAME: "OpenLayers.Event"
+    CLASS_NAME: "OpenCharts.Event"
 };
 
 /* prevent memory leaks in IE */
-OpenLayers.Event.observe(window, 'unload', OpenLayers.Event.unloadCache, false);
+OpenCharts.Event.observe(window, 'unload', OpenCharts.Event.unloadCache, false);
 
 // FIXME: Remove this in 3.0. In 3.0, Event.stop will no longer be provided
-// by OpenLayers.
+// by OpenCharts.
 if (window.Event) {
-    OpenLayers.Util.applyDefaults(window.Event, OpenLayers.Event);
+    OpenCharts.Util.applyDefaults(window.Event, OpenCharts.Event);
 } else {
-    var Event = OpenLayers.Event;
+    var Event = OpenCharts.Event;
 }
 
 /**
- * Class: OpenLayers.Events
+ * Class: OpenCharts.Events
  */
-OpenLayers.Events = OpenLayers.Class({
+OpenCharts.Events = OpenCharts.Class({
 
     /** 
      * Constant: BROWSER_EVENTS
@@ -412,7 +412,7 @@ OpenLayers.Events = OpenLayers.Class({
      * {Boolean} Should the .xy property automatically be created for browser
      *    mouse events? In general, this should be false. If it is true, then
      *    mouse events will automatically generate a '.xy' property on the 
-     *    event object that is passed. (Prior to OpenLayers 2.7, this was true
+     *    event object that is passed. (Prior to OpenCharts 2.7, this was true
      *    by default.) Otherwise, you can call the getMousePosition on the
      *    relevant events handler on the object available via the 'evt.object'
      *    property of the evt object. So, for most events, you can call:
@@ -436,8 +436,8 @@ OpenLayers.Events = OpenLayers.Class({
     includeXY: false,      
 
     /**
-     * Constructor: OpenLayers.Events
-     * Construct an OpenLayers.Events object.
+     * Constructor: OpenCharts.Events
+     * Construct an OpenCharts.Events object.
      *
      * Parameters:
      * object - {Object} The js object to which this Events object  is being
@@ -448,7 +448,7 @@ OpenLayers.Events = OpenLayers.Class({
      * options - {Object} Options for the events object.
      */
     initialize: function (object, element, eventTypes, fallThrough, options) {
-        OpenLayers.Util.extend(this, options);
+        OpenCharts.Util.extend(this, options);
         this.object     = object;
         this.element    = element;
         this.fallThrough = fallThrough;
@@ -456,7 +456,7 @@ OpenLayers.Events = OpenLayers.Class({
 
         // keep a bound copy of handleBrowserEvent() so that we can
         // pass the same function to both Event.observe() and .stopObserving()
-        this.eventHandler = OpenLayers.Function.bindAsEventListener(
+        this.eventHandler = OpenCharts.Function.bindAsEventListener(
             this.handleBrowserEvent, this
         );
 
@@ -481,7 +481,7 @@ OpenLayers.Events = OpenLayers.Class({
      */
     destroy: function () {
         if (this.element) {
-            OpenLayers.Event.stopObservingElement(this.element);
+            OpenCharts.Event.stopObservingElement(this.element);
         }
         this.element = null;
 
@@ -522,10 +522,10 @@ OpenLayers.Events = OpenLayers.Class({
             this.addEventType(eventType);
             
             // use Prototype to register the event cross-browser
-            OpenLayers.Event.observe(element, eventType, this.eventHandler);
+            OpenCharts.Event.observe(element, eventType, this.eventHandler);
         }
         // disable dragstart in IE so that mousedown/move/up works normally
-        OpenLayers.Event.observe(element, "dragstart", OpenLayers.Event.stop);
+        OpenCharts.Event.observe(element, "dragstart", OpenCharts.Event.stop);
     },
     
     /**
@@ -555,7 +555,7 @@ OpenLayers.Events = OpenLayers.Class({
      *
      * When the event is triggered, the 'func' function will be called, in the
      * context of 'obj'. Imagine we were to register an event, specifying an 
-     * OpenLayers.Bounds Object as 'obj'. When the event is triggered, the 
+     * OpenCharts.Bounds Object as 'obj'. When the event is triggered, the 
      * context in the callback function will be our Bounds object. This means
      * that within our callback function, we can access the properties and 
      * methods of the Bounds object through the "this" variable. So our 
@@ -579,7 +579,7 @@ OpenLayers.Events = OpenLayers.Class({
     register: function (type, obj, func) {
 
         if ( (func != null) && 
-             (OpenLayers.Util.indexOf(this.eventTypes, type) != -1) ) {
+             (OpenCharts.Util.indexOf(this.eventTypes, type) != -1) ) {
 
             if (obj == null)  {
                 obj = this.object;
@@ -720,7 +720,7 @@ OpenLayers.Events = OpenLayers.Class({
             }
             // don't fall through to other DOM elements
             if (!this.fallThrough) {           
-                OpenLayers.Event.stop(evt, true);
+                OpenCharts.Event.stop(evt, true);
             }
         }
         return continueChain;
@@ -761,15 +761,15 @@ OpenLayers.Events = OpenLayers.Class({
      * evt - {Event} 
      * 
      * Returns:
-     * {<OpenLayers.Pixel>} The current xy coordinate of the mouse, adjusted
+     * {<OpenCharts.Pixel>} The current xy coordinate of the mouse, adjusted
      *                      for offsets
      */
     getMousePosition: function (evt) {
         if (!this.includeXY) {
             this.clearMouseCache();
         } else if (!this.element.hasScrollEvent) {
-            OpenLayers.Event.observe(window, 'scroll', 
-                OpenLayers.Function.bind(this.clearMouseCache, this)); 
+            OpenCharts.Event.observe(window, 'scroll', 
+                OpenCharts.Function.bind(this.clearMouseCache, this)); 
             this.element.hasScrollEvent = true;
         }
         
@@ -786,11 +786,11 @@ OpenLayers.Events = OpenLayers.Class({
         }
         
         if (!this.element.offsets) {
-            this.element.offsets = OpenLayers.Util.pagePosition(this.element);
+            this.element.offsets = OpenCharts.Util.pagePosition(this.element);
             this.element.offsets[0] += this.element.scrolls[0];
             this.element.offsets[1] += this.element.scrolls[1];
         }
-        return new OpenLayers.Pixel(
+        return new OpenCharts.Pixel(
             (evt.clientX + this.element.scrolls[0]) - this.element.offsets[0]
                          - this.element.lefttop[0], 
             (evt.clientY + this.element.scrolls[1]) - this.element.offsets[1]
@@ -798,5 +798,5 @@ OpenLayers.Events = OpenLayers.Class({
         ); 
     },
 
-    CLASS_NAME: "OpenLayers.Events"
+    CLASS_NAME: "OpenCharts.Events"
 });

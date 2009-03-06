@@ -1,12 +1,12 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * Class: OpenLayers.Size
+ * Class: OpenCharts.Size
  * Instances of this class represent a width/height pair
  */
-OpenLayers.Size = OpenLayers.Class({
+OpenCharts.Size = OpenCharts.Class({
 
     /**
      * APIProperty: w
@@ -22,8 +22,8 @@ OpenLayers.Size = OpenLayers.Class({
 
 
     /**
-     * Constructor: OpenLayers.Size
-     * Create an instance of OpenLayers.Size
+     * Constructor: OpenCharts.Size
+     * Create an instance of OpenCharts.Size
      *
      * Parameters:
      * w - {Number} width
@@ -39,7 +39,7 @@ OpenLayers.Size = OpenLayers.Class({
      * Return the string representation of a size object
      *
      * Returns:
-     * {String} The string representation of OpenLayers.Size object. 
+     * {String} The string representation of OpenCharts.Size object. 
      * (ex. <i>"w=55,h=66"</i>)
      */
     toString:function() {
@@ -51,11 +51,11 @@ OpenLayers.Size = OpenLayers.Class({
      * Create a clone of this size object
      *
      * Returns:
-     * {<OpenLayers.Size>} A new OpenLayers.Size object with the same w and h
+     * {<OpenCharts.Size>} A new OpenCharts.Size object with the same w and h
      * values
      */
     clone:function() {
-        return new OpenLayers.Size(this.w, this.h);
+        return new OpenCharts.Size(this.w, this.h);
     },
 
     /**
@@ -64,7 +64,7 @@ OpenLayers.Size = OpenLayers.Class({
      * Determine where this size is equal to another
      *
      * Parameters:
-     * sz - {<OpenLayers.Size>}
+     * sz - {<OpenCharts.Size>}
      *
      * Returns: 
      * {Boolean} The passed in size has the same h and w properties as this one.
@@ -80,5 +80,5 @@ OpenLayers.Size = OpenLayers.Class({
         return equals;
     },
 
-    CLASS_NAME: "OpenLayers.Size"
+    CLASS_NAME: "OpenCharts.Size"
 });

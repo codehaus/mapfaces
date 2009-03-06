@@ -1,9 +1,9 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * Class: OpenLayers.Control
+ * Class: OpenCharts.Control
  * Controls affect the display or behavior of the map. They allow everything
  * from panning and zooming to displaying a scale indicator. Controls by 
  * default are added to the map they are contained within however it is
@@ -14,16 +14,16 @@
  * The following example shows how to add many of the common controls
  * to a map.
  * 
- * > var map = new OpenLayers.Map('map', { controls: [] });
+ * > var map = new OpenCharts.Map('map', { controls: [] });
  * >
- * > map.addControl(new OpenLayers.Control.PanZoomBar());
- * > map.addControl(new OpenLayers.Control.MouseToolbar());
- * > map.addControl(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
- * > map.addControl(new OpenLayers.Control.Permalink());
- * > map.addControl(new OpenLayers.Control.Permalink('permalink'));
- * > map.addControl(new OpenLayers.Control.MousePosition());
- * > map.addControl(new OpenLayers.Control.OverviewMap());
- * > map.addControl(new OpenLayers.Control.KeyboardDefaults());
+ * > map.addControl(new OpenCharts.Control.PanZoomBar());
+ * > map.addControl(new OpenCharts.Control.MouseToolbar());
+ * > map.addControl(new OpenCharts.Control.LayerSwitcher({'ascending':false}));
+ * > map.addControl(new OpenCharts.Control.Permalink());
+ * > map.addControl(new OpenCharts.Control.Permalink('permalink'));
+ * > map.addControl(new OpenCharts.Control.MousePosition());
+ * > map.addControl(new OpenCharts.Control.OverviewMap());
+ * > map.addControl(new OpenCharts.Control.KeyboardDefaults());
  *
  * The next code fragment is a quick example of how to intercept 
  * shift-mouse click to display the extent of the bounding box
@@ -31,25 +31,25 @@
  * in exactly this manner.  See the source for a more complete 
  * example:
  *
- * > var control = new OpenLayers.Control();
- * > OpenLayers.Util.extend(control, {
+ * > var control = new OpenCharts.Control();
+ * > OpenCharts.Util.extend(control, {
  * >     draw: function () {
  * >         // this Handler.Box will intercept the shift-mousedown
  * >         // before Control.MouseDefault gets to see it
- * >         this.box = new OpenLayers.Handler.Box( control, 
+ * >         this.box = new OpenCharts.Handler.Box( control, 
  * >             {"done": this.notice},
- * >             {keyMask: OpenLayers.Handler.MOD_SHIFT});
+ * >             {keyMask: OpenCharts.Handler.MOD_SHIFT});
  * >         this.box.activate();
  * >     },
  * >
  * >     notice: function (bounds) {
- * >         OpenLayers.Console.userError(bounds);
+ * >         OpenCharts.Console.userError(bounds);
  * >     }
  * > }); 
  * > map.addControl(control);
  * 
  */
-OpenLayers.Control = OpenLayers.Class({
+OpenCharts.Control = OpenCharts.Class({
 
     /** 
      * Property: id 
@@ -59,8 +59,8 @@ OpenLayers.Control = OpenLayers.Class({
     
     /** 
      * Property: map 
-     * {<OpenLayers.Map>} this gets set in the addControl() function in
-     * OpenLayers.Map 
+     * {<OpenCharts.Map>} this gets set in the addControl() function in
+     * OpenCharts.Map 
      */
     map: null,
 
@@ -72,7 +72,7 @@ OpenLayers.Control = OpenLayers.Class({
 
     /** 
      * Property: type 
-     * {OpenLayers.Control.TYPES} Controls can have a 'type'. The type
+     * {OpenCharts.Control.TYPES} Controls can have a 'type'. The type
      * determines the type of interactions which are possible with them when
      * they are placed into a toolbar. 
      */
@@ -81,7 +81,7 @@ OpenLayers.Control = OpenLayers.Class({
     /** 
      * Property: allowSelection
      * {Boolean} By deafault, controls do not allow selection, because
-     * it may interfere with map dragging. If this is true, OpenLayers
+     * it may interfere with map dragging. If this is true, OpenCharts
      * will not prevent selection of the control.
      * Default is false.
      */
@@ -109,14 +109,14 @@ OpenLayers.Control = OpenLayers.Class({
 
     /** 
      * Property: handler 
-     * {<OpenLayers.Handler>} null
+     * {<OpenCharts.Handler>} null
      */
     handler: null,
 
     /**
      * APIProperty: eventListeners
      * {Object} If set as an option at construction, the eventListeners
-     *     object will be registered with <OpenLayers.Events.on>.  Object
+     *     object will be registered with <OpenCharts.Events.on>.  Object
      *     structure must be a listeners object as shown in the example for
      *     the events.on method.
      */
@@ -124,7 +124,7 @@ OpenLayers.Control = OpenLayers.Class({
 
     /** 
      * Property: events
-     * {<OpenLayers.Events>} Events instance for triggering control specific
+     * {<OpenCharts.Events>} Events instance for triggering control specific
      *     events.
      */
     events: null,
@@ -153,11 +153,11 @@ OpenLayers.Control = OpenLayers.Class({
     EVENT_TYPES: ["activate", "deactivate"],
 
     /**
-     * Constructor: OpenLayers.Control
-     * Create an OpenLayers Control.  The options passed as a parameter
+     * Constructor: OpenCharts.Control
+     * Create an OpenCharts Control.  The options passed as a parameter
      * directly extend the control.  For example passing the following:
      * 
-     * > var control = new OpenLayers.Control({div: myDiv});
+     * > var control = new OpenCharts.Control({div: myDiv});
      *
      * Overrides the default div attribute value of null.
      * 
@@ -168,16 +168,16 @@ OpenLayers.Control = OpenLayers.Class({
         // We do this before the extend so that instances can override
         // className in options.
         this.displayClass = 
-            this.CLASS_NAME.replace("OpenLayers.", "ol").replace(/\./g, "");
+            this.CLASS_NAME.replace("OpenCharts.", "ol").replace(/\./g, "");
         
-        OpenLayers.Util.extend(this, options);
+        OpenCharts.Util.extend(this, options);
         
-        this.events = new OpenLayers.Events(this, null, this.EVENT_TYPES);
+        this.events = new OpenCharts.Events(this, null, this.EVENT_TYPES);
         if(this.eventListeners instanceof Object) {
             this.events.on(this.eventListeners);
         }
         if (this.id == null) {
-            this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
+            this.id = OpenCharts.Util.createUniqueID(this.CLASS_NAME + "_");
         }
     },
 
@@ -224,7 +224,7 @@ OpenLayers.Control = OpenLayers.Class({
      * they have their map variable set. 
      *
      * Parameters:
-     * map - {<OpenLayers.Map>} 
+     * map - {<OpenCharts.Map>} 
      */
     setMap: function(map) {
         this.map = map;
@@ -241,7 +241,7 @@ OpenLayers.Control = OpenLayers.Class({
      * to customize the look of control. 
      *
      * Parameters:
-     * px - {<OpenLayers.Pixel>} The top-left pixel position of the control
+     * px - {<OpenCharts.Pixel>} The top-left pixel position of the control
      *      or null.
      *
      * Returns:
@@ -249,7 +249,7 @@ OpenLayers.Control = OpenLayers.Class({
      */
     draw: function (px) {
         if (this.div == null) {
-            this.div = OpenLayers.Util.createDiv(this.id);
+            this.div = OpenCharts.Util.createDiv(this.id);
             this.div.className = this.displayClass;
             if (!this.allowSelection) {
                 this.div.className += " olControlNoSelect";
@@ -273,7 +273,7 @@ OpenLayers.Control = OpenLayers.Class({
      * coordinates.
      *
      * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     * px - {<OpenCharts.Pixel>}
      */
     moveTo: function (px) {
         if ((px != null) && (this.div != null)) {
@@ -325,9 +325,9 @@ OpenLayers.Control = OpenLayers.Class({
         return false;
     },
 
-    CLASS_NAME: "OpenLayers.Control"
+    CLASS_NAME: "OpenCharts.Control"
 });
 
-OpenLayers.Control.TYPE_BUTTON = 1;
-OpenLayers.Control.TYPE_TOGGLE = 2;
-OpenLayers.Control.TYPE_TOOL   = 3;
+OpenCharts.Control.TYPE_BUTTON = 1;
+OpenCharts.Control.TYPE_TOGGLE = 2;
+OpenCharts.Control.TYPE_TOOL   = 3;

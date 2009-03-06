@@ -1,32 +1,32 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Control/ZoomBox.js
- * @requires OpenLayers/Control/DragPan.js
- * @requires OpenLayers/Handler/MouseWheel.js
- * @requires OpenLayers/Handler/Click.js
+ * @requires OpenCharts/Control/ZoomBox.js
+ * @requires OpenCharts/Control/DragPan.js
+ * @requires OpenCharts/Handler/MouseWheel.js
+ * @requires OpenCharts/Handler/Click.js
  */
 
 /**
- * Class: OpenLayers.Control.Navigation
+ * Class: OpenCharts.Control.Navigation
  * The navigation control handles map browsing with mouse events (dragging,
  *     double-clicking, and scrolling the wheel).  Create a new navigation 
- *     control with the <OpenLayers.Control.Navigation> control.  
+ *     control with the <OpenCharts.Control.Navigation> control.  
  * 
  *     Note that this control is added to the map by default (if no controls 
- *     array is sent in the options object to the <OpenLayers.Map> 
+ *     array is sent in the options object to the <OpenCharts.Map> 
  *     constructor).
  * 
  * Inherits:
- *  - <OpenLayers.Control>
+ *  - <OpenCharts.Control>
  */
-OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
+OpenCharts.Control.Navigation = OpenCharts.Class(OpenCharts.Control, {
 
     /** 
      * Property: dragPan
-     * {<OpenLayers.Control.DragPan>} 
+     * {<OpenCharts.Control.DragPan>} 
      */
     dragPan: null,
 
@@ -38,7 +38,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
 
     /** 
      * Property: zoomBox
-     * {<OpenLayers.Control.ZoomBox>}
+     * {<OpenCharts.Control.ZoomBox>}
      */
     zoomBox: null,
 
@@ -55,7 +55,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
     handleRightClicks: true,
     
     /**
-     * Constructor: OpenLayers.Control.Navigation
+     * Constructor: OpenCharts.Control.Navigation
      * Create a new navigation control
      * 
      * Parameters:
@@ -64,7 +64,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      */
     initialize: function(options) {
         this.handlers = {};
-        OpenLayers.Control.prototype.initialize.apply(this, arguments);
+        OpenCharts.Control.prototype.initialize.apply(this, arguments);
     },
 
     /**
@@ -85,7 +85,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
             this.zoomBox.destroy();
         }
         this.zoomBox = null;
-        OpenLayers.Control.prototype.destroy.apply(this,arguments);
+        OpenCharts.Control.prototype.destroy.apply(this,arguments);
     },
     
     /**
@@ -98,7 +98,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
         }    
         this.handlers.click.activate();
         this.zoomBox.activate();
-        return OpenLayers.Control.prototype.activate.apply(this,arguments);
+        return OpenCharts.Control.prototype.activate.apply(this,arguments);
     },
 
     /**
@@ -109,7 +109,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
         this.dragPan.deactivate();
         this.handlers.click.deactivate();
         this.handlers.wheel.deactivate();
-        return OpenLayers.Control.prototype.deactivate.apply(this,arguments);
+        return OpenCharts.Control.prototype.deactivate.apply(this,arguments);
     },
     
     /**
@@ -129,17 +129,17 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
             'double': true, 
             'stopDouble': true
         };
-        this.handlers.click = new OpenLayers.Handler.Click(
+        this.handlers.click = new OpenCharts.Handler.Click(
             this, clickCallbacks, clickOptions
         );
-        this.dragPan = new OpenLayers.Control.DragPan(
-            OpenLayers.Util.extend({map: this.map}, this.dragPanOptions)
+        this.dragPan = new OpenCharts.Control.DragPan(
+            OpenCharts.Util.extend({map: this.map}, this.dragPanOptions)
         );
-        this.zoomBox = new OpenLayers.Control.ZoomBox(
-                    {map: this.map, keyMask: OpenLayers.Handler.MOD_SHIFT});
+        this.zoomBox = new OpenCharts.Control.ZoomBox(
+                    {map: this.map, keyMask: OpenCharts.Handler.MOD_SHIFT});
         this.dragPan.draw();
         this.zoomBox.draw();
-        this.handlers.wheel = new OpenLayers.Handler.MouseWheel(
+        this.handlers.wheel = new OpenCharts.Handler.MouseWheel(
                                     this, {"up"  : this.wheelUp,
                                            "down": this.wheelDown} );
         this.activate();
@@ -174,24 +174,25 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      * evt - {Event}
      * deltaZ - {Integer}
      */
-    wheelChange: function(evt, deltaZ) {
-        if (this.map.isHTML) {
-          var newZoom = this.map.getZoom() + deltaZ;
-          if (!this.map.isValidZoomLevel(newZoom)) {
-              return;
-          }
-          var size    = this.map.getSize();
-          var deltaX  = size.w/2 - evt.xy.x;
-          var deltaY  = evt.xy.y - size.h/2;
-          var newRes  = this.map.baseLayer.getResolutionForZoom(newZoom);
-          var zoomPoint = this.map.getLonLatFromPixel(evt.xy);
-          var newCenter = new OpenLayers.LonLat(
-                              zoomPoint.lon + deltaX * newRes,
-                              zoomPoint.lat + deltaY * newRes );
-          this.map.setCenter( newCenter, newZoom );
-        } else if (this.map.isSVG) {
-          this.map.zoomToPixel(evt.xy, (deltaZ == -1));
-        }
+    wheelChange: function (evt, deltaZ){
+        this.map.renderer.wheelChange(evt, deltaZ);
+//        if (this.map.isHTML) {
+//          var newZoom = this.map.getZoom() + deltaZ;
+//          if (!this.map.isValidZoomLevel(newZoom)) {
+//              return;
+//          }
+//          var size    = this.map.getSize();
+//          var deltaX  = size.w/2 - evt.xy.x;
+//          var deltaY  = evt.xy.y - size.h/2;
+//          var newRes  = this.map.baseLayer.getResolutionForZoom(newZoom);
+//          var zoomPoint = this.map.getLonLatFromPixel(evt.xy);
+//          var newCenter = new OpenCharts.LonLat(
+//                              zoomPoint.lon + deltaX * newRes,
+//                              zoomPoint.lat + deltaY * newRes );
+//          this.map.setCenter( newCenter, newZoom );
+//        } else if (this.map.isSVG || this.map.isVML) {
+//          this.map.zoomToPixel(evt.xy, (deltaZ == -1));
+//        }
     },
 
     /** 
@@ -236,5 +237,5 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
         }    
     },
 
-    CLASS_NAME: "OpenLayers.Control.Navigation"
+    CLASS_NAME: "OpenCharts.Control.Navigation"
 });

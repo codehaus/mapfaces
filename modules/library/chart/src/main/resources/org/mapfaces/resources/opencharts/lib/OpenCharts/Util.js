@@ -1,18 +1,18 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 
 /**
  * Namespace: Util
  */
-OpenLayers.Util = {};
+OpenCharts.Util = {};
 
 /** 
  * Function: getElement
  * This is the old $() from prototype
  */
-OpenLayers.Util.getElement = function() {
+OpenCharts.Util.getElement = function() {
     var elements = [];
 
     for (var i=0, len=arguments.length; i<len; i++) {
@@ -32,7 +32,7 @@ OpenLayers.Util.getElement = function() {
  * Maintain $() from prototype
  */
 //if ($ == null) {
-//    var $ = OpenLayers.Util.getElement;
+//    var $ = OpenCharts.Util.getElement;
 //}
 
 /**
@@ -48,7 +48,7 @@ OpenLayers.Util.getElement = function() {
  * Returns:
  * {Object} The destination object.
  */
-OpenLayers.Util.extend = function(destination, source) {
+OpenCharts.Util.extend = function(destination, source) {
     destination = destination || {};
     if(source) {
         for(var property in source) {
@@ -94,7 +94,7 @@ OpenLayers.Util.extend = function(destination, source) {
  * Return
  * {Array} A reference to the array
  */
-OpenLayers.Util.removeItem = function(array, item) {
+OpenCharts.Util.removeItem = function(array, item) {
     for(var i = array.length - 1; i >= 0; i--) {
         if(array[i] == item) {
             array.splice(i,1);
@@ -112,9 +112,9 @@ OpenLayers.Util.removeItem = function(array, item) {
  * Parameters:
  * array - {Array}
  */
-OpenLayers.Util.clearArray = function(array) {
-    OpenLayers.Console.warn(
-        OpenLayers.i18n(
+OpenCharts.Util.clearArray = function(array) {
+    OpenCharts.Console.warn(
+        OpenCharts.i18n(
             "methodDeprecated", {'newMethod': 'array = []'}
         )
     );
@@ -133,7 +133,7 @@ OpenLayers.Util.clearArray = function(array) {
  * {Integer} The index at, which the object was found in the array.
  *           If not found, returns -1.
  */
-OpenLayers.Util.indexOf = function(array, obj) {
+OpenCharts.Util.indexOf = function(array, obj) {
 
     for(var i=0, len=array.length; i<len; i++) {
         if (array[i] == obj) {
@@ -153,8 +153,8 @@ OpenLayers.Util.indexOf = function(array, obj) {
  *
  * Parameters:
  * id - {String} The element id attribute to set.
- * px - {<OpenLayers.Pixel>} The left and top style position.
- * sz - {<OpenLayers.Size>}  The width and height style attributes.
+ * px - {<OpenCharts.Pixel>} The left and top style position.
+ * sz - {<OpenCharts.Size>}  The width and height style attributes.
  * position - {String}       The position attribute.  eg: absolute, 
  *                           relative, etc.
  * border - {String}         The style.border attribute.  eg:
@@ -162,7 +162,7 @@ OpenLayers.Util.indexOf = function(array, obj) {
  * overflow - {String}       The style.overview attribute.  
  * opacity - {Float}         Fractional value (0.0 - 1.0)
  */
-OpenLayers.Util.modifyDOMElement = function(element, id, px, sz, position, 
+OpenCharts.Util.modifyDOMElement = function(element, id, px, sz, position, 
                                             border, overflow, opacity) {
 
     if (id) {
@@ -201,8 +201,8 @@ OpenLayers.Util.modifyDOMElement = function(element, id, px, sz, position,
  *
  * Parameters:
  * id - {String} The element id attribute to set.
- * px - {<OpenLayers.Pixel>} The left and top style position.
- * sz - {<OpenLayers.Size>}  The width and height style attributes.
+ * px - {<OpenCharts.Pixel>} The left and top style position.
+ * sz - {<OpenCharts.Size>}  The width and height style attributes.
  * position - {String}       The position attribute.  eg: absolute, 
  *                           relative, etc.
  * border - {String}         The style.border attribute.  eg:
@@ -210,7 +210,7 @@ OpenLayers.Util.modifyDOMElement = function(element, id, px, sz, position,
  * overflow - {String}       The style.overview attribute.  
  * opacity - {Float}         Fractional value (0.0 - 1.0)
  */
-OpenLayers.Util.modifyDOMSVGRectElement = function(element, id, px, sz, position, 
+OpenCharts.Util.modifyDOMSVGRectElement = function(element, id, px, sz, position, 
                                             border, overflow, opacity) {
 
     if (id) {
@@ -245,8 +245,8 @@ OpenLayers.Util.modifyDOMSVGRectElement = function(element, id, px, sz, position
  * id - {String} An identifier for this element.  If no id is
  *               passed an identifier will be created 
  *               automatically.
- * px - {<OpenLayers.Pixel>} The element left and top position. 
- * sz - {<OpenLayers.Size>} The element width and height.
+ * px - {<OpenCharts.Pixel>} The element left and top position. 
+ * sz - {<OpenCharts.Size>} The element width and height.
  * imgURL - {String} A url pointing to an image to use as a 
  *                   background image.
  * position - {String} The style.position value. eg: absolute,
@@ -259,7 +259,7 @@ OpenLayers.Util.modifyDOMSVGRectElement = function(element, id, px, sz, position
  * Returns: 
  * {DOMElement} A DOM Div created with the specified attributes.
  */
-OpenLayers.Util.createDiv = function(id, px, sz, imgURL, position, 
+OpenCharts.Util.createDiv = function(id, px, sz, imgURL, position, 
                                      border, overflow, opacity) {
 
     var dom = document.createElement('div');
@@ -270,17 +270,17 @@ OpenLayers.Util.createDiv = function(id, px, sz, imgURL, position,
 
     //set generic properties
     if (!id) {
-        id = OpenLayers.Util.createUniqueID("OpenLayersDiv");
+        id = OpenCharts.Util.createUniqueID("OpenChartsDiv");
     }
     if (!position) {
         position = "absolute";
     }
-    OpenLayers.Util.modifyDOMElement(dom, id, px, sz, position, 
+    OpenCharts.Util.modifyDOMElement(dom, id, px, sz, position, 
                                      border, overflow, opacity);
 
     return dom;
 };
-OpenLayers.Util.createRect = function(id, px, sz, imgURL, position, 
+OpenCharts.Util.createRect = function(id, px, sz, imgURL, position, 
                                      border, overflow, opacity) {
 
     var dom = document.createElementNS("http://www.w3.org/2000/svg","rect");
@@ -291,13 +291,13 @@ OpenLayers.Util.createRect = function(id, px, sz, imgURL, position,
 
     //set generic properties
     if (!id) {
-        id = OpenLayers.Util.createUniqueID("OpenLayersDiv");
+        id = OpenCharts.Util.createUniqueID("OpenChartsDiv");
     }
     if (!position) {
         position = "absolute";
     }
     dom.setAttributeNS(null,'shape-rendering','optimizeSpeed');
-    OpenLayers.Util.modifyDOMSVGRectElement(dom, id, px, sz, position, 
+    OpenCharts.Util.modifyDOMSVGRectElement(dom, id, px, sz, position, 
                                      border, overflow, opacity);
 
     return dom;
@@ -309,8 +309,8 @@ OpenLayers.Util.createRect = function(id, px, sz, imgURL, position,
  * Parameters:
  * id - {String} The id field for the img.  If none assigned one will be
  *               automatically generated.
- * px - {<OpenLayers.Pixel>} The left and top positions.
- * sz - {<OpenLayers.Size>} The style.width and style.height values.
+ * px - {<OpenCharts.Pixel>} The left and top positions.
+ * sz - {<OpenCharts.Size>} The style.width and style.height values.
  * imgURL - {String} The url to use as the image source.
  * position - {String} The style.position value.
  * border - {String} The border to place around the image.
@@ -321,27 +321,27 @@ OpenLayers.Util.createRect = function(id, px, sz, imgURL, position,
  * Returns:
  * {DOMElement} A DOM Image created with the specified attributes.
  */
-OpenLayers.Util.createImage = function(id, px, sz, imgURL, position, border,
+OpenCharts.Util.createImage = function(id, px, sz, imgURL, position, border,
                                        opacity, delayDisplay) {
 
     var image = document.createElement("img");
 
     //set generic properties
     if (!id) {
-        id = OpenLayers.Util.createUniqueID("OpenLayersDiv");
+        id = OpenCharts.Util.createUniqueID("OpenChartsDiv");
     }
     if (!position) {
         position = "relative";
     }
-    OpenLayers.Util.modifyDOMElement(image, id, px, sz, position, 
+    OpenCharts.Util.modifyDOMElement(image, id, px, sz, position, 
                                      border, null, opacity);
 
     if(delayDisplay) {
         image.style.display = "none";
-        OpenLayers.Event.observe(image, "load", 
-            OpenLayers.Function.bind(OpenLayers.Util.onImageLoad, image));
-        OpenLayers.Event.observe(image, "error", 
-            OpenLayers.Function.bind(OpenLayers.Util.onImageLoadError, image));
+        OpenCharts.Event.observe(image, "load", 
+            OpenCharts.Function.bind(OpenCharts.Util.onImageLoad, image));
+        OpenCharts.Event.observe(image, "error", 
+            OpenCharts.Function.bind(OpenCharts.Util.onImageLoadError, image));
         
     }
     
@@ -360,9 +360,9 @@ OpenLayers.Util.createImage = function(id, px, sz, imgURL, position, border,
 /**
  * Function: setOpacity
  * *Deprecated*.  This function has been deprecated. Instead, please use 
- *     <OpenLayers.Util.modifyDOMElement> 
+ *     <OpenCharts.Util.modifyDOMElement> 
  *     or 
- *     <OpenLayers.Util.modifyAlphaImageDiv>
+ *     <OpenCharts.Util.modifyAlphaImageDiv>
  * 
  * Set the opacity of a DOM Element
  *     Note that for this function to work in IE, elements must "have layout"
@@ -373,8 +373,8 @@ OpenLayers.Util.createImage = function(id, px, sz, imgURL, position, border,
  * element - {DOMElement} Set the opacity on this DOM element
  * opacity - {Float} Opacity value (0.0 - 1.0)
  */
-OpenLayers.Util.setOpacity = function(element, opacity) {
-    OpenLayers.Util.modifyDOMElement(element, null, null, null,
+OpenCharts.Util.setOpacity = function(element, opacity) {
+    OpenCharts.Util.modifyDOMElement(element, null, null, null,
                                      null, null, null, opacity);
 };
 
@@ -383,7 +383,7 @@ OpenLayers.Util.setOpacity = function(element, opacity) {
  * Bound to image load events.  For all images created with <createImage> or
  *     <createAlphaImageDiv>, this function will be bound to the load event.
  */
-OpenLayers.Util.onImageLoad = function() {
+OpenCharts.Util.onImageLoad = function() {
     // The complex check here is to solve issues described in #480.
     // Every time a map view changes, it increments the 'viewRequestID' 
     // property. As the requests for the images for the new map view are sent
@@ -410,21 +410,21 @@ OpenLayers.Util.onImageLoad = function() {
  * {String} The color tiles with load errors will turn.
  *          Default is "pink"
  */
-OpenLayers.Util.onImageLoadErrorColor = "pink";
+OpenCharts.Util.onImageLoadErrorColor = "pink";
 
 /**
  * Property: IMAGE_RELOAD_ATTEMPTS
  * {Integer} How many times should we try to reload an image before giving up?
  *           Default is 0
  */
-OpenLayers.IMAGE_RELOAD_ATTEMPTS = 0;
+OpenCharts.IMAGE_RELOAD_ATTEMPTS = 0;
 
 /**
  * Function: onImageLoadError 
  */
-OpenLayers.Util.onImageLoadError = function() {
+OpenCharts.Util.onImageLoadError = function() {
     this._attempts = (this._attempts) ? (this._attempts + 1) : 1;
-    if (this._attempts <= OpenLayers.IMAGE_RELOAD_ATTEMPTS) {
+    if (this._attempts <= OpenCharts.IMAGE_RELOAD_ATTEMPTS) {
         var urls = this.urls;
         if (urls && urls instanceof Array && urls.length > 1){
             var src = this.src.toString();
@@ -446,7 +446,7 @@ OpenLayers.Util.onImageLoadError = function() {
             this.src = this.src;
         }
     } else {
-        this.style.backgroundColor = OpenLayers.Util.onImageLoadErrorColor;
+        this.style.backgroundColor = OpenCharts.Util.onImageLoadErrorColor;
     }
     this.style.display = "";
 };
@@ -460,7 +460,7 @@ OpenLayers.Util.onImageLoadError = function() {
  * Returns:
  * {Boolean} true if alpha has is necessary and possible, false otherwise.
  */
-OpenLayers.Util.alphaHack = function() {
+OpenCharts.Util.alphaHack = function() {
     var arVersion = navigator.appVersion.split("MSIE");
     var version = parseFloat(arVersion[1]);
     var filter = false;
@@ -484,19 +484,19 @@ OpenLayers.Util.alphaHack = function() {
  * 
  * div - {DOMElement} Div containing Alpha-adjusted Image
  * id - {String}
- * px - {<OpenLayers.Pixel>}
- * sz - {<OpenLayers.Size>}
+ * px - {<OpenCharts.Pixel>}
+ * sz - {<OpenCharts.Size>}
  * imgURL - {String}
  * position - {String}
  * border - {String}
  * sizing {String} 'crop', 'scale', or 'image'. Default is "scale"
  * opacity - {Float} Fractional value (0.0 - 1.0)
  */ 
-OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL, 
+OpenCharts.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL, 
                                                position, border, sizing, 
                                                opacity) {
 
-    OpenLayers.Util.modifyDOMElement(div, id, px, sz, position,
+    OpenCharts.Util.modifyDOMElement(div, id, px, sz, position,
                                      null, null, opacity);
 
     var img = div.childNodes[0];
@@ -504,10 +504,10 @@ OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL,
     if (imgURL) {
         img.src = imgURL;
     }
-    OpenLayers.Util.modifyDOMElement(img, div.id + "_innerImage", null, sz, 
+    OpenCharts.Util.modifyDOMElement(img, div.id + "_innerImage", null, sz, 
                                      "relative", border);
     
-    if (OpenLayers.Util.alphaHack()) {
+    if (OpenCharts.Util.alphaHack()) {
         if(div.style.display != "none") {
             div.style.display = "inline-block";
         }
@@ -531,8 +531,8 @@ OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL,
  * Function: createAlphaImageDiv
  * 
  * id - {String}
- * px - {<OpenLayers.Pixel>}
- * sz - {<OpenLayers.Size>}
+ * px - {<OpenCharts.Pixel>}
+ * sz - {<OpenCharts.Size>}
  * imgURL - {String}
  * position - {String}
  * border - {String}
@@ -543,24 +543,24 @@ OpenLayers.Util.modifyAlphaImageDiv = function(div, id, px, sz, imgURL,
  * {DOMElement} A DOM Div created with a DOM Image inside it. If the hack is 
  *              needed for transparency in IE, it is added.
  */ 
-OpenLayers.Util.createAlphaImageDiv = function(id, px, sz, imgURL, 
+OpenCharts.Util.createAlphaImageDiv = function(id, px, sz, imgURL, 
                                                position, border, sizing, 
                                                opacity, delayDisplay) {
     
-    var div = OpenLayers.Util.createDiv();
-    var img = OpenLayers.Util.createImage(null, null, null, null, null, null, 
+    var div = OpenCharts.Util.createDiv();
+    var img = OpenCharts.Util.createImage(null, null, null, null, null, null, 
                                           null, false);
     div.appendChild(img);
 
     if (delayDisplay) {
         img.style.display = "none";
-        OpenLayers.Event.observe(img, "load",
-            OpenLayers.Function.bind(OpenLayers.Util.onImageLoad, div));
-        OpenLayers.Event.observe(img, "error",
-            OpenLayers.Function.bind(OpenLayers.Util.onImageLoadError, div));
+        OpenCharts.Event.observe(img, "load",
+            OpenCharts.Function.bind(OpenCharts.Util.onImageLoad, div));
+        OpenCharts.Event.observe(img, "error",
+            OpenCharts.Function.bind(OpenCharts.Util.onImageLoadError, div));
     }
 
-    OpenLayers.Util.modifyAlphaImageDiv(div, id, px, sz, imgURL, position, 
+    OpenCharts.Util.modifyAlphaImageDiv(div, id, px, sz, imgURL, position, 
                                         border, sizing, opacity);
     
     return div;
@@ -579,7 +579,7 @@ OpenLayers.Util.createAlphaImageDiv = function(id, px, sz, imgURL,
  * Returns: 
  * {Object} A new Object with all the same keys but uppercased
  */
-OpenLayers.Util.upperCaseObject = function (object) {
+OpenCharts.Util.upperCaseObject = function (object) {
     var uObject = {};
     for (var key in object) {
         uObject[key.toUpperCase()] = object[key];
@@ -590,7 +590,7 @@ OpenLayers.Util.upperCaseObject = function (object) {
 /** 
  * Function: applyDefaults
  * Takes an object and copies any properties that don't exist from
- *     another properties, by analogy with OpenLayers.Util.extend() from
+ *     another properties, by analogy with OpenCharts.Util.extend() from
  *     Prototype.js.
  * 
  * Parameters:
@@ -602,7 +602,7 @@ OpenLayers.Util.upperCaseObject = function (object) {
  * {Object} A reference to the to object.  Note that the to argument is modified
  *     in place and returned by this function.
  */
-OpenLayers.Util.applyDefaults = function (to, from) {
+OpenCharts.Util.applyDefaults = function (to, from) {
     to = to || {};
     /*
      * FF/Windows < 2.0.0.13 reports "Illegal operation on WrappedNative
@@ -646,7 +646,7 @@ OpenLayers.Util.applyDefaults = function (to, from) {
  *          be set to a comma-seperated list of values (foo,bar) instead
  *          of being URL escaped (foo%3Abar). 
  */
-OpenLayers.Util.getParameterString = function(params) {
+OpenCharts.Util.getParameterString = function(params) {
     var paramsArray = [];
     
     for (var key in params) {
@@ -676,7 +676,7 @@ OpenLayers.Util.getParameterString = function(params) {
  * Property: ImgPath
  * {String} Default is ''.
  */
-OpenLayers.ImgPath = '';
+OpenCharts.ImgPath = '';
 
 /** 
  * Function: getImagesLocation
@@ -684,8 +684,8 @@ OpenLayers.ImgPath = '';
  * Returns:
  * {String} The fully formatted image location string
  */
-OpenLayers.Util.getImagesLocation = function() {
-    return OpenLayers.ImgPath || (OpenLayers._getScriptLocation() + "img/");
+OpenCharts.Util.getImagesLocation = function() {
+    return OpenCharts.ImgPath || (OpenCharts._getScriptLocation() + "img/");
 };
 
 
@@ -693,7 +693,7 @@ OpenLayers.Util.getImagesLocation = function() {
  * Function: Try
  * Execute functions until one of them doesn't throw an error. 
  *     Capitalized because "try" is a reserved word in JavaScript.
- *     Taken directly from OpenLayers.Util.Try()
+ *     Taken directly from OpenCharts.Util.Try()
  * 
  * Parameters:
  * [*] - {Function} Any number of parameters may be passed to Try()
@@ -704,7 +704,7 @@ OpenLayers.Util.getImagesLocation = function() {
  * Returns:
  * {*} The value returned by the first successfully executed function.
  */
-OpenLayers.Util.Try = function() {
+OpenCharts.Util.Try = function() {
     var returnValue = null;
 
     for (var i=0, len=arguments.length; i<len; i++) {
@@ -731,14 +731,14 @@ OpenLayers.Util.Try = function() {
  * Returns:
  * {Array}
  */
-OpenLayers.Util.getNodes=function(p, tagName) {
-    var nodes = OpenLayers.Util.Try(
+OpenCharts.Util.getNodes=function(p, tagName) {
+    var nodes = OpenCharts.Util.Try(
         function () {
-            return OpenLayers.Util._getNodes(p.documentElement.childNodes,
+            return OpenCharts.Util._getNodes(p.documentElement.childNodes,
                                             tagName);
         },
         function () {
-            return OpenLayers.Util._getNodes(p.childNodes, tagName);
+            return OpenCharts.Util._getNodes(p.childNodes, tagName);
         }
     );
     return nodes;
@@ -754,7 +754,7 @@ OpenLayers.Util.getNodes=function(p, tagName) {
  * Returns:
  * {Array}
  */
-OpenLayers.Util._getNodes=function(nodes, tagName) {
+OpenCharts.Util._getNodes=function(nodes, tagName) {
     var retArray = [];
     for (var i=0, len=nodes.length; i<len; i++) {
         if (nodes[i].nodeName==tagName) {
@@ -778,8 +778,8 @@ OpenLayers.Util._getNodes=function(nodes, tagName) {
  * Returns:
  * {String}
  */
-OpenLayers.Util.getTagText = function (parent, item, index) {
-    var result = OpenLayers.Util.getNodes(parent, item);
+OpenCharts.Util.getTagText = function (parent, item, index) {
+    var result = OpenCharts.Util.getNodes(parent, item);
     if (result && (result.length > 0))
     {
         if (!index) {
@@ -805,9 +805,9 @@ OpenLayers.Util.getTagText = function (parent, item, index) {
  * Returns:
  * {String} The text value of the given node, without breaking in firefox or IE
  */
-OpenLayers.Util.getXmlNodeValue = function(node) {
+OpenCharts.Util.getXmlNodeValue = function(node) {
     var val = null;
-    OpenLayers.Util.Try( 
+    OpenCharts.Util.Try( 
         function() {
             val = node.text;
             if (!val) {
@@ -833,7 +833,7 @@ OpenLayers.Util.getXmlNodeValue = function(node) {
  * Returns:
  * {Boolean}
  */
-OpenLayers.Util.mouseLeft = function (evt, div) {
+OpenCharts.Util.mouseLeft = function (evt, div) {
     // start with the element to which the mouse has moved
     var target = (evt.relatedTarget) ? evt.relatedTarget : evt.toElement;
     // walk up the DOM tree.
@@ -853,7 +853,7 @@ OpenLayers.Util.mouseLeft = function (evt, div) {
  * Returns:
  * {Float}
  */
-OpenLayers.Util.rad = function(x) {return x*Math.PI/180;};
+OpenCharts.Util.rad = function(x) {return x*Math.PI/180;};
 
 /**
  * Function: distVincenty
@@ -862,19 +862,19 @@ OpenLayers.Util.rad = function(x) {return x*Math.PI/180;};
  *     ellipsoid.
  * 
  * Parameters:
- * p1 - {<OpenLayers.LonLat>} (or any object with both .lat, .lon properties)
- * p2 - {<OpenLayers.LonLat>} (or any object with both .lat, .lon properties)
+ * p1 - {<OpenCharts.LonLat>} (or any object with both .lat, .lon properties)
+ * p2 - {<OpenCharts.LonLat>} (or any object with both .lat, .lon properties)
  * 
  * Returns:
  * {Float} The distance (in km) between the two input points as measured on an
  *     ellipsoid.  Note that the input point objects must be in geographic
  *     coordinates (decimal degrees) and the return distance is in kilometers.
  */
-OpenLayers.Util.distVincenty=function(p1, p2) {
+OpenCharts.Util.distVincenty=function(p1, p2) {
     var a = 6378137, b = 6356752.3142,  f = 1/298.257223563;
-    var L = OpenLayers.Util.rad(p2.lon - p1.lon);
-    var U1 = Math.atan((1-f) * Math.tan(OpenLayers.Util.rad(p1.lat)));
-    var U2 = Math.atan((1-f) * Math.tan(OpenLayers.Util.rad(p2.lat)));
+    var L = OpenCharts.Util.rad(p2.lon - p1.lon);
+    var U1 = Math.atan((1-f) * Math.tan(OpenCharts.Util.rad(p1.lat)));
+    var U2 = Math.atan((1-f) * Math.tan(OpenCharts.Util.rad(p2.lat)));
     var sinU1 = Math.sin(U1), cosU1 = Math.cos(U1);
     var sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);
     var lambda = L, lambdaP = 2*Math.PI;
@@ -922,15 +922,15 @@ OpenLayers.Util.distVincenty=function(p1, p2) {
  * Returns:
  * {Object} An object of key/value pairs from the query string.
  */
-OpenLayers.Util.getParameters = function(url) {
+OpenCharts.Util.getParameters = function(url) {
     // if no url specified, take it from the location bar
     url = url || window.location.href;
 
     //parse out parameters portion of url string
     var paramsString = "";
-    if (OpenLayers.String.contains(url, '?')) {
+    if (OpenCharts.String.contains(url, '?')) {
         var start = url.indexOf('?') + 1;
-        var end = OpenLayers.String.contains(url, "#") ?
+        var end = OpenCharts.String.contains(url, "#") ?
                     url.indexOf('#') : url.length;
         paramsString = url.substring(start, end);
     }
@@ -963,7 +963,7 @@ OpenLayers.Util.getParameters = function(url) {
 /**
  * Function: getArgs
  * *Deprecated*.  Will be removed in 3.0.  Please use instead
- *     <OpenLayers.Util.getParameters>
+ *     <OpenCharts.Util.getParameters>
  * 
  * Parameters:
  * url - {String} Optional url used to extract the query string.
@@ -972,13 +972,13 @@ OpenLayers.Util.getParameters = function(url) {
  * Returns:
  * {Object} An object of key/value pairs from the query string.
  */
-OpenLayers.Util.getArgs = function(url) {
-    OpenLayers.Console.warn(
-        OpenLayers.i18n(
-            "methodDeprecated", {'newMethod': 'OpenLayers.Util.getParameters'}
+OpenCharts.Util.getArgs = function(url) {
+    OpenCharts.Console.warn(
+        OpenCharts.i18n(
+            "methodDeprecated", {'newMethod': 'OpenCharts.Util.getParameters'}
         )
     );
-    return OpenLayers.Util.getParameters(url);
+    return OpenCharts.Util.getParameters(url);
 };
 
 /**
@@ -986,7 +986,7 @@ OpenLayers.Util.getArgs = function(url) {
  * {Integer} The ever-incrementing count variable.
  *           Used for generating unique ids.
  */
-OpenLayers.Util.lastSeqID = 0;
+OpenCharts.Util.lastSeqID = 0;
 
 /**
  * Function: createUniqueID
@@ -1000,12 +1000,12 @@ OpenLayers.Util.lastSeqID = 0;
  * Returns:
  * {String} A unique id string, built on the passed in prefix.
  */
-OpenLayers.Util.createUniqueID = function(prefix) {
+OpenCharts.Util.createUniqueID = function(prefix) {
     if (prefix == null) {
         prefix = "id_";
     }
-    OpenLayers.Util.lastSeqID += 1; 
-    return prefix + OpenLayers.Util.lastSeqID;        
+    OpenCharts.Util.lastSeqID += 1; 
+    return prefix + OpenCharts.Util.lastSeqID;        
 };
 
 /**
@@ -1013,7 +1013,7 @@ OpenLayers.Util.createUniqueID = function(prefix) {
  * {Object} Constant inches per unit -- borrowed from MapServer mapscale.c
  * derivation of nautical miles from http://en.wikipedia.org/wiki/Nautical_mile
  */
-OpenLayers.INCHES_PER_UNIT = { 
+OpenCharts.INCHES_PER_UNIT = { 
     'inches': 1.0,
     'ft': 12.0,
     'mi': 63360.0,
@@ -1022,15 +1022,15 @@ OpenLayers.INCHES_PER_UNIT = {
     'dd': 4374754,
     'yd': 36
 };
-OpenLayers.INCHES_PER_UNIT["in"]= OpenLayers.INCHES_PER_UNIT.inches;
-OpenLayers.INCHES_PER_UNIT["degrees"] = OpenLayers.INCHES_PER_UNIT.dd;
-OpenLayers.INCHES_PER_UNIT["nmi"] = 1852 * OpenLayers.INCHES_PER_UNIT.m;
+OpenCharts.INCHES_PER_UNIT["in"]= OpenCharts.INCHES_PER_UNIT.inches;
+OpenCharts.INCHES_PER_UNIT["degrees"] = OpenCharts.INCHES_PER_UNIT.dd;
+OpenCharts.INCHES_PER_UNIT["nmi"] = 1852 * OpenCharts.INCHES_PER_UNIT.m;
 
 /** 
  * Constant: DOTS_PER_INCH
  * {Integer} 72 (A sensible default)
  */
-OpenLayers.DOTS_PER_INCH = 72;
+OpenCharts.DOTS_PER_INCH = 72;
 
 /**
  * Function: normalzeScale
@@ -1044,7 +1044,7 @@ OpenLayers.DOTS_PER_INCH = 72;
  *         in, it just returns scale directly. Otherwise, it returns 
  *         1 / scale
  */
-OpenLayers.Util.normalizeScale = function (scale) {
+OpenCharts.Util.normalizeScale = function (scale) {
     var normScale = (scale > 1.0) ? (1.0 / scale) 
                                   : scale;
     return normScale;
@@ -1055,23 +1055,23 @@ OpenLayers.Util.normalizeScale = function (scale) {
  * 
  * Parameters:
  * scale - {Float}
- * units - {String} Index into OpenLayers.INCHES_PER_UNIT hashtable.
+ * units - {String} Index into OpenCharts.INCHES_PER_UNIT hashtable.
  *                  Default is degrees
  * 
  * Returns:
  * {Float} The corresponding resolution given passed-in scale and unit 
  *         parameters.
  */
-OpenLayers.Util.getResolutionFromScale = function (scale, units) {
+OpenCharts.Util.getResolutionFromScale = function (scale, units) {
 
     if (units == null) {
         units = "degrees";
     }
 
-    var normScale = OpenLayers.Util.normalizeScale(scale);
+    var normScale = OpenCharts.Util.normalizeScale(scale);
 
-    var resolution = 1 / (normScale * OpenLayers.INCHES_PER_UNIT[units]
-                                    * OpenLayers.DOTS_PER_INCH);
+    var resolution = 1 / (normScale * OpenCharts.INCHES_PER_UNIT[units]
+                                    * OpenCharts.DOTS_PER_INCH);
     return resolution;
 };
 
@@ -1080,28 +1080,28 @@ OpenLayers.Util.getResolutionFromScale = function (scale, units) {
  * 
  * Parameters:
  * resolution - {Float}
- * units - {String} Index into OpenLayers.INCHES_PER_UNIT hashtable.
+ * units - {String} Index into OpenCharts.INCHES_PER_UNIT hashtable.
  *                  Default is degrees
  * 
  * Returns:
  * {Float} The corresponding scale given passed-in resolution and unit 
  *         parameters.
  */
-OpenLayers.Util.getScaleFromResolution = function (resolution, units) {
+OpenCharts.Util.getScaleFromResolution = function (resolution, units) {
 
     if (units == null) {
         units = "degrees";
     }
 
-    var scale = resolution * OpenLayers.INCHES_PER_UNIT[units] *
-                    OpenLayers.DOTS_PER_INCH;
+    var scale = resolution * OpenCharts.INCHES_PER_UNIT[units] *
+                    OpenCharts.DOTS_PER_INCH;
     return scale;
 };
 
 /**
  * Function: safeStopPropagation
  * *Deprecated*. This function has been deprecated. Please use directly 
- *     <OpenLayers.Event.stop> passing 'true' as the 2nd 
+ *     <OpenCharts.Event.stop> passing 'true' as the 2nd 
  *     argument (preventDefault)
  * 
  * Safely stop the propagation of an event *without* preventing
@@ -1110,8 +1110,8 @@ OpenLayers.Util.getScaleFromResolution = function (resolution, units) {
  * Parameter:
  * evt - {Event}
  */
-OpenLayers.Util.safeStopPropagation = function(evt) {
-    OpenLayers.Event.stop(evt, true);
+OpenCharts.Util.safeStopPropagation = function(evt) {
+    OpenCharts.Event.stop(evt, true);
 };
 
 /**
@@ -1124,7 +1124,7 @@ OpenLayers.Util.safeStopPropagation = function(evt) {
  * Returns:
  * {Array} two item array, L value then T value.
  */
-OpenLayers.Util.pagePosition = function(forElement) {
+OpenCharts.Util.pagePosition = function(forElement) {
     var valueT = 0, valueL = 0;
 
     var element = forElement;
@@ -1132,7 +1132,7 @@ OpenLayers.Util.pagePosition = function(forElement) {
     while(element) {
 
         if(element == document.body) {
-            if(OpenLayers.Element.getStyle(child, 'position') == 'absolute') {
+            if(OpenCharts.Element.getStyle(child, 'position') == 'absolute') {
                 break;
             }
         }
@@ -1145,7 +1145,7 @@ OpenLayers.Util.pagePosition = function(forElement) {
             // wrapping this in a try/catch because IE chokes on the offsetParent
             element = element.offsetParent;
         } catch(e) {
-            OpenLayers.Console.error(OpenLayers.i18n(
+            OpenCharts.Console.error(OpenCharts.i18n(
                                   "pagePositionFailed",{'elemId':element.id}));
             break;
         }
@@ -1187,22 +1187,22 @@ OpenLayers.Util.pagePosition = function(forElement) {
  * Returns:
  * {Boolean} Whether or not the two URLs are equivalent
  */
-OpenLayers.Util.isEquivalentUrl = function(url1, url2, options) {
+OpenCharts.Util.isEquivalentUrl = function(url1, url2, options) {
     options = options || {};
 
-    OpenLayers.Util.applyDefaults(options, {
+    OpenCharts.Util.applyDefaults(options, {
         ignoreCase: true,
         ignorePort80: true,
         ignoreHash: true
     });
 
-    var urlObj1 = OpenLayers.Util.createUrlObject(url1, options);
-    var urlObj2 = OpenLayers.Util.createUrlObject(url2, options);
+    var urlObj1 = OpenCharts.Util.createUrlObject(url1, options);
+    var urlObj2 = OpenCharts.Util.createUrlObject(url2, options);
 
     //compare all keys (host, port, etc)
     for(var key in urlObj1) {
         if (options.test) {
-            OpenLayers.Console.userError(key + "\n1:" + urlObj1[key] + "\n2:" + urlObj2[key]);
+            OpenCharts.Console.userError(key + "\n1:" + urlObj1[key] + "\n2:" + urlObj2[key]);
         }
         var val1 = urlObj1[key];
         var val2 = urlObj2[key];
@@ -1260,7 +1260,7 @@ OpenLayers.Util.isEquivalentUrl = function(url1, url2, options) {
  * {Object} An object with separate url, a, port, host, and args parsed out 
  *          and ready for comparison
  */
-OpenLayers.Util.createUrlObject = function(url, options) {
+OpenCharts.Util.createUrlObject = function(url, options) {
     options = options || {};
 
     var urlObject = {};
@@ -1295,7 +1295,7 @@ OpenLayers.Util.createUrlObject = function(url, options) {
         var qMark = url.indexOf("?");
         queryString = (qMark != -1) ? url.substr(qMark) : "";
     }
-    urlObject.args = OpenLayers.Util.getParameters(queryString);
+    urlObject.args = OpenCharts.Util.getParameters(queryString);
 
 
   //pathname (this part allows for relative <-> absolute comparison)
@@ -1311,7 +1311,7 @@ OpenLayers.Util.createUrlObject = function(url, options) {
         }
 
     } else {
-        var relStr = OpenLayers.Util.removeTail(url);
+        var relStr = OpenCharts.Util.removeTail(url);
 
         var backs = 0;
         do {
@@ -1370,7 +1370,7 @@ OpenLayers.Util.createUrlObject = function(url, options) {
  * Returns:
  * {String} The string with all queryString and Hash removed
  */
-OpenLayers.Util.removeTail = function(url) {
+OpenCharts.Util.removeTail = function(url) {
     var head = null;
     
     var qMark = url.indexOf("?");
@@ -1403,7 +1403,7 @@ OpenLayers.Util.removeTail = function(url) {
  *          If we are unable to property identify the browser, we 
  *           return an empty string.
  */
-OpenLayers.Util.getBrowserName = function() {
+OpenCharts.Util.getBrowserName = function() {
     var browserName = "";
     
     var ua = navigator.userAgent.toLowerCase();
@@ -1436,7 +1436,7 @@ OpenLayers.Util.getBrowserName = function() {
  *     
  * Parameters:
  * contentHTML
- * size - {<OpenLayers.Size>} If either the 'w' or 'h' properties is 
+ * size - {<OpenCharts.Size>} If either the 'w' or 'h' properties is 
  *     specified, we fix that dimension of the div to be measured. This is 
  *     useful in the case where we have a limit in one dimension and must 
  *     therefore meaure the flow in the other dimension.
@@ -1445,9 +1445,9 @@ OpenLayers.Util.getBrowserName = function() {
  *         to provide the CSS context of the rendered content.
  * 
  * Returns:
- * {OpenLayers.Size}
+ * {OpenCharts.Size}
  */
-OpenLayers.Util.getRenderedDimensions = function(contentHTML, size, options) {
+OpenCharts.Util.getRenderedDimensions = function(contentHTML, size, options) {
     
     var w, h;
     
@@ -1499,12 +1499,12 @@ OpenLayers.Util.getRenderedDimensions = function(contentHTML, size, options) {
     container.removeChild(content);
     document.body.removeChild(container);
     
-    return new OpenLayers.Size(w, h);
+    return new OpenCharts.Size(w, h);
 };
 
 /**
  * APIFunction: getScrollbarWidth
- * This function has been modified by the OpenLayers from the original version,
+ * This function has been modified by the OpenCharts from the original version,
  *     written by Matthew Eernisse and released under the Apache 2 
  *     license here:
  * 
@@ -1517,9 +1517,9 @@ OpenLayers.Util.getRenderedDimensions = function(contentHTML, size, options) {
  * Returns:
  * {Integer}
  */
-OpenLayers.Util.getScrollbarWidth = function() {
+OpenCharts.Util.getScrollbarWidth = function() {
     
-    var scrollbarWidth = OpenLayers.Util._scrollbarWidth;
+    var scrollbarWidth = OpenCharts.Util._scrollbarWidth;
     
     if (scrollbarWidth == null) {
         var scr = null;
@@ -1559,13 +1559,13 @@ OpenLayers.Util.getScrollbarWidth = function() {
         document.body.removeChild(document.body.lastChild);
     
         // Pixel width of the scroller
-        OpenLayers.Util._scrollbarWidth = (wNoScroll - wScroll);
-        scrollbarWidth = OpenLayers.Util._scrollbarWidth;
+        OpenCharts.Util._scrollbarWidth = (wNoScroll - wScroll);
+        scrollbarWidth = OpenCharts.Util._scrollbarWidth;
     }
 
     return scrollbarWidth;
 };
-OpenLayers.Util.getScreenCTM = function () {
+OpenCharts.Util.getScreenCTM = function () {
     // now we find the screen CTM of the document SVG element
     var root = document.documentElement;
     var sCTM = root.createSVGMatrix();

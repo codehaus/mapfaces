@@ -1,13 +1,13 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the clear BSD license.
- * See http://svn.openlayers.org/trunk/openlayers/license.txt 
+ * See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt 
  * for the full text of the license. */
 
 /**
- * @requires OpenLayers/Handler.js
+ * @requires OpenCharts/Handler.js
  */
 
 /**
- * Class: OpenLayers.Handler.Click
+ * Class: OpenCharts.Handler.Click
  * A handler for mouse clicks.  The intention of this handler is to give
  *     controls more flexibility with handling clicks.  Browsers trigger
  *     click events twice for a double-click.  In addition, the mousedown,
@@ -15,12 +15,12 @@
  *     controls can decide whether to ignore clicks associated with a double
  *     click.  By setting a <pixelTolerance>, controls can also ignore clicks
  *     that include a drag.  Create a new instance with the
- *     <OpenLayers.Handler.Click> constructor.
+ *     <OpenCharts.Handler.Click> constructor.
  * 
  * Inherits from:
- *  - <OpenLayers.Handler> 
+ *  - <OpenCharts.Handler> 
  */
-OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
+OpenCharts.Handler.Click = OpenCharts.Class(OpenCharts.Handler, {
 
     /**
      * APIProperty: delay
@@ -85,7 +85,7 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
     
     /**
      * Property: down
-     * {<OpenLayers.Pixel>} The pixel location of the last mousedown.
+     * {<OpenCharts.Pixel>} The pixel location of the last mousedown.
      */
     down: null,
     
@@ -97,11 +97,11 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
     rightclickTimerId: null,
     
     /**
-     * Constructor: OpenLayers.Handler.Click
+     * Constructor: OpenCharts.Handler.Click
      * Create a new click handler.
      * 
      * Parameters:
-     * control - {<OpenLayers.Control>} The control that is making use of
+     * control - {<OpenCharts.Control>} The control that is making use of
      *     this handler.  If a handler is being used without a control, the
      *     handler's setMap method must be overridden to deal properly with
      *     the map.
@@ -113,7 +113,7 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
      *     handler.
      */
     initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);
+        OpenCharts.Handler.prototype.initialize.apply(this, arguments);
         // optionally register for mouseup and mousedown
         if(this.pixelTolerance != null) {
             this.mousedown = function(evt) {
@@ -148,7 +148,7 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
         //  mouseup instead
         if (this.checkModifiers(evt) && 
             this.control.handleRightClicks && 
-            OpenLayers.Event.isRightClick(evt)) {
+            OpenCharts.Event.isRightClick(evt)) {
           propogate = this.rightclick(evt);
         }
 
@@ -176,10 +176,10 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
                 //Set the rightclickTimerId, send evt only if double is 
                 // true else trigger single
                 var clickEvent = this['double'] ?
-                    OpenLayers.Util.extend({}, evt) : 
+                    OpenCharts.Util.extend({}, evt) : 
                     this.callback('rightclick', [evt]);
 
-                var delayedRightCall = OpenLayers.Function.bind(
+                var delayedRightCall = OpenCharts.Function.bind(
                     this.delayedRightCall, 
                     this, 
                     clickEvent
@@ -241,9 +241,9 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
                 //use a clone of the event object because it will no longer 
                 //be a valid event object in IE in the timer callback
                 var clickEvent = this.single ?
-                    OpenLayers.Util.extend({}, evt) : null;
+                    OpenCharts.Util.extend({}, evt) : null;
                 this.timerId = window.setTimeout(
-                    OpenLayers.Function.bind(this.delayedCall, this, clickEvent),
+                    OpenCharts.Function.bind(this.delayedCall, this, clickEvent),
                     this.delay
                 );
             }
@@ -308,7 +308,7 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
      */
     deactivate: function() {
         var deactivated = false;
-        if(OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+        if(OpenCharts.Handler.prototype.deactivate.apply(this, arguments)) {
             this.clearTimer();
             this.down = null;
             deactivated = true;
@@ -316,5 +316,5 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
         return deactivated;
     },
 
-    CLASS_NAME: "OpenLayers.Handler.Click"
+    CLASS_NAME: "OpenCharts.Handler.Click"
 });

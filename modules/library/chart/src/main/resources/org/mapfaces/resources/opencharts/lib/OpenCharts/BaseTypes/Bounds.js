@@ -1,20 +1,20 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * Class: OpenLayers.Bounds
+ * Class: OpenCharts.Bounds
  * Instances of this class represent bounding boxes.  Data stored as left,
  * bottom, right, top floats. All values are initialized to null, however,
  * you should make sure you set them before using the bounds for anything.
  * 
  * Possible use case:
- * > bounds = new OpenLayers.Bounds();
- * > bounds.extend(new OpenLayers.LonLat(4,5));
- * > bounds.extend(new OpenLayers.LonLat(5,6));
+ * > bounds = new OpenCharts.Bounds();
+ * > bounds.extend(new OpenCharts.LonLat(4,5));
+ * > bounds.extend(new OpenCharts.LonLat(5,6));
  * > bounds.toBBOX(); // returns 4,5,5,6
  */
-OpenLayers.Bounds = OpenLayers.Class({
+OpenCharts.Bounds = OpenCharts.Class({
 
     /**
      * Property: left
@@ -41,7 +41,7 @@ OpenLayers.Bounds = OpenLayers.Class({
     top: null,    
 
     /**
-     * Constructor: OpenLayers.Bounds
+     * Constructor: OpenCharts.Bounds
      * Construct a new bounds object.
      *
      * Parameters:
@@ -72,10 +72,10 @@ OpenLayers.Bounds = OpenLayers.Class({
      * Create a cloned instance of this bounds.
      *
      * Returns:
-     * {<OpenLayers.Bounds>} A fresh copy of the bounds
+     * {<OpenCharts.Bounds>} A fresh copy of the bounds
      */
     clone:function() {
-        return new OpenLayers.Bounds(this.left, this.bottom, 
+        return new OpenCharts.Bounds(this.left, this.bottom, 
                                      this.right, this.top);
     },
 
@@ -84,7 +84,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      * Test a two bounds for equivalence.
      *
      * Parameters:
-     * bounds - {<OpenLayers.Bounds>}
+     * bounds - {<OpenCharts.Bounds>}
      *
      * Returns:
      * {Boolean} The passed-in bounds object has the same left,
@@ -153,16 +153,16 @@ OpenLayers.Bounds = OpenLayers.Class({
      * Create a new polygon geometry based on this bounds.
      *
      * Returns:
-     * {<OpenLayers.Geometry.Polygon>} A new polygon with the coordinates
+     * {<OpenCharts.Geometry.Polygon>} A new polygon with the coordinates
      *     of this bounds.
      */
     toGeometry: function() {
-        return new OpenLayers.Geometry.Polygon([
-            new OpenLayers.Geometry.LinearRing([
-                new OpenLayers.Geometry.Point(this.left, this.bottom),
-                new OpenLayers.Geometry.Point(this.right, this.bottom),
-                new OpenLayers.Geometry.Point(this.right, this.top),
-                new OpenLayers.Geometry.Point(this.left, this.top)
+        return new OpenCharts.Geometry.Polygon([
+            new OpenCharts.Geometry.LinearRing([
+                new OpenCharts.Geometry.Point(this.left, this.bottom),
+                new OpenCharts.Geometry.Point(this.right, this.bottom),
+                new OpenCharts.Geometry.Point(this.right, this.top),
+                new OpenCharts.Geometry.Point(this.left, this.top)
             ])
         ]);
     },
@@ -191,20 +191,20 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: getSize
      * 
      * Returns:
-     * {<OpenLayers.Size>} The size of the box.
+     * {<OpenCharts.Size>} The size of the box.
      */
     getSize:function() {
-        return new OpenLayers.Size(this.getWidth(), this.getHeight());
+        return new OpenCharts.Size(this.getWidth(), this.getHeight());
     },
 
     /**
      * APIMethod: getCenterPixel
      * 
      * Returns:
-     * {<OpenLayers.Pixel>} The center of the bounds in pixel space.
+     * {<OpenCharts.Pixel>} The center of the bounds in pixel space.
      */
     getCenterPixel:function() {
-        return new OpenLayers.Pixel( (this.left + this.right) / 2,
+        return new OpenCharts.Pixel( (this.left + this.right) / 2,
                                      (this.bottom + this.top) / 2);
     },
 
@@ -212,10 +212,10 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: getCenterLonLat
      * 
      * Returns:
-     * {<OpenLayers.LonLat>} The center of the bounds in map space.
+     * {<OpenCharts.LonLat>} The center of the bounds in map space.
      */
     getCenterLonLat:function() {
-        return new OpenLayers.LonLat( (this.left + this.right) / 2,
+        return new OpenCharts.LonLat( (this.left + this.right) / 2,
                                       (this.bottom + this.top) / 2);
     },
 
@@ -227,11 +227,11 @@ OpenLayers.Bounds = OpenLayers.Class({
      * 
      * Parameters:
      * ratio - {Float} 
-     * origin - {<OpenLayers.Pixel> or <OpenLayers.LonLat>}
+     * origin - {<OpenCharts.Pixel> or <OpenCharts.LonLat>}
      *          Default is center.
      *
      * Returns:
-     * {<OpenLayers.Bound>} A new bounds that is scaled by ratio
+     * {<OpenCharts.Bound>} A new bounds that is scaled by ratio
      *                      from origin.
      */
 
@@ -245,7 +245,7 @@ OpenLayers.Bounds = OpenLayers.Class({
         var origx,origy;
 
         // get origin coordinates
-        if(origin.CLASS_NAME == "OpenLayers.LonLat"){
+        if(origin.CLASS_NAME == "OpenCharts.LonLat"){
             origx = origin.lon;
             origy = origin.lat;
         } else {
@@ -258,7 +258,7 @@ OpenLayers.Bounds = OpenLayers.Class({
         var right = (this.right - origx) * ratio + origx;
         var top = (this.top - origy) * ratio + origy;
 
-        return new OpenLayers.Bounds(left, bottom, right, top);
+        return new OpenCharts.Bounds(left, bottom, right, top);
     },
 
     /**
@@ -269,16 +269,16 @@ OpenLayers.Bounds = OpenLayers.Class({
      * y - {Float}
      * 
      * Returns:
-     * {<OpenLayers.Bounds>} A new bounds whose coordinates are the same as
+     * {<OpenCharts.Bounds>} A new bounds whose coordinates are the same as
      *     this, but shifted by the passed-in x and y values.
      */
     add:function(x, y) {
         if ( (x == null) || (y == null) ) {
-            var msg = OpenLayers.i18n("boundsAddError");
-            OpenLayers.Console.error(msg);
+            var msg = OpenCharts.i18n("boundsAddError");
+            OpenCharts.Console.error(msg);
             return null;
         }
-        return new OpenLayers.Bounds(this.left + x, this.bottom + y,
+        return new OpenCharts.Bounds(this.left + x, this.bottom + y,
                                      this.right + x, this.top + y);
     },
     
@@ -294,16 +294,16 @@ OpenLayers.Bounds = OpenLayers.Class({
         var bounds = null;
         if (object) {
             switch(object.CLASS_NAME) {
-                case "OpenLayers.LonLat":    
-                    bounds = new OpenLayers.Bounds(object.lon, object.lat,
+                case "OpenCharts.LonLat":    
+                    bounds = new OpenCharts.Bounds(object.lon, object.lat,
                                                     object.lon, object.lat);
                     break;
-                case "OpenLayers.Geometry.Point":
-                    bounds = new OpenLayers.Bounds(object.x, object.y,
+                case "OpenCharts.Geometry.Point":
+                    bounds = new OpenCharts.Bounds(object.x, object.y,
                                                     object.x, object.y);
                     break;
                     
-                case "OpenLayers.Bounds":    
+                case "OpenCharts.Bounds":    
                     bounds = object;
                     break;
             }
@@ -329,7 +329,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: containsLonLat
      * 
      * Parameters:
-     * ll - {<OpenLayers.LonLat>}
+     * ll - {<OpenCharts.LonLat>}
      * inclusive - {Boolean} Whether or not to include the border.
      *     Default is true.
      *
@@ -344,7 +344,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: containsPixel
      * 
      * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     * px - {<OpenCharts.Pixel>}
      * inclusive - {Boolean} Whether or not to include the border. Default is
      *     true.
      *
@@ -390,12 +390,12 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: intersectsBounds
      * 
      * Parameters:
-     * bounds - {<OpenLayers.Bounds>}
+     * bounds - {<OpenCharts.Bounds>}
      * inclusive - {Boolean} Whether or not to include the border.  Default
      *     is true.
      *
      * Returns:
-     * {Boolean} The passed-in OpenLayers.Bounds object intersects this bounds.
+     * {Boolean} The passed-in OpenCharts.Bounds object intersects this bounds.
      *     Simple math just check if either contains the other, allowing for
      *     partial.
      */
@@ -425,7 +425,7 @@ OpenLayers.Bounds = OpenLayers.Class({
     /**
      * APIMethod: containsBounds
      * 
-     * bounds - {<OpenLayers.Bounds>}
+     * bounds - {<OpenCharts.Bounds>}
      * partial - {Boolean} If true, only part of passed-in bounds needs be
      *     within this bounds.  If false, the entire passed-in bounds must be
      *     within. Default is false
@@ -470,7 +470,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: determineQuadrant
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenCharts.LonLat>}
      * 
      * Returns:
      * {String} The quadrant ("br" "tr" "tl" "bl") of the bounds in which the
@@ -492,20 +492,20 @@ OpenLayers.Bounds = OpenLayers.Class({
      * Transform the Bounds object from source to dest. 
      *
      * Parameters: 
-     * source - {<OpenLayers.Projection>} Source projection. 
-     * dest   - {<OpenLayers.Projection>} Destination projection. 
+     * source - {<OpenCharts.Projection>} Source projection. 
+     * dest   - {<OpenCharts.Projection>} Destination projection. 
      *
      * Returns:
-     * {<OpenLayers.Bounds>} Itself, for use in chaining operations.
+     * {<OpenCharts.Bounds>} Itself, for use in chaining operations.
      */
     transform: function(source, dest) {
-        var ll = OpenLayers.Projection.transform(
+        var ll = OpenCharts.Projection.transform(
             {'x': this.left, 'y': this.bottom}, source, dest);
-        var lr = OpenLayers.Projection.transform(
+        var lr = OpenCharts.Projection.transform(
             {'x': this.right, 'y': this.bottom}, source, dest);
-        var ul = OpenLayers.Projection.transform(
+        var ul = OpenCharts.Projection.transform(
             {'x': this.left, 'y': this.top}, source, dest);
-        var ur = OpenLayers.Projection.transform(
+        var ur = OpenCharts.Projection.transform(
             {'x': this.right, 'y': this.top}, source, dest);
         this.left   = Math.min(ll.x, ul.x);
         this.bottom = Math.min(ll.y, lr.y);
@@ -518,7 +518,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: wrapDateLine
      *  
      * Parameters:
-     * maxExtent - {<OpenLayers.Bounds>}
+     * maxExtent - {<OpenCharts.Bounds>}
      * options - {Object} Some possible options are:
      *                    leftTolerance - {float} Allow for a margin of error 
      *                                            with the 'left' value of this 
@@ -530,7 +530,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      *                                             Default is 0.
      * 
      * Returns:
-     * {<OpenLayers.Bounds>} A copy of this bounds, but wrapped around the 
+     * {<OpenCharts.Bounds>} A copy of this bounds, but wrapped around the 
      *                       "dateline" (as specified by the borders of 
      *                       maxExtent). Note that this function only returns 
      *                       a different bounds value if this bounds is 
@@ -565,39 +565,39 @@ OpenLayers.Bounds = OpenLayers.Class({
         return newBounds;
     },
 
-    CLASS_NAME: "OpenLayers.Bounds"
+    CLASS_NAME: "OpenCharts.Bounds"
 });
 
 /** 
  * APIFunction: fromString
- * Alternative constructor that builds a new OpenLayers.Bounds from a 
+ * Alternative constructor that builds a new OpenCharts.Bounds from a 
  *     parameter string
  * 
  * Parameters: 
  * str - {String}Comma-separated bounds string. (ex. <i>"5,42,10,45"</i>)
  * 
  * Returns:
- * {<OpenLayers.Bounds>} New bounds object built from the 
+ * {<OpenCharts.Bounds>} New bounds object built from the 
  *                       passed-in String.
  */
-OpenLayers.Bounds.fromString = function(str) {
+OpenCharts.Bounds.fromString = function(str) {
     var bounds = str.split(",");
-    return OpenLayers.Bounds.fromArray(bounds);
+    return OpenCharts.Bounds.fromArray(bounds);
 };
 
 /** 
  * APIFunction: fromArray
- * Alternative constructor that builds a new OpenLayers.Bounds
+ * Alternative constructor that builds a new OpenCharts.Bounds
  *     from an array
  * 
  * Parameters:
  * bbox - {Array(Float)} Array of bounds values (ex. <i>[5,42,10,45]</i>)
  *
  * Returns:
- * {<OpenLayers.Bounds>} New bounds object built from the passed-in Array.
+ * {<OpenCharts.Bounds>} New bounds object built from the passed-in Array.
  */
-OpenLayers.Bounds.fromArray = function(bbox) {
-    return new OpenLayers.Bounds(parseFloat(bbox[0]),
+OpenCharts.Bounds.fromArray = function(bbox) {
+    return new OpenCharts.Bounds(parseFloat(bbox[0]),
                                  parseFloat(bbox[1]),
                                  parseFloat(bbox[2]),
                                  parseFloat(bbox[3]));
@@ -605,17 +605,17 @@ OpenLayers.Bounds.fromArray = function(bbox) {
 
 /** 
  * APIFunction: fromSize
- * Alternative constructor that builds a new OpenLayers.Bounds
+ * Alternative constructor that builds a new OpenCharts.Bounds
  *     from a size
  * 
  * Parameters:
- * size - {<OpenLayers.Size>} 
+ * size - {<OpenCharts.Size>} 
  *
  * Returns:
- * {<OpenLayers.Bounds>} New bounds object built from the passed-in size.
+ * {<OpenCharts.Bounds>} New bounds object built from the passed-in size.
  */
-OpenLayers.Bounds.fromSize = function(size) {
-    return new OpenLayers.Bounds(0,
+OpenCharts.Bounds.fromSize = function(size) {
+    return new OpenCharts.Bounds(0,
                                  size.h,
                                  size.w,
                                  0);
@@ -633,7 +633,7 @@ OpenLayers.Bounds.fromSize = function(size) {
  *          you pass in "bl" it returns "tr", if you pass in "br" it 
  *          returns "tl", etc.
  */
-OpenLayers.Bounds.oppositeQuadrant = function(quadrant) {
+OpenCharts.Bounds.oppositeQuadrant = function(quadrant) {
     var opp = "";
     
     opp += (quadrant.charAt(0) == 't') ? 'b' : 't';

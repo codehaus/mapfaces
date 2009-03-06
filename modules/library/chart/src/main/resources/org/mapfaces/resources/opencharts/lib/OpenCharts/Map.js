@@ -1,23 +1,23 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Util.js
- * @requires OpenLayers/Events.js
- * @requires OpenLayers/Tween.js
+ * @requires OpenCharts/Util.js
+ * @requires OpenCharts/Events.js
+ * @requires OpenCharts/Tween.js
  */
 
 /**
- * Class: OpenLayers.Map
- * Instances of OpenLayers.Map are interactive maps embedded in a web page.
- * Create a new map with the <OpenLayers.Map> constructor.
+ * Class: OpenCharts.Map
+ * Instances of OpenCharts.Map are interactive maps embedded in a web page.
+ * Create a new map with the <OpenCharts.Map> constructor.
  * 
  * On their own maps do not provide much functionality.  To extend a map
- * it's necessary to add controls (<OpenLayers.Control>) and 
- * layers (<OpenLayers.Layer>) to the map. 
+ * it's necessary to add controls (<OpenCharts.Control>) and 
+ * layers (<OpenCharts.Layer>) to the map. 
  */
-OpenLayers.Map = OpenLayers.Class({
+OpenCharts.Map = OpenCharts.Class({
     
     /**
      * Constant: Z_INDEX_BASE
@@ -47,7 +47,7 @@ OpenLayers.Map = OpenLayers.Class({
      *  - *element* {DOMElement} A reference to map.events.element.
      *
      * Browser events have the following additional properties:
-     *  - *xy* {<OpenLayers.Pixel>} The pixel location of the event (relative
+     *  - *xy* {<OpenCharts.Pixel>} The pixel location of the event (relative
      *      to the the map viewport).
      *  - other properties that come with browser events
      *
@@ -117,7 +117,7 @@ OpenLayers.Map = OpenLayers.Class({
     
     /**
      * APIProperty: events
-     * {<OpenLayers.Events>} An events object that handles all 
+     * {<OpenCharts.Events>} An events object that handles all 
      *                       events on the map
      */
     events: null,
@@ -136,7 +136,7 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * Property: size
-     * {<OpenLayers.Size>} Size of the main div (this.div)
+     * {<OpenCharts.Size>} Size of the main div (this.div)
      */
     size: null,
     
@@ -148,7 +148,7 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * Property: layerContainerOrigin
-     * {<OpenLayers.LonLat>} The lonlat at which the later container was
+     * {<OpenCharts.LonLat>} The lonlat at which the later container was
      *                       re-initialized (on-zoom)
      */
     layerContainerOrigin: null,
@@ -161,39 +161,39 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * APIProperty: layers
-     * {Array(<OpenLayers.Layer>)} Ordered list of layers in the map
+     * {Array(<OpenCharts.Layer>)} Ordered list of layers in the map
      */
     layers: null,
 
     /**
      * Property: controls
-     * {Array(<OpenLayers.Control>)} List of controls associated with the map.
+     * {Array(<OpenCharts.Control>)} List of controls associated with the map.
      *
      * If not provided in the map options at construction, the map will
      *     be given the following controls by default:
-     *  - <OpenLayers.Control.Navigation>
-     *  - <OpenLayers.Control.PanZoom>
-     *  - <OpenLayers.Control.ArgParser>
-     *  - <OpenLayers.Control.Attribution>
+     *  - <OpenCharts.Control.Navigation>
+     *  - <OpenCharts.Control.PanZoom>
+     *  - <OpenCharts.Control.ArgParser>
+     *  - <OpenCharts.Control.Attribution>
      */
     controls: null,
 
     /**
      * Property: popups
-     * {Array(<OpenLayers.Popup>)} List of popups associated with the map
+     * {Array(<OpenCharts.Popup>)} List of popups associated with the map
      */
     popups: null,
 
     /**
      * APIProperty: baseLayer
-     * {<OpenLayers.Layer>} The currently selected base layer.  This determines
+     * {<OpenCharts.Layer>} The currently selected base layer.  This determines
      * min/max zoom level, projection, etc.
      */
     baseLayer: null,
     
     /**
      * Property: center
-     * {<OpenLayers.LonLat>} The current center of the map
+     * {<OpenCharts.LonLat>} The current center of the map
      */
     center: null,
 
@@ -234,7 +234,7 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * APIProperty: tileSize
-     * {<OpenLayers.Size>} Set in the map options to override the default tile
+     * {<OpenCharts.Size>} Set in the map options to override the default tile
      *                     size for this map.
      */
     tileSize: null,
@@ -292,7 +292,7 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * APIProperty: maxExtent
-     * {<OpenLayers.Bounds>} The maximum extent for the map.  Defaults to the
+     * {<OpenCharts.Bounds>} The maximum extent for the map.  Defaults to the
      *                       whole world in decimal degrees 
      *                       (-180, -90, 180, 90).  Specify a different
      *                        extent in the map options if you are not using a 
@@ -303,13 +303,13 @@ OpenLayers.Map = OpenLayers.Class({
     
     /**
      * APIProperty: minExtent
-     * {<OpenLayers.Bounds>}
+     * {<OpenCharts.Bounds>}
      */
     minExtent: null,
     
     /**
      * APIProperty: restrictedExtent
-     * {<OpenLayers.Bounds>} Limit map navigation to this extent where possible.
+     * {<OpenCharts.Bounds>} Limit map navigation to this extent where possible.
      *     If a non-null restrictedExtent is set, panning will be restricted
      *     to the given bounds.  In addition, zooming to a resolution that
      *     displays more than the restricted extent will center the map
@@ -336,7 +336,7 @@ OpenLayers.Map = OpenLayers.Class({
     
     /** 
      * APIProperty: displayProjection
-     * {<OpenLayers.Projection>} Requires proj4js support.Projection used by
+     * {<OpenCharts.Projection>} Requires proj4js support.Projection used by
      *     several controls to display data to user. If this property is set,
      *     it will be set on any control which has a null displayProjection
      *     property at the time the control is added to the map. 
@@ -345,7 +345,7 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * APIProperty: fallThrough
-     * {Boolean} Should OpenLayers allow events on the map to fall through to
+     * {Boolean} Should OpenCharts allow events on the map to fall through to
      *           other elements on the page, or should it swallow them? (#457)
      *           Default is to fall through.
      */
@@ -353,14 +353,14 @@ OpenLayers.Map = OpenLayers.Class({
     
     /**
      * Property: panTween
-     * {OpenLayers.Tween} Animated panning tween object, see panTo()
+     * {OpenCharts.Tween} Animated panning tween object, see panTo()
      */
     panTween: null,
 
     /**
      * APIProperty: eventListeners
      * {Object} If set as an option at construction, the eventListeners
-     *     object will be registered with <OpenLayers.Events.on>.  Object
+     *     object will be registered with <OpenCharts.Events.on>.  Object
      *     structure must be a listeners object as shown in the example for
      *     the events.on method.
      */
@@ -369,21 +369,21 @@ OpenLayers.Map = OpenLayers.Class({
     /**
      * Property: panMethod
      * {Function} The Easing function to be used for tweening.  Default is
-     * OpenLayers.Easing.Expo.easeOut. Setting this to 'null' turns off
+     * OpenCharts.Easing.Expo.easeOut. Setting this to 'null' turns off
      * animated panning.
      */
-    panMethod: OpenLayers.Easing.Expo.easeOut,
+    panMethod: null,//OpenCharts.Easing.Expo.easeOut,
     
     /**
      * Property: paddingForPopups
-     * {<OpenLayers.Bounds>} Outside margin of the popup. Used to prevent 
+     * {<OpenCharts.Bounds>} Outside margin of the popup. Used to prevent 
      *     the popup from getting too close to the map border.
      */
     paddingForPopups : null,
     
     /**
-     * Constructor: OpenLayers.Map
-     * Constructor for a new OpenLayers.Map instance.
+     * Constructor: OpenCharts.Map
+     * Constructor for a new OpenCharts.Map instance.
      *
      * Parameters:
      * div - {String} Id of an element in your page that will contain the map.
@@ -392,43 +392,43 @@ OpenLayers.Map = OpenLayers.Class({
      * Examples:
      * (code)
      * // create a map with default options in an element with the id "map1"
-     * var map = new OpenLayers.Map("map1");
+     * var map = new OpenCharts.Map("map1");
      *
      * // create a map with non-default options in an element with id "map2"
      * var options = {
-     *     maxExtent: new OpenLayers.Bounds(-200000, -200000, 200000, 200000),
+     *     maxExtent: new OpenCharts.Bounds(-200000, -200000, 200000, 200000),
      *     maxResolution: 156543,
      *     units: 'm',
      *     projection: "EPSG:41001"
      * };
-     * var map = new OpenLayers.Map("map2", options);
+     * var map = new OpenCharts.Map("map2", options);
      * (end)
      */    
     initialize: function (div, options) {
 
         // Simple-type defaults are set in class definition. 
         //  Now set complex-type defaults 
-        this.tileSize = new OpenLayers.Size(OpenLayers.Map.TILE_WIDTH,
-                                            OpenLayers.Map.TILE_HEIGHT);
+        this.tileSize = new OpenCharts.Size(OpenCharts.Map.TILE_WIDTH,
+                                            OpenCharts.Map.TILE_HEIGHT);
         
-        this.maxExtent = new OpenLayers.Bounds(-180, -90, 180, 90);
+        this.maxExtent = new OpenCharts.Bounds(-180, -90, 180, 90);
         
-        this.paddingForPopups = new OpenLayers.Bounds(15, 15, 15, 15);
+        this.paddingForPopups = new OpenCharts.Bounds(15, 15, 15, 15);
 
-        this.theme = OpenLayers._getScriptLocation() + 
+        this.theme = OpenCharts._getScriptLocation() + 
                              'theme/default/style.css'; 
 
         // now override default options 
-        OpenLayers.Util.extend(this, options);
+        OpenCharts.Util.extend(this, options);
 
-        this.id = OpenLayers.Util.createUniqueID("OpenLayers.Map_");
+        this.id = OpenCharts.Util.createUniqueID("OpenCharts.Map_");
 
-        this.div = OpenLayers.Util.getElement(div);
-        OpenLayers.Element.addClass(this.div, 'olMap');
+        this.div = OpenCharts.Util.getElement(div);
+        OpenCharts.Element.addClass(this.div, 'olMap');
 
         // the viewPortDiv is the outermost div we modify
-        var id = this.div.id + "_OpenLayers_ViewPort";
-        this.viewPortDiv = OpenLayers.Util.createDiv(id, null, null, null,
+        var id = this.div.id + "_OpenCharts_ViewPort";
+        this.viewPortDiv = OpenCharts.Util.createDiv(id, null, null, null,
                                                      "relative", null,
                                                      "hidden");
         this.viewPortDiv.style.width = "100%";
@@ -437,13 +437,13 @@ OpenLayers.Map = OpenLayers.Class({
         this.div.appendChild(this.viewPortDiv);
 
         // the layerContainerDiv is the one that holds all the layers
-        id = this.div.id + "_OpenLayers_Container";
-        this.layerContainerDiv = OpenLayers.Util.createDiv(id);
+        id = this.div.id + "_OpenCharts_Container";
+        this.layerContainerDiv = OpenCharts.Util.createDiv(id);
         this.layerContainerDiv.style.zIndex=this.Z_INDEX_BASE['Popup']-1;
         
         this.viewPortDiv.appendChild(this.layerContainerDiv);
 
-        this.events = new OpenLayers.Events(this, 
+        this.events = new OpenCharts.Events(this, 
                                             this.div, 
                                             this.EVENT_TYPES, 
                                             this.fallThrough, 
@@ -458,16 +458,16 @@ OpenLayers.Map = OpenLayers.Class({
 
         // Because Mozilla does not support the "resize" event for elements 
         // other than "window", we need to put a hack here. 
-        if (OpenLayers.String.contains(navigator.appName, "Microsoft")) {
+        if (OpenCharts.String.contains(navigator.appName, "Microsoft")) {
             // If IE, register the resize on the div
             this.events.register("resize", this, this.updateSize);
         } else {
             // Else updateSize on catching the window's resize
             //  Note that this is ok, as updateSize() does nothing if the 
             //  map's size has not actually changed.
-            this.updateSizeDestroy = OpenLayers.Function.bind(this.updateSize, 
+            this.updateSizeDestroy = OpenCharts.Function.bind(this.updateSize, 
                 this);
-            OpenLayers.Event.observe(window, 'resize',
+            OpenCharts.Event.observe(window, 'resize',
                             this.updateSizeDestroy);
         }
         
@@ -477,7 +477,7 @@ OpenLayers.Map = OpenLayers.Class({
             var addNode = true;
             var nodes = document.getElementsByTagName('link');
             for(var i=0, len=nodes.length; i<len; ++i) {
-                if(OpenLayers.Util.isEquivalentUrl(nodes.item(i).href,
+                if(OpenCharts.Util.isEquivalentUrl(nodes.item(i).href,
                                                    this.theme)) {
                     addNode = false;
                     break;
@@ -497,14 +497,14 @@ OpenLayers.Map = OpenLayers.Class({
         this.layers = [];
         
         if (this.controls == null) {
-            if (OpenLayers.Control != null) { // running full or lite?
-                this.controls = [ new OpenLayers.Control.Navigation(),
-                                  new OpenLayers.Control.PanZoom(),
-                                  new OpenLayers.Control.ArgParser(),
-                                  new OpenLayers.Control.Attribution()
+            if (OpenCharts.Control != null) { // running full or lite?
+                this.controls = [ new OpenCharts.Control.Navigation(),
+                                  new OpenCharts.Control.PanZoom(),
+                                  new OpenCharts.Control.ArgParser(),
+                                  new OpenCharts.Control.Attribution()
                                 ];
             } else {
-                this.controls = [ ];
+                this.controls = [];
             }
         }
 
@@ -514,11 +514,11 @@ OpenLayers.Map = OpenLayers.Class({
 
         this.popups = [];
 
-        this.unloadDestroy = OpenLayers.Function.bind(this.destroy, this);
+        this.unloadDestroy = OpenCharts.Function.bind(this.destroy, this);
         
 
         // always call map.destroy()
-        OpenLayers.Event.observe(window, 'unload', this.unloadDestroy);
+        OpenCharts.Event.observe(window, 'unload', this.unloadDestroy);
 
     },
 
@@ -548,11 +548,11 @@ OpenLayers.Map = OpenLayers.Class({
         }
 
         // map has been destroyed. dont do it again!
-        OpenLayers.Event.stopObserving(window, 'unload', this.unloadDestroy);
+        OpenCharts.Event.stopObserving(window, 'unload', this.unloadDestroy);
         this.unloadDestroy = null;
 
         if (this.updateSizeDestroy) {
-            OpenLayers.Event.stopObserving(window, 'resize', 
+            OpenCharts.Event.stopObserving(window, 'resize', 
                                            this.updateSizeDestroy);
         } else {
             this.events.unregister("resize", this, this.updateSize);
@@ -596,7 +596,7 @@ OpenLayers.Map = OpenLayers.Class({
      * options - {Object} Hashtable of options to tag to the map
      */
     setOptions: function(options) {
-        OpenLayers.Util.extend(this, options);
+        OpenCharts.Util.extend(this, options);
     },
 
     /**
@@ -604,7 +604,7 @@ OpenLayers.Map = OpenLayers.Class({
      * Get the tile size for the map
      *
      * Returns:
-     * {<OpenLayers.Size>}
+     * {<OpenCharts.Size>}
      */
      getTileSize: function() {
          return this.tileSize;
@@ -631,7 +631,7 @@ OpenLayers.Map = OpenLayers.Class({
      */
     getBy: function(array, property, match) {
         var test = (typeof match.test == "function");
-        var found = OpenLayers.Array.filter(this[array], function(item) {
+        var found = OpenCharts.Array.filter(this[array], function(item) {
             return item[property] == match || (test && match.test(item[property]));
         });
         return found;
@@ -651,7 +651,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     array is returned.
      *
      * Returns:
-     * {Array(<OpenLayers.Layer>)} A list of layers matching the given criteria.
+     * {Array(<OpenCharts.Layer>)} A list of layers matching the given criteria.
      *     An empty array is returned if no matches are found.
      */
     getLayersBy: function(property, match) {
@@ -671,7 +671,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     array is returned.
      *
      * Returns:
-     * {Array(<OpenLayers.Layer>)} A list of layers matching the given name.
+     * {Array(<OpenCharts.Layer>)} A list of layers matching the given name.
      *     An empty array is returned if no matches are found.
      */
     getLayersByName: function(match) {
@@ -691,7 +691,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     found, an empty array is returned.
      *
      * Returns:
-     * {Array(<OpenLayers.Layer>)} A list of layers matching the given class.
+     * {Array(<OpenCharts.Layer>)} A list of layers matching the given class.
      *     An empty array is returned if no matches are found.
      */
     getLayersByClass: function(match) {
@@ -712,7 +712,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     array is returned.
      *
      * Returns:
-     * {Array(<OpenLayers.Control>)} A list of controls matching the given
+     * {Array(<OpenCharts.Control>)} A list of controls matching the given
      *     criteria.  An empty array is returned if no matches are found.
      */
     getControlsBy: function(property, match) {
@@ -732,7 +732,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     found, an empty array is returned.
      *
      * Returns:
-     * {Array(<OpenLayers.Control>)} A list of controls matching the given class.
+     * {Array(<OpenCharts.Control>)} A list of controls matching the given class.
      *     An empty array is returned if no matches are found.
      */
     getControlsByClass: function(match) {
@@ -756,7 +756,7 @@ OpenLayers.Map = OpenLayers.Class({
      * id - {String} A layer id
      *
      * Returns:
-     * {<OpenLayers.Layer>} The Layer with the corresponding id from the map's 
+     * {<OpenCharts.Layer>} The Layer with the corresponding id from the map's 
      *                      layer collection, or null if not found.
      */
     getLayer: function(id) {
@@ -775,7 +775,7 @@ OpenLayers.Map = OpenLayers.Class({
     * Method: setLayerZIndex
     * 
     * Parameters:
-    * layer - {<OpenLayers.Layer>} 
+    * layer - {<OpenCharts.Layer>} 
     * zIdx - {int} 
     */    
     setLayerZIndex: function (layer, zIdx) {
@@ -799,14 +799,14 @@ OpenLayers.Map = OpenLayers.Class({
     * APIMethod: addLayer
     *
     * Parameters:
-    * layer - {<OpenLayers.Layer>} 
+    * layer - {<OpenCharts.Layer>} 
     */    
     addLayer: function (layer) {
         for(var i=0, len=this.layers.length; i <len; i++) {
             if (this.layers[i] == layer) {
-                var msg = OpenLayers.i18n('layerAlreadyAdded', 
+                var msg = OpenCharts.i18n('layerAlreadyAdded', 
                                                       {'layerName':layer.name});
-                OpenLayers.Console.warn(msg);
+                OpenCharts.Console.warn(msg);
                 return false;
             }
         }    
@@ -843,7 +843,7 @@ OpenLayers.Map = OpenLayers.Class({
     * APIMethod: addLayers 
     *
     * Parameters:
-    * layers - {Array(<OpenLayers.Layer>)} 
+    * layers - {Array(<OpenCharts.Layer>)} 
     */    
     addLayers: function (layers) {
         for (var i=0, len=layers.length; i<len; i++) {
@@ -866,7 +866,7 @@ OpenLayers.Map = OpenLayers.Class({
      *   for us to know here to which layer the popup belongs.
      *    
      *     A simple solution to this is simply to call destroy() on the layer.
-     *     the default OpenLayers.Layer class's destroy() function
+     *     the default OpenCharts.Layer class's destroy() function
      *     automatically takes care to remove itself from whatever map it has
      *     been attached to. 
      * 
@@ -876,7 +876,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     its own personal list of popups, removing them from the map.
      * 
      * Parameters:
-     * layer - {<OpenLayers.Layer>} 
+     * layer - {<OpenCharts.Layer>} 
      * setNewBaseLayer - {Boolean} Default is true
      */
     removeLayer: function(layer, setNewBaseLayer) {
@@ -889,7 +889,7 @@ OpenLayers.Map = OpenLayers.Class({
         } else {
             this.layerContainerDiv.removeChild(layer.div);
         }
-        OpenLayers.Util.removeItem(this.layers, layer);
+        OpenCharts.Util.removeItem(this.layers, layer);
         layer.removeMap(this);
         layer.map = null;
 
@@ -926,14 +926,14 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getLayerIndex
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer>}
+     * layer - {<OpenCharts.Layer>}
      *
      * Returns:
      * {Integer} The current (zero-based) index of the given layer in the map's
      *           layer stack. Returns -1 if the layer isn't on the map.
      */
     getLayerIndex: function (layer) {
-        return OpenLayers.Util.indexOf(this.layers, layer);
+        return OpenCharts.Util.indexOf(this.layers, layer);
     },
     
     /** 
@@ -945,7 +945,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     raise base layers above overlays.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer>} 
+     * layer - {<OpenCharts.Layer>} 
      * idx - {int} 
      */
     setLayerIndex: function (layer, idx) {
@@ -975,7 +975,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     should not) be effectively used to raise base layers above overlays.
      *
      * Paremeters:
-     * layer - {<OpenLayers.Layer>} 
+     * layer - {<OpenCharts.Layer>} 
      * delta - {int} 
      */
     raiseLayer: function (layer, delta) {
@@ -989,7 +989,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     new base layer.
      * 
      * Parameters:
-     * newBaseLayer - {<OpenLayers.Layer>}
+     * newBaseLayer - {<OpenCharts.Layer>}
      */
     setBaseLayer: function(newBaseLayer) {
         var oldExtent = null;
@@ -1000,7 +1000,7 @@ OpenLayers.Map = OpenLayers.Class({
         if (newBaseLayer != this.baseLayer) {
           
             // is newBaseLayer an already loaded layer?m
-            if (OpenLayers.Util.indexOf(this.layers, newBaseLayer) != -1) {
+            if (OpenCharts.Util.indexOf(this.layers, newBaseLayer) != -1) {
 
                 // make the old base layer invisible 
                 if (this.baseLayer != null) {
@@ -1057,8 +1057,8 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: addControl
      * 
      * Parameters:
-     * control - {<OpenLayers.Control>}
-     * px - {<OpenLayers.Pixel>}
+     * control - {<OpenCharts.Control>}
+     * px - {<OpenCharts.Pixel>}
      */    
     addControl: function (control, px) {
         this.controls.push(control);
@@ -1070,8 +1070,8 @@ OpenLayers.Map = OpenLayers.Class({
      * 
      * Parameters:
      * 
-     * control - {<OpenLayers.Control>}
-     * px - {<OpenLayers.Pixel>}
+     * control - {<OpenCharts.Control>}
+     * px - {<OpenCharts.Pixel>}
      */    
     addControlToMap: function (control, px) {
         // If a control doesn't have a div at this point, it belongs in the
@@ -1102,7 +1102,7 @@ OpenLayers.Map = OpenLayers.Class({
      * id - {String} ID of the control to return.
      * 
      * Returns:
-     * {<OpenLayers.Control>} The control from the map's list of controls 
+     * {<OpenCharts.Control>} The control from the map's list of controls 
      *                        which has a matching 'id'. If none found, 
      *                        returns null.
      */    
@@ -1125,7 +1125,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     viewPort (assuming the control was not added outsideViewport)
      * 
      * Parameters:
-     * control - {<OpenLayers.Control>} The control to remove.
+     * control - {<OpenCharts.Control>} The control to remove.
      */    
     removeControl: function (control) {
         //make sure control is non-null and actually part of our map
@@ -1133,7 +1133,7 @@ OpenLayers.Map = OpenLayers.Class({
             if (control.div && (control.div.parentNode == this.viewPortDiv)) {
                 this.viewPortDiv.removeChild(control.div);
             }
-            OpenLayers.Util.removeItem(this.controls, control);
+            OpenCharts.Util.removeItem(this.controls, control);
         }
     },
 
@@ -1150,7 +1150,7 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: addPopup
      * 
      * Parameters:
-     * popup - {<OpenLayers.Popup>}
+     * popup - {<OpenCharts.Popup>}
      * exclusive - {Boolean} If true, closes all other popups first
      */
     addPopup: function(popup, exclusive) {
@@ -1176,10 +1176,10 @@ OpenLayers.Map = OpenLayers.Class({
     * APIMethod: removePopup
     * 
     * Parameters:
-    * popup - {<OpenLayers.Popup>}
+    * popup - {<OpenCharts.Popup>}
     */
     removePopup: function(popup) {
-        OpenLayers.Util.removeItem(this.popups, popup);
+        OpenCharts.Util.removeItem(this.popups, popup);
         if (popup.div) {
             try { this.layerContainerDiv.removeChild(popup.div); }
             catch (e) { } // Popups sometimes apparently get disconnected
@@ -1201,8 +1201,8 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getSize
      * 
      * Returns:
-     * {<OpenLayers.Size>} An <OpenLayers.Size> object that represents the 
-     *                     size, in pixels, of the div into which OpenLayers 
+     * {<OpenCharts.Size>} An <OpenCharts.Size> object that represents the 
+     *                     size, in pixels, of the div into which OpenCharts 
      *                     has been loaded. 
      *                     Note - A clone() of this locally cached variable is
      *                     returned, so as not to allow users to modify it.
@@ -1240,7 +1240,7 @@ OpenLayers.Map = OpenLayers.Class({
             }
 
             if (this.baseLayer != null) {
-                var center = new OpenLayers.Pixel(newSize.w /2, newSize.h / 2);
+                var center = new OpenCharts.Pixel(newSize.w /2, newSize.h / 2);
                 var centerLL = this.getLonLatFromViewPortPx(center);
                 var zoom = this.getZoom();
                 this.zoom = null;
@@ -1254,17 +1254,17 @@ OpenLayers.Map = OpenLayers.Class({
      * Method: getCurrentSize
      * 
      * Returns:
-     * {<OpenLayers.Size>} A new <OpenLayers.Size> object with the dimensions 
+     * {<OpenCharts.Size>} A new <OpenCharts.Size> object with the dimensions 
      *                     of the map div
      */
     getCurrentSize: function() {
 
-        var size = new OpenLayers.Size(this.div.clientWidth, 
+        var size = new OpenCharts.Size(this.div.clientWidth, 
                                        this.div.clientHeight);
 
         // Workaround for the fact that hidden elements return 0 for size.
         if (size.w == 0 && size.h == 0 || isNaN(size.w) && isNaN(size.h)) {
-            var dim = OpenLayers.Element.getDimensions(this.div);
+            var dim = OpenCharts.Element.getDimensions(this.div);
             size.w = dim.width;
             size.h = dim.height;
         }
@@ -1279,11 +1279,11 @@ OpenLayers.Map = OpenLayers.Class({
      * Method: calculateBounds
      * 
      * Parameters:
-     * center - {<OpenLayers.LonLat>} Default is this.getCenter()
+     * center - {<OpenCharts.LonLat>} Default is this.getCenter()
      * resolution - {float} Default is this.getResolution() 
      * 
      * Returns:
-     * {<OpenLayers.Bounds>} A bounds based on resolution, center, and 
+     * {<OpenCharts.Bounds>} A bounds based on resolution, center, and 
      *                       current mapsize.
      */
     calculateBounds: function(center, resolution) {
@@ -1303,7 +1303,7 @@ OpenLayers.Map = OpenLayers.Class({
             var w_deg = size.w * resolution;
             var h_deg = size.h * resolution;
         
-            extent = new OpenLayers.Bounds(center.lon - w_deg / 2,
+            extent = new OpenCharts.Bounds(center.lon - w_deg / 2,
                                            center.lat - h_deg / 2,
                                            center.lon + w_deg / 2,
                                            center.lat + h_deg / 2);
@@ -1327,7 +1327,7 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getCenter
      * 
      * Returns:
-     * {<OpenLayers.LonLat>}
+     * {<OpenCharts.LonLat>}
      */
     getCenter: function () {
         return this.center;
@@ -1357,7 +1357,7 @@ OpenLayers.Map = OpenLayers.Class({
      *    false.
      */
     pan: function(dx, dy, options) {
-        options = OpenLayers.Util.applyDefaults(options, {
+        options = OpenCharts.Util.applyDefaults(options, {
             animate: true,
             dragging: false
         });
@@ -1385,12 +1385,12 @@ OpenLayers.Map = OpenLayers.Class({
      * If the new lonlat is in the current extent the map will slide smoothly
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.Lonlat>}
+     * lonlat - {<OpenCharts.Lonlat>}
      */
     panTo: function(lonlat) {
         if (this.panMethod && this.getExtent().scale(this.panRatio).containsLonLat(lonlat)) {
             if (!this.panTween) {
-                this.panTween = new OpenLayers.Tween(this.panMethod);
+                this.panTween = new OpenCharts.Tween(this.panMethod);
             }
             var center = this.getCenter();
 
@@ -1410,18 +1410,18 @@ OpenLayers.Map = OpenLayers.Class({
             };
             this.panTween.start(from, to, 50, {
                 callbacks: {
-                    start: OpenLayers.Function.bind(function(lonlat) {
+                    start: OpenCharts.Function.bind(function(lonlat) {
                         this.events.triggerEvent("movestart");
                     }, this),
-                    eachStep: OpenLayers.Function.bind(function(lonlat) {
-                        lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
+                    eachStep: OpenCharts.Function.bind(function(lonlat) {
+                        lonlat = new OpenCharts.LonLat(lonlat.lon, lonlat.lat);
                         this.moveTo(lonlat, this.zoom, {
                             'dragging': true,
                             'noEvent': true
                         });
                     }, this),
-                    done: OpenLayers.Function.bind(function(lonlat) {
-                        lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
+                    done: OpenCharts.Function.bind(function(lonlat) {
+                        lonlat = new OpenCharts.LonLat(lonlat.lon, lonlat.lat);
                         this.moveTo(lonlat, this.zoom, {
                             'noEvent': true
                         });
@@ -1438,7 +1438,7 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: setCenter
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenCharts.LonLat>}
      * zoom - {Integer}
      * dragging - {Boolean} Specifies whether or not to trigger 
      *                      movestart/end events
@@ -1459,7 +1459,7 @@ OpenLayers.Map = OpenLayers.Class({
      * Method: moveTo
      *
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenCharts.LonLat>}
      * zoom - {Integer}
      * options - {Object}
      */
@@ -1495,7 +1495,7 @@ OpenLayers.Map = OpenLayers.Class({
             if(!this.restrictedExtent.containsBounds(extent)) {
                 var maxCenter = this.restrictedExtent.getCenterLonLat(); 
                 if(extent.getWidth() > this.restrictedExtent.getWidth()) { 
-                    lonlat = new OpenLayers.LonLat(maxCenter.lon, lonlat.lat); 
+                    lonlat = new OpenCharts.LonLat(maxCenter.lon, lonlat.lat); 
                 } else if(extent.left < this.restrictedExtent.left) {
                     lonlat = lonlat.add(this.restrictedExtent.left -
                                         extent.left, 0); 
@@ -1504,7 +1504,7 @@ OpenLayers.Map = OpenLayers.Class({
                                         extent.right, 0); 
                 } 
                 if(extent.getHeight() > this.restrictedExtent.getHeight()) { 
-                    lonlat = new OpenLayers.LonLat(lonlat.lon, maxCenter.lat); 
+                    lonlat = new OpenCharts.LonLat(lonlat.lon, maxCenter.lat); 
                 } else if(extent.bottom < this.restrictedExtent.bottom) { 
                     lonlat = lonlat.add(0, this.restrictedExtent.bottom -
                                         extent.bottom); 
@@ -1614,7 +1614,7 @@ OpenLayers.Map = OpenLayers.Class({
      * This function takes care to recenter the layerContainerDiv.
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenCharts.LonLat>}
      */
     centerLayerContainer: function (lonlat) {
 
@@ -1647,7 +1647,7 @@ OpenLayers.Map = OpenLayers.Class({
      * Method: isValidLonLat
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenCharts.LonLat>}
      * 
      * Returns:
      * {Boolean} Whether or not the lonlat passed in is non-null and within
@@ -1693,7 +1693,7 @@ OpenLayers.Map = OpenLayers.Class({
      * Returns the projection obect from the baselayer.
      *
      * Returns:
-     * {<OpenLayers.Projection>} The Projection of the base layer.
+     * {<OpenCharts.Projection>} The Projection of the base layer.
      */
     getProjectionObject: function() {
         var projection = null;
@@ -1728,7 +1728,7 @@ OpenLayers.Map = OpenLayers.Class({
      *     available.)
      *
      * Returns:
-     * {<OpenLayers.Bounds>} The maxExtent property as set on the current 
+     * {<OpenCharts.Bounds>} The maxExtent property as set on the current 
      *     baselayer, unless the 'restricted' option is set, in which case
      *     the 'restrictedExtent' option from the map is returned (if it
      *     is set).
@@ -1773,7 +1773,7 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getExtent
      * 
      * Returns:
-     * {<OpenLayers.Bounds>} A Bounds object which represents the lon/lat 
+     * {<OpenCharts.Bounds>} A Bounds object which represents the lon/lat 
      *                       bounds of the current viewPort. 
      *                       If no baselayer is set, returns null.
      */
@@ -1827,7 +1827,7 @@ OpenLayers.Map = OpenLayers.Class({
         if (this.baseLayer != null) {
             var res = this.getResolution();
             var units = this.baseLayer.units;
-            scale = OpenLayers.Util.getScaleFromResolution(res, units);
+            scale = OpenCharts.Util.getScaleFromResolution(res, units);
         }
         return scale;
     },
@@ -1837,7 +1837,7 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getZoomForExtent
      * 
      * Parameters: 
-     * bounds - {<OpenLayers.Bounds>}
+     * bounds - {<OpenCharts.Bounds>}
      * closest - {Boolean} Find the zoom level that most closely fits the 
      *     specified bounds. Note that this may result in a zoom that does 
      *     not exactly contain the entire extent.
@@ -1946,7 +1946,7 @@ OpenLayers.Map = OpenLayers.Class({
      * Zoom to the passed in bounds, recenter
      * 
      * Parameters:
-     * bounds - {<OpenLayers.Bounds>}
+     * bounds - {<OpenCharts.Bounds>}
      * closest - {Boolean} Find the zoom level that most closely fits the 
      *     specified bounds. Note that this may result in a zoom that does 
      *     not exactly contain the entire extent.
@@ -2014,14 +2014,14 @@ OpenLayers.Map = OpenLayers.Class({
      * 
      */
     zoomToScale: function(scale, closest) {
-        var res = OpenLayers.Util.getResolutionFromScale(scale, 
+        var res = OpenCharts.Util.getResolutionFromScale(scale, 
                                                          this.baseLayer.units);
         var size = this.getSize();
         var w_deg = size.w * res;
         var h_deg = size.h * res;
         var center = this.getCenter();
 
-        var extent = new OpenLayers.Bounds(center.lon - w_deg / 2,
+        var extent = new OpenCharts.Bounds(center.lon - w_deg / 2,
                                            center.lat - h_deg / 2,
                                            center.lon + w_deg / 2,
                                            center.lat + h_deg / 2);
@@ -2045,11 +2045,11 @@ OpenLayers.Map = OpenLayers.Class({
      * Method: getLonLatFromViewPortPx
      * 
      * Parameters:
-     * viewPortPx - {<OpenLayers.Pixel>}
+     * viewPortPx - {<OpenCharts.Pixel>}
      * 
      * Returns:
-     * {<OpenLayers.LonLat>} An OpenLayers.LonLat which is the passed-in view 
-     *                       port <OpenLayers.Pixel>, translated into lon/lat
+     * {<OpenCharts.LonLat>} An OpenCharts.LonLat which is the passed-in view 
+     *                       port <OpenCharts.Pixel>, translated into lon/lat
      *                       by the current base layer.
      */
     getLonLatFromViewPortPx: function (viewPortPx) {
@@ -2064,11 +2064,11 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getViewPortPxFromLonLat
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenCharts.LonLat>}
      * 
      * Returns:
-     * {<OpenLayers.Pixel>} An OpenLayers.Pixel which is the passed-in 
-     *                      <OpenLayers.LonLat>, translated into view port 
+     * {<OpenCharts.Pixel>} An OpenCharts.Pixel which is the passed-in 
+     *                      <OpenCharts.LonLat>, translated into view port 
      *                      pixels by the current base layer.
      */
     getViewPortPxFromLonLat: function (lonlat) {
@@ -2088,11 +2088,11 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getLonLatFromPixel
      * 
      * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     * px - {<OpenCharts.Pixel>}
      *
      * Returns:
-     * {<OpenLayers.LonLat>} An OpenLayers.LonLat corresponding to the given
-     *                       OpenLayers.Pixel, translated into lon/lat by the 
+     * {<OpenCharts.LonLat>} An OpenCharts.LonLat corresponding to the given
+     *                       OpenCharts.Pixel, translated into lon/lat by the 
      *                       current base layer
      */
     getLonLatFromPixel: function (px) {
@@ -2106,11 +2106,11 @@ OpenLayers.Map = OpenLayers.Class({
      *     coordinates) by the current base layer.
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>} A map location.
+     * lonlat - {<OpenCharts.LonLat>} A map location.
      * 
      * Returns: 
-     * {<OpenLayers.Pixel>} An OpenLayers.Pixel corresponding to the 
-     *     <OpenLayers.LonLat> translated into view port pixels by the current
+     * {<OpenCharts.Pixel>} An OpenCharts.Pixel corresponding to the 
+     *     <OpenCharts.LonLat> translated into view port pixels by the current
      *     base layer.
      */
     getPixelFromLonLat: function (lonlat) {
@@ -2130,10 +2130,10 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getViewPortPxFromLayerPx
      * 
      * Parameters:
-     * layerPx - {<OpenLayers.Pixel>}
+     * layerPx - {<OpenCharts.Pixel>}
      * 
      * Returns:
-     * {<OpenLayers.Pixel>} Layer Pixel translated into ViewPort Pixel 
+     * {<OpenCharts.Pixel>} Layer Pixel translated into ViewPort Pixel 
      *                      coordinates
      */
     getViewPortPxFromLayerPx:function(layerPx) {
@@ -2150,10 +2150,10 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getLayerPxFromViewPortPx
      * 
      * Parameters:
-     * viewPortPx - {<OpenLayers.Pixel>}
+     * viewPortPx - {<OpenCharts.Pixel>}
      * 
      * Returns:
-     * {<OpenLayers.Pixel>} ViewPort Pixel translated into Layer Pixel 
+     * {<OpenCharts.Pixel>} ViewPort Pixel translated into Layer Pixel 
      *                      coordinates
      */
     getLayerPxFromViewPortPx:function(viewPortPx) {
@@ -2177,10 +2177,10 @@ OpenLayers.Map = OpenLayers.Class({
      * Method: getLonLatFromLayerPx
      * 
      * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     * px - {<OpenCharts.Pixel>}
      *
      * Returns:
-     * {<OpenLayers.LonLat>}
+     * {<OpenCharts.LonLat>}
      */
     getLonLatFromLayerPx: function (px) {
        //adjust for displacement of layerContainerDiv
@@ -2192,11 +2192,11 @@ OpenLayers.Map = OpenLayers.Class({
      * APIMethod: getLayerPxFromLonLat
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>} lonlat
+     * lonlat - {<OpenCharts.LonLat>} lonlat
      *
      * Returns:
-     * {<OpenLayers.Pixel>} An OpenLayers.Pixel which is the passed-in 
-     *                      <OpenLayers.LonLat>, translated into layer pixels 
+     * {<OpenCharts.Pixel>} An OpenCharts.Pixel which is the passed-in 
+     *                      <OpenCharts.LonLat>, translated into layer pixels 
      *                      by the current base layer
      */
     getLayerPxFromLonLat: function (lonlat) {
@@ -2205,16 +2205,16 @@ OpenLayers.Map = OpenLayers.Class({
        return this.getLayerPxFromViewPortPx(px);         
     },
 
-    CLASS_NAME: "OpenLayers.Map"
+    CLASS_NAME: "OpenCharts.Map"
 });
 
 /**
  * Constant: TILE_WIDTH
  * {Integer} 256 Default tile width (unless otherwise specified)
  */
-OpenLayers.Map.TILE_WIDTH = 256;
+OpenCharts.Map.TILE_WIDTH = 256;
 /**
  * Constant: TILE_HEIGHT
  * {Integer} 256 Default tile height (unless otherwise specified)
  */
-OpenLayers.Map.TILE_HEIGHT = 256;
+OpenCharts.Map.TILE_HEIGHT = 256;

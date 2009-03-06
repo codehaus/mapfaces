@@ -1,19 +1,19 @@
 /* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * license.  See http://svn.OpenCharts.org/trunk/OpenCharts/license.txt for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/Handler.js
+ * @requires OpenCharts/Handler.js
  */
 
 /**
- * Class: OpenLayers.Handler.MouseWheel
+ * Class: OpenCharts.Handler.MouseWheel
  * Handler for wheel up/down events.
  * 
  * Inherits from:
- *  - <OpenLayers.Handler>
+ *  - <OpenCharts.Handler>
  */
-OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
+OpenCharts.Handler.MouseWheel = OpenCharts.Class(OpenCharts.Handler, {
     /** 
      * Property: wheelListener 
      * {function} 
@@ -22,17 +22,17 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
 
     /** 
      * Property: mousePosition
-     * {<OpenLayers.Pixel>} mousePosition is necessary because
+     * {<OpenCharts.Pixel>} mousePosition is necessary because
      * evt.clientX/Y is buggy in Moz on wheel events, so we cache and use the
      * value from the last mousemove.
      */
     mousePosition: null,
 
     /**
-     * Constructor: OpenLayers.Handler.MouseWheel
+     * Constructor: OpenCharts.Handler.MouseWheel
      *
      * Parameters:
-     * control - {<OpenLayers.Control>} 
+     * control - {<OpenCharts.Control>} 
      * callbacks - {Object} An object containing a single function to be
      *                          called when the drag operation is finished.
      *                          The callback should expect to recieve a single
@@ -40,8 +40,8 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
      * options - {Object} 
      */
     initialize: function(control, callbacks, options) {
-        OpenLayers.Handler.prototype.initialize.apply(this, arguments);        
-        this.wheelListener = OpenLayers.Function.bindAsEventListener(
+        OpenCharts.Handler.prototype.initialize.apply(this, arguments);        
+        this.wheelListener = OpenCharts.Function.bindAsEventListener(
             this.onWheelEvent, this
         );
     },
@@ -50,7 +50,7 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
      * Method: destroy
      */    
     destroy: function() {
-        OpenLayers.Handler.prototype.destroy.apply(this, arguments);
+        OpenCharts.Handler.prototype.destroy.apply(this, arguments);
         this.wheelListener = null;
     },
 
@@ -82,7 +82,7 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
         var overLayerDiv = false;
         var overMapDiv = false;
         
-        var elem = OpenLayers.Event.element(e);
+        var elem = OpenCharts.Event.element(e);
         while((elem != null) && !overMapDiv && !overScrollableDiv) {
 
             if (!overScrollableDiv) {
@@ -154,10 +154,14 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
         //        layerswitcher or the pan/zoom control)
         //
         if ( !overScrollableDiv && overMapDiv) {
-            if ((this.map.isHTML && overLayerDiv) || this.map.isSVG) {
+            /****OPENCHARTS***/
+            if ((this.map.renderer.CLASS_NAME == "OpenCharts.Renderer.HTML" && overLayerDiv) 
+                || this.map.renderer.CLASS_NAME == "OpenCharts.Renderer.SVG"
+                || this.map.renderer.CLASS_NAME == "OpenCharts.Renderer.VML") {
+                
                 this.wheelZoom(e);
             } 
-            OpenLayers.Event.stop(e);
+            OpenCharts.Event.stop(e);
         }
     },
 
@@ -227,12 +231,12 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
      * Method: activate 
      */
     activate: function (evt) {
-        if (OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+        if (OpenCharts.Handler.prototype.activate.apply(this, arguments)) {
             //register mousewheel events specifically on the window and document
             var wheelListener = this.wheelListener;
-            OpenLayers.Event.observe(window, "DOMMouseScroll", wheelListener);
-            OpenLayers.Event.observe(window, "mousewheel", wheelListener);
-            OpenLayers.Event.observe(document, "mousewheel", wheelListener);
+            OpenCharts.Event.observe(window, "DOMMouseScroll", wheelListener);
+            OpenCharts.Event.observe(window, "mousewheel", wheelListener);
+            OpenCharts.Event.observe(document, "mousewheel", wheelListener);
             return true;
         } else {
             return false;
@@ -243,17 +247,17 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
      * Method: deactivate 
      */
     deactivate: function (evt) {
-        if (OpenLayers.Handler.prototype.deactivate.apply(this, arguments)) {
+        if (OpenCharts.Handler.prototype.deactivate.apply(this, arguments)) {
             // unregister mousewheel events specifically on the window and document
             var wheelListener = this.wheelListener;
-            OpenLayers.Event.stopObserving(window, "DOMMouseScroll", wheelListener);
-            OpenLayers.Event.stopObserving(window, "mousewheel", wheelListener);
-            OpenLayers.Event.stopObserving(document, "mousewheel", wheelListener);
+            OpenCharts.Event.stopObserving(window, "DOMMouseScroll", wheelListener);
+            OpenCharts.Event.stopObserving(window, "mousewheel", wheelListener);
+            OpenCharts.Event.stopObserving(document, "mousewheel", wheelListener);
             return true;
         } else {
             return false;
         }
     },
 
-    CLASS_NAME: "OpenLayers.Handler.MouseWheel"
+    CLASS_NAME: "OpenCharts.Handler.MouseWheel"
 });
