@@ -49,7 +49,7 @@ import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
  */
 public class ChartRenderer extends Renderer {
     
-    boolean embed = true;
+    boolean embed = false;
     String PIXEL = null;
     
     @Override
@@ -127,9 +127,18 @@ public class ChartRenderer extends Renderer {
             
             writer.writeAttribute("onload", onloadFunc, null); 
             /* 
-               BUG Chrome and Safari :  when we set 'display:none;' these 2 browsers 
-               load 2 times the SVG doc, once when the page loads and second 
-               when the display is set to block. By default is set to none to make the reRender smoother
+               BUG Chrome,Safari :  when we set 'display:none;' these 2 browsers 
+               load 2 times the SVG doc, once when the page loads and second times  
+               when the display property is set to block. By default is set to none to 
+               make the reRender smoother 
+              
+               BUG Firefox2, Opera : if display set to none the graph never displayed 
+               because onLoad function never triggered but if set to block the graoph disply correctly
+              
+               To desactivate the smoother reRender  set the display property to 'block'
+               and comment the line 462 of org/mapfaces/resources/opencharts/custom/OpenCharts/lib/MapExt.js file
+             
+               Without smoother reRender the graph display good on all browser , just A4J js error can happen on chrome.
             */
             writer.writeAttribute("style", "display:none;", null); 
             writer.writeAttribute("id", clientId, null);
