@@ -76,8 +76,6 @@ public class ContextRenderer extends Renderer {
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
-
-        System.out.println(comp.isDebug());
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE BEGIN");
         }
@@ -116,7 +114,7 @@ public class ContextRenderer extends Renderer {
         }
 
         final boolean isMinifyJS = comp.isMinifyJS();
-
+                   
         if (comp.isScriptaculous() && resourcesFlag) {
 
             //Add Prototype script
