@@ -124,9 +124,10 @@ public class MfLayerListener implements PhaseListener {
             if (mapContext != null) {
                 try {
 //                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);                    
-                    long start = (new Date()).getTime();
-                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true); System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
-                    long end = (new Date()).getTime();
+//                    long start = (new Date()).getTime();
+                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true); 
+//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
+//                    long end = (new Date()).getTime();
 //                    System.out.println("[PORTRAYING END] time : "+(end-start) +" ms");          
                 } catch (PortrayalException ex) {
                     Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);

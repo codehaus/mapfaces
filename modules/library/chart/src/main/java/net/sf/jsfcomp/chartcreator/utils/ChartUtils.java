@@ -480,7 +480,7 @@ public class ChartUtils {
             int cpt = 0;
             while (i < plot.getDatasetCount()) {
                 try {
-                    System.out.println("Datesets  " + i + ChartUtils.getColor(colors[cpt].trim()));
+//                    System.out.println("Datesets  " + i + ChartUtils.getColor(colors[cpt].trim()));
                     Color color = ChartUtils.getColor(colors[cpt].trim());
                     NumberAxis axis = new NumberAxis("Range Axis " + (i + 1));
                     axis.setAutoRangeIncludesZero(false);
@@ -496,7 +496,7 @@ public class ChartUtils {
                     int j = 0;
                     while (j < plot.getDataset(i).getSeriesCount()) {
                         renderer.setDrawSeriesLineAsPath(false);
-                        System.out.println("Series " + j + ChartUtils.getColor(colors[cpt].trim()));
+//                        System.out.println("Series " + j + ChartUtils.getColor(colors[cpt].trim()));
                         plot.setRenderer(i, (XYItemRenderer) renderer.clone());
                         plot.getRenderer(i).setSeriesPaint(j, ChartUtils.getColor(colors[cpt].trim()));
                         j++;
@@ -575,7 +575,7 @@ public class ChartUtils {
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transform = tf.newTransformer(
-                    new StreamSource("http://localhost:8084/mf/resource.jsf?r=/org/mapfaces/svgtovml/xsl/svg2vml.xsl"));
+                    new StreamSource(ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
 
             StreamResult result = new StreamResult(out);
             transform.transform(source, result);
