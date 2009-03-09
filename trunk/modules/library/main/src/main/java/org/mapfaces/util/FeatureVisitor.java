@@ -21,9 +21,9 @@ package org.mapfaces.util;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
-import org.geotools.display.primitive.GraphicFeatureJ2D;
 import org.geotools.display.primitive.GraphicCoverageJ2D;
 import org.geotools.display.canvas.AbstractGraphicVisitor;
+import org.geotools.display.primitive.ProjectedFeature;
 import org.opengis.feature.Feature;
 
 /**
@@ -35,8 +35,8 @@ public class FeatureVisitor extends AbstractGraphicVisitor {
     List<Feature> featureList = new ArrayList<Feature>();
     
     @Override
-    public void visit(GraphicFeatureJ2D graphic, Shape shape) {
-        featureList.add(graphic.getUserObject());
+    public void visit(ProjectedFeature graphic, Shape shape) {
+        featureList.add(graphic.getFeature());
     }
 
     @Override
