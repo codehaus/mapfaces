@@ -17,6 +17,7 @@
 
 package org.mapfaces.component;
 
+import java.util.List;
 import javax.faces.context.FacesContext;
 
 /**
@@ -48,6 +49,11 @@ public class UIDataRequest extends UIWidgetBase {
      * Number of features per layer allowed. The default is 1.
      */
     private int featureCount;
+    /**
+     * This is a list of interested layers indicted by the name.
+     */
+    private List layersNames;
+    
 
     public UIDataRequest() {
         super();
@@ -74,6 +80,7 @@ public class UIDataRequest extends UIWidgetBase {
         values[3] = targetPopupId;
         values[4] = featureLayerOnly;
         values[5] = featureCount;
+        values[6] = layersNames;
 
         return values;
     }
@@ -90,6 +97,7 @@ public class UIDataRequest extends UIWidgetBase {
         targetPopupId = (String) values[3];
         featureLayerOnly = (Boolean) values[4];
         featureCount = (Integer) values[5];
+        layersNames = (List) values[6];
     }
 
     public String getOutputFormat() {
@@ -130,5 +138,13 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setFeatureCount(int featureCount) {
         this.featureCount = featureCount;
+    }
+
+    public List getLayersNames() {
+        return layersNames;
+    }
+
+    public void setLayersNames(List layersNames) {
+        this.layersNames = layersNames;
     }
 }

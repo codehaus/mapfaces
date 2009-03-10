@@ -1284,6 +1284,17 @@
                 Number of features per layer allowed. The default is all features count in the intersection.
             </description>
         </attribute>
+        <attribute>
+            <name>layersNames</name>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is a list that contains all interested layers indicated by their layer name.
+            </description>
+        </attribute>
     </tag>
      <!-- MeasureDistance -->
     <tag>

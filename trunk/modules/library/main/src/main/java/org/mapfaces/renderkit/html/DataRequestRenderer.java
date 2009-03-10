@@ -51,7 +51,6 @@ import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.WmsLayer;
-import org.mapfaces.renderkit.html.layer.FeatureLayerRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.FeatureVisitor;
@@ -168,8 +167,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             case DEFAULT:
                                 break;
                             case WMS:
-                                loop++;
-                                if (!layersWMS.contains(queryLayer)) {
+                                boolean skipLayer = false;
+                                if (comp.getLayersNames() != null && ! ((List)comp.getLayersNames()).contains(queryLayer.getName())) {
+                                    skipLayer = true;
+                                }
+                                if (!layersWMS.contains(queryLayer) && ! skipLayer) {
+                                    loop++;
                                     layersWMS.add((WmsLayer) queryLayer);
                                     layersNameString += queryLayer.getName();
                                     if (loop != nbWmsLayers) {
@@ -192,7 +195,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             case MAPCONTEXT:
                                 break;
                             case FEATURE:
-                                FeatureLayer temp  = (FeatureLayer) queryLayer;
+                                FeatureLayer temp = (FeatureLayer) queryLayer;
                                 Map mapFeaturesLayer = new HashMap<String, Feature>();
 
                                 FeatureLayerExist = true;
@@ -280,21 +283,23 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("dataResult", ve);
                 }
                 comp.setDataResult(featureInfoList);
-                if (featureInfoList.size() == 0) {
-                    popup.setHidden(true);
-                } else {
-                    popup.setHidden(false);
+                if (popup != null) {
+                    if (featureInfoList.size() == 0) {
+                        popup.setHidden(true);
+                    } else {
+                        popup.setHidden(false);
+                    }
                 }
 
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;
                 String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
                 String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
-                
-                if (popup != null && popup.isIframe() && ! comp.isFeatureLayerOnly()) {
-                    
+
+                if (popup != null && popup.isIframe() && !comp.isFeatureLayerOnly()) {
+
                     StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;overflow-x:auto;overflow-y:auto;'>");
-                    
+
                     //@TODO factorization of servers wms, one request by server and the QUERY_LAYERS parameter must contains all layers name : layersNameString.
                     for (WmsLayer queryLayer : layersWMS) {
                         innerHtml.append("<iframe style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
@@ -331,7 +336,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             } else if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getCoverage")) {
 
                 final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
-                
+
                 if (queryLayer instanceof WmsLayer) {
                     String elevation = null;
                     if (queryLayer.getElevation() != null) {
