@@ -17,8 +17,12 @@
 
 package org.mapfaces.taglib;
 
+import java.util.List;
+import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import org.mapfaces.component.UIDataRequest;
 
 /**
  *
@@ -40,6 +44,7 @@ public class DataRequestTag extends WidgetBaseTag {
     private ValueExpression targetPopupId = null;
     private ValueExpression featureLayerOnly = null;
     private ValueExpression featureCount = null;
+    private ValueExpression layersNames = null;
 
     /**
      * {@inheritDoc }
@@ -64,11 +69,24 @@ public class DataRequestTag extends WidgetBaseTag {
     protected void setProperties(UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
+        
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+        final UIDataRequest datarequest = (UIDataRequest) component;
+
+        if (layersNames != null) {
+            if (layersNames.getExpressionString() != null && layersNames.getExpressionString().contains("#")) {
+                final ValueExpression vex  = ef.createValueExpression(context.getELContext(), layersNames.getExpressionString(), java.util.List.class);
+                datarequest.setLayersNames((List) vex.getValue(context.getELContext()));
+            }
+        }
+        component.setValueExpression("layersNames", layersNames);
         component.setValueExpression("outputFormat", outputFormat);
         component.setValueExpression("dataResult", dataResult);
         component.setValueExpression("targetPopupId", targetPopupId);
         component.setValueExpression("featureLayerOnly", featureLayerOnly);
-        component.setValueExpression("featureCount", featureCount);
+        component.setValueExpression("featureCount", featureCount);     
+        
     }
 
     /**
@@ -83,6 +101,7 @@ public class DataRequestTag extends WidgetBaseTag {
         targetPopupId = null;
         featureLayerOnly = null;
         featureCount = null;
+        layersNames = null;
     }
 
     public ValueExpression getOutputFormat() {
@@ -123,6 +142,14 @@ public class DataRequestTag extends WidgetBaseTag {
 
     public void setFeatureLayerOnly(ValueExpression featureLayerOnly) {
         this.featureLayerOnly = featureLayerOnly;
+    }
+
+    public ValueExpression getLayersNames() {
+        return layersNames;
+    }
+
+    public void setLayersNames(ValueExpression layersNames) {
+        this.layersNames = layersNames;
     }
 
 }

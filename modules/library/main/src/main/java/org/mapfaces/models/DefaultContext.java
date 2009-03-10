@@ -52,7 +52,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
     private String maxx;
     private String maxy;
     private String srs;
-    private List<Layer> layers;
+    private List<Layer> layers = new ArrayList<Layer>();
     private HashMap<String, Server> wmsServers;
     private HashMap<String, Server> wfsServers;
 
@@ -584,7 +584,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
         if(layersId.length() > 0)
             return layersId.substring(0,layersId.length()-1);
         else
-            return null;
+            return "";
     }
 
     /**

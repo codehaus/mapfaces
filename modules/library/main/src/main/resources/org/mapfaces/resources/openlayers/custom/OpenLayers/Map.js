@@ -546,21 +546,27 @@ OpenLayers.Map = OpenLayers.Class({
             //
             var layersAll = this.layersName.split(",");
             var layersVisible = "";
+
              //if the layer has a firstChild , there is  a image displayed so the layer is visible
             for (var i=0; i<layersAll.length; i++) {               
                 if (document.getElementById(layersAll[i]) && document.getElementById(layersAll[i]).firstChild) {                    
                     layersVisible +=layersAll[i];
-                    if (i+1 != layersAll.length) {
-                        layersVisible += ",";
-                    }
+// @TODO this is the good test for the coma at the end of string
+//		    if (i < layersAll.length && document.getElementById(layersAll[i+1]) && document.getElementById(layersAll[i+1]).firstChild)
+                    layersVisible += ",";
                 }
             }
+
             //if there is no layer visible or this is the first page load, all the layers are requested
             //TODO: make the difference between firstPageLoad and no layer visible
-            if (layersVisible == "")
+            if (layersVisible == "") 
                 layersVisible = this.layersName;
-            
-            var  parameters = {    
+	    else {
+		//remove the last coma character in the layersVisible string
+		layersVisible = layersVisible.substring(0, layersVisible.lastIndexOf(','));
+	     } 
+	
+            var  parameters = {
                           'synchronized': 'true',
                           'refresh': layersVisible,
                           'bbox': bbox,

@@ -50,7 +50,6 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
-import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.XMLContextUtilities;
@@ -353,7 +352,6 @@ public class ContextRenderer extends Renderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         final UIContext comp = (UIContext) component;
-        System.out.println(comp.isDebug());
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer DECODE");
         }
