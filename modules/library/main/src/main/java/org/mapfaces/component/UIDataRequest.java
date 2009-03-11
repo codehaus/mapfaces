@@ -53,6 +53,18 @@ public class UIDataRequest extends UIWidgetBase {
      * This is a list of interested layers indicted by the name.
      */
     private List layersNames;
+    /**
+     * this is the latitude value after a click on the mappane was released.
+     */
+    private double outputLatitude;
+    /**
+     * This is the longitude value after a click on the mappane was released.
+     */
+    private double outputLongitude;
+    /**
+     * This is the output list of string taht represents the featureInfo values.
+     */
+    private Object featureInfoValues;
     
 
     public UIDataRequest() {
@@ -73,7 +85,7 @@ public class UIDataRequest extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[10];
+        final Object values[] = new Object[12];
         values[0] = super.saveState(context);
         values[1] = outputFormat;
         values[2] = dataResult;
@@ -81,6 +93,9 @@ public class UIDataRequest extends UIWidgetBase {
         values[4] = featureLayerOnly;
         values[5] = featureCount;
         values[6] = layersNames;
+        values[7] = outputLatitude;
+        values[8] = outputLongitude;
+        values[9] = featureInfoValues;
 
         return values;
     }
@@ -98,6 +113,9 @@ public class UIDataRequest extends UIWidgetBase {
         featureLayerOnly = (Boolean) values[4];
         featureCount = (Integer) values[5];
         layersNames = (List) values[6];
+        outputLatitude = (Double) values[7];
+        outputLongitude = (Double) values[8];
+        featureInfoValues = values[9];
     }
 
     public String getOutputFormat() {
@@ -146,5 +164,29 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setLayersNames(List layersNames) {
         this.layersNames = layersNames;
+    }
+
+    public double getOutputLatitude() {
+        return outputLatitude;
+    }
+
+    public void setOutputLatitude(double outputLatitude) {
+        this.outputLatitude = outputLatitude;
+    }
+
+    public double getOutputLongitude() {
+        return outputLongitude;
+    }
+
+    public void setOutputLongitude(double outputLongitude) {
+        this.outputLongitude = outputLongitude;
+    }
+
+    public Object getFeatureInfoValues() {
+        return featureInfoValues;
+    }
+
+    public void setFeatureInfoValues(Object featureInfoValues) {
+        this.featureInfoValues = featureInfoValues;
     }
 }

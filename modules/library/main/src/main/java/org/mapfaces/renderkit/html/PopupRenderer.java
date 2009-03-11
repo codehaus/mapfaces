@@ -54,9 +54,9 @@ public class PopupRenderer extends WidgetBaseRenderer {
 
         if (! comp.isHidden()) {
             if (getStyleClass() == null) {
-                responseWriter.writeAttribute("class", "mfPopup", "styleclass");
+                responseWriter.writeAttribute("class", "mfPopup "+comp.getStyleClass(), "styleclass");
             }
-            responseWriter.writeAttribute("style", "width:" + comp.getWidth() + "px; height: " + comp.getHeight() + "px; position: absolute; z-index: 1500;" + comp.getTop() + comp.getLeft(), "style");
+            responseWriter.writeAttribute("style", "width:" + comp.getWidth() + "px; height: " + comp.getHeight() + "px; position: absolute; z-index: 1500;" + comp.getTop() + comp.getLeft() + comp.getStyle(), "style");
             //<div style="width: 323px; height: 125px; position: absolute; z-index: 1500;"+top+";"+left+";">
             responseWriter.startElement("div", comp);
             responseWriter.writeAttribute("style", "width: 100%; height: 100%; position: relative;", "style");

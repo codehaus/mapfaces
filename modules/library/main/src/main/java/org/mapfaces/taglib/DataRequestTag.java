@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.taglib;
 
 import java.util.List;
@@ -29,7 +28,7 @@ import org.mapfaces.component.UIDataRequest;
  * @author Mehdi Sidhoum (Geomatys).
  */
 public class DataRequestTag extends WidgetBaseTag {
-    
+
     /**
      * <p>The standard component type for this component.</p>
      */
@@ -38,13 +37,15 @@ public class DataRequestTag extends WidgetBaseTag {
      * <p>The standard renderer type for this component.</p>
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.DataRequest";
-    
     private ValueExpression outputFormat = null;
     private ValueExpression dataResult = null;
     private ValueExpression targetPopupId = null;
     private ValueExpression featureLayerOnly = null;
     private ValueExpression featureCount = null;
     private ValueExpression layersNames = null;
+    private ValueExpression outputLatitude = null;
+    private ValueExpression outputLongitude = null;
+    private ValueExpression featureInfoValues = null;
 
     /**
      * {@inheritDoc }
@@ -69,14 +70,14 @@ public class DataRequestTag extends WidgetBaseTag {
     protected void setProperties(UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
-        
+
         final FacesContext context = FacesContext.getCurrentInstance();
         final ExpressionFactory ef = context.getApplication().getExpressionFactory();
         final UIDataRequest datarequest = (UIDataRequest) component;
 
         if (layersNames != null) {
             if (layersNames.getExpressionString() != null && layersNames.getExpressionString().contains("#")) {
-                final ValueExpression vex  = ef.createValueExpression(context.getELContext(), layersNames.getExpressionString(), java.util.List.class);
+                final ValueExpression vex = ef.createValueExpression(context.getELContext(), layersNames.getExpressionString(), java.util.List.class);
                 datarequest.setLayersNames((List) vex.getValue(context.getELContext()));
             }
         }
@@ -85,8 +86,10 @@ public class DataRequestTag extends WidgetBaseTag {
         component.setValueExpression("dataResult", dataResult);
         component.setValueExpression("targetPopupId", targetPopupId);
         component.setValueExpression("featureLayerOnly", featureLayerOnly);
-        component.setValueExpression("featureCount", featureCount);     
-        
+        component.setValueExpression("featureCount", featureCount);
+        component.setValueExpression("outputLatitude", outputLatitude);
+        component.setValueExpression("outputLongitude", outputLongitude);
+        component.setValueExpression("featureInfoValues", featureInfoValues);
     }
 
     /**
@@ -102,6 +105,9 @@ public class DataRequestTag extends WidgetBaseTag {
         featureLayerOnly = null;
         featureCount = null;
         layersNames = null;
+        outputLatitude = null;
+        outputLongitude = null;
+        featureInfoValues = null;
     }
 
     public ValueExpression getOutputFormat() {
@@ -152,4 +158,27 @@ public class DataRequestTag extends WidgetBaseTag {
         this.layersNames = layersNames;
     }
 
+    public ValueExpression getOutputLatitude() {
+        return outputLatitude;
+    }
+
+    public void setOutputLatitude(ValueExpression outputLatitude) {
+        this.outputLatitude = outputLatitude;
+    }
+
+    public ValueExpression getOutputLongitude() {
+        return outputLongitude;
+    }
+
+    public void setOutputLongitude(ValueExpression outputLongitude) {
+        this.outputLongitude = outputLongitude;
+    }
+
+    public ValueExpression getFeatureInfoValues() {
+        return featureInfoValues;
+    }
+
+    public void setFeatureInfoValues(ValueExpression featureInfoValues) {
+        this.featureInfoValues = featureInfoValues;
+    }
 }

@@ -23,6 +23,7 @@ OpenLayers.Map = OpenLayers.Class({
     
     /**
      * Constant: Z_INDEX_BASE
+     * @TODO it can be possible to specify this z-index property by passing an attribute on the appropriate component.
      * {Object} Base z-indexes for different classes of thing 
      */
     Z_INDEX_BASE: {
@@ -30,7 +31,7 @@ OpenLayers.Map = OpenLayers.Class({
         Overlay: 325,
         Feature: 725,
         Popup: 750,
-        Control: 150
+        Control: 100
     },
     /**
      * Constant: EVENT_TYPES

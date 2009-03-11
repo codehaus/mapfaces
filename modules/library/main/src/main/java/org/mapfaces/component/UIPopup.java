@@ -34,6 +34,8 @@ public class UIPopup extends UIWidgetBase{
     private int height = 200;
     private boolean iframe;
     private boolean hidden = true;
+    private String style = "";
+    private String styleClass = "";
 
     public UIPopup() {
         super();
@@ -53,7 +55,7 @@ public class UIPopup extends UIWidgetBase{
      */
     @Override
      public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[10];
+        final Object values[] = new Object[12];
         values[0] = super.saveState(context);
         values[1] = top;
         values[2] = left;
@@ -62,6 +64,8 @@ public class UIPopup extends UIWidgetBase{
         values[5] = innerHTML;
         values[6] = iframe;
         values[7] = hidden;
+        values[8] = style;
+        values[9] = styleClass;
         return values;
     }
 
@@ -79,6 +83,8 @@ public class UIPopup extends UIWidgetBase{
         innerHTML = (String) values[5];
         iframe = (Boolean) values[6];
         hidden = (Boolean) values[7];
+        style = (String) values[8];
+        styleClass = (String) values[9];
     }
 
     public String getInnerHTML() {
@@ -135,6 +141,22 @@ public class UIPopup extends UIWidgetBase{
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
 
 }
