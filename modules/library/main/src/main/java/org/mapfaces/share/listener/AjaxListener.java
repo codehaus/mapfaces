@@ -64,9 +64,9 @@ public class AjaxListener implements PhaseListener {
             final String componentId = request.getParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY);
             if (componentId == null) {
                 if (log.isWarnEnabled()) {
-                    log.warn("No client ID found under key : " + componentId);
+                    log.warn("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
                 } else {
-                    System.out.println("[WARN] No client ID found under key : " + componentId);
+                    log.warn("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
                 }
             } else {
                 handleAjaxRequest(context, componentId);
@@ -99,11 +99,11 @@ public class AjaxListener implements PhaseListener {
                 ajaxcomponent = (AjaxInterface) Utils.findComponent(context, componentId);
             }
         } catch (ClassCastException cce) {
-            throw new IllegalArgumentException("Component found under Ajax key was not of expected type");
+            throw new IllegalArgumentException("[WARNING] [AjaxListener] Component found under Ajax key was not of expected type");
         }
 
         if (ajaxcomponent == null) {
-            throw new NullPointerException("No component found under specified client Id : " + componentId);
+            throw new NullPointerException("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
         }
         ajaxcomponent.handleAjaxRequest(context);
 
@@ -119,11 +119,11 @@ public class AjaxListener implements PhaseListener {
             AjaxSupport = Utils.findComponent(context, componentId);
         }
         if (AjaxSupport == null) {
-            System.err.println("[WARNING] No component found under specified client Id : " + componentId);
+            log.warn("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
         } else {
             final UIComponent JSFComponent = AjaxSupport.getParent();
             if (JSFComponent == null) {
-                System.err.println("[WARNING] No component found under specified client Id : " + JSFComponent.getId());
+                log.warn("[WARNING] [AjaxListener] No parent  found under specified client Id : " + AjaxSupport.getId());
             } else {
                 if (JSFComponent.getParent() instanceof A4JInterface) {
                     ajaxcomponent = (A4JInterface) JSFComponent.getParent();

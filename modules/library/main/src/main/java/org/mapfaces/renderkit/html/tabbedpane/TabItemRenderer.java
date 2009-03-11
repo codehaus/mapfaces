@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
+import org.mapfaces.renderkit.html.WidgetBaseRenderer;
 import org.mapfaces.share.utils.Utils;
 
 /**
@@ -79,7 +80,6 @@ public class TabItemRenderer extends Renderer {
         }
         assertValid(context, component);
         //Start encoding
-        log.info("encodeBegin : " + TabItemRenderer.class.getName());
 
         final UITabItem tabitem     = (UITabItem) component;
         final ResponseWriter writer = context.getResponseWriter();
@@ -104,7 +104,6 @@ public class TabItemRenderer extends Renderer {
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        log.info("encodeChildren : " + TabItemRenderer.class.getName());
         final UITabItem tabitem = (UITabItem) component;
 
         for (final UIComponent tmp : tabitem.getChildren()) {
@@ -121,7 +120,6 @@ public class TabItemRenderer extends Renderer {
      */
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
-        log.info("encodeEnd : " + TabItemRenderer.class.getName());
         final ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
         writer.endElement("div");

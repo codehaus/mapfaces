@@ -102,6 +102,8 @@ public class TabPanelRenderer extends Renderer {
         writer.writeAttribute("class", "tabs", null);
         writer.writeAttribute("style", dimensionsW + ";" + dimensionsH + ";", null);
 
+        writer.startElement("div", tabpanel);
+        writer.writeAttribute("class", "tabs_container", null);
         boolean active = true;
         writer.startElement("ul", tabpanel);
         writer.writeAttribute("id", tabpanel.getClientId(context), null);
@@ -118,10 +120,13 @@ public class TabPanelRenderer extends Renderer {
             } else {
                 ((UITabItem) child).setActive(false);
             }
+            writer.startElement("a", tabpanel);
             writer.write(((UITabItem) child).getTitle());
+            writer.endElement("a");
             writer.endElement("li");
         }
         writer.endElement("ul");
+        writer.endElement("div");
     }
 
     /**
@@ -132,7 +137,6 @@ public class TabPanelRenderer extends Renderer {
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        log.info("encodeChildren : " + TabPanelRenderer.class.getName());
         final UITabPanel tabpanel = (UITabPanel) component;
 
         for (final UIComponent tmp : tabpanel.getChildren()) {
@@ -149,8 +153,6 @@ public class TabPanelRenderer extends Renderer {
      */
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
-        log.info("encodeEnd : " + TabPanelRenderer.class.getName());
-        final UITabPanel tabpanel = (UITabPanel) component;
         final ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
     }
@@ -179,11 +181,11 @@ public class TabPanelRenderer extends Renderer {
         final UITabPanel tabpanel = (UITabPanel) component;
         final ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("link", tabpanel);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TABCSS_CSS, null), null);
-        writer.endElement("link");
+//        writer.startElement("link", tabpanel);
+//        writer.writeAttribute("type", "text/css", null);
+//        writer.writeAttribute("rel", "stylesheet", null);
+//        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TABCSS_CSS, null), null);
+//        writer.endElement("link");
 
         writer.startElement("script", tabpanel);
         writer.writeAttribute("type", "text/javascript", null);

@@ -574,8 +574,9 @@ public class ChartUtils {
         Source source = new StreamSource(new ByteArrayInputStream(in.toByteArray()));
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
+            //System.out.println(ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null));
             Transformer transform = tf.newTransformer(
-                    new StreamSource(ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
+                    new StreamSource("http://localhost:8084"+ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
 
             StreamResult result = new StreamResult(out);
             transform.transform(source, result);

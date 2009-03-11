@@ -451,7 +451,7 @@
                         </aggregation>
 
 <!--Only for NetBeans who doesn't used Maven plugin -->
-                        <!--aggregation>
+                        <aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/mootools.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/mootools-1.2-core.js</include>
@@ -595,7 +595,7 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/NavToolbar.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/mfUtils.js</include>
                             </includes>
-                        </aggregation-->
+                        </aggregation>
 
                     </aggregations>
                 </configuration>
