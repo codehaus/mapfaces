@@ -21,13 +21,19 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,9 +69,13 @@ import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.treelayout.UITreeLines;
 import javax.swing.ImageIcon;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import org.geotools.factory.CommonFactoryFinder;
 
+import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.sld.MutableStyledLayerDescriptor;
@@ -817,7 +827,7 @@ public class FacesUtils {
 
         return feature;
     }
-    
+
     /**
      * This method replace all special characters encoded by urlFormat to valid XML which can be marshalled by JAXB.
      * @param str
@@ -836,7 +846,7 @@ public class FacesUtils {
         }
         return str;
     }
-    
+
     /**
      * Encode a string from xml to a valid Url format.
      * @param str
@@ -844,14 +854,14 @@ public class FacesUtils {
      */
     public static String convertSpecialCharsToUrlXml(String str) {
         if (str != null) {
-            str = str.replaceAll("<","%3C");
-            str = str.replaceAll(">","%3E");
-            str = str.replaceAll("=","%3D");
-            str = str.replaceAll("\"","%22");
-            str = str.replaceAll("/","%2F");
-            str = str.replaceAll("#","%23");
-            str = str.replaceAll(" ","%20");
-            str = str.replace(' ','+');
+            str = str.replaceAll("<", "%3C");
+            str = str.replaceAll(">", "%3E");
+            str = str.replaceAll("=", "%3D");
+            str = str.replaceAll("\"", "%22");
+            str = str.replaceAll("/", "%2F");
+            str = str.replaceAll("#", "%23");
+            str = str.replaceAll(" ", "%20");
+            str = str.replace(' ', '+');
         }
         return str;
     }
@@ -877,10 +887,10 @@ public class FacesUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return result;
     }
-    
+
     /**
      * This method returns a number of occurences occ in the string s.
      */
@@ -895,5 +905,101 @@ public class FacesUtils {
             }
             return nbocc;
         }
+    }
+
+    /**
+     * This method returns the lattitude and longitude from pixels x y with the envelope and dimension.
+     * @param x
+     * @param y
+     * @param envelope
+     * @param dimension
+     * @return
+     */
+    public static Double[] getLonLatFromPixel(double x, double y, ReferencedEnvelope envelope, Dimension dimension) {
+        double lat = 0;
+        double lon = 0;
+        if (envelope != null && dimension != null && envelope.getLowerCorner() != null && envelope.getUpperCorner() != null) {
+            double envWidth = Math.abs(envelope.getUpperCorner().getCoordinate()[0] - envelope.getLowerCorner().getCoordinate()[0]);
+            double envHeight = Math.abs(envelope.getUpperCorner().getCoordinate()[1] - envelope.getLowerCorner().getCoordinate()[1]);
+            double objX = envelope.getLowerCorner().getCoordinate()[0] + (x * envWidth) / dimension.width;
+            double objY = -(envelope.getLowerCorner().getCoordinate()[1] + (y * envHeight) / dimension.height);
+            lat = objY;
+            lon = objX;
+        }
+        return new Double[]{lon, lat};
+    }
+
+    /**
+     * Send a request to a service.
+     * 
+     * @param sourceURL the url of the distant web-service
+     * @param request The XML object to send in POST mode (if null the request is GET)
+     * 
+     * @return The object correspounding to the XML response of the distant web-service
+     * 
+     * @throws java.net.MalformedURLException
+     * @throws java.io.IOException
+     * @throws org.constellation.coverage.web.WebServiceException
+     */
+    public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller) throws MalformedURLException, IOException {
+        URL source = new URL(sourceURL);
+        URLConnection conec = source.openConnection();
+        Object harvested = null;
+
+        try {
+            // for a POST request
+            if (request != null) {
+
+                conec.setDoOutput(true);
+                conec.setRequestProperty("Content-Type", "text/xml");
+                OutputStreamWriter wr = new OutputStreamWriter(conec.getOutputStream());
+                StringWriter sw = new StringWriter();
+                try {
+                    marshaller.marshal(request, sw);
+                } catch (JAXBException ex) {
+                    System.out.println("Unable to marshall the request: " + ex.getMessage());
+                }
+                String XMLRequest = sw.toString();
+                wr.write(XMLRequest);
+                wr.flush();
+            }
+            
+            // we get the response document
+            InputStream in = conec.getInputStream();
+            StringWriter out = new StringWriter();
+            byte[] buffer = new byte[1024];
+            int size;
+
+            while ((size = in.read(buffer, 0, 1024)) > 0) {
+                out.write(new String(buffer, 0, size));
+            }
+
+            //we convert the brut String value into UTF-8 encoding
+            String brutString = out.toString();
+
+            //we need to replace % character by "percent because they are reserved char for url encoding
+            brutString = brutString.replaceAll("%", "percent");
+            String decodedString = java.net.URLDecoder.decode(brutString, "UTF-8");
+
+            try {
+                decodedString = decodedString.replaceAll("percent", "%");
+                if (unmarshaller == null) {
+                    return decodedString;
+                } else {
+                    harvested = unmarshaller.unmarshal(new StringReader(decodedString));
+                    if (harvested != null && harvested instanceof JAXBElement) {
+                        harvested = ((JAXBElement) harvested).getValue();
+                    }
+                }
+            } catch (JAXBException ex) {
+                System.out.println("The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
+                        "cause: " + ex.getMessage());
+                System.out.println(ex.toString());
+            }
+        } catch (IOException ex) {
+            System.out.println("The Distant service have made an error ! ");
+            return null;
+        }
+        return harvested;
     }
 }

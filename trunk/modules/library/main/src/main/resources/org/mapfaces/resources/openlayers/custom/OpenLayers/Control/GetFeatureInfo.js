@@ -44,12 +44,17 @@ OpenLayers.Control.GetFeatureInfo= OpenLayers.Class(OpenLayers.Control, {
                     if (this.map && evt != null) {
                     //TODO org.mapfaces.ajax.ACTION_SAVE_DIR param is not used in the ontext save function
                     //http://demo.geomatys.fr/constellation/WS/wms?bbox=-130,24,-66,50&styles=&format=image/png&info_format=text/plain&version=1.1.1&srs=epsg:4326&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width=550&height=250&x=170&y=160
+                    
+                    var lonlat = this.map.getLonLatFromPixel(new OpenLayers.Pixel(evt.xy.x, evt.xy.y));
+                    
                     var parameters = {  
                                       'refresh' : this.idToRefresh,
                                       'synchronized' : 'true',
                                       'org.mapfaces.ajax.ACTION' : 'getFeatureInfo',
                                       'org.mapfaces.ajax.ACTION_GETFEATUREINFO_X' : evt.xy.x,
-                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y' : evt.xy.y
+                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y' : evt.xy.y,
+                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON' : lonlat.lon,
+                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT' : lonlat.lat
                     }
                     this.map.sendAjaxRequest(parameters);
                     //alert(this.map.getLonLatFromPixel(new OpenLayers.Pixel(evt.xy.x, evt.xy.y)));

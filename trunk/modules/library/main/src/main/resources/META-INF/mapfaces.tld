@@ -1295,6 +1295,39 @@
                 This is a list that contains all interested layers indicated by their layer name.
             </description>
         </attribute>
+        <attribute>
+            <name>outputLatitude</name>
+            <deferred-value>
+                <type>java.lang.Double</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is the lattitude value when a click has been released on the Mappane.
+            </description>
+        </attribute>
+        <attribute>
+            <name>outputLongitude</name>
+            <deferred-value>
+                <type>java.lang.Double</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is the longitude value when a click has been released on the Mappane.
+            </description>
+        </attribute>
+        <attribute>
+            <name>featureInfoValues</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is a list that contains all resulted output values of the getFeatureinfo on every requested layer with the forced format text/plain.
+            </description>
+        </attribute>
     </tag>
      <!-- MeasureDistance -->
     <tag>

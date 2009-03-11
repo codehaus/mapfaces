@@ -152,15 +152,43 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         popup.setLeft("left:" + realLeft + "px;");
                     }
                 }
+                
+                //setting to the component the real latitude and logitude by calculating from pixels.
+                //setting the values lat and lon expressions if not null
+                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT") != null) {
+                    final double lat = Double.parseDouble((String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT"));
+                    final ValueExpression veLat = comp.getValueExpression("outputLatitude");
+                    if (veLat != null) {
+                        veLat.setValue(context.getELContext(), lat);
+                        comp.setValueExpression("outputLatitude", veLat);
+                    }
+                    comp.setOutputLatitude(lat);
+                }
+                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON") != null) {
+                    final double lon = Double.parseDouble( (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON"));
+                    final ValueExpression veLon = comp.getValueExpression("outputLongitude");
+                    if (veLon != null) {
+                        veLon.setValue(context.getELContext(), lon);
+                        comp.setValueExpression("outputLongitude", veLon);
+                    }
+                    comp.setOutputLongitude(lon);
+                }
+                
+                
+                               
 
                 final List<WmsLayer> layersWMS = new ArrayList<WmsLayer>();
                 String layersNameString = "";
                 int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
                 int loop = 0;
                 List<Feature> featureInfoList = new ArrayList<Feature>();
+                List<String> featureInfoValues = new ArrayList<String>();
+                
                 boolean FeatureLayerExist = false;
                 int countFeature = comp.getFeatureCount();
-
+                String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
+                String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
+                
                 for (Layer queryLayer : model.getVisibleLayers()) {
                     if (queryLayer != null && queryLayer.getType() != null) {
                         switch (queryLayer.getType()) {
@@ -171,14 +199,50 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 if (comp.getLayersNames() != null && ! ((List)comp.getLayersNames()).contains(queryLayer.getName())) {
                                     skipLayer = true;
                                 }
-                                if (!layersWMS.contains(queryLayer) && ! skipLayer) {
+                                if (!layersWMS.contains(queryLayer) && ! skipLayer && ! comp.isFeatureLayerOnly()) {
                                     loop++;
                                     layersWMS.add((WmsLayer) queryLayer);
                                     layersNameString += queryLayer.getName();
                                     if (loop != nbWmsLayers) {
                                         layersNameString += ",";
                                     }
+                                    WmsLayer wmsLayer = (WmsLayer) queryLayer;
+                                    
+                                    //building the getfeatureInfo request
+                                    StringBuilder featureInfoRequest = new StringBuilder("");
+                                    featureInfoRequest.append(wmsLayer.getServer().getHref()).
+                                    append("?BBOX=").append(model.getBoundingBox()).
+                                    append("&STYLES=").
+                                    append("&FORMAT=").append(wmsLayer.getOutputFormat()).
+                                    append("&INFO_FORMAT=").append("text/plain"). //force the info_format to text/plain to store in the list featureInfoValues
+                                    append("&VERSION=").append(wmsLayer.getServer().getVersion()).
+                                    append("&SRS=").append(model.getSrs().toUpperCase()).
+                                    append("&REQUEST=GetFeatureInfo").
+                                    append("&LAYERS=").append(wmsLayer.getName()).
+                                    append("&QUERY_LAYERS=").append(wmsLayer.getName()).
+                                    append("&WIDTH=").append(model.getWindowWidth()).
+                                    append("&HEIGHT=").append(model.getWindowHeight()).
+                                    append("&X=").append(X).
+                                    append("&Y=").append(Y).
+                                    append("&FEATURE_COUNT=").append(featureCount);
+                                    
+                                    String urlRequestInfo = featureInfoRequest.toString();
+                                    try {
+                                        String response = (String) FacesUtils.sendRequest(urlRequestInfo, null, null, null);
+                                        if (response != null) {
+                                            final String responseClean = response.replace("\n", " ");
+                                            if ( ! featureInfoValues.contains(wmsLayer.getName()+" : "+ responseClean)) {
+                                                featureInfoValues.add(wmsLayer.getName()+" : "+ responseClean);
+                                            }
+                                        }
+                                    } catch (MalformedURLException ex) {
+                                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    
                                 }
+                                
                                 break;
                             case WFS:
                                 break;
@@ -201,7 +265,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 FeatureLayerExist = true;
                                 final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
                                 final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
-
+                                
                                 MapContext mapContext;
                                 MutableStyle mutableStyle = null;
                                 //building a FeatureCollection for this layer.
@@ -283,18 +347,25 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("dataResult", ve);
                 }
                 comp.setDataResult(featureInfoList);
+                
+                //setting the value expression for featureInfoValues if not null
+                ValueExpression veVal = comp.getValueExpression("featureInfoValues");
+                if (veVal != null) {
+                    veVal.setValue(context.getELContext(), featureInfoValues);
+                    comp.setValueExpression("featureInfoValues", veVal);
+                }
+                comp.setFeatureInfoValues(featureInfoValues);
+                //allow the visibility True of the popup for the featureInfoValues list and featureInfoList
                 if (popup != null) {
-                    if (featureInfoList.size() == 0) {
-                        popup.setHidden(true);
-                    } else {
+                    if (featureInfoValues.size() != 0 || featureInfoList.size() != 0) {
                         popup.setHidden(false);
+                    } else {
+                        popup.setHidden(true);
                     }
                 }
 
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;
-                String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
-                String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
 
                 if (popup != null && popup.isIframe() && !comp.isFeatureLayerOnly()) {
 
@@ -371,7 +442,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
             } else {
                 //init the popup innerHtml in others decode process
-                if (popup != null && popup.isIframe()) {
+                if (popup != null) {
                     popup.setInnerHTML(null);
                     popup.setHidden(true);
                 }
