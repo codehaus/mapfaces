@@ -14,7 +14,7 @@
 
                 <%--c:chart output="svg" id="chart1" datasource="#{OtherCharts.sourceProvider.XYDataset}" type="xystep" legend="false" colors="magenta,#CACACA,blue" xlabel="X" ylabel="Y"></c:chart>
                 --%>
-            <c:chart output="svg"  background="white" id="chart2" width="800" height="400" 
+            <c:chart output="vml"  background="white" id="chart2" width="800" height="400" 
                 rangeGridLines="true" 
                 domainGridLines="true" datasource="#{OtherCharts.sourceProvider.multipleXYDataset}" 
                 title="Multiple XYDataset Demo" type="timeseries" 

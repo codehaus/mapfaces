@@ -263,7 +263,7 @@
 			    </includes>
 			</aggregation>
 <!-- Only for NetBeans devs who doesn't use Maven plugin -->
-                  <!--aggregation>
+                  <aggregation>
 			    <output>${project.build.sourceDirectory}/../webapp/resources/js/all.js</output>
 			    <includes>
 				<include>**/mootools-1.2-core.js</include>
@@ -283,7 +283,7 @@
 				<include>**/content.css</include>
 				<include>**/ui.css</include>
 			    </includes>
-			</aggregation--> 
+			</aggregation> 
 		    </aggregations>
 		</configuration>
 		</plugin>

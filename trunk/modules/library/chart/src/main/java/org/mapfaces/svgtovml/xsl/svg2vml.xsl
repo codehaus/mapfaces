@@ -1091,7 +1091,7 @@ xlink:show, xlink:actuate -->
                 <xsl:value-of select="@yValue" />
             </xsl:attribute>
         </xsl:if>
-        <xsl:if test="@default-stroke">
+        <!--xsl:if test="@default-stroke">
             <xsl:attribute name="@default-stroke">
                 <xsl:value-of select="@default-stroke" />
             </xsl:attribute>
@@ -1100,7 +1100,7 @@ xlink:show, xlink:actuate -->
             <xsl:attribute name="@default-width">
                 <xsl:value-of select="@default-width" />
             </xsl:attribute>
-        </xsl:if>
+        </xsl:if-->
     </xsl:template>
     
     
