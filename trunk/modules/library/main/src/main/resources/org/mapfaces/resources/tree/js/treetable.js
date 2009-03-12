@@ -11,10 +11,10 @@ var TreeTableJs = {
 };
 
 var dispEffectNone = function(div){
-//    if (browser=="Microsoft Internet Explorer"){
-        div.style.display="block";
-        div.style.opacity="1";
-        div.style.filter="alpha(opacity=100)";
+    //    if (browser=="Microsoft Internet Explorer"){
+    div.style.display="block";
+    div.style.opacity="1";
+    div.style.filter="alpha(opacity=100)";
 //    }else{
 //    	div.setStyles({
 //            display:'block',
@@ -25,10 +25,10 @@ var dispEffectNone = function(div){
 };
 
 var dispEffectBlock = function(div){
-//    if (browser=="Microsoft Internet Explorer"){
-        div.style.display="none";
-        div.style.opacity="0";
-        div.style.filter="alpha(opacity=0)";
+    //    if (browser=="Microsoft Internet Explorer"){
+    div.style.display="none";
+    div.style.opacity="0";
+    div.style.filter="alpha(opacity=0)";
 //    }else{
 //        div.setStyles({
 //            display:'none',
@@ -102,7 +102,13 @@ function expAll(panelId){
                 var lineTreenode =$(div.id.replace(reg,"treenode"));
                 if  (lineTreenode!=null){
                     lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
-                    lineTreenode.firstChild.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+                    var listofchild = lineTreenode.childNodes;
+                    for(i=0;i<=listofchild.length-1;i++){
+                        var children = listofchild[i];
+                        if (children.get('class').match("x-tree-elbow-end-plus")){
+                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+                        }
+                    }
                 }
             }
             
@@ -121,7 +127,13 @@ function expandAll(){
             var lineTreenode =$(div.id.replace(reg,"treenode"));
             if  (lineTreenode!=null){
                 lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
-                lineTreenode.firstChild.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+                var listofchild = lineTreenode.childNodes;
+                for(i=0;i<=listofchild.length-1;i++){
+                    var children = listofchild[i];
+                    if (children.get('class').match("x-tree-elbow-end-plus")){
+                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+                    }
+                }
             }
         }
     });
@@ -139,7 +151,13 @@ function collAll(panelId){
                 var lineTreenode =$(div.id.replace(reg,"treenode"));
                 if  (lineTreenode!=null){
                     lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col");
-                    lineTreenode.firstChild.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+                    var listofchild = lineTreenode.childNodes;
+                    for(i=0;i<=listofchild.length-1;i++){
+                        var children = listofchild[i];
+                        if (children.get('class').match("x-tree-elbow-end-minus")){
+                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+                        }
+                    }
                 }
             }
             
@@ -155,8 +173,14 @@ function collapseAll(){
             var reg = new RegExp("(ul)","g");
             var lineTreenode =$(div.id.replace(reg,"treenode"));
             if  (lineTreenode!=null){
-                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col");
-                lineTreenode.firstChild.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col");
+                var listofchild = lineTreenode.childNodes;
+                for(i=0;i<=listofchild.length-1;i++){
+                    var children = listofchild[i];
+                    if (children.get('class').match("x-tree-elbow-end-minus")){
+                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+                    }
+                }
             }
         }
             

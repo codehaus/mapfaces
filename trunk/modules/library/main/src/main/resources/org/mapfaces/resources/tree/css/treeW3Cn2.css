@@ -9,14 +9,14 @@ root {
     display : block;
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, td {
     margin : 0;
     padding : 0;
 }
 img, body, html {
     border : 0 none;
 }
-address, caption, cite, code, dfn, em, strong, th, var {
+address, caption, cite, code, dfn, em, strong, var {
     font-style : normal;
     font-weight : normal;
 }
@@ -25,7 +25,7 @@ ol, ul {
     list-style-position : outside;
     list-style-type : none;
 }
-caption, th {
+caption{
     text-align : left;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -2231,7 +2231,7 @@ input.x-tree-node-cb {
     outline-style : none;
     outline-width : 0;
 }
-.x-date-inner, .x-date-inner td, .x-date-inner th {
+.x-date-inner, .x-date-inner td, .x-date-inner {
     border-collapse : separate;
 }
 .x-date-middle, .x-date-left, .x-date-right {
@@ -2288,10 +2288,10 @@ table.x-date-inner {
     table-layout : fixed;
     width : 100%;
 }
-.x-date-inner th {
+.x-date-inner  {
     width : 25px;
 }
-.x-date-inner th {
+.x-date-inner {
     background : #dfecfb url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/shared/glass-bg.gif) repeat-x scroll left top;
     border-bottom : 1px solid #a3bad9;
     border-collapse : separate;
@@ -2306,7 +2306,7 @@ table.x-date-inner {
     padding : 0;
     text-align : right !important ;
 }
-.x-date-inner th span {
+.x-date-inner span {
     display : block;
     padding : 2px 7px 2px 2px;
 }
