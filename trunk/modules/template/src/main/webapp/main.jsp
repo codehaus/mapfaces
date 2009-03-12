@@ -89,7 +89,19 @@
             </a4j:status>
         
             <%@ include file="footer.jsp"%>
-            
+            <script type="text/javascript" charset="utf-8">
+                /*
+                 * This piece of code is necessary when we use IE6
+                 * if we don't use this, the Browser.Engine property thinks we use IE7  while we use IE6
+                 * because, to define IE6, Mootools uses the property window.XMLHttpRequest who doesn't exist in IE6
+                 * but the Sarissa library used with Ajax4JSF redefines this property  
+                 * so in fact she exists. 
+                 */
+                window.addEvent('load',function(){
+                    if(navigator.userAgent.indexOf("MSIE 6.0") != -1)
+                        Browser.Engine.trident4 = true;
+                });
+            </script>
         </body>
     </html>
 </f:view>
