@@ -29,12 +29,14 @@ import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.ImgColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class TimeColumnRenderer extends ImgColumnRenderer {
 
@@ -120,9 +122,15 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
 
     public String getTimes(final FacesContext context, final UITimeColumn comp) {
         final TreeNodeModel tnm = ((UITreeLines) (comp.getParent())).getNodeInstance();
-        if (tnm.isLeaf() && ((Layer) (tnm.getUserObject())).getDimensionList() != null) {
-            if (((Layer) (tnm.getUserObject())).getTime() != null) {
-                return ((Layer) (tnm.getUserObject())).getTime().getValue();
+        final TreeItem ti = (TreeItem) tnm.getUserObject();
+        Layer layer = null;
+        if (ti.getUserObject() instanceof Layer) {
+            layer = (Layer) ti.getUserObject();
+        }
+         
+        if (tnm.isLeaf() && layer !=null && layer.getDimensionList() != null) {
+            if (layer.getTime() != null) {
+                return layer.getTime().getValue();
             }
         }
         return null;

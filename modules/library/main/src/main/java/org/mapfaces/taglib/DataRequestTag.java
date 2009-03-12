@@ -18,9 +18,13 @@ package org.mapfaces.taglib;
 
 import java.util.List;
 import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
+import javax.faces.component.ActionSource;
+import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.MethodExpressionActionListener;
 import org.mapfaces.component.UIDataRequest;
 
 /**
@@ -46,6 +50,9 @@ public class DataRequestTag extends WidgetBaseTag {
     private ValueExpression outputLatitude = null;
     private ValueExpression outputLongitude = null;
     private ValueExpression featureInfoValues = null;
+    private ValueExpression requestUrlList = null;
+    private MethodExpression action = null;
+    private MethodExpression actionListener = null;
 
     /**
      * {@inheritDoc }
@@ -90,6 +97,13 @@ public class DataRequestTag extends WidgetBaseTag {
         component.setValueExpression("outputLatitude", outputLatitude);
         component.setValueExpression("outputLongitude", outputLongitude);
         component.setValueExpression("featureInfoValues", featureInfoValues);
+        component.setValueExpression("requestUrlList", requestUrlList);
+        if (actionListener != null) {
+            ((ActionSource) component).addActionListener(new MethodExpressionActionListener(actionListener));
+        }
+        if (action != null) {
+            ((ActionSource2) component).setActionExpression(action);
+        }
     }
 
     /**
@@ -108,6 +122,9 @@ public class DataRequestTag extends WidgetBaseTag {
         outputLatitude = null;
         outputLongitude = null;
         featureInfoValues = null;
+        requestUrlList = null;
+        action = null;
+        actionListener = null;
     }
 
     public ValueExpression getOutputFormat() {
@@ -180,5 +197,29 @@ public class DataRequestTag extends WidgetBaseTag {
 
     public void setFeatureInfoValues(ValueExpression featureInfoValues) {
         this.featureInfoValues = featureInfoValues;
+    }
+
+    public ValueExpression getRequestUrlList() {
+        return requestUrlList;
+    }
+
+    public void setRequestUrlList(ValueExpression requestUrlList) {
+        this.requestUrlList = requestUrlList;
+    }
+
+    public MethodExpression getAction() {
+        return action;
+    }
+
+    public void setAction(MethodExpression action) {
+        this.action = action;
+    }
+
+    public MethodExpression getActionListener() {
+        return actionListener;
+    }
+
+    public void setActionListener(MethodExpression actionListener) {
+        this.actionListener = actionListener;
     }
 }

@@ -1328,6 +1328,57 @@
                 This is a list that contains all resulted output values of the getFeatureinfo on every requested layer with the forced format text/plain.
             </description>
         </attribute>
+        <attribute>
+            <name>requestUrlList</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                This is a list that contains all getFeatureInfo urls released in the server side.
+            </description>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[MethodExpression representing the application action to invoke
+                when this component is activated by the user.  The expression
+                must evaluate to a public method that takes no parameters, and
+                returns an Object (the toString() of which is called to derive
+                the logical outcome) which is passed to the NavigationHandler
+                for this application.]]>
+            </description>
+            <name>
+                action
+            </name>
+            <required>
+                false
+            </required>
+            <deferred-method>
+                <method-signature>
+                    java.lang.Object action()
+                </method-signature>
+            </deferred-method>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[MethodExpression representing an action listener method that will be
+                notified when this component is activated by the user.  The
+                expression must evaluate to a public method that takes an
+                ActionEvent parameter, with a return type of void.]]>
+            </description>
+            <name>
+                actionListener
+            </name>
+            <required>
+                false
+            </required>
+            <deferred-method>
+                <method-signature>
+                    void actionListener(javax.faces.event.ActionEvent)
+                </method-signature>
+            </deferred-method>
+        </attribute>
     </tag>
      <!-- MeasureDistance -->
     <tag>

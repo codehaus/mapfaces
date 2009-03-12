@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.taglib;
 
 import javax.el.ValueExpression;
@@ -213,6 +214,7 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("minifyJS", minifyJS);
         component.setValueExpression("displayAllLayers", displayAllLayers);
         component.setValueExpression("displayHeader", displayHeader);
+        component.setValueExpression("elevationColumn", elevationColumn);
         component.setValueExpression("visibilityColumn", visibilityColumn);
         component.setValueExpression("opacityColumn", opacityColumn);
         component.setValueExpression("timeColumn", timeColumn);

@@ -30,6 +30,9 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
     private static final long serialVersionUID = 6110685871235636989L;
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.VisibilityColumn";
     private static final String FAMILY = "org.mapfaces.treelayout.Column";
+    /**
+     * This property is used only in LayerControlRenderer to define a basic id for this Column.
+     */
     private static final String LAYER_PROPERTY = "Visible";
 
     private String layerId;

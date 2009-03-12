@@ -59,6 +59,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
     private static final String _Style_TreeNodeInfo = "border:none;";
     private static final String _Style_EyeImage_Url = "/org/mapfaces/resources/img/eye.png";
     private static final String _Style_CloudyImage_Url = "/org/mapfaces/resources/img/weather_cloudy.png";
+    private static final String _Style_ElevationImage_Url = "/org/mapfaces/resources/img/seadepth.gif";
     private static final String _Style_CalendarImage_Url = "/org/mapfaces/resources/img/calendar_select.png";
     /* Defaults Sizes */
     private static final int _Style_Width_Treetable = 450;
@@ -212,7 +213,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             final UIElevationColumn ec = new UIElevationColumn();
             ec.setId(ec.getLayerProperty());
             ec.setValue("#{treeItem.userValueElevation}");
-            ec.setHeaderIcon(_Style_CloudyImage_Url);
+            ec.setHeaderIcon(_Style_ElevationImage_Url);
             if (widthElevationColumn == null || widthElevationColumn.isEmpty()) {
                 ec.setWidth(_Style_Width_Elevationcolumn);
             } else {

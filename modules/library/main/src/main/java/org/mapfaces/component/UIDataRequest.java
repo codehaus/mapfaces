@@ -65,6 +65,10 @@ public class UIDataRequest extends UIWidgetBase {
      * This is the output list of string taht represents the featureInfo values.
      */
     private Object featureInfoValues;
+    /**
+     * This list contains all getFeatureInfo urls released in the server side.
+     */
+    private Object requestUrlList;
     
 
     public UIDataRequest() {
@@ -96,6 +100,7 @@ public class UIDataRequest extends UIWidgetBase {
         values[7] = outputLatitude;
         values[8] = outputLongitude;
         values[9] = featureInfoValues;
+        values[10] = requestUrlList;
 
         return values;
     }
@@ -116,6 +121,7 @@ public class UIDataRequest extends UIWidgetBase {
         outputLatitude = (Double) values[7];
         outputLongitude = (Double) values[8];
         featureInfoValues = values[9];
+        requestUrlList = values[10];
     }
 
     public String getOutputFormat() {
@@ -188,5 +194,13 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setFeatureInfoValues(Object featureInfoValues) {
         this.featureInfoValues = featureInfoValues;
+    }
+
+    public Object getRequestUrlList() {
+        return requestUrlList;
+    }
+
+    public void setRequestUrlList(Object requestUrlList) {
+        this.requestUrlList = requestUrlList;
     }
 }

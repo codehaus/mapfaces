@@ -31,6 +31,8 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 import org.geotools.display.exception.PortrayalException;
 import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.feature.FeatureCollection;
@@ -183,6 +185,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 int loop = 0;
                 List<Feature> featureInfoList = new ArrayList<Feature>();
                 List<String> featureInfoValues = new ArrayList<String>();
+                List<String> requestUrlList = (comp.getRequestUrlList() != null) ? (List) comp.getRequestUrlList() : new ArrayList<String>();
                 
                 boolean FeatureLayerExist = false;
                 int countFeature = comp.getFeatureCount();
@@ -227,6 +230,10 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     append("&FEATURE_COUNT=").append(featureCount);
                                     
                                     String urlRequestInfo = featureInfoRequest.toString();
+                                    if (! requestUrlList.contains(urlRequestInfo)) {
+                                        requestUrlList.add(urlRequestInfo);
+                                    }
+                                    
                                     try {
                                         String response = (String) FacesUtils.sendRequest(urlRequestInfo, null, null, null);
                                         if (response != null) {
@@ -355,6 +362,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("featureInfoValues", veVal);
                 }
                 comp.setFeatureInfoValues(featureInfoValues);
+                
+                //setting the value expression for requestUrlList if not null.
+                ValueExpression veLog = comp.getValueExpression("requestUrlList");
+                if (veLog != null) {
+                    veLog.setValue(context.getELContext(), requestUrlList);
+                    comp.setValueExpression("requestUrlList", veLog);
+                }
+                comp.setRequestUrlList(requestUrlList);
+                
                 //allow the visibility True of the popup for the featureInfoValues list and featureInfoList
                 if (popup != null) {
                     if (featureInfoValues.size() != 0 || featureInfoList.size() != 0) {
@@ -363,6 +379,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         popup.setHidden(true);
                     }
                 }
+                
+                //invoke methodBinding on action and actionListener if not null.
+                if (comp.getActionExpression() != null) {
+                    comp.getActionExpression().invoke(context.getELContext(), null);
+                }
+                for (ActionListener al : comp.getActionListeners()) {
+                    al.processAction(new ActionEvent(component));
+                }
+                
 
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;

@@ -586,6 +586,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             if (attributs.get("headerTitle") != null) {
                 writer.writeAttribute("title", (String) attributs.get("headerTitle"), null);
             }
+            writer.writeAttribute("class", "layercontrol_headerIcon_"+component.getId(),"class");
             writer.endElement("img");
         } else if (attributs.get("headerTitle") != null) {
             writer.write((String) attributs.get("headerTitle"));
