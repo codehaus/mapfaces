@@ -1,7 +1,18 @@
 /*
- * CursorTrackRenderer.java
+ *    Mapfaces -
+ *    http://www.mapfaces.org
  *
- * Created on 24 decembre 2007, 13:55
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.renderkit.html;
@@ -16,7 +27,7 @@ import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.treelayout.UITreeLines;
-import org.mapfaces.models.Layer;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
 
@@ -34,8 +45,8 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
         final UIDimRange comp = (UIDimRange) component;
         final String clientId = comp.getClientId(context);
 
-
-        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals(".")) return;
+        //skip if UserValueDimRange is null or empty string
+        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals("") || ((String) comp.getValue()).equals(".")) return;
 
         writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
@@ -81,7 +92,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UIDimRange comp = (UIDimRange) component;
 
-        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals(".")) return;
+        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals("") || ((String) comp.getValue()).equals(".")) return;
 
 
         final String layerId=getVarId(context, comp).split(":")[1];
@@ -94,7 +105,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
                  writer.write("Max : ");
              writer.endElement("div");
              final UIInput maxRange = new UIInput();
-             maxRange.setId(layerId+"_inputMaxRange");
+             maxRange.setId(layerId+"_inputMaxRange");             
              maxRange.setValue(((String) comp.getValue()).split(",")[1]);
              comp.getChildren().add(maxRange);
              maxRange.encodeAll(context);
@@ -143,7 +154,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
         super.encodeEnd(context, component);
         final UIDimRange comp = (UIDimRange) component;
 
-        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals(".")) return;
+        if(getVarId(context, comp) == null || comp.getValue() ==null || ((String) comp.getValue()).equals("") || ((String) comp.getValue()).equals(".")) return;
 
         writer.endElement("div");
         writer.startElement("script", comp);
@@ -194,7 +205,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
     public String getVarId(final FacesContext context, final UIWidgetBase component) {
         final UITreeLinesBase comp = FacesUtils.getParentUITreeLines(context, component);
         if (comp.getNodeInstance().isLeaf()) {
-            comp.setVarId( ((Layer) (comp.getNodeInstance().getUserObject())).getCompId() );
+            comp.setVarId( ((TreeItem) (comp.getNodeInstance().getUserObject())).getCompId() );
             if (comp.getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }
@@ -209,11 +220,11 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
     public String getVarLegendUrl(final FacesContext context, final UIWidgetBase component) {
         final UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
         if (comp.getNodeInstance().isLeaf()) {
-            comp.setVarId(((Layer)(comp.getNodeInstance().getUserObject())).getId());
+            comp.setVarId(((TreeItem)(comp.getNodeInstance().getUserObject())).getId());
             if ( comp.getVarId() == null) {
                 throw new NullPointerException("Var id is null so we can't update the context doc");
             }
-            return   ((Layer)(comp.getNodeInstance().getUserObject())).getLegendUrl();
+            return   ((TreeItem)(comp.getNodeInstance().getUserObject())).getLegendUrl();
         }
         return null;
     }

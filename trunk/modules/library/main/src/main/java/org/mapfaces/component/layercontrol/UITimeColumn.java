@@ -27,6 +27,9 @@ public class UITimeColumn extends UIImgColumn {
     private static final long serialVersionUID = -1878798978545632171L;
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.TimeColumn";
     private static final String FAMILY = "org.mapfaces.treelayout.Column";
+    /**
+     * This property is used only in LayerControlRenderer to define a basic id for this Column.
+     */
     private static final String layerProperty = "Time";
 
     private String layerId;

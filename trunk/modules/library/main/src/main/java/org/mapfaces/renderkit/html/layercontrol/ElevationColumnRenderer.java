@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
@@ -24,11 +25,14 @@ import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.tree.TreeItem;
+import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
 
@@ -63,15 +67,28 @@ public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
 
     private String getCurrentElevation(FacesContext context, UIElevationColumn comp) {
         if (((UITreeLines) (comp.getParent())).getNodeInstance().isLeaf()) {
-            return ((Layer) (((UITreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getElevation().getUserValue();
+            return ((TreeItem) (((UITreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getElevation().getUserValue();
         }
         return "";
     }
 
     public String getElevations(FacesContext context, UIElevationColumn comp) {
-        if (((UITreeLines) (comp.getParent())).getNodeInstance().isLeaf() && ((Layer) (((UITreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getDimensionList() != null) {
-            if (((Layer) (((UITreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getElevation() != null) {
-                return ((Layer) (((UITreeLines) (comp.getParent())).getNodeInstance().getUserObject())).getElevation().getValue();
+        UITreeLines treeLine = null;
+        TreeNodeModel tnm = null;
+        TreeItem ti = null;
+        Layer layer = null;
+        if (comp != null && comp.getParent() instanceof UITreeLines) {
+            treeLine = (UITreeLines) comp.getParent();
+            tnm = treeLine.getNodeInstance();
+            ti = (TreeItem) tnm.getUserObject();
+            if (ti.getUserObject() instanceof Layer) {
+                layer = (Layer) ti.getUserObject();
+            }
+        }
+
+        if (treeLine != null && tnm != null && tnm.isLeaf() && layer != null && layer.getDimensionList() != null) {
+            if (layer.getElevation() != null) {
+                return layer.getElevation().getValue();
             }
         }
         return null;

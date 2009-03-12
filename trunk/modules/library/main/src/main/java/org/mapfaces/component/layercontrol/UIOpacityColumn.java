@@ -26,6 +26,9 @@ public class UIOpacityColumn extends UISelectOneMenuColumn {
 
     private static final long serialVersionUID = -1878798978545632171L;
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.layercontrol.OpacityColumn";
+    /**
+     * This property is used only in LayerControlRenderer to define a basic id for this Column.
+     */
     private static final String LAYER_PROPERTY = "Opacity";
     private static final String FAMILY = "org.mapfaces.treelayout.Column";
 
