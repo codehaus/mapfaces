@@ -127,10 +127,21 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         if (column.getStyleClass() != null) {
             classUser = column.getStyleClass();
         }
+
+        final String treepanelId            = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        final UITreePanelBase treepanel     = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+
+        final int indentStyle;
+        if (!treepanel.isShowRoot()) {
+            indentStyle = (node.getDepth() - 2) * 12;
+        } else {
+            indentStyle = (node.getDepth() - 1) * 12;
+        }
+
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
         writer.writeAttribute("class", "x-tree-col " + classUser, null);
-        writer.writeAttribute("style", "width:" + size + ";" + styleUser, null);
+        writer.writeAttribute("style", "width:" + size + "; margin-left: -"+indentStyle+"px;" + styleUser, null);
 
         //Method to apply before encodeBegin
         if (debug) {
