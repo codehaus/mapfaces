@@ -35,46 +35,54 @@ import org.mapfaces.util.tree.TreeUtils;
  */
 public class TreeTableUtils {
 
-    public void createTreeLines(final UIComponent component, final TreeNodeModel node, 
-            final List<UIComponent> list, final boolean LoadingOption) throws IOException {  
+    public void createTreeLines(final UIComponent component, final TreeNodeModel node,
+            final List<UIComponent> list, final boolean LoadingOption) throws IOException {
         final UITreePanelBase treepanel = (UITreePanelBase) component;
 
-        if (!((UITreePanelBase) component).isInit()) {
-            for (int i = 0; i < node.getChildCount(); i++) {
-                final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
-                RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
+//        if (!((UITreePanelBase) component).isInit()) {
+        for (int i = 0; i < node.getChildCount(); i++) {
+            final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
+            RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
 
-                //Create a new treeline and get all component to make a backup
-                final UITreeLines treelines     = new UITreeLines();
-                final HtmlPanelGroup panelgroup = new HtmlPanelGroup();
-                final String idLine             = treepanel.getId() + "_line_";
-                final String idPanel            = treepanel.getId() + "_panel_";
-                final int idnode                = currentNode.getId();
-//                System.out.println("[DEBUG] createTreeLines ID to add " + id + idnode);
-                treelines.setId(idLine + idnode);
-                panelgroup.setId(idPanel + idnode);
+            //Create a new treeline and get all component to make a backup
+            final UITreeLines treelines = new UITreeLines();
+            final HtmlPanelGroup panelgroup = new HtmlPanelGroup();
+            panelgroup.setStyle("height:auto;");
+            final String idLine = treepanel.getId() + "_line_";
+            final String idPanel = treepanel.getId() + "_panel_";
+            final int idnode = currentNode.getId();
+//            System.out.println("[DEBUG] createTreeLines ID to add " + idLine + idnode);
+            treelines.setId(idLine + idnode);
+            panelgroup.setId(idPanel + idnode);
 
-                treelines.setNodeId(currentNode.getId());
-                treelines.setNodeInstance(currentNode);
+            treelines.setNodeId(currentNode.getId());
+            treelines.setNodeInstance(currentNode);
 
-                final List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
+            final List<UIComponent> tocopy = TreeUtils.duplicate(list, currentNode);
 
-                treelines.getChildren().addAll(tocopy);
-                if (!currentNode.isLeaf()) {
-                    treelines.setHasChildren(true);
-                    createTreeLinesRecurs(treepanel, currentNode, list, LoadingOption);
-                }
-
-                panelgroup.getChildren().add(treelines);
-                treepanel.getChildren().add(panelgroup);
+            treelines.getChildren().addAll(tocopy);
+            if (!currentNode.isLeaf()) {
+                treelines.setHasChildren(true);
+                createTreeLinesRecurs(treepanel, currentNode, list, LoadingOption);
             }
+
+            //Search into panelGroup  of the treepanel if any children like the new treelines are present
+            for (UIComponent child : treepanel.getChildren()) {
+                if (child.getId().equals(panelgroup.getId())) {
+                    treepanel.getChildren().remove(child);
+                }
+            }
+
+            panelgroup.getChildren().add(treelines);
+            treepanel.getChildren().add(panelgroup);
         }
+//        }
     }
-    
+
     @SuppressWarnings("unchecked")
-    private void createTreeLinesRecurs(final UITreePanelBase treepanel, final TreeNodeModel node, 
+    private void createTreeLinesRecurs(final UITreePanelBase treepanel, final TreeNodeModel node,
             final List<UIComponent> list, final boolean LoadingOption) throws IOException {
-        
+
         final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         final Map requestMap = ec.getRequestMap();
         requestMap.put("Elresolver.called", false);
@@ -83,12 +91,13 @@ public class TreeTableUtils {
             final TreeNodeModel currentNode = (TreeNodeModel) node.getChildAt(i);
             RequestMapUtils.put("org.treetable.NodeInstance", currentNode);
 
-            final UITreeLines treelines     = new UITreeLines();
+            final UITreeLines treelines = new UITreeLines();
             final HtmlPanelGroup panelgroup = new HtmlPanelGroup();
-            final String idLine             = treepanel.getId() + "_line_";
-            final String idPanel            = treepanel.getId() + "_panel_";
-            final int idnode                = currentNode.getId();
-//            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + id + idnode);
+            panelgroup.setStyle("height:auto;");
+            final String idLine = treepanel.getId() + "_line_";
+            final String idPanel = treepanel.getId() + "_panel_";
+            final int idnode = currentNode.getId();
+//            System.out.println("[DEBUG] createTreeLinesRecurs ID to add " + idLine + idnode);
             treelines.setId(idLine + idnode);
             panelgroup.setId(idPanel + idnode);
 
@@ -99,7 +108,7 @@ public class TreeTableUtils {
             treelines.getChildren().addAll(tocopy);
             treelines.setToRender(true);
 
-            if (!treepanel.isInit()) {
+            //if (!treepanel.isInit()) {
                 if (!LoadingOption) {
                     if (node.getDepth() >= TreeTableConfig.DEFAULT_DEPTH_VIEW) {
                         treelines.getNodeInstance().setChecked(false);
@@ -107,10 +116,17 @@ public class TreeTableUtils {
                         treelines.setRendered(false);
                     }
                 }
-            }
+            //}
             if (!currentNode.isLeaf()) {
                 treelines.setHasChildren(true);
                 createTreeLinesRecurs(treepanel, currentNode, list, LoadingOption);
+            }
+
+            //Search into panelGroup  of the treepanel if any children like the new treelines are present
+            for (UIComponent child : treepanel.getChildren()) {
+                if (child.getId().equals(panelgroup.getId())) {
+                    treepanel.getChildren().remove(child);
+                }
             }
 
             panelgroup.getChildren().add(treelines);
