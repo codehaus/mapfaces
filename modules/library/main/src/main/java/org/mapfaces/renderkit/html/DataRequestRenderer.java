@@ -234,6 +234,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     append("&HEIGHT=").append(model.getWindowHeight()).
                                     append("&X=").append(X).
                                     append("&Y=").append(Y).
+                                    append("&SERVICE=WMS").
                                     append("&FEATURE_COUNT=").append(featureCount);
                                     
                                     if (elevationValue != null && ! elevationValue.equals("")) {
