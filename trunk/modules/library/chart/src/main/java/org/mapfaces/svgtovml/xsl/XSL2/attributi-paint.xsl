@@ -1073,11 +1073,9 @@
 								<xsl:attribute name="fill-rule"><xsl:value-of select="@fill-rule"/></xsl:attribute>
 							</xsl:when>
 							<xsl:otherwise>
-								<!--
-                        <xsl:attribute name="fill-rule">
+			<!--<xsl:attribute name="fill-rule">
                             <xsl:text>evenodd</xsl:text>
-                        </xsl:attribute>
-                        -->
+                        </xsl:attribute> -->
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:when>

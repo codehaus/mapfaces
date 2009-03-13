@@ -53,7 +53,7 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent event) {
         // get the destroying session…
         final HttpSession session = event.getSession();
-        System.out.println(" Current Session destroyed : " + session.getId() + " at "+ new Date());
+//        System.out.println(" Current Session destroyed : " + session.getId() + " at "+ new Date());
 
         //destroy the se jetcs.
         DefaultServer.restoreCache();

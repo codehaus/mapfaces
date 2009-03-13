@@ -95,6 +95,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.mapfaces.share.listener.ResourcePhaseListener;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -120,6 +121,7 @@ public class ChartUtils {
     };
 
     public static void renderPassThruImgAttributes(ResponseWriter writer, UIComponent component) throws IOException {
+       
         for (int i = 0; i < passthruImgAttributes.length; i++) {
             Object value = component.getAttributes().get(passthruImgAttributes[i]);
             if (value != null) {
@@ -573,10 +575,15 @@ public class ChartUtils {
 
         Source source = new StreamSource(new ByteArrayInputStream(in.toByteArray()));
         try {
+            System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath()
+                   );
+            
+            System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo()
+                   );
             TransformerFactory tf = TransformerFactory.newInstance();
-            //System.out.println(ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null));
+           
             Transformer transform = tf.newTransformer(
-                    new StreamSource("http://localhost:8084"+ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
+                    new StreamSource(FacesUtils.getHostUrl()+ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
 
             StreamResult result = new StreamResult(out);
             transform.transform(source, result);
