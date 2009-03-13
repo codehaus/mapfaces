@@ -928,7 +928,14 @@ public class FacesUtils {
         }
         return new Double[]{lon, lat};
     }
-
+    public static String getHostUrl() {
+        ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+       
+       HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       String url = request.getRequestURL().toString();
+       String uri = request.getRequestURI();
+       return url.substring(0, url.indexOf(uri));
+    }
     /**
      * Send a request to a service.
      * 

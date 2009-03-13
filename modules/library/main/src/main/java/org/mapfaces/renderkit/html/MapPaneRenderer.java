@@ -137,7 +137,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         
         
         final List<Layer> layers = model.getLayers();
-        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+      
         final String srs = model.getSrs();
 
         comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
