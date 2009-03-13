@@ -49,6 +49,7 @@ import org.mapfaces.component.UIDataRequest;
 import org.mapfaces.component.UIPopup;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
@@ -176,9 +177,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setOutputLongitude(lon);
                 }
                 
-                
-                               
-
                 final List<WmsLayer> layersWMS = new ArrayList<WmsLayer>();
                 String layersNameString = "";
                 int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
@@ -210,6 +208,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         layersNameString += ",";
                                     }
                                     WmsLayer wmsLayer = (WmsLayer) queryLayer;
+                                                                        
+                                    String elevationValue = "";
+                                    if (wmsLayer.getElevation() != null) {
+                                        elevationValue = wmsLayer.getElevation().getUserValue();
+                                    }
+                                    String timeValue = "";
+                                    if (wmsLayer.getTime() != null) {
+                                        timeValue = wmsLayer.getTime().getUserValue();
+                                    }                                    
                                     
                                     //building the getfeatureInfo request
                                     StringBuilder featureInfoRequest = new StringBuilder("");
@@ -228,6 +235,13 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     append("&X=").append(X).
                                     append("&Y=").append(Y).
                                     append("&FEATURE_COUNT=").append(featureCount);
+                                    
+                                    if (elevationValue != null && ! elevationValue.equals("")) {
+                                        featureInfoRequest.append("&ELEVATION=").append(elevationValue);
+                                    }
+                                    if (timeValue != null && ! timeValue.equals("")) {
+                                        featureInfoRequest.append("&TIME=").append(timeValue);
+                                    }
                                     
                                     String urlRequestInfo = featureInfoRequest.toString();
                                     if (! requestUrlList.contains(urlRequestInfo)) {

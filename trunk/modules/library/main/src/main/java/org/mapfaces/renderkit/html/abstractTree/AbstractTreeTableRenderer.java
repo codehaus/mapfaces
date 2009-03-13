@@ -134,7 +134,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         getValueStart = new Date();
 
         /* Getting the defaultTreeModel pointed by the value */
-        //if (treetable.getTree() == null) {
+        if (treetable.getTree() == null) {
             final Object value = component.getAttributes().get("value");
             if (value != null) {
                 if (value instanceof String) {
@@ -149,7 +149,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
                 final TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);
                 treetable.setTree(new TreeTableModel(node));
             }
-        //}
+        }
         getValueEnd = new Date();
         final long timeToGetValue = getValueEnd.getTime() - getValueStart.getTime();
         if (debug) System.out.println("[INFO] Time to Get Value : " + timeToGetValue + " ms");
