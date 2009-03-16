@@ -28,7 +28,7 @@
                      xlabel="Time of Day" 
                      ylabel="Primary Axes" >
             </c:chart>
-
+<h:commandButton value="reload" />
             <%--c:chart output="svg" background="magenta" id="chart22" width="800" height="400" 
                 rangeGridLines="true" 
                 domainGridLines="true" datasource="#{OtherCharts.sourceProvider.emptyXYDataset}" 
@@ -79,7 +79,6 @@
             Zoom out : wheel down 
             Zoom box : CTRL+ mouse left click and drag
             Drag : mouse left click and drag </p>
-<h:commandButton value="reload" />
 
         </f:view>
        
