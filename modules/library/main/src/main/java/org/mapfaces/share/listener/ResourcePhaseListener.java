@@ -32,7 +32,7 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Mehdi Sidhoum
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class ResourcePhaseListener implements PhaseListener {
 
@@ -73,8 +73,11 @@ public class ResourcePhaseListener implements PhaseListener {
      */
     @Override
     public void afterPhase(final PhaseEvent event) {
-        if (event.getFacesContext().getViewRoot().getViewId().startsWith(
-                RESOURCE_PREFIX)) {
+        if (event != null && event.getFacesContext() != null && 
+                event.getFacesContext().getViewRoot() != null && 
+                event.getFacesContext().getViewRoot().getViewId() != null && 
+                event.getFacesContext().getViewRoot().getViewId().startsWith(RESOURCE_PREFIX)) {
+            
             final FacesContext context = event.getFacesContext();
             final ExternalContext external = context.getExternalContext();
 

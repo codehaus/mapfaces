@@ -49,6 +49,8 @@ import javax.faces.component.UIForm;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.PhaseListener;
+import javax.faces.lifecycle.Lifecycle;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
@@ -116,6 +118,12 @@ public class FacesUtils {
      */
     public final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK, Color.DARK_GRAY, Color.LIGHT_GRAY, Color.BLACK};
 
+    /**
+     * This is a recursive method to encode all component's children.
+     * @param context
+     * @param component
+     * @throws java.io.IOException
+     */
     public static void encodeRecursive(final FacesContext context,
             final UIComponent component) throws IOException {
         if (!component.isRendered()) {
@@ -928,6 +936,11 @@ public class FacesUtils {
         }
         return new Double[]{lon, lat};
     }
+    
+    /**
+     * Returns the host url from the current container.
+     * @return String
+     */
     public static String getHostUrl() {
         ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
        
@@ -1008,5 +1021,42 @@ public class FacesUtils {
             return null;
         }
         return harvested;
+    }
+    
+    /**
+     * Returns a flag taht indicates if the browser is IE.
+     * @param context
+     * @return
+     */
+    public static boolean isIEBrowser(FacesContext context) {
+        HttpServletRequest servletReq = (HttpServletRequest) context.getExternalContext().getRequest();
+        String useragent = servletReq.getHeader("User-Agent");
+        boolean isIE = false;
+        if (useragent != null) {
+            String user = useragent.toLowerCase();
+            if ((user.indexOf("msie") != -1)) {
+                isIE = true;
+            }
+        }
+        return isIE;
+    }
+    
+    /**
+     * This method returns a PhaseListener which is an instance of Class<?> c passed in argument.
+     * @param Class<?> c
+     * @return PhaseListener
+     */
+    public static PhaseListener getListenerFromLifeCycle(Class<?> c) {
+        //getting the DetectBrowserListener if is exists, else uses the FacesUtils method.
+        LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+        Lifecycle lifecycle = factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
+        PhaseListener[] listeners = lifecycle.getPhaseListeners();
+        for (int i = 0; i < listeners.length; i++) {
+            PhaseListener listener = listeners[i];
+            if (c.isInstance(listener)) {
+                return listener;
+            }
+        }
+        return null;
     }
 }

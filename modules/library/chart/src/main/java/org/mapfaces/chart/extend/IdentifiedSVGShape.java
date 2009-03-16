@@ -22,9 +22,10 @@ public class IdentifiedSVGShape extends SVGShape{
         final Element ele = super.toSVG(arg0);
 
         final Map<String,String> attributs = generator.getSVGAttributs();
-
-        for(String key : attributs.keySet()){
-            ele.setAttribute(key, attributs.get(key));
+        if (ele != null) {
+            for(String key : attributs.keySet()){
+                ele.setAttribute(key, attributs.get(key));
+            }
         }
         
         return ele;

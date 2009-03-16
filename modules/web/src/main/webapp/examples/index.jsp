@@ -47,6 +47,9 @@
              <li>
                 <a href="./multiMapPane.jsf">4 MapPanes to compare geoserver and constellation</a>
             </li>
+	    <li>
+                <a href="./charts/index.html">Chart demos SVG and VML</a>
+            </li>
         </ul>
         <br/>
        

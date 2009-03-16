@@ -14,11 +14,21 @@
 
                 <%--c:chart output="svg" id="chart1" datasource="#{OtherCharts.sourceProvider.XYDataset}" type="xystep" legend="false" colors="magenta,#CACACA,blue" xlabel="X" ylabel="Y"></c:chart>
                 --%>
-            <c:chart output="vml"  background="white" id="chart2" width="800" height="400" 
-                rangeGridLines="true" 
-                domainGridLines="true" datasource="#{OtherCharts.sourceProvider.multipleXYDataset}" 
-                title="Multiple XYDataset Demo" type="timeseries" 
-                legend="true" xlabel="Time of Day" ylabel="Primary Axes" ></c:chart>
+            <c:chart output="png"
+                     background="white" 
+                     id="chart2" 
+                     width="800" 
+                     height="400" 
+                     rangeGridLines="true" 
+                     domainGridLines="true" 
+                     datasource="#{OtherCharts.sourceProvider.multipleXYDataset}" 
+                     title="Multiple XYDataset Demo" 
+                     type="timeseries" 
+                     legend="true" 
+                     xlabel="Time of Day" 
+                     ylabel="Primary Axes" >
+            </c:chart>
+
             <%--c:chart output="svg" background="magenta" id="chart22" width="800" height="400" 
                 rangeGridLines="true" 
                 domainGridLines="true" datasource="#{OtherCharts.sourceProvider.emptyXYDataset}" 
@@ -69,6 +79,8 @@
             Zoom out : wheel down 
             Zoom box : CTRL+ mouse left click and drag
             Drag : mouse left click and drag </p>
+<h:commandButton value="reload" />
+
         </f:view>
        
     </body>	

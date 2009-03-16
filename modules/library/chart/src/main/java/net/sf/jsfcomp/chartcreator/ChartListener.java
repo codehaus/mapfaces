@@ -58,7 +58,7 @@ public class ChartListener implements PhaseListener {
 
         ChartData chartData = (ChartData) sessionMap.get(id);
        
-        if (chartData.getRequestParameterMap()!= null) {
+        if (chartData != null && chartData.getRequestParameterMap()!= null) {
             String zoomin = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMIN");
             String zoomout = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMOUT");
             String pixel = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.PIXEL");
@@ -125,9 +125,11 @@ public class ChartListener implements PhaseListener {
     }
 
     private void writeChartWithServletResponse(HttpServletResponse response, ChartData chartData) throws IOException {
-        OutputStream stream = response.getOutputStream();
-        response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
-        writeChart(stream, chartData);
+        if (chartData != null) {
+            OutputStream stream = response.getOutputStream();
+            response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
+            writeChart(stream, chartData);
+        }
     }
 //	private void writeChartWithPortletResponse(RenderResponse response, JFreeChart chart, ChartData chartData) throws IOException{
 //		OutputStream stream = response.getPortletOutputStream();

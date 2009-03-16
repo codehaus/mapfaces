@@ -22,10 +22,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.PhaseListener;
+import javax.faces.lifecycle.Lifecycle;
+import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.Renderer;
 
 import org.jfree.chart.ChartRenderingInfo;
@@ -40,6 +44,8 @@ import net.sf.jsfcomp.chartcreator.model.ChartData;
 import net.sf.jsfcomp.chartcreator.utils.ChartConstants;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
+import org.mapfaces.share.listener.DetectBrowserListener;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -48,14 +54,16 @@ import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
  * Renders the img tag and refers to an image that is generated at serverside
  */
 public class ChartRenderer extends Renderer {
-    
+
     boolean embed = false;
     String PIXEL = null;
-    
+
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         UIChart chart = (UIChart) component;
+        boolean isIE = FacesUtils.isIEBrowser(context);      
+        
         setChartDataAtSession(context, chart);
 
         String clientId = chart.getClientId(context);
@@ -72,7 +80,7 @@ public class ChartRenderer extends Renderer {
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
             chartURL = actionURL + "?ts=" + System.currentTimeMillis() + "&chartId=" + clientId;
         }
-        
+
         if (chart.getOutput().equals("png") || chart.getOutput().equals("jpeg")) {
             writer.startElement("img", chart);
             writer.writeAttribute("id", clientId, null);
@@ -81,15 +89,15 @@ public class ChartRenderer extends Renderer {
             writer.writeAttribute("height", String.valueOf(chart.getHeight()), null);
             writer.writeAttribute("src", chartURL, null);
             ChartUtils.renderPassThruImgAttributes(writer, chart);
-        } else if(chart.getOutput().equals("vml")){
+        } else if (chart.getOutput().equals("vml") || isIE) {
             writer.startElement("iframe", chart);
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
             writer.writeAttribute("height", String.valueOf(chart.getHeight()), null);
-            writer.writeAttribute("src", chartURL, null); 
-            writer.writeAttribute("style", "display:none; margin: 0px; padding: 0px; border: none;", null); 
-            writer.writeAttribute("onload", onloadFunc, null); 
-            
+            writer.writeAttribute("src", chartURL, null);
+            writer.writeAttribute("style", "display:none; margin: 0px; padding: 0px; border: none;", null);
+            writer.writeAttribute("onload", onloadFunc, null);
+
         } else {
 //            writer.startElement("script", chart);
 //            writer.writeAttribute("type", "text/javascript", null);
@@ -121,38 +129,40 @@ public class ChartRenderer extends Renderer {
             alt : <a href="data/test.svg">test.svg</a>
             </object>
              */
-            
-            if (embed) writer.startElement("embed", chart);         
-            else writer.startElement("object", chart);
-            
-            writer.writeAttribute("onload", onloadFunc, null); 
+
+            if (embed) {
+                writer.startElement("embed", chart);
+            } else {
+                writer.startElement("object", chart);
+            }
+            writer.writeAttribute("onload", onloadFunc, null);
             /* 
-               BUG Chrome,Safari :  when we set 'display:none;' these 2 browsers 
-               load 2 times the SVG doc, once when the page loads and second times  
-               when the display property is set to block. By default is set to none to 
-               make the reRender smoother 
-              
-               BUG Firefox2, Opera : if display set to none the graph never displayed 
-               because onLoad function never triggered but if set to block the graoph disply correctly
-              
-               To desactivate the smoother reRender  set the display property to 'block'
-               and comment the line 462 of org/mapfaces/resources/opencharts/custom/OpenCharts/lib/MapExt.js file
-             
-               Without smoother reRender the graph display good on all browser , just A4J js error can happen on chrome.
-            */
-            writer.writeAttribute("style", "display:none;", null); 
+            BUG Chrome,Safari :  when we set 'display:none;' these 2 browsers 
+            load 2 times the SVG doc, once when the page loads and second times  
+            when the display property is set to block. By default is set to none to 
+            make the reRender smoother 
+            
+            BUG Firefox2, Opera : if display set to none the graph never displayed 
+            because onLoad function never triggered but if set to block the graoph disply correctly
+            
+            To desactivate the smoother reRender  set the display property to 'block'
+            and comment the line 462 of org/mapfaces/resources/opencharts/custom/OpenCharts/lib/MapExt.js file
+            
+            Without smoother reRender the graph display good on all browser , just A4J js error can happen on chrome.
+             */
+            writer.writeAttribute("style", "display:none;", null);
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
             writer.writeAttribute("border", "0", null);
-            writer.writeAttribute("height", String.valueOf(chart.getHeight()),  null);
-            
-            writer.writeAttribute("type", ChartUtils.resolveContentType(chart.getOutput()), null); 
+            writer.writeAttribute("height", String.valueOf(chart.getHeight()), null);
+
+            writer.writeAttribute("type", ChartUtils.resolveContentType(chart.getOutput()), null);
             writer.writeAttribute("pluginspage", "http://www.adobe.com/svg/viewer/install/main.html", null);
-            
-            if (embed) {               
-                writer.writeAttribute("src", chartURL, null); 
-                ChartUtils.renderPassThruImgAttributes(writer, chart); 
-            } else {                
+
+            if (embed) {
+                writer.writeAttribute("src", chartURL, null);
+                ChartUtils.renderPassThruImgAttributes(writer, chart);
+            } else {
                 writer.writeAttribute("data", chartURL, null);
                 ChartUtils.renderPassThruImgAttributes(writer, chart);
 //                writer.startElement("param", chart);
@@ -167,7 +177,7 @@ public class ChartRenderer extends Renderer {
             }
 
         }
-        
+
         /* Add a4j:support component */
 
         final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
@@ -178,42 +188,56 @@ public class ChartRenderer extends Renderer {
         ajaxComp.setReRender(chart.getClientId(context));
         ajaxComp.setOnsubmit("");
         if (ChartUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
-            chart.getChildren().add(ajaxComp);            
+            chart.getChildren().add(ajaxComp);
             chart.setAjaxCompId(ajaxComp.getClientId(context));
-        }  
+        }
     }
-
-    
 
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         UIChart comp = (UIChart) component;
+        boolean isIE = false;
+        
+        //getting the DetectBrowserListener if exists, otherwise call FacesUtils method.        
+        PhaseListener resultListener = FacesUtils.getListenerFromLifeCycle(DetectBrowserListener.class);
+        if (resultListener != null && resultListener instanceof DetectBrowserListener) {
+            //cast and set the boolean isIE
+            DetectBrowserListener detectBrowserListener = (DetectBrowserListener) resultListener;
+            detectBrowserListener.proceedToDetect(context);
+            isIE = detectBrowserListener.IsIE();   
+        }else {
+            isIE = FacesUtils.isIEBrowser(context);
+        }        
 
         if (comp.getOutput().equals("png") || comp.getOutput().equals("jpeg")) {
             writer.endElement("img");
-        }  else if(comp.getOutput().equals("vml")){
+        } else if (comp.getOutput().equals("vml") || isIE) {
             writer.endElement("iframe");
-        }else {
-            if (embed) writer.endElement("embed");
-            else writer.endElement("object");
+        } else {
+            if (embed) {
+                writer.endElement("embed");
+            } else {
+                writer.endElement("object");
+            }
         }
         if (comp.getGenerateMap() != null) {
             writeImageMap(context, comp);
         }
     }
-     public void decode(final FacesContext context, final UIComponent component) {
+
+    public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
         final UIChart comp = (UIChart) component;
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         String clientId = comp.getClientId(context);
-        Object obj =  session.get(clientId);
+        Object obj = session.get(clientId);
         if (obj != null) {
             ChartData data = (ChartData) obj;
             if (context.getExternalContext().getRequestParameterMap() != null) {
-                final Map params = context.getExternalContext().getRequestParameterMap(); 
-                if (params.size()>0 ){
-                   data.setRequestParameterMap(new HashMap(params));     
-                }                                
+                final Map params = context.getExternalContext().getRequestParameterMap();
+                if (params.size() > 0) {
+                    data.setRequestParameterMap(new HashMap(params));
+                }
             }
         }
     }
@@ -245,7 +269,7 @@ public class ChartRenderer extends Renderer {
 
     private void renderImageMapSupport(FacesContext context, UIChart uichart, ChartRenderingInfo chartRenderingInfo) {
         ResponseWriter writer = context.getResponseWriter();
-        
+
         try {
             Iterator entities = chartRenderingInfo.getEntityCollection().iterator();
             while (entities.hasNext()) {

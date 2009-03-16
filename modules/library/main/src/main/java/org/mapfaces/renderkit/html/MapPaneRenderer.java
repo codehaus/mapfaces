@@ -14,9 +14,9 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.servlet.ServletContext;
 
 import org.geotools.map.MapContext;
 import org.mapfaces.component.UIMapPane;
@@ -114,7 +113,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("style", "overflow: hidden;position:relative;width:100%;height:100%;", "style");
         writer.writeAttribute("class", "mfMapViewport", "styleClass");
 
-
         /*Layers Container div*/
         writer.startElement("div", comp);
 
@@ -134,7 +132,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             model.removeLayerFromId(mcLayer.getId());
             model.addLayer((MapContextLayer) mcLayer);
         }
-        
         
         final List<Layer> layers = model.getLayers();
       
@@ -215,9 +212,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 }
             }
         }
-//          
-
-
 
         writer.flush();
         if (this.debug) {
