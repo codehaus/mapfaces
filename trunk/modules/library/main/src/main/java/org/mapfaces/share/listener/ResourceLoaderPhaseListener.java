@@ -57,10 +57,12 @@ public class ResourceLoaderPhaseListener implements PhaseListener {
     @Override
     public void afterPhase(final PhaseEvent event) {
         final FacesContext facesContext = event.getFacesContext();
-        final String viewRootId         = facesContext.getViewRoot().getViewId();
+        if (facesContext != null && facesContext.getViewRoot() != null) {
+            final String viewRootId = facesContext.getViewRoot().getViewId();
 
-        if (viewRootId.indexOf(RESOURCE_LOADER_VIEW_ID) != -1) {
-            serveResource(facesContext);
+            if (viewRootId != null && viewRootId.indexOf(RESOURCE_LOADER_VIEW_ID) != -1) {
+                serveResource(facesContext);
+            }
         }
     }
 
