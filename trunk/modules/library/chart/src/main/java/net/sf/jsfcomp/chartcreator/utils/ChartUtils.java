@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package net.sf.jsfcomp.chartcreator.utils;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
@@ -35,7 +35,6 @@ import java.util.Iterator;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
@@ -80,7 +79,6 @@ import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.statistics.BoxAndWhiskerXYDataset;
-import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.OHLCDataset;
 import org.jfree.data.xy.WindDataset;
@@ -561,12 +559,17 @@ public class ChartUtils {
         }
     }
 
+    /**
+     * By default phaselistener is used to generate the chart, else if true a servlet is used.
+     * @param facesContext
+     * @return
+     */
     public static boolean useServlet(FacesContext facesContext) {
         String value = facesContext.getExternalContext().getInitParameter(ChartConstants.GENERATOR_PARAM);
         if (value != null) {
             return Boolean.valueOf(value).booleanValue();
         } else {
-            return true;
+            return false;
         }
     }
 

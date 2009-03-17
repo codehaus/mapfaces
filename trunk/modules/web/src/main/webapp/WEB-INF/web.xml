@@ -46,7 +46,7 @@
     </context-param>
     <context-param>
         <description>
-			When set to true(by default it is), Chartlet servlet is used to generate the chart, otherwise
+			When set to true(by default it is false), Chartlet servlet is used to generate the chart, otherwise
 			a phaselistener is used
         </description>
         <param-name>net.sf.jsfcomp.chartcreator.USE_CHARTLET</param-name>

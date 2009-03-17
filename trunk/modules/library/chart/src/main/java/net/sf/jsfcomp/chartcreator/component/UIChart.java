@@ -75,6 +75,7 @@ public class UIChart extends UIComponentBase {
     private Boolean rangeGridLines;
     private Boolean legendBorder;
     private Float lineStrokeWidth;
+    private boolean reDraw;
 
     public UIChart() {
         super();
@@ -722,7 +723,7 @@ public class UIChart extends UIComponentBase {
     }
 
     public Object saveState(FacesContext context) {
-        Object values[] = new Object[41];
+        Object values[] = new Object[42];
         values[0] = super.saveState(context);
         values[1] = datasource;
         values[2] = width;
@@ -764,6 +765,7 @@ public class UIChart extends UIComponentBase {
         values[38] = rangeGridLines;
         values[39] = legendBorder;
         values[40] = lineStrokeWidth;
+        values[41] = reDraw;
         return values;
     }
 
@@ -810,6 +812,7 @@ public class UIChart extends UIComponentBase {
         this.rangeGridLines = (Boolean) values[38];
         this.legendBorder = (Boolean) values[39];
         this.lineStrokeWidth = (Float) values[40];
+        this.reDraw = (Boolean) values[41];
     }
 
     public JFreeChart getChart() {
@@ -826,6 +829,14 @@ public class UIChart extends UIComponentBase {
 
     public void setInfo(ChartRenderingInfo info) {
         this.info = info;
+    }
+
+    public boolean isReDraw() {
+        return reDraw;
+    }
+
+    public void setReDraw(boolean reDraw) {
+        this.reDraw = reDraw;
     }
 }
 

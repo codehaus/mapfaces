@@ -22,14 +22,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseListener;
-import javax.faces.lifecycle.Lifecycle;
-import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.Renderer;
 
 import org.jfree.chart.ChartRenderingInfo;
@@ -74,8 +71,10 @@ public class ChartRenderer extends Renderer {
         //Set the chartURL
         String chartURL = null;
         if (ChartUtils.useServlet(context)) {
-            chartURL = ChartConstants.CHART_REQUEST + ".chart?ts=" + System.currentTimeMillis() + "&chartId=" + clientId;
+            //using a servlet to generate the chart
+            chartURL = ChartConstants.CHART_REQUEST + ".chart.jsf?ts=" + System.currentTimeMillis() + "&chartId=" + clientId;
         } else {
+            //using a phaseListener
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
             chartURL = actionURL + "?ts=" + System.currentTimeMillis() + "&chartId=" + clientId;
@@ -223,6 +222,8 @@ public class ChartRenderer extends Renderer {
         if (comp.getGenerateMap() != null) {
             writeImageMap(context, comp);
         }
+        //reInit the reDraw flag.
+        comp.setReDraw(true);
     }
 
     public void decode(final FacesContext context, final UIComponent component) {
@@ -237,6 +238,9 @@ public class ChartRenderer extends Renderer {
                 final Map params = context.getExternalContext().getRequestParameterMap();
                 if (params.size() > 0) {
                     data.setRequestParameterMap(new HashMap(params));
+                    if (params.get("chart.rerender") != null) {
+                        comp.setReDraw(false);
+                    }
                 }
             }
         }
@@ -245,18 +249,19 @@ public class ChartRenderer extends Renderer {
     private void setChartDataAtSession(FacesContext facesContext, UIChart comp) {
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         String clientId = comp.getClientId(facesContext);
-        boolean redraw = false;
+        boolean redraw = comp.isReDraw();        
         if (session.get(clientId) == null) {
             redraw = true;
-        } else {
-//            System.out.println("comp.getDatasource() "+comp.getDatasource());
-//            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
-            if (comp.getDatasource() != null && !comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
-                redraw = true;
-            } else {
-                redraw = false;
-            }
-        }
+        } 
+//        else {
+////            System.out.println("comp.getDatasource() "+comp.getDatasource());
+////            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
+//            if (comp.getDatasource() != null && !comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
+//                redraw = true;
+//            } else {
+//                redraw = false;
+//            }
+//        }
         if (redraw) {
             ChartData data = new ChartData(comp);
             JFreeChart chart = ChartUtils.createChartWithType(data);
