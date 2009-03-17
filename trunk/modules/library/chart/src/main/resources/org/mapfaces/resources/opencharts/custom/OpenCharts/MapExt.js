@@ -459,8 +459,8 @@ OpenCharts.Map = OpenCharts.Class(OpenCharts.Map,{
                 elt.setAttribute('style','display:none;width:0px;height:0px;');
                 elt.setAttribute('width','0');
                 elt.setAttribute('height','0');
-                tag.id=this.mfChartId +'clone';
-                tag.parentNode.insertBefore(elt,tag);
+//                tag.id=this.mfChartId +'clone';
+//                tag.parentNode.insertBefore(elt,tag);
             } else {
                 alert("The element with the id '"+this.mfChartId+"' doesn't exist !!!!!");
             }

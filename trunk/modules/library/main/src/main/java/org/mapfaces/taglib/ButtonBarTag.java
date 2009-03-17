@@ -56,7 +56,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression southIdSelectionBox = null;
     private ValueExpression eastIdSelectionBox = null;
     private ValueExpression westIdSelectionBox = null;
-    private ValueExpression targetDataRequestId = null;
+    private ValueExpression reRender = null;
     
     /**
      * {@inheritDoc }
@@ -101,7 +101,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("southIdSelectionBox",southIdSelectionBox);
         component.setValueExpression("eastIdSelectionBox",eastIdSelectionBox);
         component.setValueExpression("westIdSelectionBox",westIdSelectionBox);
-        component.setValueExpression("targetDataRequestId",targetDataRequestId);
+        component.setValueExpression("reRender",reRender);
 
     }
 
@@ -132,7 +132,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         setSouthIdSelectionBox(null);
         setEastIdSelectionBox(null);
         setWestIdSelectionBox(null);
-        setTargetDataRequestId(null);
+        setReRender(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -291,11 +291,11 @@ public class ButtonBarTag extends WidgetBaseTag {
         this.westIdSelectionBox = westIdSelectionBox;
     }
 
-    public ValueExpression getTargetDataRequestId() {
-        return targetDataRequestId;
+    public ValueExpression getReRender() {
+        return reRender;
     }
 
-    public void setTargetDataRequestId(ValueExpression targetDataRequestId) {
-        this.targetDataRequestId = targetDataRequestId;
+    public void setReRender(ValueExpression reRender) {
+        this.reRender = reRender;
     }
 }

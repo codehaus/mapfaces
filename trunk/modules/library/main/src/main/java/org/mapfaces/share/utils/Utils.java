@@ -178,7 +178,7 @@ public class Utils {
     }
     
     /**
-     * This method return a string array from a string and a delimiter, the array contains all tokens.
+     * This method returns a string array from a string and a delimiter, the array contains all tokens.
      * @param str
      * @return
      */
@@ -196,4 +196,35 @@ public class Utils {
         }
         return array;
     }
+    /**
+     * this method returns a string that represents the ids to refresh from a reRender value and a form id.
+     * @param formId
+     * @param reRenderValue
+     * @return
+     */
+    public static String buildRerenderStringFromString(String formId, String reRenderValue) {
+        if (reRenderValue != null) {
+            //cleans the string.
+            reRenderValue = reRenderValue.replaceAll(" ", "");
+            return buildRerenderStringFromArray(formId, splitStringToArray(reRenderValue, ","));
+        }
+        return null;
+    }
+    
+    /**
+     * this method returns a string that represents the ids to refresh from an array of string and the form id
+     * @param formId
+     * @param idsToRefresh
+     * @return
+     */
+    public static String buildRerenderStringFromArray(String formId, String[] idsToRefresh) {
+        String refresh = "";
+        for (String ss : idsToRefresh) {
+            refresh += formId + ":" + ss + ",";
+        }
+        if (refresh.endsWith(","))
+            refresh = refresh.substring(0, refresh.lastIndexOf(","));
+        return refresh;
+    }
+    
 }

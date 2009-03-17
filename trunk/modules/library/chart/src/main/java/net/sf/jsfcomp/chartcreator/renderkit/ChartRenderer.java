@@ -149,7 +149,7 @@ public class ChartRenderer extends Renderer {
             
             Without smoother reRender the graph display good on all browser , just A4J js error can happen on chrome.
              */
-            writer.writeAttribute("style", "display:none;", null);
+            writer.writeAttribute("style", "display:block;", null);
             writer.writeAttribute("id", clientId, null);
             writer.writeAttribute("width", String.valueOf(chart.getWidth()), null);
             writer.writeAttribute("border", "0", null);
