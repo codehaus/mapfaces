@@ -1149,15 +1149,25 @@ public class ChartUtils {
 
                         //Calcul min x value for an  vertical lines
                         if (minX == null) {
-                            minX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                            try {
+                                minX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                            }catch (NumberFormatException e){}
                         }
                         //Calcul interval between 2 vertical lines
                         if (intervalX == null && gridLines.item(j + 1) != null) {
-                            intervalX = Double.valueOf(gridLines.item(j + 1).getAttributes().getNamedItem("x1").getNodeValue()) - Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());                        //Calcul max x value for an  vertical lines
+                            try {
+                                intervalX = Double.valueOf(gridLines.item(j + 1).getAttributes().getNamedItem("x1").getNodeValue()) - Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());                        
+                                //Calcul max x value for an  vertical lines
+                            }catch (NumberFormatException e){
+                                
+                            }
+                            
                         }
                         //Calcul max x value for an  vertical lines
                         if (maxX == null && gridLines.item(j + 1) != null && gridLines.item(j + 1).getAttributes().getNamedItem("y1").getNodeValue().equals(gridLines.item(j + 1).getAttributes().getNamedItem("y2").getNodeValue())) {
-                            maxX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                            try {
+                                maxX = Double.valueOf(lineAttr.getNamedItem("x1").getNodeValue());
+                            }catch (NumberFormatException e){}
 
                         }
                         //Enlarge x attributes to buffer height
@@ -1168,13 +1178,22 @@ public class ChartUtils {
 
                         //Calcul min y value for an  horizontal lines
                         if (maxY == null) {
-                            maxY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue());                        //Calcul interval between 2 horizontal lines
+                            try{
+                                maxY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue());                        
+                                //Calcul interval between 2 horizontal lines
+                            }catch (NumberFormatException e){}
                         }
                         if (intervalY == null && gridLines.item(j + 1) != null) {
-                            intervalY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue()) - Double.valueOf(gridLines.item(j + 1).getAttributes().getNamedItem("y1").getNodeValue());                        //Calcul max y value for an  horizontal lines
+                            try {
+                                intervalY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue()) - Double.valueOf(gridLines.item(j + 1).getAttributes().getNamedItem("y1").getNodeValue());                        
+                                //Calcul max y value for an  horizontal lines
+                            }catch (NumberFormatException e){}
                         }
                         if (minY == null && gridLines.item(j + 1) == null) {
-                            minY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue());                        //Enlarge x attributes to buffer width
+                            try{
+                                minY = Double.valueOf(lineAttr.getNamedItem("y1").getNodeValue());                        
+                                //Enlarge x attributes to buffer width
+                            }catch (NumberFormatException e){}
                         }
                         lineAttr.setNamedItem(createAttribute(document, "x1", String.valueOf(bufferOriginX)));
                         lineAttr.setNamedItem(createAttribute(document, "x2", String.valueOf(bufferMaxX)));
