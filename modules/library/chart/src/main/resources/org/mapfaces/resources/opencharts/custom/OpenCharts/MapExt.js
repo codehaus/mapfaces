@@ -426,7 +426,7 @@ OpenCharts.Map = OpenCharts.Class(OpenCharts.Map,{
     /*                                                      */
     /********************************************************/
     /*
-     *Send A4J request to refrsh layers when a moveend event is triggered
+     *Send A4J request to refresh charts when an event is triggered
      */
     
     sendAjaxRequest: function(parameters) {      
@@ -436,6 +436,7 @@ OpenCharts.Map = OpenCharts.Class(OpenCharts.Map,{
         var tag = top.document.getElementById(this.mfChartId);
         parameters[this.mfAjaxCompId] = this.mfAjaxCompId;           
         parameters['refresh'] = this.mfChartId;
+        parameters['chart.rerender'] = true;
         var str = "";
         if (top.A4J) {
 //            DEBUG IE
