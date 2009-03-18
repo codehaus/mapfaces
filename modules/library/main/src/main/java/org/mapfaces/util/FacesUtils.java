@@ -876,7 +876,7 @@ public class FacesUtils {
 
     public static MutableStyledLayerDescriptor getSLDfromGetmapUrl(String url) {
         MutableStyledLayerDescriptor result = null;
-        if (url == null) {
+        if (url == null || FacesUtils.getParameterValue("SLD_BODY", url) == null || FacesUtils.getParameterValue("SLD_BODY", url).equals("")) {
             return result;
         }
         String sldbody = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + FacesUtils.getParameterValue("SLD_BODY", url);
