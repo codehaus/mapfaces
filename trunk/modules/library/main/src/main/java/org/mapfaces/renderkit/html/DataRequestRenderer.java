@@ -81,6 +81,16 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         responseWriter.startElement("div", comp);
 
         responseWriter.writeAttribute("id", clientId, "id");
+        
+        if (comp.isInvokeActions()) {
+            //invoke methodBinding on action and actionListener if not null.
+            if (comp.getActionExpression() != null) {
+                   comp.getActionExpression().invoke(context.getELContext(), null);
+            }
+            for (ActionListener al : comp.getActionListeners()) {
+                   al.processAction(new ActionEvent(component));
+            }
+        }
 
     }
 
@@ -89,12 +99,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
      */
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+        final UIDataRequest comp = (UIDataRequest) component;
         ResponseWriter responseWriter = context.getResponseWriter();
         if (responseWriter == null) {
             responseWriter = FacesUtils.getResponseWriter2(context);
         }
         responseWriter.endElement("div");
         responseWriter.flush();
+        //init the invocation on action methods.
+        comp.setInvokeActions(false);
     }
 
     @Override
@@ -394,14 +407,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         popup.setHidden(true);
                     }
                 }
-                
+
                 //invoke methodBinding on action and actionListener if not null.
-                if (comp.getActionExpression() != null) {
-                    comp.getActionExpression().invoke(context.getELContext(), null);
-                }
-                for (ActionListener al : comp.getActionListeners()) {
-                    al.processAction(new ActionEvent(component));
-                }
+                comp.setInvokeActions(true);
                 
 
                 final int innerWidth = popupWidth - 73;
