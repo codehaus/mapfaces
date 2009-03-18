@@ -69,6 +69,10 @@ public class UIDataRequest extends UIWidgetBase {
      * This list contains all getFeatureInfo urls released in the server side.
      */
     private Object requestUrlList;
+    /**
+     * This is a flag to invoke methods action and actionListener if exists.
+     */
+    private boolean invokeActions;
     
 
     public UIDataRequest() {
@@ -89,7 +93,7 @@ public class UIDataRequest extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[12];
+        final Object values[] = new Object[13];
         values[0] = super.saveState(context);
         values[1] = outputFormat;
         values[2] = dataResult;
@@ -101,6 +105,7 @@ public class UIDataRequest extends UIWidgetBase {
         values[8] = outputLongitude;
         values[9] = featureInfoValues;
         values[10] = requestUrlList;
+        values[11] = invokeActions;
 
         return values;
     }
@@ -122,6 +127,7 @@ public class UIDataRequest extends UIWidgetBase {
         outputLongitude = (Double) values[8];
         featureInfoValues = values[9];
         requestUrlList = values[10];
+        invokeActions = (Boolean) values[11];
     }
 
     public String getOutputFormat() {
@@ -202,5 +208,13 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setRequestUrlList(Object requestUrlList) {
         this.requestUrlList = requestUrlList;
+    }
+
+    public boolean isInvokeActions() {
+        return invokeActions;
+    }
+
+    public void setInvokeActions(boolean invokeActions) {
+        this.invokeActions = invokeActions;
     }
 }
