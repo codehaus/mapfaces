@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotools.display.exception.PortrayalException;
 import org.geotools.display.service.DefaultPortrayalService;
 import org.geotools.feature.FeatureCollection;
@@ -49,7 +50,6 @@ import org.mapfaces.component.UIDataRequest;
 import org.mapfaces.component.UIPopup;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
-import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
@@ -75,23 +75,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
         final UIDataRequest comp = (UIDataRequest) component;
         final String clientId = comp.getClientId(context);
-
         ResponseWriter responseWriter = context.getResponseWriter();
-
         responseWriter.startElement("div", comp);
-
         responseWriter.writeAttribute("id", clientId, "id");
-        
-        if (comp.isInvokeActions()) {
-            //invoke methodBinding on action and actionListener if not null.
-            if (comp.getActionExpression() != null) {
-                   comp.getActionExpression().invoke(context.getELContext(), null);
-            }
-            for (ActionListener al : comp.getActionListeners()) {
-                   al.processAction(new ActionEvent(component));
-            }
-        }
-
     }
 
     /**
@@ -100,13 +86,40 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         final UIDataRequest comp = (UIDataRequest) component;
+        final String clientId = comp.getClientId(context);
         ResponseWriter responseWriter = context.getResponseWriter();
         if (responseWriter == null) {
             responseWriter = FacesUtils.getResponseWriter2(context);
         }
+        
+        final String rerender = comp.getReRender();
+        if (rerender != null && ! rerender.equals("")) {
+            
+            HtmlAjaxSupport a4jSupport = FacesUtils.createBasicAjaxSupport(context, comp, "", rerender);
+            boolean containsA4jSupport = false;
+            for(UIComponent child : comp.getChildren()) {
+                if (child instanceof HtmlAjaxSupport) {
+                    containsA4jSupport = true;
+                    a4jSupport = (HtmlAjaxSupport) child;
+                    break;
+                }
+            }
+            if (! containsA4jSupport) {
+                comp.getChildren().add(a4jSupport);
+            }
+            String formId = FacesUtils.getFormId(context, component);
+            if (formId == null && clientId.contains(":")) {
+                formId = clientId.substring(0, clientId.indexOf(":"));
+            }
+            if (comp.isInvokeActions()) {
+                responseWriter.write("<script>\n" +
+                        "A4J.AJAX.Submit('"+formId+"','"+formId+"',null,{'parameters':{'"+formId+":"+a4jSupport.getId()+"':'"+formId+":"+a4jSupport.getId()+"'} ,'actionUrl':window.location.href} );\n" +
+                        "</script>");
+            }
+        }
+        
         responseWriter.endElement("div");
         responseWriter.flush();
-        //init the invocation on action methods.
         comp.setInvokeActions(false);
     }
 
@@ -144,15 +157,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             popupHeight = popup.getHeight();
         }
 
-
-        if (context.getExternalContext().getRequestParameterMap() != null) {
+        final Map params = context.getExternalContext().getRequestParameterMap();
+        if (params != null) {
             final Context model = (Context) comp.getModel();
-
-            final Map params = context.getExternalContext().getRequestParameterMap();
-
             String X = "170";
             String Y = "160";
-            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo")) {
+
+            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo") 
+//                    && params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))) 
+            ){
                 if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y") != null) {
                     Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
 
@@ -168,7 +181,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         popup.setLeft("left:" + realLeft + "px;");
                     }
                 }
-                
+
                 //setting to the component the real latitude and logitude by calculating from pixels.
                 //setting the values lat and lon expressions if not null
                 if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT") != null) {
@@ -181,7 +194,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setOutputLatitude(lat);
                 }
                 if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON") != null) {
-                    final double lon = Double.parseDouble( (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON"));
+                    final double lon = Double.parseDouble((String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON"));
                     final ValueExpression veLon = comp.getValueExpression("outputLongitude");
                     if (veLon != null) {
                         veLon.setValue(context.getELContext(), lon);
@@ -189,7 +202,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     }
                     comp.setOutputLongitude(lon);
                 }
-                
+
                 final List<WmsLayer> layersWMS = new ArrayList<WmsLayer>();
                 String layersNameString = "";
                 int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
@@ -197,12 +210,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 List<Feature> featureInfoList = new ArrayList<Feature>();
                 List<String> featureInfoValues = new ArrayList<String>();
                 List<String> requestUrlList = (comp.getRequestUrlList() != null) ? (List) comp.getRequestUrlList() : new ArrayList<String>();
-                
+
                 boolean FeatureLayerExist = false;
                 int countFeature = comp.getFeatureCount();
                 String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
                 String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
-                
+
                 for (Layer queryLayer : model.getVisibleLayers()) {
                     if (queryLayer != null && queryLayer.getType() != null) {
                         switch (queryLayer.getType()) {
@@ -210,10 +223,10 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 break;
                             case WMS:
                                 boolean skipLayer = false;
-                                if (comp.getLayersNames() != null && ! ((List)comp.getLayersNames()).contains(queryLayer.getName())) {
+                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(queryLayer.getName())) {
                                     skipLayer = true;
                                 }
-                                if (!layersWMS.contains(queryLayer) && ! skipLayer && ! comp.isFeatureLayerOnly()) {
+                                if (!layersWMS.contains(queryLayer) && !skipLayer && !comp.isFeatureLayerOnly()) {
                                     loop++;
                                     layersWMS.add((WmsLayer) queryLayer);
                                     layersNameString += queryLayer.getName();
@@ -221,7 +234,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         layersNameString += ",";
                                     }
                                     WmsLayer wmsLayer = (WmsLayer) queryLayer;
-                                                                        
+
                                     String elevationValue = "";
                                     if (wmsLayer.getElevation() != null) {
                                         elevationValue = wmsLayer.getElevation().getUserValue();
@@ -229,45 +242,45 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     String timeValue = "";
                                     if (wmsLayer.getTime() != null) {
                                         timeValue = wmsLayer.getTime().getUserValue();
-                                    }                                    
-                                    
+                                    }
+
                                     //building the getfeatureInfo request
                                     StringBuilder featureInfoRequest = new StringBuilder("");
                                     featureInfoRequest.append(wmsLayer.getServer().getHref()).
-                                    append("?BBOX=").append(model.getBoundingBox()).
-                                    append("&STYLES=").
-                                    append("&FORMAT=").append(wmsLayer.getOutputFormat()).
-                                    append("&INFO_FORMAT=").append("text/plain"). //force the info_format to text/plain to store in the list featureInfoValues
-                                    append("&VERSION=").append(wmsLayer.getServer().getVersion()).
-                                    append("&SRS=").append(model.getSrs().toUpperCase()).
-                                    append("&REQUEST=GetFeatureInfo").
-                                    append("&LAYERS=").append(wmsLayer.getName()).
-                                    append("&QUERY_LAYERS=").append(wmsLayer.getName()).
-                                    append("&WIDTH=").append(model.getWindowWidth()).
-                                    append("&HEIGHT=").append(model.getWindowHeight()).
-                                    append("&X=").append(X).
-                                    append("&Y=").append(Y).
-                                    append("&SERVICE=WMS").
-                                    append("&FEATURE_COUNT=").append(featureCount);
-                                    
-                                    if (elevationValue != null && ! elevationValue.equals("")) {
+                                            append("?BBOX=").append(model.getBoundingBox()).
+                                            append("&STYLES=").
+                                            append("&FORMAT=").append(wmsLayer.getOutputFormat()).
+                                            append("&INFO_FORMAT=").append("text/plain"). //force the info_format to text/plain to store in the list featureInfoValues
+                                            append("&VERSION=").append(wmsLayer.getServer().getVersion()).
+                                            append("&SRS=").append(model.getSrs().toUpperCase()).
+                                            append("&REQUEST=GetFeatureInfo").
+                                            append("&LAYERS=").append(wmsLayer.getName()).
+                                            append("&QUERY_LAYERS=").append(wmsLayer.getName()).
+                                            append("&WIDTH=").append(model.getWindowWidth()).
+                                            append("&HEIGHT=").append(model.getWindowHeight()).
+                                            append("&X=").append(X).
+                                            append("&Y=").append(Y).
+                                            append("&SERVICE=WMS").
+                                            append("&FEATURE_COUNT=").append(featureCount);
+
+                                    if (elevationValue != null && !elevationValue.equals("")) {
                                         featureInfoRequest.append("&ELEVATION=").append(elevationValue);
                                     }
-                                    if (timeValue != null && ! timeValue.equals("")) {
+                                    if (timeValue != null && !timeValue.equals("")) {
                                         featureInfoRequest.append("&TIME=").append(timeValue);
                                     }
-                                    
+
                                     String urlRequestInfo = featureInfoRequest.toString();
-                                    if (! requestUrlList.contains(urlRequestInfo)) {
+                                    if (!requestUrlList.contains(urlRequestInfo)) {
                                         requestUrlList.add(urlRequestInfo);
                                     }
-                                    
+
                                     try {
                                         String response = (String) FacesUtils.sendRequest(urlRequestInfo, null, null, null);
                                         if (response != null) {
                                             final String responseClean = response.replace("\n", " ");
-                                            if ( ! featureInfoValues.contains(wmsLayer.getName()+" : "+ responseClean)) {
-                                                featureInfoValues.add(wmsLayer.getName()+" : "+ responseClean);
+                                            if (!featureInfoValues.contains(wmsLayer.getName() + " : " + responseClean)) {
+                                                featureInfoValues.add(wmsLayer.getName() + " : " + responseClean);
                                             }
                                         }
                                     } catch (MalformedURLException ex) {
@@ -275,9 +288,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     } catch (IOException ex) {
                                         Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-                                    
+
                                 }
-                                
+
                                 break;
                             case WFS:
                                 break;
@@ -300,7 +313,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 FeatureLayerExist = true;
                                 final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
                                 final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
-                                
+
                                 MapContext mapContext;
                                 MutableStyle mutableStyle = null;
                                 //building a FeatureCollection for this layer.
@@ -382,7 +395,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("dataResult", ve);
                 }
                 comp.setDataResult(featureInfoList);
-                
+
                 //setting the value expression for featureInfoValues if not null
                 ValueExpression veVal = comp.getValueExpression("featureInfoValues");
                 if (veVal != null) {
@@ -390,7 +403,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("featureInfoValues", veVal);
                 }
                 comp.setFeatureInfoValues(featureInfoValues);
-                
+
                 //setting the value expression for requestUrlList if not null.
                 ValueExpression veLog = comp.getValueExpression("requestUrlList");
                 if (veLog != null) {
@@ -398,7 +411,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setValueExpression("requestUrlList", veLog);
                 }
                 comp.setRequestUrlList(requestUrlList);
-                
+
                 //allow the visibility True of the popup for the featureInfoValues list and featureInfoList
                 if (popup != null) {
                     if (featureInfoValues.size() != 0 || featureInfoList.size() != 0) {
@@ -409,6 +422,13 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
 
                 //invoke methodBinding on action and actionListener if not null.
+                if (comp.getActionExpression() != null) {
+                      comp.getActionExpression().invoke(context.getELContext(), null);
+                }
+                for (ActionListener al : comp.getActionListeners()) {
+                      al.processAction(new ActionEvent(component));
+                }
+                component.queueEvent(new ActionEvent(comp));
                 comp.setInvokeActions(true);
                 
 

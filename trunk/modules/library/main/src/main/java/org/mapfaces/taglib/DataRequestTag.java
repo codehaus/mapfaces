@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.taglib;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class DataRequestTag extends WidgetBaseTag {
     private ValueExpression requestUrlList = null;
     private MethodExpression action = null;
     private MethodExpression actionListener = null;
+    private ValueExpression reRender = null;
 
     /**
      * {@inheritDoc }
@@ -98,6 +100,7 @@ public class DataRequestTag extends WidgetBaseTag {
         component.setValueExpression("outputLongitude", outputLongitude);
         component.setValueExpression("featureInfoValues", featureInfoValues);
         component.setValueExpression("requestUrlList", requestUrlList);
+        component.setValueExpression("reRender", reRender);
         if (actionListener != null) {
             ((ActionSource) component).addActionListener(new MethodExpressionActionListener(actionListener));
         }
@@ -125,6 +128,7 @@ public class DataRequestTag extends WidgetBaseTag {
         requestUrlList = null;
         action = null;
         actionListener = null;
+        reRender = null;
     }
 
     public ValueExpression getOutputFormat() {
@@ -221,5 +225,13 @@ public class DataRequestTag extends WidgetBaseTag {
 
     public void setActionListener(MethodExpression actionListener) {
         this.actionListener = actionListener;
+    }
+
+    public ValueExpression getReRender() {
+        return reRender;
+    }
+
+    public void setReRender(ValueExpression reRender) {
+        this.reRender = reRender;
     }
 }

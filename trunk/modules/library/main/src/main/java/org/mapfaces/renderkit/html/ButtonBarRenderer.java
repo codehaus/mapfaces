@@ -26,8 +26,8 @@ import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class ButtonBarRenderer extends WidgetBaseRenderer {
 
@@ -39,32 +39,36 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
 
         super.encodeBegin(context, component);
         final UIButtonBar comp = (UIButtonBar) component;
-        final String clientId  = comp.getClientId(context);
-        
+        final String clientId = comp.getClientId(context);
+
         String formId = FacesUtils.getFormId(context, component);
         if (formId == null && clientId.contains(":")) {
             formId = clientId.substring(0, clientId.indexOf(":"));
         }
-        
+
         writer.startElement("div", comp);
-        writer.writeAttribute("id",clientId,"id");
+        writer.writeAttribute("id", clientId, "id");
 
         final String style = (String) comp.getAttributes().get("style");
-        if (style != null) writer.writeAttribute("style",style,"style");
-        else               writer.writeAttribute("style","position:absolute;z-index:150;","style");
-
+        if (style != null) {
+            writer.writeAttribute("style", style, "style");
+        } else {
+            writer.writeAttribute("style", "position:absolute;z-index:150;", "style");
+        }
         final String styleclass = (String) comp.getAttributes().get("styleClass");
-        if (styleclass != null) writer.writeAttribute("class",styleclass,"styleclass");
-        else                    writer.writeAttribute("class","mfButtonBar","styleclass");
-
+        if (styleclass != null) {
+            writer.writeAttribute("class", styleclass, "styleclass");
+        } else {
+            writer.writeAttribute("class", "mfButtonBar", "styleclass");
+        }
         writer.startElement("script", comp);
-        writer.writeAttribute("type","text/javascript","text/javascript");
+        writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement.
         String jsObject = "";
-        comp_loop :
-        for (UIComponent comps : comp.getParent().getChildren()){
-            if(comps instanceof UIMapPane){
+        comp_loop:
+        for (UIComponent comps : comp.getParent().getChildren()) {
+            if (comps instanceof UIMapPane) {
                 jsObject = comps.getClientId(context);
                 break comp_loop;
             }
@@ -72,63 +76,64 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         /*
          * @todo : Allow to specify by an attribute, the mappane component to attach NavigationHistory control
          */
-        if(jsObject.contains(":"))
-            jsObject = jsObject.replace(":","");
-        
-        writer.write(new StringBuilder("").
-                append("if(!window.controlToAdd" + jsObject + "){window.controlToAdd" + jsObject + " = [];}\n").
+        if (jsObject.contains(":")) {
+            jsObject = jsObject.replace(":", "");
+        }
+        writer.write(new StringBuilder("").append("if(!window.controlToAdd" + jsObject + "){window.controlToAdd" + jsObject + " = [];}\n").
                 append("window.controlToAdd" + jsObject + ".push(function() {" +
                 "").toString());
-        
-        if(comp.isHistory()){
-            
+
+        if (comp.isHistory()) {
+
             writer.write(
-                "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavigationHistory) {\n" +
+                    "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavigationHistory) {\n" +
                     "window.nav = new OpenLayers.Control.NavigationHistory();\n");
-            writer.write(jsObject+".addControl(window.nav);\n" +
-                "}\n");
+            writer.write(jsObject + ".addControl(window.nav);\n" +
+                    "}\n");
         }
-        if(comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()){
+        if (comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()) {
 
             final String idDivbar;
-            if (comp.isFloatingBar()) idDivbar = comp.getId();
-            else                      idDivbar = comp.getClientId(context);
-
+            if (comp.isFloatingBar()) {
+                idDivbar = comp.getId();
+            } else {
+                idDivbar = comp.getClientId(context);
+            }
             writer.write("\n" +
-                "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavToolbar) {\n" +                    
-                    "var "+jsObject+comp.getId()+" = new OpenLayers.Control.NavToolbar({\n'div':OpenLayers.Util.getElement('"+idDivbar+"')");
+                    "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavToolbar) {\n" +
+                    "var " + jsObject + comp.getId() + " = new OpenLayers.Control.NavToolbar({\n'div':OpenLayers.Util.getElement('" + idDivbar + "')");
 
-            if(comp.isZoomIn())
+            if (comp.isZoomIn()) {
                 writer.write(",\nzoomIn: true");
-
-            if(comp.isZoomOut())
+            }
+            if (comp.isZoomOut()) {
                 writer.write(",\nzoomOut: true");
-
-            if(comp.isPan())
+            }
+            if (comp.isPan()) {
                 writer.write(",\npan: true");
-
-            if(comp.isZoomMaxExtent())
+            }
+            if (comp.isZoomMaxExtent()) {
                 writer.write(",\nzoomMaxExtent: true");
-
-            if(comp.isHistory())
+            }
+            if (comp.isHistory()) {
                 writer.write(",\nhistory: true");
-
-            if(comp.isGraticule())
+            }
+            if (comp.isGraticule()) {
                 writer.write(",\ngraticule: true");
-
-            if(comp.isSave())
+            }
+            if (comp.isSave()) {
                 writer.write(",\nsave: true");
-
-            if(comp.isPan() && comp.isPanEffect())
+            }
+            if (comp.isPan() && comp.isPanEffect()) {
                 writer.write(",\npanEffect: true");
-
+            }
             if (comp.isFeatureInfo()) {
                 final String rerender = comp.getReRender();
                 String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
-                
+
                 writer.write(",\ngetFeatureInfo: true");
                 if (idsToRefresh != null) {
-                    writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'"+idsToRefresh+"'}");
+                    writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'" + idsToRefresh + "'}");
                 }
             }
             if (comp.isMeasureDistance()) {
@@ -137,26 +142,26 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isMeasureArea()) {
                 writer.write(",\nmeasureArea: true");
             }
-                        
+
             if (comp.isSelectionZoomBox()) {
-                
+
                 final String northId = comp.getNorthIdSelectionBox();
                 final String southId = comp.getSouthIdSelectionBox();
                 final String eastId = comp.getEastIdSelectionBox();
                 final String westId = comp.getWestIdSelectionBox();
                 final String focusId = comp.getFocusIdSelectionBox();
-                final String colorBox = comp.getColorSelectionBox();                
-                
+                final String colorBox = comp.getColorSelectionBox();
+
                 writer.write(",\nselectionZoomBox: true");
-                writer.write(",\nselectionZoomBoxOptions: {north:'"+northId+"',south:'"+southId+"',east:'"+eastId+"',west:'"+westId+"',focusId:'"+focusId+"',color:'"+colorBox+"'}");
+                writer.write(",\nselectionZoomBoxOptions: {north:'" + northId + "',south:'" + southId + "',east:'" + eastId + "',west:'" + westId + "',focusId:'" + focusId + "',color:'" + colorBox + "'}");
             }
 
             writer.write("\n});\n");
 
-        writer.write(jsObject+".addControl("+jsObject+comp.getId()+");\n" +
-                "}\n" +
-            "});\n" +
-            "window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1]();");
+            writer.write(jsObject + ".addControl(" + jsObject + comp.getId() + ");\n" +
+                    "}\n" +
+                    "});\n" +
+                    "window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1]();");
         }
         writer.endElement("script");
         writer.endElement("div");
