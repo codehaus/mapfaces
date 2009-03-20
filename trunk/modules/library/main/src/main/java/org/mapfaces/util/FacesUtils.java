@@ -951,6 +951,90 @@ public class FacesUtils {
        String uri = request.getRequestURI();
        return url.substring(0, url.indexOf(uri));
     }
+    
+    /**
+     * Send a request and add logs in a list.
+     * @param sourceURL
+     * @param request
+     * @param marshaller
+     * @param unmarshaller
+     * @param logs
+     * @return
+     * @throws java.net.MalformedURLException
+     * @throws java.io.IOException
+     */
+    public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller, List<String> logs) throws MalformedURLException, IOException {
+        URL source = new URL(sourceURL);
+        URLConnection conec = source.openConnection();
+        Object harvested = null;
+        
+        try {
+            // for a POST request
+            if (request != null) {
+
+                conec.setDoOutput(true);
+                conec.setRequestProperty("Content-Type", "text/xml");
+                OutputStreamWriter wr = new OutputStreamWriter(conec.getOutputStream());
+                StringWriter sw = new StringWriter();
+                try {
+                    marshaller.marshal(request, sw);
+                } catch (JAXBException ex) {
+                    System.out.println("Unable to marshall the request: " + ex.getMessage());
+                }
+                String XMLRequest = sw.toString();
+                if (logs != null) {
+                    logs.add("Post request URL = "+sourceURL);
+                    logs.add("XMLRequest = "+XMLRequest);
+                }
+                wr.write(XMLRequest);
+                wr.flush();
+            }
+            
+            // we get the response document
+            InputStream in = conec.getInputStream();
+            StringWriter out = new StringWriter();
+            byte[] buffer = new byte[1024];
+            int size;
+
+            while ((size = in.read(buffer, 0, 1024)) > 0) {
+                out.write(new String(buffer, 0, size));
+            }
+
+            //we convert the brut String value into UTF-8 encoding
+            String brutString = out.toString();
+
+            //we need to replace % character by "percent because they are reserved char for url encoding
+            brutString = brutString.replaceAll("%", "percent");
+            String decodedString = java.net.URLDecoder.decode(brutString, "UTF-8");
+
+            try {
+                decodedString = decodedString.replaceAll("percent", "%");
+                if (unmarshaller == null) {
+                    return decodedString;
+                } else {
+                    harvested = unmarshaller.unmarshal(new StringReader(decodedString));
+                    if (harvested != null && harvested instanceof JAXBElement) {
+                        harvested = ((JAXBElement) harvested).getValue();
+                    }
+                }
+            } catch (JAXBException ex) {
+                System.out.println("The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
+                        "cause: " + ex.getMessage());
+                System.out.println(ex.toString());
+                if (logs != null) {
+                    logs.add("The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
+                        "cause: " + ex.getMessage());
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("The Distant service have made an error ! ");
+            if (logs != null) {
+                    logs.add("The Distant service have made an error ! url = "+sourceURL);
+                }
+            return null;
+        }
+        return harvested;
+    }
     /**
      * Send a request to a service.
      * 

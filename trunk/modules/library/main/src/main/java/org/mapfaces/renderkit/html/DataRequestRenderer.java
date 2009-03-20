@@ -209,7 +209,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 int loop = 0;
                 List<Feature> featureInfoList = new ArrayList<Feature>();
                 List<String> featureInfoValues = new ArrayList<String>();
-                List<String> requestUrlList = (comp.getRequestUrlList() != null) ? (List) comp.getRequestUrlList() : new ArrayList<String>();
+                List<String> requestUrlList = new ArrayList<String>();
 
                 boolean FeatureLayerExist = false;
                 int countFeature = comp.getFeatureCount();
