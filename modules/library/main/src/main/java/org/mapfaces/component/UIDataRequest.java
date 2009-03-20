@@ -73,6 +73,7 @@ public class UIDataRequest extends UIWidgetBase {
      * This is a flag to invoke methods action and actionListener if exists.
      */
     private boolean invokeActions;
+    private String reRender = "";
     
 
     public UIDataRequest() {
@@ -93,7 +94,7 @@ public class UIDataRequest extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[13];
+        final Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = outputFormat;
         values[2] = dataResult;
@@ -106,6 +107,7 @@ public class UIDataRequest extends UIWidgetBase {
         values[9] = featureInfoValues;
         values[10] = requestUrlList;
         values[11] = invokeActions;
+        values[12] = reRender;
 
         return values;
     }
@@ -128,6 +130,7 @@ public class UIDataRequest extends UIWidgetBase {
         featureInfoValues = values[9];
         requestUrlList = values[10];
         invokeActions = (Boolean) values[11];
+        reRender = (String) values[12];
     }
 
     public String getOutputFormat() {
@@ -216,5 +219,13 @@ public class UIDataRequest extends UIWidgetBase {
 
     public void setInvokeActions(boolean invokeActions) {
         this.invokeActions = invokeActions;
+    }
+
+    public String getReRender() {
+        return reRender;
+    }
+
+    public void setReRender(String reRender) {
+        this.reRender = reRender;
     }
 }

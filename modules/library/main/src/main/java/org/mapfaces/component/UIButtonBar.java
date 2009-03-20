@@ -20,8 +20,8 @@ package org.mapfaces.component;
 import javax.faces.context.FacesContext;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class UIButtonBar extends UIWidgetBase {
 

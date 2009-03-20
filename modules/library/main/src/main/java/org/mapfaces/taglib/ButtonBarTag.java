@@ -21,7 +21,8 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class ButtonBarTag extends WidgetBaseTag {
 
@@ -57,7 +58,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression eastIdSelectionBox = null;
     private ValueExpression westIdSelectionBox = null;
     private ValueExpression reRender = null;
-    
+
     /**
      * {@inheritDoc }
      */
@@ -88,20 +89,20 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("zoomMaxExtent", zoomMaxExtent);
         component.setValueExpression("history", history);
         component.setValueExpression("panEffect", panEffect);
-        component.setValueExpression("floatingBar",floatingBar);
-        component.setValueExpression("graticule",graticule);
-        component.setValueExpression("save",save);
-        component.setValueExpression("featureInfo",featureInfo);
-        component.setValueExpression("measureDistance",measureDistance);
-        component.setValueExpression("measureArea",measureArea);
-        component.setValueExpression("selectionZoomBox",selectionZoomBox);
-        component.setValueExpression("colorSelectionBox",colorSelectionBox);
-        component.setValueExpression("focusIdSelectionBox",focusIdSelectionBox);
-        component.setValueExpression("northIdSelectionBox",northIdSelectionBox);
-        component.setValueExpression("southIdSelectionBox",southIdSelectionBox);
-        component.setValueExpression("eastIdSelectionBox",eastIdSelectionBox);
-        component.setValueExpression("westIdSelectionBox",westIdSelectionBox);
-        component.setValueExpression("reRender",reRender);
+        component.setValueExpression("floatingBar", floatingBar);
+        component.setValueExpression("graticule", graticule);
+        component.setValueExpression("save", save);
+        component.setValueExpression("featureInfo", featureInfo);
+        component.setValueExpression("measureDistance", measureDistance);
+        component.setValueExpression("measureArea", measureArea);
+        component.setValueExpression("selectionZoomBox", selectionZoomBox);
+        component.setValueExpression("colorSelectionBox", colorSelectionBox);
+        component.setValueExpression("focusIdSelectionBox", focusIdSelectionBox);
+        component.setValueExpression("northIdSelectionBox", northIdSelectionBox);
+        component.setValueExpression("southIdSelectionBox", southIdSelectionBox);
+        component.setValueExpression("eastIdSelectionBox", eastIdSelectionBox);
+        component.setValueExpression("westIdSelectionBox", westIdSelectionBox);
+        component.setValueExpression("reRender", reRender);
 
     }
 
@@ -199,7 +200,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         this.graticule = exp;
     }
 
-    public ValueExpression getGraticule(){
+    public ValueExpression getGraticule() {
         return graticule;
     }
 
