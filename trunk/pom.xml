@@ -356,11 +356,11 @@
       <name>Other projects</name>
       <url>http://maven.geomatys.fr/repository</url>
     </repository>
-    <repository>
+    <!--repository>
       <id>refractions</id>
       <name>Other projects</name>
       <url>http://lists.refractions.net/m2</url>
-    </repository>
+    </repository-->
     <repository>
       <id>apache</id>
       <name>Other projects</name>
