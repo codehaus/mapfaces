@@ -75,7 +75,7 @@ public class UIChart extends UIComponentBase {
     private Boolean rangeGridLines;
     private Boolean legendBorder;
     private Float lineStrokeWidth;
-    private boolean reDraw;
+    private Boolean reDraw;
 
     public UIChart() {
         super();
@@ -832,11 +832,16 @@ public class UIChart extends UIComponentBase {
     }
 
     public boolean isReDraw() {
-        return reDraw;
+        if (reDraw != null) {
+            return reDraw.booleanValue();
+        }
+        ValueBinding vb = getValueBinding("reDraw");
+        Boolean v = vb != null ? (Boolean) vb.getValue(getFacesContext()) : null;
+        return v != null ? v.booleanValue() : true;
     }
 
     public void setReDraw(boolean reDraw) {
-        this.reDraw = reDraw;
+        this.reDraw = Boolean.valueOf(reDraw);
     }
 }
 
