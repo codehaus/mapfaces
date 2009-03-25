@@ -253,15 +253,15 @@ public class ChartRenderer extends Renderer {
         if (session.get(clientId) == null) {
             redraw = true;
         } 
-//        else {
-////            System.out.println("comp.getDatasource() "+comp.getDatasource());
-////            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
-//            if (comp.getDatasource() != null && !comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
-//                redraw = true;
-//            } else {
-//                redraw = false;
-//            }
-//        }
+        else {
+//            System.out.println("comp.getDatasource() "+comp.getDatasource());
+//            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
+            if (comp.getDatasource() != null && !comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
+                redraw = true;
+            } else {
+                redraw = false;
+            }
+        }
         if (redraw) {
             ChartData data = new ChartData(comp);
             JFreeChart chart = ChartUtils.createChartWithType(data);
