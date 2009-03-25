@@ -482,7 +482,13 @@ public class ChartUtils {
                 try {
 //                    System.out.println("Datesets  " + i + ChartUtils.getColor(colors[cpt].trim()));
                     Color color = ChartUtils.getColor(colors[cpt].trim());
-                    NumberAxis axis = new NumberAxis("Range Axis " + (i + 1));
+                    
+                    //@TODO set the ylabels from a list of Ylabels when there are more of dataset
+                    String yLabel = "Range Axis " + (i + 1);
+                    if (plot.getDatasetCount() == 1) {
+                        yLabel = chartData.getYlabel();
+                    }
+                    NumberAxis axis = new NumberAxis(yLabel);
                     axis.setAutoRangeIncludesZero(false);
                     axis.setLabelPaint(color);
                     axis.setTickLabelPaint(color);
