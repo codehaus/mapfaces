@@ -20,6 +20,7 @@ package org.mapfaces.renderkit.html;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
 import org.mapfaces.component.UIButtonBar;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.share.utils.Utils;
@@ -130,11 +131,18 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isFeatureInfo()) {
                 final String rerender = comp.getReRender();
                 String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
+                String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
 
                 writer.write(",\ngetFeatureInfo: true");
                 if (idsToRefresh != null) {
-                    writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'" + idsToRefresh + "'}");
+                    writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'" + idsToRefresh + "'");
                 }
+                if (clientIdAjaxRegion != null) {
+                    writer.write(",ajaxRegionClientId:'"+clientIdAjaxRegion+"'");
+                }
+                writer.write("}");
+
+
             }
             if (comp.isMeasureDistance()) {
                 writer.write(",\nmeasureDistance: true");
