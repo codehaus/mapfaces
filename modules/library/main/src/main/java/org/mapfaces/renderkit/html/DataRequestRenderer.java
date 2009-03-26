@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotools.display.exception.PortrayalException;
 import org.geotools.display.service.DefaultPortrayalService;
@@ -112,8 +113,14 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 formId = clientId.substring(0, clientId.indexOf(":"));
             }
             if (comp.isInvokeActions()) {
+
+                String targetregion = formId;
+                String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
+                if (clientIdAjaxRegion != null) {
+                    targetregion = clientIdAjaxRegion;
+                }
                 responseWriter.write("<script>\n" +
-                        "A4J.AJAX.Submit('"+formId+"','"+formId+"',null,{'parameters':{'"+formId+":"+a4jSupport.getId()+"':'"+formId+":"+a4jSupport.getId()+"'} ,'actionUrl':window.location.href} );\n" +
+                        "A4J.AJAX.Submit('"+targetregion+"','"+formId+"',null,{'parameters':{'"+formId+":"+a4jSupport.getId()+"':'"+formId+":"+a4jSupport.getId()+"'} ,'actionUrl':window.location.href} );\n" +
                         "</script>");
             }
         }

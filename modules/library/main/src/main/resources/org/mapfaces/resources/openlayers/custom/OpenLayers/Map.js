@@ -580,9 +580,16 @@ OpenLayers.Map = OpenLayers.Class({
                  goodParameters = false;
             
         }
+
+        //This is an id for the request, it can be the id of the ajaxregion to activate the ajax loader handling if exists
+        var mfReqId = this.mfRequestId;
+        if ((parameters.ajaxRegionClientId)) {
+            mfReqId = parameters.ajaxRegionClientId;
+        }
+
         parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
         if(goodParameters){
-          A4J.AJAX.Submit( this.mfRequestId,this.mfFormId,
+          A4J.AJAX.Submit( mfReqId,this.mfFormId,
                            null,
                            {   
                                'control':this,

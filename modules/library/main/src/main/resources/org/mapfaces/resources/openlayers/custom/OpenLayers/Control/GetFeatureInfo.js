@@ -54,7 +54,8 @@ OpenLayers.Control.GetFeatureInfo= OpenLayers.Class(OpenLayers.Control, {
                                       'org.mapfaces.ajax.ACTION_GETFEATUREINFO_X' : evt.xy.x,
                                       'org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y' : evt.xy.y,
                                       'org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON' : lonlat.lon,
-                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT' : lonlat.lat
+                                      'org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT' : lonlat.lat,
+                                      'ajaxRegionClientId' : this.ajaxRegionClientId
                     }
                     this.map.sendAjaxRequest(parameters);
                     //alert(this.map.getLonLatFromPixel(new OpenLayers.Pixel(evt.xy.x, evt.xy.y)));

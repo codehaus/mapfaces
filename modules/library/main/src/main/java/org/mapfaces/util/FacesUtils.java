@@ -447,7 +447,7 @@ public class FacesUtils {
         /* Add <a4j:support> component */
         final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
         ajaxComp.setId(comp.getId() + "_Ajax");
-        if (event != null && ! event.equals("")) {
+        if (event != null && !event.equals("")) {
             ajaxComp.setEvent(event);
         }
         ajaxComp.setAjaxSingle(true);
@@ -811,8 +811,7 @@ public class FacesUtils {
             new Coordinate(minx, maxy),
             new Coordinate(maxx, maxy),
             new Coordinate(maxx, miny),
-            new Coordinate(minx, miny),
-        };
+            new Coordinate(minx, miny),};
 
         LinearRing linear = geomBuilder.createLinearRing(coords);
         Geometry geometry = geomBuilder.createPolygon(linear, new LinearRing[0]);
@@ -938,20 +937,20 @@ public class FacesUtils {
         }
         return new Double[]{lon, lat};
     }
-    
+
     /**
      * Returns the host url from the current container.
      * @return String
      */
     public static String getHostUrl() {
         ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-       
-       HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-       String url = request.getRequestURL().toString();
-       String uri = request.getRequestURI();
-       return url.substring(0, url.indexOf(uri));
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String url = request.getRequestURL().toString();
+        String uri = request.getRequestURI();
+        return url.substring(0, url.indexOf(uri));
     }
-    
+
     /**
      * Send a request and add logs in a list.
      * @param sourceURL
@@ -967,7 +966,7 @@ public class FacesUtils {
         URL source = new URL(sourceURL);
         URLConnection conec = source.openConnection();
         Object harvested = null;
-        
+
         try {
             // for a POST request
             if (request != null) {
@@ -983,13 +982,13 @@ public class FacesUtils {
                 }
                 String XMLRequest = sw.toString();
                 if (logs != null) {
-                    logs.add("Post request URL = "+sourceURL);
-                    logs.add("XMLRequest = "+XMLRequest);
+                    logs.add("Post request URL = " + sourceURL);
+                    logs.add("XMLRequest = " + XMLRequest);
                 }
                 wr.write(XMLRequest);
                 wr.flush();
             }
-            
+
             // we get the response document
             InputStream in = conec.getInputStream();
             StringWriter out = new StringWriter();
@@ -1023,18 +1022,19 @@ public class FacesUtils {
                 System.out.println(ex.toString());
                 if (logs != null) {
                     logs.add("The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
-                        "cause: " + ex.getMessage());
+                            "cause: " + ex.getMessage());
                 }
             }
         } catch (IOException ex) {
             System.out.println("The Distant service have made an error ! ");
             if (logs != null) {
-                    logs.add("The Distant service have made an error ! url = "+sourceURL);
-                }
+                logs.add("The Distant service have made an error ! url = " + sourceURL);
+            }
             return null;
         }
         return harvested;
     }
+
     /**
      * Send a request to a service.
      * 
@@ -1069,7 +1069,7 @@ public class FacesUtils {
                 wr.write(XMLRequest);
                 wr.flush();
             }
-            
+
             // we get the response document
             InputStream in = conec.getInputStream();
             StringWriter out = new StringWriter();
@@ -1108,7 +1108,7 @@ public class FacesUtils {
         }
         return harvested;
     }
-    
+
     /**
      * Returns a flag taht indicates if the browser is IE.
      * @param context
@@ -1126,7 +1126,7 @@ public class FacesUtils {
         }
         return isIE;
     }
-    
+
     /**
      * This method returns a PhaseListener which is an instance of Class<?> c passed in argument.
      * @param Class<?> c
@@ -1144,5 +1144,23 @@ public class FacesUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * Returns a clientId of the first HtmlAjaxRegion if exists, otherwise returns null.
+     * @param context
+     * @return
+     */
+    public static String findClientIdComponentClass(final FacesContext context, final UIComponent root,final Class cl) {
+        String clientId = null;
+        for (int i = 0; i < root.getChildCount() && clientId == null; i++) {
+            final UIComponent child = (UIComponent) root.getChildren().get(i);
+            clientId = findClientIdComponentClass(context, child, cl);
+        }
+
+        if (clientId == null && cl.isInstance(root)) {
+            clientId = root.getClientId(context);
+        }
+        return clientId;
     }
 }
