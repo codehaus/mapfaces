@@ -225,6 +225,9 @@ public class OWCv030toMFTransformer {
                         /* Name */
                         layer.setName(layerType.getName());
 
+                        /* Queryable */
+                        layer.setQueryable(layerType.isQueryable());
+
                         /* Hidden */
                         layer.setHidden(layerType.isHidden());
 
