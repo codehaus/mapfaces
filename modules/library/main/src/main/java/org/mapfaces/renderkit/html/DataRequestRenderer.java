@@ -230,7 +230,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 break;
                             case WMS:
                                 boolean skipLayer = false;
-                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(queryLayer.getName())) {
+                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(queryLayer.getName()) || ! queryLayer.isQueryable()) {
                                     skipLayer = true;
                                 }
                                 if (!layersWMS.contains(queryLayer) && !skipLayer && !comp.isFeatureLayerOnly()) {
