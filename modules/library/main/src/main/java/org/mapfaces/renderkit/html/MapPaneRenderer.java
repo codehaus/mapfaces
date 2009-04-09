@@ -127,12 +127,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (mapcontext != null) {
             //adding all the MapContext layers  into an allInOne layer.
             final ContextFactory contextFactory = new DefaultContextFactory();
+            model.clearMapContextLayers();
             DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
             mcLayer.setMapContext(mapcontext);
-            model.removeLayerFromId(mcLayer.getId());
             model.addLayer((MapContextLayer) mcLayer);
         }
-        
+
         final List<Layer> layers = model.getLayers();
       
         final String srs = model.getSrs();

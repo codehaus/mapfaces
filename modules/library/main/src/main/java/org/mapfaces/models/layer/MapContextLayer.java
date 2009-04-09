@@ -17,6 +17,7 @@
 
 package org.mapfaces.models.layer;
 
+import java.util.Date;
 import org.geotools.map.MapContext;
 import org.mapfaces.models.*;
 
@@ -25,5 +26,9 @@ public interface MapContextLayer extends Layer {
     public MapContext getMapContext();
 
     public void setMapContext(MapContext mapContext);
+
+    public Date getDateFilter();
+    
+    public void setDateFilter(Date d);
     
 }

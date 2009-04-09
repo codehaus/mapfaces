@@ -15,17 +15,17 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layer;
 
-import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.renderkit.html.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -37,7 +37,6 @@ import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIMapContextLayer;
 import org.mapfaces.models.Context;
-import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.FacesUtils;
 
@@ -54,11 +53,11 @@ public class MapContextLayerRenderer extends LayerRenderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-        
-        super.encodeBegin(context, component);        
-        
+
+        super.encodeBegin(context, component);
+
         final UIMapContextLayer comp = (UIMapContextLayer) component;
-        
+
         if (debug) {
             LOGGER.log(Level.INFO, "[DEBUG] clientId : " + comp.getClientId(context) + ", id : " + comp.getId());
         }
@@ -109,18 +108,18 @@ public class MapContextLayerRenderer extends LayerRenderer {
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
         UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
-       
+
         //If a MapContext is specified in value attribute, layer will display the context in a allInOne layer
         Object obj = comp.getValue();
         if (obj instanceof MapContext) {
             layer.setMapContext((MapContext) obj);
         }
-        
+
         //Save the mapContext in session for MfLayerListener can rendering it
         if (layer.getMapContext() != null) {
             setMapContextAtSession(context, comp, layer.getMapContext());
         }
-       
+
         if (debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !hidden));        //Add layer image if not the first page loads
         }
@@ -132,7 +131,8 @@ public class MapContextLayerRenderer extends LayerRenderer {
             String url = null;
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
-            url = actionURL + "?ts=" + System.currentTimeMillis() + "&mfLayerId=" + clientId;
+            long timeInMills = (layer.getDateFilter() != null) ? layer.getDateFilter().getTime() : System.currentTimeMillis();
+            url = actionURL + "?ts=" + timeInMills + "&mfLayerId=" + clientId;
             writer.startElement("img", comp);
             writer.writeAttribute("id", id + "_Img", "style");
             writer.writeAttribute("class", "layerImg", "style");
@@ -156,6 +156,23 @@ public class MapContextLayerRenderer extends LayerRenderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
+
+        final UIMapContextLayer comp = (UIMapContextLayer) component;
+        final MapContextLayer layer = (MapContextLayer) comp.getLayer();
+        //get ajax request datevalue param and set to this layer model this date to filter by the url to the appropriate listener
+
+        final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+
+        if (params.get("datevalueFilter") != null) {
+            final String datevalue = params.get("datevalueFilter");
+            Date date = new Date();
+            try {
+                date = org.geotools.temporal.object.Utils.createDate(datevalue);
+            } catch (Exception exp) {
+                System.out.println("[MapContextLayerRenderer] Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
+            }
+            layer.setDateFilter(date);
+        }
     }
 
     @Override

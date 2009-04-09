@@ -17,6 +17,7 @@
 
 package org.mapfaces.models.layer;
 
+import java.util.Date;
 import org.geotools.map.MapContext;
 import org.mapfaces.models.LayerType;
 
@@ -26,11 +27,27 @@ public class DefaultMapContextLayer extends DefaultLayer implements MapContextLa
    
    private transient MapContext mapContext = null;
 
+   private Date dateFilter;
+
     public MapContext getMapContext() {
         return mapContext;
     }
 
     public void setMapContext(MapContext mapContext) {
         this.mapContext = mapContext;
+    }
+
+    /**
+     * @return the dateFilter
+     */
+    public Date getDateFilter() {
+        return dateFilter;
+    }
+
+    /**
+     * @param dateFilter the dateFilter to set
+     */
+    public void setDateFilter(Date dateFilter) {
+        this.dateFilter = dateFilter;
     }
 }

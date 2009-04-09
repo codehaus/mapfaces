@@ -30,6 +30,7 @@ import javax.xml.bind.JAXBException;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
+import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.XMLContextUtilities;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
@@ -669,5 +670,21 @@ public class DefaultContext extends AbstractModelBase implements Context {
         return new java.awt.Dimension(
                 Integer.parseInt(this.getWindowWidth()),
                 Integer.parseInt(this.getWindowHeight()));
+    }
+
+    /**
+     * Removes all MapContextLayer contained in the context object. it is used to clean the context for every event rerender on the mappane.
+     */
+    @Override
+    public void clearMapContextLayers() {
+        List<Layer> listtoremove = new ArrayList<Layer>();
+        for (Layer layer : this.getLayers()) {
+            if (layer instanceof  MapContextLayer) {
+                listtoremove.add(layer);
+            }
+        }
+        for (Layer layer : listtoremove) {
+                removeLayerFromId(layer.getId());
+        }
     }
 }
