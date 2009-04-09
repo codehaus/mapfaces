@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.mapfaces.share.listener;
-
-
-
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -48,8 +46,17 @@ public class MfLayerListener implements PhaseListener {
     public void afterPhase(PhaseEvent phaseEvent) {
         FacesContext context = phaseEvent.getFacesContext();
         String compId = (String) context.getExternalContext().getRequestParameterMap().get("mfLayerId");
+        String dateFilter = (String) context.getExternalContext().getRequestParameterMap().get("ts");
+        Date datevalue;
+        if (dateFilter != null) {
+            long timeInMs = Long.valueOf(dateFilter);
+            datevalue = new Date(timeInMs);
+        } else {
+            datevalue = new Date();
+        }
+
         if (compId != null) {
-            handleMfLayerRequest(phaseEvent, compId);
+            handleMfLayerRequest(phaseEvent, compId, datevalue);
         }
     }
 
@@ -58,13 +65,13 @@ public class MfLayerListener implements PhaseListener {
         return PhaseId.RESTORE_VIEW;
     }
 
-    private void handleMfLayerRequest(PhaseEvent phaseEvent, String compId) {
+    private void handleMfLayerRequest(PhaseEvent phaseEvent, String compId, Date datevalue) {
         FacesContext context = phaseEvent.getFacesContext();
         ExternalContext externalContext = context.getExternalContext();
         if (compId != null) {
             try {
                 if (externalContext.getResponse() instanceof HttpServletResponse) {
-                    writeChartWithServletResponse(context, compId, (HttpServletResponse) externalContext.getResponse());
+                    writeChartWithServletResponse(context, compId, (HttpServletResponse) externalContext.getResponse(), datevalue);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -77,9 +84,9 @@ public class MfLayerListener implements PhaseListener {
     public void beforePhase(PhaseEvent phaseEvent) {
     }
 
-    private void writeChartWithServletResponse(FacesContext context, String id, HttpServletResponse response) throws IOException {
+    private void writeChartWithServletResponse(FacesContext context, String id, HttpServletResponse response, Date datevalue) throws IOException {
         OutputStream stream = response.getOutputStream();
-        writeLayer(context, id, stream);
+        writeLayer(context, id, stream, datevalue);
     }
 
     /**
@@ -90,7 +97,7 @@ public class MfLayerListener implements PhaseListener {
      * @param stream
      * @throws java.io.IOException
      */
-    private void writeLayer(FacesContext context, String id, OutputStream stream) throws IOException {
+    private void writeLayer(FacesContext context, String id, OutputStream stream, Date datevalue) throws IOException {
         Map sessionMap = context.getExternalContext().getSessionMap();
         Context model = (Context) sessionMap.get(id + "_model");
         if (model != null) {
@@ -123,14 +130,17 @@ public class MfLayerListener implements PhaseListener {
 
             if (mapContext != null) {
                 try {
-//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);                    
+//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 //                    long start = (new Date()).getTime();
-                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true); 
+                    System.out.println("[MfLayerListener] filter for datevalue = " + datevalue);
+                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true);
 //                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 //                    long end = (new Date()).getTime();
 //                    System.out.println("[PORTRAYING END] time : "+(end-start) +" ms");          
                 } catch (PortrayalException ex) {
                     Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
+                    System.out.println("[MfLayerListener] exception : "+exp.getMessage());
                 } finally {
                     emptySession(sessionMap, id);
                 }

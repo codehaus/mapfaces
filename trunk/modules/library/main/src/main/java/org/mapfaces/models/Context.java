@@ -128,6 +128,8 @@ public interface Context extends Serializable {
 
     void removeLayerFromId(String layerId);
 
+    void clearMapContextLayers();
+
 /**************************** Layer Dimension functions ***********************/
 
     Dimension getLayerDimension(String layerId, String dimName);
