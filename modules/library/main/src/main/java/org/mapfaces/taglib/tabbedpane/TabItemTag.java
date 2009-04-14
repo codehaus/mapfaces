@@ -17,9 +17,12 @@
 
 package org.mapfaces.taglib.tabbedpane;
 
+import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.webapp.UIComponentELTag;
+import org.mapfaces.component.tabbedpane.UITabItem;
 
 /**
  * @author Kevin Delfour
@@ -61,6 +64,17 @@ public class TabItemTag extends UIComponentELTag {
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
+
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+        final UITabItem tabItem = (UITabItem) component;
+
+        if (title != null) {
+            if (title.getExpressionString() != null && title.getExpressionString().contains("#")) {
+                final ValueExpression vex = ef.createValueExpression(context.getELContext(), title.getExpressionString(), java.lang.String.class);
+                tabItem.setTitle((String) vex.getValue(context.getELContext()));
+            }
+        }
         component.setValueExpression("title", title);
     }
 

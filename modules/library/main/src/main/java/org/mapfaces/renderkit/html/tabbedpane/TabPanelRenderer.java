@@ -121,7 +121,10 @@ public class TabPanelRenderer extends Renderer {
                 ((UITabItem) child).setActive(false);
             }
             writer.startElement("a", tabpanel);
-            writer.write(((UITabItem) child).getTitle());
+
+            if(((UITabItem) child).getTitle() != null) {
+                writer.write(((UITabItem) child).getTitle());
+            }
             writer.endElement("a");
             writer.endElement("li");
         }
