@@ -132,7 +132,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
             long timeInMills = (layer.getDateFilter() != null) ? layer.getDateFilter().getTime() : System.currentTimeMillis();
-            url = actionURL + "?ts=" + timeInMills + "&mfLayerId=" + clientId;
+            url = actionURL + "?ts=" + timeInMills + "&mfLayerId=" + clientId+"&tmp="+Math.random();
             writer.startElement("img", comp);
             writer.writeAttribute("id", id + "_Img", "style");
             writer.writeAttribute("class", "layerImg", "style");
