@@ -5132,7 +5132,7 @@
         <description>render slider</description>
         <name>slider</name>
         <tag-class>org.mapfaces.taglib.timeline.SliderTag</tag-class>
-        <body-content>empty</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <description>Is this component rendered</description>
             <name>rendered</name>
@@ -5231,7 +5231,7 @@
         <name>TreeTable</name>
         <description>Tree</description>
         <tag-class>org.mapfaces.taglib.tree.TreeTableTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5309,7 +5309,7 @@
         <name>TreePanel</name>
         <description> TreePanel </description>
         <tag-class>org.mapfaces.taglib.tree.TreePanelTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5458,7 +5458,7 @@
         <name>TreeToolbar</name>
         <description>Tree Toolbar</description>
         <tag-class>org.mapfaces.taglib.tree.TreeToolbarTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5522,7 +5522,7 @@
         <name>TreeColumn</name>
         <description>TreeColumns</description>
         <tag-class>org.mapfaces.taglib.tree.TreeColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5610,7 +5610,7 @@
         <name>Column</name>
         <description> Columns </description>
         <tag-class>org.mapfaces.taglib.tree.ColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5689,7 +5689,7 @@
         <name>TreeNodeInfo</name>
         <description> org:treenodeinfo </description>
         <tag-class>org.mapfaces.taglib.tree.TreeNodeInfoTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5750,7 +5750,7 @@
         <name>TreeLayoutTable</name>
         <description> TreeLayout  </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreeTableTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -5852,7 +5852,7 @@
         <name>TreeLayoutPanel</name>
         <description> TreeLayoutPanel </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreePanelTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6001,7 +6001,7 @@
         <name>TreeLayoutTColumn</name>
         <description> TreeColumns </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreeColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6089,7 +6089,7 @@
         <name>TreeLayoutColumn</name>
         <description> Columns </description>
         <tag-class>org.mapfaces.taglib.treelayout.ColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6168,7 +6168,7 @@
         <name>TreeLayoutCheckColumn</name>
         <description>Check Column </description>
         <tag-class>org.mapfaces.taglib.treelayout.CheckColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6247,7 +6247,7 @@
         <name>TreeLayoutNodeInfo</name>
         <description> org:treenodeinfo </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreeNodeInfoTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6307,7 +6307,7 @@
     <tag>
         <name>TabPanel</name>
         <tag-class>org.mapfaces.taglib.tabbedpane.TabPanelTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6355,7 +6355,7 @@
     <tag>
         <name>TabItem</name>
         <tag-class>org.mapfaces.taglib.tabbedpane.TabItemTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6370,19 +6370,22 @@
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
+            <rtexprvalue>false</rtexprvalue>
         </attribute>
         <attribute>
             <name>debug</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
+            <rtexprvalue>false</rtexprvalue>
         </attribute>
         <attribute>
             <name>title</name>
-            <required>true</required>
+            <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
+            <rtexprvalue>false</rtexprvalue>
         </attribute>
     </tag>
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -6391,7 +6394,7 @@
         <name>TreeBuilder</name>
         <description>Tree</description>
         <tag-class>org.mapfaces.taglib.treebuilder.TreeTableTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6475,7 +6478,7 @@
         <name>BuilderPanel</name>
         <description> TreePanel </description>
         <tag-class>org.mapfaces.taglib.treebuilder.TreePanelTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6650,7 +6653,7 @@
         <name>BuilderToolbar</name>
         <description>Tree Toolbar</description>
         <tag-class>org.mapfaces.taglib.treebuilder.TreeToolbarTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6714,7 +6717,7 @@
         <name>BuilderTreeColumn</name>
         <description>TreeColumns</description>
         <tag-class>org.mapfaces.taglib.treebuilder.TreeColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6802,7 +6805,7 @@
         <name>BuilderColumn</name>
         <description> Columns </description>
         <tag-class>org.mapfaces.taglib.treebuilder.ColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6881,7 +6884,7 @@
         <name>BuilderCheckColumn</name>
         <description>Check Column </description>
         <tag-class>org.mapfaces.taglib.treebuilder.CheckColumnTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
@@ -6960,7 +6963,7 @@
         <name>BuilderNodeInfo</name>
         <description> org:treenodeinfo </description>
         <tag-class>org.mapfaces.taglib.treebuilder.TreeNodeInfoTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <attribute>
             <name>id</name>
             <rtexprvalue>true</rtexprvalue>
