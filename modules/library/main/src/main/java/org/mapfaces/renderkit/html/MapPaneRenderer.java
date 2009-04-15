@@ -178,34 +178,35 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     case KML:
                         break;
                     case MAPCONTEXT:
+                        MapContextLayer tmpMContext = (MapContextLayer) temp;
                         UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
                         uiMCLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
-                        temp.setCompId(uiMCLayer.getClientId(context));
-                        uiMCLayer.setLayer(temp);
-                        if (((MapContextLayer)temp).getMapContext() != null ) {
-                             uiMCLayer.setValue(((MapContextLayer)temp).getMapContext());
+                        tmpMContext.setCompId(uiMCLayer.getClientId(context));
+                        uiMCLayer.setLayer(tmpMContext);
+                        if (tmpMContext.getMapContext() != null ) {
+                             uiMCLayer.setValue(tmpMContext.getMapContext());
                         }
                         comp.getChildren().add(uiMCLayer);
                         break;
                     case FEATURE:
-                        FeatureLayer tmp = (FeatureLayer) temp;
+                        FeatureLayer tmpfeature = (FeatureLayer) temp;
                         UIFeatureLayer uiFLayer = new UIFeatureLayer();
                         uiFLayer.setModel((AbstractModelBase) model);
-                        uiFLayer.setImage(tmp.getImage());
-                        uiFLayer.setFeatures(tmp.getFeatures());
-                        uiFLayer.setRotation(tmp.getRotation());
-                        uiFLayer.setSize(tmp.getSize());
-                        uiFLayer.setBindingIndex(tmp.getGroupId());
+                        uiFLayer.setImage(tmpfeature.getImage());
+                        uiFLayer.setFeatures(tmpfeature.getFeatures());
+                        uiFLayer.setRotation(tmpfeature.getRotation());
+                        uiFLayer.setSize(tmpfeature.getSize());
+                        uiFLayer.setBindingIndex(tmpfeature.getGroupId());
 
                         if (temp.getId() != null) {
-                            uiFLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmp.getId());
+                            uiFLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmpfeature.getId());
                         } else {
-                            tmp.setId(uiFLayer.getId());
+                            tmpfeature.setId(uiFLayer.getId());
                         }
                         comp.getChildren().add(uiFLayer);
-                        tmp.setCompId(uiFLayer.getClientId(context));
-                        uiFLayer.setLayer(tmp);
+                        tmpfeature.setCompId(uiFLayer.getClientId(context));
+                        uiFLayer.setLayer(tmpfeature);
                         break;
                     default:
                         break;
