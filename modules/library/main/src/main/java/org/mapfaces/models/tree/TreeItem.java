@@ -142,7 +142,7 @@ public class TreeItem implements Serializable {
     public String getId() {
         final Method methode = getMethod(userObject, "Id");
         try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
+            return (methode != null && methode.invoke(userObject) != null) ? String.valueOf(methode.invoke(userObject)) : "";
         } catch (IllegalAccessException ex) {
             Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
@@ -159,7 +159,7 @@ public class TreeItem implements Serializable {
     public String getName() {
         final Method methode = getMethod(userObject, "Name");
         try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : name;
+            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : (userObject instanceof String)? userObject.toString() : name;
         } catch (IllegalAccessException ex) {
             Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
