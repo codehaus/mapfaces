@@ -15,14 +15,15 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layer;
 
 import com.vividsolutions.jts.geom.Geometry;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
@@ -37,15 +38,16 @@ import org.geotools.filter.identity.FeatureIdImpl;
 import org.geotools.map.FeatureMapLayer;
 import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
-import org.geotools.map.MapLayer;
 import org.geotools.referencing.CRS;
 
 import org.geotools.style.MutableStyle;
+import org.mapfaces.component.UILayer;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
+import org.mapfaces.renderkit.html.LayerRenderer;
 import org.mapfaces.util.FacesUtils;
 
 import org.opengis.feature.simple.SimpleFeature;
@@ -57,10 +59,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * @author Mehdi Sidhoum (Geomatys).
  * @author Olivier Terral (Geomatys).
  */
-public class FeatureLayerRenderer extends MapContextLayerRenderer {
+public class FeatureLayerRenderer extends LayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
-
+    
     /**
      * {@inheritDoc }
      */
@@ -208,5 +210,15 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         }
         writer.endElement("div");
         writer.flush();
+    }
+
+    public void setMapContextAtSession(FacesContext facesContext, UILayer comp, MapContext context) {
+        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        String clientId = comp.getClientId(facesContext);
+
+        session.put(clientId + "_mapContext", context);
+        if (debug) {
+            LOGGER.log(Level.INFO, "[FeatureLayerRenderer] mapcontext saved in  session map for this layer,  clientId : " + clientId + "\n");
+        }
     }
 }

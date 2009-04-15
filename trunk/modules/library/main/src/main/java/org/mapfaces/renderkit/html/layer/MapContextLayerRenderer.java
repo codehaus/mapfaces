@@ -19,7 +19,6 @@
 package org.mapfaces.renderkit.html.layer;
 
 import org.mapfaces.renderkit.html.*;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Date;
@@ -46,7 +45,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 public class MapContextLayerRenderer extends LayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.layer.MapContextLayerRenderer");
-    private final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK};
 
     /**
      * {@inheritDoc }
@@ -132,7 +130,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
             long timeInMills = (layer.getDateFilter() != null) ? layer.getDateFilter().getTime() : System.currentTimeMillis();
-            url = actionURL + "?ts=" + timeInMills + "&mfLayerId=" + clientId+"&tmp="+Math.random();
+            url = actionURL + "?ts=" + timeInMills + "&mfLayerId=" + clientId + "&tmp=" + Math.random();
             writer.startElement("img", comp);
             writer.writeAttribute("id", id + "_Img", "style");
             writer.writeAttribute("class", "layerImg", "style");
@@ -157,21 +155,23 @@ public class MapContextLayerRenderer extends LayerRenderer {
     public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
 
-        final UIMapContextLayer comp = (UIMapContextLayer) component;
-        final MapContextLayer layer = (MapContextLayer) comp.getLayer();
-        //get ajax request datevalue param and set to this layer model this date to filter by the url to the appropriate listener
+        if (component instanceof UIMapContextLayer) {
+            final UIMapContextLayer comp = (UIMapContextLayer) component;
+            final MapContextLayer layer = (MapContextLayer) comp.getLayer();
+            //get ajax request datevalue param and set to this layer model this date to filter by the url to the appropriate listener
 
-        final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+            final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 
-        if (params.get("datevalueFilter") != null) {
-            final String datevalue = params.get("datevalueFilter");
-            Date date = new Date();
-            try {
-                date = org.geotools.temporal.object.Utils.createDate(datevalue);
-            } catch (Exception exp) {
-                System.out.println("[MapContextLayerRenderer] Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
+            if (params.get("datevalueFilter") != null) {
+                final String datevalue = params.get("datevalueFilter");
+                Date date = new Date();
+                try {
+                    date = org.geotools.temporal.object.Utils.createDate(datevalue);
+                } catch (Exception exp) {
+                    System.out.println("[MapContextLayerRenderer] Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
+                }
+                layer.setDateFilter(date);
             }
-            layer.setDateFilter(date);
         }
     }
 
