@@ -699,6 +699,17 @@
                 The id of the target datarequest component if the featureInfo attribute is setted to true value.
             </description>
         </attribute>
+        <attribute>
+            <name>callAjaxRegion</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Allow a loading on the getfeatureInfo if there is one ajaxregion defined in the page.
+            </description>
+        </attribute>
     </tag>
     <!-- CursorTrack -->
     <tag>

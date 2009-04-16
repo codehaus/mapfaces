@@ -46,6 +46,7 @@ public class UIButtonBar extends UIWidgetBase {
     private String eastIdSelectionBox = "";
     private String westIdSelectionBox = "";
     private String reRender = "";
+    private boolean callAjaxRegion;
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -66,7 +67,7 @@ public class UIButtonBar extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[26];
+        final Object values[] = new Object[27];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -88,6 +89,7 @@ public class UIButtonBar extends UIWidgetBase {
         values[18] = eastIdSelectionBox;
         values[19] = westIdSelectionBox;
         values[20] = reRender;
+        values[21] = callAjaxRegion;
         return values;
     }
 
@@ -118,6 +120,7 @@ public class UIButtonBar extends UIWidgetBase {
         eastIdSelectionBox = (String) values[18];
         westIdSelectionBox = (String) values[19];
         reRender = (String) values[20];
+        callAjaxRegion = (Boolean) values[21];
     }
 
     public boolean isZoomIn() {
@@ -278,5 +281,19 @@ public class UIButtonBar extends UIWidgetBase {
 
     public void setReRender(String reRender) {
         this.reRender = reRender;
+    }
+
+    /**
+     * @return the callAjaxRegion
+     */
+    public boolean isCallAjaxRegion() {
+        return callAjaxRegion;
+    }
+
+    /**
+     * @param callAjaxRegion the callAjaxRegion to set
+     */
+    public void setCallAjaxRegion(boolean callAjaxRegion) {
+        this.callAjaxRegion = callAjaxRegion;
     }
 }
