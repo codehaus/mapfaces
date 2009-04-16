@@ -137,7 +137,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
                 if (idsToRefresh != null) {
                     writer.write(",\ngetFeatureInfoOptions: {idToRefresh:'" + idsToRefresh + "'");
                 }
-                if (clientIdAjaxRegion != null) {
+
+                if (comp.isCallAjaxRegion() && clientIdAjaxRegion != null) {
                     writer.write(",ajaxRegionClientId:'"+clientIdAjaxRegion+"'");
                 }
                 writer.write("}");

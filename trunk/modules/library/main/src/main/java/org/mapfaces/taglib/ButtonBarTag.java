@@ -58,6 +58,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression eastIdSelectionBox = null;
     private ValueExpression westIdSelectionBox = null;
     private ValueExpression reRender = null;
+    private ValueExpression callAjaxRegion = null;
 
     /**
      * {@inheritDoc }
@@ -103,6 +104,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("eastIdSelectionBox", eastIdSelectionBox);
         component.setValueExpression("westIdSelectionBox", westIdSelectionBox);
         component.setValueExpression("reRender", reRender);
+        component.setValueExpression("callAjaxRegion", callAjaxRegion);
 
     }
 
@@ -134,6 +136,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         setEastIdSelectionBox(null);
         setWestIdSelectionBox(null);
         setReRender(null);
+        setCallAjaxRegion(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -298,5 +301,19 @@ public class ButtonBarTag extends WidgetBaseTag {
 
     public void setReRender(ValueExpression reRender) {
         this.reRender = reRender;
+    }
+
+    /**
+     * @return the callAjaxRegion
+     */
+    public ValueExpression getCallAjaxRegion() {
+        return callAjaxRegion;
+    }
+
+    /**
+     * @param callAjaxRegion the callAjaxRegion to set
+     */
+    public void setCallAjaxRegion(ValueExpression callAjaxRegion) {
+        this.callAjaxRegion = callAjaxRegion;
     }
 }
