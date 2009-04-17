@@ -10,7 +10,7 @@
   <groupId>org.mapfaces</groupId>
   <artifactId>mapfaces</artifactId>
   <packaging>pom</packaging>
-  <version>0.1</version>
+  <version>0.1.1</version>
   <name>MapFaces</name>
   
   <scm>
@@ -175,8 +175,8 @@
   <!--     Dependencies optionals, replace version number for GT dependencies     -->
   <!-- =========================================================== -->
   <properties>
-    <geotools.version>2.9-SNAPSHOT</geotools.version>
-    <constellation.version>0.3-SNAPSHOT</constellation.version>
+    <geotools.version>2.9.1</geotools.version>
+    <constellation.version>0.3.1</constellation.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -215,7 +215,7 @@
       <dependency>
         <groupId>org.opengis</groupId>
         <artifactId>geoapi</artifactId>
-        <version>2.3-SNAPSHOT</version>
+        <version>2.3-M0</version>
       </dependency>
 
       <!-- Geotools -->
@@ -355,6 +355,11 @@
       <id>geomatys</id>
       <name>Other projects</name>
       <url>http://maven.geomatys.fr/repository</url>
+    </repository>
+    <repository>
+      <id>geotoolkit</id>
+      <name>geotoolkit</name>
+      <url>http://maven.geotoolkit.org</url>
     </repository>
     <!--repository>
       <id>refractions</id>
