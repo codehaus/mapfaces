@@ -1,0 +1,368 @@
+.mfAbstract{
+    border: 2px solid blue ; 
+    color: red; 
+    font-size: 12px; 
+    width: 420px;
+    position:relative;
+}
+.mfLocatorMap{
+    background-color:white;
+    border:1px solid #CCCCCC;
+    position:relative;  
+}
+.mfLocatorMap .olControlOverviewMapExtentRectangle {
+    overflow: hidden;
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/blank.gif");
+    cursor: move;
+    border: 2px dotted red;
+}
+.mfLocatorMap .olControlOverviewMapRectReplacement {
+    overflow: hidden;
+    cursor: move;
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/overview_replacement.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mfScale{
+    font-family:verdana;
+    font-size:0.7em;
+    margin: 5px; 
+    padding: 5px;         
+    position: absolute; 
+    opacity: 0.7; 
+    filter:alpha(opacity=70); 
+}
+.mfScaleBar{
+    font-family:verdana;
+    font-size:0.7em;
+    margin: 10px; 
+    padding: 5px;         
+    position: absolute;  
+    opacity: 0.7; 
+    filter:alpha(opacity=70); 
+    height:50px;
+}
+.mfScaleBar .olControlScaleBarBar {
+    /*height: 1px;
+    top: 14px;
+    background: #333;*/	
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    height: 7px;
+    top:10px;
+}
+
+.mfScaleBar .olControlScaleBarBarAlt {
+    /* height: 1px;
+    top: 14px;
+    background: #333;*/
+    border: 1px solid #999999;
+    background-color: #ffffff;
+    height: 7px;
+    top:10px;
+}
+
+.mfScaleBar .olControlScaleBarMarkerMajor {
+    height: 7px;
+    width: 1px;
+    top: 11px;
+    background: #333;
+}
+
+.mfScaleBar .olControlScaleBarMarkerMinor {
+    height: 5px;
+    width: 1px;
+    top: 12px;
+    background: #333;
+}
+.mfScaleBar .olControlScaleBarNumbersBox {
+    width: 40px;
+    height: 13px;
+    top: 21px;
+    font-size: 0.7em;
+    margin-left:-20px;
+}
+
+.mfScaleBar .olControlScaleBarLabelBox {
+    top: -2px;
+    height: 15px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    font-size: 0.7em;
+    font-variant: small-caps;
+    
+}
+
+.mfScaleBar .olControlScaleBarLabelBoxSingleLine {
+    height: 15px;
+    width: 35px;
+    top: 5px;
+    left: 10px;
+    font-size: 0.7em;
+    font-variant: small-caps;
+}
+
+.mfMapPane{
+    background-color:white;
+    position:relative;
+    border:1px solid #CCCCCC;
+}
+.mfLayerControl{
+    width:600px;
+}
+
+.mfLayerControl select{
+    font-size: 1em;
+}
+.mfMapViewport{
+    overflow: hidden; 
+    position: relative;
+}
+
+.layerDiv{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    
+}
+.layerImg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    
+}
+
+.mfButtonBar {
+    width:350px;
+    heigth:24px;
+    position:absolute;
+    margin:5px;
+}
+.mfButtonBar div{
+    width:24px;
+    height:24px;
+    position:relative;
+    margin:2px;
+}
+.horizontal div{
+    top:0px;
+    float:left;   
+}
+.mfButtonBar .olControlNavigationItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/PanEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/PanDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlZoomBoxItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomInEnable.png");
+    background-repeat: no-repeat;
+}
+.mfButtonBar .olControlZoomBoxItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomInDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlZoomBoxOutItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomOutEnable.png");
+    background-repeat: no-repeat;
+}
+.mfButtonBar .olControlZoomBoxOutItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ZoomOutDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.olControlZoomToMaxExtentItemInactive{
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/ResetExtentDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.olControlSaveItemInactive{
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SaveDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGraticuleItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/Graticule.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGraticuleItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/Graticule.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlMeasureItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/MeasureDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlMeasureItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/MeasureEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+
+.mfButtonBar .olControlMeasureAreaItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/EditPolygonDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlMeasureAreaItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/EditPolygonEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGetFeatureInfoItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGetFeatureInfoItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+
+.mfButtonBar .olControlGetCoverageMatrixItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryEnable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlGetCoverageMatrixItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/QueryDisable.png");
+    background-repeat: no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationHistory {
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/navigation_history.png");
+    background-repeat: no-repeat;
+    width:  24px;
+    height: 24px;
+}
+.mfButtonBar .olControlNavigationHistoryPreviousItemActive { 
+    background-position: 0px 0px;
+    background-color:white;        
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationHistoryPreviousItemInactive { 
+    background-position: 0px -24px;
+    background-color:white;
+    background-color:white;
+}
+.mfButtonBar .olControlNavigationHistoryNextItemActive { 
+    background-position: -24px 0px;
+    background-color:white;
+    cursor:pointer;
+}
+.mfButtonBar .olControlNavigationHistoryNextItemInactive { 
+    background-position: -24px -24px;
+    background-color:white;
+}
+
+.olControlNavToolbar .olControlSelectionZoomBoxItemInactive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
+    background-repeat: no-repeat;
+}
+.olControlNavToolbar .olControlSelectionZoomBoxItemActive { 
+    background-image: url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
+    background-color: orange;
+    background-repeat: no-repeat;
+}
+.mfButtonBar .olControlSelectionZoomBoxItemInactive {
+    background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiDisable.png");
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+.mfButtonBar .olControlSelectionZoomBoxItemActive {
+    background-image:url("resource.jsf?r=/org/mapfaces/resources/img/SetAoiEnable.png");
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+
+.olHandlerBoxZoomBox {
+    border: 2px solid white;
+    position: absolute;
+    background-color: blue;
+    opacity: 0.50;
+    font-size: 1px;
+    filter: alpha(opacity=50);
+}   
+
+.mfCursorTrack{    
+    font-family:verdana;
+    font-size:0.7em;    
+}
+.mfCursorTrack .mfCursorTrackPrefix{
+    /*font-weight:bold;  */  
+}
+/*DimRange*/
+.special { background-color: #50ea70; color: red; }
+
+.track{
+    height:10px;
+    left:50%;
+    margin-left:-128px;
+    position:relative;
+    top:25px;
+    width:256px;
+    z-index:20000;
+}
+.mfDimRange{
+    height:100px;
+    position:relative;
+}
+/*Coloramp*/
+.mfDimRange .range{
+    font-size:12px;
+    font-weight:bold;
+    position:absolute;
+}
+.mfDimRange .range input{
+    width:50px;
+    text-align:right;
+    height:19px;
+}
+.mfDimRange .minRange{
+    left:50%;
+    margin-left:-125px;
+    margin-top:-15px;
+    
+}
+.mfDimRange .maxRange{
+    left:50%;
+    margin-left:80px;
+    margin-top:-15px;
+    
+}
+.mfDimRange .colorRamp{
+    position : absolute;
+    left:50%;   
+    margin-left:-62.5px;
+    
+}
+.mfDimRange .colorRamp img{
+    height : 20px;
+    width:135px;
+}
+.mfDimRange .colorDiv{
+    
+}
+.mfDimRange .colorDivSpan{
+    
+}
+
+.mfPopupInvisible{
+    display:none;
+}
+.mfPopup{
+    display:block;
+}

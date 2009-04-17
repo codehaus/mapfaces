@@ -1,0 +1,17 @@
+<sos:GetObservation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:ogc="http://www.opengis.net/ogc"
+xmlns:sos="http://www.opengeospatial.net/sos/0" xmlns:om="http://www.opengis.net/om/1.0" xmlns:sa="http://www.opengis.net/sa/1.0"
+ service="SOS"
+ version="0.0.0">
+  <sos:offering>offering-3</sos:offering>
+	<sos:eventTime>
+		<ogc:T_After>
+			<gml:TimeInstant>
+				<gml:timePosition>2002-10-12T00:00:00.000-06:00</gml:timePosition>
+			</gml:TimeInstant>
+		</ogc:T_After>
+	</sos:eventTime>
+	<sos:observedProperty>AggregateChemicalPresence</sos:observedProperty>
+<sos:observedProperty>aggregatePhenomenon</sos:observedProperty>
+	<sos:responseFormat>text/xml; subtype=&quot;om/0.0.0&quot;</sos:responseFormat>
+<sos:responseMode>inline</sos:responseMode>
+</sos:GetObservation>
