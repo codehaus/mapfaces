@@ -10,7 +10,7 @@
   <groupId>org.mapfaces</groupId>
   <artifactId>mapfaces</artifactId>
   <packaging>pom</packaging>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.1</version>
   <name>MapFaces</name>
   
   <scm>
@@ -175,10 +175,8 @@
   <!--     Dependencies optionals, replace version number for GT dependencies     -->
   <!-- =========================================================== -->
   <properties>
-    <geoapi.version>2.3-SNAPSHOT</geoapi.version>
-    <geotoolkit.version>3.00-SNAPSHOT</geotoolkit.version>
-    <geomodified.version>2.6-SNAPSHOT</geomodified.version>
-    <constellation.version>0.4-SNAPSHOT</constellation.version>
+    <geotools.version>2.9-SNAPSHOT</geotools.version>
+    <constellation.version>0.3-SNAPSHOT</constellation.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -217,90 +215,88 @@
       <dependency>
         <groupId>org.opengis</groupId>
         <artifactId>geoapi</artifactId>
-        <version>${geoapi.version}</version>
+        <version>2.3-SNAPSHOT</version>
       </dependency>
 
       <!-- Geotools -->
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-api</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-temporal</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-coverage</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-render</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-coverageio</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-wms</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-display</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-wfs</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-go2</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-main</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-main</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-go2</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-metadata</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-display</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-referencing</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-style</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-render</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-epsg-hsql</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-sld</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-referencing</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-style</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-metadata</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-temporal</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-coverage</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-wfs</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-coverageio</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-wms</artifactId>
-        <version>${geomodified.version}</version>
+        <artifactId>gt-api</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.geotoolkit</groupId>
-        <artifactId>gto-epsg-postgresql</artifactId>
-        <version>${geotoolkit.version}</version>
+        <groupId>org.geotools</groupId>
+        <artifactId>gt-sld</artifactId>
+        <version>${geotools.version}</version>
       </dependency>
-
-
 
       <!-- COMMONS -->
-      <!-- (certaines de ces dependances sont deja chargï¿½ via un plugin donc on les as commentï¿½s)-->
+      <!-- (certaines de ces dependances sont deja chargé via un plugin donc on les as commentés)-->
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
@@ -352,7 +348,7 @@
     </repository>
     <repository>
       <id>geotools</id>
-      <name>Geotools et ses dï¿½pendances spï¿½cifiques</name>
+      <name>Geotools et ses dépendances spécifiques</name>
       <url>http://maven.geotools.fr/repository</url>
     </repository>
     <repository>
@@ -379,7 +375,7 @@
   <pluginRepositories>
     <pluginRepository>
       <id>geotools</id>
-      <name>Geotools et ses dï¿½pendances spï¿½cifiques</name>
+      <name>Geotools et ses dépendances spécifiques</name>
       <url>http://maven.geotools.fr/repository</url>
     </pluginRepository>
     <pluginRepository>

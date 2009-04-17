@@ -20,8 +20,8 @@ package org.mapfaces.models;
 import java.io.ObjectStreamException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.geotoolkit.util.collection.SoftValueHashMap;
-import org.geotools.internal.jaxb.backend.AbstractWMSCapabilities;
+import org.geotools.data.ows.WMSCapabilities;
+import org.geotools.util.SoftValueHashMap;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -30,7 +30,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class DefaultServer implements Server {
     
-    private static final Map<String, AbstractWMSCapabilities> cache = new SoftValueHashMap<String, AbstractWMSCapabilities>(50);
+    private static final Map<String, WMSCapabilities> cache = new SoftValueHashMap<String, WMSCapabilities>(50);
     private static final AtomicInteger incr = new AtomicInteger();
     private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+incr.incrementAndGet();
 
@@ -38,7 +38,7 @@ public class DefaultServer implements Server {
     private String href;
     private String service;
     private String version;
-    private transient AbstractWMSCapabilities gtCapabilities;
+    private transient WMSCapabilities gtCapabilities;
     private String title = null;
 
     /**
@@ -47,7 +47,7 @@ public class DefaultServer implements Server {
     public DefaultServer() {
     }
     
-    public static Map<String, AbstractWMSCapabilities> getCache() {
+    public static Map<String, WMSCapabilities> getCache() {
         return cache;
     }
 
@@ -103,7 +103,7 @@ public class DefaultServer implements Server {
      * {@inheritDoc }
      */
     @Override
-    public void setGTCapabilities(final AbstractWMSCapabilities capabilities) {
+    public void setGTCapabilities(final WMSCapabilities capabilities) {
         this.gtCapabilities = capabilities;
     }
 
@@ -111,12 +111,12 @@ public class DefaultServer implements Server {
      * {@inheritDoc }
      */
     @Override
-    public AbstractWMSCapabilities getGTCapabilities() {
+    public WMSCapabilities getGTCapabilities() {
         return gtCapabilities;
     }
 
     Object writeReplace() throws ObjectStreamException {
-        AbstractWMSCapabilities gtcapa = getGTCapabilities();
+        WMSCapabilities gtcapa = getGTCapabilities();
         if (gtcapa != null) {
             getCache().put(getcapaId, gtcapa);
         }
@@ -124,7 +124,7 @@ public class DefaultServer implements Server {
     }
 
     Object readResolve() throws ObjectStreamException {
-        AbstractWMSCapabilities gtcapa = getCache().get(getcapaId);
+        WMSCapabilities gtcapa = getCache().get(getcapaId);
         
         //@TODO  The cache must be cleared after the session timeout.
         //cache.remove(getcapaId);

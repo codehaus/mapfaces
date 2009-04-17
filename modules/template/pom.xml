@@ -6,7 +6,7 @@
     <parent>
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-modules</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
   </parent>
     
     
@@ -51,15 +51,15 @@
     <!-- gt library -->
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-render</artifactId>
+      <artifactId>gt-render</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-wms</artifactId>
+      <artifactId>gt-wms</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-wfs</artifactId>
+      <artifactId>gt-wfs</artifactId>
       <exclusions>
                 <exclusion>
                     <artifactId>xercesImpl</artifactId>
@@ -69,47 +69,47 @@
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-main</artifactId>
+      <artifactId>gt-main</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-go2</artifactId>
+      <artifactId>gt-go2</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-display</artifactId>
+      <artifactId>gt-display</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-style</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotoolkit</groupId>
-      <artifactId>gto-epsg-postgresql</artifactId>
+      <artifactId>gt-style</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-referencing</artifactId>
+      <artifactId>gt-epsg-hsql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-metadata</artifactId>
+      <artifactId>gt-referencing</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-coverage</artifactId>
+      <artifactId>gt-metadata</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-coverageio</artifactId>
+      <artifactId>gt-coverage</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-api</artifactId>
+      <artifactId>gt-coverageio</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <artifactId>gtm-sld</artifactId>
+      <artifactId>gt-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-sld</artifactId>
     </dependency>
 
     <!-- JSF -->

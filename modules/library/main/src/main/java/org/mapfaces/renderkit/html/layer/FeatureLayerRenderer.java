@@ -1,3 +1,4 @@
+
 /*
  *    Mapfaces -
  *    http://www.mapfaces.org
@@ -14,10 +15,10 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layer;
 
 import com.vividsolutions.jts.geom.Geometry;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,8 +38,7 @@ import org.geotools.filter.identity.FeatureIdImpl;
 import org.geotools.map.FeatureMapLayer;
 import org.geotools.map.MapBuilder;
 import org.geotools.map.MapContext;
-import org.geotools.map.MapLayer;
-import org.geotoolkit.referencing.CRS;
+import org.geotools.referencing.CRS;
 
 import org.geotools.style.MutableStyle;
 import org.mapfaces.component.UILayer;
@@ -47,6 +47,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
+import org.mapfaces.renderkit.html.LayerRenderer;
 import org.mapfaces.util.FacesUtils;
 
 import org.opengis.feature.simple.SimpleFeature;
@@ -58,10 +59,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * @author Mehdi Sidhoum (Geomatys).
  * @author Olivier Terral (Geomatys).
  */
-public class FeatureLayerRenderer extends MapContextLayerRenderer {
+public class FeatureLayerRenderer extends LayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
-
+    
     /**
      * {@inheritDoc }
      */

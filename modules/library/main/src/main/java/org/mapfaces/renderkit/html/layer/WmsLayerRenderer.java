@@ -27,11 +27,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.geotools.data.wms.WebMapServer;
+import org.geotools.map.WMSMapLayer;
 import org.geotools.ows.ServiceException;
 
-import org.geotools.wms.GetMapRequest;
-import org.geotools.wms.WebMapServer;
-import org.geotools.wms.map.WMSMapLayer;
 import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
@@ -69,9 +68,9 @@ public class WmsLayerRenderer extends LayerRenderer {
                 LOGGER.log(Level.INFO, "[DEBUG] model id : " + model.getId());
             }
         }
-        final String opacity = (layer.getOpacity() != null) ? layer.getOpacity() : "1";
+        String opacity = (layer.getOpacity() != null) ? layer.getOpacity() : "1";
 
-        final String styleImg = "filter:alpha(opacity=" + ( Float.parseFloat(opacity) * 100) + ");opacity:" + opacity + ";";
+        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";
         final String display = (layer.isHidden()) ? "display:none" : "display:block;";
 
         //Create the Layer_WMS_0 div
@@ -130,15 +129,12 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             // 2. define the new extent
             final String srs = model.getSrs();
-            final double[] imgExtentLowerCorner = {new Double(model.getMinx()), new Double(model.getMiny())};
-            final double[] imgExtentUpperCorner = {new Double(model.getMaxx()), new Double(model.getMaxy())};
+            double[] imgExtentLowerCorner = {new Double(model.getMinx()), new Double(model.getMiny())};
+            double[] imgExtentUpperCorner = {new Double(model.getMaxx()), new Double(model.getMaxy())};
 
             // 3. get the URL fragment
             if (mapLayer != null) {
-                GetMapRequest request = mapLayer.createGetMapRequest();
-                request.setDimension(dim);
-                request.setEnvelope(model.getEnvelope());
-                url = request.getURL();
+                url = mapLayer.getURLforNewView(srs, imgExtentLowerCorner, imgExtentUpperCorner, dim);
             }
 
             if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {
@@ -209,7 +205,7 @@ public class WmsLayerRenderer extends LayerRenderer {
     public WMSMapLayer createWMSMapLayer(final WmsLayer layer) throws IOException, ServiceException {
 
         // to avoid a NullPointerException when creating an object org.geotools.data.wms.WebMapServer.
-        if (layer == null || layer.getServer() == null ) {
+        if (layer == null || layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
             if (layer.getUrlGetMap() == null) {
                 LOGGER.log(Level.SEVERE, "[WmsLayerRenderer] Error the getcapabilities returned null !!!!!  url = " + layer.getServer().getHref());
                 return null;
@@ -219,22 +215,23 @@ public class WmsLayerRenderer extends LayerRenderer {
             }
         }
 
-        final WebMapServer server = new WebMapServer(new URL(layer.getServer().getHref()), layer.getServer().getVersion());
-        final WMSMapLayer mapLayer = new WMSMapLayer(server, layer.getName());
+        final WMSMapLayer mapLayer = new WMSMapLayer(new WebMapServer(layer.getServer().getGTCapabilities()), layer.getName());
         final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
         if (dims != null) {
             for (final String tmp : dims.keySet()) {
                 mapLayer.dimensions().put(tmp, dims.get(tmp).getUserValue());
             }
         }
-        mapLayer.setFormat(layer.getOutputFormat());
+        mapLayer.setOutputFormat(layer.getOutputFormat());
+        mapLayer.setVersion(layer.getServer().getVersion());
+        mapLayer.setServerUrl(new URL(layer.getServer().getHref()));
         mapLayer.setVisible(!layer.isHidden());
         mapLayer.setStyles(layer.getStyles());
         if (layer.getSld() != null) {
             mapLayer.setSld(layer.getSld());
         }
         if (layer.getSldBody() != null) {
-            mapLayer.setSldBody(layer.getSldBody());
+            mapLayer.setSld_body(layer.getSldBody());
         }
         return mapLayer;
     }
