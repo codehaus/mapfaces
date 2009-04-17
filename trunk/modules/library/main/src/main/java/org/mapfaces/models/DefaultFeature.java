@@ -20,7 +20,7 @@ package org.mapfaces.models;
 import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.Map;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 
 /**
  *

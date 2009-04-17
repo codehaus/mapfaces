@@ -41,16 +41,13 @@ import org.apache.commons.lang.StringUtils;
 
 import org.constellation.ows.v100.BoundingBoxType;
 
-import org.geotools.data.ows.WMSCapabilities;
-import org.geotools.data.wms.WebMapServer;
-import org.geotools.data.wms.backend.AbstractDimension;
-import org.geotools.data.wms.backend.AbstractLayer;
-import org.geotools.data.wms.backend.AbstractWMSCapabilities;
+import org.geotools.internal.jaxb.backend.AbstractDimension;
+import org.geotools.internal.jaxb.backend.AbstractLayer;
+import org.geotools.internal.jaxb.backend.AbstractWMSCapabilities;
+import org.geotools.wms.WebMapServer;
 
-import org.geotools.geometry.GeneralEnvelope;
-import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.ows.ServiceException;
-import org.geotools.referencing.CRS;
+import org.geotoolkit.geometry.GeneralEnvelope;
+import org.geotoolkit.referencing.CRS;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
@@ -137,21 +134,16 @@ public class OWCv030toMFTransformer {
 //                                }
                         }
                         if (webMapServers.get(wmsUrl) == null) {
-                            Thread thr = new Thread() {
-
+                            new Thread(){
                                 public void run() {
                                     try {
                                         WebMapServer wmserver = new WebMapServer(new URL(wmsUrl), layerType.getServer().get(0).getVersion());
                                         webMapServers.put(wmsUrl, wmserver);
                                     } catch (IOException ex) {
                                         LOGGER.log(Level.SEVERE, null, ex);
-                                    } catch (ServiceException ex) {
-                                        LOGGER.log(Level.SEVERE, null, ex);
                                     }
                                 }
-                            };
-
-                            thr.start();
+                            }.start();
                             long start = System.currentTimeMillis();
                             long end = 0L;
                             while (webMapServers.get(wmsUrl) == null && end < 10000) {
@@ -171,7 +163,7 @@ public class OWCv030toMFTransformer {
                         wms.setService(layerType.getServer().get(0).getService().value());
                         wms.setVersion(layerType.getServer().get(0).getVersion());
 
-                        WMSCapabilities wmscapabilities = null;
+                        AbstractWMSCapabilities wmscapabilities = null;
 
                         if (webMapServers.get(wmsUrl) != null) {
                             wmscapabilities = webMapServers.get(wmsUrl).getCapabilities();
@@ -426,7 +418,7 @@ public class OWCv030toMFTransformer {
         if (layerType.getDimensionList() == null) {
             //TODO find dimension into getcapabilities
             if (webMapServers.get(wmsUrl) != null) {
-                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
+                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
             }
             if (tmp != null) {
                 allDims.putAll(tmp);
@@ -438,7 +430,7 @@ public class OWCv030toMFTransformer {
                     if (dim.getDefault() == null) {
                         if (dim.getValue() == null) {
                             //TODO find dimension into getcapabilities
-                            tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
+                            tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
                             if (tmp != null) {
                                 allDims.putAll(tmp);
                             }

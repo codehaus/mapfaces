@@ -29,7 +29,7 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.referencing.CRS;
+import org.geotoolkit.referencing.CRS;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.XMLContextUtilities;
 import org.opengis.referencing.FactoryException;
