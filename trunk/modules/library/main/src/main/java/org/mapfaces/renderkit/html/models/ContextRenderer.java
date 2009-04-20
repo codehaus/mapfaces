@@ -38,7 +38,8 @@ import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
-import org.geotools.map.MapContext;
+import org.geotoolkit.map.MapContext;
+
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractModelBase;

@@ -238,16 +238,6 @@
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-display</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-go2</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
         <artifactId>gtm-main</artifactId>
         <version>${geomodified.version}</version>
       </dependency>
@@ -263,21 +253,6 @@
       </dependency>
       <dependency>
         <groupId>org.geotools</groupId>
-        <artifactId>gtm-render</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-sld</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-style</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
         <artifactId>gtm-temporal</artifactId>
         <version>${geomodified.version}</version>
       </dependency>
@@ -286,11 +261,38 @@
         <artifactId>gtm-wfs</artifactId>
         <version>${geomodified.version}</version>
       </dependency>
+
       <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-wms</artifactId>
-        <version>${geomodified.version}</version>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-engine-core</artifactId>
+        <version>${geotoolkit.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-go2</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-render</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-sld</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-style</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-wms</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.geotoolkit</groupId>
         <artifactId>gto-epsg-postgresql</artifactId>

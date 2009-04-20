@@ -21,7 +21,7 @@ import java.io.ObjectStreamException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.geotoolkit.util.collection.SoftValueHashMap;
-import org.geotools.internal.jaxb.backend.AbstractWMSCapabilities;
+import org.geotoolkit.internal.jaxb.backend.AbstractWMSCapabilities;
 import org.mapfaces.util.FacesUtils;
 
 /**

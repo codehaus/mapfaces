@@ -41,18 +41,19 @@ import org.apache.commons.lang.StringUtils;
 
 import org.constellation.ows.v100.BoundingBoxType;
 
-import org.geotools.internal.jaxb.backend.AbstractDimension;
-import org.geotools.internal.jaxb.backend.AbstractLayer;
-import org.geotools.internal.jaxb.backend.AbstractWMSCapabilities;
-import org.geotools.wms.WebMapServer;
-
+import org.geotoolkit.internal.jaxb.backend.AbstractDimension;
+import org.geotoolkit.internal.jaxb.backend.AbstractLayer;
+import org.geotoolkit.internal.jaxb.backend.AbstractWMSCapabilities;
+import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.geometry.GeneralEnvelope;
 import org.geotoolkit.referencing.CRS;
+
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.WmsLayer;
+
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;

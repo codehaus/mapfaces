@@ -20,7 +20,7 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import org.geotools.map.MapContext;
+import org.geotoolkit.map.MapContext;
 
 /**
  * @author Olivier Terral.

@@ -18,7 +18,6 @@
 package org.mapfaces.component.layer;
 
 import java.util.logging.Logger;
-import org.geotools.map.MapContext;
 import org.mapfaces.component.UILayer;
 
 public class UIMapContextLayer extends UILayer {
