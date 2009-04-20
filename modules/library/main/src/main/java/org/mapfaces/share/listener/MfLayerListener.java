@@ -16,10 +16,11 @@
 
 package org.mapfaces.share.listener;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.Map;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
@@ -28,14 +29,15 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
-import org.geotools.display.exception.PortrayalException;
-import org.geotools.display2d.service.DefaultPortrayalService;
+
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.MapContext;
+import org.geotoolkit.display.exception.PortrayalException;
+import org.geotoolkit.display2d.service.DefaultPortrayalService;
+import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
+
 import org.mapfaces.models.Context;
-import java.awt.Dimension;
-import java.util.Date;
+
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 

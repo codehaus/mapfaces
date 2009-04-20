@@ -26,7 +26,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.geotools.map.MapContext;
+import org.geotoolkit.map.MapContext;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.layer.UIFeatureLayer;

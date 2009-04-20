@@ -29,9 +29,10 @@ import javax.faces.context.ResponseWriter;
 
 import org.geotools.ows.ServiceException;
 
-import org.geotools.wms.GetMapRequest;
-import org.geotools.wms.WebMapServer;
-import org.geotools.wms.map.WMSMapLayer;
+import org.geotoolkit.wms.GetMapRequest;
+import org.geotoolkit.wms.WebMapServer;
+import org.geotoolkit.wms.map.WMSMapLayer;
+
 import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;

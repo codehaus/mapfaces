@@ -21,9 +21,9 @@ package org.mapfaces.util;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
-import org.geotools.display2d.primitive.GraphicCoverageJ2D;
-import org.geotools.display2d.canvas.AbstractGraphicVisitor;
-import org.geotools.display2d.primitive.ProjectedFeature;
+import org.geotoolkit.display2d.primitive.GraphicCoverageJ2D;
+import org.geotoolkit.display2d.canvas.AbstractGraphicVisitor;
+import org.geotoolkit.display2d.primitive.ProjectedFeature;
 import org.opengis.feature.Feature;
 
 /**

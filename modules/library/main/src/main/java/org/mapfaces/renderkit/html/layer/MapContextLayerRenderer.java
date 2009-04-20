@@ -29,7 +29,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.geotools.map.MapContext;
+import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 
 import org.mapfaces.component.UILayer;

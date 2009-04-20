@@ -18,7 +18,7 @@
 package org.mapfaces.models;
 
 import java.io.Serializable;
-import org.geotools.internal.jaxb.backend.AbstractWMSCapabilities;
+import org.geotoolkit.internal.jaxb.backend.AbstractWMSCapabilities;
 
 /**
  *

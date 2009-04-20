@@ -31,20 +31,43 @@
   <!--     Dependency Management                                   -->
   <!-- =========================================================== -->
   <dependencies>
+      
+    <!-- geotoolkit -->
+    <dependency>
+      <groupId>org.geotoolkit</groupId>
+      <artifactId>gto-epsg-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-render</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-wms</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-go2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-engine-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-style</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geotoolkit.pending</groupId>
+      <artifactId>geotk-sld</artifactId>
+    </dependency>
+
     <!-- gt library -->
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gtm-temporal</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gtm-render</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gtm-wms</artifactId>
-    </dependency>
-    <dependency>
+    <!--dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gtm-wfs</artifactId>
       <exclusions>
@@ -53,26 +76,10 @@
                     <groupId>xerces</groupId>
                 </exclusion>
             </exclusions>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gtm-main</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gtm-go2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gtm-display</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gtm-style</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotoolkit</groupId>
-      <artifactId>gto-epsg-postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
@@ -93,10 +100,6 @@
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gtm-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gtm-sld</artifactId>
     </dependency>
 
     <!-- JSF -->

@@ -83,19 +83,19 @@ import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 
+import org.geotools.geometry.jts.ReferencedEnvelope;
+
 import org.geotoolkit.factory.Hints;
 import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
-
-import org.geotools.internal.jaxb.backend.AbstractKeyword;
-import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.sld.MutableStyledLayerDescriptor;
-import org.geotools.style.MutableFeatureTypeStyle;
-import org.geotools.style.MutableRule;
-import org.geotools.style.MutableStyle;
-import org.geotools.style.MutableStyleFactory;
-import org.geotools.style.xml.Specification.StyledLayerDescriptor;
-import org.geotools.style.xml.XMLUtilities;
+import org.geotoolkit.internal.jaxb.backend.AbstractKeyword;
+import org.geotoolkit.sld.MutableStyledLayerDescriptor;
+import org.geotoolkit.style.MutableFeatureTypeStyle;
+import org.geotoolkit.style.MutableRule;
+import org.geotoolkit.style.MutableStyle;
+import org.geotoolkit.style.MutableStyleFactory;
+import org.geotoolkit.style.xml.Specification.StyledLayerDescriptor;
+import org.geotoolkit.style.xml.XMLUtilities;
 
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
