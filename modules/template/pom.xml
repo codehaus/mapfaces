@@ -47,8 +47,7 @@
     <!-- =========================================================== -->
   <!--     Dependency Management                                   -->
   <!-- =========================================================== -->
-  <dependencies>
-      
+  <dependencies>
     <!-- JSF -->
     <dependency>
 	<groupId>javax.faces</groupId>

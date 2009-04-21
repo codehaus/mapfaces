@@ -176,7 +176,7 @@
   <!-- =========================================================== -->
   <properties>
     <geoapi.version>2.3-SNAPSHOT</geoapi.version>
-    <geotoolkit.version>3.00-SNAPSHOT</geotoolkit.version>
+    <geotoolkit.version>SNAPSHOT</geotoolkit.version>
     <geomodified.version>2.6-SNAPSHOT</geomodified.version>
     <constellation.version>0.4-SNAPSHOT</constellation.version>
   </properties>
@@ -292,13 +292,11 @@
         <artifactId>geotk-wms</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.geotoolkit</groupId>
         <artifactId>gto-epsg-postgresql</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-
+	<version>${geotoolkit.version}</version>
+       </dependency>
 
 
       <!-- COMMONS -->
