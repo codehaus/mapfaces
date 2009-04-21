@@ -292,6 +292,7 @@
         <artifactId>geotk-wms</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
+
       <!-- COMMONS -->
       <!-- (certaines de ces dependances sont deja charg� via un plugin donc on les as comment�s)-->
       <dependency>
