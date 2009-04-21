@@ -340,16 +340,25 @@
       <name>java.net community</name>
       <url>http://download.java.net/maven/1</url>
       <layout>legacy</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>java.net.2</id>
       <name>java.net community</name>
       <url>http://download.java.net/maven/2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>maven object web</id>
       <name>maven Object web</name>
       <url>http://maven.objectweb.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>geotools</id>
@@ -360,6 +369,11 @@
       <id>geomatys</id>
       <name>Other projects</name>
       <url>http://maven.geomatys.fr/repository</url>
+    </repository>
+    <repository>
+      <id>geotoolkit</id>
+      <name>Geotoolkit</name>
+      <url>http://maven.geotoolkit.org/</url>
     </repository>
     <!--repository>
       <id>refractions</id>
