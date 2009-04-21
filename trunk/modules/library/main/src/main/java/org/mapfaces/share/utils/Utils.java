@@ -138,6 +138,7 @@ public class Utils {
             final UIComponent component, final Class c) {
         UIComponent parent = component;
         while (!(c.isInstance(parent))) {
+//            System.out.println("c.instanceOf >>"+parent.getFamily());
             parent = parent.getParent();
         }
         return parent.getClientId(faceContext);
