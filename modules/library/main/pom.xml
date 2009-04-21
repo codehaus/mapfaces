@@ -59,6 +59,10 @@
             <groupId>org.geotoolkit.pending</groupId>
             <artifactId>geotk-sld</artifactId>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
 
         <!-- gt library -->
         <dependency>

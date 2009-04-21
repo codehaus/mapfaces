@@ -292,13 +292,6 @@
         <artifactId>geotk-wms</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.geotoolkit</groupId>
-        <artifactId>gto-epsg-postgresql</artifactId>
-	<version>${geotoolkit.version}</version>
-       </dependency>
-
-
       <!-- COMMONS -->
       <!-- (certaines de ces dependances sont deja charg� via un plugin donc on les as comment�s)-->
       <dependency>
@@ -325,7 +318,14 @@
           <groupId>commons-digester</groupId>
           <artifactId>commons-digester</artifactId>
           <version>1.8</version>
-      </dependency> 
+      </dependency>
+
+      <dependency>
+        <groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>8.3-603.jdbc4</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
   
