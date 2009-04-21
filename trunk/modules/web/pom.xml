@@ -34,8 +34,8 @@
       
     <!-- geotoolkit -->
     <dependency>
-      <groupId>org.geotoolkit</groupId>
-      <artifactId>gto-epsg-postgresql</artifactId>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geotoolkit.pending</groupId>
