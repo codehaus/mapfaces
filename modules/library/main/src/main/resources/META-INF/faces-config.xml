@@ -246,6 +246,20 @@
         <component-type>org.mapfaces.treebuilder.treepanel.TreeNodeInfo</component-type>
         <component-class>org.mapfaces.component.treebuilder.UITreeNodeInfo</component-class>
     </component>
+
+    <!-- Datatable component -->
+    <component>
+        <component-type>org.mapfaces.Datatable</component-type>
+        <component-class>org.mapfaces.component.datatable.UIDatatable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.datatable.Columns</component-type>
+        <component-class>org.mapfaces.component.datatable.UIColumns</component-class>
+    </component>
+    <!--component>
+        <component-type>org.mapfaces.datatable.Scroller</component-type>
+        <component-class>org.mapfaces.component.datatable.UIScroller</component-class>
+    </component-->
     
     <!-- *************************************************************** -->
     <!-- ******************** RENDER-KIT ******************************* -->
@@ -585,23 +599,48 @@
             <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeNodeInfoRenderer</renderer-class>
         </renderer>
+        <!-- Div Renderers -->
         <renderer>
             <description>Div </description>
             <component-family>org.mapfaces.Div</component-family>
             <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
         </renderer>
+        <!-- ExtPanel Renderers -->
         <renderer>
             <description>ExtPanel </description>
             <component-family>org.mapfaces.ExtPanel</component-family>
             <renderer-type>org.mapfaces.renderkit.html.ExtPanel</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.ExtPanelRenderer</renderer-class>
         </renderer>
+
+        <!-- Datatable Renderers -->
+        <renderer>
+            <description>Datatable</description>
+            <component-family>org.mapfaces.Datatable</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLDatatable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.DatatableRenderer</renderer-class>
+        </renderer>
+        <!--renderer>
+            <description>Columns </description>
+            <component-family>org.mapfaces.datatable.Columns</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLColumns</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.ColumnsRenderer</renderer-class>
+        </renderer-->
+        <!--renderer>
+            <description>Scroller </description>
+            <component-family>org.mapfaces.datatable.Scroller</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLScroller</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.ScrollerRenderer</renderer-class>
+        </renderer-->
+
+        <!-- DataRequest -->
         <renderer>
             <description>DataRequest is no visual component, it is used to handle data request for getFeatureInfo or getCoverage and redirect the value in output components like a Popup</description>
             <component-family>org.mapfaces.DataRequest</component-family>
             <renderer-type>org.mapfaces.renderkit.html.DataRequest</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.DataRequestRenderer</renderer-class>
         </renderer>
+
     </render-kit>
 </faces-config>

@@ -241,13 +241,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
              * After that, we take this model to create Treelines Component recursively
              * All Treelines will be children of this Treepanel
              */
-            if (treepanel.getView() == null) {
+            //if (treepanel.getView() == null) {
                 treepanel.setView(treetable.getTree());
-            }
+            //}
             final TreeNodeModel root         = treepanel.getView().getRoot();
             final ExternalContext extContext = context.getExternalContext();
 
-            if (!extContext.getRequestMap().containsKey("treePanelRendered_" + component.getClientId(context))) {
+            //if (!extContext.getRequestMap().containsKey("treePanelRendered_" + component.getClientId(context))) {
                 extContext.getRequestMap().put("treePanelRendered_" + component.getClientId(context), Boolean.TRUE);
                 final List<UIComponent> backup = new ArrayList<UIComponent>();
                 final List<UIComponent> children = component.getChildren();
@@ -265,7 +265,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 if (debug) System.out.println("[INFO] createTreeLines times in " + time + " mlls");
 
                 treepanel.setInit(true);
-            }
+            //}
 
             /* After encodeBegin, any method declared in a component extends this class can be launch here*/
             if (debug) System.out.println("[INFO] afterEncodeBegin : " + AbstractTreePanelRenderer.class.getName());
@@ -376,12 +376,12 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         phaseEnd = new Date();
         if (debug) {
             renderEnd = new Date();
-            long timeEncode = renderEnd.getTime() - renderStart.getTime();
+            //long timeEncode = renderEnd.getTime() - renderStart.getTime();
             encodeEndTime = phaseStart.getTime() - phaseEnd.getTime();
             System.out.println("[INFO] encodeBegin have been rendered in " + encodeBeginTime + " mlls");
             System.out.println("[INFO] encodeChildren have been rendered in " + encodeChildrenTime + " mlls");
             System.out.println("[INFO] encodeEnd have been rendered in " + encodeEndTime + " mlls");
-            System.out.println("[INFO] encode TreeTable have been rendered in " + timeEncode + " mlls");
+            //System.out.println("[INFO] encode TreeTable have been rendered in " + timeEncode + " mlls");
         }
     }
 
@@ -586,7 +586,6 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             if (attributs.get("headerTitle") != null) {
                 writer.writeAttribute("title", (String) attributs.get("headerTitle"), null);
             }
-            writer.writeAttribute("class", "layercontrol_headerIcon_"+component.getId(),"class");
             writer.endElement("img");
         } else if (attributs.get("headerTitle") != null) {
             writer.write((String) attributs.get("headerTitle"));
