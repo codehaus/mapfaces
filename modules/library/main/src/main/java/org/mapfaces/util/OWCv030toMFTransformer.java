@@ -39,7 +39,7 @@ import net.opengis.owc.v030.StyleType;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.constellation.ows.v100.BoundingBoxType;
+import org.geotoolkit.ows.xml.v100.BoundingBoxType;
 
 import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.geometry.GeneralEnvelope;

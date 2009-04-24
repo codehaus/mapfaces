@@ -12,8 +12,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.geotoolkit.internal.jaxb.v100.sld.FeatureTypeStyle;
-import org.geotoolkit.internal.jaxb.v100.sld.StyledLayerDescriptor;
+import org.geotoolkit.sld.xml.v100.FeatureTypeStyle;
+import org.geotoolkit.sld.xml.v100.StyledLayerDescriptor;
 
  
 /**
