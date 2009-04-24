@@ -88,7 +88,6 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotoolkit.factory.Hints;
 import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
-import org.geotoolkit.internal.jaxb.backend.AbstractKeyword;
 import org.geotoolkit.sld.MutableStyledLayerDescriptor;
 import org.geotoolkit.style.MutableFeatureTypeStyle;
 import org.geotoolkit.style.MutableRule;
@@ -97,6 +96,7 @@ import org.geotoolkit.style.MutableStyleFactory;
 import org.geotoolkit.style.xml.Specification.StyledLayerDescriptor;
 import org.geotoolkit.style.xml.XMLUtilities;
 
+import org.geotoolkit.wms.xml.AbstractKeyword;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
