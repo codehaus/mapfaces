@@ -41,13 +41,13 @@ import org.apache.commons.lang.StringUtils;
 
 import org.constellation.ows.v100.BoundingBoxType;
 
-import org.geotoolkit.internal.jaxb.backend.AbstractDimension;
-import org.geotoolkit.internal.jaxb.backend.AbstractLayer;
-import org.geotoolkit.internal.jaxb.backend.AbstractWMSCapabilities;
 import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.geometry.GeneralEnvelope;
 import org.geotoolkit.referencing.CRS;
 
+import org.geotoolkit.wms.xml.AbstractDimension;
+import org.geotoolkit.wms.xml.AbstractLayer;
+import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
