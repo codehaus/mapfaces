@@ -28,62 +28,25 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.mapfaces</groupId>
-            <artifactId>mapfaces-main</artifactId>
-            <version>${project.version}</version>
+          <groupId>org.mapfaces</groupId>
+          <artifactId>mapfaces-main</artifactId>
+          <version>${project.version}</version>
         </dependency>
 
-    <!-- JSF -->
+        <!-- JSP, Servlet ,JSTL -->
         <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>1.2_08</version>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>1.2_08</version>
-        </dependency>
-
-    <!-- JSP, Servlet ,JSTL -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
+          <groupId>javax.servlet.jsp</groupId>
+          <artifactId>jsp-api</artifactId>
+          <scope>provided</scope>
         </dependency>
 
-      <!-- ajax4jsf -->
-        <dependency>
-            <groupId>org.ajax4jsf</groupId>
-            <artifactId>ajax4jsf</artifactId>
-            <version>1.1.2-SNAPSHOT</version>
-        </dependency>
-
-
-      <!-- COMMONS -->
-        <dependency>
-            <groupId>commons-digester</groupId>
-            <artifactId>commons-digester</artifactId>
-            <version>1.8</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.1</version>
-        </dependency>
     </dependencies>
+    
     <build>
         <plugins>
             <plugin>

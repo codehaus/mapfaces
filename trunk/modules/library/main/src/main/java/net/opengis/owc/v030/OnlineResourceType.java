@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OnlineResourceType")
 public class OnlineResourceType
-    extends org.constellation.ows.v100.OnlineResourceType
+    extends org.geotoolkit.ows.xml.v100.OnlineResourceType
 {
 
     @XmlAttribute
