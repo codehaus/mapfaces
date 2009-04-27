@@ -30,14 +30,15 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
+import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 
 import org.mapfaces.models.Context;
 
+import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
@@ -123,10 +124,11 @@ public class MfLayerListener implements PhaseListener {
                 dim.height = 1;
             }
 
-            final ReferencedEnvelope env = new ReferencedEnvelope(
-                    new Double(model.getMinx()), new Double(model.getMaxx()),
-                    new Double(model.getMiny()), new Double(model.getMaxy()),
-                    crs);
+            final Envelope env = new Envelope2D(crs,
+                    new Double(model.getMinx()), new Double(model.getMiny()),
+                    new Double(model.getMaxx()) - new Double(model.getMinx()),
+                    new Double(model.getMaxy()) - new Double(model.getMiny())
+                    );
 
             MapContext mapContext = (MapContext) sessionMap.get(id + "_mapContext");
 

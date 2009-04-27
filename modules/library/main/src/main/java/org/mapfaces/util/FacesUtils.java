@@ -83,8 +83,6 @@ import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
-
 import org.geotoolkit.factory.Hints;
 import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
@@ -100,6 +98,7 @@ import org.geotoolkit.wms.xml.AbstractKeyword;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
+import org.opengis.geometry.Envelope;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.Displacement;
 import org.opengis.style.ExternalGraphic;
@@ -927,7 +926,7 @@ public class FacesUtils {
      * @param dimension
      * @return
      */
-    public static Double[] getLonLatFromPixel(double x, double y, ReferencedEnvelope envelope, Dimension dimension) {
+    public static Double[] getLonLatFromPixel(double x, double y, Envelope envelope, Dimension dimension) {
         double lat = 0;
         double lon = 0;
         if (envelope != null && dimension != null && envelope.getLowerCorner() != null && envelope.getUpperCorner() != null) {

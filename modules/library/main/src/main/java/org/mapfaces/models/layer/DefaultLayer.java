@@ -21,11 +21,11 @@ package org.mapfaces.models.layer;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.LayerType;
+import org.opengis.geometry.Envelope;
 
 public class DefaultLayer implements Layer {
 
@@ -37,7 +37,7 @@ public class DefaultLayer implements Layer {
     /**
      * bbox
      */
-    private ReferencedEnvelope refEnv;
+    private Envelope refEnv;
     public LayerType type = LayerType.DEFAULT;
     private String id;
     private String name;
@@ -89,7 +89,7 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public ReferencedEnvelope getRefEnv() {
+    public Envelope getRefEnv() {
         return refEnv;
     }
 
@@ -97,7 +97,7 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public void setRefEnv(final ReferencedEnvelope refEnv) {
+    public void setRefEnv(final Envelope refEnv) {
         this.refEnv = refEnv;
     }
 
