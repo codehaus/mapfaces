@@ -19,7 +19,7 @@ package org.mapfaces.models;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.opengis.geometry.Envelope;
 import org.opengis.util.Cloneable;
 
 /**
@@ -71,7 +71,7 @@ public interface Layer extends Serializable, Cloneable {
 
     boolean isQueryable();
 
-    ReferencedEnvelope getRefEnv();
+    Envelope getRefEnv();
 
     String getResX();
 
@@ -120,7 +120,7 @@ public interface Layer extends Serializable, Cloneable {
 
     void setQueryable(boolean queryable);
 
-    void setRefEnv(ReferencedEnvelope refEnv);
+    void setRefEnv(Envelope refEnv);
 
     void setResX(String resX);
 

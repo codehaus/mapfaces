@@ -28,10 +28,11 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.referencing.CRS;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.XMLContextUtilities;
+import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -241,7 +242,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
     }
 
     @Override
-    public ReferencedEnvelope getEnvelope(){
+    public Envelope getEnvelope(){
         CoordinateReferenceSystem crs = null;
         try {
             crs = CRS.decode(this.srs);
@@ -255,7 +256,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
         double dminy = Double.parseDouble(this.miny);
         double dmaxy = Double.parseDouble(this.maxy);
 
-        return new ReferencedEnvelope(dminx, dmaxx, dminy, dmaxy, crs);
+        return new Envelope2D(crs, dminx, dminy, dmaxx-dminx, dmaxy-dminy);
     }
 
     /**
