@@ -143,7 +143,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.write(new StringBuffer("function hideOrDisplay(id1, id2){\n")
+        writer.write(new StringBuilder("function hideOrDisplay(id1, id2){\n")
                               .append("if( document.getElementById(id1).style.display==\"none\" ){\n")
                               .append("document.getElementById(id1).style.display=\"block\";\n")
                               .append("document.getElementById(id2).style.display=\"none\";\n")

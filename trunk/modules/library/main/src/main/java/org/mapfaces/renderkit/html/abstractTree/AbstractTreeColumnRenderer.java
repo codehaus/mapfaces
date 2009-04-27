@@ -392,7 +392,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         final HttpServletRequest request   = (HttpServletRequest) context.getExternalContext().getRequest();
         final String nodeId                = request.getParameter(AjaxUtils.AJAX_NODE_ID_KEY);
         final UITreeLinesBase treeline     = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
-        final StringBuffer sb              = new StringBuffer("");
+        final StringBuilder sb              = new StringBuilder("");
         final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
         response.setContentType("text/xml;charset=UTF-8");

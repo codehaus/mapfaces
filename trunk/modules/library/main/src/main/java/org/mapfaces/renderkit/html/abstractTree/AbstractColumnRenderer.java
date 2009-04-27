@@ -244,7 +244,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         HttpServletResponse response = null;
         try {
             response = (HttpServletResponse) context.getExternalContext().getResponse();
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             response.setContentType("text/xml;charset=UTF-8");
             // need to set no cache or IE will not make future requests when same URL used.
             response.setHeader("Pragma", "No-Cache");
