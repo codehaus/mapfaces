@@ -43,26 +43,13 @@
             <groupId>org.geotoolkit.pending</groupId>
             <artifactId>geotk-go2</artifactId>
         </dependency>
-        
         <dependency>
             <groupId>org.geotoolkit.pending</groupId>
-            <artifactId>geotk-xml-gml</artifactId>
+            <artifactId>geotk-xml-owc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.geotoolkit.pending</groupId>
-            <artifactId>geotk-xml-kml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.geotoolkit.pending</groupId>
-            <artifactId>geotk-xml-ows</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.geotoolkit.pending</groupId>
-            <artifactId>geotk-xml-ogc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.geotoolkit.pending</groupId>
-            <artifactId>geotk-xml-sld</artifactId>
+            <artifactId>geotk-xml-wmc</artifactId>
         </dependency>
 
         <!--postgres driver for EPSG database -->

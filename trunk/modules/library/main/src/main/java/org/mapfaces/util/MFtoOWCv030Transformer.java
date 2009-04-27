@@ -25,19 +25,19 @@ import java.util.List;
 import java.util.Map.Entry;
 import javax.xml.bind.JAXBException;
 
-import net.opengis.owc.v030.DimensionListType;
-import net.opengis.owc.v030.DimensionType;
-import net.opengis.owc.v030.GeneralType;
-import net.opengis.owc.v030.LayerType;
-import net.opengis.owc.v030.OWSContextType;
-import net.opengis.owc.v030.ResourceListType;
-import net.opengis.owc.v030.ServerType;
-import net.opengis.owc.v030.StyleListType;
-import net.opengis.owc.v030.StyleType;
-import net.opengis.owc.v030.URLType;
-import net.opengis.owc.v030.OnlineResourceType;
-import net.opengis.owc.v030.SLDType;
-import net.opengis.owc.v030.ServiceType;
+import org.geotoolkit.owc.xml.v030.DimensionListType;
+import org.geotoolkit.owc.xml.v030.DimensionType;
+import org.geotoolkit.owc.xml.v030.GeneralType;
+import org.geotoolkit.owc.xml.v030.LayerType;
+import org.geotoolkit.owc.xml.v030.OWSContextType;
+import org.geotoolkit.owc.xml.v030.ResourceListType;
+import org.geotoolkit.owc.xml.v030.ServerType;
+import org.geotoolkit.owc.xml.v030.StyleListType;
+import org.geotoolkit.owc.xml.v030.StyleType;
+import org.geotoolkit.owc.xml.v030.URLType;
+import org.geotoolkit.owc.xml.v030.OnlineResourceType;
+import org.geotoolkit.owc.xml.v030.SLDType;
+import org.geotoolkit.owc.xml.v030.ServiceType;
 
 import org.geotoolkit.ows.xml.v100.BoundingBoxType;
 
@@ -49,7 +49,7 @@ import org.mapfaces.models.layer.WmsLayer;
 
 public class MFtoOWCv030Transformer {
 
-    private final net.opengis.owc.v030.ObjectFactory factory_owc_030 = new net.opengis.owc.v030.ObjectFactory();
+    private final org.geotoolkit.owc.xml.v030.ObjectFactory factory_owc_030 = new org.geotoolkit.owc.xml.v030.ObjectFactory();
     private final org.geotoolkit.ows.xml.v100.ObjectFactory factory_ows_100 = new org.geotoolkit.ows.xml.v100.ObjectFactory();
 
     public OWSContextType visit(Context ctx) throws UnsupportedEncodingException, JAXBException {
