@@ -38,7 +38,6 @@ import org.geotoolkit.owc.xml.v030.URLType;
 import org.geotoolkit.owc.xml.v030.OnlineResourceType;
 import org.geotoolkit.owc.xml.v030.SLDType;
 import org.geotoolkit.owc.xml.v030.ServiceType;
-
 import org.geotoolkit.ows.xml.v100.BoundingBoxType;
 
 import org.mapfaces.models.Context;

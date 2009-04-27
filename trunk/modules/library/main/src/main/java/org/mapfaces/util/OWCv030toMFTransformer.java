@@ -491,14 +491,14 @@ public class OWCv030toMFTransformer {
                             if (style.getSLD().getOnlineResource() != null) {
                                 allStyles.put("sld", URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8"));
                             } else if (style.getSLD().getStyledLayerDescriptor() != null) {
-                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.v030");
+                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.xml.v030");
                                 Marshaller marshaller = Jcontext.createMarshaller();
                                 StringWriter test = new StringWriter();
                                 marshaller.marshal(style.getSLD().getStyledLayerDescriptor(), test);
                                 allStyles.put("sldBody", URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<", "><"), "UTF-8"));
                             } else if (style.getSLD().getFeatureTypeStyle() != null) {
                                 //TODO transformFeatureTypeStyleToString
-                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.v030");
+                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.xml.v030");
                                 Marshaller marshaller = Jcontext.createMarshaller();
                                 StringWriter test = new StringWriter();
                                 marshaller.marshal(style.getSLD().getFeatureTypeStyle(), test);
