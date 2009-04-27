@@ -31,11 +31,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import net.opengis.owc.v030.DimensionType;
-import net.opengis.owc.v030.LayerType;
-import net.opengis.owc.v030.OWSContextType;
-import net.opengis.owc.v030.StyleListType;
-import net.opengis.owc.v030.StyleType;
+import org.geotoolkit.owc.xml.v030.DimensionType;
+import org.geotoolkit.owc.xml.v030.LayerType;
+import org.geotoolkit.owc.xml.v030.OWSContextType;
+import org.geotoolkit.owc.xml.v030.StyleListType;
+import org.geotoolkit.owc.xml.v030.StyleType;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -491,14 +491,14 @@ public class OWCv030toMFTransformer {
                             if (style.getSLD().getOnlineResource() != null) {
                                 allStyles.put("sld", URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8"));
                             } else if (style.getSLD().getStyledLayerDescriptor() != null) {
-                                JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");
+                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.v030");
                                 Marshaller marshaller = Jcontext.createMarshaller();
                                 StringWriter test = new StringWriter();
                                 marshaller.marshal(style.getSLD().getStyledLayerDescriptor(), test);
                                 allStyles.put("sldBody", URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<", "><"), "UTF-8"));
                             } else if (style.getSLD().getFeatureTypeStyle() != null) {
                                 //TODO transformFeatureTypeStyleToString
-                                JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");
+                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.v030");
                                 Marshaller marshaller = Jcontext.createMarshaller();
                                 StringWriter test = new StringWriter();
                                 marshaller.marshal(style.getSLD().getFeatureTypeStyle(), test);

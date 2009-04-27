@@ -202,6 +202,16 @@
         <artifactId>geotk-xml-ows</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-xml-owc</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-xml-wmc</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
 
       <!-- JSF -->
       <dependency>

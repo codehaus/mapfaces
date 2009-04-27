@@ -54,11 +54,11 @@ import org.mapfaces.models.Context;
 
 public  class XMLContextUtilities {
 
-    private final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
+    private final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
 
-    private net.opengis.owc.v030.ObjectFactory factory_owc_030 = new net.opengis.owc.v030.ObjectFactory();
-    //private net.opengis.context.v110.ObjectFactory factory_wmc_100 = new net.opengis.context.v100.ObjectFactory();
-    private net.opengis.context.v110.ObjectFactory factory_wmc_110 = new net.opengis.context.v110.ObjectFactory();
+    private org.geotoolkit.owc.xml.v030.ObjectFactory factory_owc_030 = new org.geotoolkit.owc.xml.v030.ObjectFactory();
+    //private org.geotoolkit.context.v110.ObjectFactory factory_wmc_100 = new org.geotoolkit.context.v100.ObjectFactory();
+    private org.geotoolkit.wmc.xml.v110.ObjectFactory factory_wmc_110 = new org.geotoolkit.wmc.xml.v110.ObjectFactory();
 //    private org.geotools.internal.jaxb.v110.sld.ObjectFactory factory_sld_110 = new org.geotools.internal.jaxb.v110.sld.ObjectFactory();
 //    private org.geotools.internal.jaxb.v110.se.ObjectFactory factory_se_110 = new org.geotools.internal.jaxb.v110.se.ObjectFactory();
 //    private org.geotools.internal.jaxb.v100.ogc.ObjectFactory factory_ogc_100 = new org.geotools.internal.jaxb.v100.ogc.ObjectFactory();
@@ -81,15 +81,15 @@ public  class XMLContextUtilities {
     }
 
     private Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
-        if(elt.getDeclaredType().toString().equals("class net.opengis.owc.v030.OWSContextType")){
-            return OWCv030toMFTransformer.visit( (net.opengis.owc.v030.OWSContextType) elt.getValue());
+        if(elt.getDeclaredType().toString().equals("class org.geotoolkit.owc.xml.v030.OWSContextType")){
+            return OWCv030toMFTransformer.visit( (org.geotoolkit.owc.xml.v030.OWSContextType) elt.getValue());
         }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
 
     }
 
     private Context readWMC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
-        if(elt.getDeclaredType().toString().equals("class net.opengis.context.v110.ViewContextType")){
-            return (new WMCv110toMFTransformer()).visit( (net.opengis.context.v110.ViewContextType) elt.getValue());
+        if(elt.getDeclaredType().toString().equals("class org.geotoolkit.wmc.xml.v110.ViewContextType")){
+            return (new WMCv110toMFTransformer()).visit( (org.geotoolkit.wmc.xml.v110.ViewContextType) elt.getValue());
         }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
     }
 
@@ -255,7 +255,7 @@ public  class XMLContextUtilities {
 //        if (TRANSFORMER_MF_OWCv030 == null) {
 //            TRANSFORMER_MF_OWCv030 = new OWCv030toMFTransformer();
 //        }
-//        jaxbContext = JAXBContext.newInstance(net.opengis.owc.v030.OWSContextType.class);
+//        jaxbContext = JAXBContext.newInstance(org.geotoolkit.owc.v030.OWSContextType.class);
 //        unMarshaller = jaxbContext.createUnmarshaller();
 //        return unmarshall(source, unMarshaller);
 //    }
@@ -278,7 +278,7 @@ public  class XMLContextUtilities {
 //        JAXBContext jaxbContext;
 //        Marshaller marshaller;
 //
-//        jaxbContext = JAXBContext.newInstance(net.opengis.owc.v030.OWSContextType.class);
+//        jaxbContext = JAXBContext.newInstance(org.geotoolkit.owc.v030.OWSContextType.class);
 //        marshaller = jaxbContext.createMarshaller();
 //        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);
 //        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
