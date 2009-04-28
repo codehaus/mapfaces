@@ -145,24 +145,6 @@
   <!-- =========================================================== -->
   <dependencies>
     <dependency>
-      <groupId>javax.media</groupId>
-      <artifactId>jai_core</artifactId>
-      <version>1.1.3</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.media</groupId>
-      <artifactId>jai_codec</artifactId>
-      <version>1.1.3</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.media</groupId>
-      <artifactId>jai_imageio</artifactId>
-      <version>1.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.3.1</version>
@@ -375,7 +357,7 @@
   
   
   <!-- =========================================================== -->
-  <!--     GeoTools, Geomatys and maven repositories     -->
+  <!--     GeoToolkit, Geomatys and maven repositories     -->
   <!-- =========================================================== -->
   <repositories>
     <repository>
@@ -388,41 +370,23 @@
       </snapshots>
     </repository>
     <repository>
-      <id>java.net.2</id>
-      <name>java.net community</name>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net repository</name>
       <url>http://download.java.net/maven/2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>maven object web</id>
-      <name>maven Object web</name>
-      <url>http://maven.objectweb.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>geotools</id>
-      <name>Geotools et ses dependances specifiques</name>
-      <url>http://maven.geotools.fr/repository</url>
     </repository>
     <repository>
       <id>geomatys</id>
       <name>Other projects</name>
       <url>http://maven.geomatys.fr/repository</url>
     </repository>
+
     <repository>
       <id>geotoolkit</id>
       <name>Geotoolkit</name>
       <url>http://maven.geotoolkit.org/</url>
     </repository>
-    <repository>
-      <id>apache</id>
-      <name>Other projects</name>
-      <url>http://people.apache.org/maven-snapshot-repository</url>
-    </repository>
+    
+    <!-- repository for batik 1.7 -->
     <repository>
       <id>official2</id>
       <name>official mavenrepo 2</name>
@@ -430,15 +394,12 @@
     </repository>
 
   </repositories>
+
   <pluginRepositories>
     <pluginRepository>
-      <id>geotools</id>
-      <name>Geotools et ses d�pendances sp�cifiques</name>
-      <url>http://maven.geotools.fr/repository</url>
-    </pluginRepository>
-    <pluginRepository>
-       <id>maven2-repository.dev.java.net</id>
-       <url>http://download.java.net/maven/2/</url>
+      <id>geotoolkit</id>
+      <name>Geotoolkit</name>
+      <url>http://maven.geotoolkit.org/</url>
     </pluginRepository>
   </pluginRepositories>
   
@@ -476,8 +437,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.geotools.maven</groupId>
-        <artifactId>jar-collector</artifactId>
+        <groupId>org.geotoolkit.project</groupId>
+        <artifactId>geotk-jar-collector</artifactId>
+        <version>SNAPSHOT</version>
         
         <executions>
           <execution>

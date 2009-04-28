@@ -57,16 +57,7 @@ public  class XMLContextUtilities {
     private final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
 
     private org.geotoolkit.owc.xml.v030.ObjectFactory factory_owc_030 = new org.geotoolkit.owc.xml.v030.ObjectFactory();
-    //private org.geotoolkit.context.v110.ObjectFactory factory_wmc_100 = new org.geotoolkit.context.v100.ObjectFactory();
     private org.geotoolkit.wmc.xml.v110.ObjectFactory factory_wmc_110 = new org.geotoolkit.wmc.xml.v110.ObjectFactory();
-//    private org.geotools.internal.jaxb.v110.sld.ObjectFactory factory_sld_110 = new org.geotools.internal.jaxb.v110.sld.ObjectFactory();
-//    private org.geotools.internal.jaxb.v110.se.ObjectFactory factory_se_110 = new org.geotools.internal.jaxb.v110.se.ObjectFactory();
-//    private org.geotools.internal.jaxb.v100.ogc.ObjectFactory factory_ogc_100 = new org.geotools.internal.jaxb.v100.ogc.ObjectFactory();
-//    private org.geotools.internal.jaxb.v110.ogc.ObjectFactory factory_ogc_110 = new org.geotools.internal.jaxb.v110.ogc.ObjectFactory();
-//
-//    private SLD110toGTTransformer TRANSFORMER_GT_V110 = null;
-//    private GTtoSLD100Transformer TRANSFORMER_XML_V100 = null;
-//    private GTtoSLD110Transformer TRANSFORMER_XML_V110 = null;
 
 
 
@@ -128,7 +119,6 @@ public  class XMLContextUtilities {
     public  void  marshal(Object jaxbElement, File output) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(jaxbInstance);
         Marshaller marshaller = jaxbContext.createMarshaller();
-//        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshall(output,jaxbElement,marshaller);
@@ -213,16 +203,10 @@ public  class XMLContextUtilities {
     }
 
     private JAXBElement writeWMC(Context ctx) {
-//        if (ctx.getVersion().equals("1.0.0")){
-//           return factory_wmc_100.createViewContext((new MFtoWMCv100Transformer()).visit(ctx));
-//        }else if( ctx.getVersion().equals("1.1.0") ){
-//           return factory_wmc_110.createViewContext((new MFtoWMCv110Transformer()).visit(ctx));
-//        }
         throw new UnsupportedOperationException("The version of your context file " +
                "isn't supported yet !!!!! Type : "+ ctx.getContextType() +", version : "+ctx.getVersion()+
                ", only OWC 0.3.0 is supported !!!!!");
     }
-
 
     public  static void main(String[] args) throws FileNotFoundException, JAXBException, UnsupportedEncodingException{
         try {
@@ -234,55 +218,5 @@ public  class XMLContextUtilities {
             Logger.getLogger(XMLContextUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//
-//    private final Object unmarshallWMCv110(Object source) throws JAXBException{
-////        JAXBContext jaxbContext;
-////        Unmarshaller unMarshaller;
-////
-////        if (TRANSFORMER_MF_V100 == null) {
-////            TRANSFORMER_GT_V100 = new SLD100toGTTransformer();
-////        }
-////        jaxbContext = JAXBContext.newInstance(org.geotools.internal.jaxb.v100.sld.StyledLayerDescriptor.class);
-////        unMarshaller = jaxbContext.createUnmarshaller();
-////        return unmarshall(source, unMarshaller);
-//        return null;
-//    }
-//
-//    private final Object unmarshallOWCv030(Object source) throws JAXBException{
-//        JAXBContext jaxbContext;
-//        Unmarshaller unMarshaller;
-//
-//        if (TRANSFORMER_MF_OWCv030 == null) {
-//            TRANSFORMER_MF_OWCv030 = new OWCv030toMFTransformer();
-//        }
-//        jaxbContext = JAXBContext.newInstance(org.geotoolkit.owc.v030.OWSContextType.class);
-//        unMarshaller = jaxbContext.createUnmarshaller();
-//        return unmarshall(source, unMarshaller);
-//    }
-//
-//
-//
-//    private final void marshallWMCv110(Object target, Object jaxElement, NamespacePrefixMapperImpl namespace) throws JAXBException {
-////        JAXBContext jaxbContext;
-////        Marshaller marshaller;
-////
-////        jaxbContext = JAXBContext.newInstance(org.geotools.internal.jaxb.v100.sld.StyledLayerDescriptor.class);
-////        marshaller = jaxbContext.createMarshaller();
-////        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);
-////        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-////        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-////        marshall(target, jaxElement, marshaller);
-//    }
-//
-//    private final void marshallOWCv030(Object target, Object jaxElement, NamespacePrefixMapperImpl namespace) throws JAXBException {
-//        JAXBContext jaxbContext;
-//        Marshaller marshaller;
-//
-//        jaxbContext = JAXBContext.newInstance(org.geotoolkit.owc.v030.OWSContextType.class);
-//        marshaller = jaxbContext.createMarshaller();
-//        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",namespace);
-//        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//        marshall(target, jaxElement, marshaller);
-//    }
+
 }
