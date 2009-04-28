@@ -134,18 +134,15 @@ public class MfLayerListener implements PhaseListener {
 
             if (mapContext != null) {
                 try {
-//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 //                    long start = (new Date()).getTime();
-                    System.out.println("[MfLayerListener] filter for datevalue = " + datevalue);
-                    System.out.println("[MfLayerListener] enveloppe = " + env);
+                    LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
+                    LOGGER.log(Level.INFO, "Enveloppe = " + env);
                     DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
-//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 //                    long end = (new Date()).getTime();
-//                    System.out.println("[PORTRAYING END] time : "+(end-start) +" ms");          
                 } catch (PortrayalException ex) {
                     Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
-                    System.out.println("[MfLayerListener] exception : "+exp.getMessage());
+                    LOGGER.log(Level.WARNING, "Exception : "+exp.getMessage());
                 } finally {
                     emptySession(sessionMap, id);
                 }

@@ -143,7 +143,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
         long featureId = 0;
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        if (comp.getFeatures() != null && comp.getFeatures().size() != 0) {
+        if (comp.getFeatures() != null && comp.getFeatures().size() != 0 && comp.getFeatures().get(0) != null) {
             Feature f = comp.getFeatures().get(0);
             builder.setName(f.getName());
             builder.setCRS(f.getCrs());
