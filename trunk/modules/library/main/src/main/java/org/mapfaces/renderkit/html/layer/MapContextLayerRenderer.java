@@ -166,7 +166,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
                 final String datevalue = params.get("datevalueFilter");
                 Date date = new Date();
                 try {
-                    date = org.geotools.temporal.object.Utils.createDate(datevalue);
+                    date = org.geotoolkit.temporal.object.Utils.createDate(datevalue);
                 } catch (Exception exp) {
                     System.out.println("[MapContextLayerRenderer] Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
                 }

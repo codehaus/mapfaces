@@ -45,6 +45,10 @@
         </dependency>
         <dependency>
             <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-temporal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
             <artifactId>geotk-xml-owc</artifactId>
         </dependency>
         <dependency>
@@ -58,11 +62,6 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-        <!-- gtm library -->
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gtm-temporal</artifactId>
-        </dependency>
 
         <!-- JSF -->
         <dependency>
