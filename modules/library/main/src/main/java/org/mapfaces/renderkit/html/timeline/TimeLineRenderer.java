@@ -42,14 +42,14 @@ import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
 import javax.servlet.http.HttpServletRequest;
 
-import org.geotools.temporal.object.DefaultInstant;
-import org.geotools.temporal.object.DefaultOrdinalPosition;
-import org.geotools.temporal.object.DefaultPeriod;
-import org.geotools.temporal.object.DefaultPeriodDuration;
-import org.geotools.temporal.object.DefaultPosition;
-import org.geotools.temporal.object.DefaultTemporalObject;
-import org.geotools.temporal.object.Utils;
-import org.geotools.temporal.reference.DefaultOrdinalEra;
+import org.geotoolkit.temporal.object.DefaultInstant;
+import org.geotoolkit.temporal.object.DefaultOrdinalPosition;
+import org.geotoolkit.temporal.object.DefaultPeriod;
+import org.geotoolkit.temporal.object.DefaultPeriodDuration;
+import org.geotoolkit.temporal.object.DefaultPosition;
+import org.geotoolkit.temporal.object.DefaultTemporalObject;
+import org.geotoolkit.temporal.object.Utils;
+import org.geotoolkit.temporal.reference.DefaultOrdinalEra;
 
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.component.UILayer;

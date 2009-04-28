@@ -177,8 +177,8 @@
   <properties>
     <geoapi.version>2.3-SNAPSHOT</geoapi.version>
     <geotoolkit.version>SNAPSHOT</geotoolkit.version>
-    <geomodified.version>2.6-SNAPSHOT</geomodified.version>
   </properties>
+  
   <dependencyManagement>
     <dependencies>
       <!-- constellation -->
@@ -275,48 +275,7 @@
         <version>${geoapi.version}</version>
       </dependency>
 
-      <!-- Geotools -->
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-api</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-coverage</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-coverageio</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-main</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-metadata</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-referencing</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-temporal</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gtm-wfs</artifactId>
-        <version>${geomodified.version}</version>
-      </dependency>
-
+      
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-engine-core</artifactId>
@@ -345,6 +304,11 @@
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-wms</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-temporal</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
 
