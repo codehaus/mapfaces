@@ -61,7 +61,7 @@ import org.opengis.referencing.operation.TransformException;
 
 
 /**
- * This class builds all needed geotools and mapfaces object from the map context xml file.
+ * This class builds all needed geotoolkit and mapfaces object from the map context xml file.
  * 
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
@@ -155,7 +155,7 @@ public class OWCv030toMFTransformer {
                                 }
                                 end = System.currentTimeMillis() - start;
                                 if (webMapServers.get(wmsUrl) != null) {
-                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotools in : " + end+" ms");
+                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotookits in : " + end+" ms");
                                 }
                             }
                         }
@@ -329,26 +329,6 @@ public class OWCv030toMFTransformer {
 //                            mapLayers[i] = wfsLayer;  */
                         break;
                     case URN_OGC_SERVICE_TYPE_GML:
-
-                        //create the parser with the gml 2.0 configuration
-                      /* GML DataStore was not very efficient
-                        Configuration configuration = new org.geotools.gml2.GMLConfiguration();
-                        Parser parser = new org.geotools.xml.Parser( configuration );
-                        //the xml instance document above
-                        InputStream gml =new URL(layerType.getServer().get(0).getOnlineResource().get(0).getHref()).openStream();
-                        //parse
-                        FeatureCollection fc = (FeatureCollection) parser.parse( gml );
-                        // Step 3 - discouvery
-                        String gmlName = layerType.getName();
-                        SimpleFeatureType gmlSchema = (SimpleFeatureType) fc.getSchema();
-                        Style gmlStyle = getWfsLayerStyle(layerType,gmlSchema);
-                        // Step 4 - target
-                        DefaultMapLayer gmlLayer = new DefaultMapLayer(fc, gmlStyle);
-                        // wfsLayer.setSEStyle((org.opengis.style.Style) style);
-                        if (gmlLayer == null) {
-                        break;
-                        }
-                        mapLayers[i] = gmlLayer;  */
                         break;
                     case URN_OGC_SERVICE_TYPE_KML:
                         break;

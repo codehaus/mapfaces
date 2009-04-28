@@ -16,7 +16,6 @@
  */
 package org.mapfaces.renderkit.html.layer;
 
-import org.mapfaces.renderkit.html.*;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URL;
@@ -27,8 +26,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.geotools.ows.ServiceException;
-
 import org.geotoolkit.wms.GetMapRequest;
 import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.wms.map.WMSMapLayer;
@@ -37,6 +34,7 @@ import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.WmsLayer;
+import org.mapfaces.renderkit.html.LayerRenderer;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -113,13 +111,6 @@ public class WmsLayerRenderer extends LayerRenderer {
                 try {
                     mapLayer = createWMSMapLayer(layer);
                 } catch (IOException ex) {
-                    LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
-                    //TODO should close divs and writer correctly is this happens
-                    writer.writeAttribute("src", url.toString(), "src");
-                    writer.endElement("img");
-                    writer.endElement("div");
-                    return;
-                } catch (ServiceException ex) {
                     LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
                     //TODO should close divs and writer correctly is this happens
                     writer.writeAttribute("src", url.toString(), "src");
@@ -207,9 +198,9 @@ public class WmsLayerRenderer extends LayerRenderer {
         return false;
     }
 
-    public WMSMapLayer createWMSMapLayer(final WmsLayer layer) throws IOException, ServiceException {
+    public WMSMapLayer createWMSMapLayer(final WmsLayer layer) throws IOException {
 
-        // to avoid a NullPointerException when creating an object org.geotools.data.wms.WebMapServer.
+        // to avoid a NullPointerException when creating an object org.geotoolkit.data.wms.WebMapServer.
         if (layer == null || layer.getServer() == null ) {
             if (layer.getUrlGetMap() == null) {
                 LOGGER.log(Level.SEVERE, "[WmsLayerRenderer] Error the getcapabilities returned null !!!!!  url = " + layer.getServer().getHref());
