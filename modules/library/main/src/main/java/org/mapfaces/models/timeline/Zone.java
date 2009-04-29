@@ -19,7 +19,7 @@ package org.mapfaces.models.timeline;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.geotoolkit.util.Utilities;
+import org.geotools.util.Utilities;
 
 /**
  * @author Mehdi Sidhoum

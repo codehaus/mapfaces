@@ -20,8 +20,8 @@ package org.mapfaces.models.timeline;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.geotoolkit.temporal.object.DefaultPeriod;
-import org.geotoolkit.temporal.object.DefaultTemporalObject;
+import org.geotools.temporal.object.DefaultPeriod;
+import org.geotools.temporal.object.DefaultTemporalObject;
 
 import org.mapfaces.models.Layer;
 

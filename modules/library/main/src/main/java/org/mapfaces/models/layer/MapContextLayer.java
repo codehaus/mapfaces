@@ -18,7 +18,7 @@
 package org.mapfaces.models.layer;
 
 import java.util.Date;
-import org.geotoolkit.map.MapContext;
+import org.geotools.map.MapContext;
 import org.mapfaces.models.*;
 
 public interface MapContextLayer extends Layer {

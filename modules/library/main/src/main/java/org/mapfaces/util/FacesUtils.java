@@ -20,7 +20,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
@@ -61,13 +60,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.ImageIcon;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+
+import org.geotools.data.wms.backend.AbstractKeyword;
 
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.models.UIContext;
@@ -75,30 +71,33 @@ import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.treelayout.UITreeLines;
+import javax.swing.ImageIcon;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import org.geotools.factory.CommonFactoryFinder;
+
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.sld.MutableStyledLayerDescriptor;
+import org.geotools.style.MutableFeatureTypeStyle;
+import org.geotools.style.MutableRule;
+import org.geotools.style.MutableStyle;
+import org.geotools.style.StyleFactory;
+import org.geotools.style.sld.XMLUtilities;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
+
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
-
-import org.geotoolkit.factory.Hints;
-import org.geotoolkit.referencing.CRS;
-import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
-import org.geotoolkit.sld.MutableStyledLayerDescriptor;
-import org.geotoolkit.sld.xml.Specification.StyledLayerDescriptor;
-import org.geotoolkit.sld.xml.XMLUtilities;
-import org.geotoolkit.style.MutableFeatureTypeStyle;
-import org.geotoolkit.style.MutableRule;
-import org.geotoolkit.style.MutableStyle;
-import org.geotoolkit.style.MutableStyleFactory;
-import org.geotoolkit.wms.xml.AbstractKeyword;
-
 import org.opengis.filter.Filter;
-import org.opengis.filter.FilterFactory;
+import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.Expression;
-import org.opengis.geometry.Envelope;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.Displacement;
 import org.opengis.style.ExternalGraphic;
@@ -686,43 +685,42 @@ public class FacesUtils {
      */
     public static MutableStyle createStyle(String urlImage, int size, double rotation, int indexLayer) throws MalformedURLException {
 
-        final FilterFactory filterFactory = org.geotoolkit.factory.FactoryFinder.getFilterFactory(null);
-        final MutableStyleFactory styleFactory = (MutableStyleFactory) org.geotoolkit.factory.FactoryFinder.
-                getStyleFactory(new Hints(Hints.STYLE_FACTORY, MutableStyleFactory.class));
+        final FilterFactory2 filterFactory = CommonFactoryFinder.getFilterFactory2(null);
+        final StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
         final MutableStyle style = styleFactory.style();
         final MutableFeatureTypeStyle fts = styleFactory.featureTypeStyle();
         final MutableRule rulePoint = styleFactory.rule();
         final MutableRule rulePolygon = styleFactory.rule();
 
 
-        final String format = "image/png";
-        final ImageIcon icon = new ImageIcon(new URL(urlImage));
+        String format = "image/png";
+        ImageIcon icon = new ImageIcon(new URL(urlImage));
 
-        final ExternalGraphic external = styleFactory.externalGraphic(icon, null);
+        ExternalGraphic external = styleFactory.externalGraphic(icon, null);
 
-        final List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
-        final Expression opacity = filterFactory.literal(1d);
+        List<GraphicalSymbol> symbols = new ArrayList<GraphicalSymbol>();
+        Expression opacity = styleFactory.literalExpression(1d);
         symbols.add(external);
 
-        final Expression expSize = filterFactory.literal(size);
-        final Expression expRotation = filterFactory.literal(rotation);
+        Expression expSize = styleFactory.literalExpression(size);
+        Expression expRotation = styleFactory.literalExpression(rotation);
 
-        final AnchorPoint anchor = styleFactory.anchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
-        final Displacement disp = null;
-        final Graphic graphic = styleFactory.graphic(symbols, opacity, expSize, expRotation, anchor, disp);
+        AnchorPoint anchor = styleFactory.anchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
+        Displacement disp = null;
+        Graphic graphic = styleFactory.graphic(symbols, opacity, expSize, expRotation, anchor, disp);
 
-        final Filter filterPoint = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POINT));
-        final PointSymbolizer pointSymbol = styleFactory.pointSymbolizer(graphic, "");
+        Filter filterPoint = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POINT));
+        PointSymbolizer pointSymbol = styleFactory.pointSymbolizer(graphic, "");
 
         rulePoint.symbolizers().add(pointSymbol);
         rulePoint.setFilter(filterPoint);
 
-        final Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
-        final Stroke stroke = styleFactory.stroke(styleFactory.literal(colors[indexLayer]),
-                filterFactory.literal(2),
-                filterFactory.literal(0.8));
-        final Fill fill = styleFactory.fill(styleFactory.literal(colors[indexLayer]), filterFactory.literal(0.1));
-        final PolygonSymbolizer polygonSymbol = styleFactory.polygonSymbolizer(stroke, fill, "marker");
+        Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
+        Stroke stroke = styleFactory.stroke(styleFactory.colorExpression(colors[indexLayer]),
+                styleFactory.literalExpression(2),
+                styleFactory.literalExpression(0.8));
+        Fill fill = styleFactory.fill(styleFactory.colorExpression(colors[indexLayer]), styleFactory.literalExpression(0.1));
+        PolygonSymbolizer polygonSymbol = styleFactory.polygonSymbolizer(stroke, fill, "marker");
 
         rulePolygon.symbolizers().add(polygonSymbol);
         rulePolygon.setFilter(filterPolygon);
@@ -730,6 +728,7 @@ public class FacesUtils {
         fts.rules().add(rulePolygon);
         fts.rules().add(rulePoint);
         style.featureTypeStyles().add(fts);
+
 
         return style;
     }
@@ -894,7 +893,7 @@ public class FacesUtils {
                 Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
             }
             ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayByte);
-            result = xmlUtils.readSLD(inputStream, StyledLayerDescriptor.V_1_0_0);
+            result = xmlUtils.readSLD(inputStream, org.geotools.style.sld.Specification.StyledLayerDescriptor.V_1_0_0);
         } catch (JAXBException ex) {
             Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -926,7 +925,7 @@ public class FacesUtils {
      * @param dimension
      * @return
      */
-    public static Double[] getLonLatFromPixel(double x, double y, Envelope envelope, Dimension dimension) {
+    public static Double[] getLonLatFromPixel(double x, double y, ReferencedEnvelope envelope, Dimension dimension) {
         double lat = 0;
         double lon = 0;
         if (envelope != null && dimension != null && envelope.getLowerCorner() != null && envelope.getUpperCorner() != null) {

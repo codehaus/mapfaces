@@ -18,8 +18,6 @@
 package org.mapfaces.renderkit.html.tabbedpane;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -40,13 +38,12 @@ public class TabItemRenderer extends Renderer {
 
     private static final transient Log log = LogFactory.getLog(TabItemRenderer.class);
 
-    private UITabPanel getParentTabPanel(final UIComponent component) {
+    private UITabPanel getForm(final UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null && !(parent instanceof UITabPanel)) parent = parent.getParent();
 
         if (parent == null) {
-            Logger.getLogger(TabItemRenderer.class.getName()).log(Level.SEVERE, "Not nested inside a tab panel!");
-            return null;
+            throw new IllegalStateException("Not nested inside a tab panel!");
         }
         return (UITabPanel) parent;
     }
@@ -75,7 +72,7 @@ public class TabItemRenderer extends Renderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-        if (getParentTabPanel(component) == null) {
+        if (!(getForm(component) instanceof UITabPanel)) {
             return;
         }
         if (!component.isRendered()) {

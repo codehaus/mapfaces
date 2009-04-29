@@ -19,7 +19,7 @@ package org.mapfaces.models;
 import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.Map;
-import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 /**
  * This is an interface to represent all features that can be serializable.

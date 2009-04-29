@@ -31,29 +31,31 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.geotoolkit.owc.xml.v030.DimensionType;
-import org.geotoolkit.owc.xml.v030.LayerType;
-import org.geotoolkit.owc.xml.v030.OWSContextType;
-import org.geotoolkit.owc.xml.v030.StyleListType;
-import org.geotoolkit.owc.xml.v030.StyleType;
+import net.opengis.owc.v030.DimensionType;
+import net.opengis.owc.v030.LayerType;
+import net.opengis.owc.v030.OWSContextType;
+import net.opengis.owc.v030.StyleListType;
+import net.opengis.owc.v030.StyleType;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.geotoolkit.ows.xml.v100.BoundingBoxType;
+import org.constellation.ows.v100.BoundingBoxType;
 
-import org.geotoolkit.wms.WebMapServer;
-import org.geotoolkit.geometry.GeneralEnvelope;
-import org.geotoolkit.referencing.CRS;
+import org.geotools.data.ows.WMSCapabilities;
+import org.geotools.data.wms.WebMapServer;
+import org.geotools.data.wms.backend.AbstractDimension;
+import org.geotools.data.wms.backend.AbstractLayer;
+import org.geotools.data.wms.backend.AbstractWMSCapabilities;
 
-import org.geotoolkit.wms.xml.AbstractDimension;
-import org.geotoolkit.wms.xml.AbstractLayer;
-import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
+import org.geotools.geometry.GeneralEnvelope;
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.ows.ServiceException;
+import org.geotools.referencing.CRS;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.WmsLayer;
-
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -61,7 +63,7 @@ import org.opengis.referencing.operation.TransformException;
 
 
 /**
- * This class builds all needed geotoolkit and mapfaces object from the map context xml file.
+ * This class builds all needed geotools and mapfaces object from the map context xml file.
  * 
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
@@ -135,16 +137,21 @@ public class OWCv030toMFTransformer {
 //                                }
                         }
                         if (webMapServers.get(wmsUrl) == null) {
-                            new Thread(){
+                            Thread thr = new Thread() {
+
                                 public void run() {
                                     try {
                                         WebMapServer wmserver = new WebMapServer(new URL(wmsUrl), layerType.getServer().get(0).getVersion());
                                         webMapServers.put(wmsUrl, wmserver);
                                     } catch (IOException ex) {
                                         LOGGER.log(Level.SEVERE, null, ex);
+                                    } catch (ServiceException ex) {
+                                        LOGGER.log(Level.SEVERE, null, ex);
                                     }
                                 }
-                            }.start();
+                            };
+
+                            thr.start();
                             long start = System.currentTimeMillis();
                             long end = 0L;
                             while (webMapServers.get(wmsUrl) == null && end < 10000) {
@@ -155,7 +162,7 @@ public class OWCv030toMFTransformer {
                                 }
                                 end = System.currentTimeMillis() - start;
                                 if (webMapServers.get(wmsUrl) != null) {
-                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotookits in : " + end+" ms");
+                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotools in : " + end+" ms");
                                 }
                             }
                         }
@@ -164,7 +171,7 @@ public class OWCv030toMFTransformer {
                         wms.setService(layerType.getServer().get(0).getService().value());
                         wms.setVersion(layerType.getServer().get(0).getVersion());
 
-                        AbstractWMSCapabilities wmscapabilities = null;
+                        WMSCapabilities wmscapabilities = null;
 
                         if (webMapServers.get(wmsUrl) != null) {
                             wmscapabilities = webMapServers.get(wmsUrl).getCapabilities();
@@ -329,6 +336,26 @@ public class OWCv030toMFTransformer {
 //                            mapLayers[i] = wfsLayer;  */
                         break;
                     case URN_OGC_SERVICE_TYPE_GML:
+
+                        //create the parser with the gml 2.0 configuration
+                      /* GML DataStore was not very efficient
+                        Configuration configuration = new org.geotools.gml2.GMLConfiguration();
+                        Parser parser = new org.geotools.xml.Parser( configuration );
+                        //the xml instance document above
+                        InputStream gml =new URL(layerType.getServer().get(0).getOnlineResource().get(0).getHref()).openStream();
+                        //parse
+                        FeatureCollection fc = (FeatureCollection) parser.parse( gml );
+                        // Step 3 - discouvery
+                        String gmlName = layerType.getName();
+                        SimpleFeatureType gmlSchema = (SimpleFeatureType) fc.getSchema();
+                        Style gmlStyle = getWfsLayerStyle(layerType,gmlSchema);
+                        // Step 4 - target
+                        DefaultMapLayer gmlLayer = new DefaultMapLayer(fc, gmlStyle);
+                        // wfsLayer.setSEStyle((org.opengis.style.Style) style);
+                        if (gmlLayer == null) {
+                        break;
+                        }
+                        mapLayers[i] = gmlLayer;  */
                         break;
                     case URN_OGC_SERVICE_TYPE_KML:
                         break;
@@ -399,7 +426,7 @@ public class OWCv030toMFTransformer {
         if (layerType.getDimensionList() == null) {
             //TODO find dimension into getcapabilities
             if (webMapServers.get(wmsUrl) != null) {
-                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
+                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
             }
             if (tmp != null) {
                 allDims.putAll(tmp);
@@ -411,7 +438,7 @@ public class OWCv030toMFTransformer {
                     if (dim.getDefault() == null) {
                         if (dim.getValue() == null) {
                             //TODO find dimension into getcapabilities
-                            tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
+                            tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getJaxbCapabilities());
                             if (tmp != null) {
                                 allDims.putAll(tmp);
                             }
@@ -471,14 +498,14 @@ public class OWCv030toMFTransformer {
                             if (style.getSLD().getOnlineResource() != null) {
                                 allStyles.put("sld", URLEncoder.encode(StringUtils.defaultString(style.getSLD().getOnlineResource().getHref()), "UTF-8"));
                             } else if (style.getSLD().getStyledLayerDescriptor() != null) {
-                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.xml.v030");
+                                JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");
                                 Marshaller marshaller = Jcontext.createMarshaller();
                                 StringWriter test = new StringWriter();
                                 marshaller.marshal(style.getSLD().getStyledLayerDescriptor(), test);
                                 allStyles.put("sldBody", URLEncoder.encode(StringUtils.defaultString(test.toString()).replaceAll(">+\\s+<", "><"), "UTF-8"));
                             } else if (style.getSLD().getFeatureTypeStyle() != null) {
                                 //TODO transformFeatureTypeStyleToString
-                                JAXBContext Jcontext = JAXBContext.newInstance("org.geotoolkit.owc.xml.v030");
+                                JAXBContext Jcontext = JAXBContext.newInstance("net.opengis.owc.v030");
                                 Marshaller marshaller = Jcontext.createMarshaller();
                                 StringWriter test = new StringWriter();
                                 marshaller.marshal(style.getSLD().getFeatureTypeStyle(), test);

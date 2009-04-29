@@ -19,7 +19,7 @@ package org.mapfaces.util;
 
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.JAXBException;
-import org.geotoolkit.wmc.xml.v110.ViewContextType;
+import net.opengis.context.v110.ViewContextType;
 import org.mapfaces.models.Context;
 
 /**

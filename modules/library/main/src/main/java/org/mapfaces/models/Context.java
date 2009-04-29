@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
-import org.opengis.geometry.Envelope;
+import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
  * @author Olivier Terral.
@@ -80,7 +80,7 @@ public interface Context extends Serializable {
 
     void setSrs(String srs);
 
-    Envelope getEnvelope();
+    ReferencedEnvelope getEnvelope();
     
     java.awt.Dimension getDimension();
     

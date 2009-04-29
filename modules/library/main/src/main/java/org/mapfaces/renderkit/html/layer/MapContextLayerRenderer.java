@@ -29,8 +29,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.geotoolkit.map.MapContext;
-import org.geotoolkit.referencing.CRS;
+import org.geotools.map.MapContext;
+import org.geotools.referencing.CRS;
 
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
@@ -166,7 +166,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
                 final String datevalue = params.get("datevalueFilter");
                 Date date = new Date();
                 try {
-                    date = org.geotoolkit.temporal.object.Utils.createDate(datevalue);
+                    date = org.geotools.temporal.object.Utils.createDate(datevalue);
                 } catch (Exception exp) {
                     System.out.println("[MapContextLayerRenderer] Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
                 }

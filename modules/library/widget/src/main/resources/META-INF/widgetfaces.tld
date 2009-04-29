@@ -338,11 +338,11 @@
         </attribute>
     </tag>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <!-- DatePicker -->
+    <!-- Autocompletion -->
     <tag>
         <name>Datepicker</name>
         <tag-class>org.widgetfaces.taglib.datepicker.DatepickerTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>JSP</body-content>
         <description>
             This is the tag that creates a component widget which provides the
             functionality for date suggestion and completion

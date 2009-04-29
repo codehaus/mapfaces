@@ -18,7 +18,7 @@
 package org.mapfaces.models;
 
 import java.io.Serializable;
-import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
+import org.geotools.data.ows.WMSCapabilities;
 
 /**
  *
@@ -26,9 +26,10 @@ import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
  */
 public interface  Server  extends Serializable {
 
-    public void setGTCapabilities(AbstractWMSCapabilities capabilities);
 
-    public AbstractWMSCapabilities getGTCapabilities();
+    public void setGTCapabilities(WMSCapabilities capabilities);
+
+    public WMSCapabilities getGTCapabilities();
 
     String getHref();
 
@@ -45,5 +46,8 @@ public interface  Server  extends Serializable {
     String getTitle();
 
     void setTitle(String  title);
+//    String getCpabilities();
+//
+//    void setGetCapabilities(String caps);
 
 }

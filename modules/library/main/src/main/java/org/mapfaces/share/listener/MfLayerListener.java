@@ -16,11 +16,10 @@
 
 package org.mapfaces.share.listener;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.Map;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
@@ -29,16 +28,14 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
-
-import org.geotoolkit.display.exception.PortrayalException;
-import org.geotoolkit.display2d.service.DefaultPortrayalService;
-import org.geotoolkit.geometry.Envelope2D;
-import org.geotoolkit.map.MapContext;
-import org.geotoolkit.referencing.CRS;
-
+import org.geotools.display.exception.PortrayalException;
+import org.geotools.display.service.DefaultPortrayalService;
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.map.MapContext;
+import org.geotools.referencing.CRS;
 import org.mapfaces.models.Context;
-
-import org.opengis.geometry.Envelope;
+import java.awt.Dimension;
+import java.util.Date;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
@@ -124,25 +121,26 @@ public class MfLayerListener implements PhaseListener {
                 dim.height = 1;
             }
 
-            final Envelope env = new Envelope2D(crs,
-                    new Double(model.getMinx()), new Double(model.getMiny()),
-                    new Double(model.getMaxx()) - new Double(model.getMinx()),
-                    new Double(model.getMaxy()) - new Double(model.getMiny())
-                    );
+            final ReferencedEnvelope env = new ReferencedEnvelope(
+                    new Double(model.getMinx()), new Double(model.getMaxx()),
+                    new Double(model.getMiny()), new Double(model.getMaxy()),
+                    crs);
 
             MapContext mapContext = (MapContext) sessionMap.get(id + "_mapContext");
 
             if (mapContext != null) {
                 try {
+//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 //                    long start = (new Date()).getTime();
-                    LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
-                    LOGGER.log(Level.INFO, "Enveloppe = " + env);
-                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
+                    System.out.println("[MfLayerListener] filter for datevalue = " + datevalue);
+                    DefaultPortrayalService.portray(mapContext, env, stream, "image/png", dim, true);
+//                    System.out.println("[PORTRAYING] mapContext = " + mapContext + "   env = " + env + "   dim = " + dim);
 //                    long end = (new Date()).getTime();
+//                    System.out.println("[PORTRAYING END] time : "+(end-start) +" ms");          
                 } catch (PortrayalException ex) {
                     Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
-                    LOGGER.log(Level.WARNING, "Exception : "+exp.getMessage());
+                    System.out.println("[MfLayerListener] exception : "+exp.getMessage());
                 } finally {
                     emptySession(sessionMap, id);
                 }

@@ -27,7 +27,7 @@ import javax.xml.bind.JAXBException;
 public class UIContext extends UIModelBase {
 
     public static final String FAMILIY = "org.mapfaces.model.Context";
-    public static final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
+    public static final String jaxbInstance = "net.opengis.owc.v030:net.opengis.context.v110";
 
     private boolean scriptaculous = true;
     private boolean mootools = true;

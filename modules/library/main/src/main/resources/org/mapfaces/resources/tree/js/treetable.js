@@ -105,7 +105,7 @@ function expAll(panelId){
                     var listofchild = lineTreenode.childNodes;
                     for(i=0;i<=listofchild.length-1;i++){
                         var children = listofchild[i];
-                        if (children.className.contains("x-tree-elbow-end-plus")){
+                        if (children.get('class').match("x-tree-elbow-end-plus")){
                             children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
                         }
                     }
@@ -130,7 +130,7 @@ function expandAll(){
                 var listofchild = lineTreenode.childNodes;
                 for(i=0;i<=listofchild.length-1;i++){
                     var children = listofchild[i];
-                    if (children.className.contains("x-tree-elbow-end-plus")){
+                    if (children.get('class').match("x-tree-elbow-end-plus")){
                         children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
                     }
                 }
@@ -154,7 +154,7 @@ function collAll(panelId){
                     var listofchild = lineTreenode.childNodes;
                     for(i=0;i<=listofchild.length-1;i++){
                         var children = listofchild[i];
-                        if (children.className.contains("x-tree-elbow-end-minus")){
+                        if (children.get('class').match("x-tree-elbow-end-minus")){
                             children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
                         }
                     }
@@ -177,7 +177,7 @@ function collapseAll(){
                 var listofchild = lineTreenode.childNodes;
                 for(i=0;i<=listofchild.length-1;i++){
                     var children = listofchild[i];
-                    if (children.className.contains("x-tree-elbow-end-minus")){
+                    if (children.get('class').match("x-tree-elbow-end-minus")){
                         children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
                     }
                 }
