@@ -1,0 +1,1 @@
+//this file is needed for maven build to compress all resources files with yuicompressor plugin.
