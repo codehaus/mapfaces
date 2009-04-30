@@ -22,7 +22,7 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
 /**
- * @author Kevin Delfour (Geomatys)
+ * @author Kevin Delfour.
  */
 public class UITabItem extends UIComponentBase implements Serializable {
 
