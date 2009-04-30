@@ -34,7 +34,8 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
 
 /**
- * @author Kevin Delfour
+ * @author Mehdi Sidhoum (Geomatys).
+ * @author Kevin Delfour.
  */
 public class TabPanelRenderer extends Renderer {
 
@@ -110,23 +111,27 @@ public class TabPanelRenderer extends Renderer {
         writer.writeAttribute("class", "tabs_title", null);
 
         for (final UIComponent child : tabpanel.getChildren()) {
-            writer.startElement("li", tabpanel);
-            writer.writeAttribute("id", "item:"+((UITabItem) child).getClientId(context), null);
-            writer.writeAttribute("onclick", "display('"+"tabs:" +tabpanel.getClientId(context)+"','"+((UITabItem) child).getClientId(context)+"');", null);
-            if (active) {
-                writer.writeAttribute("class", "active", null);
-                ((UITabItem) child).setActive(true);
-                active = false;
-            } else {
-                ((UITabItem) child).setActive(false);
+            if (child instanceof UITabItem) {
+                UITabItem tabItem = (UITabItem) child;
+                writer.startElement("li", tabpanel);
+                writer.writeAttribute("id", "item:"+tabItem.getClientId(context), null);
+                writer.writeAttribute("onclick", "display('"+"tabs:" +tabpanel.getClientId(context)+"','"+tabItem.getClientId(context)+"');", null);
+                if (active) {
+                    writer.writeAttribute("class", "active", null);
+                    tabItem.setActive(true);
+                    active = false;
+                } else {
+                    tabItem.setActive(false);
+                }
+                writer.startElement("a", tabpanel);
+                if(tabItem.getValueExpression("title") != null && tabItem.getValueExpression("title").getValue(context.getELContext()) != null) {
+                    writer.write(tabItem.getValueExpression("title").getValue(context.getELContext()).toString());
+                }else if (tabItem.getTitle() != null) {
+                    writer.write(tabItem.getTitle());
+                }
+                writer.endElement("a");
+                writer.endElement("li");
             }
-            writer.startElement("a", tabpanel);
-
-            if(((UITabItem) child).getTitle() != null) {
-                writer.write(((UITabItem) child).getTitle());
-            }
-            writer.endElement("a");
-            writer.endElement("li");
         }
         writer.endElement("ul");
         writer.endElement("div");
@@ -162,7 +167,6 @@ public class TabPanelRenderer extends Renderer {
 
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
-        return;
     }
 
     private void assertValid(final FacesContext context, final UIComponent component) {

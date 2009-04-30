@@ -30,11 +30,12 @@ import org.apache.commons.logging.LogFactory;
 
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
-import org.mapfaces.renderkit.html.WidgetBaseRenderer;
 import org.mapfaces.share.utils.Utils;
 
 /**
- * @author kevin Delfour
+ *
+ * @author Mehdi Sidhoum (Geomatys).
+ * @author kevin Delfour.
  */
 public class TabItemRenderer extends Renderer {
 
@@ -42,7 +43,9 @@ public class TabItemRenderer extends Renderer {
 
     private UITabPanel getParentTabPanel(final UIComponent component) {
         UIComponent parent = component.getParent();
-        while (parent != null && !(parent instanceof UITabPanel)) parent = parent.getParent();
+        while (parent != null && !(parent instanceof UITabPanel)) {
+            parent = parent.getParent();
+        }
 
         if (parent == null) {
             Logger.getLogger(TabItemRenderer.class.getName()).log(Level.SEVERE, "Not nested inside a tab panel!");
@@ -84,7 +87,7 @@ public class TabItemRenderer extends Renderer {
         assertValid(context, component);
         //Start encoding
 
-        final UITabItem tabitem     = (UITabItem) component;
+        final UITabItem tabitem = (UITabItem) component;
         final ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("div", tabitem);
@@ -134,11 +137,14 @@ public class TabItemRenderer extends Renderer {
      */
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
-        return;
     }
 
     private void assertValid(final FacesContext context, final UIComponent component) {
-        if (context == null)   throw new NullPointerException("FacesContext should not be null");
-        if (component == null) throw new NullPointerException("component should not be null");
+        if (context == null) {
+            throw new NullPointerException("FacesContext should not be null");
+        }
+        if (component == null) {
+            throw new NullPointerException("component should not be null");
+        }
     }
 }
