@@ -123,7 +123,11 @@ public class ChartUtils {
         for (int i = 0; i < passthruImgAttributes.length; i++) {
             Object value = component.getAttributes().get(passthruImgAttributes[i]);
             if (value != null) {
-                writer.writeAttribute(passthruImgAttributes[i], value, null);
+                String attribute = passthruImgAttributes[i];
+                if (attribute != null && attribute.equals("styleClass")) {
+                    attribute = "class";
+                }
+                writer.writeAttribute(attribute, value, null);
             }
         }
         //title attribute overlaps with the chart title so renamed to imgTitle to define img tag's title  
