@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces - http://www.mapfaces.org
+ *
+ *    (C) 2009, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 package org.mapfaces.taglib.datatable;
 
@@ -39,7 +50,7 @@ public class ColumnsTag extends UIComponentELTag {
     }
 
     // Log instance for this class
-    private static final Logger logger = FacesLogger.TAGLIB.getLogger();
+    private static final Logger LOGGER = FacesLogger.TAGLIB.getLogger();
 
     //
     // Instance Variables
@@ -77,13 +88,13 @@ public class ColumnsTag extends UIComponentELTag {
     @Override
     protected void setProperties(UIComponent component) {
         super.setProperties(component);
-        UIColumns column;
 
-        try {
-            column = (UIColumns) component;
-        } catch (ClassCastException cce) {
+        if(!(component instanceof UIColumns)){
             throw new IllegalStateException("Component " + component.toString() + " not expected type.  Expected: UIColumn.  Perhaps you're missing a tag?");
         }
+
+        final UIColumns column = (UIColumns) component;
+
         if (footerClass != null) {
             if (!footerClass.isLiteralText()) {
                 column.setValueExpression("footerClass", footerClass);
@@ -115,13 +126,13 @@ public class ColumnsTag extends UIComponentELTag {
         try {
             return super.doStartTag();
         } catch (JspException e) {
-            if (logger.isLoggable(Level.WARNING)) {
-                logger.log(Level.WARNING, getDebugString(), e);
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, getDebugString(), e);
             }
             throw e;
         } catch (Throwable t) {
-            if (logger.isLoggable(Level.WARNING)) {
-                logger.log(Level.WARNING, getDebugString(), t);
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, getDebugString(), t);
             }
             throw new JspException(t);
         }
@@ -132,13 +143,13 @@ public class ColumnsTag extends UIComponentELTag {
         try {
             return super.doEndTag();
         } catch (JspException e) {
-            if (logger.isLoggable(Level.WARNING)) {
-                logger.log(Level.WARNING, getDebugString(), e);
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, getDebugString(), e);
             }
             throw e;
         } catch (Throwable t) {
-            if (logger.isLoggable(Level.WARNING)) {
-                logger.log(Level.WARNING, getDebugString(), t);
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, getDebugString(), t);
             }
             throw new JspException(t);
         }
@@ -154,7 +165,6 @@ public class ColumnsTag extends UIComponentELTag {
     }
 
     public String getDebugString() {
-        return "id: " + this.getId() + " class: " +
-                this.getClass().getName();
+        return "id: " + this.getId() + " class: " + this.getClass().getName();
     }
 }
