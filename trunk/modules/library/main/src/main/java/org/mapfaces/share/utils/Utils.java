@@ -39,6 +39,8 @@ import org.mapfaces.models.tree.TreeNodeModel;
  */
 public class Utils {
 
+    private final static Logger LOGGER = Logger.getLogger(Utils.class.getName());
+
     public static void encodeRecursive(FacesContext context, UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;
@@ -60,7 +62,7 @@ public class Utils {
             final TreeNodeModel node) throws IOException {
 
         if (!component.isRendered()) {
-            Logger.getLogger(Utils.class.getName()).log(Level.INFO, component + " not rendered !");
+            LOGGER.log(Level.INFO, component + " not rendered !");
             return;
         }
 

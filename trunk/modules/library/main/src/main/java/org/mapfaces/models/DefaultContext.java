@@ -42,6 +42,8 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  */
 public class DefaultContext extends AbstractModelBase implements Context {
 
+    private static Logger LOGGER = Logger.getLogger(DefaultContext.class.getName());
+
     private String type;
     private String id;
     private String version;
@@ -247,9 +249,9 @@ public class DefaultContext extends AbstractModelBase implements Context {
         try {
             crs = CRS.decode(this.srs);
         } catch (NoSuchAuthorityCodeException ex) {
-            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (FactoryException ex) {
-            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         double dminx = Double.parseDouble(this.minx);
         double dmaxx = Double.parseDouble(this.maxx);
@@ -658,11 +660,11 @@ public class DefaultContext extends AbstractModelBase implements Context {
             output = new File(sc.getRealPath("tmp")+"/"+fileName);
             (new XMLContextUtilities()).writeContext(this, output);
         } catch (JAXBException ex) {
-            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DefaultContext.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

@@ -36,7 +36,7 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TabItemRenderer extends Renderer {
 
-    private static final transient Logger LOGGER = Logger.getLogger(TabItemRenderer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TabItemRenderer.class.getName());
 
     private UITabPanel getParentTabPanel(final UIComponent component) {
         UIComponent parent = component.getParent();

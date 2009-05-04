@@ -29,6 +29,8 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  */
 public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, Cloneable {
 
+    private static final Logger LOGGER = Logger.getLogger(UIColumnBase.class.getName());
+
     /* Fields */
     private String headerTitle;
     private String headerIcon;
@@ -127,7 +129,7 @@ public abstract class UIColumnBase extends UITreeBase implements AjaxInterface, 
         try {
             return (UIColumnBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UIColumnBase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return null;
     }

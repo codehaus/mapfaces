@@ -16,7 +16,7 @@ public class InitBean {
     /**
      * Allow to hide some message used by devellopers and to log information in data file.
      */
-    private static final Logger logger = Logger.getLogger("org.mapfaces.template.bean");
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.template.bean");
     
     private Locale locale;
     

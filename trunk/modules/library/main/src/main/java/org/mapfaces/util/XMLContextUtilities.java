@@ -208,15 +208,4 @@ public  class XMLContextUtilities {
                ", only OWC 0.3.0 is supported !!!!!");
     }
 
-    public  static void main(String[] args) throws FileNotFoundException, JAXBException, UnsupportedEncodingException{
-        try {
-            Context ctx = (new XMLContextUtilities()).readContext(new FileReader(new File("D://svn/mapfaces/trunk/modules/web/src/main/webapp/data/context/tasmania.xml")));
-            if (ctx == null) 
-                     Logger.getLogger(XMLContextUtilities.class.getName()).log(Level.SEVERE,"context is null");
-            (new XMLContextUtilities()).writeContext(ctx, new File("C://Documents and Settings/Sangoku/Mes documents/NetBeansProjects/mf-web/build/web/data/context/owctest.xml"));
-        } catch (IOException ex) {
-            Logger.getLogger(XMLContextUtilities.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
 }

@@ -25,7 +25,7 @@ import javax.faces.event.PhaseId;
 
 public class PhaseTracker implements PhaseListener {
 
-    private static final Logger logger = Logger.getLogger("org.mapfaces.share.listener.PhaseTracker");
+    private static final Logger LOGGER = Logger.getLogger(PhaseTracker.class.getName());
     private Date dateBegin;
     private Date dateEnd;
     private boolean flag = false;
@@ -45,7 +45,7 @@ public class PhaseTracker implements PhaseListener {
         if (e.getPhaseId() == PhaseId.RENDER_RESPONSE) {
             dateEnd = new Date();
             long time = dateEnd.getTime() - dateBegin.getTime();
-            logger.info("END OF " + e.getPhaseId() + " timeout =  " + time + "ms");
+            LOGGER.info("END OF " + e.getPhaseId() + " timeout =  " + time + "ms");
             
             flag = false;
         }

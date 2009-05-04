@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DetectBrowserListener implements PhaseListener {
 
-    private static final Logger logger = Logger.getLogger("org.mapfaces.share.listener.DetectBrowserListener");
+    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.share.listener.DetectBrowserListener");
     private boolean flag = false;
     private boolean iE = false;
     private boolean opera = false;

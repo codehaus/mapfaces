@@ -115,6 +115,8 @@ import org.opengis.style.Stroke;
  */
 public class FacesUtils {
 
+    private static final Logger LOGGER = Logger.getLogger(FacesUtils.class.getName());
+    
     /**
      * this array of colors have a binding with the png markers witih index 0 to 9.
      */
@@ -891,12 +893,12 @@ public class FacesUtils {
             try {
                 arrayByte = sldbody.getBytes("UTF-8");
             } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
             ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayByte);
             result = xmlUtils.readSLD(inputStream, StyledLayerDescriptor.V_1_0_0);
         } catch (JAXBException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         return result;
@@ -986,7 +988,7 @@ public class FacesUtils {
                 try {
                     marshaller.marshal(request, sw);
                 } catch (JAXBException ex) {
-                    Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, "Unable to marshall the request: " + ex.getMessage());
+                    LOGGER.log(Level.SEVERE, "Unable to marshall the request: " + ex.getMessage());
                 }
                 String XMLRequest = sw.toString();
                 if (logs != null) {
@@ -1025,7 +1027,7 @@ public class FacesUtils {
                     }
                 }
             } catch (JAXBException ex) {
-                Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, "The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
+                LOGGER.log(Level.SEVERE, "The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
                         "cause: " + ex.getMessage(),ex);
                 if (logs != null) {
                     logs.add("The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
@@ -1033,7 +1035,7 @@ public class FacesUtils {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, "The Distant service have made an error ! "+ex.getStackTrace());
+            LOGGER.log(Level.SEVERE, "The Distant service have made an error ! "+ex.getStackTrace());
 
             if (logs != null) {
                 logs.add("The Distant service has made an error ! url = " + sourceURL);
@@ -1072,7 +1074,7 @@ public class FacesUtils {
                 try {
                     marshaller.marshal(request, sw);
                 } catch (JAXBException ex) {
-                    Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, "Unable to marshall the request: " + ex.getMessage());
+                    LOGGER.log(Level.SEVERE, "Unable to marshall the request: " + ex.getMessage());
                 }
                 String XMLRequest = sw.toString();
                 wr.write(XMLRequest);
@@ -1107,12 +1109,12 @@ public class FacesUtils {
                     }
                 }
             } catch (JAXBException ex) {
-                Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, "The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
+                LOGGER.log(Level.SEVERE, "The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
                         "cause: " + ex.getMessage());
-                Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, ex.toString());
+                LOGGER.log(Level.SEVERE, ex.toString());
             }
         } catch (IOException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, "The Distant service have made an error ! \n"+ex.getStackTrace());
+            LOGGER.log(Level.SEVERE, "The Distant service have made an error ! \n"+ex.getStackTrace());
             return null;
         }
         return harvested;

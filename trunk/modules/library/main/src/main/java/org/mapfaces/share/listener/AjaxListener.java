@@ -41,7 +41,7 @@ import org.mapfaces.util.AjaxUtils;
 public class AjaxListener implements PhaseListener {
 
     private static final long serialVersionUID = -4395863677889457550L;
-    private static final transient Logger LOGGER = Logger.getLogger(AjaxListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AjaxListener.class.getName());
 
     /**
      * Handling the any potential Ajax component requests after the Restore View phase makes the restored view
