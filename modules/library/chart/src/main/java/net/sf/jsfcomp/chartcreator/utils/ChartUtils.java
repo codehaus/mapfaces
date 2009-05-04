@@ -101,7 +101,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class ChartUtils {
 
-    private static final Logger LOGGER = Logger.getLogger("net.sf.jsfcomp.chartcreator.utils.ChartUtils");
+    private static final Logger LOGGER = Logger.getLogger(ChartUtils.class.getName());
     private static String passthruImgAttributes[] = {
         "alt",
         "styleClass",
@@ -513,7 +513,7 @@ public class ChartUtils {
                         cpt++;
                     }
                 } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 }
                 i++;
             }
@@ -607,7 +607,7 @@ public class ChartUtils {
 //
 //        System.out.println(buffer.toString());
         } catch (TransformerException ex) {
-            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
 
@@ -621,7 +621,7 @@ public class ChartUtils {
             writer.flush();
             SVGtoVML(outPipe, stream);
         } catch (IOException ex) {
-            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -633,7 +633,7 @@ public class ChartUtils {
             writer.flush();
             SVGtoVML(outPipe, stream);
         } catch (IOException ex) {
-            Logger.getLogger(ChartUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

@@ -102,7 +102,7 @@ public class MapBean {
                 System.out.println("MapContext is null");
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MapBean.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
     }

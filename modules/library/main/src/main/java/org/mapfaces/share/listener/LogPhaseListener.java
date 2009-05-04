@@ -27,7 +27,7 @@ import javax.faces.event.PhaseId;
 public class LogPhaseListener implements javax.faces.event.PhaseListener {
 
     private static final long serialVersionUID = -4395863677889457550L;
-    private static final transient Logger LOGGER = Logger.getLogger(LogPhaseListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LogPhaseListener.class.getName());
 
     /**
      * 

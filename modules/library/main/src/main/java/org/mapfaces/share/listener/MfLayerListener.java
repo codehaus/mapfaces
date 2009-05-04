@@ -140,7 +140,7 @@ public class MfLayerListener implements PhaseListener {
                     DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
 //                    long end = (new Date()).getTime();
                 } catch (PortrayalException ex) {
-                    Logger.getLogger(MfLayerListener.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
                     LOGGER.log(Level.WARNING, "Exception : "+exp.getMessage());
                 } finally {

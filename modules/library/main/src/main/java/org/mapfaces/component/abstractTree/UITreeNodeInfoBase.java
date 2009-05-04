@@ -26,6 +26,8 @@ import javax.faces.context.FacesContext;
  */
 public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable {
 
+    private static final Logger LOGGER = Logger.getLogger(UITreeNodeInfoBase.class.getName());
+
     /* Fields */
     private String title;
     private String hide;
@@ -91,7 +93,7 @@ public abstract class UITreeNodeInfoBase extends UITreeBase implements Cloneable
         try {
             return (UITreeNodeInfoBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UITreeNodeInfoBase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return null;
     }

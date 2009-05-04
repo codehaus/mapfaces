@@ -36,7 +36,7 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TabPanelRenderer extends Renderer {
 
-    private static final transient Logger LOGGER = Logger.getLogger(TabPanelRenderer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TabPanelRenderer.class.getName());
     private static final String TABCSS_CSS = "/org/mapfaces/resources/tabbedpane/css/domtab.css";
     private static final String TABJS = "/org/mapfaces/resources/tabbedpane/js/domtab.js";
 
