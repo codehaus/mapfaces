@@ -38,7 +38,7 @@ public class DefaultLayer implements Layer {
      * bbox
      */
     private Envelope refEnv;
-    public LayerType type = LayerType.DEFAULT;
+    private LayerType type = LayerType.DEFAULT;
     private String id;
     private String name;
     private boolean queryable;
@@ -63,9 +63,6 @@ public class DefaultLayer implements Layer {
     private String resX;
     private String resY;
     private String resZ;
-    private String styles;
-    private String sldBody;
-    private String sld;
     private HashMap<String, Serializable> MapGroupHierarchiesValues;
 
     /*

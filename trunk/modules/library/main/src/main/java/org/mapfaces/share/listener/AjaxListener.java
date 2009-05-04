@@ -18,6 +18,8 @@
 package org.mapfaces.share.listener;
 
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -25,8 +27,6 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.logging.*;
 
 import org.mapfaces.share.interfaces.A4JInterface;
 import org.mapfaces.share.interfaces.AjaxInterface;
@@ -41,7 +41,7 @@ import org.mapfaces.util.AjaxUtils;
 public class AjaxListener implements PhaseListener {
 
     private static final long serialVersionUID = -4395863677889457550L;
-    private static final transient Log log = LogFactory.getLog(AjaxListener.class);
+    private static final transient Logger LOGGER = Logger.getLogger(AjaxListener.class.getName());
 
     /**
      * Handling the any potential Ajax component requests after the Restore View phase makes the restored view
@@ -63,10 +63,10 @@ public class AjaxListener implements PhaseListener {
             context.responseComplete();// Let JSF know to skip the rest of the lifecycle
             final String componentId = request.getParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY);
             if (componentId == null) {
-                if (log.isWarnEnabled()) {
-                    log.warn("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
+                if (LOGGER.isLoggable(Level.WARNING)) {
+                    LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
                 } else {
-                    log.warn("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
+                    LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
                 }
             } else {
                 handleAjaxRequest(context, componentId);
@@ -119,11 +119,11 @@ public class AjaxListener implements PhaseListener {
             AjaxSupport = Utils.findComponent(context, componentId);
         }
         if (AjaxSupport == null) {
-            log.warn("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
+            LOGGER.warning("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
         } else {
             final UIComponent JSFComponent = AjaxSupport.getParent();
             if (JSFComponent == null) {
-                log.warn("[WARNING] [AjaxListener] No parent  found under specified client Id : " + AjaxSupport.getId());
+                LOGGER.warning("[WARNING] [AjaxListener] No parent  found under specified client Id : " + AjaxSupport.getId());
             } else {
                 if (JSFComponent.getParent() instanceof A4JInterface) {
                     ajaxcomponent = (A4JInterface) JSFComponent.getParent();

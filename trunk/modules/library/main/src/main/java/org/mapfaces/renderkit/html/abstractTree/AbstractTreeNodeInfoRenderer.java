@@ -18,13 +18,12 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
@@ -37,7 +36,7 @@ import org.mapfaces.share.utils.Utils;
  */
 public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements CustomizeTreeComponentRenderer{
 
-    private static final transient Log log = LogFactory.getLog(AbstractTreeNodeInfoRenderer.class);
+    private static final Logger LOGGER = Logger.getLogger(AbstractTreeNodeInfoRenderer.class.getName());
     private static final String DESC_STYLE_CLASS = "x-tree-node-info";
 
     private boolean debug = false;
@@ -84,11 +83,11 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             debug = (Boolean) component.getAttributes().get("debug");
         }
 
-        if (debug) log.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         beforeEncodeBegin(context, component);
 
-        if (debug) log.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         //Start encoding
         final UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
@@ -121,7 +120,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             }
         }
 
-        if (debug) log.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         afterEncodeBegin(context, component);
     }
@@ -131,7 +130,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        if (debug) log.info("encodeChildren : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("encodeChildren : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         final ResponseWriter writer = context.getResponseWriter();
 
@@ -155,15 +154,15 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
 
-        if (debug) log.info("beforeEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("beforeEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         beforeEncodeEnd(context, component);
 
-        if (debug) log.info("encodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("encodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         writer.endElement("div");
 
-        if (debug) log.info("afterEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug) LOGGER.info("afterEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         afterEncodeEnd(context, component);
     }

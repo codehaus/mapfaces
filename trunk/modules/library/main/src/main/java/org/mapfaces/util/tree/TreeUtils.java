@@ -17,9 +17,8 @@
 
 package org.mapfaces.util.tree;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -32,13 +31,24 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.Utils;
-import org.mapfaces.util.treetable.TreeTableConfig;
-import org.mapfaces.util.treetable.TreeTableUtils;
+import org.mapfaces.util.ReflectionUtils;
 
 /**
  * @author Kevin Delfour
  */
 public class TreeUtils {
+
+    private static final Logger LOGGER = Logger.getLogger(TreeUtils.class.getName());
+    private static final Collection<String> NO_COPY_PROPERTIES = new ArrayList<String>();
+
+    static{
+        NO_COPY_PROPERTIES.add("Id");
+        NO_COPY_PROPERTIES.add("Converter");
+        NO_COPY_PROPERTIES.add("ValueExpression");
+        NO_COPY_PROPERTIES.add("RendererType");
+        NO_COPY_PROPERTIES.add("Parent");
+        NO_COPY_PROPERTIES.add("Value");
+    }
 
     /**
      * Duplicate method to clone a list Of UIComponent with specified value from
@@ -49,113 +59,61 @@ public class TreeUtils {
      * @return List<UIComponent> initiate with TreeNodeModels values
      */
     public static List<UIComponent> duplicate(final List<UIComponent> list, final TreeNodeModel node) {
-        final List<UIComponent> backup = new ArrayList<UIComponent>();
+        final List<UIComponent> copy = new ArrayList<UIComponent>();
         for (final UIComponent tmp : list) {
             try {
-                final UIComponent toduplic = duplicate(tmp, node);
-                toduplic.saveState(FacesContext.getCurrentInstance());
-                backup.add(toduplic);
+                final UIComponent itemCopy = duplicate(tmp, node);
+                itemCopy.saveState(FacesContext.getCurrentInstance());
+                copy.add(itemCopy);
             } catch (InstantiationException ex) {
-                Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(TreeTableUtils.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
-        return backup;
+        return copy;
     }
 
     private static UIComponent duplicate(final UIComponent component, final TreeNodeModel node)
             throws InstantiationException, IllegalAccessException {
         final FacesContext context      = FacesContext.getCurrentInstance();
-        final UIComponent news          = component.getClass().newInstance();
+        final UIComponent copy          = component.getClass().newInstance();
         final String treepanelId        = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
         final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
 
         //Copy specific attributes from component to news
-        copyAttributes(component, news);
+        ReflectionUtils.copyAttributes(component, copy,NO_COPY_PROPERTIES);
 
         final Object value = component.getAttributes().get("value");
         if (value != null) {
-            if (value.getClass().toString().contains("java.lang.String")) {
+            if (value instanceof String) {
                 final ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
-                news.getAttributes().put("value", ve.getValue(context.getELContext()));
+                copy.getAttributes().put("value", ve.getValue(context.getELContext()));
             } else {
-                news.getAttributes().put("value", value);
+                copy.getAttributes().put("value", value);
             }
 
-            final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            final ExternalContext ec = context.getExternalContext();
             final Map requestMap = ec.getRequestMap();
             if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
-               news.setId(component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
+                copy.setId(component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
             else
-                news.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
+                copy.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
 
         } else {
            if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
-                news.setId(component.getId() + "_" + node.getId());
-            else
-                news.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId());
+               copy.setId(component.getId() + "_" + node.getId());
+           else
+               copy.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId());
         }
 
         if (component.getChildCount() > 0) {
-            for (UIComponent tmp : component.getChildren()) {
-                UIComponent toduplic = duplicate(tmp, node);
-                news.getChildren().add(toduplic);
+            final List<UIComponent> children = copy.getChildren();
+            for (final UIComponent tmp : component.getChildren()) {
+                children.add(duplicate(tmp, node));
             }
         }
-        return news;
+        return copy;
     }
 
-    private static void copyAttributes(final UIComponent component, final UIComponent news) {
-
-        final Class newClasse = news.getClass();
-        final Class oldClasse = component.getClass();
-        Object resultGet;
-
-        if (component != null) {
-            if (news != null) {
-                for (final Method method : newClasse.getMethods()) {
-                    if (method.getName().startsWith("set")) {
-                        try {
-                            final String Propertie = method.getName().substring(3);
-                            if (!(Propertie.equals("Id")) && !(Propertie.equals("Converter")) && !(Propertie.equals("ValueExpression")) && !(Propertie.equals("RendererType")) && !(Propertie.equals("Parent")) && !(Propertie.equals("Value"))) {
-
-                                Method Getter = null;
-                                if (oldClasse.getMethod("get" + Propertie) != null) {
-                                    Getter = oldClasse.getMethod("get" + Propertie);
-                                    try {
-                                        resultGet = Getter.invoke(component);
-                                        method.invoke(news, resultGet);
-                                    } catch (IllegalAccessException ex) {
-                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (IllegalArgumentException ex) {
-                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (InvocationTargetException ex) {
-                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }
-                                if (oldClasse.getMethod("is" + Propertie) != null) {
-                                    Getter = oldClasse.getMethod("is" + Propertie);
-                                    try {
-                                        resultGet = Getter.invoke(component);
-                                        method.invoke(news, resultGet);
-                                    } catch (IllegalAccessException ex) {
-                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (IllegalArgumentException ex) {
-                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (InvocationTargetException ex) {
-                                        Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }
-                            }
-                        } catch (NoSuchMethodException ex) {
-                            //Logger.getLogger(TreeLayoutUtils.class.getName()).log(Level.INFO, null, ex.getMessage());
-                            } catch (SecurityException ex) {
-                            Logger.getLogger(TreeTableConfig.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces - http://www.mapfaces.org
+ *
+ *    (C) 2009, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 package bean;
 
@@ -29,7 +40,6 @@ import org.geotoolkit.temporal.object.DefaultPeriod;
 import org.geotoolkit.temporal.object.DefaultPeriodDuration;
 import org.geotoolkit.temporal.object.DefaultPosition;
 import org.geotoolkit.temporal.object.DefaultTemporalPosition;
-import org.geotoolkit.temporal.object.Utils;
 import org.geotoolkit.temporal.reference.DefaultOrdinalEra;
 import org.geotoolkit.temporal.reference.DefaultTemporalCoordinateSystem;
 import org.geotoolkit.util.SimpleInternationalString;
@@ -43,8 +53,11 @@ import org.opengis.temporal.Instant;
 import org.opengis.temporal.Period;
 import org.opengis.temporal.Position;
 import org.opengis.temporal.RelativePosition;
-import org.opengis.temporal.TemporalPrimitive;
 
+/**
+ *
+ * @author Mehdi Sidhoum (Geomatys).
+ */
 public class TimeLineBean {
     
     private Date centerDate;

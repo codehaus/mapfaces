@@ -42,7 +42,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
     /* Local Fields */
     private boolean debug;
-    //private static final transient Log log = LogFactory.getLog(AbstractTreeLinesRenderer.class);
     private AjaxUtils ajaxtools = new AjaxUtils();
     private static String DEFAULT_STYLE_LINE;
     private static String CLASS_NODE_LI = "x-tree-node x-tree-lines";
