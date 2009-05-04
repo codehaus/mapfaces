@@ -18,17 +18,13 @@
 package org.mapfaces.models.tree;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.commons.lang.StringUtils;
 
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
+import org.mapfaces.util.ReflectionUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys).
@@ -36,8 +32,11 @@ import org.mapfaces.models.Layer;
  */
 public class TreeItem implements Serializable {
 
+    protected static final Logger LOGGER = Logger.getLogger(TreeItem.class.getName());
+
     private Object userObject;
-    private String title = "",  name = "";
+    private String title = "";
+    private String name = "";
 
     /**
      * Creates a new instance of treeItem by passing a serializable object.
@@ -65,279 +64,118 @@ public class TreeItem implements Serializable {
     }
 
     /**
-     * 	Research a getter method corresponding to attribute property
-     * @param base - The base object whose property value is to be returned, or null to resolve a top-level variable.
-     * @param property - The property or variable to be resolved.
-     * @return if the getter method exist, return this method else return null 
-     */
-    public Method getMethod(final Object base, final Object property) {
-        if (base == null || property == null)
-            return null;
-        // Fisrt capitalize PropName
-        final String propName = StringUtils.capitalize(property.toString());
-        final Class classe = base.getClass();
-        // Search in base class methods the getter correspond to the attribut
-        for (Method method : classe.getMethods()) {
-            if ((method.getName().equals("get" + propName)) || (method.getName().equals("is" + propName))) {
-                return method;
-            }
-        }
-        return null;
-    }
-
-    /**
      * This is a getter for dataUrl when the userObject is an instance of Layer.
      */
     public String getDataUrl() {
-        final Method methode = getMethod(userObject, "DataUrl");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "DataUrl", String.class, true);
     }
 
     /**
      * This is a getter for DimensionList when the userObject is an instance of Layer.
      */
     public HashMap<String, Dimension> getDimensionList() {
-        final Method methode = getMethod(userObject, "DimensionList");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (HashMap) methode.invoke(userObject) : null;
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return ReflectionUtils.invokeGetter(userObject, "DimensionList", HashMap.class, false);
     }
 
     /**
      * This is a getter for Group when the userObject is an instance of Layer.
      */
     public String getGroup() {
-        final Method methode = getMethod(userObject, "Group");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "Group", String.class, true);
     }
 
     /**
      * This is a getter for Group when the userObject is an instance of Layer or Context or other object which contains an id property with the getter method.
      */
     public String getId() {
-        final Method methode = getMethod(userObject, "Id");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? String.valueOf(methode.invoke(userObject)) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "Id", String.class, true);
     }
 
     /**
      * This is a getter for Name when the userObject is an instance of Layer.
      */
     public String getName() {
-        final Method methode = getMethod(userObject, "Name");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : (userObject instanceof String)? userObject.toString() : name;
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        if(userObject instanceof String){
+            return (String)userObject;
+        }else{
+            String str = ReflectionUtils.invokeGetter(userObject, "Name", String.class, false);
+            return (str != null) ? str : name;
         }
-        return "";
     }
 
     /**
      * This is a getter for Opacity when the userObject is an instance of Layer.
      */
     public String getOpacity() {
-        final Method methode = getMethod(userObject, "Opacity");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "Opacity", String.class, true);
     }
 
     /**
      * This is a getter for OutputFormat when the userObject is an instance of Layer.
      */
     public String getOutputFormat() {
-        final Method methode = getMethod(userObject, "OutputFormat");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "OutputFormat", String.class, true);
     }
 
     /**
      * This is a getter for Title when the userObject is an instance of Layer or Context or another bean object that contains the property title .
      */
     public String getTitle() {
-        final Method methode = getMethod(userObject, "Title");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : title;
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
+        if(userObject instanceof String){
+            return (String)userObject;
+        }else{
+            String str = ReflectionUtils.invokeGetter(userObject, "Title", String.class, false);
+            return (str != null) ? str : title;
         }
-        return "";
     }
 
     /**
      * This is a getter for Hidden when the userObject is an instance of Layer or Context or another bean object that contains the property hidden .
      */
     public boolean isHidden() {
-        final Method methode = getMethod(userObject, "Hidden");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (Boolean) methode.invoke(userObject) : false;
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+        return ReflectionUtils.invokeGetter(userObject, "Hidden", Boolean.class, Boolean.FALSE);
     }
 
     /**
      * This is a getter for LegendUrl when the userObject is an instance of Layer.
      */
     public String getLegendUrl() {
-        final Method methode = getMethod(userObject, "LegendUrl");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "LegendUrl", String.class, true);
     }
 
     /**
      * This is a getter for UserValueElevation when the userObject is an instance of Layer.
      */
     public String getUserValueElevation() {
-        final Method methode = getMethod(userObject, "UserValueElevation");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "UserValueElevation", String.class, true);
     }
 
     /**
      * This is a getter for UserValueDimRange when the userObject is an instance of Layer.
      */
     public String getUserValueDimRange() {
-        final Method methode = getMethod(userObject, "UserValueDimRange");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "UserValueDimRange", String.class, true);
     }
 
     /**
      * This is a getter for Elevation when the userObject is an instance of Layer.
      */
     public Dimension getElevation() {
-        final Method methode = getMethod(userObject, "Elevation");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (Dimension) methode.invoke(userObject) : null;
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return ReflectionUtils.invokeGetter(userObject, "Elevation", Dimension.class, false);
     }
 
     /**
      * This is a getter for Time when the userObject is an instance of Layer.
      */
     public Dimension getTime() {
-        final Method methode = getMethod(userObject, "Time");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (Dimension) methode.invoke(userObject) : null;
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return ReflectionUtils.invokeGetter(userObject, "Time", Dimension.class, false);
     }
 
     /**
      * This is a getter for CompId when the userObject is an instance of Layer.
      */
     public String getCompId() {
-        final Method methode = getMethod(userObject, "CompId");
-        try {
-            return (methode != null && methode.invoke(userObject) != null) ? (String) methode.invoke(userObject) : "";
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(TreeItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        return ReflectionUtils.invokeGetter(userObject, "CompId", String.class, true);
     }
 
     public void setName(String name) {
@@ -350,18 +188,18 @@ public class TreeItem implements Serializable {
     
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("TreeItem :").append('\n');
+        final StringBuilder sb = new StringBuilder("TreeItem :").append('\n');
         if (name != null) {
-            s.append("name: ").append(name).append('\n');
+            sb.append("name: ").append(name).append('\n');
         }
+        sb.append("getName: ").append(getName()).append('\n');
         if (title != null) {
-            s.append("title: ").append(title).append('\n');
+            sb.append("title: ").append(title).append('\n');
         }
         if (userObject != null) {
-            s.append("userObject: ").append(userObject).append('\n');
+            sb.append("userObject: ").append(userObject);
         }
-//        return s.toString();
-        return (name == null || name.equals("")) ? getName() : name;
+        return sb.toString();
     }
 
     public Object getUserObject() {
@@ -371,4 +209,5 @@ public class TreeItem implements Serializable {
     public void setUserObject(Object userObject) {
         this.userObject = userObject;
     }
+    
 }

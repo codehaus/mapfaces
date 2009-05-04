@@ -25,9 +25,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
 import org.mapfaces.share.utils.Utils;
@@ -39,7 +36,7 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TabItemRenderer extends Renderer {
 
-    private static final transient Log log = LogFactory.getLog(TabItemRenderer.class);
+    private static final transient Logger LOGGER = Logger.getLogger(TabItemRenderer.class.getName());
 
     private UITabPanel getParentTabPanel(final UIComponent component) {
         UIComponent parent = component.getParent();

@@ -44,7 +44,6 @@ import org.mapfaces.util.tree.TreeStyle;
 public abstract class AbstractTreeTableRenderer extends Renderer implements CustomizeTreeComponentRenderer {
 
     /* Local fields */
-    //private static final transient Log log = LogFactory.getLog(AbstractTreeTableRenderer.class);
     private boolean debug;
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;

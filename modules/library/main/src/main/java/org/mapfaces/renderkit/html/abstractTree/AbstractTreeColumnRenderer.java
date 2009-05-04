@@ -18,6 +18,7 @@ package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -32,8 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
@@ -53,7 +52,7 @@ import org.mapfaces.util.AjaxUtils;
  */
 public abstract class AbstractTreeColumnRenderer extends Renderer implements AjaxRendererInterface, A4JRendererInterface, CustomizeTreeComponentRenderer {
 
-    private static final transient Log log = LogFactory.getLog(AbstractTreeColumnRenderer.class);
+    private static final Logger LOGGER = Logger.getLogger(AbstractTreeColumnRenderer.class.getName());
     private static final String DEFAULT_SIZE_COLUMN = "250";
     private static final String DEFAULT_HEADER_COLUMN = "Tree";
     private static final String NODE_IDENT = "/resource.jsf?r=/org/mapfaces/resources/tree/images/default/s.gif";
@@ -122,12 +121,12 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             debug = (Boolean) component.getAttributes().get("debug");
         }
 
-        if (debug) log.info("beforeEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("beforeEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
 
         beforeEncodeBegin(context, component);
 
         //Start encoding
-        if (debug) log.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
 
         final String treepanelId            = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
         final UITreePanelBase treepanel     = (UITreePanelBase) Utils.findComponent(context, treepanelId);
@@ -324,7 +323,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             ((UITreeColumnBase) component).setAlreadyRender(true);
         }
 
-        if (debug) log.info("afterEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("afterEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
 
         afterEncodeBegin(context, component);
     }
@@ -334,7 +333,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        if (debug) log.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
 
         final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         final TreeNodeModel node       = treeline.getNodeInstance();
@@ -358,15 +357,15 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         final UITreeLinesBase treeline      = (UITreeLinesBase) component.getParent();
         final TreeNodeModel node            = treeline.getNodeInstance();
 
-        if (debug) log.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
 
         beforeEncodeEnd(context, component);
 
-        if (debug) log.info("encodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("encodeEnd : " + AbstractTreeColumnRenderer.class.getName());
 
         writer.endElement("div");
 
-        if (debug) log.info("afterEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) LOGGER.info("afterEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
 
         afterEncodeEnd(context, component);
     }

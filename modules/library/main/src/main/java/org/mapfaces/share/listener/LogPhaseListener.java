@@ -17,10 +17,9 @@
 
 package org.mapfaces.share.listener;
 
+import java.util.logging.Logger;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Kevin Delfour
@@ -28,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 public class LogPhaseListener implements javax.faces.event.PhaseListener {
 
     private static final long serialVersionUID = -4395863677889457550L;
-    private static final transient Log log = LogFactory.getLog(LogPhaseListener.class);
+    private static final transient Logger LOGGER = Logger.getLogger(LogPhaseListener.class.getName());
 
     /**
      * 
@@ -47,7 +46,7 @@ public class LogPhaseListener implements javax.faces.event.PhaseListener {
      */
     @Override
     public void beforePhase(PhaseEvent e) {
-        log.debug("beforePhase." + e.getPhaseId());
+        LOGGER.fine("beforePhase." + e.getPhaseId());
     }
 
     /**
@@ -57,6 +56,6 @@ public class LogPhaseListener implements javax.faces.event.PhaseListener {
      */
     @Override
     public void afterPhase(PhaseEvent e) {
-        log.debug("afterPhase." + e.getPhaseId());
+        LOGGER.fine("afterPhase." + e.getPhaseId());
     }
 }

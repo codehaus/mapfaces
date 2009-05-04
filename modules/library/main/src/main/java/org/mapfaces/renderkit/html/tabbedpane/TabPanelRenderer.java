@@ -18,15 +18,12 @@
 package org.mapfaces.renderkit.html.tabbedpane;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
@@ -39,7 +36,7 @@ import org.mapfaces.share.utils.Utils;
  */
 public class TabPanelRenderer extends Renderer {
 
-    private static final transient Log log = LogFactory.getLog(TabPanelRenderer.class);
+    private static final transient Logger LOGGER = Logger.getLogger(TabPanelRenderer.class.getName());
     private static final String TABCSS_CSS = "/org/mapfaces/resources/tabbedpane/css/domtab.css";
     private static final String TABJS = "/org/mapfaces/resources/tabbedpane/js/domtab.js";
 
@@ -82,7 +79,7 @@ public class TabPanelRenderer extends Renderer {
         }
         assertValid(context, component);
         //Start encoding
-        log.info("encodeBegin : " + TabPanelRenderer.class.getName());
+        LOGGER.info("encodeBegin : " + TabPanelRenderer.class.getName());
 
         final UITabPanel tabpanel   = (UITabPanel) component;
         final ResponseWriter writer = context.getResponseWriter();

@@ -34,8 +34,8 @@ import javax.lang.model.element.Name;
 import javax.naming.Context;
 import javax.naming.NamingException;
 
-import org.apache.commons.lang.StringUtils;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.util.ReflectionUtils;
 
 /**
  * Resolve variable names known to this resolver;
@@ -85,50 +85,30 @@ public class CustomELResolver extends ELResolver {
             // if the base is an instance of TreeNodeModel then
             // we try to find the getter access method for the property
             final TreeNodeModel node = (TreeNodeModel) base;
-            final Method methode     = getMethod(node.getUserObject(), property);
             // if the Node UserObject isn't null  and the method have been found
             //  then we invoke the method and return the result on this object
             if (node.getUserObject() != null) {
-                try {
-                    if (methode != null) {
-                        result = methode.invoke(node.getUserObject());
-                        if (result == null) {
-                            result = ".";
-                        }
-                    } else {
-                        result = "No method found for this attribute!";
+                final Method method = ReflectionUtils.lookupGetter(node.getUserObject().getClass(), property.toString());
+
+                if (method != null) {
+                    try {
+                        result = method.invoke(node.getUserObject());
+                    } catch (IllegalAccessException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
                     }
-                } catch (IllegalAccessException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-                } catch (IllegalArgumentException ex) {
-                    System.out.println("[WARNING] " + Level.SEVERE + " - " + ex);
-                // logger.log(Level.SEVERE, null, ex);
-                } catch (InvocationTargetException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
+                    if (result == null) {
+                        result = ".";
+                    }
+                } else {
+                    result = "No method found for this attribute!";
                 }
+
                 elcontext.setPropertyResolved(true);
             }
         }
         return result;
-    }
-
-    /**
-     * 	Research getter method corresponding to attribute property
-     * @param base - The base object whose property value is to be returned, or null to resolve a top-level variable.
-     * @param property - The property or variable to be resolved.
-     * @return if the getter method exist, return this method else return null 
-     */
-    public Method getMethod(final Object base, final Object property) {
-        // Fisrt capitalize PropName
-        final String propName = StringUtils.capitalize(property.toString());
-        final Class classe = base.getClass();
-        // Search in base class methods the getter correspond to the attribut
-        for (Method method : classe.getMethods()) {
-            if ((method.getName().equals("get" + propName)) || (method.getName().equals("is" + propName))) {
-                return method;
-            }
-        }
-        return null;
     }
 
     /**
@@ -137,7 +117,7 @@ public class CustomELResolver extends ELResolver {
     @Override
     public Class<?> getType(final ELContext elContext, final Object base, final Object property) 
             throws NullPointerException, PropertyNotFoundException, ELException {
-        if (null != base && base instanceof Context) {
+        if (base instanceof Context) {
             elContext.setPropertyResolved(true);
             return Object.class;
         }
@@ -150,16 +130,11 @@ public class CustomELResolver extends ELResolver {
     @Override
     public void setValue(final ELContext elContext, final Object base, final Object property, final Object value) 
             throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException {
-        if (null != base && base instanceof Context) {
+        if (base instanceof Context) {
             final Context context = (Context) base;
             elContext.setPropertyResolved(true);
             try {
-                if (property instanceof Name) {
-                    context.rebind(((Name) property).toString(), value);
-                } else {
-                    context.rebind(property.toString(), value);
-                }
-
+                context.rebind(property.toString(), value);
             } catch (NamingException e) {
                 throw new ELException(e);
             }
