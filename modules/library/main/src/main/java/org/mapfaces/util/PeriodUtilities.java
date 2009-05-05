@@ -27,12 +27,13 @@ import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
- * @author Guilhem Legal
- * @author Mehdi Sidhoum
+ * @author Guilhem Legal (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class PeriodUtilities {
 
@@ -361,6 +362,23 @@ public class PeriodUtilities {
             response = sdf.parse(dateString);
         }
         return response;
+    }
+
+    /**
+     * Returns a string representation of a date in ISO8601 format.
+     * @param date
+     * @return String
+     */
+    public static String getISO8601StringFromDate(Date date) {
+        LOGGER.log(Level.INFO, "Proceed to get a string representation in iso8601 of date = "+date);
+        String result = "";
+        final String DATE_FORMAT   = "yyyy-MM-dd'T'HH:mm:ss";
+        final SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        sdf.setTimeZone(TimeZone.getDefault());
+        if (date != null) {
+            result = sdf.format(date);
+        }
+        return result;
     }
 
     public static String getTimeZone(String dateString) {

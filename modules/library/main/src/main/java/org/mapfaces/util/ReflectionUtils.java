@@ -126,21 +126,31 @@ public class ReflectionUtils{
             throw new NullPointerException("Source and target must not be null");
         }
 
-        final Class oldClasse = source.getClass();
-        final Class newClasse = target.getClass();
+        final Class sourceClass = source.getClass();
+        final Class targetClass = target.getClass();
 
-        for (final Method method : newClasse.getMethods()) {
-            if (method.getName().startsWith("set")) {
-                final String propertyName = method.getName().substring(3);
+        for (final Method setter : targetClass.getMethods()) {
+            if (setter.getName().startsWith("set")) {
+                final String propertyName = setter.getName().substring(3);
 
                 if (!ignoredProperties.contains(propertyName)) {
-                    final Method getter = lookupGetter(oldClasse, propertyName);
+                    final Method getter = lookupGetter(sourceClass, propertyName);
 
                     if(getter != null){
                         //copy the property
                         try {
+                            if (getter.getParameterTypes().length != 0) {
+                                //TODO because this is a custom duplication it is not a perfect clone of every child components in treeTable component.
+                                LOGGER.log(Level.WARNING, "Could'nt invoke getter for property : "+getter.getName()+"  wicth contains "+getter.getParameterTypes().length+" arguments.");
+                                continue;
+                            }
                             Object resultGet = getter.invoke(source);
-                            method.invoke(target, resultGet);
+                            Class<?> returnType = getter.getReturnType();
+                            if ( !(setter.getParameterTypes().length == 1 && (setter.getParameterTypes()[0]).isAssignableFrom(returnType)) ) {
+                                LOGGER.log(Level.WARNING, "Could'nt invoke setter for property : "+setter.getName()+"  wicth contains "+setter.getParameterTypes().length+" arguments and types does not match : "+returnType+" and "+setter.getParameterTypes()[0]);
+                                continue;
+                            }
+                            setter.invoke(target, resultGet);
                         } catch (IllegalAccessException ex) {
                             LOGGER.log(Level.SEVERE, null, ex);
                         } catch (IllegalArgumentException ex) {

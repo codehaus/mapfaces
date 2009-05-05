@@ -88,7 +88,7 @@ public class TreeItem implements Serializable {
      * This is a getter for Group when the userObject is an instance of Layer or Context or other object which contains an id property with the getter method.
      */
     public String getId() {
-        return ReflectionUtils.invokeGetter(userObject, "Id", String.class, true);
+        return ReflectionUtils.invokeGetter(userObject, "Id", Object.class, true).toString();
     }
 
     /**
@@ -98,8 +98,8 @@ public class TreeItem implements Serializable {
         if(userObject instanceof String){
             return (String)userObject;
         }else{
-            String str = ReflectionUtils.invokeGetter(userObject, "Name", String.class, false);
-            return (str != null) ? str : name;
+            Object str = ReflectionUtils.invokeGetter(userObject, "Name", Object.class, false);
+            return (str != null) ? str.toString() : name;
         }
     }
 
