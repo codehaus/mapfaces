@@ -48,6 +48,7 @@ public class TreeUtils {
         NO_COPY_PROPERTIES.add("RendererType");
         NO_COPY_PROPERTIES.add("Parent");
         NO_COPY_PROPERTIES.add("Value");
+        NO_COPY_PROPERTIES.add("ValueBinding");
     }
 
     /**
