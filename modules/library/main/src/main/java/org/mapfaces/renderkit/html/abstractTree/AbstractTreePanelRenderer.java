@@ -488,8 +488,6 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
         final UITreePanelBase treepanel = (UITreePanelBase) component;
-        final AjaxUtils ajaxtools = new AjaxUtils();
-        final TreeModelsUtils treeTools = new TreeModelsUtils();
         final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         if (treepanel.isDebug()) {
@@ -499,7 +497,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         /* First we get attributes from the request*/
         final String TreeLineNewParentId = request.getParameter(AjaxUtils.DND_NEW_PARENT_COMPONENT);
         final String TreeLineinDragId = request.getParameter(AjaxUtils.AJAX_COMPONENT_ID_KEY);
-        final String Position = request.getParameter(AjaxUtils.DND_POSITION_LINE);
+        final String dropPosition = request.getParameter(AjaxUtils.DND_POSITION_LINE);
         final UITreeLinesBase treeLinesToDrag = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
         final UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
 
@@ -508,20 +506,19 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         /* After we get tje targetNode  and the node to move */
         final int targetNode = treeLinesToDragIn.getNodeInstance().getId();
         final int movedNode = treeLinesToDrag.getNodeInstance().getId();
-        final int parentTargetNode = ((TreeNodeModel) tree.getById(targetNode).getParent()).getId();
 
         /* We put the right node at the right place */
-        if (Position.equals("lastitem")) {
+        if (dropPosition.equals("lastitem")) {
             final int position = treeLinesToDrag.getNodeInstance().getChildCount();
-            tree = treeTools.moveTo(tree, movedNode, targetNode, position + 1);
-        } else if (Position.equals("before")) {
-            tree = treeTools.insertBefore(tree, movedNode, targetNode);
-        } else if (Position.equals("after")) {
-            tree = treeTools.insertAfter(tree, movedNode, targetNode);
-        } else if (Position.equals("firstitem")) {
-            tree = treeTools.moveTo(tree, movedNode, targetNode);
+            tree = TreeModelsUtils.moveTo(tree, movedNode, targetNode, position + 1);
+        } else if (dropPosition.equals("before")) {
+            tree = TreeModelsUtils.insertBefore(tree, movedNode, targetNode);
+        } else if (dropPosition.equals("after")) {
+            tree = TreeModelsUtils.insertAfter(tree, movedNode, targetNode);
+        } else if (dropPosition.equals("firstitem")) {
+            tree = TreeModelsUtils.moveTo(tree, movedNode, targetNode);
         } else {
-            tree = treeTools.moveTo(tree, movedNode, targetNode);
+            tree = TreeModelsUtils.moveTo(tree, movedNode, targetNode);
         }
 
         /* We save the new Tree to the treepanel */

@@ -39,18 +39,19 @@ import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
- * @author kevin Delfour
+ * @author kevin Delfour (IRD)
  */
 public abstract class AbstractTreeTableRenderer extends Renderer implements CustomizeTreeComponentRenderer {
 
+    /* Script Js and Css Style link */
+    private static final String Loading_Mootools_min     = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
+    private static final String Loading_Tree_min         = "/org/mapfaces/resources/compressed/tree.min.js";
+    
     /* Local fields */
     private boolean debug;
     private Date renderStart,  renderEnd;
     private long encodeBeginTime,  encodeChildrenTime,  encodeEndTime;
 
-    /* Script Js and Css Style link */
-    private static final String Loading_Mootools_min     = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
-    private static final String Loading_Tree_min         = "/org/mapfaces/resources/compressed/tree.min.js";
 
     //private final String MOOTOOLS_JS = "/org/mapfaces/resources/treetable/js/mootools.1.2.js";
 //    private final String TREEPANEL_JS = "/org/mapfaces/resources/treetable/js/treepanel.1.0.js";
@@ -73,7 +74,6 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final UITreeTableBase treetable       = (UITreeTableBase) component;
         final ResponseWriter writer           = context.getResponseWriter();
-        final TreeModelsUtils treeModelsTools = new TreeModelsUtils();
         String width, height;
         Date phaseStart, phaseEnd, getValueStart, getValueEnd;
 
@@ -142,7 +142,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
                 } else {
                     tree = (DefaultTreeModel) value;
                 }
-                treetable.setTree(treeModelsTools.transformTree(tree));
+                treetable.setTree(TreeModelsUtils.transformTree(tree));
                 treetable.setNodeCount(treetable.getTree());
             } else {
                 final TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);

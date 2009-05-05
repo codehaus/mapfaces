@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
  *
  * @author Kevin Delfour (IRD)
  */
-public class AbstractUITemplate extends UIBase {
+public class AbstractUI extends UIBase {
 
     public static final String FAMILIY = "org.mapfaces.example";
 
