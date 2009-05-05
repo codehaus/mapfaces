@@ -44,7 +44,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 public class MapContextLayerRenderer extends LayerRenderer {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.layer.MapContextLayerRenderer");
+    private static final Logger LOGGER = Logger.getLogger(MapContextLayerRenderer.class.getName());
 
     /**
      * {@inheritDoc }

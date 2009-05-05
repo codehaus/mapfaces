@@ -36,7 +36,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
  */
 public class PeriodUtilities {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.util");
+    private static final Logger LOGGER = Logger.getLogger(PeriodUtilities.class.getName());
     /**
      * The number of millisecond in one year.
      */

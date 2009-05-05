@@ -37,7 +37,7 @@ public class WidgetBaseRenderer extends Renderer {
     private String clientId;
     private String style = null;
     private String styleClass = null;
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.WidgetBaseRenderer");
+    private static final Logger LOGGER = Logger.getLogger(WidgetBaseRenderer.class.getName());
 
     /**
      * {@inheritDoc }

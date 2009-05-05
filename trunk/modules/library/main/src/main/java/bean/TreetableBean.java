@@ -28,6 +28,8 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class TreetableBean {
 
+    private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
+
     private DefaultTreeModel tree;
 
     public TreetableBean() {
@@ -35,9 +37,9 @@ public class TreetableBean {
         try {
             tree = Adapter.OWC2Tree(fileUrl);
         } catch (JAXBException ex) {
-            Logger.getLogger(TreetableBean.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(TreetableBean.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

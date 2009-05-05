@@ -23,7 +23,7 @@ import org.mapfaces.component.UILayer;
 public class UIWmsLayer extends UILayer {
 
     public static final String FAMILIY = "org.mapfaces.WmsLayer";
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.component.layer.UIWmsLayer");
+    private static final Logger LOGGER = Logger.getLogger(UIWmsLayer.class.getName());
     
     public UIWmsLayer() {
         super();

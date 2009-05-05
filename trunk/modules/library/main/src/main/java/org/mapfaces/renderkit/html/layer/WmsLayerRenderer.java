@@ -43,7 +43,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class WmsLayerRenderer extends LayerRenderer {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.WmsLayerRenderer");
+    private static final Logger LOGGER = Logger.getLogger(WmsLayerRenderer.class.getName());
 
     /**
      * {@inheritDoc }

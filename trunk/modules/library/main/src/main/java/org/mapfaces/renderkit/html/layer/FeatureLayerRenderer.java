@@ -60,7 +60,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  */
 public class FeatureLayerRenderer extends MapContextLayerRenderer {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MFLayerRenderer");
+    private static final Logger LOGGER = Logger.getLogger(FeatureLayerRenderer.class.getName());
 
     /**
      * {@inheritDoc }

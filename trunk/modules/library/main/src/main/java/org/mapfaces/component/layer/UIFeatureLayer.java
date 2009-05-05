@@ -67,7 +67,7 @@ public class UIFeatureLayer extends UILayer {
      * this index is used for binding multi components for example layer and timeline bandinfo and rows in datatables.
      */
     private int bindingIndex;
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.component.layer.UIFeatureLayer");
+    private static final Logger LOGGER = Logger.getLogger(UIFeatureLayer.class.getName());
 
     public UIFeatureLayer() {
         super();

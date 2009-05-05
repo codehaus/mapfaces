@@ -24,7 +24,7 @@ public class UIMapContextLayer extends UILayer {
 
     public static final String FAMILIY = "org.mapfaces.MapContextLayer";
     
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.component.layer.UIMapContextLayer");
+    private static final Logger LOGGER = Logger.getLogger(UIMapContextLayer.class.getName());
     
     public UIMapContextLayer() {
         super();

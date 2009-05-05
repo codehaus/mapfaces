@@ -84,6 +84,8 @@ import org.opengis.temporal.TemporalPrimitive;
  */
 public class TimeLineRenderer extends Renderer {
 
+    private static final Logger LOGGER = Logger.getLogger(TimeLineRenderer.class.getName());
+
     private static final String DATE_FORMAT    = "EEE MMM d yyyy HH:mm:ss 'GMT'Z";
     private static final SimpleDateFormat SDF  = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
     
@@ -157,9 +159,9 @@ public class TimeLineRenderer extends Renderer {
                                 final List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
                                 events.addAll(layerEvents);
                             } catch (ParseException ex) {
-                                Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                LOGGER.log(Level.SEVERE, null, ex);
                             } catch (DatatypeConfigurationException ex) {
-                                Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                LOGGER.log(Level.SEVERE, null, ex);
                             }
                         }
                     }
@@ -426,9 +428,9 @@ public class TimeLineRenderer extends Renderer {
                     }
                     comp.setValue(layerEvents);
                 } catch (ParseException ex) {
-                    Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 } catch (DatatypeConfigurationException ex) {
-                    Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
         }

@@ -50,7 +50,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class MapPaneRenderer extends WidgetBaseRenderer {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.MapPaneRenderer");
+    private static final Logger LOGGER = Logger.getLogger(WidgetBaseRenderer.class.getName());
 
     /**
      * {@inheritDoc }

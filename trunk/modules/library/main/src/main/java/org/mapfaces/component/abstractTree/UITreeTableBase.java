@@ -33,6 +33,8 @@ import org.mapfaces.share.request.RequestMapUtils;
  */
 public abstract class UITreeTableBase extends UITreeBase implements StateHolder, Cloneable {
 
+    private static final Logger LOGGER = Logger.getLogger(UITreeTableBase.class.getName());
+
     /* Fields */
     private int     nodeCount = 0;
     private int     rowId = 0;
@@ -143,7 +145,7 @@ public abstract class UITreeTableBase extends UITreeBase implements StateHolder,
         try {
             return (UITreeTableBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UITreeNodeInfoBase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return null;
     }
