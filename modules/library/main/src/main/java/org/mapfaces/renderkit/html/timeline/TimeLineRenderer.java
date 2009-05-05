@@ -93,7 +93,6 @@ public class TimeLineRenderer extends Renderer {
      * {@inheritDoc }
      */
     @Override
-    @SuppressWarnings("TimeLineRenderer")
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;

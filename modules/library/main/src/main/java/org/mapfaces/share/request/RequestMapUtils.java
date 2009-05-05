@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class RequestMapUtils {
 
-    @SuppressWarnings("unchecked")
     public static void put(final Object key, final Object value) {
         if (key != null) {
             final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
