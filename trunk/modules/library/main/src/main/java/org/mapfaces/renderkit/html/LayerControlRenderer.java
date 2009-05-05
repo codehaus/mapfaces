@@ -136,7 +136,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         /* -- Treetable Declaration -- */
         final UITreeTable treeTable = new UITreeTable();
         treeTable.setId(layerControl.getId() + "_TreeTable");
-        treeTable.setTree((new TreeModelsUtils()).transformTree(tree));
+        treeTable.setTree(TreeModelsUtils.transformTree(tree));
         treeTable.setVarName("treeItem");
         treeTable.setMootools(addMootools);
         treeTable.setMinifyJS(addMinifyJs);

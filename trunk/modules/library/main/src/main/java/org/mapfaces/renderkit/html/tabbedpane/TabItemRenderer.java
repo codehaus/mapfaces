@@ -75,13 +75,14 @@ public class TabItemRenderer extends Renderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-        if (getParentTabPanel(component) == null) {
+        if (getParentTabPanel(component) == null || !component.isRendered()) {
             return;
         }
-        if (!component.isRendered()) {
-            return;
-        }
-        assertValid(context, component);
+
+        if (context == null) throw new NullPointerException("FacesContext should not be null");
+        if (component == null) throw new NullPointerException("component should not be null");
+
+
         //Start encoding
 
         final UITabItem tabitem = (UITabItem) component;
@@ -136,12 +137,4 @@ public class TabItemRenderer extends Renderer {
     public void decode(final FacesContext context, final UIComponent component) {
     }
 
-    private void assertValid(final FacesContext context, final UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        }
-        if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
-    }
 }

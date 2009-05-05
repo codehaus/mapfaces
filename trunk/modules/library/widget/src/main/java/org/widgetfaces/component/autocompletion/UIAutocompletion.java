@@ -65,7 +65,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  * <li><b>enableAjax</b> - (boolean) enable or disable ajax request for the component</li>
  * </ul>
  * </p>
- * @author kevin delfour
+ * @author Kevin Delfour (IRD)
  */
 public class UIAutocompletion extends HtmlInputText implements AjaxInterface {
 

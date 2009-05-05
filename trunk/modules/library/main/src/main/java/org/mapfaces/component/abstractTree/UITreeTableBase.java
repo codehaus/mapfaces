@@ -64,8 +64,7 @@ public abstract class UITreeTableBase extends UITreeBase implements StateHolder,
     }
 
     public void setNodeCount(final TreeTableModel tree) {
-        final TreeModelsUtils TreeModelsTools = new TreeModelsUtils();
-        nodeCount = TreeModelsTools.getTreeNodeCount(tree);
+        nodeCount = TreeModelsUtils.getTreeNodeCount(tree);
     }
 
     public int getRowId() {

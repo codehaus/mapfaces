@@ -1,8 +1,10 @@
+package org.widgetfaces.renderkit;
+
 /*
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2009, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -15,17 +17,17 @@
  *    Lesser General Public License for more details.
  */
 
-    import java.io.IOException;
-    import javax.faces.component.UIComponent;
-    import javax.faces.component.UIForm;
-    import javax.faces.context.FacesContext;
-    import javax.faces.render.Renderer;
-    import org.widgetfaces.share.utils.Utils;
+import java.io.IOException;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIForm;
+import javax.faces.context.FacesContext;
+import javax.faces.render.Renderer;
+import org.mapfaces.share.utils.Utils;
 
 /**
- * @author kevin Delfour
+ * @author kevin Delfour (IRD)
  */
-public class Example extends Renderer{
+public class AbstractRenderer extends Renderer{
 
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
