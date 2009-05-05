@@ -32,7 +32,7 @@ import javax.faces.context.FacesContext;
  * <li><b>sortBy</b> - the direction of the sort (ASC / DESC) (default: ASC).</li>
  * <li><b>scrolling</b> - provide a scrolling capability out of the box
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class UIDatatable extends HtmlDataTable {
 

@@ -22,15 +22,14 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public final class adapter {
 
     public static String array2token(Object obj, FacesContext context) {
-        String tokens = "['no value']";
-        List<String> list = new ArrayList<String>();
-        int cpt = 0;
+        
         if (obj != null) {
+            final List<String> list;
             if (obj instanceof String) {
                 ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) obj, java.lang.Object.class);
                 if (ve.getValue(context.getELContext()) instanceof List){
@@ -38,21 +37,20 @@ public final class adapter {
                 }else{
                     return (String) ve.getValue(context.getELContext());
                 }
-            }
-            else{
+            } else {
                 list = (List<String>) obj;
             }
-            cpt = list.size();
-                tokens = "[";
-                for (String string : list) {
-                    tokens += "\""+ string+"\"";
-                    cpt --;
-                    if (cpt != 0){
-                        tokens +=",";
-                    }
-                }
-                tokens += "]";
+
+            final StringBuilder sb = new StringBuilder('[');
+            for(int i=0,n=list.size();i<n;i++){
+                sb.append('\"').append(list.get(i)).append('\"');
+                if(i+1<n) sb.append(',');
+            }
+            sb.append(']');
+
+            return sb.toString();
         }
-        return tokens;
+
+        return "['no value']";
     }
 }

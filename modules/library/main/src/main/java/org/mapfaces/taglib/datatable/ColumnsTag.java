@@ -26,9 +26,11 @@ import org.mapfaces.component.datatable.UIColumns;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class ColumnsTag extends UIComponentELTag {
+
+    private static final Logger LOGGER = FacesLogger.TAGLIB.getLogger();
 
     public static final String COMP_TYPE = "org.mapfaces.datatable.Columns";
     /* Fields */
@@ -49,8 +51,6 @@ public class ColumnsTag extends UIComponentELTag {
         this.axis = axis;
     }
 
-    // Log instance for this class
-    private static final Logger LOGGER = FacesLogger.TAGLIB.getLogger();
 
     //
     // Instance Variables

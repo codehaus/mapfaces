@@ -20,7 +20,7 @@ import javax.faces.component.UIColumn;
 import javax.faces.context.FacesContext;
 
 /**
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class UIColumns extends UIColumn {
 
@@ -71,6 +71,5 @@ public class UIColumns extends UIColumn {
     public String getFamily() {
         return FAMILY;
     }
-
     
 }

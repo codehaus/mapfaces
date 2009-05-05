@@ -23,7 +23,7 @@ import org.mapfaces.taglib.abstractTree.UITreeColumnELTag;
 
 /**
  * <p>TreeColumnTag is the base class for all JSP tags that correspond to a TreeColumn Component instance in the view.</p>
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class TreeColumnTag extends UITreeColumnELTag {
 

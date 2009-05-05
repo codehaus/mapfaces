@@ -14,16 +14,15 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.widgetfaces.component.example;
+package org.widgetfaces.component;
 
 import javax.faces.context.FacesContext;
-import org.widgetfaces.component.UIBase;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
-public class example extends UIBase {
+public class AbstractUITemplate extends UIBase {
 
     public static final String FAMILIY = "org.mapfaces.example";
 

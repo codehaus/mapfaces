@@ -18,7 +18,7 @@ package org.mapfaces.renderkit.html.datatable;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class ScrollerRenderer {
 

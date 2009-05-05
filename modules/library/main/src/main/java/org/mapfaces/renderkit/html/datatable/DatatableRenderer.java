@@ -29,7 +29,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class DatatableRenderer extends TableRenderer {
 
@@ -69,16 +69,13 @@ public class DatatableRenderer extends TableRenderer {
         if (comp.isSortable()) {
 
             // Add OverCls class
-            String overCls = "over";
-            if (comp.getOverCls() != null) {
-                overCls = comp.getOverCls();
+            String overCls = comp.getOverCls();
+            if (overCls == null) {
+                overCls = "over";
             }
 
             //Modify sortOn attribute
-            int sortOn = 0;
-            if (comp.getSortOn() != 0) {
-                sortOn = comp.getSortOn();
-            }
+            final int sortOn = comp.getSortOn();
 
             //Modify sortBy attribute
             String sortBy = "ASC";
@@ -93,12 +90,15 @@ public class DatatableRenderer extends TableRenderer {
              var ths = ($('userHome:all').getChildren()[0]).getChildren()[0];
              ths.getChildren()[0].set('axis','string');
              */
-            int i = 0;
-            StringBuilder st = new StringBuilder();
+            
+            final StringBuilder st = new StringBuilder();
             st.append("var ths = ($('").append(comp.getClientId(context)).append("').getChildren()[0]).getChildren()[0];");
+
+            int i = 0;
             for(UIComponent column:comp.getChildren()){
                 if (column instanceof UIColumns){
                     st.append("ths.getChildren()[").append(i).append("].set('axis','").append(((UIColumns)column).getAxis()).append("');");
+                    i++;
                 }
             }
             st.append("function ").append(comp.getId()).append("_loading(){var ").append(comp.getId()).append("_datatable = new SortableTable('").append(comp.getClientId(context)).append("',{");

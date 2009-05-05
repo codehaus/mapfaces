@@ -22,7 +22,7 @@ import org.mapfaces.taglib.abstractTree.UIColumnELTag;
 
 /**
  *  <p>ColumnTag is the base class for all JSP tags that correspond to a Column Component instance in the view in a treelayout</p>
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class ColumnTag extends UIColumnELTag {
 

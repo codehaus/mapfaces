@@ -17,12 +17,13 @@ package org.mapfaces.taglib.datatable;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIData;
 import javax.faces.webapp.UIComponentELTag;
 import javax.servlet.jsp.JspException;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class DatatableTag extends UIComponentELTag {
 
@@ -329,12 +330,13 @@ public class DatatableTag extends UIComponentELTag {
     @Override
     protected void setProperties(UIComponent component) {
         super.setProperties(component);
-        javax.faces.component.UIData data = null;
-        try {
-            data = (javax.faces.component.UIData) component;
-        } catch (ClassCastException cce) {
+
+        if(!(component instanceof UIData)){
             throw new IllegalStateException("Component " + component.toString() + " not expected type.  Expected: javax.faces.component.UIData.  Perhaps you're missing a tag?");
         }
+
+
+        final UIData data = (UIData) component;
 
         if (first != null) {
             data.setValueExpression("first", first);
