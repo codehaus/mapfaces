@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
  * UIBase is a UICommand that represents a user interface component which,
  * when activated by the user, triggers an application specific "command" or "action".
  * Such a component is typically rendered as a push button, a menu item, or a hyperlink.
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class UIBase extends UICommand implements StateHolder {
 

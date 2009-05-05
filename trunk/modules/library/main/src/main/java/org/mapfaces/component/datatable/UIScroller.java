@@ -30,7 +30,7 @@ import javax.faces.context.FacesContext;
  * <li><b>attachedTo</b></li> - The data grid component for which this
  * acts as a scroller. This can be value or a value binding reference expression.
  * </ul>
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class UIScroller extends UICommand {
 

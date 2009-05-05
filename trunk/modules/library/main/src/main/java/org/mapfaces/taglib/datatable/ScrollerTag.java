@@ -21,7 +21,7 @@ import javax.faces.webapp.UIComponentELTag;
 
 /**
  *
- * @author kdelfour
+ * @author Kevin Delfour (IRD)
  */
 public class ScrollerTag extends UIComponentELTag {
 
