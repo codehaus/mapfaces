@@ -32,7 +32,7 @@ import org.mapfaces.util.FacesUtils;
 
 public class WidgetBaseRenderer extends Renderer {
 
-    ResponseWriter writer = null;
+    protected ResponseWriter writer = null;
     public boolean debug = false;
     private String clientId;
     private String style = null;

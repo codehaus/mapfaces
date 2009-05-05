@@ -123,7 +123,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
         writer.writeAttribute("style", "top:0px;left:0px;position:absolute;z-index: 749;", "style");
         
-        MapContext mapcontext = (MapContext) comp.getValue();
+        final MapContext mapcontext = (MapContext) comp.getValue();
         if (mapcontext != null) {
             //adding all the MapContext layers  into an allInOne layer.
             final ContextFactory contextFactory = new DefaultContextFactory();

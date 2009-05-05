@@ -18,7 +18,6 @@
 package org.mapfaces.share.request;
 
 import java.util.Enumeration;
-import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -30,21 +29,16 @@ public class RequestMapUtils {
 
     @SuppressWarnings("unchecked")
     public static void put(final Object key, final Object value) {
-        final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        final Map requestMap     = ec.getRequestMap();
-
         if (key != null) {
-            requestMap.put(key, value);
+            final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.getRequestMap().put(key.toString(), value);
         }
     }
 
-    public static Object getbyKey(final Object key) {
-        final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        final Map requestMap     = ec.getRequestMap();
+    public static Object getbyKey(final Object key) {        
         if (key != null) {
-            if (requestMap.containsKey(key)) {
-                return requestMap.get(key);
-            }
+            final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            return ec.getRequestMap().get(key.toString());
         }
         return null;
     }
