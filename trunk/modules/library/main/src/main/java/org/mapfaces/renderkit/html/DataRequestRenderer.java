@@ -158,12 +158,16 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
         final UIDataRequest comp = (UIDataRequest) component;
 
-        UIPopup popup = (UIPopup) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getTargetPopupId());
-        int popupWidth = 300;
-        int popupHeight = 200;
+        final UIPopup popup = (UIPopup) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getTargetPopupId());
+        final int popupWidth;
+        final int popupHeight;
+        
         if (popup != null) {
             popupWidth = popup.getWidth();
             popupHeight = popup.getHeight();
+        } else {
+            popupWidth = 300;
+            popupHeight = 200;
         }
 
         final Map params = context.getExternalContext().getRequestParameterMap();
@@ -212,18 +216,18 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setOutputLongitude(lon);
                 }
 
-                final List<WmsLayer> layersWMS = new ArrayList<WmsLayer>();
-                String layersNameString = "";
-                int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
-                int loop = 0;
-                List<Feature> featureInfoList = new ArrayList<Feature>();
-                List<String> featureInfoValues = new ArrayList<String>();
-                List<String> requestUrlList = new ArrayList<String>();
+                final int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
+                final List<WmsLayer> layersWMS          = new ArrayList<WmsLayer>();
+                final List<Feature> featureInfoList     = new ArrayList<Feature>();
+                final List<String> featureInfoValues    = new ArrayList<String>();
+                final List<String> requestUrlList       = new ArrayList<String>();
+                final int countFeature = comp.getFeatureCount();
+                final String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
+                final String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
 
+                String layersNameString = "";
+                int loop = 0;
                 boolean FeatureLayerExist = false;
-                int countFeature = comp.getFeatureCount();
-                String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
-                String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
 
                 for (Layer queryLayer : model.getVisibleLayers()) {
                     if (queryLayer != null && queryLayer.getType() != null) {
@@ -254,7 +258,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     }
 
                                     //building the getfeatureInfo request
-                                    StringBuilder featureInfoRequest = new StringBuilder("");
+                                    StringBuilder featureInfoRequest = new StringBuilder();
                                     featureInfoRequest.append(wmsLayer.getServer().getHref()).
                                             append("?BBOX=").append(model.getBoundingBox()).
                                             append("&STYLES=").
@@ -485,36 +489,42 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                 final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
 
-                if (queryLayer instanceof WmsLayer) {
-                    String elevation = null;
-                    if (queryLayer.getElevation() != null) {
-                        elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
-                    }
-                    String time = null;
-                    if (queryLayer.getTime() != null) {
-                        time = queryLayer.getTime().getUserValue();
-                    }
+                if (queryLayer instanceof WmsLayer && popup != null && popup.isIframe()) {
+                    final StringBuilder innerHTML = new StringBuilder();
+                    final String serverHref = ((WmsLayer) queryLayer).getServer().getHref();
+
                     String[] windowPixel = null;
                     if ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL") != null) {
                         windowPixel = ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL")).split(",");
                     }
-                    String innerHTML = "<iframe style='display:none' id='popup' name='popup' src='" + ((WmsLayer) queryLayer).getServer().getHref().substring(0, ((WmsLayer) queryLayer).getServer().getHref().lastIndexOf("/")) + "/wcs" +
-                            "?BBOX=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI");
-                    if (elevation != null) {
-                        innerHTML += "," + elevation;
+
+                    innerHTML.append("<iframe style='display:none' id='popup' name='popup' src='")
+                             .append(serverHref.substring(0, serverHref.lastIndexOf("/")))
+                             .append("/wcs?BBOX=")
+                             .append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI"));
+
+                    if (queryLayer.getElevation() != null) {
+                        String elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
+                        innerHTML.append(',').append(elevation);
                     }
-                    innerHTML += "&STYLES=" + "&FORMAT=" + (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") +
-                            "&VERSION=" + "1.0.0" + "&CRS=" + model.getSrs() +
-                            "&REQUEST=GetCoverage'" + "&COVERAGE=" + queryLayer.getName() +
-                            "&WIDTH=" + windowPixel[0] + "&HEIGHT=" + windowPixel[1];
-                    if (time != null) {
-                        innerHTML += "&TIME=" + time;
+
+                    innerHTML.append("&STYLES=")
+                             .append("&FORMAT=").append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT"))
+                             .append("&VERSION=1.0.0")
+                             .append("&CRS=").append(model.getSrs())
+                             .append("&REQUEST=GetCoverage'")
+                             .append("&COVERAGE=").append(queryLayer.getName())
+                             .append("&WIDTH=").append(windowPixel[0])
+                             .append("&HEIGHT=").append(windowPixel[1]);
+
+                    if (queryLayer.getTime() != null) {
+                        String time = time = queryLayer.getTime().getUserValue();
+                        innerHTML.append("&TIME=" + time);
                     }
-                    innerHTML += "'></iframe>";
+
+                    innerHTML.append("'></iframe>");
                     // innerHTML = "<iframe style='display:none' id='popup' name='popup' src='http://demo.geomatys.fr/constellation/WS/wcs?bbox=-14978036.532703482,-5209751.837462081,-10369409.907256257,-1402625.4947013294,5.0,5.0&styles=&format=matrix&version=1.0.0&crs=EPSG:3395&request=GetCoverage&coverage=AO_Coriolis_(queryLayer)&width=1259&height=176&time=2007-06-20T12:00:00Z'></iframe>";
-                    if (popup != null && popup.isIframe()) {
-                        popup.setInnerHTML(innerHTML);
-                    }
+                    popup.setInnerHTML(innerHTML.toString());
                 }
 
             } else {
