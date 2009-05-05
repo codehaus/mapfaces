@@ -66,7 +66,6 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
      * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    @SuppressWarnings("static-access")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final UIAutocompletion comp = (UIAutocompletion) component;
 
@@ -141,7 +140,6 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
      * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    @SuppressWarnings("static-access")
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;

@@ -60,7 +60,6 @@ public class HotZoneBandInfoRenderer extends Renderer {
      * {@inheritDoc }
      */
     @Override
-    @SuppressWarnings("empty-statement")
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         if (!component.isRendered()) {
             return;

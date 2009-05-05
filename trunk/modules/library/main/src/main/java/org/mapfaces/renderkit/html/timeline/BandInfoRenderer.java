@@ -49,7 +49,6 @@ public class BandInfoRenderer extends Renderer {
      * {@inheritDoc }
      */
     @Override
-    @SuppressWarnings("empty-statement")
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 //        System.out.println(">>>> BandInfoRenderer encodeBegin");
         if (!component.isRendered()) {

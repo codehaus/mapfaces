@@ -73,12 +73,11 @@ public class TreeBuilderUtils {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void createTreeLinesRecurs(final UITreePanelBase treepanel, final TreeNodeModel node,
             final List<UIComponent> list, final boolean LoadingOption) throws IOException {
 
         final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        final Map requestMap     = ec.getRequestMap();
+        final Map<String,Object> requestMap     = ec.getRequestMap();
         requestMap.put("Elresolver.called", false);
 
         for (int i = 0; i < node.getChildCount(); i++) {

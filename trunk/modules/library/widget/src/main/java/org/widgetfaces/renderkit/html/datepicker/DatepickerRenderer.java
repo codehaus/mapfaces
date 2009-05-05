@@ -63,10 +63,8 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
      * @throws java.io.IOException if an input/output error occurs while rendering
      */
     @Override
-    @SuppressWarnings("static-access")
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final UIDatepicker comp = (UIDatepicker) component;
-
 
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
