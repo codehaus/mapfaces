@@ -68,7 +68,7 @@ public class ContextRenderer extends Renderer {
     private static final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
     private static final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.ContextRenderer");
+    private static final Logger LOGGER = Logger.getLogger(ContextRenderer.class.getName());
 
     /**
      * {@inheritDoc }
@@ -178,9 +178,9 @@ public class ContextRenderer extends Renderer {
                 try {
                     ctx = (new XMLContextUtilities()).readContext(new URL(fileUrl));
                 } catch (JAXBException ex) {
-                    Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 }
             } else {
                 if (fileUrl.startsWith("file://.sicade")) {
@@ -204,17 +204,17 @@ public class ContextRenderer extends Renderer {
                     try {
                         ctx = (new XMLContextUtilities()).readContext(new FileReader(mapcontextFile));
                     } catch (JAXBException ex) {
-                        Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.log(Level.SEVERE, null, ex);
                     } catch (UnsupportedEncodingException ex) {
-                        Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.log(Level.SEVERE, null, ex);
                     }
                 } else {
                     try {
                         ctx = (new XMLContextUtilities()).readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
                     } catch (JAXBException ex) {
-                        Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.log(Level.SEVERE, null, ex);
                     } catch (UnsupportedEncodingException ex) {
-                        Logger.getLogger(ContextRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.log(Level.SEVERE, null, ex);
                     }
                 }
             }

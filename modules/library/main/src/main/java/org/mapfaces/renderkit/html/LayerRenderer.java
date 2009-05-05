@@ -39,7 +39,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class LayerRenderer extends WidgetBaseRenderer {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.renderkit.html.LayerRenderer");
+    private static final Logger LOGGER = Logger.getLogger(LayerRenderer.class.getName());
     
    @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {

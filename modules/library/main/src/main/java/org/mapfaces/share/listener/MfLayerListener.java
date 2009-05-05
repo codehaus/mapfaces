@@ -44,7 +44,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 public class MfLayerListener implements PhaseListener {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.share.listener.MFLayerListener");
+    private static final Logger LOGGER = Logger.getLogger(MfLayerListener.class.getName());
 
     public void afterPhase(PhaseEvent phaseEvent) {
         FacesContext context = phaseEvent.getFacesContext();

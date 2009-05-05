@@ -31,6 +31,8 @@ import org.mapfaces.share.interfaces.A4JRendererInterface;
  */
 public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInterface, A4JInterface, Cloneable {
 
+    private static final Logger LOGGER = Logger.getLogger(UITreeColumnBase.class.getName());
+
     /* Fields */
     private boolean alreadyRender = false;
 
@@ -104,7 +106,7 @@ public abstract class UITreeColumnBase extends UIColumnBase implements AjaxInter
         try {
             return (UITreeColumnBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UITreeColumnBase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return null;
     }

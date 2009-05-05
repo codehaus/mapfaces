@@ -49,6 +49,8 @@ import org.mapfaces.util.timeline.TimeLineUtils;
  */
 public class HotZoneBandInfoRenderer extends Renderer {
 
+    private static final Logger LOGGER = Logger.getLogger(HotZoneBandInfoRenderer.class.getName());
+
     /** Creates a new instance of HotZoneBandInfoRenderer */
     public HotZoneBandInfoRenderer() {
         super();
@@ -213,9 +215,9 @@ public class HotZoneBandInfoRenderer extends Renderer {
                             comp.setValue(layerEvents);
                             comp.setCenterDate(centerDate);
                         } catch (ParseException ex) {
-                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                            LOGGER.log(Level.SEVERE, null, ex);
                         } catch (DatatypeConfigurationException ex) {
-                            Logger.getLogger(TimeLineRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                            LOGGER.log(Level.SEVERE, null, ex);
                         }
                     } else {
                         comp.setHidden(true);

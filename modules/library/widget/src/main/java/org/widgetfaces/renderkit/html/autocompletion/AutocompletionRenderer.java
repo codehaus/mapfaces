@@ -43,6 +43,8 @@ import org.mapfaces.util.AjaxUtils;
  */
 public class AutocompletionRenderer extends Renderer implements AjaxRendererInterface {
 
+    private static final Logger LOGGER = Logger.getLogger(AutocompletionRenderer.class.getName());
+
     private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
 //    private static final String LOAD_Autocompleter = "/org/widgetfaces/widget/autocompletion/js/autocompleter.js";
 //    private static final String LOAD_Autocompleter_Local = "/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js";
@@ -345,7 +347,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         try {
             response.getWriter().write(sb.toString());
         } catch (IOException ex) {
-            Logger.getLogger(AutocompletionRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 }

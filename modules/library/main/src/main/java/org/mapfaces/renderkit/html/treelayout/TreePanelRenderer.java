@@ -33,6 +33,8 @@ import org.mapfaces.util.treelayout.TreeLayoutUtils;
  */
 public class TreePanelRenderer extends AbstractTreePanelRenderer {
 
+    private static final Logger LOGGER = Logger.getLogger(TreePanelRenderer.class.getName());
+
     /**
      * {@inheritDoc }
      */
@@ -75,7 +77,7 @@ public class TreePanelRenderer extends AbstractTreePanelRenderer {
         try {
             tools.createTreeLines(component, node, list, LoadingOption);
         } catch (IOException ex) {
-            Logger.getLogger(TreePanelRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

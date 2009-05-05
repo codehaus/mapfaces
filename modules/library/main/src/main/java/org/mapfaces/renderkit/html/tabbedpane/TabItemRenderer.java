@@ -45,7 +45,7 @@ public class TabItemRenderer extends Renderer {
         }
 
         if (parent == null) {
-            Logger.getLogger(TabItemRenderer.class.getName()).log(Level.SEVERE, "Not nested inside a tab panel!");
+            LOGGER.log(Level.SEVERE, "Not nested inside a tab panel!");
             return null;
         }
         return (UITabPanel) parent;

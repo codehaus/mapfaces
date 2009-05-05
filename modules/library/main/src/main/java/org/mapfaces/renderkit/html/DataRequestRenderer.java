@@ -68,6 +68,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
  */
 public class DataRequestRenderer extends WidgetBaseRenderer {
 
+    private static final Logger LOGGER = Logger.getLogger(DataRequestRenderer.class.getName());
+
     /**
      * {@inheritDoc }
      */
@@ -291,9 +293,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                             }
                                         }
                                     } catch (MalformedURLException ex) {
-                                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                        LOGGER.log(Level.SEVERE, null, ex);
                                     } catch (IOException ex) {
-                                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                        LOGGER.log(Level.SEVERE, null, ex);
                                     }
 
                                 }
@@ -330,7 +332,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 try {
                                     mutableStyle = FacesUtils.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
                                 } catch (MalformedURLException ex) {
-                                    Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                    LOGGER.log(Level.SEVERE, null, ex);
                                 }
 
                                 DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
@@ -373,7 +375,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 try {
                                     DefaultPortrayalService.visit(mapContext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
                                 } catch (PortrayalException ex) {
-                                    Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                                    LOGGER.log(Level.SEVERE, null, ex);
                                 }
 
                                 //Adding the resulting feature into the final list of features for dataResult ValueExpression value.

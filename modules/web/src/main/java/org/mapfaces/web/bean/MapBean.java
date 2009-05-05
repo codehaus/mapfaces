@@ -36,7 +36,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 public class MapBean {
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.web.bean.MapBean");
+    private static final Logger LOGGER = Logger.getLogger(MapBean.class.getName());
     public MapContext mapContext = null;
     private List<Feature> features = null;
 

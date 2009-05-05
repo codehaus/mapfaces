@@ -34,7 +34,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class ExtPanelRenderer extends Renderer {
 
-    private static final Logger logger = Logger.getLogger("org.mapfaces.renderkit.html.ExtPanelRenderer");
+    private static final Logger LOGGER = Logger.getLogger(ExtPanelRenderer.class.getName());
 
     /**
      * {@inheritDoc }

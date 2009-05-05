@@ -42,6 +42,8 @@ import org.widgetfaces.component.datepicker.UIDatepicker;
  */
 public class DatepickerRenderer extends Renderer implements AjaxRendererInterface {
 
+    private static final Logger LOGGER = Logger.getLogger(DatepickerRenderer.class.getName());
+
 //    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
     private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
     private static final String LOAD_Datepicker_min = "/org/widgetfaces/resources/compressed/datepicker.min.js";
@@ -301,7 +303,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         try {
             response.getWriter().write(sb.toString());
         } catch (IOException ex) {
-            Logger.getLogger(DatepickerRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 }

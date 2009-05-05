@@ -217,11 +217,11 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
                 method.invoke(userObject, new_value);
                 haveBeenResolved = true;
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(AbstractColumnRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             } catch (IllegalArgumentException ex) {
-                Logger.getLogger(AbstractColumnRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             } catch (InvocationTargetException ex) {
-                Logger.getLogger(AbstractColumnRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 

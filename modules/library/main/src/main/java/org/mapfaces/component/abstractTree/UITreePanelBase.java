@@ -30,6 +30,8 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  */
 public abstract class UITreePanelBase extends UITreeBase implements AjaxInterface, Cloneable {
 
+    private static final Logger LOGGER = Logger.getLogger(UITreePanelBase.class.getName());
+
     /* Fields */
 
     private TreeTableModel  view;
@@ -292,7 +294,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         try {
             return (UITreePanelBase) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(UITreePanelBase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return null;
     }

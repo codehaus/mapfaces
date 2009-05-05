@@ -45,7 +45,7 @@ public class UILayer extends UIWidgetBase {
      */
     private String style;
 
-    private static final Logger LOGGER = Logger.getLogger("org.mapfaces.component.UILayer");
+    private static final Logger LOGGER = Logger.getLogger(UILayer.class.getName());
     
     public UILayer() {
         super();
