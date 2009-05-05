@@ -89,24 +89,24 @@ public class AjaxListener implements PhaseListener {
     }
 
     private void handleAjaxRequest(final FacesContext context, final String componentId) {
-
         final UIViewRoot viewroot = context.getViewRoot();
-        AjaxInterface ajaxcomponent = null;
+        UIComponent candidate = Utils.findComponentById(context, viewroot, componentId);
 
-        try {
-            ajaxcomponent = (AjaxInterface) Utils.findComponentById(context, viewroot, componentId);
-            if (ajaxcomponent == null) {
-                ajaxcomponent = (AjaxInterface) Utils.findComponent(context, componentId);
-            }
-        } catch (ClassCastException cce) {
+        if(candidate == null){
+            candidate = Utils.findComponent(context, componentId);
+        }
+
+        if (candidate == null) {
+            throw new NullPointerException("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
+        }
+
+        if(!(candidate instanceof AjaxInterface)){
             throw new IllegalArgumentException("[WARNING] [AjaxListener] Component found under Ajax key was not of expected type");
         }
 
-        if (ajaxcomponent == null) {
-            throw new NullPointerException("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
-        }
-        ajaxcomponent.handleAjaxRequest(context);
+        final AjaxInterface ajaxcomponent = (AjaxInterface) candidate;
 
+        ajaxcomponent.handleAjaxRequest(context);
     }
 
     private void A4JPostRequest(final FacesContext context, final String componentId) {

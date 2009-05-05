@@ -21,6 +21,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.adapter.owc.Adapter;
@@ -124,13 +125,15 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         final boolean activateDnd = layerControl.isActivateDnd();
 
         /* Start rendering */
-        getWriter().startElement("div", layerControl);
-        getWriter().writeAttribute("id", getClientId(), "id");
-        getWriter().writeAttribute("style", getStyle(), "style");
-        if (getStyleClass() == null) {
-            getWriter().writeAttribute("class", _Style_Class_LayerControl, "styleClass");
+        writer.startElement("div", layerControl);
+        writer.writeAttribute("id", getClientId(), "id");
+        writer.writeAttribute("style", getStyle(), "style");
+
+        final String styleClass = getStyleClass();
+        if (styleClass == null) {
+            writer.writeAttribute("class", _Style_Class_LayerControl, "styleClass");
         } else {
-            getWriter().writeAttribute("class", getStyleClass(), "styleClass");
+            writer.writeAttribute("class", styleClass, "styleClass");
         }
 
         /* -- Treetable Declaration -- */

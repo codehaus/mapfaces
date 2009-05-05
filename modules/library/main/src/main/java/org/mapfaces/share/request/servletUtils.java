@@ -32,60 +32,60 @@ public class servletUtils {
     }
 
     /* Browser Id */
-    public static Boolean isChrome() {
+    public static boolean isChrome() {
         return getUserAgent().contains("Chrome");
     }
 
-    public static Boolean isOmniWeb() {
+    public static boolean isOmniWeb() {
         return getUserAgent().contains("OmniWeb");
     }
 
-    public static Boolean isSafari() {
+    public static boolean isSafari() {
         return getUserAgent().contains("Apple");
     }
 
-    public static Boolean isOpera() {
+    public static boolean isOpera() {
         return getUserAgent().contains("Opera");
     }
 
-    public static Boolean isICab() {
+    public static boolean isICab() {
         return getUserAgent().contains("iCab");
     }
 
-    public static Boolean isKonqueror() {
+    public static boolean isKonqueror() {
         return getUserAgent().contains("KDE");
     }
 
-    public static Boolean isFirefox() {
+    public static boolean isFirefox() {
         return getUserAgent().contains("Firefox");
     }
 
-    public static Boolean isCamino() {
+    public static boolean isCamino() {
         return getUserAgent().contains("Camino");
     }
 
-    public static Boolean isNetscape() {
+    public static boolean isNetscape() {
         return getUserAgent().contains("Netscape");
     }
 
-    public static Boolean isExplorer() {
+    public static boolean isExplorer() {
         return getUserAgent().contains("MSIE");
     }
 
-    public static Boolean isMozilla() {
+    public static boolean isMozilla() {
         return getUserAgent().contains("Gecko");
     }
 
     /* Platform Id */
-    public static Boolean isLinuxPlatform() {
+    public static boolean isLinuxPlatform() {
         return getUserAgent().contains("Linux");
     }
 
-    public static Boolean isMacPlatform() {
+    public static boolean isMacPlatform() {
         return getUserAgent().contains("Mac");
     }
 
-    public static Boolean isWindowsPlatform() {
+    public static boolean isWindowsPlatform() {
         return getUserAgent().contains("Win");
     }
 }
