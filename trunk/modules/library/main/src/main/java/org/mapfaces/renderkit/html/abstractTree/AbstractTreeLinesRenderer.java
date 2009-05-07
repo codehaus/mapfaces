@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -249,7 +250,6 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 }
 
                 writer.startElement("div", component);
-//                writer.startElement("ul", treeline);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
                 writer.writeAttribute("style", "margin-left: 0;", null);
                 if (node.getId() > 1) {
@@ -259,36 +259,18 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 //Encode child
                 for (int i = 0, n = node.getChildCount(); i < n; i++) {
                     final TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
-                    if (child.isLeaf()) {
-                        if (debug) {
-                            System.out.println("[INFO] encodeChildren : (TreeNodeModel) node.getChildAt(" + i + ")");
-                        }
-
-                        if (child.isChecked()) {
-                            if (debug) {
-                                System.out.println("[INFO] encodeChildren : Encode this child : " + treepanel.getClientId(context) + "_panel_" + child.getId());
-                            }
-                            Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
-                        }
+                    if (debug) {
+                        System.out.println("[INFO] encodeChildren : (TreeNodeModel) node.getChildAt(" + i + ")");
                     }
-                }
-                for (int i = 0, n = node.getChildCount(); i < n; i++) {
-                    final TreeNodeModel child = (TreeNodeModel) node.getChildAt(i);
-                    if (!child.isLeaf()) {
-                        if (debug) {
-                            System.out.println("[INFO] encodeChildren : (TreeNodeModel) node.getChildAt(" + i + ")");
-                        }
 
-                        if (child.isChecked()) {
-                            if (debug) {
-                                System.out.println("[INFO] encodeChildren : Encode this child : " + treepanel.getClientId(context) + "_panel_" + child.getId());
-                            }
-                            Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
+                    if (child.isChecked()) {
+                        if (debug) {
+                            System.out.println("[INFO] encodeChildren : Encode this child : " + treepanel.getClientId(context) + "_panel_" + child.getId());
                         }
+                        Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
                     }
                 }
 
-//                writer.endElement("ul");
                 writer.endElement("div");
             }
 

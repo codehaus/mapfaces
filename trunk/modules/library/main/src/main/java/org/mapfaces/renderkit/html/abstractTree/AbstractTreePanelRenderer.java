@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -323,25 +324,11 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         for (int i = 0, n = root.getChildCount(); i < n; i++) {
             final TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
-            if (child.isLeaf()) {
-                if (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
-                    Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
-                } else {
-                    System.out.println("[WARNING] encodeChildren in " + AbstractTreePanelRenderer.class.getName() + " : findComponent " +
-                            "throw java.nullPointerException to " + treepanel.getClientId(context) + "_panel_" + child.getId());
-                }
-            }
-        }
-
-        for (int i = 0, n = root.getChildCount(); i < n; i++) {
-            final TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
-            if (!child.isLeaf()) {
-                if (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
-                    Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
-                } else {
-                    System.out.println("[WARNING] encodeChildren in " + AbstractTreePanelRenderer.class.getName() + " : findComponent " +
-                            "throw java.nullPointerException to " + treepanel.getClientId(context) + "_panel_" + child.getId());
-                }
+            if (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
+                Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
+            } else {
+                System.out.println("[WARNING] encodeChildren in " + AbstractTreePanelRenderer.class.getName() + " : findComponent " +
+                        "throw java.nullPointerException to " + treepanel.getClientId(context) + "_panel_" + child.getId());
             }
         }
 
