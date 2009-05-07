@@ -79,7 +79,7 @@ public class TabPanelRenderer extends Renderer {
         }
         assertValid(context, component);
         //Start encoding
-        LOGGER.info("encodeBegin : " + TabPanelRenderer.class.getName());
+//        LOGGER.info("encodeBegin : " + TabPanelRenderer.class.getName());
 
         final UITabPanel tabpanel   = (UITabPanel) component;
         final ResponseWriter writer = context.getResponseWriter();
