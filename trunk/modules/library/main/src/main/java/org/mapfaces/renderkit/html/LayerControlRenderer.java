@@ -21,7 +21,6 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.adapter.owc.Adapter;
