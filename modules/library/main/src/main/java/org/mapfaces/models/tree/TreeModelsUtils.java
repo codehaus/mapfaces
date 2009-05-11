@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.models.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +23,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 /**
  * Tools for create and manipulate TreeTableModel and TreeNodeModel
- * @author Kevin Delfour (Geomatys)
+ * @author Kevin Delfour.
  */
 public class TreeModelsUtils {
 
@@ -80,7 +81,8 @@ public class TreeModelsUtils {
         if (initial_root == null || initial_root.getUserObject() == null) {
             initial_root = new DefaultMutableTreeNode("NoValue");
             root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-        } else if (!initial_root.toString().equals("root")) {
+        } else if ( ! (initial_root.getUserObject() instanceof TreeItem && ((TreeItem) initial_root.getUserObject()).getName() != null && ((TreeItem)initial_root.getUserObject()).getName().equals("root") ) ||
+                ( !(initial_root.getUserObject() instanceof TreeItem) && !initial_root.toString().equals("root")) ) {
             root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
             final TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
             root.add(child);

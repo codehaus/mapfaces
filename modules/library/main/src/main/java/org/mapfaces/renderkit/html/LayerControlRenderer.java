@@ -40,8 +40,8 @@ import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  * @author Kevin Delfour.
  */
 public class LayerControlRenderer extends WidgetBaseRenderer {

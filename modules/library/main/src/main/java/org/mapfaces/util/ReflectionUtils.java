@@ -72,6 +72,10 @@ public class ReflectionUtils{
     }
 
     public static <T> T invokeGetter(final Object userObject, final String property, final Class<T> type, boolean create){
+        if (userObject == null)
+            //if the userobject is null then force to return NULL value
+            return null;
+        
         final Method method = lookupGetter(userObject.getClass(), property);
 
         if(method != null){
