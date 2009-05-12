@@ -20,6 +20,7 @@ package org.mapfaces.util;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -399,7 +400,11 @@ public class OWCv030toMFTransformer {
         if (layerType.getDimensionList() == null) {
             //TODO find dimension into getcapabilities
             if (webMapServers.get(wmsUrl) != null) {
-                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
+                try {
+                    tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (tmp != null) {
                 allDims.putAll(tmp);
@@ -410,8 +415,12 @@ public class OWCv030toMFTransformer {
                 if (dim.getUserValue() == null) {
                     if (dim.getDefault() == null) {
                         if (dim.getValue() == null) {
-                            //TODO find dimension into getcapabilities
-                            tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
+                            try {
+                                //TODO find dimension into getcapabilities
+                                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
+                            } catch (MalformedURLException ex) {
+                                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             if (tmp != null) {
                                 allDims.putAll(tmp);
                             }
