@@ -39,6 +39,7 @@ import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
@@ -220,6 +221,18 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             final HtmlGraphicImage ImgNodeIcon = new HtmlGraphicImage();
             ImgNodeIcon.setUrl(NODE_IDENT);
             ImgNodeIcon.setAlt("");
+
+            //setting a custom image icon if the attached treeItem have an icon specified, otherwise the default treetable icons will be used.
+            String styleImg = "";
+            if (node.getUserObject() instanceof TreeItem) {
+                TreeItem ti = (TreeItem) node.getUserObject();
+                if (ti.getIcon() != null && ! ti.getIcon().equals("")) {
+                    styleImg = "background-image:url('"+ti.getIcon()+"');";
+                }
+            }
+            if (styleImg != null && ! styleImg.equals("")) {
+                ImgNodeIcon.setStyle(styleImg);
+            }
             ImgNodeIcon.setStyleClass(CLASS_NODE_ICON);
             if (FolderType) {
                 ImgNodeIcon.setId(treepanel.getId() + "_img_" + node.getId());

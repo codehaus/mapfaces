@@ -39,6 +39,11 @@ public class TreeItem implements Serializable {
     private String name = "";
 
     /**
+     * This property is used to specify an image by uri path for this TreeItem model..
+     */
+    private String icon;
+
+    /**
      * Creates a new instance of treeItem by passing a serializable object.
      * @param obj
      */
@@ -208,6 +213,20 @@ public class TreeItem implements Serializable {
 
     public void setUserObject(Object userObject) {
         this.userObject = userObject;
+    }
+
+    /**
+     * This getter does not use the reflection, it is just an attribute for TreeItem model.
+     */
+    public String getIcon() {
+        return icon;
+    }
+
+    /**
+     * This setter does not use the reflection
+     */
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
     
 }
