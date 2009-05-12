@@ -18,6 +18,8 @@ package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -112,12 +114,12 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
 
         /* Before encodeBegin, any method declared in a component extends this class can be launch here*/
-        if (debug) System.out.println("[INFO] beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " beforeEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
 
         beforeEncodeBegin(context, component);
 
         /* Start encoding */
-        if (debug) System.out.println("[INFO] encodeBegin : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeBegin : " + AbstractTreeTableRenderer.class.getName());
 
 
         /* Get DefaultTreeModel value and  convert toTreeTable Model for jsf treetable component */
@@ -151,7 +153,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
         getValueEnd = new Date();
         final long timeToGetValue = getValueEnd.getTime() - getValueStart.getTime();
-        if (debug) System.out.println("[INFO] Time to Get Value : " + timeToGetValue + " ms");
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " Time to Get Value : " + timeToGetValue + " ms");
 
 
         // treetable.setNodeCount(treetable.getTree());
@@ -174,7 +176,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
 
         /* After encodeBegin, any method declared in a component extends this class can be launch here*/
-        if (debug) System.out.println("[INFO] afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " afterEncodeBegin : " + AbstractTreeTableRenderer.class.getName());
 
         afterEncodeBegin(context, component);
 
@@ -197,7 +199,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         /* Initialisation */
         phaseStart = new Date();
 
-        if (debug) System.out.println("[INFO] encodeChildren : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeChildren : " + AbstractTreeTableRenderer.class.getName());
 
         for (final UIComponent tmp : component.getChildren()) {
             Utils.encodeRecursive(context, tmp);
@@ -226,11 +228,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         phaseStart = new Date();
 
         /* Before encodeEnd, any method declared in a component extends this class can be launch here*/
-        if (debug) System.out.println("[INFO] beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " beforeEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
 
         beforeEncodeEnd(context, component);
 
-        if (debug) System.out.println("[INFO] encodeEnd : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeEnd : " + AbstractTreeTableRenderer.class.getName());
 
         writer.endElement("div");
         writer.startElement("input", component);
@@ -241,7 +243,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         writer.endElement("input");
 
         /* After encodeEnd, any method declared in a component extends this class can be launch here*/
-        if (debug) System.out.println("[INFO] afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " afterEncodeEnd : " + AbstractTreeTableRenderer.class.getName());
 
         afterEncodeEnd(context, component);
 
@@ -250,10 +252,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
             renderEnd = new Date();
             long timeEncode = renderEnd.getTime() - renderStart.getTime();
             encodeEndTime = phaseStart.getTime() - phaseEnd.getTime();
-            System.out.println("[INFO] encodeBegin have been rendered in " + encodeBeginTime + " mlls");
-            System.out.println("[INFO] encodeChildren have been rendered in " + encodeChildrenTime + " mlls");
-            System.out.println("[INFO] encodeEnd have been rendered in " + encodeEndTime + " mlls");
-            System.out.println("[INFO] encode TreeTable have been rendered in " + timeEncode + " mlls");
+            Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeBegin have been rendered in " + encodeBeginTime + " mlls");
+            Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeChildren have been rendered in " + encodeChildrenTime + " mlls");
+            Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeEnd have been rendered in " + encodeEndTime + " mlls");
+            Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encode TreeTable have been rendered in " + timeEncode + " mlls");
         }
     }
 
@@ -269,7 +271,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     @Override
     public void decode(final FacesContext context, final UIComponent component) throws NullPointerException {
         context.getApplication().getStateManager().saveView(context);
-        if (debug) System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " decode : " + AbstractTreeTableRenderer.class.getName());
         return;
     }
 
@@ -320,7 +322,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         final ResponseWriter writer = context.getResponseWriter();
         final UITreeBase comp = (UITreeBase) component;
 
-        if (debug) System.out.println("[INFO] decode : " + AbstractTreeTableRenderer.class.getName());
+        if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " decode : " + AbstractTreeTableRenderer.class.getName());
 
         writer.startElement("link", component);
         writer.writeAttribute("type", "text/css", null);

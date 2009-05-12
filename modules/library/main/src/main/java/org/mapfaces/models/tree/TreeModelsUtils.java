@@ -18,6 +18,8 @@
 package org.mapfaces.models.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -60,7 +62,7 @@ public class TreeModelsUtils {
             node.setUserObject("NoName");
         }
         final TreeNodeModel treenode = new TreeNodeModel(node.getUserObject(), id, depth, row);
-//        System.out.println("NODE "+id +" with value :"+node.getUserObject());
+//        Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "NODE "+id +" with value :"+node.getUserObject());
 //        if (depth > TreeTableConfig.getDEFAULT_DEPTH_VIEW()) {
 //            treenode.setChecked(false);
 //        }
@@ -78,21 +80,29 @@ public class TreeModelsUtils {
 
         DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
         final TreeNodeModel root;
+
+        Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "tree.getRoot() = "+tree.getRoot());
+
         if (initial_root == null || initial_root.getUserObject() == null) {
             initial_root = new DefaultMutableTreeNode("NoValue");
             root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-        } else if (!(initial_root.getUserObject() instanceof TreeItem && ((TreeItem) initial_root.getUserObject()).getName() != null && ((TreeItem) initial_root.getUserObject()).getName().equals("root")) &&
-                !initial_root.toString().equals("root")) {
-            root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
-            final TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-            root.add(child);
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model have a root null or root userObject is null.");
 
-        } else if ((!(initial_root.getUserObject() instanceof TreeItem) && !initial_root.toString().equals("root"))) {
+        } else if ( initial_root.getUserObject() instanceof TreeItem &&
+                    (((TreeItem) initial_root.getUserObject()).getName() != null &&
+                     ((TreeItem) initial_root.getUserObject()).getName().equals("root"))){
+            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model have a root which is an instance of TreeItem and getName is equals to 'root'.");
+
+        } else if (!(initial_root.getUserObject() instanceof TreeItem) ) {
+            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model have a root which is not an instance of TreeItem and user object toString is equals to "+initial_root.getUserObject());
+
+        } else {
             root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
             final TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
             root.add(child);
-        } else {
-            root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model does not have a root recognized by the treeTable component, then a new TreeNodeModel is added as root.");
         }
 
         count = inc.incrementAndGet();
@@ -137,11 +147,11 @@ public class TreeModelsUtils {
         final TreeNodeModel root = tree.getRoot();
 
         if (root.isLeaf()) {
-            System.out.println("Tree is empty");
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "Tree is empty");
             return;
         }
 
-        System.out.println("Tree content is :");
+        Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "Tree content is :");
         for (int i = 0, n = root.getChildCount(); i < n; i++) {
             ssprintTree((TreeNodeModel) root.getChildAt(i));
         }
@@ -150,9 +160,9 @@ public class TreeModelsUtils {
 
     private static void ssprintTree(final TreeNodeModel node) {
         if (node.isLeaf()) {
-            System.out.println("(leaf)" + node + "->" + node.getParent());
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "(leaf)" + node + "->" + node.getParent());
         } else {
-            System.out.println("(node)" + node + "->" + node.getParent());
+            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "(node)" + node + "->" + node.getParent());
             for (int i = 0, n = node.getChildCount(); i < n; i++) {
                 ssprintTree((TreeNodeModel) node.getChildAt(i));
             }
