@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -256,13 +258,14 @@ public class ChartRenderer extends Renderer {
         else {
 //            System.out.println("comp.getDatasource() "+comp.getDatasource());
 //            System.out.println("(ChartData) session.get(clientId)).getDatasource()) " + ((ChartData) session.get(clientId)).getDatasource());
-            if (comp.getDatasource() != null && !comp.getDatasource().equals(((ChartData) session.get(clientId)).getDatasource())) {
+            if (comp.getDatasource() != null && comp.getDatasource() != ((ChartData) session.get(clientId)).getDatasource()) {
                 redraw = true;
             } else {
                 redraw = false;
             }
         }
         if (redraw) {
+            Logger.getLogger(ChartRenderer.class.getName()).log(Level.INFO, "rerendring the chart !");
             ChartData data = new ChartData(comp);
             JFreeChart chart = ChartUtils.createChartWithType(data);
             ChartUtils.setGeneralChartProperties(chart, data);
