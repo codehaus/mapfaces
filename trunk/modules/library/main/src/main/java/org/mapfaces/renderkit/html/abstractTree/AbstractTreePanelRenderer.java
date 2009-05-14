@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -246,9 +245,13 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
              * After that, we take this model to create Treelines Component recursively
              * All Treelines will be children of this Treepanel
              */
-            //if (treepanel.getView() == null) {
-            treepanel.setView(treetable.getTree());
-            //}
+            if (treetable.getTree() != null) {
+                treepanel.setView(treetable.getTree());
+            }else{
+                return;
+            }
+
+
             final TreeNodeModel root = treepanel.getView().getRoot();
             final ExternalContext extContext = context.getExternalContext();
 

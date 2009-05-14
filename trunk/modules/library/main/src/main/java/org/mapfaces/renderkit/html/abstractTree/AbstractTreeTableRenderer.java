@@ -147,8 +147,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
                 treetable.setTree(TreeModelsUtils.transformTree(tree));
                 treetable.setNodeCount(treetable.getTree());
             } else {
-                final TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);
-                treetable.setTree(new TreeTableModel(node));
+//                final TreeNodeModel node = new TreeNodeModel("root", 0, 0, 0);
+//                treetable.setTree(new TreeTableModel(node));
+                 Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.SEVERE, "TreeTable component have a model null");
+                return;
             }
         }
         getValueEnd = new Date();
