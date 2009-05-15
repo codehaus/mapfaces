@@ -56,6 +56,12 @@
             <artifactId>geotk-xml-wmc</artifactId>
         </dependency>
 
+	<!-- this dependency should not be here but in the geotk project-->
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-filter</artifactId>
+        </dependency>
+
         <!--postgres driver for EPSG database -->
         <dependency>
             <groupId>postgresql</groupId>
