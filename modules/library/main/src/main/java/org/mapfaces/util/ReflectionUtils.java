@@ -106,6 +106,7 @@ public class ReflectionUtils{
     }
 
     public static <T> T invokeGetter(final Object userObject, final String property, final Class<T> type, T fallback){
+        if (userObject == null) return fallback;
         final Method method = lookupGetter(userObject.getClass(), property);
 
         if(method != null){

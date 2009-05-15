@@ -404,6 +404,8 @@ public class OWCv030toMFTransformer {
                     tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JAXBException ex) {
+                    Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (tmp != null) {
@@ -419,6 +421,8 @@ public class OWCv030toMFTransformer {
                                 //TODO find dimension into getcapabilities
                                 tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
                             } catch (MalformedURLException ex) {
+                                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (JAXBException ex) {
                                 Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             if (tmp != null) {
