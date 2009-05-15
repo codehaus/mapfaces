@@ -194,6 +194,12 @@
         <artifactId>geotk-xml-wmc</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
+      <!-- this dependency should not be here but in the geotk project-->
+      <dependency>
+          <groupId>org.geotoolkit.pending</groupId>
+          <artifactId>geotk-filter</artifactId>
+          <version>${geotoolkit.version}</version>
+      </dependency>
 
       <!-- JSF -->
       <dependency>
