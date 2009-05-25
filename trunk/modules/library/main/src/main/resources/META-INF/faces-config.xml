@@ -10,7 +10,10 @@
     	<phase-listener>org.mapfaces.share.listener.MfLayerListener</phase-listener>
         <phase-listener>org.mapfaces.share.listener.ResourcePhaseListener</phase-listener>
         <phase-listener>org.mapfaces.share.listener.ResourceLoaderPhaseListener</phase-listener>
-        <phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener>
+
+        <!-- activate this listener in the appropriate application if needed-->
+        <!--phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener-->
+
         <phase-listener>org.mapfaces.share.listener.DetectBrowserListener</phase-listener>
         <!--phase-listener>org.mapfaces.share.listener.PhaseTracker</phase-listener-->
     </lifecycle>        
