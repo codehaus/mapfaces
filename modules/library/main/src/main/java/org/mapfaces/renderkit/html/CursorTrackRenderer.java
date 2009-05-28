@@ -18,18 +18,23 @@
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UICursorTrack;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.taglib.CursorTrackTag;
+import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class CursorTrackRenderer extends WidgetBaseRenderer {
 
+        
+    private static final Logger LOGGER = Logger.getLogger(CursorTrackRenderer.class.getName());
     /**
      * {@inheritDoc }
      */
@@ -37,6 +42,18 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 
         super.encodeBegin(context, component);
+        
+        //Find UIMapPane refers to this widget 
+        String jsObject = null ;
+        UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        if (uIMapPane != null) {
+                jsObject = uIMapPane.getClientId(context);
+        } else {
+            LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
+            component.setRendered(false);
+            return;
+        }
+        
         final UICursorTrack comp = (UICursorTrack) component;
         final String clientId    = comp.getClientId(context);
 
@@ -52,15 +69,7 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
-        //suppression des ":" pour nommer l'objet javascript correspondant correctement
-        String jsObject = null ;
-        comp_loop :
-        for (UIComponent comps : comp.getParent().getChildren()){
-            if(comps instanceof UIMapPane){
-                jsObject = comps.getClientId(context);
-                break comp_loop;
-            }
-        }
+       
         /*
          * @todo : Allow to specify by an attribute, the mappane component to attach mouse control
          */

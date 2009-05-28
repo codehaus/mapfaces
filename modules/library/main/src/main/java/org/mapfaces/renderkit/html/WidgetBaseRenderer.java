@@ -30,6 +30,11 @@ import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.util.FacesUtils;
 
+/**
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
+ */
+
 public class WidgetBaseRenderer extends Renderer {
 
     protected ResponseWriter writer = null;

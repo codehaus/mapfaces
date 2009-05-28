@@ -18,6 +18,8 @@
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -28,11 +30,13 @@ import org.mapfaces.util.FacesUtils;
 import org.mapfaces.component.UIMapPane;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class LocatorMapRenderer extends MapPaneRenderer {
 
+    
+    private static final Logger LOGGER = Logger.getLogger(LocatorMapRenderer.class.getName());
     /**
      * {@inheritDoc }
      */
@@ -58,7 +62,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
         } else {
             //The model context is null or not an Context instance
             throw new UnsupportedOperationException("The model context is null or not supported yet !");
-        }
+        }        
 
         writer.endElement("div");
         writer.endElement("div");
@@ -72,13 +76,15 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             if (jsObject.contains(":")) jsObject = jsObject.replace(":", "");
 
             //suppression des ":" pour nommer l'objet javascript correspondant correctement
+            //Find UIMapPane refers to this widget 
             String mapJsObject = null ;
-            comp_loop :
-            for (UIComponent comps : comp.getParent().getChildren()){
-                if(comps instanceof UIMapPane){
-                    mapJsObject = comps.getClientId(context);
-                    break comp_loop;
-                }
+            UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+            if (uIMapPane != null) {
+                    mapJsObject = uIMapPane.getClientId(context);
+            } else {
+                LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
+                component.setRendered(false);
+                return;
             }
             if (mapJsObject.contains(":")) {
                 //TODO don't commi this 
