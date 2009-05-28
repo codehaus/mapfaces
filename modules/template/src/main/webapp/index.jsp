@@ -18,13 +18,11 @@
 <![endif]-->
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Refresh" content="0; URL=main.jsf"/>
         <title>Template JSF MochaUI</title>
+        <script type="text/javascript">
+            window.location = "./main.jsf";
+        </script>
     </head>
     <body>
-        <div id="pre-loading" style="font-family:'Times New Roman', Times, serif; font-size:18px; top:50%;left:50%;position:absolute;margin-left:0px;">
-            
-            <img src="resources/img/ajax-loader.gif" style="left:50%;position:absolute;top:50%;margin-left:-64px;margin-top:0px;"/>
-        </div>
     </body>
 </html>
