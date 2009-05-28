@@ -61,7 +61,9 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
 
         if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+ScaleBarTag.COMP_TYPE.substring(ScaleBarTag.COMP_TYPE.lastIndexOf(".")+1,ScaleBarTag.COMP_TYPE.length()),"styleclass");
-
+        else
+            writer.writeAttribute("class",getStyleClass(),"styleclass");
+        
         if (getStyle() != null)
             writer.writeAttribute("style",getStyle(),"style");
 
