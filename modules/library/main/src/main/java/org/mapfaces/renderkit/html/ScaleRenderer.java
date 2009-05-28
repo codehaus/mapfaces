@@ -60,7 +60,9 @@ public class ScaleRenderer extends WidgetBaseRenderer {
 
         if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+ScaleTag.COMP_TYPE.substring(ScaleTag.COMP_TYPE.lastIndexOf(".")+1,ScaleTag.COMP_TYPE.length()),"styleclass");
-
+        else
+            writer.writeAttribute("class",getStyleClass(),"styleclass");
+        
         if (getStyle() != null)
             writer.writeAttribute("style",getStyle(),"style");
 

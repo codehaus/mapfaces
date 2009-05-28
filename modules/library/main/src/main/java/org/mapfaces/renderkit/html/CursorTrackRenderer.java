@@ -59,10 +59,11 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
 
         writer.startElement("div", comp);
         writer.writeAttribute("id",clientId,"id");
-
+           
         if (getStyleClass() == null)
             writer.writeAttribute("class","mf"+CursorTrackTag.COMP_TYPE.substring(CursorTrackTag.COMP_TYPE.lastIndexOf(".")+1,CursorTrackTag.COMP_TYPE.length()),"styleclass");
-
+        else
+            writer.writeAttribute("class",getStyleClass(),"styleclass");
         if (getStyle() != null)
             writer.writeAttribute("style",getStyle(),"style");
 
