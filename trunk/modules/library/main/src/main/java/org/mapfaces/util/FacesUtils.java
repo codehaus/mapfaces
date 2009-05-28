@@ -233,43 +233,45 @@ public class FacesUtils {
      */
     public static UIMapPane getUIMapPane(FacesContext context, UIComponent component) {
         try {
-            //If the component has a property who refers to a result of UIMapPane.getId() function
-            if (component.getClass().getField("uiMapPaneId") != null) {
-                final Field field = component.getClass().getField("uiMapPaneId");
-                if (field.get(component) != null && !((String) field.get(component)).equals("")) {
-                    return (UIMapPane) findComponentById(context, context.getViewRoot(), (String) field.get(component));
+            try {
+                //If the component has a property who refers to a result of UIMapPane.getId() function
+                if (component.getClass().getField("uiMapPaneId") != null) {
+                    final Field field = component.getClass().getField("uiMapPaneId");
+                    if (field.get(component) != null && !((String) field.get(component)).equals("")) {
+                        return (UIMapPane) findComponentById(context, context.getViewRoot(), (String) field.get(component));
+                    }
+                }
+            } catch (NoSuchFieldException ex) {
+                //If the component has a property who refers to a result of  UIMapPane.getClientId() function
+                if (component.getClass().getField("uiMapPaneClientId") != null) {
+                    final Field field = component.getClass().getField("uiMapPaneClientId");
+                    if (field.get(component) != null && !((String) field.get(component)).equals("")) {
+                        return (UIMapPane) findComponentByClientId(context, context.getViewRoot(), (String) field.get(component));
+                    }
                 }
             }
-            //If the component has a property who refers to a result of  UIMapPane.getClientId() function
-            if (component.getClass().getField("uiMapPaneClientId") != null) {
-                final Field field = component.getClass().getField("uiMapPaneClientId");
-                if (field.get(component) != null && !((String) field.get(component)).equals("")) {
-                    return (UIMapPane) findComponentByClientId(context, context.getViewRoot(), (String) field.get(component));
-                }
-            }
-            //If component has no property to refers to A UIMapPane, it is include in a UIContext tag
-            //so we find this UIContext component and we go through its childs to find UIMapPane who displays its layers
-            if (component instanceof UIContext) {
-                //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
-                return getChildUIMapPane(context, component);
-            } else {
-                UIComponent parent = FacesUtils.getParentUIContext(context, component);
-                if (parent == null)
-                    return null;
-                else
-                    return getUIMapPane(context, parent);
-            }
+
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchFieldException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SecurityException ex) {
-            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        //If component has no property to refers to A UIMapPane, it is include in a UIContext tag
+        //so we find this UIContext component and we go through its childs to find UIMapPane who displays its layers
+        if (component instanceof UIContext) {
+            //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
+            return getChildUIMapPane(context, component);
+        } else {
+            UIComponent parent = FacesUtils.getParentUIContext(context, component);
+
+            if (parent == null) {
+                return null;
+            } else {
+                return getUIMapPane(context, parent);
+            }
+        }
     }
+
     /**
      * Returns the UITreeLines of the mapfaces component.
      * @param context
