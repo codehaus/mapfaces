@@ -138,7 +138,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
         writer.writeAttribute("class", "x-tree-col " + classUser, null);
-        writer.writeAttribute("style", "width:" + size + "; margin-left: -"+indentStyle+"px;" + styleUser, null);
+        writer.writeAttribute("style", "width:" + size + "; " + styleUser, null);
 
         //Method to apply before encodeBegin
         if (debug) {
