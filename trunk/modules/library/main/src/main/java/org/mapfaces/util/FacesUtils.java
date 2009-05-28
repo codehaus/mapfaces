@@ -32,6 +32,7 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -98,6 +99,7 @@ import org.geotoolkit.wms.xml.AbstractKeyword;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
+import org.opengis.filter.spatial.Equals;
 import org.opengis.geometry.Envelope;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.Displacement;
@@ -204,7 +206,70 @@ public class FacesUtils {
         }
         return (UIMapPane) parent;
     }
-
+    
+    /**
+     * Returns the corresponding UIMapPane of a specific UIContext
+     * @param context
+     * @param comp
+     * @return
+     */
+    public static UIMapPane getChildUIMapPane(FacesContext context, UIComponent component) {
+        if (component instanceof UIMapPane) {
+            return (UIMapPane) component;
+        } else {
+            final Iterator kids = component.getChildren().iterator();
+            while (kids.hasNext()) {
+                UIComponent kid = (UIComponent) kids.next();
+                return getChildUIMapPane(context, kid);
+            }
+        }
+        return null;
+    }
+    /**
+     * Returns the corresponding UIMapPane of a specific UIWidget 
+     * @param context
+     * @param comp
+     * @return
+     */
+    public static UIMapPane getUIMapPane(FacesContext context, UIComponent component) {
+        try {
+            //If the component has a property who refers to a result of UIMapPane.getId() function
+            if (component.getClass().getField("uiMapPaneId") != null) {
+                final Field field = component.getClass().getField("uiMapPaneId");
+                if (field.get(component) != null && !((String) field.get(component)).equals("")) {
+                    return (UIMapPane) findComponentById(context, context.getViewRoot(), (String) field.get(component));
+                }
+            }
+            //If the component has a property who refers to a result of  UIMapPane.getClientId() function
+            if (component.getClass().getField("uiMapPaneClientId") != null) {
+                final Field field = component.getClass().getField("uiMapPaneClientId");
+                if (field.get(component) != null && !((String) field.get(component)).equals("")) {
+                    return (UIMapPane) findComponentByClientId(context, context.getViewRoot(), (String) field.get(component));
+                }
+            }
+            //If component has no property to refers to A UIMapPane, it is include in a UIContext tag
+            //so we find this UIContext component and we go through its childs to find UIMapPane who displays its layers
+            if (component instanceof UIContext) {
+                //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
+                return getChildUIMapPane(context, component);
+            } else {
+                UIComponent parent = FacesUtils.getParentUIContext(context, component);
+                if (parent == null)
+                    return null;
+                else
+                    return getUIMapPane(context, parent);
+            }
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(FacesUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     /**
      * Returns the UITreeLines of the mapfaces component.
      * @param context
