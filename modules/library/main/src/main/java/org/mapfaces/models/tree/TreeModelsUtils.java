@@ -81,28 +81,22 @@ public class TreeModelsUtils {
         DefaultMutableTreeNode initial_root = (DefaultMutableTreeNode) tree.getRoot();
         final TreeNodeModel root;
 
-        Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "tree.getRoot() = "+tree.getRoot());
-
         if (initial_root == null || initial_root.getUserObject() == null) {
             initial_root = new DefaultMutableTreeNode("NoValue");
             root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model have a root null or root userObject is null.");
-
+            
         } else if ( initial_root.getUserObject() instanceof TreeItem &&
                     (((TreeItem) initial_root.getUserObject()).getName() != null &&
                      ((TreeItem) initial_root.getUserObject()).getName().equals("root"))){
             root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model have a root which is an instance of TreeItem and getName is equals to 'root'.");
-
+            
         } else if (!(initial_root.getUserObject() instanceof TreeItem) ) {
             root = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
-            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model have a root which is not an instance of TreeItem and user object toString is equals to "+initial_root.getUserObject());
-
+           
         } else {
             root = new TreeNodeModel(new DefaultMutableTreeNode("root"), count, 0, count);
             final TreeNodeModel child = new TreeNodeModel(initial_root.getUserObject(), count, 0, count);
             root.add(child);
-            Logger.getLogger(TreeModelsUtils.class.getName()).log(Level.INFO, "The tree model does not have a root recognized by the treeTable component, then a new TreeNodeModel is added as root.");
         }
 
         count = inc.incrementAndGet();
