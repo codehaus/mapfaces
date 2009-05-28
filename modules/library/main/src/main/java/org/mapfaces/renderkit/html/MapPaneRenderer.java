@@ -121,7 +121,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         } else {
             writer.writeAttribute("id", clientId + "_MapFaces_Container", "id");
         }
-        writer.writeAttribute("style", "top:0px;left:0px;position:absolute;z-index: 749;", "style");
+        writer.writeAttribute("style", "top:0px;left:0px;position:absolute;z-index: 0;", "style");
         
         final MapContext mapcontext = (MapContext) comp.getValue();
         if (mapcontext != null) {
@@ -260,12 +260,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             jsObject = jsObject.replace(":", "");
         }
 
-        Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.INFO, "The model is instanceof "+model);
+        /*Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.INFO, "The model is instanceof "+model);
         Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.INFO, "SRS = "+model.getSrs());
         Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.INFO, "LayersCompId = "+model.getLayersCompId());
         Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.INFO, "Parent UIModelBase = "+FacesUtils.getParentUIModelBase(context, component));
         Logger.getLogger(MapPaneRenderer.class.getName()).log(Level.INFO, "MapPane component = "+comp);
-
+        */
         writer.write(new StringBuilder("").append("if(!window.maps){window.maps = {};}\n").
                 append("window.maps.").append(jsObject).append(" = 'vide';\n").
                 append("window.controlToAdd" + jsObject + " = []; \n ").
