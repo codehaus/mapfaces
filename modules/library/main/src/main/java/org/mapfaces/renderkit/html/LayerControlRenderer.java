@@ -19,7 +19,9 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIGraphic;
 import javax.faces.component.UIOutput;
+import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -30,6 +32,7 @@ import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.layercontrol.UIVisibilityColumn;
+import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.treelayout.UITreeColumn;
 import org.mapfaces.component.treelayout.UITreeNodeInfo;
 import org.mapfaces.component.treelayout.UITreePanel;
@@ -247,12 +250,12 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
                 final UIOutput o3 = new UIOutput();
                 final UIOutput o4 = new UIOutput();
                 final UIOutput o5 = new UIOutput();
-                final UIOutput o6 = new UIOutput();
+                final HtmlGraphicImage o6 = new HtmlGraphicImage();
                 o4.setValue("Id : #{treeItem.id}");
                 o1.setValue("Name : #{treeItem.name}");
                 o3.setValue("Group : #{treeItem.group}");
                 o5.setValue("Format : #{treeItem.outputFormat}");
-                o6.setValue("Legende : #{treeItem.legendUrl}");
+                o6.setUrl("#{treeItem.legendUrl}");
                 tni.getChildren().add(o4);
                 tni.getChildren().add(o1);
                 tni.getChildren().add(o6);
