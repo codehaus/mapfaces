@@ -107,7 +107,7 @@ public class MfLayerListener implements PhaseListener {
             final String srs = model.getSrs();
             final CoordinateReferenceSystem crs;
             try {
-                crs = CRS.decode(srs);
+                crs = CRS.decode(srs, true);
             } catch (FactoryException ex) {
                 LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
                 return;

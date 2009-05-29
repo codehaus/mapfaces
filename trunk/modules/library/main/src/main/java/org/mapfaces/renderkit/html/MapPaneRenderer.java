@@ -286,6 +286,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 append("                           currentExtent: new OpenLayers.Bounds(").
                 append(model.getMinx()).append(",").append(model.getMiny()).append(",").
                 append(model.getMaxx()).append(",").append(model.getMaxy()).append("),\n").
+//@TODO check check
+                append("                           restrictedExtent: new OpenLayers.Bounds(").
+                append(comp.getMaxExtent()).append("),\n").
+
                 append("                           maxResolution: 'auto',\n").
                 append("                           theme:  null ,\n").
                 append("                           fractionnalZoom:  true ,\n").

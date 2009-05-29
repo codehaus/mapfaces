@@ -66,15 +66,6 @@ public class MapContextLayerRenderer extends LayerRenderer {
         final Context model = (Context) comp.getModel();
         setModelAtSession(context, comp);
 
-        final String srs = model.getSrs();
-        final CoordinateReferenceSystem crs;
-        try {
-            crs = CRS.decode(srs);
-        } catch (FactoryException ex) {
-            LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
-            return;
-        }
-
         final Dimension dim = new Dimension(
                 Integer.parseInt(model.getWindowWidth()),
                 Integer.parseInt(model.getWindowHeight()));
