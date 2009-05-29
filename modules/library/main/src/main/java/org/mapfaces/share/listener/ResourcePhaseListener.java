@@ -39,7 +39,8 @@ public class ResourcePhaseListener implements PhaseListener {
     public static final String RESOURCE_PREFIX = "/resource";
     public static final String RESOURCE_LOCATION_PARAM = "r";
     public static final String CONTENT_TYPE_PARAM = "ct";
-    public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
+    public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";    
+    static public final long DEFAULT_EXPIRE = 1000L * 60L * 60L * 24L * 30L;// 30 day
     private final Map<String, String> extensionToContentType ;
     private static final Map<String, String> POOL = new HashMap<String, String>();
 
@@ -106,11 +107,17 @@ public class ResourcePhaseListener implements PhaseListener {
             final HttpServletResponse servletResponse =
                     (HttpServletResponse) external.getResponse();
             try {
+                
+                servletResponse.setContentType(contentType);
+                servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
+                servletResponse.setDateHeader("Expires", System.currentTimeMillis()
+						+ DEFAULT_EXPIRE);
+		servletResponse.setHeader("Cache-control", "max-age="
+						+ (DEFAULT_EXPIRE / 1000));
                 final OutputStream out = servletResponse.getOutputStream();
 
                 //PrintWriter out = servletResponse.getWriter();
 
-                servletResponse.setContentType(contentType);
                 int ch;
                 if (in == null) {
                     return;
