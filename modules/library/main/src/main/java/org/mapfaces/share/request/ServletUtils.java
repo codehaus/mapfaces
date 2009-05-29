@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.share.request;
 
 import javax.faces.context.ExternalContext;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author Kevin Delfour
  */
-public class servletUtils {
+public class ServletUtils {
 
     public static String getUserAgent() {
         final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

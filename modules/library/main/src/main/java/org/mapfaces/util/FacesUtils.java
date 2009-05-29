@@ -1188,7 +1188,7 @@ public class FacesUtils {
     }
 
     /**
-     * Returns a flag taht indicates if the browser is IE.
+     * Returns a flag that indicates if the browser is Internet Explorer.
      * @param context
      * @return
      */
