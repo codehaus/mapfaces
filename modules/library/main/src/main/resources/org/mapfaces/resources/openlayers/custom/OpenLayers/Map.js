@@ -327,7 +327,7 @@ OpenLayers.Map = OpenLayers.Class({
      * {Integer} Number of zoom levels for the map.  Defaults to 16.  Set a
      *           different value in the map options if needed.
      */
-    numZoomLevels: 16,
+    numZoomLevels: 100,
 
     /**
      * APIProperty: theme
