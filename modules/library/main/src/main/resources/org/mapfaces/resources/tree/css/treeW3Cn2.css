@@ -2006,8 +2006,10 @@ a.x-grid3-hd-btn:hover {
     overflow : hidden;
     position : relative;
 }
-.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
-    background-repeat : no-repeat;
+.x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus,
+.x-tree-node-collapsed .x-tree-node-icon, .x-tree-node-expanded .x-tree-node-icon, .x-tree-node-leaf .x-tree-node-icon{
+    background-repeat : no-repeat;    
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/tree.png);
     border : 0 none;
     height : 18px;
     margin : 0;
@@ -2028,14 +2030,15 @@ a.x-grid3-hd-btn:hover {
 .ext-ie .x-tree-node-indent img, .ext-ie .x-tree-node-icon, .ext-ie .x-tree-ec-icon {
     vertical-align : middle !important ;
 }
+
 .x-tree-node-expanded .x-tree-node-icon {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/folder-open.gif);
+    background-position: 0 -342px;    
 }
 .x-tree-node-leaf .x-tree-node-icon {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/leaf.gif);
+    background-position: 0 -410px; 
 }
 .x-tree-node-collapsed .x-tree-node-icon {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/folder.gif);
+    background-position: 0 -376px;
 }
 .ext-ie input.x-tree-node-cb {
     height : 15px;
@@ -2062,44 +2065,46 @@ input.x-tree-node-cb {
     height : 15px;
     width : 15px;
 }
+
+
 .x-tree-lines .x-tree-elbow {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow.gif);
+   background-position: 0 -306px;
 }
 .x-tree-lines .x-tree-elbow-plus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-plus.gif);
+    background-position: 0 -270px;
 }
 .x-tree-lines .x-tree-elbow-minus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-minus.gif);
+    background-position: 0 -234px;
 }
 .x-tree-lines .x-tree-elbow-end {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-end.gif);
+    background-position: 0 -162px;
 }
 .x-tree-lines .x-tree-elbow-end-plus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-end-plus.gif);
+    background-position: 0 -126px;
 }
 .x-tree-lines .x-tree-elbow-end-minus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-end-minus.gif);
+    background-position: 0 -54px;
 }
 .x-tree-lines .x-tree-elbow-line {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-line.gif);
+    background-position: 0 -198px;
 }
 .x-tree-no-lines .x-tree-elbow {
     background : transparent none repeat scroll 0 0;
 }
 .x-tree-no-lines .x-tree-elbow-plus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-plus-nl.gif);
+    background-position: 0 -90px;
 }
 .x-tree-no-lines .x-tree-elbow-minus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-minus-nl.gif);
+    background-position: 0 -18px;
 }
 .x-tree-no-lines .x-tree-elbow-end {
     background : transparent none repeat scroll 0 0;
 }
 .x-tree-no-lines .x-tree-elbow-end-plus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-end-plus-nl.gif);
+    background-position: 0 -90px;
 }
 .x-tree-no-lines .x-tree-elbow-end-minus {
-    background-image : url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-end-minus-nl.gif);
+    background-position: 0 -18px;
 }
 .x-tree-no-lines .x-tree-elbow-line {
     background : transparent none repeat scroll 0 0;
