@@ -17,7 +17,7 @@
             <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
                 <h:form>
                     <h:commandButton value="submit" style="margin-left:-60px;left:50%;top:300px;width:100px;z-index:1000;position:absolute;"/>
-                    <mf-model:Context minifyJS="false"  debug="true" service="data/context/blueMarble.xml">                              
+                    <mf-model:Context minifyJS="false"  debug="true" service="data/context/owc030.xml">
                             <mf:MapPane/>	
                             <mf:ScaleBar style="background-color: red;"/>              
                      </mf-model:Context>

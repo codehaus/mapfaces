@@ -34,7 +34,7 @@
             
             <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
             <h:form>
-                <mf-model:Context minifyJS="false"  debug="true" service="data/context/owc030.xml">                              
+                <mf-model:Context minifyJS="false"  debug="true" service="data/context/owc030.xml">
                         <mf:MapPane debug="true"></mf:MapPane>
 			<mf:ButtonBar styleClass="mfButtonBar horizontal" save="true" style="top:350px"/>
                 </mf-model:Context>
