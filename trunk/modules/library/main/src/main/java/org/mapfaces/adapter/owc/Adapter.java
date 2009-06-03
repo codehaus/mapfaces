@@ -81,6 +81,7 @@ public class Adapter {
      * @param context
      * @param model
      * @return
+     * @deprecated
      */
     public static DefaultTreeModel context2Tree(final FacesContext context, final Context model) {
 
@@ -104,7 +105,9 @@ public class Adapter {
         tree.setRoot(root);
         return tree;
     }
-
+    /**
+     * @deprecated
+     */
     public static DefaultTreeModel contextGrp2Tree(final FacesContext context, final Context model) {
 
         final DefaultTreeModel tree = new DefaultTreeModel(null);
@@ -164,7 +167,7 @@ public class Adapter {
      */
     public static DefaultTreeModel ContextGroupedLayers2Tree(final Context model) {
         final DefaultTreeModel tree = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem("root"));
         final List<Layer> layers = model.getLayers();
         final int depth = 1;
         int i = 0;
@@ -224,6 +227,17 @@ public class Adapter {
         }
         nodes.clear();
         tree.setRoot(root);
+
+//  Use for debugging treenodemodel
+//         JFrame frame = new JFrame();
+//        JTree jtree = new JTree();
+//        jtree.setModel(tree);
+//        frame.setContentPane(new JScrollPane(jtree));
+//        frame.setSize(640, 480);
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+
+
         return tree;
     }
 
