@@ -17,7 +17,7 @@
             <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
                 <h:form id="form">
                     <h:commandButton value="submit" style="margin-left:-60px;left:50%;top:300px;width:100px;z-index:1000;position:absolute;"/>
-                    <mf-model:Context minifyJS="false"  debug="true" service="data/context/blueMarble.xml">                              
+                    <mf-model:Context minifyJS="false"  debug="true" service="data/context/owc030.xml">
                             <mf:MapPane/>	
                             <mf:Popup id="getFeatureInfo" style="border: medium none ; left: 0px; position: absolute; top: 270px;margin:5px; width: 300px; height: 40px;backgrounf-color:white;"/>              
                      </mf-model:Context>

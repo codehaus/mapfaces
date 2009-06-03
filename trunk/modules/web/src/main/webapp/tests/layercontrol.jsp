@@ -14,7 +14,7 @@
         <body>
             <h:form>
                 <h:commandButton value="submit" style="position:relative;" />
-                <mf-model:Context  service="data/context/ifremer.xml">                              
+                <mf-model:Context  service="data/context/owc030.xml">
                         <mf:MapPane></mf:MapPane>
                         <mf:LayerControl></mf:LayerControl>
                 </mf-model:Context>
