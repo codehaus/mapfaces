@@ -216,7 +216,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setOutputLongitude(lon);
                 }
 
-                final int nbWmsLayers = Utils.getWMSLayerscount(model.getVisibleLayers());
+                final int nbWmsLayers = Utils.getWMSLayersCount(model.getVisibleLayers());
                 final List<WmsLayer> layersWMS          = new ArrayList<WmsLayer>();
                 final List<Feature> featureInfoList     = new ArrayList<Feature>();
                 final List<String> featureInfoValues    = new ArrayList<String>();
