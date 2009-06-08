@@ -63,39 +63,48 @@ public class PopupRenderer extends WidgetBaseRenderer {
 
             //<div style="width: 100%; height: 100%; position: relative;">
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-top-left.png) repeat scroll 0% 0%; left: 0px; top: 0px; position: absolute; width: 33px; height: 33px;", "style");
+            responseWriter.writeAttribute("style", "left: 0px;top: 0px;position: absolute; width: 33px; height: 33px;", "style");
+            responseWriter.writeAttribute("class", "bubble-corner bubble-top-left", "class");
             responseWriter.endElement("div");
             // <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-top-left.png) repeat scroll 0% 0%; left: 0px; top: 0px; position: absolute; width: 33px; height: 33px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-top.png) repeat scroll 0% 0%; left: 33px; top: 0px; position: absolute; width: " + innerWidth + "px; height: 33px; ", "style");
+            responseWriter.writeAttribute("style", "left: 33px; top: 0px; position: absolute; width: " + innerWidth + "px; height: 33px; ", "style");
+            responseWriter.writeAttribute("class", "bubble-top-bottom bubble-top", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-top.png) repeat scroll 0% 0%; left: 33px; top: 0px; position: absolute; width: 250px; height: 33px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-top-right.png) repeat scroll 0% 0%; left: " + innerLeft + "px; top: 0px; position: absolute; width: 40px; height: 33px;", "style");
+            responseWriter.writeAttribute("style", " left: " + innerLeft + "px; top: 0px; position: absolute; width: 40px; height: 33px;", "style");
+             responseWriter.writeAttribute("class", "bubble-corner bubble-top-right", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-top-right.png) repeat scroll 0% 0%; left: 283px; top: 0px; position: absolute; width: 40px; height: 33px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-left.png) repeat scroll 0% 0%; left: 0px; top: 33px; position: absolute; width: 33px; height: " + innerHeight + "px;", "style");
+            responseWriter.writeAttribute("style", "left: 0px; top: 33px; position: absolute; width: 33px; height: " + innerHeight + "px;", "style");
+            responseWriter.writeAttribute("class", "bubble-left-right bubble-left", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-left.png) repeat scroll 0% 0%; left: 0px; top: 33px; position: absolute; width: 33px; height: 50px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-right.png) repeat scroll 0% 0%; left: " + innerLeft + "px; top: 33px; position: absolute; width: 40px; height: " + innerHeight + "px; ", "style");
+            responseWriter.writeAttribute("style", "left: " + innerLeft + "px; top: 33px; position: absolute; width: 40px; height: " + innerHeight + "px; ", "style");
+            responseWriter.writeAttribute("class", "bubble-left-right  bubble-right", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-right.png) repeat scroll 0% 0%; left: 283px; top: 33px; position: absolute; width: 40px; height: 50px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom-left.png) repeat scroll 0% 0%; left: 0px; top: " + innerTop + "px; position: absolute; width: 33px; height: 42px;", "style");
+            responseWriter.writeAttribute("style", "left: 0px; top: " + innerTop + "px; position: absolute; width: 33px; height: 42px;", "style");
+            responseWriter.writeAttribute("class", "bubble-corner bubble-bottom-left", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom-left.png) repeat scroll 0% 0%; left: 0px; top: 83px; position: absolute; width: 33px; height: 42px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom.png) repeat scroll 0% 0%; left: 33px; top: " + innerTop + "px; position: absolute; width: " + innerWidth + "px; height: 42px;", "style");
+            responseWriter.writeAttribute("style", "left: 33px; top: " + innerTop + "px; position: absolute; width: " + innerWidth + "px; height: 42px;", "style");
+            responseWriter.writeAttribute("class", "bubble-top-bottom bubble-bottom", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom.png) repeat scroll 0% 0%; left: 33px; top: 83px; position: absolute; width: 250px; height: 42px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom-right.png) repeat scroll 0% 0%; left: " + innerLeft + "px; top: " + innerTop + "px; position: absolute; width: 40px; height: 42px;", "style");
+            responseWriter.writeAttribute("style", "left: " + innerLeft + "px; top: " + innerTop + "px; position: absolute; width: 40px; height: 42px;", "style");
+            responseWriter.writeAttribute("class", "bubble-corner bubble-bottom-right", "class");
             responseWriter.endElement("div");
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom-right.png) repeat scroll 0% 0%; left: 283px; top: 83px; position: absolute; width: 40px; height: 42px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "cursor:pointer;background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/close-button.png) repeat scroll 0% 0%; left: " + leftCloseButton + "px; top: 19px; cursor: pointer; position: absolute; width: 16px; height: 16px; ", "style");
+            responseWriter.writeAttribute("style", "cursor:pointer; left: " + leftCloseButton + "px; top: 19px; cursor: pointer; position: absolute; width: 16px; height: 16px; ", "style");
+            responseWriter.writeAttribute("class", "close-button", "class");
             responseWriter.writeAttribute("onclick", "document.getElementById('" + clientId + "').className='mfPopupInvisible';", "onclick");
             responseWriter.endElement("div");
 
@@ -138,7 +147,8 @@ public class PopupRenderer extends WidgetBaseRenderer {
             // </div>
 
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom-arrow.png) repeat scroll 0% 0%; left: " + innerMiddle + "px; top: " + innerTop + "px; position: absolute; width: 37px; height: 42px;", "style");
+            responseWriter.writeAttribute("style", "left: " + innerMiddle + "px; top: " + innerTop + "px; position: absolute; width: 37px; height: 42px;", "style");
+            responseWriter.writeAttribute("class", "bubble-bottom-arrow", "class");
             responseWriter.endElement("div");
             //<div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/bubble-bottom-arrow.png) repeat scroll 0% 0%; left: 140px; top: 83px; position: absolute; width: 37px; height: 42px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
 
