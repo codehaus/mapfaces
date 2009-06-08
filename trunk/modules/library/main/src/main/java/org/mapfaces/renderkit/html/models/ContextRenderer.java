@@ -302,7 +302,7 @@ public class ContextRenderer extends Renderer {
         ajaxComp.setLimitToList(true);
         ajaxComp.setReRender(comp.getId());
         if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
-            comp.getChildren().add(ajaxComp);
+            comp.getFacets().put("a4jsupport", ajaxComp);
             comp.setAjaxCompId(ajaxComp.getClientId(context));
         }
 

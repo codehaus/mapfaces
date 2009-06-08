@@ -106,7 +106,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
                 selectOneMenu.getChildren().add(selectItem);
             }
             if (ajaxSupport) {
-                selectOneMenu.getChildren().add(createAjaxSupport(context, comp, idsToRefresh));
+                selectOneMenu.getFacets().put("a4jsupport", createAjaxSupport(context, comp, idsToRefresh));
             }
         }
 

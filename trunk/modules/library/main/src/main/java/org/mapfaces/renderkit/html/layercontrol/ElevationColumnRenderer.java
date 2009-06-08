@@ -54,7 +54,7 @@ public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         super.encodeBegin(context, component);
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getElevations(context, (UIElevationColumn) component) != null) {
-            component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context, (UIComponent) component.getChildren().get(0), "onchange", getVarId(context, (UIColumnBase) component), null));
+            component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context, (UIComponent) component.getChildren().get(0), "onchange", getVarId(context, (UIColumnBase) component), null));
         }
     }
 

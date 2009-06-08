@@ -450,6 +450,17 @@ public class DefaultContext extends AbstractModelBase implements Context {
         return layersTmp;
     }
 
+    public List<Layer> getQueryableAndVisibleLayers() {
+        List<Layer> queryableLayers = getQueryableLayers();
+        List<Layer> returnLayers = new ArrayList<Layer>();
+        for (Layer layer : queryableLayers) {
+            if (!layer.isHidden()) {
+                returnLayers.add(layer);
+            }
+        }
+        return returnLayers;
+    }
+
 
 /*********************************** Layer functions***************************/
 
@@ -690,4 +701,6 @@ public class DefaultContext extends AbstractModelBase implements Context {
                 removeLayerFromId(layer.getId());
         }
     }
+
+   
 }

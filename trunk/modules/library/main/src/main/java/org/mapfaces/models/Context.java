@@ -28,6 +28,7 @@ import org.opengis.geometry.Envelope;
  */
 public interface Context extends Serializable {
 
+
     String getId();
 
     void setId(String id);
@@ -110,6 +111,8 @@ public interface Context extends Serializable {
     List<Layer> getNoQueryableLayers();
 
     List<Layer> getGroupLayers(String nameOfGroup);
+    
+    List<Layer> getQueryableAndVisibleLayers();
 
 
 /*********************************** Layer functions***************************/
