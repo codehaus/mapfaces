@@ -68,7 +68,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
             final HtmlGraphicImage img = new HtmlGraphicImage();
             img.setId(component.getId() + "-off");
 
-            uicomp.getChildren().add(FacesUtils.createTreeAjaxSupportWithParameters(context,
+            uicomp.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
                     (UIComponent) component.getChildren().get(0),
                     "onclick",
                     getVarId(context, (UIColumnBase) component),
@@ -92,7 +92,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
 
             final HashMap<String, String> paramsMap2 = new HashMap();
             paramsMap2.put("hidden", "false");
-            img.getChildren().add(FacesUtils.createTreeAjaxSupportWithParameters(context,
+            img.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
                     img, "onclick", getVarId(context, (UIColumnBase) component),
                     FacesUtils.getFormId(context, component) + ":timeline",
                     paramsMap2, "hideOrDisplay(\"" + img.getClientId(context) + "\",\"" + uicomp.getClientId(context) + "\")",

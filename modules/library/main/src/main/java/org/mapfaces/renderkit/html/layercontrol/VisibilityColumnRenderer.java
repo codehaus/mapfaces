@@ -68,7 +68,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                 paramsMap.put("WmsGetMapEntry_SLD_identifier", currentEntry.getIdentifier());
                 
                 //Adding to this component child (HtmlSelectBooleanCheckbox) an a4j support component
-                component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupportWithParameters(context,
+                component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
                         (UIComponent) component.getChildren().get(0),
                         "onclick",
                         getVarId(context, (UIColumnBase) component),
@@ -76,7 +76,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                         paramsMap,"",""));
             } else {
                 //Adding to this component child (HtmlSelectBooleanCheckbox) an a4j support component
-                component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
+                component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context,
                         (UIComponent) component.getChildren().get(0),
                         "onclick",
                         getVarId(context, (UIColumnBase) component),

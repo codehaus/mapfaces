@@ -38,7 +38,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeBegin(context, component);
             if(component.getChildCount()>0){
-                    component.getChildren().get(0).getChildren().add(FacesUtils.createTreeAjaxSupport(context,
+                    component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context,
                     (UIComponent) component.getChildren().get(0),
                     "onchange",
                     getVarId(context, (UIColumnBase) component),

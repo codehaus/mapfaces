@@ -155,7 +155,7 @@ public class BandInfoRenderer extends Renderer {
     ajaxSupport.setId("support" + bandInfo.getId());
     ajaxSupport.setEvent("onchange");
     ajaxSupport.setReRender(bandInfo.getParent().getId());
-    selectOne.getChildren().add(ajaxSupport);
+    selectOne.getFacets().put("a4jsupport", ajaxSupport);
     bandInfo.getChildren().add(selectOne);
 
     }*/

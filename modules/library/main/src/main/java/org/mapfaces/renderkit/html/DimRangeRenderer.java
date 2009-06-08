@@ -130,7 +130,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
              dimRange.setId(layerId+"_inputDimRange");
              dimRange.setValue(((String) comp.getValue()));
              comp.getChildren().add(dimRange);
-             dimRange.getChildren().add(FacesUtils.createTreeAjaxSupport(context,dimRange,"onchange",getVarId(context, comp),null));
+             dimRange.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context,dimRange,"onchange",getVarId(context, comp),null));
              dimRange.encodeBegin(context);
              dimRange.encodeChildren(context);
              dimRange.encodeEnd(context);

@@ -36,6 +36,7 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1126,7 +1127,7 @@ public class FacesUtils {
      * @throws org.constellation.coverage.web.WebServiceException
      */
     public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller) throws MalformedURLException, IOException {
-        URL source = new URL(sourceURL);
+       URL source = new URL(sourceURL);
         URLConnection conec = source.openConnection();
         Object harvested = null;
 
@@ -1141,7 +1142,7 @@ public class FacesUtils {
                 try {
                     marshaller.marshal(request, sw);
                 } catch (JAXBException ex) {
-                    LOGGER.log(Level.SEVERE, "Unable to marshall the request: " + ex.getMessage());
+                    LOGGER.log(Level.SEVERE, "Unable to marshall the request: ", ex);
                 }
                 String XMLRequest = sw.toString();
                 wr.write(XMLRequest);
@@ -1163,7 +1164,7 @@ public class FacesUtils {
 
             //we need to replace % character by "percent because they are reserved char for url encoding
             brutString = brutString.replaceAll("%", "percent");
-            String decodedString = java.net.URLDecoder.decode(brutString, "UTF-8");
+            String decodedString = URLDecoder.decode(brutString, "UTF-8");
 
             try {
                 decodedString = decodedString.replaceAll("percent", "%");
@@ -1181,7 +1182,7 @@ public class FacesUtils {
                 LOGGER.log(Level.SEVERE, ex.toString());
             }
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "The Distant service have made an error ! \n"+ex.getStackTrace());
+            LOGGER.log(Level.SEVERE, "The Distant service have made an error ! \n", ex);
             return null;
         }
         return harvested;
