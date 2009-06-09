@@ -36,6 +36,7 @@ window.addEvent('domready', function(){
  *
  */
 window.addEvent('load', function(){
+    //window.reloadAllMaps();
     });
 
 
@@ -107,22 +108,28 @@ function webAppPageWrapper(){
     clearPageWrapper();
 
     new MochaUI.Column({
-        id: 'sideColumn1',
+        id: 'left',
         placement: 'left',
         width: 290,
         resizeLimit: [290, 500]
     });
 
     new MochaUI.Column({
-        id: 'mainColumn',
+        id: 'main',
         placement: 'main',	
         width: null
+    });
+    new MochaUI.Column({
+        id: 'right',
+        placement: 'right',
+        width: 290,
+        resizeLimit: [290, 500]
     });
 
     new MochaUI.Panel({
         id: 'panel1',
         title: 'Layer Control',
-        column: 'sideColumn1',
+        column: 'left',
         height: 420,
         padding:{
             top: 0,
@@ -135,7 +142,18 @@ function webAppPageWrapper(){
     new MochaUI.Panel({
         id: 'panel2',
         title: 'Panel',
-        column: 'sideColumn1',
+        column: 'left',
+        padding:{
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        }
+    });
+    new MochaUI.Panel({
+        id: 'panel3',
+        title: 'Outils de navigation / mesure',
+        column: 'right',
         padding:{
             top: 0,
             right: 0,
@@ -150,7 +168,7 @@ function webAppPageWrapper(){
     });
     
     $$('.mochaMainAppColumn').each(function(div) {
-        div.inject($('mainColumn'));
+        div.inject($('main'));
     });
     
     $$('.mochaPanel1').each(function(div) {
@@ -160,7 +178,10 @@ function webAppPageWrapper(){
     $$('.mochaPanel2').each(function(div) {
         div.inject($('panel2_pad'));
     });
-
+    $$('.mochaPanel3').each(function(div) {
+        div.inject($('panel3_pad'));
+    });
+    
     $('panel1_pad').setStyles({
         'height' : '100%',
         'width' : '100%'
@@ -169,10 +190,27 @@ function webAppPageWrapper(){
         'height' : '100%',
         'width' : '100%'
     });
-    
+    $('panel3_pad').setStyles({
+        'height' : '100%',
+        'width' : '100%'
+    });
     if (window.reloadAllMaps)
         window.reloadAllMaps();
 }
 
+ function handleMeasurements(event) {
+                var geometry = event.geometry;
+                var units = event.units;
+                var order = event.order;
+                var measure = event.measure;
+                var element = document.getElementById('output');
+                var out = "";
+                if(order == 1) {
+                    out += "measure: " + measure.toFixed(3) + " " + units;
 
+                } else {
+                    out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
+                }
+                element.innerHTML = out;
+            }
 

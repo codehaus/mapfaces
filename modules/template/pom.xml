@@ -90,13 +90,19 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <excludes>
+                        <exclude>**/*.gz.*</exclude>
+                        <exclude>**/all.*</exclude>
+                        <exclude>**/*-min.*</exclude>
+                        <exclude>**/*-bs.*</exclude>
+                    </excludes>
 		<!-- for more details see http://alchim.sourceforge.net/yuicompressor-maven-plugin/compress-mojo.html -->
                     <nosuffix>true</nosuffix>
                     <force>true</force>
                     <jswarn>false</jswarn>
                     <aggregations>
                         <aggregation>
-                            <output>${project.build.directory}/${project.build.finalName}/resources/js/all.js</output>
+                            <output>${project.build.directory}/${project.build.finalName}/resources/all.js</output>
                             <includes>
 				<!--include>${basedir}/src/licenses/license.js</include-->
                                 <include>**/mootools-1.2-core.js</include>
@@ -111,15 +117,19 @@
                             </excludes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.directory}/${project.build.finalName}/resources/css/all.css</output>
+                            <output>${project.build.directory}/${project.build.finalName}/resources/skin/default/all.css</output>
                             <includes>
-                                <include>**/content.css</include>
-                                <include>**/ui.css</include>
+                                <!-- Default MOCHA UI CSS -->
+                                <include>**/mocha.css</include>
+                                <!-- Default Template CSS -->
+                                <include>**/main.css</include>
                             </includes>
                         </aggregation>
-<!-- Only for NetBeans devs who doesn't use Maven plugin -->
+
+
+<!--Only for NetBeans devs who doesn't use Maven plugin -->
                         <aggregation>
-                            <output>${project.build.sourceDirectory}/../webapp/resources/js/all.js</output>
+                            <output>${project.build.sourceDirectory}/../webapp/resources/all.js</output>
                             <includes>
                                 <include>**/mootools-1.2-core.js</include>
                                 <include>**/mootools-1.2-more.js</include>
@@ -133,10 +143,12 @@
                             </excludes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.sourceDirectory}/../webapp/resources/css/all.css</output>
+                            <output>${project.build.sourceDirectory}/../webapp/resources/skin/default/css/all.css</output>
                             <includes>
-                                <include>**/content.css</include>
-                                <include>**/ui.css</include>
+                                <!-- Default MOCHA UI CSS -->
+                                <include>**/mocha.css</include>
+                                <!-- Default Template CSS -->
+                                <include>**/main.css</include>
                             </includes>
                         </aggregation>
                     </aggregations>
@@ -154,5 +166,8 @@
 
         </plugins>
     </build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    </properties>
     
 </project>
