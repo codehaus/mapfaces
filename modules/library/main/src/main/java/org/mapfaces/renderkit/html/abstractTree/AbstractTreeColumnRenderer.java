@@ -227,7 +227,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             if (node.getUserObject() instanceof TreeItem) {
                 TreeItem ti = (TreeItem) node.getUserObject();
                 if (ti.getIcon() != null && ! ti.getIcon().equals("")) {
-                    styleImg = "background-image:url('"+ti.getIcon()+"');";
+                    styleImg = "background:url('"+ti.getIcon()+"');";
                 }
             }
             if (styleImg != null && ! styleImg.equals("")) {
