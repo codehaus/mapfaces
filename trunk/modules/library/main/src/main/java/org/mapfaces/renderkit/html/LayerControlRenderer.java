@@ -60,10 +60,6 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
     private static final String _Style_Class_LayerControl = "mfLayerControl";
     private static final String _Style_TreeTable = "border:none;";
     private static final String _Style_TreeNodeInfo = "border:none;";
-    private static final String _Style_EyeImage_Url = "/org/mapfaces/resources/img/eye.png";
-    private static final String _Style_CloudyImage_Url = "/org/mapfaces/resources/img/weather_cloudy.png";
-    private static final String _Style_ElevationImage_Url = "/org/mapfaces/resources/img/seadepth.gif";
-    private static final String _Style_CalendarImage_Url = "/org/mapfaces/resources/img/calendar_select.png";
     /* Defaults Sizes */
     private static final int _Style_Width_Treetable = 450;
     private static final String _Style_Width_Treecolumn = "200";
@@ -72,6 +68,11 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
     private static final String _Style_Width_Elevationcolumn = "100";
     private static final String _Style_Width_Timecolumn = "28";
 
+    /*DefaultsClassName*/
+     private static final String _visibilityHeaderStyleClass = "eye";
+     private static final String _opacityHeaderStyleClass= "weather_cloudy";
+     private static final String _elevationHeaderStyleClass = "seadepth-16";
+     private static final String _timeHeaderStyleClass = "calendar_select";
     /**
      * {@inheritDoc }
      */
@@ -189,7 +190,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             final UIVisibilityColumn vc = new UIVisibilityColumn();
             vc.setId(vc.getLayerProperty());
             vc.setValue("#{!treeItem.hidden}");
-            vc.setHeaderIcon(_Style_EyeImage_Url);
+            vc.setHeaderIcon(_visibilityHeaderStyleClass);
             vc.setHeaderTitle(_Info_Visibility_Title);
             if (widthVisibilityColumn == null || widthVisibilityColumn.isEmpty()) {
                 vc.setWidth(_Style_Width_Visibilitycolumn);
@@ -204,7 +205,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             final UIOpacityColumn oc = new UIOpacityColumn();
             oc.setId(oc.getLayerProperty());
             oc.setValue("#{treeItem.opacity}");
-            oc.setHeaderIcon(_Style_CloudyImage_Url);
+            oc.setHeaderIcon(_opacityHeaderStyleClass);
             if (widthOpacityColumn == null || widthOpacityColumn.isEmpty()) {
                 oc.setWidth(_Style_Width_Opacitycolumn);
             } else {
@@ -218,7 +219,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             final UIElevationColumn ec = new UIElevationColumn();
             ec.setId(ec.getLayerProperty());
             ec.setValue("#{treeItem.userValueElevation}");
-            ec.setHeaderIcon(_Style_ElevationImage_Url);
+            ec.setHeaderIcon(_elevationHeaderStyleClass);
             if (widthElevationColumn == null || widthElevationColumn.isEmpty()) {
                 ec.setWidth(_Style_Width_Elevationcolumn);
             } else {
@@ -232,7 +233,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             final UITimeColumn tic = new UITimeColumn();
             tic.setId(tic.getLayerProperty());
             tic.setHeaderTitle(_Info_TimeLine_Title);
-            tic.setHeaderIcon(_Style_CalendarImage_Url);
+            tic.setHeaderIcon(_timeHeaderStyleClass);
             if (widthTimeColumn == null || widthTimeColumn.isEmpty()) {
                 tic.setWidth(_Style_Width_Timecolumn);
             } else {
