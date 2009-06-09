@@ -25,7 +25,7 @@
 }
 .mfScale{
     font-family:verdana;
-    font-size:0.7em;
+    font-size:1em;
     margin: 5px; 
     padding: 5px;         
     position: absolute; 
@@ -34,7 +34,7 @@
 }
 .mfScaleBar{
     font-family:verdana;
-    font-size:0.7em;
+    font-size:1em;
     margin: 10px; 
     padding: 5px;         
     position: absolute;  
@@ -79,18 +79,15 @@
     width: 40px;
     height: 13px;
     top: 21px;
-    font-size: 0.7em;
     margin-left:-20px;
 }
 
 .mfScaleBar .olControlScaleBarLabelBox {
-    top: -2px;
+    top: -5px;
     height: 15px;
     font-weight: bold;
     letter-spacing: 0.1em;
-    font-size: 0.7em;
-    font-variant: small-caps;
-    
+    font-variant: small-caps;    
 }
 
 .mfScaleBar .olControlScaleBarLabelBoxSingleLine {
@@ -98,7 +95,6 @@
     width: 35px;
     top: 5px;
     left: 10px;
-    font-size: 0.7em;
     font-variant: small-caps;
 }
 
@@ -114,6 +110,17 @@
 .mfLayerControl select{
     font-size: 1em;
 }
+.x-tree-hd-text div {
+    width: 16px;
+    height: 16px;
+    background-image:url(resource.jsf?r=/org/mapfaces/resources/img/headerColumn.gif);
+    background-repeat: no-repeat;
+}
+.calendar_select { background-position: 0 -1px; }
+.eye { background-position: 0 -18px; }
+.seadepth-16 { background-position: 0 -35px; }
+.weather_cloudy { background-position: 0 -55px; }
+
 .mfMapViewport{
     overflow: hidden; 
     position: relative;
@@ -219,7 +226,7 @@
 
 .mfCursorTrack{    
     font-family:verdana;
-    font-size:0.7em;    
+    font-size:1em;
 }
 .mfCursorTrack .mfCursorTrackPrefix{
     /*font-weight:bold;  */  

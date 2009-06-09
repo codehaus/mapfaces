@@ -604,12 +604,18 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         /* If an icon is declared, we put in priority the icon, else we put the text header */
         if (attributs.get("headerIcon") != null) {
-            writer.startElement("img", component);
+            writer.startElement("div", component);
+            writer.writeAttribute("class", (String) attributs.get("headerIcon"), null);
+            if (attributs.get("headerTitle") != null) {
+                writer.writeAttribute("title", (String) attributs.get("headerTitle"), null);
+            }
+            writer.endElement("div");
+           /* writer.startElement("img", component);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, (String) attributs.get("headerIcon"), null), null);
             if (attributs.get("headerTitle") != null) {
                 writer.writeAttribute("title", (String) attributs.get("headerTitle"), null);
             }
-            writer.endElement("img");
+            writer.endElement("img");*/
         } else if (attributs.get("headerTitle") != null) {
             writer.write((String) attributs.get("headerTitle"));
         }
