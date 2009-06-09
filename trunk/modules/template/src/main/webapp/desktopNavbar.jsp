@@ -68,9 +68,9 @@
         </div>
         
         <div class="toolbox divider2">
-            <img src="resources/img/icons/cog.gif" onclick="MochaUI.notification('Do Something');" width="16" height="16" alt="" />
-            <img src="resources/img/icons/windows.gif" onclick="MochaUI.notification('Do Something');" width="16" height="16" alt="" />
-            <img src="resources/img/icons/sheet.gif" onclick="MochaUI.notification('Do Something');" width="16" height="16" alt="" />
+            <div onclick="MochaUI.notification('Do Something');" class="cog"></div>
+            <div onclick="MochaUI.notification('Do Something');" class="windows"></div>
+            <div onclick="MochaUI.notification('Do Something');" class="sheet"></div>
         </div>
         
     </div>

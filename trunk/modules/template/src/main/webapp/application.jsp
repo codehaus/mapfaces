@@ -7,30 +7,35 @@
 
 
 
-<mf-model:Context id="owsVisuContext" minifyJS="false" service="map-context.xml" 
-    scriptaculous="false" mootools="false" debug="false">
+<mf-model:Context id="owsVisuContext" minifyJS="true" service="map-context.xml" scriptaculous="false" mootools="false" debug="false">
     
     <%--  The main mappane is englobed with a h:panelGroup tag
     with a styleClass ="mochaMainAppColumn" to fix it in the main column  --%>
-    <h:panelGroup id="app_MapPaneBox" layout="block" styleClass="mochaMainAppColumn">
+    <h:panelGroup id="mappaneBox" layout="block" styleClass="mochaMainAppColumn">
         <mf:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
-            <mf:MapPane id="app_Mappane" style="width:100%; height:100%;" debug="false" navigation="true" />
-            <mf:ButtonBar id="app_ButtonBar" styleClass="mfButtonBar horizontal" style="background:transparent; opacity: 1; top: 0px; right:50%;width:168px;margin-top:0;" />
-            <mf:CursorTrack id="app_CursorTrack" style="background-color: threedlightshadow; opacity: 0.5; position: relative; bottom: 30px;"
-                            showDMS="true" showLatLon="false" />
-        </mf:Div>
+            <mf:MapPane id="mappane" style="width:100%; height:100%;" debug="false" navigation="true" />
+            <mf:Div styleClass="footerMap">
+                <mf:ScaleBar></mf:ScaleBar>
+            </mf:Div>
+       </mf:Div>
     </h:panelGroup>
-    
-    <%-- The layer control is englobed with a h:panelGroup tag
-    with a styleClass ="mochaPanel1" to fix it in the first top panel in the right column  --%>
-    <h:panelGroup id="app_LayerControlBox" layout="block" styleClass="mochaPanel1" style="height: 100%;width:100%;">
-        
+
+     <%-- The layer control is englobed with a h:panelGroup tag
+        with a styleClass ="mochaPanel1" to fix it in the first top panel in the right column  --%>
+    <h:panelGroup id="layerControlBox" layout="block" styleClass="mochaPanel1" style="height: 100%;width:100%;">
+        <mf:LayerControl style="height:100%;opacity:1;position:relative;width:400px;"></mf:LayerControl>
     </h:panelGroup>
-    
+
     <%-- Other components can be englobed with a h:panelGroup tag
     with a styleClass ="mochaPanel2" to fix it in the second bottom panel in the right column  --%>
-    <h:panelGroup id="app_SomeThings" layout="block" styleClass="mochaPanel2">
+    <h:panelGroup id="editToolBox" layout="block" styleClass="mochaPanel2" style="height: 100%;width:100%;">
         
+    </h:panelGroup>
+    <h:panelGroup id="toolBox" layout="block" styleClass="mochaPanel3" style="height: 100%;width:100%;font-size:12px;font-family:verdana;">
+        <mf:ButtonBar id="ButtonBar" styleClass="mfButtonBar horizontal" style="height:34px;opacity:1;position:relative;width:100%;" />
+         <mf:CursorTrack id="CursorTrack" style="height:34px;opacity:1;position:relative;width:100%;font-size: 1em;"
+                            showDMS="true" showLatLon="false" />
+          <mf:Scale id="Scale" style="height:34px;opacity:1;position:relative;width:100%;font-size: 1em;"/>
     </h:panelGroup>
     
 </mf-model:Context>
