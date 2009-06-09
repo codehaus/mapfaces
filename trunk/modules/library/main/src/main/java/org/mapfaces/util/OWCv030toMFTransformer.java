@@ -156,7 +156,7 @@ public class OWCv030toMFTransformer {
                                 }
                                 end = System.currentTimeMillis() - start;
                                 if (webMapServers.get(wmsUrl) != null) {
-                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotookits in : " + end+" ms");
+                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotoolkits in : " + end+" ms");
                                 }
                             }
                         }
