@@ -249,11 +249,16 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             final Object value = component.getAttributes().get("value");
             final String valueToWrite;
             if (value != null) {
-                if (value.getClass().toString().contains("java.lang.String")) {
+                if (value instanceof String) {
                     ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
-                    valueToWrite = ((String) ve.getValue(context.getELContext()));
+                    Object elValue = ve.getValue(context.getELContext());
+                    if (elValue != null) {
+                        valueToWrite = elValue.toString();
+                    }else {
+                        valueToWrite = "";
+                    }
                 } else {
-                    valueToWrite = ((String) value);
+                    valueToWrite = value.toString();
                 }
             } else {
                 valueToWrite = (node.getText());

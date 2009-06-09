@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureCollections;
 import org.geotools.feature.simple.SimpleFeatureImpl;
@@ -28,6 +30,7 @@ import org.geotoolkit.style.MutableStyle;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.util.FacesUtils;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -39,6 +42,25 @@ public class MapBean {
     private static final Logger LOGGER = Logger.getLogger(MapBean.class.getName());
     public MapContext mapContext = null;
     private List<Feature> features = null;
+
+    private DefaultTreeModel exampleModel;
+
+    public MapBean(){
+        DefaultMutableTreeNode tnode = new DefaultMutableTreeNode(new TreeItem("node1"));
+        DefaultMutableTreeNode leaf1 = new DefaultMutableTreeNode(new TreeItem("leaf1"));
+        DefaultMutableTreeNode leaf2 = new DefaultMutableTreeNode(new TreeItem("leaf2"));
+        DefaultMutableTreeNode node3 = new DefaultMutableTreeNode(new TreeItem("node3"));
+        DefaultMutableTreeNode leaf3 = new DefaultMutableTreeNode(new TreeItem("leaf3"));
+        node3.add(leaf3);
+        tnode.add(leaf1);
+        tnode.add(leaf2);
+        tnode.add(node3);
+
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem("root"));
+        root.add(tnode);
+        DefaultTreeModel model = new DefaultTreeModel(root);
+        exampleModel = model ;
+    }
 
     public MapContext getMapContext() {
         if (mapContext == null) {
@@ -183,5 +205,19 @@ public class MapBean {
 
     public void setFeatures(List<Feature> features) {
         this.features = features;
+    }
+
+    /**
+     * @return the exampleModel
+     */
+    public DefaultTreeModel getExampleModel() {
+        return exampleModel;
+    }
+
+    /**
+     * @param exampleModel the exampleModel to set
+     */
+    public void setExampleModel(DefaultTreeModel exampleModel) {
+        this.exampleModel = exampleModel;
     }
 }
