@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -145,10 +146,16 @@ public class ReflectionUtils{
                         //copy the property
                         try {
                             if (getter.getParameterTypes().length != 0) {
-                                //TODO because this is a custom duplication it is not a perfect clone of every child components in treeTable component.
+                                //@TODO because this is a custom duplication it is not a perfect clone of every child components in treeTable component.
                                 LOGGER.log(Level.WARNING, "Could'nt invoke getter for property : "+getter.getName()+"  wicth contains "+getter.getParameterTypes().length+" arguments.");
                                 continue;
                             }
+
+                            if (source instanceof HtmlSelectBooleanCheckbox && getter.getName().equals("isSelected")) {
+                                //@TODO this is a bug in the treetable component in clone process for a jsf spec component.
+                                continue;
+                            }
+
                             Object resultGet = getter.invoke(source);
                             Class<?> returnType = getter.getReturnType();
                             if ( !(setter.getParameterTypes().length == 1 && (setter.getParameterTypes()[0]).isAssignableFrom(returnType)) ) {
