@@ -17,10 +17,10 @@ function gettheSize(str){
         if (str =='auto'){
             return 0;
         }
-        if (str.contains('px')){
+        if (str.indexOf('px') != -1){
             return  parseInt(str.substring(0,str.length - 2));
         }
-        if (str.contains('em')){
+        if (str.indexOf('em') != -1){
             return  parseInt(str.substring(0,str.length - 2));
         }
         return partseInt(str);
