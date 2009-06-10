@@ -18,7 +18,7 @@ try{
 }catch(err){
     script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', 'resource.jsf?r=/org/mapfaces/resources/tree/js/moo1.2_1.js');
+    script.setAttribute('src', 'resource.jsf?r=/org/mapfaces/resources/tree/js/moo1.2.js');
     headID.appendChild(script);
     //    document.write('<script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/tree/js/moo1.2.js"></script>');
 }
