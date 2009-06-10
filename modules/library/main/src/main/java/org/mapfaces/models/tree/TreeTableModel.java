@@ -43,7 +43,7 @@ public class TreeTableModel extends DefaultTreeModel {
 
     public TreeNodeModel getChildAt(final int index) {
         final TreeNodeModel node = (TreeNodeModel) getRoot().getChildAt(index);
-        System.out.println("CHILD : return (TreeNodeModel) getRoot().getChildAt(" + index + "); " + node.toString());
+        //System.out.println("CHILD : return (TreeNodeModel) getRoot().getChildAt(" + index + "); " + node.toString());
         return node;
     }
 

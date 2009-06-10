@@ -166,13 +166,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (treecolumn.getStyle() != null) {
             styleUser = treecolumn.getStyle();
         }
-
-//        final int indentStyle;
-//        if (!treepanel.isShowRoot()) {
-//            indentStyle = (node.getDepth() - 1) * 12;
-//        } else {
-//            indentStyle = node.getDepth() * 12;
-//        }
+        
 
         final int width = Integer.valueOf(size);
         writer.startElement("div", component);
@@ -217,8 +211,8 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             // 2: Add non default tree image (minus, plus, elbow, end ...) from tree.png
 
-            //final UIDiv ImgNodeRep = new UIDiv();
-            final HtmlGraphicImage ImgNodeRep = new HtmlGraphicImage();
+            final UIDiv ImgNodeRep = new UIDiv();
+//            final HtmlGraphicImage ImgNodeRep = new HtmlGraphicImage();
 
             if (FolderType) {
                 ImgNodeRep.setId(treepanel.getId() + "_symbol_" + node.getId());
@@ -266,11 +260,11 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                         "'" + treepanelId + "'," +
                         "'" + node.getId() + "'); refreshDnd();");
 
-//                ImgNodeRepLink.getFacets().put("a4jsupport", AjaxSupport);
-//                ImgNodeRepLink.getChildren().add(ImgNodeRep);
-//                children.add(ImgNodeRepLink);
-               // ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
-                children.add(ImgNodeRep);
+                ImgNodeRepLink.getFacets().put("a4jsupport", AjaxSupport);
+                ImgNodeRepLink.getChildren().add(ImgNodeRep);
+                children.add(ImgNodeRepLink);
+//                ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
+//                children.add(ImgNodeRep);
             } else {
                 children.add(ImgNodeRep);
             }
