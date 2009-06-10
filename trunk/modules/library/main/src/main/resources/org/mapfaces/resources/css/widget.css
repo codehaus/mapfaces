@@ -1,3 +1,4 @@
+
 .mfAbstract{
     border: 2px solid blue ; 
     color: red; 
@@ -108,7 +109,7 @@
 }
 
 .mfLayerControl select{
-    font-size: 1em;
+    font-size: 8px;
 }
 .x-tree-hd-text div {
     width: 16px;

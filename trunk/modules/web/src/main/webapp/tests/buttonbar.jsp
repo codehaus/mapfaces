@@ -24,7 +24,7 @@
                     out += "measure: " + measure.toFixed(3) + " " + units;
 
                 } else {
-                    out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
+                    out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
                 }
                 element.innerHTML = out;
             }

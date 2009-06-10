@@ -26,6 +26,10 @@ public class UIDiv extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.Div";
 
+    private String style = "";
+    
+    private String styleClass = "";
+
     public UIDiv() {
         super();
         setRendererType("org.mapfaces.renderkit.html.Div");    // this component has a renderer
@@ -44,8 +48,10 @@ public class UIDiv extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[3];
+        final Object values[] = new Object[4];
         values[0] = super.saveState(context);
+        values[1] = getStyle();
+        values[2] = getStyleClass();
 
         return values;
     }
@@ -57,6 +63,36 @@ public class UIDiv extends UIWidgetBase {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
+        setStyle((String) values[1]);
+        setStyleClass((String) values[2]);
 
+    }
+
+    /**
+     * @return the style
+     */
+    public String getStyle() {
+        return style;
+    }
+
+    /**
+     * @param style the style to set
+     */
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    /**
+     * @return the styleClass
+     */
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     * @param styleClass the styleClass to set
+     */
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
 }
