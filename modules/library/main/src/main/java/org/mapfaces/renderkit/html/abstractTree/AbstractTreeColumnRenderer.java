@@ -29,12 +29,15 @@ import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
+import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
@@ -56,7 +59,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static final Logger LOGGER = Logger.getLogger(AbstractTreeColumnRenderer.class.getName());
     private static final String DEFAULT_SIZE_COLUMN = "250";
     private static final String DEFAULT_HEADER_COLUMN = "Tree";
-    private static final String NODE_IDENT = "/resource.jsf?r=/org/mapfaces/resources/tree/images/default/s.gif";
+    private static final String PIXEL = " floatLeft";
     private static final String NODE_LOADING = "/org/mapfaces/resources/tree/images/default/tree/loading.gif";
     private static final String CLASS_NODE_INDENT = "x-tree-node-indent";
     private static final String CLASS_NODE_LI = "x-tree-node x-tree-lines";
@@ -70,7 +73,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static final String SHOW_MORE_INFORMATION_TITLE = "Show more informations";
     private static final int LINES_SHOW = 1;
     private static final int DEFAULT_FIRST_COLUMN_SIZE = 250;
-
     private String class_symbol = "x-tree-ec-icon x-tree-elbow-end-minus";
     private String class_node_div = "x-tree-node-el x-tree-node-expanded x-tree-col";
     private boolean debug;
@@ -114,7 +116,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 
-        if (!component.isRendered()) return;
+        if (!component.isRendered()) {
+            return;
+        }
 
         assertValid(context, component);
 
@@ -122,21 +126,25 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             debug = (Boolean) component.getAttributes().get("debug");
         }
 
-        if (debug) LOGGER.info("beforeEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("beforeEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
         beforeEncodeBegin(context, component);
 
         //Start encoding
-        if (debug) LOGGER.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
-        final String treepanelId            = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel     = (UITreePanelBase) Utils.findComponent(context, treepanelId);
-        final ResponseWriter writer         = context.getResponseWriter();
-        final UITreeColumnBase treecolumn   = (UITreeColumnBase) component;
-        final UITreeLinesBase treeline      = (UITreeLinesBase) component.getParent();
-        final TreeNodeModel node            = treeline.getNodeInstance();
-        final HttpServletRequest request    = (HttpServletRequest) context.getExternalContext().getRequest();
-        final AjaxUtils ajaxtools           = new AjaxUtils();
+        final String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final ResponseWriter writer = context.getResponseWriter();
+        final UITreeColumnBase treecolumn = (UITreeColumnBase) component;
+        final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        final TreeNodeModel node = treeline.getNodeInstance();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final AjaxUtils ajaxtools = new AjaxUtils();
 
         ajaxtools.addAjaxParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY, "true");
         ajaxtools.addAjaxParameter(AjaxUtils.AJAX_RENDERCHILD_ID_KEY, "true");
@@ -145,9 +153,9 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         ajaxtools.addAjaxParameter("javax.faces.ViewState", "'+viewstate+'");
 
         //Get width of the column
-        final Object prop        = component.getAttributes().get("width");
-        final String size        = (prop != null) ? String.valueOf(prop) : DEFAULT_SIZE_COLUMN;
-        final boolean FolderType = !node.isLeaf() ;
+        final Object prop = component.getAttributes().get("width");
+        final String size = (prop != null) ? String.valueOf(prop) : DEFAULT_SIZE_COLUMN;
+        final boolean FolderType = !node.isLeaf();
 
         if (!treepanel.isLoadAll()) {
             class_symbol = "x-tree-ec-icon x-tree-elbow-end-plus";
@@ -159,17 +167,17 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             styleUser = treecolumn.getStyle();
         }
 
-        final int indentStyle;
-        if (!treepanel.isShowRoot()) {
-            indentStyle = (node.getDepth() - 2) * 12;
-        } else {
-            indentStyle = (node.getDepth() - 1) * 12;
-        }
+//        final int indentStyle;
+//        if (!treepanel.isShowRoot()) {
+//            indentStyle = (node.getDepth() - 1) * 12;
+//        } else {
+//            indentStyle = node.getDepth() * 12;
+//        }
 
-        final int width = Integer.valueOf(size) - indentStyle;
+        final int width = Integer.valueOf(size);
         writer.startElement("div", component);
         writer.writeAttribute("id", "treenode:" + treepanelId + ":" + node.getId(), null);
-        writer.writeAttribute("style", "text-align:left; width:" + width + "px; padding-left :" + indentStyle + "px;" + styleUser, null);
+        writer.writeAttribute("style", "text-align:left; width:" + width + "px;" + styleUser, null);
         String classUser = "";
 
         if (treecolumn.getStyleClass() != null) {
@@ -183,10 +191,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             } else {
                 writer.writeAttribute("class", CLASS_LEAF_DIV + " x-tree-dragable" + classUser, null);
             }
-        }else{
+        } else {
             if (FolderType) {
                 writer.writeAttribute("class", class_node_div + classUser, null);
-//            writer.writeAttribute("onclick", "viewstate = document.getElementById('javax.faces.ViewState').value; display(" + node.getId() + ",'get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);", null);
+            // writer.writeAttribute("onclick", "viewstate = document.getElementById('javax.faces.ViewState').value; display(" + node.getId() + ",'get','" + AJAX_SERVER + "','" + AJAX_PARAMETERS + "', viewstate);", null);
             } else {
                 writer.writeAttribute("class", CLASS_LEAF_DIV + classUser, null);
             }
@@ -195,79 +203,128 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
         if (!((UITreeColumnBase) component).isAlreadyRender()) {
 
-            final HtmlOutputLabel NodeIdent = new HtmlOutputLabel();
-            NodeIdent.setStyleClass(CLASS_NODE_INDENT);
+            //Adding Components to TreeColumn
+            final List<UIComponent> children = component.getChildren();
 
-            final HtmlGraphicImage ImgNodeIdent = new HtmlGraphicImage();
-            ImgNodeIdent.setUrl(NODE_IDENT);
-            ImgNodeIdent.setStyleClass(CLASS_ICON);
+            // 1: Add indent div with default background-image from tree.png
 
-            // Node representation
+            for (int i = 1; i < node.getDepth(); i++) {
+                final UIDiv ImgNodeIdent = new UIDiv();
+                ImgNodeIdent.setStyleClass(CLASS_ICON + PIXEL);
+                children.add(ImgNodeIdent);
+            }
+
+
+            // 2: Add non default tree image (minus, plus, elbow, end ...) from tree.png
+
+            //final UIDiv ImgNodeRep = new UIDiv();
             final HtmlGraphicImage ImgNodeRep = new HtmlGraphicImage();
-            ImgNodeRep.setUrl(NODE_IDENT);
-            ImgNodeRep.setAlt("");
 
             if (FolderType) {
                 ImgNodeRep.setId(treepanel.getId() + "_symbol_" + node.getId());
-                ImgNodeRep.setStyleClass(class_symbol);
+                ImgNodeRep.setStyleClass(class_symbol + PIXEL);
             } else {
                 if (((DefaultMutableTreeNode) node.getParent()).getLastLeaf() == node) {
-                    ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW_END);
+                    ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW_END + PIXEL);
                 } else {
-                    ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW);
+                    ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW + PIXEL);
                 }
             }
 
-            final HtmlGraphicImage ImgNodeIcon = new HtmlGraphicImage();
-            ImgNodeIcon.setUrl(NODE_IDENT);
-            ImgNodeIcon.setAlt("");
+            if (FolderType) {
+                final HtmlOutputLink ImgNodeRepLink = new HtmlOutputLink();
+                
+                final HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();
+                AjaxSupport.setId(treepanel.getId() + "_ajax_" + node.getId());
+                AjaxSupport.setReRender(treeline.getParent().getClientId(context));
+                AjaxSupport.setEvent("onclick");
+                AjaxSupport.setAjaxSingle(true);
+                AjaxSupport.setLimitToList(true);
+                final String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
+                AjaxSupport.setOnsubmit("" +
+                        "if(disp('" + formId + "','" + treepanelId + "','" + node.getId() + "')==false){" +
+                        "   return false;" +
+                        "}" +
+                        "else {" +
+                        "   document.getElementById('" + formId + ":" + treepanel.getId() + "_img_" + node.getId() + "')." +
+                        "       setAttribute('style','background-image:url(" + ResourcePhaseListener.getURL(context, NODE_LOADING, null) + ");');" +
+                        "}");
 
-            //setting a custom image icon if the attached treeItem have an icon specified, otherwise the default treetable icons will be used.
+
+    //                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
+    //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
+    //                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
+    //                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
+
+    //                    "A4J.AJAX.SubmitRequest('','"+formId+"',null,{'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
+    //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
+    //                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
+    //                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
+    //                    formId+".reset(); return false;" +
+
+                AjaxSupport.setOncomplete("expandSymbol('" + formId + "'," +
+                        "'" + treepanelId + "'," +
+                        "'" + node.getId() + "'); refreshDnd();");
+
+//                ImgNodeRepLink.getFacets().put("a4jsupport", AjaxSupport);
+//                ImgNodeRepLink.getChildren().add(ImgNodeRep);
+//                children.add(ImgNodeRepLink);
+               // ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
+                children.add(ImgNodeRep);
+            } else {
+                children.add(ImgNodeRep);
+            }
+
+
+
+            // 3 : Add UIDiv TreeItem icon  (default is folder or leaf from tree.png)
+
+            final UIDiv ImgNodeIcon = new UIDiv();
+
+            //setting a custom image icon if the attached treeItem have an icon specified,
+            //otherwise the default treetable icons will be used.
             String styleImg = "";
             if (node.getUserObject() instanceof TreeItem) {
                 TreeItem ti = (TreeItem) node.getUserObject();
-                if (ti.getIcon() != null && ! ti.getIcon().equals("")) {
-                    styleImg = "background:url('"+ti.getIcon()+"');";
+                if (ti.getIcon() != null && !ti.getIcon().equals("")) {
+                    styleImg = "background-image:url('" + ti.getIcon() + "');";
                 }
             }
-            if (styleImg != null && ! styleImg.equals("")) {
+            if (styleImg != null && !styleImg.equals("")) {
                 ImgNodeIcon.setStyle(styleImg);
             }
-            ImgNodeIcon.setStyleClass(CLASS_NODE_ICON);
+            ImgNodeIcon.setStyleClass(CLASS_NODE_ICON + PIXEL);
             if (FolderType) {
                 ImgNodeIcon.setId(treepanel.getId() + "_img_" + node.getId());
             }
+            
+            children.add(ImgNodeIcon);
 
-            //WRITING NODE NAME
-            final HtmlOutputLink LinkNode = new HtmlOutputLink();
-            LinkNode.setId(treepanel.getId() + "_anchor_" + node.getId());
-            LinkNode.setStyleClass(CLASS_ANCHOR);
-            LinkNode.setStyle("margin-top:2px;");
-            LinkNode.setValue("#");
-            LinkNode.setTabindex("1");
+
+            // 4 : Add HtmlOutputText containing the name of the current treeItem
 
             final Object value = component.getAttributes().get("value");
             final String valueToWrite;
             if (value != null) {
-                if (value instanceof String) {
+                if (value.getClass().toString().contains("java.lang.String")) {
                     ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
-                    Object elValue = ve.getValue(context.getELContext());
-                    if (elValue != null) {
-                        valueToWrite = elValue.toString();
-                    }else {
-                        valueToWrite = "";
-                    }
+                    valueToWrite = ((String) ve.getValue(context.getELContext()));
                 } else {
-                    valueToWrite = value.toString();
+                    valueToWrite = ((String) value);
                 }
             } else {
                 valueToWrite = (node.getText());
             }
-            final HtmlOutputLabel LinkNodeLabel = new HtmlOutputLabel();
             final HtmlOutputText LinkNodeText = new HtmlOutputText();
             LinkNodeText.setValue(valueToWrite);
-            LinkNode.getChildren().add(LinkNodeText);
-            LinkNode.setStyle("position:relative;width:auto;white-space:normal;");
+            LinkNodeText.setId(treepanel.getId() + "_anchor_" + node.getId());
+            LinkNodeText.setStyle("margin-left:3px;");
+
+
+            children.add(LinkNodeText);
+
+
+            // 5 : Add HtmlGraphicImage displaying on click the TreeItem info if it exists
 
             final HtmlGraphicImage ImgTreeNodeInfo = new HtmlGraphicImage();
             UITreeNodeInfoBase treenodeInfoComp = null;
@@ -289,59 +346,19 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             }
 
             ImgTreeNodeInfo.setOnclick("showInfo('" + treepanel.getClientId(context) + "','" + node.getId() + "');");
-            ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO);
+            ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO + PIXEL);
             ImgTreeNodeInfo.setStyle("margin-left:5px;");
-            ImgTreeNodeInfo.setUrl(NODE_IDENT);
+            //ImgTreeNodeInfo.setUrl(NODE_IDENT);
 
-            final HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();
-            AjaxSupport.setId(treepanel.getId() + "_ajax_" + node.getId());
-            AjaxSupport.setReRender(treeline.getParent().getClientId(context));
-            AjaxSupport.setEvent("onclick");
-            AjaxSupport.setAjaxSingle(true);
-            AjaxSupport.setLimitToList(true);
-            final String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
-            AjaxSupport.setOnsubmit("" +
-                    "if(disp('" + formId + "','" + treepanelId + "','" + node.getId() + "')==false){" +
-                    "   return false;" +
-                    "}" +
-                    "else {" +
-                    "   document.getElementById('" + formId + ":" + treepanel.getId() + "_img_" + node.getId() + "')." +
-                    "       setAttribute('style','background-image:url(" + ResourcePhaseListener.getURL(context, NODE_LOADING, null) + ");');" +
-                    "}");
-
-
-//                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
-//                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
-//                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
-//                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
-
-//                    "A4J.AJAX.SubmitRequest('','"+formId+"',null,{'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
-//                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
-//                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
-//                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
-//                    formId+".reset(); return false;" +
-
-            AjaxSupport.setOncomplete("expandSymbol('" + formId + "'," +
-                    "'" + treepanelId + "'," +
-                    "'" + node.getId() + "'); refreshDnd();");
-
-            //Adding Components to TreeColumn
-            final List<UIComponent> children = component.getChildren();
-            if (treepanel.isShowRoot() && node.getDepth() > 2) {
-                children.add(ImgNodeIdent);
-            }
-            children.add(ImgNodeRep);
-            children.add(ImgNodeIcon);
-            children.add(LinkNode);
             if (treenodeinfo) {
                 children.add(component.getChildCount(), ImgTreeNodeInfo);
             }
-            ImgNodeRep.getChildren().add(AjaxSupport);
-            ImgNodeRep.getFacets().put("a4jsupport_" + node.getId(), AjaxSupport);
             ((UITreeColumnBase) component).setAlreadyRender(true);
         }
 
-        if (debug) LOGGER.info("afterEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("afterEncodeBegin : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
         afterEncodeBegin(context, component);
     }
@@ -351,11 +368,13 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        if (debug) LOGGER.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
         final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        final TreeNodeModel node       = treeline.getNodeInstance();
-        final ResponseWriter writer    = context.getResponseWriter();
+        final TreeNodeModel node = treeline.getNodeInstance();
+        final ResponseWriter writer = context.getResponseWriter();
 
         for (final UIComponent tmp : component.getChildren()) {
             Utils.encodeRecursive(context, tmp);
@@ -368,22 +387,28 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
-        final ResponseWriter writer         = context.getResponseWriter();
-        final String treepanelId            = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel     = (UITreePanelBase) Utils.findComponent(context, treepanelId);
-        final UITreeColumnBase treecolumn   = (UITreeColumnBase) component;
-        final UITreeLinesBase treeline      = (UITreeLinesBase) component.getParent();
-        final TreeNodeModel node            = treeline.getNodeInstance();
+        final ResponseWriter writer = context.getResponseWriter();
+        final String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
+        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreeColumnBase treecolumn = (UITreeColumnBase) component;
+        final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        final TreeNodeModel node = treeline.getNodeInstance();
 
-        if (debug) LOGGER.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
         beforeEncodeEnd(context, component);
 
-        if (debug) LOGGER.info("encodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("encodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
         writer.endElement("div");
 
-        if (debug) LOGGER.info("afterEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        if (debug) {
+            LOGGER.info("afterEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
+        }
 
         afterEncodeEnd(context, component);
     }
@@ -397,8 +422,12 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     }
 
     private void assertValid(FacesContext context, UIComponent component) {
-        if (context == null)   throw new NullPointerException("FacesContext should not be null");
-        if (component == null) throw new NullPointerException("component should not be null");
+        if (context == null) {
+            throw new NullPointerException("FacesContext should not be null");
+        }
+        if (component == null) {
+            throw new NullPointerException("component should not be null");
+        }
     }
 
     /**
@@ -406,10 +435,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
-        final HttpServletRequest request   = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String nodeId                = request.getParameter(AjaxUtils.AJAX_NODE_ID_KEY);
-        final UITreeLinesBase treeline     = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
-        final StringBuilder sb              = new StringBuilder("");
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String nodeId = request.getParameter(AjaxUtils.AJAX_NODE_ID_KEY);
+        final UITreeLinesBase treeline = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
+        final StringBuilder sb = new StringBuilder("");
         final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
         response.setContentType("text/xml;charset=UTF-8");
@@ -424,7 +453,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
         try {
             response.getWriter().write(sb.toString());
-            System.out.println("Response : " + sb.toString());
         } catch (IOException iox) {
             iox.printStackTrace();
         } finally {
@@ -441,13 +469,13 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void A4JPostRequest(final FacesContext context, final UIComponent component) {
-        final UITreeLinesBase treeline  = (UITreeLinesBase) component.getParent();
-        final String treepanelId        = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
+        final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
+        final String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
         final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
-        final String formId             = Utils.getWrappedComponentId(context, component, UIForm.class);
-        final TreeNodeModel node        = treeline.getNodeInstance();
+        final String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
+        final TreeNodeModel node = treeline.getNodeInstance();
 
-        for (int i=0,n=node.getChildCount(); i<n; i++) {
+        for (int i = 0, n = node.getChildCount(); i < n; i++) {
             final TreeNodeModel nodeTemp = (TreeNodeModel) node.getChildAt(i);
             final String Line2Modify = treepanelId + "_line_" + nodeTemp.getId();
             final UITreeLinesBase treeline2change = (UITreeLinesBase) Utils.findComponent(context, Line2Modify);

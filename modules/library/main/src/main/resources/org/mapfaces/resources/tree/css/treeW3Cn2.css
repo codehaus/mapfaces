@@ -5,6 +5,9 @@ Author     : kdelfour
 Description:
 This document is valid in accordance with the recommendation CSS version 2.1
 */
+.floatLeft{
+    float:left;
+}
 root {
     display : block;
 }
@@ -2010,6 +2013,7 @@ a.x-grid3-hd-btn:hover {
 .x-tree-node-collapsed .x-tree-node-icon, .x-tree-node-expanded .x-tree-node-icon, .x-tree-node-leaf .x-tree-node-icon{
     background-repeat : no-repeat;    
     background-image:url(resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/tree.png);
+    background-position:0 -199px;
     border : 0 none;
     height : 18px;
     margin : 0;
@@ -2160,7 +2164,6 @@ input.x-tree-node-cb {
     white-space : nowrap;
 }
 .x-tree-node-el {
-    cursor : pointer;
     line-height : 18px;
 }
 .x-tree-node a, .x-dd-drag-ghost a {

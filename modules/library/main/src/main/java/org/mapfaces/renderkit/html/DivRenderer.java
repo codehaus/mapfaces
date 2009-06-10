@@ -47,8 +47,8 @@ public class DivRenderer extends Renderer {
         ResponseWriter writer = context.getResponseWriter();
         writer.startElement("div", component);
         writer.writeAttribute("id", component.getClientId(context), "clientId");
-        writer.writeAttribute("style", component.getAttributes().get("style"), "style");
-        writer.writeAttribute("class", component.getAttributes().get("styleClass"), "styleClass");
+        writer.writeAttribute("style", comp.getStyle(), "style");
+        writer.writeAttribute("class",  comp.getStyleClass(), "styleClass");
         writer.flush();
     }
 

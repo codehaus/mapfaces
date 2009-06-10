@@ -240,6 +240,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 System.out.println("[INFO] encodeChildren : Encode folder !");
             }
 
+            
             writer.startElement("div", treeline);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
@@ -310,11 +311,12 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
             writer.endElement("div");
             writer.endElement("div");
 //            writer.endElement("li");
-
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.write(addLinesEvent(context, component));
-            writer.endElement("script");
+            if (!addLinesEvent(context, component).equals("")) {
+                writer.startElement("script", component);
+                writer.writeAttribute("type", "text/javascript", null);
+                writer.write(addLinesEvent(context, component));
+                writer.endElement("script");
+            }
 
             final int indentStyle;
             if (!treepanel.isShowRoot()) {

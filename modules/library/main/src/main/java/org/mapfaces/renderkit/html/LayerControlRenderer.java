@@ -142,7 +142,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         /* -- Treetable Declaration -- */
         final UITreeTable treeTable = new UITreeTable();
         treeTable.setId(layerControl.getId() + "_TreeTable");
-        treeTable.setTree(TreeModelsUtils.transformTree(tree));
+        treeTable.setValue(TreeModelsUtils.transformTree(tree));
         treeTable.setVarName("treeItem");
         treeTable.setMootools(addMootools);
         treeTable.setMinifyJS(addMinifyJs);
@@ -159,7 +159,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setStyle(styleTreePanel);
         treePanel.setRowId(false);
         treePanel.setEnableDragDrop(activateDnd);
-        treePanel.setShowRoot(true);
+        treePanel.setShowRoot(false);
         treePanel.setLoadAll(displayAllLayers);
         treePanel.setStyleClass(styleClassTreePanel);
         treePanel.setHeader(displayHeader);
