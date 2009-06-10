@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
+import org.mapfaces.component.tree.UITreeTable;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
@@ -215,6 +215,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         final ResponseWriter writer = context.getResponseWriter();
         final String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
         final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreeTable treetable = (treepanel.getParent() instanceof UITreeTable) ? (UITreeTable) treepanel.getParent() : null;
         final TreeTableModel tree = treepanel.getView();
         final TreeNodeModel node = tree.getById(treeline.getNodeInstance().getId());
         final boolean isFolder = !(node.isLeaf());
@@ -240,7 +241,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                 System.out.println("[INFO] encodeChildren : Encode folder !");
             }
 
-            
+
             writer.startElement("div", treeline);
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
@@ -252,7 +253,19 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
                 writer.startElement("div", component);
                 writer.writeAttribute("id", "ul:" + treepanelId + ":" + node.getId(), null);
-                writer.writeAttribute("style", "margin-left: 0;", null);
+
+                if (treetable.isCollapsed()) {
+                    int collapsedDepth = 0;
+                    collapsedDepth = treetable.getCollapseDepth();
+                    if (node.getDepth() > collapsedDepth) {
+                        writer.writeAttribute("style", "margin-left: 0; display: none;", null);
+                    } else {
+                        writer.writeAttribute("style", "margin-left: 0;", null);
+                    }
+                } else {
+                    writer.writeAttribute("style", "margin-left: 0;", null);
+                }
+
                 if (node.getId() > 1) {
                     writer.writeAttribute("class", "collapsible", null);
                 }

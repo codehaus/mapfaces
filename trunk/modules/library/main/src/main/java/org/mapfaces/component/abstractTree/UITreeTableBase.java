@@ -41,6 +41,8 @@ public abstract class UITreeTableBase extends UITreeBase implements StateHolder,
     private int     height;
     private int     width;
     private boolean RenderDefaultTree = true;
+    private boolean collapsed = false;
+    private int collapseDepth;
 
     /* Accessors */
     public int getWidth() {
@@ -106,13 +108,15 @@ public abstract class UITreeTableBase extends UITreeBase implements StateHolder,
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[6];
+        final Object values[] = new Object[8];
         values[0] = super.saveState(context);
         values[1] = nodeCount;
         values[2] = rowId;
         values[3] = RenderDefaultTree;
         values[4] = width;
         values[5] = height;
+        values[6] = collapsed;
+        values[7] = collapseDepth;
         return values;
     }
 
@@ -133,6 +137,8 @@ public abstract class UITreeTableBase extends UITreeBase implements StateHolder,
         RenderDefaultTree = (Boolean) values[3];
         width = (Integer) values[4];
         height = (Integer) values[5];
+        collapsed = (Boolean) values[6];
+        collapseDepth = (Integer) values[7];
     }
 
     /**
@@ -164,4 +170,32 @@ public abstract class UITreeTableBase extends UITreeBase implements StateHolder,
      */
     @Override
     public abstract String getRendererType();
+
+    /**
+     * @return the collapsed
+     */
+    public boolean isCollapsed() {
+        return collapsed;
+    }
+
+    /**
+     * @param collapsed the collapsed to set
+     */
+    public void setCollapsed(boolean collapsed) {
+        this.collapsed = collapsed;
+    }
+
+    /**
+     * @return the collapseDepth
+     */
+    public int getCollapseDepth() {
+        return collapseDepth;
+    }
+
+    /**
+     * @param collapseDepth the collapseDepth to set
+     */
+    public void setCollapseDepth(int collapseDepth) {
+        this.collapseDepth = collapseDepth;
+    }
 }
