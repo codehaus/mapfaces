@@ -5314,6 +5314,28 @@
                 <type>java.lang.String</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <description>
+                Flag indicating if the treetable will be collapsed or not,
+                the depth of collapsed nodes can be specified by collapseDepth attribute.
+                default value is false means the tree is expanded all nodes.
+            </description>
+            <name>collapsed</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>collapseDepth</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The depth that indicates the level of collapsed nodes.
+            </description>
+        </attribute>
     </tag>
   <!-- TreePanel -->
     <tag>

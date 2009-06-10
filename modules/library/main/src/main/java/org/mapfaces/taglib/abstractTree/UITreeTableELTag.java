@@ -42,6 +42,8 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
     private ValueExpression height = null;
     private ValueExpression mootools = null;
     private ValueExpression minifyJS = null;
+    private ValueExpression collapsed = null;
+    private ValueExpression collapseDepth = null;
     
 
     /* Abstracts methods*/
@@ -178,6 +180,8 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
         component.setValueExpression("height", height);
         component.setValueExpression("mootools", mootools);
         component.setValueExpression("minifyJS", minifyJS);
+        component.setValueExpression("collapsed", collapsed);
+        component.setValueExpression("collapseDepth", collapseDepth);
         
     }
 
@@ -193,6 +197,36 @@ public abstract class UITreeTableELTag extends UITreeComponentELTag {
         setHeight(null);
         setMootools(null);
         setMinifyJS(null);
+        setCollapsed(null);
+        setCollapseDepth(null);
+    }
+
+    /**
+     * @return the collapsed
+     */
+    public ValueExpression getCollapsed() {
+        return collapsed;
+    }
+
+    /**
+     * @param collapsed the collapsed to set
+     */
+    public void setCollapsed(ValueExpression collapsed) {
+        this.collapsed = collapsed;
+    }
+
+    /**
+     * @return the collapseDepth
+     */
+    public ValueExpression getCollapseDepth() {
+        return collapseDepth;
+    }
+
+    /**
+     * @param collapseDepth the collapseDepth to set
+     */
+    public void setCollapseDepth(ValueExpression collapseDepth) {
+        this.collapseDepth = collapseDepth;
     }
     
     
