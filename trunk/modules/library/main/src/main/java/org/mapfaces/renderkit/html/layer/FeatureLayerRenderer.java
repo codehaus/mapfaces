@@ -118,7 +118,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
             hidden = layer.isHidden();
             opacity = layer.getOpacity();
         } else {
-            LOGGER.log(Level.WARNING, "[MapContextLayerRenderer] layer is null ");
+            LOGGER.log(Level.WARNING, "layer is null ");
             hidden = false;
             opacity = "1";
         }
@@ -161,7 +161,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
             for (String key : f.getAttributes().keySet()) {
                 objects.add(f.getAttributes().get(key));
             }
-
+            
             SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
             features.add(sf);
             featureId++;
