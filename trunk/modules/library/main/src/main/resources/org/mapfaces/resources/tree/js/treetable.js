@@ -64,11 +64,11 @@ function expandSymbol(formId, panelId, nodeId){
     var lineTreenode = document.getElementById("treenode:"+panelId+":"+nodeId);
             
     if (lineUl.childNodes.length > 0){
-        lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+        lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus floatLeft");
         if (lineTreenode.className.contains("x-tree-droppable")){
-            lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder");
+            lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft");
         }else{
-            lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
+            lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
         }
     }
     return true;
@@ -78,11 +78,11 @@ function collapseSymbol(formId, panelId, nodeId){
     var lineSymbol = document.getElementById(panelId+"_symbol_"+nodeId);
     var lineTreenode = document.getElementById("treenode:"+panelId+":"+nodeId);
     
-    lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+    lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
     if (lineTreenode.className.contains("x-tree-droppable")){
-        lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder");
+        lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft");
     }else {
-        lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col");
+        lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
     }
 
     return true;
@@ -101,12 +101,12 @@ function expAll(panelId){
                 var reg = new RegExp("(ul)","g");
                 var lineTreenode =$(div.id.replace(reg,"treenode"));
                 if  (lineTreenode!=null){
-                    lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
+                    lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
                     var listofchild = lineTreenode.childNodes;
                     for(i=0;i<=listofchild.length-1;i++){
                         var children = listofchild[i];
                         if (children.className.contains("x-tree-elbow-end-plus")){
-                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus floatLeft");
                         }
                     }
                 }
@@ -126,12 +126,12 @@ function expandAll(){
             var reg = new RegExp("(ul)","g");
             var lineTreenode =$(div.id.replace(reg,"treenode"));
             if  (lineTreenode!=null){
-                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col");
+                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
                 var listofchild = lineTreenode.childNodes;
                 for(i=0;i<=listofchild.length-1;i++){
                     var children = listofchild[i];
                     if (children.className.contains("x-tree-elbow-end-plus")){
-                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus");
+                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus floatLeft");
                     }
                 }
             }
@@ -150,12 +150,12 @@ function collAll(panelId){
                 var reg = new RegExp("(ul)","g");
                 var lineTreenode =$(div.id.replace(reg,"treenode"));
                 if  (lineTreenode!=null){
-                    lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col");
+                    lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col floatLeft");
                     var listofchild = lineTreenode.childNodes;
                     for(i=0;i<=listofchild.length-1;i++){
                         var children = listofchild[i];
                         if (children.className.contains("x-tree-elbow-end-minus")){
-                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
                         }
                     }
                 }
@@ -173,12 +173,12 @@ function collapseAll(){
             var reg = new RegExp("(ul)","g");
             var lineTreenode =$(div.id.replace(reg,"treenode"));
             if  (lineTreenode!=null){
-                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col");
+                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
                 var listofchild = lineTreenode.childNodes;
                 for(i=0;i<=listofchild.length-1;i++){
                     var children = listofchild[i];
                     if (children.className.contains("x-tree-elbow-end-minus")){
-                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus");
+                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
                     }
                 }
             }
@@ -194,12 +194,12 @@ function showInfo(panelId,nodeId){
     if (thisDiv.style.display == "none") {
         thisDiv.style.display="block";
         if(thisAnchor)
-            thisAnchor.className = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-minus";
+            thisAnchor.className = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-minus floatLeft";
     }
     else {
         thisDiv.style.display="none";
         if(thisAnchor)
-            thisAnchor.className = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus" ;
+            thisAnchor.className = "x-tree-ec-icon x-tree-node-info-anchor x-tree-node-info-anchor-plus floatLeft" ;
     }
 }
 
