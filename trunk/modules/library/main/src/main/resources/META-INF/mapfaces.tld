@@ -1700,7 +1700,7 @@
         </attribute>
         <attribute>
             <name>id</name>
-            <required>false</required>
+            <required>true</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
                 The component identifier for this component.  This value must be
