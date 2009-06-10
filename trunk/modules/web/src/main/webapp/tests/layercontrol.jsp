@@ -13,38 +13,11 @@
 	</head>
         <body>
             <h:form>
-            <mf:TreeTable id="treetable" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false">
-                <mf:TreePanel id="treepanel"
-               header="false"
-               rowId="false"
-               frame="false"
-               showRoot="false"
-               enableDragDrop="false"
-               styleLeaf="background:#f3fbff;"
-               styleNode="background:#d6e3f2;"
-               loadAll="false"
-               debug="false"
-               >
-                    <mf:TreeColumn  id="tree_column"
-                     headerTitle="Equipment"
-                     value="#{itemExample.name}"
-                     style="width:200px;"
-                     styleHeader="width:200px;">
-                    </mf:TreeColumn>
-                    <mf:Column id="readrightsRoleCheckbox" style="width:50px;overflow-x:auto;" styleHeader="width:50px" headerTitle="R">
-                        <h:selectBooleanCheckbox id="readrightchecboxInput" value="true" />
-                    </mf:Column>
-                    <mf:Column id="writerightsRoleCheckbox" style="width:50px;overflow-x:auto;" styleHeader="width:50px" headerTitle="W">
-                        <h:selectBooleanCheckbox id="writerightchecboxInput" value="true" />
-                    </mf:Column>
-                </mf:TreePanel>
-            </mf:TreeTable>
                 <h:commandButton value="submit" style="position:relative;" />
-                <mf-model:Context  service="data/context/owc030Cut.xml" scriptaculous="false">
+                <mf-model:Context  service="data/context/owc030Cut.xml" >
                         <mf:MapPane></mf:MapPane>
-                        <mf:LayerControl id="treetabl" style="height:300px;" ></mf:LayerControl>
+                        <mf:LayerControl id="lc" style="height:300px;" ></mf:LayerControl>
                 </mf-model:Context>
-               
             </h:form>
 	</body>
     </html>
