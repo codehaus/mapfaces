@@ -11,8 +11,9 @@
         <phase-listener>org.mapfaces.share.listener.ResourcePhaseListener</phase-listener>
         <phase-listener>org.mapfaces.share.listener.ResourceLoaderPhaseListener</phase-listener>
 
-        <!-- activate this listener in the appropriate application if needed-->
-        <!--phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener-->
+        <!-- activate this listener in the appropriate application if needed,
+        only used by TreeTable component when loadAll options is set to false -->
+        <!-- phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener-->
 
         <phase-listener>org.mapfaces.share.listener.DetectBrowserListener</phase-listener>
         <!--phase-listener>org.mapfaces.share.listener.PhaseTracker</phase-listener-->

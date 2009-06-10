@@ -29,8 +29,9 @@ public class UIContext extends UIModelBase {
     public static final String FAMILIY = "org.mapfaces.model.Context";
     public static final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
 
-    private boolean scriptaculous = true;
-    private boolean mootools = true;
+    private boolean scriptaculous = false;
+    private boolean mootools = false;
+    private boolean openlayers = true;
     private boolean minifyJS = true;
     private String service = "";
 
@@ -109,7 +110,15 @@ public class UIContext extends UIModelBase {
     public void setMootools(final boolean mootools) {
         this.mootools = mootools;
     }
+    
+    public boolean isOpenlayers() {
+        return openlayers;
+    }
 
+    public void setOpenlayers(final boolean ol) {
+        this.openlayers = ol;
+    }
+    
     public boolean isMinifyJS() {
         return minifyJS;
     }
