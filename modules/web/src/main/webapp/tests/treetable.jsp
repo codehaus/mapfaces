@@ -1,37 +1,59 @@
+
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-
 <%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
-<%@taglib prefix="mf" uri="http://mapfaces.org/taglib" %>
+<%@taglib prefix="mf" uri="http://mapfaces.org/taglib"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="a4j"uri="https://ajax4jsf.dev.java.net/ajax"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html>
+
+<f:view>
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+
     </head>
+
     <body>
-        <f:view>
-            <h:form>
-                <mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500" debug="true">
-                    <mf:TreePanel header="true" id="panel1" title="My tree" rowId="true" >
-                        
-                        <mf:TreeColumn headerTitle="Tree Items" width="300" value="#{layer.name}" />
-                        
-                        <mf:TreeNodeInfo title="title" >
-                            <h:outputLabel value="TITLE : #{layer.title}"/>
-                            <h:outputLabel value="TYPE : #{layer.type}"/>
-                            <h:outputLabel value="ID : #{layer.id}"/>
-                            <h:outputLabel value="Group ID : #{layer.groupId}"/>
-                        </mf:TreeNodeInfo>
-                        
-                    </mf:TreePanel>
-                    
-                </mf:TreeTable>
-            </h:form>
-        </f:view>
-    </body>
-</html>   
+    <h:form id="main_form">
+
+        <mf:Div id="treetableDiv" style="margin:0pt auto;height:300px;overflow:auto;margin-top:10pt;width:600px;">
+            <mf:TreeTable id="treetable" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false">
+                <mf:TreePanel id="treepanel"
+               header="false"
+               rowId="false"
+               frame="false"
+               showRoot="false"
+               enableDragDrop="false"
+               styleLeaf="background:#f3fbff;"
+               styleNode="background:#d6e3f2;"
+               loadAll="true"
+               debug="false"
+               >
+
+                    <mf:TreeColumn  id="tree_column"
+                     headerTitle="Equipment"
+                     value="#{itemExample.name}"
+                     style="width:200px;"
+                     styleHeader="width:200px;">
+                    </mf:TreeColumn>
+                    <mf:Column id="readrightsRoleCheckbox" style="width:50px;overflow-x:auto;" styleHeader="width:50px" headerTitle="R">
+                        <h:selectBooleanCheckbox id="readrightchecboxInput" value="true" />
+                    </mf:Column>
+                    <mf:Column id="writerightsRoleCheckbox" style="width:50px;overflow-x:auto;" styleHeader="width:50px" headerTitle="W">
+                        <h:selectBooleanCheckbox id="writerightchecboxInput" value="true" />
+                    </mf:Column>
+
+
+                </mf:TreePanel>
+            </mf:TreeTable>
+        </mf:Div>
+
+        <a4j:commandButton reRender="treetableDiv" ajaxSingle="true" value="div"/>
+        <a4j:commandButton reRender="treetable" ajaxSingle="true" value="treetable"/>
+        <a4j:commandButton reRender="treepanel" ajaxSingle="true" value="treepanel"/>
+
+    </h:form>
+    <body>
+</f:view>

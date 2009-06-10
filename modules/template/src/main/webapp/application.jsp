@@ -23,7 +23,7 @@
      <%-- The layer control is englobed with a h:panelGroup tag
         with a styleClass ="mochaPanel1" to fix it in the first top panel in the right column  --%>
     <h:panelGroup id="layerControlBox" layout="block" styleClass="mochaPanel1" style="height: 100%;width:100%;">
-        <mf:LayerControl style="height:100%;opacity:1;position:relative;width:400px;"></mf:LayerControl>
+        <mf:LayerControl style="height:100%;opacity:1;position:relative;width:400px;" ></mf:LayerControl>
     </h:panelGroup>
 
     <%-- Other components can be englobed with a h:panelGroup tag
