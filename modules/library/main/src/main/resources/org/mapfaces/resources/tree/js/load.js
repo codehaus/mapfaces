@@ -13,7 +13,7 @@ var script;
  */
 try{
     if (MooTools != null){
-        //console.log('Mootools already loaded');
+        console.log('Mootools already loaded');
     }
 }catch(err){
     script = document.createElement('script');
@@ -34,7 +34,6 @@ try{
     script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', 'resource.jsf?r=/org/mapfaces/resources/tree/js/utils.js');
-    headID = document.getElementsByTagName("head")[0];
     headID.appendChild(script);
 //    document.write('<script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/tree/js/treeline.js"></script>');
 }
@@ -50,7 +49,6 @@ try{
     script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', 'resource.jsf?r=/org/mapfaces/resources/tree/js/treetable.js');
-    headID = document.getElementsByTagName("head")[0];
     headID.appendChild(script);
     //    document.write('<script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/tree/js/treetable.js"></script>');
 }
@@ -66,7 +64,6 @@ try{
     script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', 'resource.jsf?r=/org/mapfaces/resources/tree/js/treeline.js');
-    headID = document.getElementsByTagName("head")[0];
     headID.appendChild(script);
 //    document.write('<script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/tree/js/treeline.js"></script>');
 }

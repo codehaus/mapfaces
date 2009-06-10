@@ -328,10 +328,10 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssFilesUrl, null), null);
         writer.endElement("link");
 
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Mootools_min, null), null);
-        writer.endElement("script");
+//        writer.startElement("script", component);
+//        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Mootools_min, null), null);
+//        writer.endElement("script");
 
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);

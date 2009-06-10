@@ -124,7 +124,7 @@ function expandAll(){
         dispEffectNone(div);
         if (div.childNodes.length > 0){
             var reg = new RegExp("(ul)","g");
-            var lineTreenode =$(div.id.replace(reg,"treenode"));
+            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
             if  (lineTreenode!=null){
                 lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
                 var listofchild = lineTreenode.childNodes;
@@ -171,7 +171,7 @@ function collapseAll(){
         div.style.opacity="0";
         if (div.childNodes.length > 0){
             var reg = new RegExp("(ul)","g");
-            var lineTreenode =$(div.id.replace(reg,"treenode"));
+            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
             if  (lineTreenode!=null){
                 lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
                 var listofchild = lineTreenode.childNodes;

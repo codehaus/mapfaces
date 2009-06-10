@@ -63,8 +63,8 @@ public class ContextRenderer extends Renderer {
 
     private static final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
     private static final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
-    private static final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayersLite.js";
-    private static final String MOOTOOLS_JS = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
+    private static final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/compressed/openlayers.min.js";
+    private static final String MOOTOOLS_JS = "/org/mapfaces/resources/compressed/mootools.min.js";
     private static final String PROTOTYPE_JS = "/org/mapfaces/resources/scriptaculous/lib/prototype.js";
     private static final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
     private static final String SCRIPTACULOUS_MINIFY_JS = "/org/mapfaces/resources/scriptaculous/src/scriptaculous.js";
@@ -106,6 +106,7 @@ public class ContextRenderer extends Renderer {
             writer.endElement("link");
         }
 
+/*@TODO remove all Mootools reference from MapFaces */
         if (comp.isMootools() && resourcesFlag) {
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
@@ -114,33 +115,34 @@ public class ContextRenderer extends Renderer {
         }
 
         final boolean isMinifyJS = comp.isMinifyJS();
-                   
-        if (comp.isScriptaculous() && resourcesFlag) {
 
-            //Add Prototype script
-            writer.startElement("script", component);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.endElement("script");
+/* Scriptaculous never be used anymore */
+//        if (comp.isScriptaculous() && resourcesFlag) {
+//
+//            //Add Prototype script
+//            writer.startElement("script", component);
+//            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
+//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.endElement("script");
+//
+//            //Add Scriptaculous scripts
+//            if (isMinifyJS) {
+//                writer.startElement("script", component);
+//                writer.writeAttribute("type", "text/javascript", null);
+//                writer.write("window.SCRIPTACULOUS_SINGLE_FILE = true;");
+//                writer.endElement("script");
+//            }
+//            writer.startElement("script", component);
+//            if (isMinifyJS) {
+//                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_MINIFY_JS, null), null);
+//            } else {
+//                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
+//            }
+//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.endElement("script");
+//        }
 
-            //Add Scriptaculous scripts
-            if (isMinifyJS) {
-                writer.startElement("script", component);
-                writer.writeAttribute("type", "text/javascript", null);
-                writer.write("window.SCRIPTACULOUS_SINGLE_FILE = true;");
-                writer.endElement("script");
-            }
-            writer.startElement("script", component);
-            if (isMinifyJS) {
-                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_MINIFY_JS, null), null);
-            } else {
-                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
-            }
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.endElement("script");
-        }
-
-        //Add OpenLayers scripts
+//Add OpenLayers scripts
 //        if (isMinifyJS && resourcesFlag) {
 //            writer.startElement("script", component);
 //            writer.writeAttribute("type", "text/javascript", null);
@@ -148,7 +150,7 @@ public class ContextRenderer extends Renderer {
 //            writer.endElement("script");
 //        }
 
-        if (resourcesFlag) {
+        if (comp.isOpenlayers() && resourcesFlag) {
             writer.startElement("script", component);
             if (isMinifyJS) {
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
