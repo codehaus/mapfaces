@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.faces.component.UIForm;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputLink;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.ajax4jsf.ajax.html.HtmlAjaxOutputPanel;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.UIDiv;
@@ -211,7 +213,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             // 2: Add non default tree image (minus, plus, elbow, end ...) from tree.png
 
-            final UIDiv ImgNodeRep = new UIDiv();
+            HtmlAjaxOutputPanel ImgNodeRep = new HtmlAjaxOutputPanel();
 //            final HtmlGraphicImage ImgNodeRep = new HtmlGraphicImage();
 
             if (FolderType) {
@@ -226,7 +228,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             }
 
             if (FolderType) {
-                final HtmlOutputLink ImgNodeRepLink = new HtmlOutputLink();
+                HtmlCommandLink ImgNodeRepLink = new HtmlCommandLink();
                 
                 final HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();
                 AjaxSupport.setId(treepanel.getId() + "_ajax_" + node.getId());
