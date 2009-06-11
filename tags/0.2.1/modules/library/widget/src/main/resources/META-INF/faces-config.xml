@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+
+    <!-- Autocompletion -->
+    <component>
+        <component-type>org.mapfaces.Autocompletion</component-type>
+        <component-class>org.widgetfaces.component.autocompletion.UIAutocompletion</component-class>
+    </component>
+    <!-- Datepicker -->
+    <component>
+        <component-type>org.mapfaces.Datepicker</component-type>
+        <component-class>org.widgetfaces.component.datepicker.UIDatepicker</component-class>
+    </component>
+
+    <render-kit>
+        <!-- Autocompletion -->
+        <renderer>
+            <component-family>org.mapfaces.Autocompletion</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLAutocompletion</renderer-type>
+            <renderer-class>org.widgetfaces.renderkit.html.autocompletion.AutocompletionRenderer</renderer-class>
+        </renderer>
+        <!-- Datepicker -->
+        <renderer>
+            <component-family>org.mapfaces.Datepicker</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLDatepicker</renderer-type>
+            <renderer-class>org.widgetfaces.renderkit.html.datepicker.DatepickerRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    
+</faces-config>

@@ -1,0 +1,23 @@
+.footerMap {
+    position: absolute;
+    bottom: 0px;
+    width:100%;
+    height:65px;
+}
+
+.toolbox div {
+	cursor: pointer;
+	margin-right: 6px;
+	padding: 0;
+	float: left;
+    width : 16px;
+    height : 16px;
+    background-image:url(../img/icons/icons.gif);
+    background-repeat: no-repeat;
+}
+.cog { background-position: 0 -1px; }
+.page { background-position: 0 -18px; }
+.page_green { background-position: 0 -35px; }
+.page_red { background-position: 0 -52px; }
+.sheet { background-position: 0 -69px; }
+.windows { background-position: 0 -86px; }

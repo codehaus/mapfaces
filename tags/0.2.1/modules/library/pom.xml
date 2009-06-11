@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <project xmlns="http://maven.apache.org/POM/4.0.0" 
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		   
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces-modules</artifactId>
+    <version>0.2.1</version>
+  </parent>
+  
+
+  <!-- =========================================================== -->
+  <!--     Module Description                                      -->
+  <!-- =========================================================== -->
+  <groupId>org.mapfaces</groupId>
+  <artifactId>mapfaces-library</artifactId>
+  <packaging>pom</packaging>
+  <name>MapFaces libraries</name>
+  
+  <scm>
+    <connection>
+      scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/library/
+    </connection>
+    <url>http://svn.codehaus.org/mapfaces/trunk/modules/library/</url>
+  </scm>
+  
+  <description>
+    MapFaces core modules.
+  </description>
+
+
+ 
+  <!-- =========================================================== -->
+  <!--     Modules included in the build                           -->
+  <!-- =========================================================== -->
+  <modules>
+    <module>main</module>
+    <module>widget</module>    
+    <module>chart</module>
+    <module>comet</module>
+  </modules>
+
+
+</project>
