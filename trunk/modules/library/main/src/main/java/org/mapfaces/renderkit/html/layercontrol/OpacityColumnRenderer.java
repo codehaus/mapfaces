@@ -21,7 +21,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UIColumnBase;
-import org.mapfaces.component.treelayout.UITreeLines;
+import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 

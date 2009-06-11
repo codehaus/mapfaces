@@ -40,6 +40,7 @@ import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
+import org.mapfaces.component.abstractTree.UITreeTableBase;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
@@ -137,6 +138,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
         final String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
         final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreeTableBase treetable = (UITreeTableBase) treepanel.getParent();
         final ResponseWriter writer = context.getResponseWriter();
         final UITreeColumnBase treecolumn = (UITreeColumnBase) component;
         final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
@@ -155,10 +157,11 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         final String size = (prop != null) ? String.valueOf(prop) : DEFAULT_SIZE_COLUMN;
         final boolean FolderType = !node.isLeaf();
 
-        if (!treepanel.isLoadAll()) {
+        if (!treepanel.isLoadAll() || (treetable != null && treetable.isCollapsed())) {
             class_symbol = "x-tree-ec-icon x-tree-elbow-end-plus";
             class_node_div = "x-tree-node-el x-tree-node-collapsed x-tree-col";
         }
+
 
         String styleUser = "";
         if (treecolumn.getStyle() != null) {

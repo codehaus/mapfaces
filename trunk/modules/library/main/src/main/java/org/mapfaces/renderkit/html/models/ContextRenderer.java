@@ -62,6 +62,7 @@ import org.mapfaces.util.XMLContextUtilities;
 public class ContextRenderer extends Renderer {
 
     private static final String WIDGET_CSS = "/org/mapfaces/resources/css/widget.css";
+    private static final String MAPFACES_CSS = "/org/mapfaces/resources/compressed/mapfaces.css";
     private static final String OPENLAYERS_JS = "/org/mapfaces/resources/openlayers/custom/OpenLayers.js";
     private static final String OPENLAYERS_MINIFY_JS = "/org/mapfaces/resources/compressed/openlayers.min.js";
     private static final String MOOTOOLS_JS = "/org/mapfaces/resources/compressed/mootools.min.js";
@@ -101,7 +102,10 @@ public class ContextRenderer extends Renderer {
         if (resourcesFlag) {
             writer.startElement("link", component);
             writer.writeAttribute("rel", "stylesheet", "rel");
-            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
+            if(comp.isMinifyJS())
+                writer.writeAttribute("href", ResourcePhaseListener.getURL(context, MAPFACES_CSS, null), null);
+            else
+                writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");
         }

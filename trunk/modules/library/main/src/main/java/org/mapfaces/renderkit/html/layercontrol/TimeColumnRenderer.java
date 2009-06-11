@@ -27,7 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UITimeColumn;
-import org.mapfaces.component.treelayout.UITreeLines;
+import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
