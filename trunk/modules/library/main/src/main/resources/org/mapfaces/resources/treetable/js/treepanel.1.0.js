@@ -106,6 +106,32 @@ function collapseAll(panelId){
 }
 
 /**
+ * 
+ */
+function collapseAll(){
+    $$('.collapsible').each(function(div) {
+        div.style.display="none";
+        div.style.opacity="0";
+        if (div.childNodes.length > 0){
+            var reg = new RegExp("(ul)","g");
+            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
+            if  (lineTreenode!=null){
+                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
+                var listofchild = lineTreenode.childNodes;
+                for(i=0;i<=listofchild.length-1;i++){
+                    var children = listofchild[i];
+                    if (children.className.indexOf("x-tree-elbow-end-minus") != -1){
+                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
+                    }
+                }
+            }
+        }
+
+    });
+    return false;
+}
+
+/**
  * Functions for checkbox
  */
 function checkall(){
