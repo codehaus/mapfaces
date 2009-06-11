@@ -79,5 +79,31 @@ OpenLayers.Control.SelectionZoomBox = OpenLayers.Class(OpenLayers.Control, {
         }*/
     },
 
+    /**
+     * Method: updateZoomBox
+     *
+     * Parameters:
+     * position - {<OpenLayers.Bounds>}
+     */
+     updateZoomBox: function (position) {
+        if (position instanceof OpenLayers.Bounds) {
+
+            if(this.searchFormBox){
+                 this.map.removeLayer(this.searchFormBox);
+                 this.searchFormBox=null;
+            }
+
+            this.searchFormBox  = new OpenLayers.Layer.Boxes("Selection bounding box");
+            var tmpBox=new OpenLayers.Marker.Box(position);
+             tmpBox.setBorder(this.color);
+             this.searchFormBox.addMarker(tmpBox);
+             this.map.addLayer(this.searchFormBox);
+             if(document.getElementById(this.focusId)) {
+              document.getElementById(this.focusId).focus();
+             }
+
+        }
+    },
+
     CLASS_NAME: "OpenLayers.Control.SelectionZoomBox"
 });
