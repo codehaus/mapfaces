@@ -14,15 +14,16 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html;
 
 import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -35,8 +36,10 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.apache.commons.lang.StringUtils;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
+import org.geotoolkit.internal.StringUtilities;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureCollections;
 import org.geotools.feature.simple.SimpleFeatureImpl;
@@ -94,21 +97,17 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         if (responseWriter == null) {
             responseWriter = FacesUtils.getResponseWriter2(context);
         }
-        
+
         final String rerender = comp.getReRender();
-        if (rerender != null && ! rerender.equals("")) {
-            
-            HtmlAjaxSupport a4jSupport = FacesUtils.createBasicAjaxSupport(context, comp, "", rerender);
-            boolean containsA4jSupport = false;
-            for(UIComponent child : comp.getChildren()) {
-                if (child instanceof HtmlAjaxSupport) {
-                    containsA4jSupport = true;
-                    a4jSupport = (HtmlAjaxSupport) child;
-                    break;
-                }
-            }
-            if (! containsA4jSupport) {
-                comp.getChildren().add(a4jSupport);
+        if (rerender != null && !rerender.equals("")) {
+
+
+            HtmlAjaxSupport a4jSupport = null;
+            if (comp.getFacets().containsKey("a4jsupport")) {
+                a4jSupport = (HtmlAjaxSupport) comp.getFacets().get("a4jsupport");
+            } else {
+                a4jSupport = FacesUtils.createBasicAjaxSupport(context, comp, "", rerender);
+                comp.getFacets().put("a4jsupport", a4jSupport);
             }
             String formId = FacesUtils.getFormId(context, component);
             if (formId == null && clientId.contains(":")) {
@@ -122,11 +121,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     targetregion = clientIdAjaxRegion;
                 }
                 responseWriter.write("<script>\n" +
-                        "A4J.AJAX.Submit('"+targetregion+"','"+formId+"',null,{'parameters':{'"+formId+":"+a4jSupport.getId()+"':'"+formId+":"+a4jSupport.getId()+"'} ,'actionUrl':window.location.href} );\n" +
+                        "A4J.AJAX.Submit('" + targetregion + "','" + formId + "',null,{'parameters':{'" + formId + ":" + a4jSupport.getId() + "':'" + formId + ":" + a4jSupport.getId() + "'} ,'actionUrl':window.location.href} );\n" +
                         "</script>");
             }
         }
-        
+
         responseWriter.endElement("div");
         responseWriter.flush();
         comp.setInvokeActions(false);
@@ -161,7 +160,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         final UIPopup popup = (UIPopup) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getTargetPopupId());
         final int popupWidth;
         final int popupHeight;
-        
+
         if (popup != null) {
             popupWidth = popup.getWidth();
             popupHeight = popup.getHeight();
@@ -176,9 +175,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             String X = "170";
             String Y = "160";
 
-            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo") 
-//                    && params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context))) 
-            ){
+            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo") //                    && params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context)))
+                    ) {
                 if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y") != null) {
                     Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
 
@@ -217,93 +215,45 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
 
                 final int nbWmsLayers = Utils.getWMSLayersCount(model.getVisibleLayers());
-                final List<WmsLayer> layersWMS          = new ArrayList<WmsLayer>();
-                final List<Feature> featureInfoList     = new ArrayList<Feature>();
-                final List<String> featureInfoValues    = new ArrayList<String>();
-                final List<String> requestUrlList       = new ArrayList<String>();
+                //QUERY_LAYERS attribute for each server
+                HashMap<String, List<WmsLayer>> wmsServers = new HashMap<String, List<WmsLayer>>();
+                final List<Feature> featureInfoList = new ArrayList<Feature>();
+                final List<String> featureInfoValues = new ArrayList<String>();
+                //List of request url to send. Result of this request will be display in UIPopup
+                final List<String> requestUrlList = new ArrayList<String>();
                 final int countFeature = comp.getFeatureCount();
                 final String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
-                final String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
+                final String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "1000";
 
-                String layersNameString = "";
                 int loop = 0;
                 boolean FeatureLayerExist = false;
 
-                for (Layer queryLayer : model.getVisibleLayers()) {
+                List<Layer> queryableAndVisibleLayers = model.getQueryableAndVisibleLayers();
+                //System.out.println("nombre de lauers visible et queryable : " + queryableAndVisibleLayers.size());
+                for (Layer queryLayer : queryableAndVisibleLayers) {
                     if (queryLayer != null && queryLayer.getType() != null) {
                         switch (queryLayer.getType()) {
                             case DEFAULT:
                                 break;
                             case WMS:
+
                                 boolean skipLayer = false;
-                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(queryLayer.getName()) || ! queryLayer.isQueryable()) {
+                                //If user has specified a list of wms layer to request
+                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(queryLayer.getName())) {
                                     skipLayer = true;
                                 }
-                                if (!layersWMS.contains(queryLayer) && !skipLayer && !comp.isFeatureLayerOnly()) {
-                                    loop++;
-                                    layersWMS.add((WmsLayer) queryLayer);
-                                    layersNameString += queryLayer.getName();
-                                    if (loop != nbWmsLayers) {
-                                        layersNameString += ",";
-                                    }
+
+                                if (!comp.isFeatureLayerOnly() && !skipLayer) {
+                                    //Range Layer by Server
                                     WmsLayer wmsLayer = (WmsLayer) queryLayer;
-
-                                    String elevationValue = "";
-                                    if (wmsLayer.getElevation() != null) {
-                                        elevationValue = wmsLayer.getElevation().getUserValue();
+                                    if (wmsServers.containsKey(wmsLayer.getServer().getHref())) {
+                                        wmsServers.get(wmsLayer.getServer().getHref()).add(wmsLayer);
+                                    } else {
+                                        List<WmsLayer> list = new ArrayList<WmsLayer>();
+                                        list.add(wmsLayer);
+                                        wmsServers.put(wmsLayer.getServer().getHref(), list);
                                     }
-                                    String timeValue = "";
-                                    if (wmsLayer.getTime() != null) {
-                                        timeValue = wmsLayer.getTime().getUserValue();
-                                    }
-
-                                    //building the getfeatureInfo request
-                                    StringBuilder featureInfoRequest = new StringBuilder();
-                                    featureInfoRequest.append(wmsLayer.getServer().getHref()).
-                                            append("?BBOX=").append(model.getBoundingBox()).
-                                            append("&STYLES=").
-                                            append("&FORMAT=").append(wmsLayer.getOutputFormat()).
-                                            append("&INFO_FORMAT=").append("text/plain"). //force the info_format to text/plain to store in the list featureInfoValues
-                                            append("&VERSION=").append(wmsLayer.getServer().getVersion()).
-                                            append("&SRS=").append(model.getSrs().toUpperCase()).
-                                            append("&REQUEST=GetFeatureInfo").
-                                            append("&LAYERS=").append(wmsLayer.getName()).
-                                            append("&QUERY_LAYERS=").append(wmsLayer.getName()).
-                                            append("&WIDTH=").append(model.getWindowWidth()).
-                                            append("&HEIGHT=").append(model.getWindowHeight()).
-                                            append("&X=").append(X).
-                                            append("&Y=").append(Y).
-                                            append("&SERVICE=WMS").
-                                            append("&FEATURE_COUNT=").append(featureCount);
-
-                                    if (elevationValue != null && !elevationValue.equals("")) {
-                                        featureInfoRequest.append("&ELEVATION=").append(elevationValue);
-                                    }
-                                    if (timeValue != null && !timeValue.equals("")) {
-                                        featureInfoRequest.append("&TIME=").append(timeValue);
-                                    }
-
-                                    String urlRequestInfo = featureInfoRequest.toString();
-                                    if (!requestUrlList.contains(urlRequestInfo)) {
-                                        requestUrlList.add(urlRequestInfo);
-                                    }
-
-                                    try {
-                                        String response = (String) FacesUtils.sendRequest(urlRequestInfo, null, null, null);
-                                        if (response != null) {
-                                            final String responseClean = response.replace("\n", " ");
-                                            if (!featureInfoValues.contains(wmsLayer.getName() + " : " + responseClean)) {
-                                                featureInfoValues.add(wmsLayer.getName() + " : " + responseClean);
-                                            }
-                                        }
-                                    } catch (MalformedURLException ex) {
-                                        LOGGER.log(Level.SEVERE, null, ex);
-                                    } catch (IOException ex) {
-                                        LOGGER.log(Level.SEVERE, null, ex);
-                                    }
-
                                 }
-
                                 break;
                             case WFS:
                                 break;
@@ -400,6 +350,76 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         }
                     }
                 }
+                //Probably use only for getfeatureinfo
+                if (wmsServers.size() > 0) {
+                    //building the getfeatureInfo request for each wms server
+                    Iterator<String> it = wmsServers.keySet().iterator();
+                    while (it.hasNext()) {
+                        String href = it.next();
+                        StringBuilder featureInfoRequest = new StringBuilder();
+                        featureInfoRequest.append(href);
+                        featureInfoRequest.append(((featureInfoRequest.toString().contains("?")) ? "&" : "?")).
+                                append("BBOX=").append(model.getBoundingBox()).
+                                append("&STYLES=").
+                                append("&FORMAT=").append("image/gif").
+                                append("&INFO_FORMAT=").append(comp.getOutputFormat()). //info_format is specified on the tag of the component default to text/plain, other cass hasn't be tested
+                                append("&VERSION=1.1.1").
+                                append("&SRS=").append(model.getSrs().toUpperCase()).
+                                append("&REQUEST=GetFeatureInfo").
+                                append("&WIDTH=").append(model.getWindowWidth()).
+                                append("&HEIGHT=").append(model.getWindowHeight()).
+                                append("&X=").append(X).
+                                append("&Y=").append(Y).
+                                append("&SERVICE=WMS").
+                                append("&FEATURE_COUNT=").append(featureCount);
+                        List<WmsLayer> list = wmsServers.get(href);
+                        boolean requestHasElevationParam = false;
+                        boolean requestHasTimeParam = false;
+                        String layers = "";
+                        for (WmsLayer wmsLayer : list) {
+
+                            //All Multidimensionnal Layers of a Context have the same Elevation and Time value
+                            String elevationValue = "";
+                            if (wmsLayer.getElevation() != null) {
+                                elevationValue = wmsLayer.getElevation().getUserValue();
+                                if (elevationValue != null && !elevationValue.equals("") && !requestHasElevationParam) {
+                                    requestHasElevationParam = true;
+                                    featureInfoRequest.append("&ELEVATION=").append(elevationValue);
+                                }
+                            }
+                            String timeValue = "";
+                            if (wmsLayer.getTime() != null) {
+                                timeValue = wmsLayer.getTime().getUserValue();
+                                if (timeValue != null && !timeValue.equals("") && !requestHasTimeParam) {
+                                    featureInfoRequest.append("&TIME=").append(timeValue);
+                                }
+                            }
+                            layers += wmsLayer.getName() + ",";
+                        }
+                        String escapedString = null;
+                        escapedString = layers.substring(0, layers.length() - 1);
+                        featureInfoRequest.append("&LAYERS=").append(escapedString).append("&QUERY_LAYERS=").append(escapedString);
+                        requestUrlList.add(featureInfoRequest.toString());
+
+                    }
+                }
+
+                //If the popup isn't in Iframe mode or if popup is null, load results of all getfeatureInfo requests in featureInfoValues List
+                if (popup == null || !popup.isIframe()) {
+                    for (String request : requestUrlList) {
+                        try {
+                            String response = (String) FacesUtils.sendRequest(request, null, null, null);
+                            if (response != null) {
+                                //final String responseClean = response.replace("\n", " ");
+                                featureInfoValues.add(response);
+                            }
+                        } catch (MalformedURLException ex) {
+                            LOGGER.log(Level.SEVERE, "The GetFeatureInfo request is malformed : " + request, ex);
+                        } catch (IOException ex) {
+                            LOGGER.log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
 
                 //setting the value expression for dataResult if not null
                 ValueExpression ve = comp.getValueExpression("dataResult");
@@ -425,6 +445,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
                 comp.setRequestUrlList(requestUrlList);
 
+
+
                 //allow the visibility True of the popup for the featureInfoValues list and featureInfoList
                 if (popup != null) {
                     if (featureInfoValues.size() != 0 || featureInfoList.size() != 0) {
@@ -436,41 +458,42 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                 //invoke methodBinding on action and actionListener if not null.
                 if (comp.getActionExpression() != null) {
-                      comp.getActionExpression().invoke(context.getELContext(), null);
+                    comp.getActionExpression().invoke(context.getELContext(), null);
                 }
                 for (ActionListener al : comp.getActionListeners()) {
-                      al.processAction(new ActionEvent(component));
+                    al.processAction(new ActionEvent(component));
                 }
                 component.queueEvent(new ActionEvent(comp));
                 comp.setInvokeActions(true);
-                
+
 
                 final int innerWidth = popupWidth - 73;
                 final int innerHeight = popupHeight - 75;
 
-                if (popup != null && popup.isIframe() && !comp.isFeatureLayerOnly()) {
+                if (popup != null && !comp.isFeatureLayerOnly()) {
 
-                    StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;overflow-x:auto;overflow-y:auto;'>");
+                    StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).
+                            append("px;height:").append(innerHeight).
+                            append("px;overflow-x:auto;overflow-y:auto;font-size:11px;font-family:Arial;'>");
 
-                    //@TODO factorization of servers wms, one request by server and the QUERY_LAYERS parameter must contains all layers name : layersNameString.
-                    for (WmsLayer queryLayer : layersWMS) {
-                        innerHtml.append("<iframe style='width:").append(innerWidth).append("px;height:").append(innerHeight).append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
-                                append(queryLayer.getServer().getHref()).
-                                append("?BBOX=").append(model.getBoundingBox()).
-                                append("&STYLES=").
-                                append("&FORMAT=").append(queryLayer.getOutputFormat()).
-                                append("&INFO_FORMAT=").append(outputFormat).
-                                append("&VERSION=").append(queryLayer.getServer().getVersion()).
-                                append("&SRS=").append(model.getSrs().toUpperCase()).
-                                append("&REQUEST=GetFeatureInfo").
-                                append("&LAYERS=").append(queryLayer.getName()).
-                                append("&QUERY_LAYERS=").append(queryLayer.getName()).
-                                append("&WIDTH=").append(model.getWindowWidth()).
-                                append("&HEIGHT=").append(model.getWindowHeight()).
-                                append("&X=").append(X).
-                                append("&Y=").append(Y).
-                                append("&FEATURE_COUNT=").append(featureCount).
-                                append("'></iframe><br/>");
+                    if (popup.isIframe()) {
+                        for (String request : requestUrlList) {
+                            innerHtml.append("<iframe style='width:").append(innerWidth).
+                                    append("px;height:").
+                                    append(innerHeight).
+                                    append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
+                                    append(request).append("'></iframe><br/>");
+                        }
+                    } else {
+                        for (String result : featureInfoValues) {
+                            if (result != null) {
+                                innerHtml.append("<pre>");
+                                innerHtml.append(result);
+                                innerHtml.append("</pre>");
+                            } else {
+                                innerHtml.append("<div>No data found</div>");
+                            }
+                        }
                     }
                     innerHtml.append("</div>");
                     popup.setInnerHTML(innerHtml.toString());
@@ -498,24 +521,24 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         windowPixel = ((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL")).split(",");
                     }
 
-                    innerHTML.append("<iframe style='display:none' id='popup' name='popup' src='")
-                             .append(serverHref.substring(0, serverHref.lastIndexOf("/")))
-                             .append("/wcs?BBOX=")
-                             .append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI"));
+                    innerHTML.append("<iframe style='display:none' id='popup' name='popup' src='").
+                            append(serverHref.substring(0, serverHref.lastIndexOf("/"))).
+                            append("/wcs?BBOX=").
+                            append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI"));
 
                     if (queryLayer.getElevation() != null) {
                         String elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
                         innerHTML.append(',').append(elevation);
                     }
 
-                    innerHTML.append("&STYLES=")
-                             .append("&FORMAT=").append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT"))
-                             .append("&VERSION=1.0.0")
-                             .append("&CRS=").append(model.getSrs())
-                             .append("&REQUEST=GetCoverage'")
-                             .append("&COVERAGE=").append(queryLayer.getName())
-                             .append("&WIDTH=").append(windowPixel[0])
-                             .append("&HEIGHT=").append(windowPixel[1]);
+                    innerHTML.append("&STYLES=").append("&FORMAT=").
+                            append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT")).
+                            append("&VERSION=1.0.0").
+                            append("&CRS=").append(model.getSrs()).
+                            append("&REQUEST=GetCoverage'").
+                            append("&COVERAGE=").append(queryLayer.getName()).
+                            append("&WIDTH=").append(windowPixel[0]).
+                            append("&HEIGHT=").append(windowPixel[1]);
 
                     if (queryLayer.getTime() != null) {
                         String time = time = queryLayer.getTime().getUserValue();

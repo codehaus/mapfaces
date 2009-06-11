@@ -24,7 +24,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.mapfaces.component.abstractTree.UIColumnBase;
-import org.mapfaces.component.treelayout.UITreeLines;
+import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.tree.TreeItem;

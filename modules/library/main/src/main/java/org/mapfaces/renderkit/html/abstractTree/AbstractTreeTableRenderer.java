@@ -30,14 +30,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.component.abstractTree.UITreeBase;
-import org.mapfaces.models.tree.TreeNodeModel;
-import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.component.abstractTree.UITreeTableBase;
+import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
@@ -46,7 +46,7 @@ import org.mapfaces.util.tree.TreeStyle;
 public abstract class AbstractTreeTableRenderer extends Renderer implements CustomizeTreeComponentRenderer {
 
     /* Script Js and Css Style link */
-    private static final String Loading_Mootools_min     = "/org/mapfaces/resources/js/mootools-1.2-loading.js";
+    private static final String Loading_Mootools_min     = "/org/mapfaces/resources/compressed/mootools.min.js";
     private static final String Loading_Tree_min         = "/org/mapfaces/resources/compressed/tree.min.js";
     
     /* Local fields */
@@ -322,17 +322,23 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " decode : " + AbstractTreeTableRenderer.class.getName());
 
-        writer.startElement("link", component);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssFilesUrl, null), null);
-        writer.endElement("link");
+        //@TODO Maybe thereis a better to not load css 
+        UIContext temp = FacesUtils.getParentUIContext(context, comp);
+        if ( temp != null && !temp.isMinifyJS()) {
+            writer.startElement("link", component);
+            writer.writeAttribute("type", "text/css", null);
+            writer.writeAttribute("rel", "stylesheet", null);
+            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssFilesUrl, null), null);
+            writer.endElement("link");
+        }
 
-//        writer.startElement("script", component);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Mootools_min, null), null);
-//        writer.endElement("script");
-
+        if ( temp != null && !temp.isMootools()) {
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Mootools_min, null), null);
+            writer.endElement("script");
+        }
+        
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Tree_min, null), null);

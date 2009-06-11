@@ -202,15 +202,16 @@
       </dependency>
 
       <!-- JSF -->
+<!-- we should be in 1.2_12 but between 1.2_10 and 1.2_11 the ResourcePhaseListener (omit .jsf extension) doesn't load resources as it should-->  
       <dependency>
 	<groupId>javax.faces</groupId>
 	<artifactId>jsf-api</artifactId>
-	<version>1.2_12</version>
+	<version>1.2_08</version>
       </dependency>
       <dependency>
 	<groupId>javax.faces</groupId>
 	<artifactId>jsf-impl</artifactId>
-	<version>1.2_12</version>
+	<version>1.2_08</version>
       </dependency>
 
       <!-- JSP, Servlet ,JSTL -->
