@@ -295,10 +295,10 @@ public class FacesUtils {
      */
     public static UIContext getParentUIContext(FacesContext context, UIComponent comp) {
         UIComponent parent = comp;
-        while (!(parent instanceof UIContext)) {
+        while (parent != null && !(parent instanceof UIContext)) {
             parent = parent.getParent();
         }
-        return (UIContext) parent;
+        return ((parent == null) ? null : (UIContext) parent);
     }
 
     public static PrintWriter getResponseWriter(FacesContext fc) {
