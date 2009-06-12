@@ -6245,6 +6245,7 @@
             <name>value</name>
             <description>The tree model value use for the component</description>
             <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
             <deferred-value>
                 <type>java.lang.Object</type>
             </deferred-value>
