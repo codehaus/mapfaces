@@ -64,7 +64,7 @@ function expandSymbol(formId, panelId, nodeId){
     var lineTreenode = document.getElementById("treenode:"+panelId+":"+nodeId);
             
     if (lineUl.childNodes.length > 0){
-        lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus floatLeft");
+        lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-minus floatLeft");
         if (lineTreenode.className.indexOf("x-tree-droppable") != -1){
             lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft");
         }else{
@@ -78,7 +78,7 @@ function collapseSymbol(formId, panelId, nodeId){
     var lineSymbol = document.getElementById(panelId+"_symbol_"+nodeId);
     var lineTreenode = document.getElementById("treenode:"+panelId+":"+nodeId);
     
-    lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
+    lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-plus floatLeft");
     if (lineTreenode.className.indexOf("x-tree-droppable") != -1){
         lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft");
     }else {
@@ -86,106 +86,6 @@ function collapseSymbol(formId, panelId, nodeId){
     }
 
     return true;
-}
-
-/**
- *
- */
-//function expAll(panelId){
-//    $$('.collapsible').each(function(div) {
-//        if(div.id.indexOf(panelId) != -1){
-//            div.style.display="block";
-//            div.style.opacity="1";
-//            dispEffectNone(div);
-//            if (div.childNodes.length > 0){
-//                var reg = new RegExp("(ul)","g");
-//                var lineTreenode =$(div.id.replace(reg,"treenode"));
-//                if  (lineTreenode!=null){
-//                    lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
-//                    var listofchild = lineTreenode.childNodes;
-//                    for(i=0;i<=listofchild.length-1;i++){
-//                        var children = listofchild[i];
-//                        if (children.className.indexOf("x-tree-elbow-end-plus") != -1){
-//                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus floatLeft");
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//    });
-//
-//    return false;
-//}
-function expandAll(){
-    $$('.collapsible').each(function(div) {
-        div.style.display="block";
-        div.style.opacity="1";
-        dispEffectNone(div);
-        if (div.childNodes.length > 0){
-            var reg = new RegExp("(ul)","g");
-            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
-            if  (lineTreenode!=null){
-                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
-                var listofchild = lineTreenode.childNodes;
-                for(i=0;i<=listofchild.length-1;i++){
-                    var children = listofchild[i];
-                    if (children.className.indexOf("x-tree-elbow-end-plus") != -1){
-                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-minus floatLeft");
-                    }
-                }
-            }
-        }
-    });
-  
-    return false;
-}
-
-//function collAll(panelId){
-//    $$('.collapsible').each(function(div) {
-//        if(div.id.indexOf(panelId) != -1){
-//            div.style.display="none";
-//            div.style.opacity="0";
-//            if (div.childNodes.length > 0){
-//                var reg = new RegExp("(ul)","g");
-//                var lineTreenode =$(div.id.replace(reg,"treenode"));
-//                if  (lineTreenode!=null){
-//                    lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-col floatLeft");
-//                    var listofchild = lineTreenode.childNodes;
-//                    for(i=0;i<=listofchild.length-1;i++){
-//                        var children = listofchild[i];
-//                        if (children.className.indexOf("x-tree-elbow-end-minus") != -1){
-//                            children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//    });
-//    return false;
-//}
-function collapseAll(){
-    $$('.collapsible').each(function(div) {
-        div.style.display="none";
-        div.style.opacity="0";
-        if (div.childNodes.length > 0){
-            var reg = new RegExp("(ul)","g");
-            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
-            if  (lineTreenode!=null){
-                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
-                var listofchild = lineTreenode.childNodes;
-                for(i=0;i<=listofchild.length-1;i++){
-                    var children = listofchild[i];
-                    if (children.className.indexOf("x-tree-elbow-end-minus") != -1){
-                        children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-end-plus floatLeft");
-                    }
-                }
-            }
-        }
-            
-    });
-    return false;
 }
 
 function showInfo(panelId,nodeId){

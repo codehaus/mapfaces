@@ -72,7 +72,8 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private static final String SHOW_MORE_INFORMATION_TITLE = "Show more informations";
     private static final int LINES_SHOW = 1;
     private static final int DEFAULT_FIRST_COLUMN_SIZE = 250;
-    private String class_symbol = "x-tree-ec-icon x-tree-elbow-end-minus";
+    private String class_symbol_minus = "x-tree-ec-icon x-tree-elbow-minus"; //x-tree-elbow-end-minus
+    private String class_symbol_plus = "x-tree-ec-icon x-tree-elbow-plus"; //x-tree-elbow-end-minus
     private String class_node_div = "x-tree-node-el x-tree-node-expanded x-tree-col";
     private boolean debug;
 
@@ -158,7 +159,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         final boolean FolderType = !node.isLeaf();
 
         if (!treepanel.isLoadAll() || (treetable != null && treetable.isCollapsed())) {
-            class_symbol = "x-tree-ec-icon x-tree-elbow-end-plus";
             class_node_div = "x-tree-node-el x-tree-node-collapsed x-tree-col";
         }
 
@@ -217,7 +217,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             if (FolderType) {
                 ImgNodeRep.setId(treepanel.getId() + "_symbol_" + node.getId());
-                ImgNodeRep.setStyleClass(class_symbol + PIXEL);
+                if (treetable != null && treetable.isCollapsed() && treetable.getCollapseDepth() < node.getDepth())
+                    ImgNodeRep.setStyleClass(class_symbol_plus + PIXEL);
+                else
+                    ImgNodeRep.setStyleClass(class_symbol_minus + PIXEL);
             } else {
                 if (((DefaultMutableTreeNode) node.getParent()).getLastLeaf() == node) {
                     ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW_END + PIXEL);
@@ -225,7 +228,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                     ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW + PIXEL);
                 }
             }
-
+            ImgNodeRep.setStyle("padding:0px;");
             if (FolderType) {
                 HtmlCommandLink ImgNodeRepLink = new HtmlCommandLink();
                 

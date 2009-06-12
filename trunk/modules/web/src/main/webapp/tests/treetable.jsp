@@ -19,7 +19,7 @@
     <h:form id="main_form">
 
         <mf:Div id="treetableDiv" style="margin:0pt auto;height:300px;overflow:auto;margin-top:10pt;width:600px;">
-            <mf:TreeTable id="treetable" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false">
+            <mf:TreeTable id="treetable" collapsed="true" collapseDepth="1" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false">
                 <mf:TreePanel id="treepanel"
                header="false"
                rowId="false"

@@ -322,9 +322,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
 
         if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " decode : " + AbstractTreeTableRenderer.class.getName());
 
-        //@TODO Maybe thereis a better to not load css 
+        //@TODO Maybe thereis a better way to not load css
         UIContext temp = FacesUtils.getParentUIContext(context, comp);
-        if ( temp != null && !temp.isMinifyJS()) {
+        if ( (temp == null) || (temp != null && !temp.isMinifyJS())) {
             writer.startElement("link", component);
             writer.writeAttribute("type", "text/css", null);
             writer.writeAttribute("rel", "stylesheet", null);
