@@ -249,7 +249,13 @@ public class OWCv030toMFTransformer {
                                 break;
                             }
                         }
-
+                        /*Scale denominators*/
+                        if (layerType.getMaxScaleDenominator() != null) {
+                            layer.setMaxScaleDenominator(layerType.getMaxScaleDenominator());
+                        }
+                        if (layerType.getMinScaleDenominator() != null) {
+                            layer.setMinScaleDenominator(layerType.getMinScaleDenominator());
+                        }
                         /*DimensionList*/
                         HashMap allDims = visitDimensionList(layerType/*, webMapServers*/);
                         if (allDims.size() > 0) {

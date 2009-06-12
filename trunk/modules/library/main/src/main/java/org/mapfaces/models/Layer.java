@@ -57,11 +57,11 @@ public interface Layer extends Serializable, Cloneable {
 
     String getMaxFeatures();
 
-    String getMaxScaleDenominator();
+    Double getMaxScaleDenominator();
 
     String getMetadataUrl();
 
-    String getMinScaleDenominator();
+    Double getMinScaleDenominator();
 
     String getName();
 
@@ -106,11 +106,11 @@ public interface Layer extends Serializable, Cloneable {
 
     void setMaxFeatures(String maxFeatures);
 
-    void setMaxScaleDenominator(String maxScaleDenominator);
+    void setMaxScaleDenominator(Double maxScaleDenominator);
 
     void setMetadataUrl(String metadataUrl);
 
-    void setMinScaleDenominator(String minScaleDenominator);
+    void setMinScaleDenominator(Double minScaleDenominator);
 
     void setName(String name);
 

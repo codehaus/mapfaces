@@ -48,8 +48,8 @@ public class DefaultLayer implements Layer {
     private String opacity;
     private String outputFormat;
     private String legendUrl;
-    private String minScaleDenominator;
-    private String maxScaleDenominator;
+    private Double minScaleDenominator;
+    private Double maxScaleDenominator;
     //private List<Style> style;
     private HashMap<String, Dimension> dimensionList;
     // private HashMap<String,Parameter> parameterList;
@@ -230,15 +230,14 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public String getMinScaleDenominator() {
+    public Double getMinScaleDenominator() {
         return minScaleDenominator;
     }
 
     /**
      * {@inheritDoc }
      */
-    @Override
-    public void setMinScaleDenominator(final String minScaleDenominator) {
+    public void setMinScaleDenominator(final Double minScaleDenominator) {
         this.minScaleDenominator = minScaleDenominator;
     }
 
@@ -246,15 +245,14 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public String getMaxScaleDenominator() {
+    public Double getMaxScaleDenominator() {
         return maxScaleDenominator;
     }
 
     /**
      * {@inheritDoc }
      */
-    @Override
-    public void setMaxScaleDenominator(final String maxScaleDenominator) {
+    public void setMaxScaleDenominator(final Double maxScaleDenominator) {
         this.maxScaleDenominator = maxScaleDenominator;
     }
 

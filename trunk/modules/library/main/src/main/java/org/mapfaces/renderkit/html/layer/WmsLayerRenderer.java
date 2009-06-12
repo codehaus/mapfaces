@@ -30,6 +30,7 @@ import org.geotoolkit.wms.GetMapRequest;
 import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.wms.map.WMSMapLayer;
 
+import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
@@ -82,7 +83,10 @@ public class WmsLayerRenderer extends LayerRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()));        //Add layer image if not the first page loads
         }
-        if (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()) {
+        //UIMapPane should not be null
+        final UIMapPane mappane= FacesUtils.getParentUIMapPane(context, comp);
+
+        if (mappane.getInitDisplay() && !layer.isHidden()) {
 
             final Dimension dim = new Dimension(
                     Integer.parseInt(model.getWindowWidth()),
@@ -127,10 +131,16 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             // 3. get the URL fragment
             if (mapLayer != null) {
-                GetMapRequest request = mapLayer.createGetMapRequest();
-                request.setDimension(dim);
-                request.setEnvelope(model.getEnvelope());
-                url = request.getURL();
+
+                final double scale = mappane.getScale(model);
+                final Double maxScale = layer.getMaxScaleDenominator();
+                final Double minScale = layer.getMinScaleDenominator();
+                if(((maxScale == null) || maxScale >= scale) && ((minScale == null) || minScale <= scale)){
+                    GetMapRequest request = mapLayer.createGetMapRequest();
+                    request.setDimension(dim);
+                    request.setEnvelope(model.getEnvelope());
+                    url = request.getURL();
+                }
             }
 
             if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {

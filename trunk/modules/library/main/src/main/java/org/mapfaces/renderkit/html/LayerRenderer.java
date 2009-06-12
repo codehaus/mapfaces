@@ -43,6 +43,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
     
    @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+       
        super.encodeBegin(context, component);       
    }
     /**

@@ -25,6 +25,7 @@ import org.mapfaces.models.*;
 
 public interface WmsLayer extends Layer {
 
+
     String getStyles();
 
     String getSld();
