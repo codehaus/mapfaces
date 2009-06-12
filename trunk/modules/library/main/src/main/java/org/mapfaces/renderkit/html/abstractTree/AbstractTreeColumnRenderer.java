@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
 import org.ajax4jsf.ajax.html.HtmlAjaxOutputPanel;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
@@ -167,7 +168,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
         if (treecolumn.getStyle() != null) {
             styleUser = treecolumn.getStyle();
         }
-        
+
 
         final int width = Integer.valueOf(size);
         writer.startElement("div", component);
@@ -217,68 +218,57 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             if (FolderType) {
                 ImgNodeRep.setId(treepanel.getId() + "_symbol_" + node.getId());
-                if (treetable != null && treetable.isCollapsed() && treetable.getCollapseDepth() < node.getDepth())
+
+                if (treetable != null && treetable.isCollapsed() && treetable.getCollapseDepth() < node.getDepth()) {
                     ImgNodeRep.setStyleClass(class_symbol_plus + PIXEL);
-                else
+                } else {
                     ImgNodeRep.setStyleClass(class_symbol_minus + PIXEL);
+                }
+
             } else {
+
                 if (((DefaultMutableTreeNode) node.getParent()).getLastLeaf() == node) {
                     ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW_END + PIXEL);
+
                 } else {
                     ImgNodeRep.setStyleClass(CLASS_LEAF_ELBOW + PIXEL);
                 }
             }
+            //Remove default padding of the generated span
             ImgNodeRep.setStyle("padding:0px;");
+
             if (FolderType) {
-                HtmlCommandLink ImgNodeRepLink = new HtmlCommandLink();
-                
-                final HtmlAjaxSupport AjaxSupport = new HtmlAjaxSupport();
-                AjaxSupport.setId(treepanel.getId() + "_ajax_" + node.getId());
-                AjaxSupport.setReRender(treeline.getParent().getClientId(context));
-                AjaxSupport.setEvent("onclick");
-                AjaxSupport.setAjaxSingle(true);
-                AjaxSupport.setLimitToList(true);
+                //In IE 8 : HtmlAjaxCommandLink works better than a classic HtmlCommandLink
+                HtmlAjaxCommandLink ImgNodeRepLink = new HtmlAjaxCommandLink();
+                ImgNodeRepLink.setId(treepanel.getId() + "_ajax_" + node.getId());
+                ImgNodeRepLink.setReRender(treeline.getParent().getClientId(context));
+                ImgNodeRepLink.setAjaxSingle(true);
+                ImgNodeRepLink.setLimitToList(true);
                 final String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
-
-                StringBuilder onSubmit = new StringBuilder("").
-                        //If the current node has no child to expand, return false (so no A4J request has been sent)
+                StringBuilder onSubmit = new StringBuilder(""). //If the current node has no child to expand, return false (so no A4J request has been sent)
                         append("if(!disp('").append(formId).append("','").append(treepanelId).append("','").append(node.getId()).append("')){").
-                        append("return false;").
+                        append("return false;}");
 
-                        //else  replace the plus image by the loading image and execute an A4J request
-                        append("}else{").
-                        append("document.getElementById('").append(formId).append(":").append(treepanel.getId()).append("_img_").append(node.getId()).append("').").
-                        append("setAttribute('style','background-image:url(").append(ResourcePhaseListener.getURL(context, NODE_LOADING, null)).append(");');").
-                        append("}");
+                if (!treepanel.isLoadAll()) {
+                    //else  replace the plus image by the loading image and execute an A4J request
+                    onSubmit.append("else{").
+                            append("document.getElementById('").append(formId).append(":").append(treepanel.getId()).append("_img_").append(node.getId()).append("').").
+                            append("setAttribute('style','background-image:url(").append(ResourcePhaseListener.getURL(context, NODE_LOADING, null)).append(");');").
+                            append("}");
 
-                AjaxSupport.setOnsubmit(onSubmit.toString());
+                    StringBuilder onComplete = new StringBuilder("expandSymbol('").append(formId).append("','").append(treepanelId).append("',").append("'").append(node.getId()).append("');");
 
+                    //@TODO find a way to know if the tree is drag'n drop or not
+                    boolean dnd = false;
 
-    //                    "A4J.AJAX.Submit('','"+formId+"',null,{'affected':['"+treepanel.getClientId(context)+"'],'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
-    //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
-    //                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
-    //                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
-
-    //                    "A4J.AJAX.SubmitRequest('','"+formId+"',null,{'parameters':{'"+ajaxtools.getAJAX_REQUEST_PARAM_KEY()+"':'true'," +
-    //                    "'"+ajaxtools.getAJAX_RENDERCHILD_ID_KEY()+"':'true'," +
-    //                    "'"+ajaxtools.getAJAX_CONTAINER_ID_KEY()+"':'"+treeline.getClientId(context)+"'" +
-    //                    "},'actionUrl':'"+request.getRequestURI()+"'})" +
-    //                    formId+".reset(); return false;" +
-
-                StringBuilder onComplete = new StringBuilder("expandSymbol('").append(formId).append("','").append(treepanelId).append("',").append("'").append(node.getId()).append("');");
-
-                //@TODO find a way to know if the tree is drag'n drop or not
-                boolean dnd = false;
-                if (dnd) {
+                    if (dnd) {
                         onComplete.append(" refreshDnd();");
+                    }
+                    ImgNodeRepLink.setOncomplete(onComplete.toString());
                 }
-                AjaxSupport.setOncomplete(onComplete.toString());
-
-                ImgNodeRepLink.getFacets().put("a4jsupport", AjaxSupport);
+                ImgNodeRepLink.setOnclick(onSubmit.toString());
                 ImgNodeRepLink.getChildren().add(ImgNodeRep);
                 children.add(ImgNodeRepLink);
-//                ImgNodeRep.getFacets().put("a4jsupport", AjaxSupport);
-//                children.add(ImgNodeRep);
             } else {
                 children.add(ImgNodeRep);
             }
@@ -305,7 +295,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             if (FolderType) {
                 ImgNodeIcon.setId(treepanel.getId() + "_img_" + node.getId());
             }
-            
+
             children.add(ImgNodeIcon);
 
 
