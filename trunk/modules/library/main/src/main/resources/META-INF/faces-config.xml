@@ -167,10 +167,6 @@
         <component-class>org.mapfaces.component.tree.UIColumn</component-class>
     </component>
     <component>
-        <component-type>org.mapfaces.treetable.treepanel.CheckColumn</component-type>
-        <component-class>org.mapfaces.component.tree.UICheckColumn</component-class>
-    </component>
-    <component>
         <component-type>org.mapfaces.treetable.treepanel.TreeLines</component-type>
         <component-class>org.mapfaces.component.tree.UITreeLines</component-class>
     </component>

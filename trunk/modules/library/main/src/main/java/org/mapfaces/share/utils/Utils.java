@@ -136,6 +136,26 @@ public class Utils {
         return parent.getClientId(faceContext);
     }
 
+    /* Others methods */
+    /**
+     * <p>Get container form of the UIComponent</p>
+     * @param component UIComponent to be rendered
+     * @return UIForm the form container of the component if exist else return null
+     */
+    public static UIForm getForm(UIComponent component) {
+
+        UIComponent parent = component.getParent();
+        while (parent != null && !(parent instanceof UIForm)) {
+            parent = parent.getParent();
+        }
+
+        if (parent == null) {
+            throw new IllegalStateException("Not nested inside a form!");
+        }
+
+        return (UIForm) parent;
+    }
+
     public static String getWrappedComponentId(final FacesContext faceContext, 
             final UIComponent component, final Class c) {
         UIComponent parent = component;

@@ -26,7 +26,7 @@ import javax.faces.component.UIComponent;
 public class CheckColumnTag extends ColumnTag {
 
     private static final String COLUMN_COMP_TYPE = "org.mapfaces.treelayout.CheckColumn";
-    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLCheckColumn";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLCheckColumn";
 
     /* Fields */
     private ValueExpression value = null;
@@ -56,7 +56,7 @@ public class CheckColumnTag extends ColumnTag {
     public void setProperties(UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("value", getValue());
-    }
+}
 
     /**
      * @override release in class ColumnTag
