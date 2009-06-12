@@ -64,11 +64,11 @@ function expandSymbol(formId, panelId, nodeId){
     var lineTreenode = document.getElementById("treenode:"+panelId+":"+nodeId);
             
     if (lineUl.childNodes.length > 0){
-        lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-minus floatLeft");
+        lineSymbol.className="x-tree-ec-icon x-tree-elbow-minus floatLeft";
         if (lineTreenode.className.indexOf("x-tree-droppable") != -1){
-            lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft");
+            lineTreenode.className="x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft";
         }else{
-            lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft");
+            lineTreenode.className="x-tree-node-el x-tree-node-expanded x-tree-node-node-over x-tree-col floatLeft";
         }
     }
     return true;
@@ -78,11 +78,11 @@ function collapseSymbol(formId, panelId, nodeId){
     var lineSymbol = document.getElementById(panelId+"_symbol_"+nodeId);
     var lineTreenode = document.getElementById("treenode:"+panelId+":"+nodeId);
     
-    lineSymbol.setAttribute("class", "x-tree-ec-icon x-tree-elbow-plus floatLeft");
+    lineSymbol.className="x-tree-ec-icon x-tree-elbow-plus floatLeft";
     if (lineTreenode.className.indexOf("x-tree-droppable") != -1){
-        lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft");
+        lineTreenode.className = "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col x-tree-droppable x-tree-droppable-folder floatLeft";
     }else {
-        lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
+        lineTreenode.className = "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft";
     }
 
     return true;
