@@ -1,3 +1,20 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2009, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.web.bean;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -32,10 +49,15 @@ import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.web.model.ModelTreeRow;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+
+/**
+ * @author Mehdi Sidhoum (Geomatys)
+ */
 
 public class MapBean {
 
@@ -44,17 +66,29 @@ public class MapBean {
     private List<Feature> features = null;
 
     private DefaultTreeModel exampleModel;
+    private List<ModelTreeRow> rowsList = new ArrayList<ModelTreeRow>();
 
     public MapBean(){
-        DefaultMutableTreeNode tnode = new DefaultMutableTreeNode(new TreeItem("node1"));
-        DefaultMutableTreeNode leaf1 = new DefaultMutableTreeNode(new TreeItem("leaf1"));
-        DefaultMutableTreeNode leaf2 = new DefaultMutableTreeNode(new TreeItem("leaf2"));
-        DefaultMutableTreeNode node3 = new DefaultMutableTreeNode(new TreeItem("node3"));
-        DefaultMutableTreeNode leaf3 = new DefaultMutableTreeNode(new TreeItem("leaf3"));
-        node3.add(leaf3);
-        tnode.add(leaf1);
-        tnode.add(leaf2);
-        tnode.add(node3);
+
+        ModelTreeRow node1 = new ModelTreeRow(0,"node1");
+        DefaultMutableTreeNode tnode = new DefaultMutableTreeNode(new TreeItem(node1));
+        ModelTreeRow leaf1 = new ModelTreeRow(1,"leaf1");
+        DefaultMutableTreeNode nleaf1 = new DefaultMutableTreeNode(new TreeItem(leaf1));
+        ModelTreeRow leaf2 = new ModelTreeRow(2,"leaf2");
+        DefaultMutableTreeNode nleaf2 = new DefaultMutableTreeNode(new TreeItem(leaf2));
+        ModelTreeRow node3 = new ModelTreeRow(3,"node3");
+        DefaultMutableTreeNode nnode3 = new DefaultMutableTreeNode(new TreeItem(node3));
+        ModelTreeRow leaf3 = new ModelTreeRow(4,"leaf3");
+        DefaultMutableTreeNode nleaf3 = new DefaultMutableTreeNode(new TreeItem(leaf3));
+        rowsList.add(node1);
+        rowsList.add(leaf1);
+        rowsList.add(leaf2);
+        rowsList.add(node3);
+        rowsList.add(leaf3);
+        nnode3.add(nleaf3);
+        tnode.add(nleaf1);
+        tnode.add(nleaf2);
+        tnode.add(nnode3);
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem("root"));
         root.add(tnode);
@@ -219,5 +253,19 @@ public class MapBean {
      */
     public void setExampleModel(DefaultTreeModel exampleModel) {
         this.exampleModel = exampleModel;
+    }
+
+    /**
+     * @return the rowsList
+     */
+    public List<ModelTreeRow> getRowsList() {
+        return rowsList;
+    }
+
+    /**
+     * @param rowsList the rowsList to set
+     */
+    public void setRowsList(List<ModelTreeRow> rowsList) {
+        this.rowsList = rowsList;
     }
 }

@@ -18,7 +18,7 @@
     <h:form id="main_form">
 
         <mf:Div id="treetableDiv" style="margin:0pt auto;height:300px;overflow:auto;margin-top:10pt;width:600px;">
-            <mf:TreeTable id="treetable" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false">
+            <mf:TreeTable id="treetable" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false" collapsed="true" collapseDepth="1">
                 <mf:TreePanel id="treepanel"
                header="false"
                rowId="false"
@@ -36,19 +36,14 @@
                      style="width:200px;"
                      styleHeader="width:200px;">
                     </mf:TreeColumn>
-                    <mf:Column id="readrightsRoleCheckbox" style="width:50px;overflow-x:auto;" styleHeader="width:50px" headerTitle="R">
-                        <h:selectBooleanCheckbox id="readrightchecboxInput" value="true" />
-                    </mf:Column>
-                    <mf:Column id="writerightsRoleCheckbox" style="width:50px;overflow-x:auto;" styleHeader="width:50px" headerTitle="W">
-                        <h:selectBooleanCheckbox id="writerightchecboxInput" value="true" />
-                    </mf:Column>
+                    <mf:TreeLayoutCheckColumn id="readrightsRoleCheckbox" value="#{itemExample.read}" style="width:50px;overflow-x:auto;" headerTitle="R">
+                    </mf:TreeLayoutCheckColumn>
+                    <mf:TreeLayoutCheckColumn id="writerightsRoleCheckbox" value="#{itemExample.write}" style="width:50px;overflow-x:auto;" headerTitle="W">
+                    </mf:TreeLayoutCheckColumn>
 
 
                 </mf:TreePanel>
             </mf:TreeTable>
-            <script>
-                collapseAll();
-            </script>
         </mf:Div>
 
 
