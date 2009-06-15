@@ -42,6 +42,7 @@ public class DefaultLayer implements Layer {
     private String id;
     private String name;
     private boolean queryable;
+    private boolean displayable = true;
     private String group;
     private String title;
     private boolean hidden;
@@ -741,6 +742,20 @@ public class DefaultLayer implements Layer {
 		cnse.printStackTrace(System.err);
         }
         return object;
+    }
+
+    /**
+     * @return the displayable
+     */
+    public boolean isDisplayable() {
+        return displayable;
+    }
+
+    /**
+     * @param displayable the displayable to set
+     */
+    public void setDisplayable(boolean displayable) {
+        this.displayable = displayable;
     }
 
 }
