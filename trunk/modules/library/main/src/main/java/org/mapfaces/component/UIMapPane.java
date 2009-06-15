@@ -141,7 +141,7 @@ public class UIMapPane extends UIWidgetBase {
         final int width = Integer.valueOf(model.getWindowWidth());
         final double widthBbox = Double.valueOf(model.getMaxx()) - Double.valueOf(model.getMinx());
 //        System.out.println(CRS.decode(model.getSrs()).getCoordinateSystem().getAxis(0).getUnit().getDimension().toString());
-        return ((widthBbox / width) * INCHES_PER_UNIT.get(units) * DOTS_PER_INCH);
+        return ((widthBbox / width) * INCHES_PER_UNIT.get(units) * DOTS_PER_INCH) / 1000000; // /1000000 to obtain kilometers
 //            final double minx = Double.valueOf(model.getMinx());
 //            final double maxx = Double.valueOf(model.getMaxx());
 //            final double miny = Double.valueOf(model.getMiny());
