@@ -72,7 +72,7 @@ public class OWCv030toMFTransformer {
     private static final ContextFactory contextFactory = new DefaultContextFactory();
     private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
     private static final Logger LOGGER = Logger.getLogger(OWCv030toMFTransformer.class.getName());
-
+    private static final boolean debug = false;
     public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
         
         Context ctx = contextFactory.createDefaultContext();
@@ -82,7 +82,8 @@ public class OWCv030toMFTransformer {
         ctx.setTitle(doc.getGeneral().getTitle());
         BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
 
-        LOGGER.log(Level.INFO, "["+OWCv030toMFTransformer.class.getName()+"]  BoundingBoxType : CRS="+bbox.getCrs()+"   Lower corner="+bbox.getLowerCorner()+"   upper corner="+bbox.getUpperCorner()+"  dimension="+bbox.getDimensions());
+        if (debug)
+            LOGGER.log(Level.INFO, "["+OWCv030toMFTransformer.class.getName()+"]  BoundingBoxType : CRS="+bbox.getCrs()+"   Lower corner="+bbox.getLowerCorner()+"   upper corner="+bbox.getUpperCorner()+"  dimension="+bbox.getDimensions());
         
         ctx.setSrs(bbox.getCrs());
         final CoordinateReferenceSystem crs;        //Crs with axis order : x,y or y,x        
@@ -156,7 +157,8 @@ public class OWCv030toMFTransformer {
                                 }
                                 end = System.currentTimeMillis() - start;
                                 if (webMapServers.get(wmsUrl) != null) {
-                                    LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotoolkits in : " + end+" ms");
+                                    if (debug)
+                                        LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotoolkits in : " + end+" ms");
                                 }
                             }
                         }
