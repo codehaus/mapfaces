@@ -153,9 +153,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                     request.setEnvelope(model.getEnvelope());
                     url = request.getURL();
                     writer.writeAttribute("src", url, "src");
-                } else {
-                    writer.writeAttribute("src", "", "src");
-                }
+                } 
 
             }
 
@@ -182,14 +180,8 @@ public class WmsLayerRenderer extends LayerRenderer {
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
-                
-                url = new URL(completeUrl);
-                
-                /* if this layer is an instance of DefaultWmsGetMapLayer then the src attribute must be an empty string due to a strange behaviour on web browser with too longer urls.
-                 * a temporary solution is to store the getMap url into a javascript variable and then set this src attribute by the js method document.getElementById( this img tag id ).
-                */
-                writer.writeAttribute("src", "", "src");
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);                
+                url = new URL(completeUrl);                
             }
 
             if (this.debug) {
