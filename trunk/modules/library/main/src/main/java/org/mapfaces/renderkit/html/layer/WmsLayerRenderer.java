@@ -132,7 +132,6 @@ public class WmsLayerRenderer extends LayerRenderer {
                 } catch (IOException ex) {
                     LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
                     //TODO should close divs and writer correctly is this happens
-                    writer.writeAttribute("src", "", "src");
                     writer.endElement("img");
                     writer.endElement("div");
                     return;
