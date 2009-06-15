@@ -44,7 +44,8 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
         final UISelectOneMenuColumn comp = (UISelectOneMenuColumn) component;
         final ResponseWriter writer      = context.getResponseWriter();
 
-        if(comp.getValue() != null && comp.getItemsLabels()!=null){
+        if(comp.getValue() != null && comp.getItemsLabels()!=null &&
+            comp.getChildCount() == 0){
             final UISelectOne selectOneMenu = new UISelectOne();
             final String itemsLabels        = comp.getItemsLabels();
             final String[] labelsArray      = itemsLabels.split(comp.getSeparator());
@@ -65,6 +66,8 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
                 }
             }
             comp.getChildren().add(selectOneMenu);
+        } else {
+            ((UISelectOne) comp.getChildren().get(0)).setValue(comp.getValue());
         }
         writer.startElement("center", comp);
 

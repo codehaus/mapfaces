@@ -48,14 +48,15 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
     public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         final UICheckColumn comp = (UICheckColumn) component;
         final ResponseWriter writer = context.getResponseWriter();
-        final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
-
-        checkbox.setId("check_" + comp.getId());
-        checkbox.setValue(comp.getValue());
-
-        String styleClass = (comp.getStyleClass() != null) ? comp.getStyleClass() + "_check" : comp.getId() + "Class";
-        checkbox.setStyleClass(styleClass);
-        comp.getChildren().add(checkbox);
+        
+        if (comp.getChildCount() == 0) {
+            final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
+            checkbox.setId("check_" + comp.getId());
+            String styleClass = (comp.getStyleClass() != null) ? comp.getStyleClass() + "_check" : comp.getId() + "Class";
+            checkbox.setStyleClass(styleClass);
+            comp.getChildren().add(checkbox);
+        }
+        ((HtmlSelectBooleanCheckbox) comp.getChildren().get(0)).setValue(comp.getValue());
         writer.startElement("center", component);
     }
 
