@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util.treetable;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import javax.faces.context.FacesContext;
 
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.tree.UITreeLines;
+import org.mapfaces.component.tree.UITreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.request.RequestMapUtils;
 import org.mapfaces.util.tree.TreeUtils;
@@ -79,12 +81,11 @@ public class TreeTableUtils {
 //        }
     }
 
-    
     private void createTreeLinesRecurs(final UITreePanelBase treepanel, final TreeNodeModel node,
             final List<UIComponent> list, final boolean LoadingOption) throws IOException {
 
         final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        final Map<String,Object> requestMap = ec.getRequestMap();
+        final Map<String, Object> requestMap = ec.getRequestMap();
         requestMap.put("Elresolver.called", false);
 
         for (int i = 0; i < node.getChildCount(); i++) {
@@ -109,13 +110,13 @@ public class TreeTableUtils {
             treelines.setToRender(true);
 
             //if (!treepanel.isInit()) {
-                if (!LoadingOption) {
-                    if (node.getDepth() >= TreeTableConfig.DEFAULT_DEPTH_VIEW) {
-                        treelines.getNodeInstance().setChecked(false);
+            if (!LoadingOption) {
+                if (node.getDepth() >= TreeTableConfig.DEFAULT_DEPTH_VIEW) {
+                    treelines.getNodeInstance().setChecked(false);
 //                    treelines.setToRender(false);
-                        treelines.setRendered(false);
-                    }
+                    treelines.setRendered(false);
                 }
+            }
             //}
             if (!currentNode.isLeaf()) {
                 treelines.setHasChildren(true);
@@ -133,6 +134,24 @@ public class TreeTableUtils {
             treepanel.getChildren().add(panelgroup);
         }
 
+    }
+
+    /**
+     * Returns the first child of treetable component which is UITreePanel instance.
+     * @param treetable
+     * @return
+     */
+    public static UITreePanel getChildTreePanel(UIComponent treetable) {
+        if (treetable != null && treetable.getChildren() != null && treetable.getChildCount() > 0) {
+            for (UIComponent child : treetable.getChildren()) {
+                if (child instanceof UITreePanel) {
+                    return (UITreePanel) child;
+                } else {
+                    getChildTreePanel(child);
+                }
+            }
+        }
+        return null;
     }
 }
 

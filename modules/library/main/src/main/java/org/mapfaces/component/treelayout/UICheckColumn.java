@@ -14,13 +14,14 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.component.treelayout;
 
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UIColumnBase;
 
 /**
- * @author Kevin Delfour (Geomatys)
+ * @author Kevin Delfour
  */
 public class UICheckColumn extends UIColumnBase {
 
@@ -50,6 +51,7 @@ public class UICheckColumn extends UIColumnBase {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
+        this.setValue(values[1]);
     }
 
     /**
@@ -57,8 +59,10 @@ public class UICheckColumn extends UIColumnBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[1];
+        super.saveState(context);
+        final Object values[] = new Object[2];
         values[0] = super.saveState(context);
+        values[1] = this.getValue();
         return values;
     }
 
