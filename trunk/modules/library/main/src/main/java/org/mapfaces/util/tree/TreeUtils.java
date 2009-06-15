@@ -85,6 +85,7 @@ public class TreeUtils {
         //Copy specific attributes from component to news
         ReflectionUtils.copyAttributes(component, copy,NO_COPY_PROPERTIES);
 
+        ValueExpression vex = component.getValueExpression("value");
         final Object value = component.getAttributes().get("value");
         if (value != null) {
             if (value instanceof String) {
@@ -114,6 +115,7 @@ public class TreeUtils {
                 children.add(duplicate(tmp, node));
             }
         }
+        copy.setValueExpression("value", vex);
         return copy;
     }
 

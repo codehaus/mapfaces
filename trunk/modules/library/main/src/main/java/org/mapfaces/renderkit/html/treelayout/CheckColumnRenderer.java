@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2009, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -18,26 +18,36 @@
 package org.mapfaces.renderkit.html.treelayout;
 
 import java.io.IOException;
+import java.util.Map;
+import javax.el.ELContext;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.component.treelayout.UICheckColumn;
+import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
+import org.mapfaces.share.utils.Utils;
 
 /**
+ *
  * @author Kevin Delfour
+ * @author Mehdi Sidhoum (Geomatys)
+ * 
  */
-public class CheckColumnRenderer extends AbstractColumnRenderer{
+public class CheckColumnRenderer extends AbstractColumnRenderer {
 
     /**
      * {@inheritDoc }
      */
     @Override
     public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-        final UICheckColumn comp                 = (UICheckColumn) component;
-        final ResponseWriter writer              = context.getResponseWriter();
+        final UICheckColumn comp = (UICheckColumn) component;
+        final ResponseWriter writer = context.getResponseWriter();
         final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
 
         checkbox.setId("check_" + comp.getId());
@@ -45,6 +55,37 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
         //checkbox.setStyle("cursor:pointer;position: absolute; margin-left:-7px;left: 50%; margin-top: -7px; top: 50%; ");
         comp.getChildren().add(checkbox);
         writer.startElement("center", component);
+    }
+
+    @Override
+    public void decode(FacesContext context, UIComponent component) {
+        final UICheckColumn comp = (UICheckColumn) component;
+        final UITreeLines treeLine = (UITreeLines) comp.getParent();
+        final ExternalContext ext = context.getExternalContext();
+        final ELContext elContext = context.getELContext();
+        final Map parameterMap = ext.getRequestParameterMap();
+        final UIForm formContainer = Utils.getForm(component);
+        String keyParameterInput = formContainer.getId() + ":check_" + comp.getId();
+        String newValue = (String) parameterMap.get(keyParameterInput);
+        boolean booleanValue = false;
+        if (newValue != null && newValue.equals("on")) {
+            booleanValue = true;
+        } else {
+            booleanValue = false;
+        }
+
+        String expression = "";
+        if (comp.getValueExpression("value") != null) {
+            expression = comp.getValueExpression("value").getExpressionString();
+            String tmp = expression.substring(expression.lastIndexOf("."));
+            String property = tmp.substring(1, tmp.lastIndexOf("}"));
+            Object userObject = null;
+            if (treeLine.getNodeInstance().getUserObject() instanceof TreeItem) {
+                TreeItem ti = (TreeItem) treeLine.getNodeInstance().getUserObject();
+                userObject = ti.getUserObject();
+            }
+            elContext.getELResolver().setValue(elContext, userObject, property, booleanValue);
+        }
     }
 
     /**
@@ -93,5 +134,4 @@ public class CheckColumnRenderer extends AbstractColumnRenderer{
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
     }
-
 }
