@@ -61,6 +61,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         final String clientId = comp.getClientId(context);
         final Context model = (Context) comp.getModel();
         final WmsLayer layer = (WmsLayer) comp.getLayer();
+        final UIMapPane mappane= FacesUtils.getParentUIMapPane(context, comp);
 
         if (model == null) {
             if (this.debug) {
@@ -69,8 +70,18 @@ public class WmsLayerRenderer extends LayerRenderer {
                 LOGGER.log(Level.INFO, "[DEBUG] model id : " + model.getId());
             }
         }
-        final String opacity = (layer.getOpacity() != null) ? layer.getOpacity() : "1";
+        final double scale = mappane.getScale(model);
+        final Double maxScale = layer.getMaxScaleDenominator();
+        final Double minScale = layer.getMinScaleDenominator();
 
+        //Test is the layer is displayable at this scale or not
+        if (((maxScale == null) || maxScale >= scale) && ((minScale == null) || minScale <= scale)) {
+            layer.setDisplayable(true);
+        } else {
+            layer.setDisplayable(false);
+        }
+
+        final String opacity = (layer.getOpacity() != null) ? layer.getOpacity() : "1";
         final String styleImg = "filter:alpha(opacity=" + ( Float.parseFloat(opacity) * 100) + ");opacity:" + opacity + ";";
         final String display = (layer.isHidden()) ? "display:none" : "display:block;";
 
@@ -83,15 +94,17 @@ public class WmsLayerRenderer extends LayerRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()));        //Add layer image if not the first page loads
         }
-        //UIMapPane should not be null
-        final UIMapPane mappane= FacesUtils.getParentUIMapPane(context, comp);
 
         if (mappane.getInitDisplay() && !layer.isHidden()) {
 
-            final Dimension dim = new Dimension(
-                    Integer.parseInt(model.getWindowWidth()),
+            //Set to 0 by default because if the upper Layer isn't displayable at this extent,
+            //MouseWheel events aren't triggered by Img element  under this Layer.
+            final Dimension dim = new Dimension(0, 0);
+            if (layer.isDisplayable()) {
+                dim.setSize(Integer.parseInt(model.getWindowWidth()),
                     Integer.parseInt(model.getWindowHeight()));
-
+            }
+            
             //Write the image DIV
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
@@ -105,11 +118,13 @@ public class WmsLayerRenderer extends LayerRenderer {
                 writer.writeAttribute("style", "position:relative;", "style");
             }
 
-            URL url = new URL("http://");
+
+
 
             //Generate the URL contents
             // 1. recuperate the existing info
             WMSMapLayer mapLayer = null;
+
             if (!(layer instanceof DefaultWmsGetMapLayer)) {
 
                 try {
@@ -117,7 +132,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                 } catch (IOException ex) {
                     LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
                     //TODO should close divs and writer correctly is this happens
-                    writer.writeAttribute("src", url.toString(), "src");
+                    writer.writeAttribute("src", "", "src");
                     writer.endElement("img");
                     writer.endElement("div");
                     return;
@@ -128,23 +143,23 @@ public class WmsLayerRenderer extends LayerRenderer {
             final String srs = model.getSrs();
             final double[] imgExtentLowerCorner = {new Double(model.getMinx()), new Double(model.getMiny())};
             final double[] imgExtentUpperCorner = {new Double(model.getMaxx()), new Double(model.getMaxy())};
-
+            URL url = new URL("http://");
+            
             // 3. get the URL fragment
             if (mapLayer != null) {
-
-                final double scale = mappane.getScale(model);
-                final Double maxScale = layer.getMaxScaleDenominator();
-                final Double minScale = layer.getMinScaleDenominator();
-                if(((maxScale == null) || maxScale >= scale) && ((minScale == null) || minScale <= scale)){
+                if(layer.isDisplayable()){
                     GetMapRequest request = mapLayer.createGetMapRequest();
                     request.setDimension(dim);
                     request.setEnvelope(model.getEnvelope());
                     url = request.getURL();
+                    writer.writeAttribute("src", url, "src");
+                } else {
+                    writer.writeAttribute("src", "", "src");
                 }
+
             }
 
-            if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {
-                
+            if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {                
                 String begin = layer.getUrlGetMap().substring(0, layer.getUrlGetMap().indexOf("&SLD_BODY"));
                 String temp = layer.getUrlGetMap().substring(layer.getUrlGetMap().indexOf("&SLD_BODY"));
                 begin += "&TRANSPARENT=TRUE";
@@ -170,20 +185,17 @@ public class WmsLayerRenderer extends LayerRenderer {
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
                 
                 url = new URL(completeUrl);
+                
+                /* if this layer is an instance of DefaultWmsGetMapLayer then the src attribute must be an empty string due to a strange behaviour on web browser with too longer urls.
+                 * a temporary solution is to store the getMap url into a javascript variable and then set this src attribute by the js method document.getElementById( this img tag id ).
+                */
+                writer.writeAttribute("src", "", "src");
             }
 
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : " + url);
             }
             
-            if ( ! (layer instanceof DefaultWmsGetMapLayer) ) {
-                writer.writeAttribute("src", url.toString(), "src");
-            }else {
-                /* if this layer is an instance of DefaultWmsGetMapLayer then the src attribute must be an empty string due to a strange behaviour on web browser with too longer urls.
-                 * a temporary solution is to store the getMap url into a javascript variable and then set this src attribute by the js method document.getElementById( this img tag id ).
-                */
-                writer.writeAttribute("src", "", "src");
-            }
             writer.endElement("img");
             
             //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.

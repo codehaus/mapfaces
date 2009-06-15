@@ -14,19 +14,20 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
 
 import java.util.HashMap;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.WmsGetMapEntry;
+import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
@@ -48,7 +49,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
 
         //if currentNode is a leaf or the treeitem userobject is an instance of Layer
 //        if (currentNode.isLeaf() || currentTreeItem.getUserObject() instanceof Layer) {
-            if (currentNode.isLeaf()) {
+        if (currentNode.isLeaf()) {
             super.encodeBegin(context, component);
 
             //getting the treeNode parent of the current nodeInstance
@@ -63,18 +64,22 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                 currentEntry.setCompId(compId);
                 currentTreeItem.setUserObject(currentEntry);
 
-                
+
                 final HashMap<String, String> paramsMap = new HashMap();
                 paramsMap.put("WmsGetMapEntry_SLD_identifier", currentEntry.getIdentifier());
-                
+
                 //Adding to this component child (HtmlSelectBooleanCheckbox) an a4j support component
                 component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
                         (UIComponent) component.getChildren().get(0),
                         "onclick",
                         getVarId(context, (UIColumnBase) component),
                         null,
-                        paramsMap,"",""));
+                        paramsMap, "", ""));
             } else {
+                if (currentTreeItem.getUserObject() instanceof Layer) {
+                    Layer layer = (Layer) currentTreeItem.getUserObject();
+                    //((HtmlSelectBooleanCheckbox) component.getChildren().get(0)).setDisabled(layer.isDisplayable());
+                }
                 //Adding to this component child (HtmlSelectBooleanCheckbox) an a4j support component
                 component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context,
                         (UIComponent) component.getChildren().get(0),
