@@ -150,7 +150,7 @@ public class UIMapPane extends UIWidgetBase {
             if (unit == null) {
                 unit = CRS.decode(model.getSrs()).getCoordinateSystem().getAxis(0).getUnit();
             }
-            if (Units.isScale(unit)) {
+            if (Units.isLinear(unit)) {
                 unitName = "m";
             } else {
                 unitName = "degree";
