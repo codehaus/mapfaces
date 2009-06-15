@@ -27,6 +27,7 @@ import org.opengis.util.Cloneable;
  */
 public interface Layer extends Serializable, Cloneable {
 
+
 //    public Parameter getParameterList();
     
     /**
@@ -62,6 +63,10 @@ public interface Layer extends Serializable, Cloneable {
     String getMetadataUrl();
 
     Double getMinScaleDenominator();
+
+    public boolean isDisplayable();
+    
+    public void setDisplayable(boolean displayable);
 
     String getName();
 
