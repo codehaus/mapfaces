@@ -34,6 +34,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
@@ -65,8 +66,9 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         final UITreeLinesBase treeline = (UITreeLinesBase) component;
         final ResponseWriter writer = context.getResponseWriter();
-        final String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        final String treepanelId = treepanel.getClientId(context);
+
         final int countLine = treepanel.getOddEvenCountLine();
 
         treepanel.setOddEvenCountLine(countLine + 1);
@@ -210,8 +212,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UITreeLinesBase treeline = (UITreeLinesBase) component;
         final ResponseWriter writer = context.getResponseWriter();
-        final String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        final String treepanelId = treepanel.getClientId(context);
         final UITreeTable treetable = (treepanel.getParent() instanceof UITreeTable) ? (UITreeTable) treepanel.getParent() : null;
         final TreeTableModel tree = treepanel.getView();
         final TreeNodeModel node = tree.getById(treeline.getNodeInstance().getId());
@@ -228,7 +230,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
 
             for (final UIComponent tmp : treeline.getChildren()) {
                 if (!(tmp instanceof HtmlPanelGroup)) {
-                    Utils.encodeRecursive(context, tmp);
+                    FacesUtils.encodeRecursive(context, tmp);
                 }
             }
         }
@@ -278,7 +280,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                         if (debug) {
                             LOGGER.info("encodeChildren : Encode this child : " + treepanel.getClientId(context) + "_panel_" + child.getId());
                         }
-                        Utils.encodeRecursive(context, (Utils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
+                        FacesUtils.encodeRecursive(context, (FacesUtils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
                     }
                 }
 
@@ -304,8 +306,8 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
         beforeEncodeEnd(context, component);
 
         final UITreeLinesBase treeline = (UITreeLinesBase) component;
-        final String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        final String treepanelId = treepanel.getClientId(context);
         final TreeNodeModel node = treeline.getNodeInstance();
 
         if (debug) {

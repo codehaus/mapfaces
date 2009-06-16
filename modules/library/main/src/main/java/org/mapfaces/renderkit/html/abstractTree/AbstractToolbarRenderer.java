@@ -28,7 +28,7 @@ import javax.faces.render.Renderer;
 import org.mapfaces.component.abstractTree.UITreeToolbarBase;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.ReflectionUtils;
 
 /**
@@ -142,7 +142,7 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
 
                 }
 
-                Utils.encodeRecursive(context, tmp);
+                FacesUtils.encodeRecursive(context, tmp);
 
             }
         }

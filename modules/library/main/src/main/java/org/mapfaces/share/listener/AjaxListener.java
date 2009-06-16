@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.mapfaces.share.interfaces.A4JInterface;
 import org.mapfaces.share.interfaces.AjaxInterface;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * A simple phase listener to filter Ajax requests.
@@ -90,10 +90,10 @@ public class AjaxListener implements PhaseListener {
 
     private void handleAjaxRequest(final FacesContext context, final String componentId) {
         final UIViewRoot viewroot = context.getViewRoot();
-        UIComponent candidate = Utils.findComponentById(context, viewroot, componentId);
+        UIComponent candidate = FacesUtils.findComponentById(context, viewroot, componentId);
 
         if(candidate == null){
-            candidate = Utils.findComponent(context, componentId);
+            candidate = FacesUtils.findComponentByClientId(context, viewroot, componentId);
         }
 
         if (candidate == null) {
@@ -114,9 +114,9 @@ public class AjaxListener implements PhaseListener {
         final A4JInterface ajaxcomponent;
         UIComponent AjaxSupport = null;
 
-        AjaxSupport = Utils.findComponentById(context, viewroot, componentId);
+        AjaxSupport = FacesUtils.findComponentById(context, viewroot, componentId);
         if (AjaxSupport == null) {
-            AjaxSupport = Utils.findComponent(context, componentId);
+            AjaxSupport = FacesUtils.findComponentByClientId(context, viewroot, componentId);
         }
         if (AjaxSupport == null) {
             //LOGGER.warning("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);

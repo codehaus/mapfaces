@@ -30,6 +30,7 @@ import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Kevin Delfour
@@ -76,8 +77,9 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         final UITreeLinesBase treeline        = (UITreeLinesBase) treenodeinfo.getParent();
         final TreeNodeModel node              = treeline.getNodeInstance();
         final ResponseWriter writer           = context.getResponseWriter();
-        final String treepanelId              = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treetable       = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+
+        final UITreePanelBase treetable = (UITreePanelBase) FacesUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        final String treepanelId = treetable.getClientId(context);
 
         String styleUser = "";
         if (treenodeinfo.getStyle() !=null){
@@ -124,7 +126,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             for (UIComponent tmp : component.getChildren()) {
                 writer.startElement("div", component);
                 writer.writeAttribute("class", DESC_STYLE_CLASS, null);
-                Utils.encodeRecursive(context, tmp);
+                FacesUtils.encodeRecursive(context, tmp);
                 writer.endElement("div");
             }
         }

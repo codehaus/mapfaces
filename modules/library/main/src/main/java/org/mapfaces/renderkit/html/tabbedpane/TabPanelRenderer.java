@@ -20,7 +20,6 @@ package org.mapfaces.renderkit.html.tabbedpane;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -28,7 +27,7 @@ import javax.faces.render.Renderer;
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys).
@@ -40,20 +39,7 @@ public class TabPanelRenderer extends Renderer {
     private static final String TABCSS_CSS = "/org/mapfaces/resources/tabbedpane/css/domtab.css";
     private static final String TABJS = "/org/mapfaces/resources/tabbedpane/js/domtab.js";
 
-    private UIForm getForm(UIComponent component) {
-        UIComponent parent = component.getParent();
-        while (parent != null && !(parent instanceof UIForm)) parent = parent.getParent();
-
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a form!");
-        }
-        return (UIForm) parent;
-    }
-
-    private String getPostbackFunctionName(final UIComponent component) {
-        final UITabPanel tabpanel = (UITabPanel) component;
-        return tabpanel.getId() + "PostBack";
-    }
+   
 
     /**
      *   By default, getRendersChildren returns true, so encodeChildren() will be invoked
@@ -145,7 +131,7 @@ public class TabPanelRenderer extends Renderer {
         final UITabPanel tabpanel = (UITabPanel) component;
 
         for (final UIComponent tmp : tabpanel.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
 
     }
