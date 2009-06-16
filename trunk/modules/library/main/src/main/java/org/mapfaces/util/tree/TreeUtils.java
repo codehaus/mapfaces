@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.ReflectionUtils;
 
 /**
@@ -79,8 +80,8 @@ public class TreeUtils {
             throws InstantiationException, IllegalAccessException {
         final FacesContext context      = FacesContext.getCurrentInstance();
         final UIComponent copy          = component.getClass().newInstance();
-        final String treepanelId        = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final String treepanelId        = FacesUtils.getParentComponentClientIdByClass(context, component, UITreePanelBase.class);
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesUtils.findComponentByClientId(context, component, treepanelId);
 
         //Copy specific attributes from component to news
         ReflectionUtils.copyAttributes(component, copy,NO_COPY_PROPERTIES);

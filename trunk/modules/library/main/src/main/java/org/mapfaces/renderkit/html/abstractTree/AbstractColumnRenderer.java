@@ -38,7 +38,7 @@ import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.treetable.TreeTableConfig;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.ReflectionUtils;
 
 /**
@@ -115,7 +115,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         if (component.getChildCount() != 0) {            
             for (final UIComponent tmp : component.getChildren()) {
-                Utils.encodeRecursive(context, tmp);
+                FacesUtils.encodeRecursive(context, tmp);
             }
         }
     }

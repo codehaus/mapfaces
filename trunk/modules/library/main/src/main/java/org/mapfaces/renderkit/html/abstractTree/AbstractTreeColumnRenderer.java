@@ -50,6 +50,7 @@ import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Kevin Delfour
@@ -138,14 +139,13 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             LOGGER.info("encodeBegin : " + AbstractTreeColumnRenderer.class.getName());
         }
 
-        final String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        final String treepanelId = treepanel.getClientId(context);
         final UITreeTableBase treetable = (UITreeTableBase) treepanel.getParent();
         final ResponseWriter writer = context.getResponseWriter();
         final UITreeColumnBase treecolumn = (UITreeColumnBase) component;
         final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         final TreeNodeModel node = treeline.getNodeInstance();
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         final AjaxUtils ajaxtools = new AjaxUtils();
 
         ajaxtools.addAjaxParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY, "true");
@@ -250,7 +250,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 ImgNodeRepLink.setReRender(treeline.getParent().getClientId(context));
                 ImgNodeRepLink.setAjaxSingle(true);
                 ImgNodeRepLink.setLimitToList(true);
-                final String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
+                final String formId = FacesUtils.getFormId(context, component);
                 StringBuilder onSubmit = new StringBuilder(""). //If the current node has no child to expand, return false (so no A4J request has been sent)
                         append("if(!disp('").append(formId).append("','").append(treepanelId).append("','").append(node.getId()).append("')){").
                         append("return false;}");
@@ -380,12 +380,8 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             LOGGER.info("encodeChildren : " + AbstractTreeColumnRenderer.class.getName());
         }
 
-        final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        final TreeNodeModel node = treeline.getNodeInstance();
-        final ResponseWriter writer = context.getResponseWriter();
-
         for (final UIComponent tmp : component.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
 
     }
@@ -396,11 +392,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
-        final String treepanelId = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
-        final UITreeColumnBase treecolumn = (UITreeColumnBase) component;
-        final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        final TreeNodeModel node = treeline.getNodeInstance();
 
         if (debug) {
             LOGGER.info("beforeEncodeEnd : " + AbstractTreeColumnRenderer.class.getName());
@@ -443,9 +434,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
      */
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String nodeId = request.getParameter(AjaxUtils.AJAX_NODE_ID_KEY);
-        final UITreeLinesBase treeline = (UITreeLinesBase) Utils.findComponentById(context, context.getViewRoot(), "line_" + nodeId);
         final StringBuilder sb = new StringBuilder("");
         final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
@@ -478,15 +466,14 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     @Override
     public void A4JPostRequest(final FacesContext context, final UIComponent component) {
         final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
-        final String treepanelId = Utils.getWrappedComponentId(context, treeline, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) Utils.findComponent(context, treepanelId);
-        final String formId = Utils.getWrappedComponentId(context, component, UIForm.class);
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesUtils.findParentComponentByClass(treeline, UITreePanelBase.class);
+        final String treepanelId = treepanel.getClientId(context);
         final TreeNodeModel node = treeline.getNodeInstance();
 
         for (int i = 0, n = node.getChildCount(); i < n; i++) {
             final TreeNodeModel nodeTemp = (TreeNodeModel) node.getChildAt(i);
             final String Line2Modify = treepanelId + "_line_" + nodeTemp.getId();
-            final UITreeLinesBase treeline2change = (UITreeLinesBase) Utils.findComponent(context, Line2Modify);
+            final UITreeLinesBase treeline2change = (UITreeLinesBase) FacesUtils.findComponentByClientId(context, context.getViewRoot(), Line2Modify);
             if (treeline2change != null) {
                 treeline2change.getNodeInstance().setChecked(true);
                 treeline2change.setRendered(true);

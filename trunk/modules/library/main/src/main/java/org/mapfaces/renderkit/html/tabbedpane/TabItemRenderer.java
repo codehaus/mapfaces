@@ -27,7 +27,7 @@ import javax.faces.render.Renderer;
 
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  *
@@ -111,7 +111,7 @@ public class TabItemRenderer extends Renderer {
         final UITabItem tabitem = (UITabItem) component;
 
         for (final UIComponent tmp : tabitem.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
 
     }

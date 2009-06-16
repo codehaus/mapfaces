@@ -193,7 +193,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeChildren : " + AbstractTreeTableRenderer.class.getName());
 
         for (final UIComponent tmp : component.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
 
         phaseEnd = new Date();

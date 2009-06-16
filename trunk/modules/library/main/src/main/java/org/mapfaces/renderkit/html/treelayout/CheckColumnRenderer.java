@@ -31,7 +31,7 @@ import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.component.treelayout.UICheckColumn;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  *
@@ -69,7 +69,7 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
                 final ExternalContext ext = context.getExternalContext();
                 final ELContext elContext = context.getELContext();
                 final Map parameterMap = ext.getRequestParameterMap();
-                final UIForm formContainer = Utils.getForm(component);
+                final UIForm formContainer = FacesUtils.findForm(component);
                 String keyParameterInput = formContainer.getId() + ":check_" + comp.getId();
                 String newValue = (String) parameterMap.get(keyParameterInput);
                 boolean booleanValue = false;

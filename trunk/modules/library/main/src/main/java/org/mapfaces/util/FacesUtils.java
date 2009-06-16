@@ -97,6 +97,7 @@ import org.geotoolkit.style.MutableStyle;
 import org.geotoolkit.style.MutableStyleFactory;
 import org.geotoolkit.wms.xml.AbstractKeyword;
 
+import org.mapfaces.models.tree.TreeNodeModel;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
@@ -148,6 +149,39 @@ public class FacesUtils {
             }
         }
         component.encodeEnd(context);
+    }
+
+    /**
+     * This is a recursive method to encode all component's children who referring to a TreeNodeModel.
+     * @param context
+     * @param component
+     * @param node
+     * @throws java.io.IOException
+     */
+    public static void encodeRecursive(final FacesContext context, final UIComponent component,
+            final TreeNodeModel node) throws IOException {
+
+        if (!component.isRendered()) {
+            LOGGER.log(Level.INFO, component + " not rendered !");
+            return;
+        }
+
+        final String id = component.getParent().getId() + "_" + node.getId();
+        if (findComponentById(context, context.getViewRoot(), id) == null) {
+            component.setId(id);
+            component.encodeBegin(context);
+            if (component.getRendersChildren()) {
+                component.encodeChildren(context);
+            } else {
+                final Iterator kids = component.getChildren().iterator();
+                while (kids.hasNext()) {
+                    UIComponent kid = (UIComponent) kids.next();
+                    encodeRecursive(context, kid, node);
+                }
+            }
+
+            component.encodeEnd(context);
+        }
     }
 
     /**
@@ -320,41 +354,33 @@ public class FacesUtils {
         return (HttpServletResponse) fc.getExternalContext().getResponse();
     }
 
-    public static String getFormId(FacesContext context, UIComponent component) {
-        UIComponent parent = component;
-        while (!(parent instanceof UIForm)) {
-            if (parent != null) {
-                parent = parent.getParent();
-            } else {
-                throw new IllegalStateException("You must specify a form for the mapfaces components.");
-            }
-        }
-        return parent.getClientId(context);
-    }
+     /************************************* UIForm functions *********************************/
+    
 
+
+
+     /************************************* find functions *********************************/
+
+    public static UIForm findForm(UIComponent component) {
+        return (UIForm) findParentComponentByClass(component, UIForm.class);
+    }
     /**
-     * Returns a component referenced by his clientId.
-     *
-     * @param context
-     * @param root
-     * @param clientId
-     * @return component referenced by clientId or null if not found
+     * <p>Get container form of the UIComponent</p>
+     * @param component UIComponent to be rendered
+     * @return UIForm the form container of the component if exist else return null
      */
-    public static UIComponent findComponentByClientId(final FacesContext context,
-            final UIComponent root, final String clientId) {
-        UIComponent component = null;
-        for (int i = 0; i < root.getChildCount() && component == null; i++) {
-            final UIComponent child = (UIComponent) root.getChildren().get(i);
-            component = findComponentByClientId(context, child, clientId);
-        }
-        if (root.getId() != null) {
-            if (component == null && root.getClientId(context).equals(clientId)) {
-                component = root;
-            }
-        }
-        return component;
+
+    public static String getFormId(FacesContext context, UIComponent component) {
+        return findForm(component).getId();
     }
 
+    public static String getFormClientId(FacesContext context, UIComponent component) {
+        return findForm(component).getClientId(context);
+    }
+
+    public static UIComponent findComponent(FacesContext faceContext, String clientId) {
+        return faceContext.getViewRoot().findComponent(clientId);
+    }
     /**
      * Returns a component referenced by his id.
      * @param context
@@ -376,7 +402,37 @@ public class FacesUtils {
         }
         return component;
     }
+    /**
+     * Returns a component referenced by his clientId.
+     *
+     * @param context
+     * @param root
+     * @param clientId
+     * @return component referenced by clientId or null if not found
+     */
+    public static UIComponent findComponentByClientId(final FacesContext context,
+            final UIComponent root, final String clientId) {
+       return findComponent(context, clientId);
+    }
+    
+    public static UIComponent findParentComponentByClass(final UIComponent component, final Class c) {
+        UIComponent parent = component;
+        while (!(c.isInstance(parent))) {
+            parent = parent.getParent();
+        }
+        return parent;
+    }
+    public static String getParentComponentIdByClass(final UIComponent component, final Class c) {
+        return findParentComponentByClass(component, c).getId();
+    }
+    public static String getParentComponentClientIdByClass(final FacesContext faceContext,
+            final UIComponent component, final Class c) {
+        return findParentComponentByClass(component, c).getClientId(faceContext);
+    }
 
+
+
+    
     public static RenderKit getRenderKit(final FacesContext context) {
         String renderKitId = context.getViewRoot().getRenderKitId();
         renderKitId = (null != renderKitId) ? renderKitId : RenderKitFactory.HTML_BASIC_RENDER_KIT;
@@ -456,9 +512,9 @@ public class FacesUtils {
         extraParams.put(AjaxUtils.AJAX_LAYER_ID, varId);
         extraParams.put(AjaxUtils.AJAX_CONTAINER_ID_KEY, comp.getClientId(context));
         /*if we don't want to reRender another component than the "var" component */
-        if (idsToReRender == null) {
-            idsToReRender = varId;
-        }
+        //if (idsToReRender == null) {
+            idsToReRender += "," +varId ;
+       // }
         return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);
     }
 
@@ -1241,5 +1297,37 @@ public class FacesUtils {
             clientId = root.getClientId(context);
         }
         return clientId;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+    public static UIComponent showComponent(FacesContext faceContext, UIComponent root) {
+        UIComponent component = null;
+        for (int i = 0; i < root.getChildCount() && component == null; i++) {
+            final UIComponent child = (UIComponent) root.getChildren().get(i);
+            component = showComponent(faceContext, child);
+        }
+        return component;
+    }
+
+    public static void showArborescence(UIComponent component) {
+        System.out.println("COMP :" + component.getId());
+        for (final UIComponent tmp : component.getChildren()) {
+            System.out.println(" + CHILD >" + tmp.getId());
+            if (tmp.getChildCount() > 0) {
+                showArborescence(tmp);
+            }
+        }
     }
 }
