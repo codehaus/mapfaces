@@ -43,7 +43,7 @@ import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.Utils;
 import org.mapfaces.util.XMLContextUtilities;
 
 /**

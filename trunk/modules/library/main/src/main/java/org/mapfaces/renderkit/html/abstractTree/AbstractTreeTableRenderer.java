@@ -31,7 +31,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.component.abstractTree.UITreeBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.Utils;
 import org.mapfaces.component.abstractTree.UITreeTableBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.tree.TreeModelsUtils;

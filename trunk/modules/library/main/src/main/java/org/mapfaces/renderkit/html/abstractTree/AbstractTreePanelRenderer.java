@@ -43,7 +43,7 @@ import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.request.ServletUtils;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.Utils;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.tree.TreeStyle;

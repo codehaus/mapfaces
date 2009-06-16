@@ -18,9 +18,7 @@ package org.mapfaces.renderkit.html.treebuilder;
 
 import java.io.IOException;
 
-import java.util.List;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
@@ -32,7 +30,6 @@ import org.mapfaces.component.treebuilder.UITreeTable;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeColumnRenderer;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 
 /**
