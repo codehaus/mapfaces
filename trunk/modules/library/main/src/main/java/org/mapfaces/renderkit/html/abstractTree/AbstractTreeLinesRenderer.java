@@ -280,7 +280,7 @@ public abstract class AbstractTreeLinesRenderer extends Renderer implements Ajax
                         if (debug) {
                             LOGGER.info("encodeChildren : Encode this child : " + treepanel.getClientId(context) + "_panel_" + child.getId());
                         }
-                        FacesUtils.encodeRecursive(context, (FacesUtils.findComponent(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
+                        FacesUtils.encodeRecursive(context, (FacesUtils.findComponentByClientId(context, treepanel.getClientId(context) + "_panel_" + child.getId())));
                     }
                 }
 
