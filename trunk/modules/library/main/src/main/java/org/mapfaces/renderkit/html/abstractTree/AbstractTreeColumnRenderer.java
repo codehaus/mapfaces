@@ -32,6 +32,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
 import org.ajax4jsf.ajax.html.HtmlAjaxOutputPanel;
 
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
