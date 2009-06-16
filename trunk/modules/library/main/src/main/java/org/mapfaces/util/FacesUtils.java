@@ -378,8 +378,8 @@ public class FacesUtils {
         return findForm(component).getClientId(context);
     }
 
-    public static UIComponent findComponent(FacesContext faceContext, String clientId) {
-        return faceContext.getViewRoot().findComponent(clientId);
+    public static UIComponent findComponentByClientId(FacesContext faceContext, String clientId) {
+        return findComponentByClientId(faceContext, faceContext.getViewRoot(), clientId);
     }
     /**
      * Returns a component referenced by his id.
@@ -412,7 +412,7 @@ public class FacesUtils {
      */
     public static UIComponent findComponentByClientId(final FacesContext context,
             final UIComponent root, final String clientId) {
-       return findComponent(context, clientId);
+       return root.findComponent(clientId);
     }
     
     public static UIComponent findParentComponentByClass(final UIComponent component, final Class c) {
