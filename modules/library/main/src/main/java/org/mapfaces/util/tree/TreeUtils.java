@@ -30,7 +30,6 @@ import javax.faces.context.FacesContext;
 
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.ReflectionUtils;
 
