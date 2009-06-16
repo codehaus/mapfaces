@@ -87,14 +87,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         width = "width:100%";
         height = "height:100%";
 
-        /*
-         * Tests
-         * Firstly, test before rendering if the component is present in a UIForm
-         * Then verify if the component haven't been rendered yet
-         */
-        if (!(getForm(component) instanceof UIForm)) {
-            return;
-        }
+       
         /* Is the component haven't been rendered yet ? */
         if (!component.isRendered()) {
             return;
@@ -273,21 +266,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         return;
     }
 
-    /* Others methods */
-    /**
-     * <p>Get container form of the UIComponent</p>
-     * @param component UIComponent to be rendered
-     * @return UIForm the form container of the component if exist else return null
-     */
-    private UIForm getForm(UIComponent component) {
-
-        UIComponent parent = component.getParent();
-        while( parent != null && !(parent instanceof UIForm) ) parent = parent.getParent();
-
-        if (parent == null) throw new IllegalStateException("Not nested inside a form!");
-
-        return (UIForm) parent;
-    }
+   
 
     /**
      * <p>Return a flag indicating whether this Renderer is responsible for rendering the
