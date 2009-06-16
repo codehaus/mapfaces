@@ -244,7 +244,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 HtmlAjaxCommandLink ImgNodeRepLink = new HtmlAjaxCommandLink();
 //TODO these lines must be used for working the loadAll attribute
 //                HtmlAjaxSupport ImgNodeRepLink = new HtmlAjaxSupport();
-                ImgNodeRepLink.setEvent("onclick");
+//                ImgNodeRepLink.setEvent("onclick");
                 
                 ImgNodeRepLink.setId(treepanel.getId() + "_ajax_" + node.getId());
                 ImgNodeRepLink.setReRender(treeline.getParent().getClientId(context));
