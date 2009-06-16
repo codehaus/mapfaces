@@ -29,7 +29,6 @@ import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.util.Utils;
 import org.mapfaces.util.FacesUtils;
 
 /**

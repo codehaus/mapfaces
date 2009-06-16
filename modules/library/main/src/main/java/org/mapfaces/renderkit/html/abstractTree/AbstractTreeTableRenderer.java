@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -31,7 +30,6 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.mapfaces.component.abstractTree.UITreeBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.Utils;
 import org.mapfaces.component.abstractTree.UITreeTableBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.tree.TreeModelsUtils;
