@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
 import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
 import org.mapfaces.component.UIButtonBar;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.Utils;
 import org.mapfaces.util.FacesUtils;
 
 /**

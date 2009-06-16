@@ -20,10 +20,8 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import org.mapfaces.component.treebuilder.UITreeLines;
 import org.mapfaces.component.treebuilder.UITreePanel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.tree.TreeStyle;
 

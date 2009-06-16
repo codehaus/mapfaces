@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.mapfaces.share.utils;
+package org.mapfaces.util;
 
 import java.util.List;
 import java.util.StringTokenizer;
@@ -31,22 +31,6 @@ public class Utils {
 
     private final static Logger LOGGER = Logger.getLogger(Utils.class.getName());
 
-  
-    
-    /**
-     * This method return the count of layer WMS from a list, it is used to separate the mflayers and real wms layers.
-     * @param list
-     * @return
-     */
-    public static int getWMSLayersCount(List<Layer> list) {
-        int result = 0;
-        for (Layer layer : list) {
-            if (layer != null && layer.getType().equals(org.mapfaces.models.LayerType.WMS)) {
-                result++;
-            }
-        }
-        return result;
-    }
     
     /**
      * This method returns a string array from a string and a delimiter, the array contains all tokens.

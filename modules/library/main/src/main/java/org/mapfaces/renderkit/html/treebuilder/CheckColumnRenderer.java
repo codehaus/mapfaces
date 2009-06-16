@@ -19,7 +19,6 @@ package org.mapfaces.renderkit.html.treebuilder;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 
@@ -29,7 +28,6 @@ import org.mapfaces.component.treebuilder.UITreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 
 /**

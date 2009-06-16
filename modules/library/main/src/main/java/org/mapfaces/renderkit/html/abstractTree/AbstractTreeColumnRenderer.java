@@ -24,17 +24,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.faces.component.UIForm;
-import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputText;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
 import org.ajax4jsf.ajax.html.HtmlAjaxOutputPanel;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
@@ -48,7 +44,6 @@ import org.mapfaces.share.interfaces.A4JRendererInterface;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
 

@@ -20,7 +20,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,10 +35,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
-import org.apache.commons.lang.StringUtils;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
-import org.geotoolkit.internal.StringUtilities;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureCollections;
 import org.geotools.feature.simple.SimpleFeatureImpl;
@@ -58,7 +55,6 @@ import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.WmsLayer;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.FeatureVisitor;
 import org.opengis.feature.simple.SimpleFeature;
@@ -214,7 +210,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     comp.setOutputLongitude(lon);
                 }
 
-                final int nbWmsLayers = Utils.getWMSLayersCount(model.getVisibleLayers());
                 //QUERY_LAYERS attribute for each server
                 HashMap<String, List<WmsLayer>> wmsServers = new HashMap<String, List<WmsLayer>>();
                 final List<Feature> featureInfoList = new ArrayList<Feature>();
