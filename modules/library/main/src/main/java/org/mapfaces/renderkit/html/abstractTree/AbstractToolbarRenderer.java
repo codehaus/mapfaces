@@ -25,7 +25,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
-import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.abstractTree.UITreeToolbarBase;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
@@ -40,26 +39,6 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
     private static final Logger LOGGER = Logger.getLogger(AbstractToolbarRenderer.class.getName());
 
     private boolean debug = true;
-
-    /**
-     * This method returns the parent form of this element.
-     * If this element is a form then it simply returns itself.
-     * @param component -
-     * @return
-     */
-    private static UITreePanelBase getForm(final UIComponent component) {
-        UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UITreePanelBase) {
-                break;
-            }
-            parent = parent.getParent();
-        }
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a tree panel!");
-        }
-        return (UITreePanelBase) parent;
-    }
 
     /**
      * {@inheritDoc}
@@ -88,15 +67,17 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
         final Boolean obj = (Boolean) component.getAttributes().get("debug") ;
         if (obj != null) debug = obj;
 
-        if (debug) LOGGER.info("beforeEncodeBegin : " + AbstractToolbarRenderer.class.getName());
+        if (debug)
+            LOGGER.info("beforeEncodeBegin : " + AbstractToolbarRenderer.class.getName());
 
         beforeEncodeBegin(context, component);
 
-        //Start encodeBegin
-        if (debug) LOGGER.info("encodeBegin : " + AbstractToolbarRenderer.class.getName());
+        if (debug)
+            LOGGER.info("encodeBegin : " + AbstractToolbarRenderer.class.getName());
 
         String styleUser = toolbar.getStyle();
         if(styleUser == null) styleUser = "";
+
         String styleClass = toolbar.getStyleClass();
         if(styleClass == null) styleClass = "";
 
@@ -104,8 +85,8 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
         writer.writeAttribute("style", styleUser, null);
         writer.writeAttribute("class", "x-btn-wrap x-btn " + styleClass, null);
 
-        //Method to apply before encodeBegin
-        if (debug) LOGGER.info("afterEncodeBegin : " + AbstractToolbarRenderer.class.getName());
+        if (debug)
+            LOGGER.info("afterEncodeBegin : " + AbstractToolbarRenderer.class.getName());
 
         afterEncodeBegin(context, component);
     }
@@ -116,7 +97,6 @@ public abstract class AbstractToolbarRenderer extends Renderer implements AjaxRe
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UITreeToolbarBase toolbar = (UITreeToolbarBase) component;
-        final ResponseWriter writer     = context.getResponseWriter();
         boolean tuneTools               = false;
         boolean tuneClassTools          = false;
         String styleTools               = "";

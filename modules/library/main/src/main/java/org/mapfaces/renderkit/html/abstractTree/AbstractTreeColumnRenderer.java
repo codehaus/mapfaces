@@ -214,6 +214,7 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             // 2: Add non default tree image (minus, plus, elbow, end ...) from tree.png
 
             HtmlAjaxOutputPanel ImgNodeRep = new HtmlAjaxOutputPanel();
+//TODO these lines must be used for working the loadAll attribute
 //            final HtmlGraphicImage ImgNodeRep = new HtmlGraphicImage();
 
             if (FolderType) {
@@ -238,8 +239,13 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             ImgNodeRep.setStyle("padding:0px;");
 
             if (FolderType) {
+
                 //In IE 8 : HtmlAjaxCommandLink works better than a classic HtmlCommandLink
                 HtmlAjaxCommandLink ImgNodeRepLink = new HtmlAjaxCommandLink();
+//TODO these lines must be used for working the loadAll attribute
+//                HtmlAjaxSupport ImgNodeRepLink = new HtmlAjaxSupport();
+                ImgNodeRepLink.setEvent("onclick");
+                
                 ImgNodeRepLink.setId(treepanel.getId() + "_ajax_" + node.getId());
                 ImgNodeRepLink.setReRender(treeline.getParent().getClientId(context));
                 ImgNodeRepLink.setAjaxSingle(true);
@@ -269,6 +275,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                 ImgNodeRepLink.setOnclick(onSubmit.toString());
                 ImgNodeRepLink.getChildren().add(ImgNodeRep);
                 children.add(ImgNodeRepLink);
+//TODO these lines must be used for working the loadAll attribute
+//                ImgNodeRepLink.setOnsubmit(onSubmit.toString());
+//                ImgNodeRep.getFacets().put("a4jsupport", ImgNodeRepLink);
+//                children.add(ImgNodeRep);
             } else {
                 children.add(ImgNodeRep);
             }

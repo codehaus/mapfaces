@@ -42,26 +42,6 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
     private boolean debug = false;
 
     /**
-     * This method returns the parent form of this element.
-     * If this element is a form then it simply returns itself.
-     * @param component -
-     * @return
-     */
-    private static UITreePanelBase getForm(final UIComponent component) {
-        UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UITreePanelBase) {
-                break;
-            }
-            parent = parent.getParent();
-        }
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a tree panel!");
-        }
-        return (UITreePanelBase) parent;
-    }
-
-    /**
      * {@inheritDoc }
      */
     @Override
@@ -83,11 +63,13 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             debug = (Boolean) component.getAttributes().get("debug");
         }
 
-        if (debug) LOGGER.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug)
+            LOGGER.info("beforeEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         beforeEncodeBegin(context, component);
 
-        if (debug) LOGGER.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug)
+            LOGGER.info("encodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         //Start encoding
         final UITreeNodeInfoBase treenodeinfo = (UITreeNodeInfoBase) component;
@@ -95,7 +77,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         final TreeNodeModel node              = treeline.getNodeInstance();
         final ResponseWriter writer           = context.getResponseWriter();
         final String treepanelId              = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treetable       = getForm(treenodeinfo);
+        final UITreePanelBase treetable       = (UITreePanelBase) Utils.findComponent(context, treepanelId);
 
         String styleUser = "";
         if (treenodeinfo.getStyle() !=null){
@@ -120,7 +102,8 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             }
         }
 
-        if (debug) LOGGER.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
+        if (debug)
+            LOGGER.info("afterEncodeBegin : " + AbstractTreeNodeInfoRenderer.class.getName());
 
         afterEncodeBegin(context, component);
     }

@@ -25,7 +25,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
-import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.AjaxUtils;
@@ -48,34 +46,8 @@ import org.mapfaces.util.ReflectionUtils;
  */
 public abstract class AbstractColumnRenderer extends Renderer implements AjaxRendererInterface, CustomizeTreeComponentRenderer {
 
-    private TreeTableConfig config = new TreeTableConfig();
     private boolean debug;
     private static final Logger LOGGER = Logger.getLogger(AbstractColumnRenderer.class.getName());
-
-    /**
-     * This method returns the parent form of this element.
-     * If this element is a form then it simply returns itself.
-     * @param component -
-     * @return
-     */
-    private static UITreePanelBase getForm(UIComponent component) {
-        UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UITreePanelBase) {
-                break;
-            }
-            parent = parent.getParent();
-        }
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a tree panel!");
-        }
-        return (UITreePanelBase) parent;
-    }
-
-    private String getPostbackFunctionName(UIComponent component) {
-        UIColumnBase column = (UIColumnBase) component;
-        return column.getId() + "PostBack";
-    }
 
     /**
      * {@inheritDoc}
@@ -96,15 +68,15 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         assertValid(context, component);
 
         //Method to apply before encodeBegin
-        final Boolean obj = (Boolean) component.getAttributes().get("debug");
-        if(obj != null) debug = obj;
+        debug = (Boolean) component.getAttributes().get("debug");
 
-        if (debug) LOGGER.info("beforeEncodeBegin : " + AbstractColumnRenderer.class.getName());
+        if (debug)
+            LOGGER.info("beforeEncodeBegin : " + AbstractColumnRenderer.class.getName());
 
         beforeEncodeBegin(context, component);
 
-        //Start encodeBegin
-        if (debug) LOGGER.info("encodeBegin : " + AbstractColumnRenderer.class.getName());
+        if (debug)
+            LOGGER.info("encodeBegin : " + AbstractColumnRenderer.class.getName());
 
         final ResponseWriter writer     = context.getResponseWriter();
         final UITreeLinesBase treeline  = (UITreeLinesBase) component.getParent();
@@ -125,25 +97,14 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
             classUser = column.getStyleClass();
         }
 
-        final String treepanelId            = Utils.getWrappedComponentId(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel     = (UITreePanelBase) Utils.findComponent(context, treepanelId);
-
-        final int indentStyle;
-        if (!treepanel.isShowRoot()) {
-            indentStyle = (node.getDepth() - 2) * 12;
-        } else {
-            indentStyle = (node.getDepth() - 1) * 12;
-        }
-
         writer.startElement("div", component);
         writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
         writer.writeAttribute("class", "x-tree-col " + classUser, null);
         writer.writeAttribute("style", "width:" + size + "; " + styleUser, null);
 
-        //Method to apply before encodeBegin
-        if (debug) {
+        if (debug) 
             LOGGER.info("afterEncodeBegin : " + AbstractColumnRenderer.class.getName());
-        }
+        
         afterEncodeBegin(context, component);
     }
 
@@ -152,22 +113,11 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-        final ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-        final ResponseWriter writer         = context.getResponseWriter();
-        final UITreeLinesBase treeline      = (UITreeLinesBase) component.getParent();
-        final TreeNodeModel node            = treeline.getNodeInstance();
-        
-        if (component.getChildCount() != 0) {
+        if (component.getChildCount() != 0) {            
             for (final UIComponent tmp : component.getChildren()) {
                 Utils.encodeRecursive(context, tmp);
             }
         }
-//        else{
-//            writer.startElement("div", component);
-//            writer.writeAttribute("style", "height:1px;", null);
-//            writer.endElement("div");
-//        }
-
     }
 
     /**
@@ -175,12 +125,17 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      */
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
-        final ResponseWriter writer     = context.getResponseWriter();
-
-        if (debug) LOGGER.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
         beforeEncodeEnd(context, component);
+
+        if (debug)
+            LOGGER.info("beforeEncodeEnd : " + AbstractColumnRenderer.class.getName());
+
+        final ResponseWriter writer     = context.getResponseWriter();
         writer.endElement("div");
-        if (debug) LOGGER.info("afterEncodeEnd : " + AbstractColumnRenderer.class.getName());
+
+        if (debug) 
+            LOGGER.info("afterEncodeEnd : " + AbstractColumnRenderer.class.getName());
+
         afterEncodeEnd(context, component);
     }
 
