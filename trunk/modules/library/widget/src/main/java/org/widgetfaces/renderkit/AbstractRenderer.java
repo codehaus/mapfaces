@@ -22,7 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
-import org.mapfaces.share.utils.Utils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author kevin Delfour (IRD)
@@ -57,7 +57,7 @@ public class AbstractRenderer extends Renderer{
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         for (final UIComponent tmp : component.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
     }
 

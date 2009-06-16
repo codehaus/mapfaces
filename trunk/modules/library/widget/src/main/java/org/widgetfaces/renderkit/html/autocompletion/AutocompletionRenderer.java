@@ -35,8 +35,8 @@ import org.widgetfaces.adapter.autocompletion.adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author kevin Delfour
@@ -128,7 +128,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
 
         for (final UIComponent tmp : component.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
     }
 

@@ -33,8 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.Utils;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.FacesUtils;
 import org.widgetfaces.component.datepicker.UIDatepicker;
 
 /**
@@ -125,7 +125,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
 
         for (final UIComponent tmp : component.getChildren()) {
-            Utils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
     }
 
