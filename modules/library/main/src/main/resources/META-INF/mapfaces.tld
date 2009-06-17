@@ -711,6 +711,242 @@
             </description>
         </attribute>
     </tag>
+     <tag>
+        <name>EditionBar</name>
+        <tag-class>org.mapfaces.taglib.EditionBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            This is the tag that creates a component widget which will simply
+            process a model with a stylesheet - no specialized listeners provided.
+        </description>
+         <attribute>
+            <name>floatingBar</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the tool bar can be floating or not.
+                i.e : true means the div is outside the component. otherwise the false value means inside.
+            </description>
+        </attribute>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                an empty property element to show debugging output during stylesheet processing. Optional.
+            </description>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <description>A value binding that points to a bean property</description>
+            <name>binding</name>
+            <deferred-value>
+                <type>javax.faces.component.UIComponent</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                Flag indicating whether or not this component should be rendered
+                (during Render Response Phase), or processed on any subsequent
+                form submit.
+            </description>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The abstract string value.
+            </description>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>drawPoint</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a create point button .
+            </description>
+        </attribute>
+         <attribute>
+            <name>drawLine</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a create line button .
+            </description>
+        </attribute>
+         <attribute>
+            <name>drawPolygon</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a create polygon button .
+            </description>
+        </attribute>
+        <attribute>
+            <name>drawRegularPolygon</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a create rgular polygon button .
+            </description>
+        </attribute>
+        <attribute>
+            <name>regularPolygonSides</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+               Number of sides of the drawing RegularPolygon.
+            </description>
+        </attribute>
+         <attribute>
+            <name>deleteFeature</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a delete featurebutton .
+            </description>
+        </attribute>
+        <attribute>
+            <name>drag</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a drag geometry  button.
+            </description>
+        </attribute>
+        <attribute>
+            <name>resize</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a resize geometry  button.
+            </description>
+        </attribute>
+        <attribute>
+            <name>rotate</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a rotate geometry  button.
+            </description>
+        </attribute>
+        <attribute>
+            <name>modify</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a modify geometry button .
+            </description>
+        </attribute>
+        <attribute>
+            <name>select</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Add a selection geometry button
+            </description>
+        </attribute>
+        <attribute>
+            <name>snapping</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Active snapping when modify
+            </description>
+        </attribute>
+        <attribute>
+            <name>split</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Active splitting when modify
+            </description>
+        </attribute>
+    </tag>
     <!-- CursorTrack -->
     <tag>
         <name>CursorTrack</name>

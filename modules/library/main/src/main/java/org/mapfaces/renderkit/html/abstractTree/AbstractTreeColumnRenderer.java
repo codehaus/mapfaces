@@ -76,31 +76,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     private boolean debug;
 
     /**
-     * This method returns the parent form of this element.
-     * If this element is a form then it simply returns itself.
-     * @param component -
-     * @return
-     */
-    private static UITreePanelBase getForm(final UIComponent component) {
-        UIComponent parent = component.getParent();
-        while (parent != null) {
-            if (parent instanceof UITreePanelBase) {
-                break;
-            }
-            parent = parent.getParent();
-        }
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a tree panel!");
-        }
-        return (UITreePanelBase) parent;
-    }
-
-    private String getPostbackFunctionName(final UIComponent component) {
-        final UITreeColumnBase treecolumn = (UITreeColumnBase) component;
-        return treecolumn.getId() + "PostBack";
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

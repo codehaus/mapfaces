@@ -40,13 +40,13 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control.Scale, {
     },
     /**
      * Constructor: OpenLayers.Control.Scale
-     * 
+     *
      * Parameters:
-     * element - {DOMElement} 
-     * options - {Object} 
+     * element - {DOMElement}
+     * options - {Object}
      */
     initialize: function(options) {
-        OpenLayers.Control.prototype.initialize.apply(this, [options]);     
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
     },
     /**
      * Method: updateScale
@@ -57,38 +57,38 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control.Scale, {
         if (!scale) {
             return;
         }
-        scale = Math.round(scale);      
+        scale = Math.round(scale);
         var unitsStr ="";
-        
-         if (scale >= 10000 && scale < 1000000) {
-            unitsStr = this.measurementProperties[this.displaySystem].abbr[1];
+
+         if (scale >= 1000 && scale < 1000000) {
+            unitsStr = " m";//this.measurementProperties[this.displaySystem].abbr[1];
             scale = Math.round(scale / 1000);
-        } else if (scale >= 1000000 ) {            
-            unitsStr = this.measurementProperties[this.displaySystem].abbr[0];
+        } else if (scale >= 1000000 ) {
+            unitsStr = " km";//this.measurementProperties[this.displaySystem].abbr[0];
             scale = Math.round(scale / 1000000);
         } else {
-            unitsStr = this.measurementProperties[this.displaySystem].abbr[2];
+            unitsStr = " cm";//kmthis.measurementProperties[this.displaySystem].abbr[2];
             scale = Math.round(scale);
-        }    
-              
-        var scaleStr =""+scale+""; 
-        
+        }
+
+        var scaleStr =""+scale+"";
+
         if (scale >= 1000 && scale < 1000000) {
             scaleStr= scaleStr.substring(0, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
         } else  if (scaleStr >= 1000000 && scaleStr < 1000000000) {
             scaleStr = scaleStr.substring(0, scaleStr.length-6)+"."+scaleStr.substring(scaleStr.length-6, scaleStr.length-3)+"."+scaleStr.substring(scaleStr.length-3, scaleStr.length);
         } else if (scale < 1000) {
             scaleStr=scale;
-        } 
+        }
         this.element.innerHTML = OpenLayers.i18n("scale", {'scaleDenom':scaleStr+" "+unitsStr});
-    }, 
-    /** 
+    },
+    /**
      * Method: setMap
      */
     setMap: function() {
         OpenLayers.Control.prototype.setMap.apply(this, arguments);
-        this.map.events.register( 'mousemove', this, this.updateScale);
-    },   
+        this.map.events.register( 'moveend', this, this.updateScale);
+    },
     CLASS_NAME: "OpenLayers.Control.Scale"
 });
 

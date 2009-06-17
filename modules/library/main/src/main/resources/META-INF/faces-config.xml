@@ -13,7 +13,7 @@
 
         <!-- activate this listener in the appropriate application if needed,
         only used by TreeTable component when loadAll options is set to false -->
-        <!-- phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener-->
+        <phase-listener>org.mapfaces.share.listener.AjaxListener</phase-listener>
 
         <phase-listener>org.mapfaces.share.listener.DetectBrowserListener</phase-listener>
         <!--phase-listener>org.mapfaces.share.listener.PhaseTracker</phase-listener-->
@@ -62,6 +62,10 @@
     <component>
         <component-type>org.mapfaces.component.ButtonBar</component-type>
         <component-class>org.mapfaces.component.UIButtonBar</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.EditionBar</component-type>
+        <component-class>org.mapfaces.component.UIEditionBar</component-class>
     </component>
     <component>
         <component-type>org.mapfaces.component.models.Context</component-type>
@@ -307,6 +311,12 @@
             <component-family>org.mapfaces.ButtonBar</component-family>
             <renderer-type>org.mapfaces.renderkit.html.ButtonBar</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.ButtonBarRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Renders a button bar to navigate on the map. </description>
+            <component-family>org.mapfaces.EditionBar</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.EditionBar</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.EditionBarRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Cursor position on map. </description>
