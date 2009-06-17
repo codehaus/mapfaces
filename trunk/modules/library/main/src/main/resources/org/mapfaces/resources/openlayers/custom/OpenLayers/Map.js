@@ -327,7 +327,7 @@ OpenLayers.Map = OpenLayers.Class({
      * {Integer} Number of zoom levels for the map.  Defaults to 16.  Set a
      *           different value in the map options if needed.
      */
-    numZoomLevels: 100,
+    numZoomLevels: 16,
 
     /**
      * APIProperty: theme
@@ -399,7 +399,21 @@ OpenLayers.Map = OpenLayers.Class({
      */
     mfAjaxCompId: null,
     
-    
+    /**
+     * APIProperty: allOverlays
+     * {Boolean} Allow the map to function with "overlays" only.  Defaults to
+     *     false.  If true, the lowest layer in the draw order will act as
+     *     the base layer.  In addition, if set to true, all layers will
+     *     have isBaseLayer set to false when they are added to the map.
+     *
+     * Note:
+     * If you set map.allOverlays to true, then you *cannot* use
+     *     map.setBaseLayer or layer.setIsBaseLayer.  With allOverlays true,
+     *     the lowest layer in the draw layer is the base layer.  So, to change
+     *     the base layer, use <setLayerIndex> or <raiseLayer> to set the layer
+     *     index to 0.
+     */
+    allOverlays: false,
     /*************************************** end MF extra properties***************************************/
     
     /**
@@ -1071,7 +1085,9 @@ OpenLayers.Map = OpenLayers.Class({
                 return false;
             }
         }    
-
+        if(this.allOverlays) {
+            layer.isBaseLayer = false;
+        }
         this.events.triggerEvent("preaddlayer", {layer: layer});
         
         layer.div.className = "olLayerDiv";
@@ -1086,7 +1102,7 @@ OpenLayers.Map = OpenLayers.Class({
         this.layers.push(layer);
         layer.setMap(this);
 
-        if (layer.isBaseLayer)  {
+        if (layer.isBaseLayer  || (this.allOverlays && !this.baseLayer))  {
             if (this.baseLayer == null) {
                 // set the first baselaye we add as the baselayer
                 this.setBaseLayer(layer);
@@ -1160,7 +1176,7 @@ OpenLayers.Map = OpenLayers.Class({
             if(setNewBaseLayer) {
                 for(var i=0; i < this.layers.length; i++) {
                     var iLayer = this.layers[i];
-                    if (iLayer.isBaseLayer) {
+                    if (iLayer.isBaseLayer || this.allOverlays) {
                         this.setBaseLayer(iLayer);
                         break;
                     }
@@ -1225,7 +1241,17 @@ OpenLayers.Map = OpenLayers.Class({
             this.events.triggerEvent("changelayer", {
                 layer: layer, property: "order"
             });
+            
+            //FROM TRUNK : 
+            if(this.allOverlays) {
+                if(idx === 0) {
+                    this.setBaseLayer(layer);
+                } else if(this.baseLayer !== this.layers[0]) {
+                    this.setBaseLayer(this.layers[0]);
+                }
+            }
         }
+        
     },
 
     /** 
@@ -1264,7 +1290,7 @@ OpenLayers.Map = OpenLayers.Class({
             if (OpenLayers.Util.indexOf(this.layers, newBaseLayer) != -1) {
 
                 // make the old base layer invisible 
-                if (this.baseLayer != null) {
+                if (this.baseLayer != null && !this.allOverlays) {
                     this.baseLayer.setVisibility(false);
                 }
 
@@ -1275,7 +1301,10 @@ OpenLayers.Map = OpenLayers.Class({
                 // changing. This is used by tiles to check if they should 
                 // draw themselves.
                 this.viewRequestID++;
-                this.baseLayer.visibility = true;
+                //FROM OL TRUNK
+                if(!this.allOverlays) {
+                    this.baseLayer.visibility = true;
+                }
 
                 //redraw all layers
                 var center = this.getCenter();
@@ -1495,9 +1524,12 @@ OpenLayers.Map = OpenLayers.Class({
             this.size = newSize;
 
             //notify layers of mapresize
-            /*for(var i=0; i < this.layers.length; i++) {
-                this.layers[i].onMapResize();                
-            }*/
+            
+            if (this.layers.length > 0) {
+              for(var i=0; i < this.layers.length; i++) {
+                  this.layers[i].onMapResize();                
+              }
+            }
             //alert(this.getExtent().toString());
             if (this != null) {
                 var center = new OpenLayers.Pixel(newSize.w /2, newSize.h / 2);
@@ -1825,12 +1857,23 @@ OpenLayers.Map = OpenLayers.Class({
             
             //send the move call to the baselayer and all the overlays    
             //this.baseLayer.moveTo(bounds, zoomChanged, dragging);
+            //send the move call to the baselayer and all the overlays   
+            if (this.baseLayer != null) {
+              this.baseLayer.moveTo(bounds, zoomChanged, dragging);
+              if(dragging) {
+                  this.baseLayer.events.triggerEvent("move");
+              } else {
+                  this.baseLayer.events.triggerEvent("moveend",
+                      {"zoomChanged": zoomChanged}
+                  );
+              }
+            }
             
             bounds = this.getExtent();
             
            for (var i = 0; i < this.layers.length; i++) {
                 var layer = this.layers[i];
-                if (!layer.isBaseLayer) {
+                if (layer !== this.baseLayer && !layer.isBaseLayer) {
                     var inRange = layer.calculateInRange();
                     if (layer.inRange != inRange) {
                         // the inRange property has changed. If the layer is
@@ -1847,6 +1890,13 @@ OpenLayers.Map = OpenLayers.Class({
                     }
                     if (inRange && layer.visibility) {
                         layer.moveTo(bounds, zoomChanged, dragging);
+                        if(dragging) {
+                            layer.events.triggerEvent("move");
+                        } else {
+                            layer.events.triggerEvent("moveend",
+                                {"zoomChanged": zoomChanged}
+                            );
+                        }
                     }
                 }                
             }
@@ -2296,6 +2346,12 @@ OpenLayers.Map = OpenLayers.Class({
      * Zoom to the full extent and recenter.
      */
     zoomToMaxExtent: function() {
+        //restricted is true by default
+        var restricted = (options) ? options.restricted : true;
+
+        var maxExtent = this.getMaxExtent({
+            'restricted': restricted 
+        });
         this.zoomToExtent(this.getMaxExtent());
     },
 
