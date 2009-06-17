@@ -23,7 +23,7 @@
                 <a href="./buttonbar.jsf">ButtonBar component Test</a>
             </li> 
             <li>
-                <a href="./editingbar.jsf">EditingBar component Test</a>
+                <a href="./editionbar.jsf">EditionBar component Test</a>
             </li> 
             <li>
                 <a href="./locatormap.jsf">LocatorMap component Test</a>
