@@ -120,7 +120,7 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
                       }
                    }
                 }
-                /*for(var i=0; i < this.map.layers.length; i++) {
+                for(var i=0; i < this.map.layers.length; i++) {
                     // Are we in the layer div? Note that we have two cases
                     // here: one is to catch EventPane layers, which have a 
                     // pane above the layer (layer.pane)
@@ -129,7 +129,7 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
                         overLayerDiv = true;
                         break;
                     }
-                }*/
+                }
             }
             overMapDiv = (elem == this.map.div);
 
