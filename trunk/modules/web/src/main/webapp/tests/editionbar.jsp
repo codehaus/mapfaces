@@ -36,6 +36,8 @@
             <h:form>
                 <mf-model:Context minifyJS="true"  debug="true" service="data/context/owc030.xml">
                         <mf:MapPane debug="true"></mf:MapPane>
+                        <mf:ButtonBar styleClass="mfButtonBar horizontal" save="true" style="top:400px;left:500px;"/>
+
                         <mf:EditionBar styleClass="mfEditionBar horizontal" style="top:450px"
                         drawRegularPolygon ="true"
                         regularPolygonSides="4"

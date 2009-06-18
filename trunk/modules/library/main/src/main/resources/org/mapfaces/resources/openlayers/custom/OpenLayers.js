@@ -269,6 +269,7 @@ if(!window.OpenLayers){
                 "openlayers/custom/OpenLayers/Control/ScaleBar.js",
                 "openlayers/custom/OpenLayers/Control/MeasureArea.js",
                 "openlayers/custom/OpenLayers/Control/DeleteFeature.js",
+                "openlayers/custom/OpenLayers/Control/PanelExt.js",
                 "openlayers/custom/OpenLayers/Format/GeoJSON.js",
                 "openlayers/custom/OpenLayers/Control/NavToolbar.js",
                 "openlayers/custom/OpenLayers/Control/EditingToolbar.js",

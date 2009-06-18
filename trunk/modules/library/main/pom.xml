@@ -136,8 +136,9 @@
                     <nomunge>true</nomunge>
                     <nosuffix>true</nosuffix>
                     <jswarn>false</jswarn>
+                    <gzip>true</gzip>
                     <aggregations>
-			<aggregation>
+                        <aggregation>
 			    <!--removeIncluded>true</removeIncluded-->
                             <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/mapfaces.css</output>
                             <includes>
@@ -191,15 +192,11 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/Size.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Console.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tween.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/Rico/Corner.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/Rico/Color.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/Gears/gears_init.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Ajax.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Request.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Request/XMLHttpRequest.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Events.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Projection.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Map.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Icon.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Marker.js</include>
@@ -207,38 +204,10 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Popup.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tile.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tile/Image.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tile/WFS.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Image.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/SphericalMercator.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/EventPane.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/FixedZoomLevels.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Google.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/VirtualEarth.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Yahoo.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/HTTPRequest.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Grid.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/MapGuide.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/MapServer.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/MapServer/Untiled.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/KaMap.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/KaMapCache.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/MultiMap.js</include-->
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Markers.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Text.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/WorldWind.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/WMS.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/WMS/Untiled.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/GeoRSS.js</include-->
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Grid.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Boxes.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/TMS.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/TileCache.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Popup/Anchored.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Popup/AnchoredBubble.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Popup/Framed.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Popup/FramedCloud.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Feature.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Feature/Vector.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Feature/WFS.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Click.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Hover.js</include>
@@ -249,7 +218,6 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Drag.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/RegularPolygon.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Box.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/MouseWheel.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Keyboard.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/LangExt.js</include>
@@ -265,21 +233,16 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DragPan.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Navigation.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/MouseDefaults.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/MousePosition.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/OverviewMap.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/KeyboardDefaults.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/PanZoom.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/PanZoomBar.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ArgParser.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Permalink.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Scale.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ScaleLine.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/LayerSwitcher.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DrawFeature.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DragFeature.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ModifyFeature.js</include-->
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DragFeature.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ModifyFeature.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Panel.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/SelectFeature.js</include-->
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/SelectFeature.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/NavigationHistory.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Measure.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry.js</include>
@@ -300,60 +263,16 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer/Canvas.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer/VML.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Vector.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Strategy.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Strategy/Fixed.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Strategy/Cluster.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Strategy/Paging.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Strategy/BBOX.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Protocol.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Protocol/HTTP.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Protocol/SQL.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Protocol/SQL/Gears.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/PointTrack.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/GML.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Style.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/StyleMap.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Rule.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Filter.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Filter/FeatureId.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Filter/Logical.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Filter/Comparison.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Filter/Spatial.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/XML.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GML.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GML/Base.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GML/v2.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GML/v3.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/KML.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GeoRSS.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WFS.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WKT.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/OSM.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GPX.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/SLD.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/SLD/v1.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/SLD/v1_0_0.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/SLD/v1.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/Filter.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/Filter/v1.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/Filter/v1_0_0.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/Text.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/JSON.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GeoJSON.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WMC.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WMC/v1.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WMC/v1_0_0.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WMC/v1_1_0.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/WFS.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/MouseToolbar.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/NavToolbar.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/PanPanel.js</include-->
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Pan.js</include-->
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomIn.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomOut.js</include>
-                <!--include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomPanel.js</include-->
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/EditingToolbar.js</include>
+
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/proj4js/lib/proj4js-combined.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/proj4js/custom/proj4jsExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Map.js</include>
@@ -372,14 +291,17 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ScaleExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ScaleBar.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/MeasureArea.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/DeleteFeature.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/PanelExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Format/GeoJSON.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/NavToolbar.js</include>
-                                <!--include>${project.build.directory}/classes/org/mapfaces/resources/js/mfUtils.js</include-->
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/EditingToolbar.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/js/mfUtils.js</include>
                             </includes>
                         </aggregation>
 
 <!--Only for NetBeans who doesn't used Maven plugin -->
-			<!--aggregation>
+                        <aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/mapfaces.css</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/mapfaces.css</include>
@@ -409,7 +331,7 @@
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/openlayers.min.js</include>
                             </includes>
-                        </aggregation-->
+                        </aggregation>
 
 
                     </aggregations>
