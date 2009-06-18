@@ -2347,7 +2347,9 @@ OpenLayers.Map = OpenLayers.Class({
      */
     zoomToMaxExtent: function() {
         //restricted is true by default
-        var restricted = (options) ? options.restricted : true;
+        //TODO wait OpenLayers 2.8
+        var restricted = true;
+        //var restricted = (options) ? options.restricted : true;
 
         var maxExtent = this.getMaxExtent({
             'restricted': restricted 

@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.share.listener;
 
 import java.io.IOException;
@@ -39,9 +38,9 @@ public class ResourcePhaseListener implements PhaseListener {
     public static final String RESOURCE_PREFIX = "/resource";
     public static final String RESOURCE_LOCATION_PARAM = "r";
     public static final String CONTENT_TYPE_PARAM = "ct";
-    public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";    
+    public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
     static public final long DEFAULT_EXPIRE = 1000L * 60L * 60L * 24L * 30L;// 30 day
-    private final Map<String, String> extensionToContentType ;
+    private final Map<String, String> extensionToContentType;
     private static final Map<String, String> POOL = new HashMap<String, String>();
 
     public ResourcePhaseListener() {
@@ -52,6 +51,7 @@ public class ResourcePhaseListener implements PhaseListener {
         extensionToContentType.put(".jpeg", "image/jpeg");
         extensionToContentType.put(".png", "image/png");
         extensionToContentType.put(".css", "text/css");
+        extensionToContentType.put(".gz", "gzip");
     }
 
     /**
@@ -74,11 +74,11 @@ public class ResourcePhaseListener implements PhaseListener {
      */
     @Override
     public void afterPhase(final PhaseEvent event) {
-        if (event != null && event.getFacesContext() != null && 
-                event.getFacesContext().getViewRoot() != null && 
-                event.getFacesContext().getViewRoot().getViewId() != null && 
+        if (event != null && event.getFacesContext() != null &&
+                event.getFacesContext().getViewRoot() != null &&
+                event.getFacesContext().getViewRoot().getViewId() != null &&
                 event.getFacesContext().getViewRoot().getViewId().startsWith(RESOURCE_PREFIX)) {
-            
+
             final FacesContext context = event.getFacesContext();
             final ExternalContext external = context.getExternalContext();
 
@@ -110,10 +110,8 @@ public class ResourcePhaseListener implements PhaseListener {
                 
                 servletResponse.setContentType(contentType);
                 servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
-                servletResponse.setDateHeader("Expires", System.currentTimeMillis()
-						+ DEFAULT_EXPIRE);
-		servletResponse.setHeader("Cache-control", "max-age="
-						+ (DEFAULT_EXPIRE / 1000));
+                servletResponse.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE);
+                servletResponse.setHeader("Cache-control", "max-age=" + (DEFAULT_EXPIRE / 1000));
                 final OutputStream out = servletResponse.getOutputStream();
 
                 //PrintWriter out = servletResponse.getWriter();
@@ -153,14 +151,14 @@ public class ResourcePhaseListener implements PhaseListener {
         }
         final ViewHandler handler = context.getApplication().getViewHandler();
         final String url = handler.getActionURL(context, RESOURCE_PREFIX);
-        
+
         final StringBuilder sb = new StringBuilder(url);
         sb.append("?").append(RESOURCE_LOCATION_PARAM).append("=").append(resourcePath);
         if (contentType != null) {
             sb.append(",").append(CONTENT_TYPE_PARAM).append("=").append(contentType);
         }
         POOL.put(resourcePath, sb.toString());
-        
+
         return sb.toString();
     }
 
