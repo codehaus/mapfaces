@@ -86,3 +86,56 @@ function showInfo(panelId,nodeId){
     }
 }
 
+function collapseAll(){
+    $$('.collapsible').each(function(div) {
+        div.style.display="none";
+        if (div.childNodes.length > 0){
+            var reg = new RegExp("(ul)","g");
+            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
+            if  (lineTreenode!=null){
+                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
+                var listofchild = lineTreenode.childNodes;
+                for(i=0;i<=listofchild.length-1;i++){
+                    var childrenlist = listofchild[i].childNodes;
+                    if (childrenlist.length > 0){
+                        var children = childrenlist[0];
+                        if (children.className){
+                            if (children.className.indexOf("x-tree-elbow-minus") != -1){
+                                children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-plus floatLeft");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    });
+    return false;
+}
+
+function expandAll(){
+    $$('.collapsible').each(function(div) {
+        div.style.display="block";
+        if (div.childNodes.length > 0){
+            var reg = new RegExp("(ul)","g");
+            var lineTreenode = document.getElementById(div.id.replace(reg,"treenode"));
+            if  (lineTreenode!=null){
+                lineTreenode.setAttribute("class", "x-tree-node-el x-tree-node-collapsed x-tree-node-node-over x-tree-col floatLeft");
+                var listofchild = lineTreenode.childNodes;
+                for(i=0;i<=listofchild.length-1;i++){
+                    var childrenlist = listofchild[i].childNodes;
+                    if (childrenlist.length > 0){
+                        var children = childrenlist[0];
+                        if (children.className){
+                            if (children.className.indexOf("x-tree-elbow-plus") != -1){
+                                children.setAttribute("class", "x-tree-ec-icon x-tree-elbow-minus floatLeft");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    });
+    return false;
+}
