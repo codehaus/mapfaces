@@ -45,70 +45,92 @@ public class ChartListener implements PhaseListener {
 
     public void afterPhase(PhaseEvent phaseEvent) {
         String chartId = (String) phaseEvent.getFacesContext().getExternalContext().getRequestParameterMap().get("chartId");
+        String width = (String) phaseEvent.getFacesContext().getExternalContext().getRequestParameterMap().get("width");
+        int widthValue = (width != null && width.matches("[0-9]+")) ? Integer.valueOf(width) : 300;
+        String height = (String) phaseEvent.getFacesContext().getExternalContext().getRequestParameterMap().get("height");
+        int heightValue = (height != null && height.matches("[0-9]+")) ? Integer.valueOf(height) : 200;
+
         if (chartId != null) {
-            handleChartRequest(phaseEvent, chartId);
+            handleChartRequest(phaseEvent, chartId, widthValue, heightValue);
         }
     }
 
-    private void handleChartRequest(PhaseEvent phaseEvent, String id) {
+    /**
+     * 
+     * @param phaseEvent
+     * @param id
+     * @param width
+     * @param height
+     */
+    private void handleChartRequest(PhaseEvent phaseEvent, String id, int widthValue, int heightValue) {
         FacesContext facesContext = phaseEvent.getFacesContext();
         ExternalContext externalContext = facesContext.getExternalContext();
 
         Map sessionMap = externalContext.getSessionMap();
 
-        ChartData chartData = (ChartData) sessionMap.get(id);
-       
-        if (chartData != null && chartData.getRequestParameterMap()!= null) {
-            String zoomin = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMIN");
-            String zoomout = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMOUT");
-            String pixel = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.PIXEL");
-            String box = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.BOX");
-            String pan = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.PAN");
-            String offset = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.OFFSET");
-            String translate = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.TRANSLATE");
-            String container = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.CONTAINER_SIZE");
-            String[] tab;
-            if (pixel!=null) {
-                tab = pixel.split(","); 
-                if (zoomin != null && zoomin.equals("true")) {
-                    chartData.zoomInBoth(Double.valueOf(tab[0]),
-                            Double.valueOf(tab[1]));
-                } else if (zoomout != null && zoomout.equals("true")) {
-                    chartData.zoomOutBoth(Double.valueOf(tab[0]),
-                            Double.valueOf(tab[1]));
-                } 
-            } else if (box!=null) {                
-                tab = box.split(","); 
-                chartData.zoom(new Rectangle2D.Double(Double.valueOf(tab[0])
-                        ,Double.valueOf(tab[1])
-                        ,Double.valueOf(tab[2])-Double.valueOf(tab[0])
-                        ,Double.valueOf(tab[3])-Double.valueOf(tab[1])));
+        if (sessionMap.get(id) instanceof ChartData) {
+            ChartData chartData = (ChartData) sessionMap.get(id);
 
-            } else if (pan!=null && pan.equals("true") && translate!=null) {
+            if (chartData != null && chartData.getRequestParameterMap() != null) {
+                String zoomin = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMIN");
+                String zoomout = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.ZOOMOUT");
+                String pixel = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.PIXEL");
+                String box = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.BOX");
+                String pan = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.PAN");
+                String offset = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.OFFSET");
+                String translate = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.TRANSLATE");
+                String container = (String) chartData.getRequestParameterMap().get("org.mapfaces.chart.CONTAINER_SIZE");
+                String[] tab;
+                if (pixel != null) {
+                    tab = pixel.split(",");
+                    if (zoomin != null && zoomin.equals("true")) {
+                        chartData.zoomInBoth(Double.valueOf(tab[0]),
+                                Double.valueOf(tab[1]));
+                    } else if (zoomout != null && zoomout.equals("true")) {
+                        chartData.zoomOutBoth(Double.valueOf(tab[0]),
+                                Double.valueOf(tab[1]));
+                    }
+                } else if (box != null) {
+                    tab = box.split(",");
+                    chartData.zoom(new Rectangle2D.Double(Double.valueOf(tab[0]), Double.valueOf(tab[1]), Double.valueOf(tab[2]) - Double.valueOf(tab[0]), Double.valueOf(tab[3]) - Double.valueOf(tab[1])));
+
+                } else if (pan != null && pan.equals("true") && translate != null) {
                     double offsetx = Double.valueOf(offset.split(",")[0]);
                     double offsety = Double.valueOf(offset.split(",")[1]);
                     double width = Double.valueOf(container.split(",")[0]);
                     double height = Double.valueOf(container.split(",")[1]);
-                    chartData.pan((offsetx+(width/2)-Double.valueOf(translate.split(",")[0]))
-                            ,(offsety+(height/2)-Double.valueOf(translate.split(",")[1]))
-                            );
+                    chartData.pan((offsetx + (width / 2) - Double.valueOf(translate.split(",")[0])), (offsety + (height / 2) - Double.valueOf(translate.split(",")[1])));
+                }
+                chartData.setRequestParameterMap(null);
             }
-            chartData.setRequestParameterMap(null);
-        }
-       
-        try {
-            if (externalContext.getResponse() instanceof HttpServletResponse) {
-                writeChartWithServletResponse((HttpServletResponse) externalContext.getResponse(), chartData);
-            //writeChartWithServletResponse((HttpServletResponse)externalContext.getResponse(),chart, chartData, info);
-            //else if(externalContext.getResponse() instanceof RenderResponse)
-            //	writeChartWithPortletResponse((RenderResponse)externalContext.getResponse(), chart, chartData);
+
+            try {
+                if (externalContext.getResponse() instanceof HttpServletResponse) {
+                    writeChartWithServletResponse((HttpServletResponse) externalContext.getResponse(), chartData);
+                //writeChartWithServletResponse((HttpServletResponse)externalContext.getResponse(),chart, chartData, info);
+                //else if(externalContext.getResponse() instanceof RenderResponse)
+                //	writeChartWithPortletResponse((RenderResponse)externalContext.getResponse(), chart, chartData);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                sessionMap.put(id, chartData);
+                facesContext.responseComplete();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            sessionMap.put(id, chartData);
-            facesContext.responseComplete();
+        }else if (sessionMap.get(id) instanceof JFreeChart) {
+            try {
+                if (externalContext.getResponse() instanceof HttpServletResponse) {
+                    writeJFreeChartAsPng((HttpServletResponse) externalContext.getResponse(), (JFreeChart) sessionMap.get(id), widthValue, heightValue);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                facesContext.responseComplete();
+            }
+            
         }
+
+
     }
 
     public void beforePhase(PhaseEvent phaseEvent) {
@@ -131,11 +153,28 @@ public class ChartListener implements PhaseListener {
             writeChart(stream, chartData);
         }
     }
+
+    /**
+     * Write
+     * @param response
+     * @param jfreechart
+     * @throws java.io.IOException
+     */
+    private void writeJFreeChartAsPng(HttpServletResponse response, JFreeChart jfreechart, int width, int height) throws IOException {
+        if (jfreechart != null) {
+            OutputStream stream = response.getOutputStream();
+            ChartUtilities.writeChartAsPNG(stream, jfreechart, width, height);
+            stream.flush();
+            stream.close();
+        }
+    }
+
 //	private void writeChartWithPortletResponse(RenderResponse response, JFreeChart chart, ChartData chartData) throws IOException{
 //		OutputStream stream = response.getPortletOutputStream();
 //		response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
 //		writeChart(stream, chart, chartData);
 //	}
+
     private void writeChart(OutputStream stream, JFreeChart chart, ChartData chartData, ChartRenderingInfo info) throws IOException {
         if (chartData.getOutput().equalsIgnoreCase("png")) {
             ChartUtilities.writeChartAsPNG(stream, chart, chartData.getWidth(), chartData.getHeight());
