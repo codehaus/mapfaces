@@ -14,33 +14,27 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.component;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
 import org.geotoolkit.map.MapContext;
-import org.geotoolkit.measure.Measure;
 import org.geotoolkit.measure.Units;
 import org.geotoolkit.referencing.CRS;
-import org.geotoolkit.referencing.crs.AbstractCRS;
 import org.mapfaces.models.Context;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
-import org.opengis.referencing.ReferenceIdentifier;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral.(Geomatys)
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class UIMapPane extends UIWidgetBase {
 
@@ -156,8 +150,8 @@ public class UIMapPane extends UIWidgetBase {
                 unitName = "degree";
             }
             return ((widthBbox / width) * INCHES_PER_UNIT.get(unitName) * DOTS_PER_INCH) / 1000000; // /1000000 to obtain kilometers
-            //@TOD0 actually we use the OpenLayers method to calculate scale but the geotoolkit method seems to be better but gives bad result when the extent is
-            //equal or bigger than -180,180
+        //@TOD0 actually we use the OpenLayers method to calculate scale but the geotoolkit method seems to be better but gives bad result when the extent is
+        //equal or bigger than -180,180
 
 //            final double minx = Double.valueOf(model.getMinx());
 //            final double maxx = Double.valueOf(model.getMaxx());
@@ -172,7 +166,7 @@ public class UIMapPane extends UIWidgetBase {
 //            Measure mes = ((AbstractCRS) CRS.decode("EPSG:4326")).distance(new double[]{minx,centery}, new double[]{maxx,centery});
 //            System.out.println(mes.doubleValue());
 //            return mes.getUnit().getConverterTo(SI.KILO(SI.METRE)).convert(mes.doubleValue());
-            
+
         } catch (NoSuchAuthorityCodeException ex) {
             Logger.getLogger(UIMapPane.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FactoryException ex) {
@@ -433,10 +427,34 @@ public class UIMapPane extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[3];
+        final Object values[] = new Object[27];
         values[0] = super.saveState(context);
-        //values[1] = defaultMapContext;
+        values[1] = imageBuffer;
         values[2] = maxExtent;
+        values[3] = loadingLayers;
+        values[4] = tileBuffer;
+        values[5] = tileGutter;
+        values[6] = tileSize;
+        values[7] = imageReproject;
+        values[8] = displayOutsideMaxExtent;
+        values[9] = maxResolution;
+        values[10] = minResolution;
+        values[11] = resolutions;
+        values[12] = scales;
+        values[13] = unit;
+        values[14] = fixedSize;
+        values[15] = fractionalZoom;
+        values[16] = singleTile;
+        values[17] = numZoomLevels;
+        values[18] = panZoomBar;
+        values[19] = panZoom;
+        values[20] = keyboardDefaults;
+        values[21] = layerSwitcher;
+        values[22] = mousePosition;
+        values[23] = google;
+        values[24] = yahoo;
+        values[25] = virtualEarth;
+        values[26] = ajaxCompId;
         return values;
     }
 
@@ -447,7 +465,32 @@ public class UIMapPane extends UIWidgetBase {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
+        imageBuffer = (Integer) values[1];
         maxExtent = (String) values[2];
+        loadingLayers = (Integer) values[3];
+        tileBuffer = (Integer) values[4];
+        tileGutter = (Integer) values[5];
+        tileSize = (Integer) values[6];
+        imageReproject = (Boolean) values[7];
+        displayOutsideMaxExtent = (Boolean) values[8];
+        maxResolution = (String) values[9];
+        minResolution = (String) values[10];
+        resolutions = (List) values[11];
+        scales = (List) values[12];
+        unit = (Unit) values[13];
+        fixedSize = (Boolean) values[14];
+        fractionalZoom = (Boolean) values[15];
+        singleTile = (Boolean) values[16];
+        numZoomLevels = (Integer) values[17];
+        panZoomBar = (Boolean) values[18];
+        panZoom = (Boolean) values[19];
+        keyboardDefaults = (Boolean) values[20];
+        layerSwitcher = (Boolean) values[21];
+        mousePosition = (Boolean) values[22];
+        google = (Boolean) values[23];
+        yahoo = (Boolean) values[24];
+        virtualEarth = (Boolean) values[25];
+        ajaxCompId = (String) values[26];
     }
 
     /**
