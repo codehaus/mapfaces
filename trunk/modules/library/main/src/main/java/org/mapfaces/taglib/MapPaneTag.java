@@ -19,6 +19,7 @@ package org.mapfaces.taglib;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 /**
  * @author Mehdi Sidhoum
@@ -86,7 +87,7 @@ public class MapPaneTag extends WidgetBaseTag {
     protected void setProperties(final UIComponent component) {
         // always call the superclass method
         super.setProperties(component);
-        component.setValueExpression("maxExtent",getMaxExtent());
+        component.setValueExpression("maxExtent",maxExtent);
         component.setValueExpression("empty",empty);
         component.setValueExpression("panZoomBar",panZoomBar);
         component.setValueExpression("panZoom",panZoom);
@@ -115,7 +116,7 @@ public class MapPaneTag extends WidgetBaseTag {
     public void release() {
         // allways call the superclass method
         super.release();
-        setempty(null);
+        empty = null;
         setMaxExtent(null);
         panZoomBar = null;
         navigation = null;
@@ -123,7 +124,8 @@ public class MapPaneTag extends WidgetBaseTag {
         layerSwitcher = null;
         mousePosition = null;
         navToolBar = null;
-        setPanZoom(null);
+        numZoomLevels = null;
+        panZoom = null;
 
         imageBuffer = null;
         singleTile = null;
