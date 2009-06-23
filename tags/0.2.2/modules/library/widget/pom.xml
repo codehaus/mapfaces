@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mapfaces</groupId>
+        <artifactId>mapfaces-library</artifactId>
+        <version>0.2-SNAPSHOT</version>
+    </parent>
+
+  <!-- =========================================================== -->
+  <!--     Module Description                                      -->
+  <!-- =========================================================== -->
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces-widgets</artifactId>
+    <packaging>jar</packaging>
+    <name>Mapfaces Wigdets module</name>
+
+
+  <!-- =========================================================== -->
+  <!--     Developers and Contributors                             -->
+  <!-- =========================================================== -->
+
+  <!-- =========================================================== -->
+  <!--     Dependency Management                                   -->
+  <!-- =========================================================== -->
+    <dependencies>
+
+        <dependency>
+          <groupId>org.mapfaces</groupId>
+          <artifactId>mapfaces-main</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+
+        <!-- JSP, Servlet ,JSTL -->
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>javax.servlet.jsp</groupId>
+          <artifactId>jsp-api</artifactId>
+          <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.sf.alchim</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <force>true</force>
+                    <nomunge>true</nomunge>
+                    <nosuffix>true</nosuffix>
+                    <jswarn>false</jswarn>
+                    <aggregations>
+                        <aggregation>
+                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mootools.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/js/mootools-1.2-core.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/js/mootools-1.2-more.js</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/*.js</exclude>
+                            </excludes>
+                        </aggregation>
+                        <aggregation>
+                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/autocompletion.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/observer.js</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/*.js</exclude>
+                            </excludes>
+                        </aggregation>
+			<aggregation>
+                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/datepicker.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/datepicker/js/datepickerExtend.js</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/*.js</exclude>
+                            </excludes>
+                        </aggregation>
+                    </aggregations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    </properties>
+
+
+</project>

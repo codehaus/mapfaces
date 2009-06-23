@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+	<g>
+		<defs id="defs1">
+			<clippath clipPathUnits="userSpaceOnUse" id="clipPath1">
+				<path d="M0 0 L800 0 L800 400 L0 400 L0 0 Z"/>
+			</clippath>
+			<clippath clipPathUnits="userSpaceOnUse" id="clipPath2">
+				<path d="M199.4844 162.3906 L199.4844 962.3906 L-200.5156 962.3906 L-200.5156 162.3906 L199.4844 162.3906 Z"/>
+			</clippath>
+			<clippath clipPathUnits="userSpaceOnUse" id="clipPath3">
+				<path d="M67.1182 33.6406 L67.1182 328.2344 L787 328.2344 L787 33.6406 Z"/>
+			</clippath>
+		</defs>
+		<g x="0" y="0" cursor="move" fill="black" text-rendering="optimizeLegibility" width="800" font-family="sans-serif" stroke-linejoin="bevel" height="400" id="canvas" stroke="black" style="left: 0px; top: 0px;">
+			<path fill="silver" id="canvasBuffer" d="M-652 -260 L1506 -260 L1506 622 L-652 622 L-652 -260 Z M67 33 L67 328 L787 328 L787 33 Z" style="cursor: move;"/>
+			<rect x="67.1182" y="33.6406" clip-path="url(#clipPath1)" fill="white" width="719" id="canvasContainer" height="294.5938"/>
+			<g stroke-linecap="butt" text-rendering="optimizeLegibility" font-family="sans-serif" stroke-linejoin="bevel" stroke-dasharray="2,2" id="canvasGrid" stroke-width="0.5" stroke-miterlimit="0">
+				<line fill="none" x1="70.167" x2="70.167" y1="-260" y2="622.8281999999999"/>
+				<line fill="none" x1="150.8175" x2="150.8175" y1="-260" y2="622.8281999999999"/>
+				<line fill="none" x1="234.1564" x2="234.1564" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="314.8069" x2="314.8069" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="398.1457" x2="398.1457" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="481.4846" x2="481.4846" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="562.1351" x2="562.1351" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="645.5859" x2="645.5859" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="726.2364" x2="726.2364" y1="-260.9532" y2="622.8281999999999"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="315.7545" y2="315.7545"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="292.9036" y2="292.9036"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="270.0527" y2="270.0527"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="247.2018" y2="247.2018"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="224.3509" y2="224.3509"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="201.5" y2="201.5"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="178.6491" y2="178.6491"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="155.7982" y2="155.7982"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="132.9473" y2="132.9473"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="110.0964" y2="110.0964"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="87.2455" y2="87.2455"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="64.3946" y2="64.3946"/>
+				<line fill="none" x1="-652.7636" x2="1506.8818" y1="41.5437" y2="41.5437"/>
+				<line x1="-10.483499999999992" x2="-10.483499999999992" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-91.13399999999999" x2="-91.13399999999999" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-171.78449999999998" x2="-171.78449999999998" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-252.43499999999997" x2="-252.43499999999997" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-333.08549999999997" x2="-333.08549999999997" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-413.736" x2="-413.736" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-494.38649999999996" x2="-494.38649999999996" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-575.0369999999999" x2="-575.0369999999999" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="806.8869" x2="806.8869" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="887.5373999999999" x2="887.5373999999999" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="968.1878999999999" x2="968.1878999999999" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="1048.8383999999999" x2="1048.8383999999999" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="1129.4888999999998" x2="1129.4888999999998" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="1210.1393999999998" x2="1210.1393999999998" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="1290.7898999999998" x2="1290.7898999999998" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="1371.4403999999997" x2="1371.4403999999997" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="1452.0908999999997" x2="1452.0908999999997" y1="-260.9532" style="" y2="622.8281999999999" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="18.692799999999977" style="" y2="18.692799999999977" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-4.158100000000047" style="" y2="-4.158100000000047" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-27.00900000000007" style="" y2="-27.00900000000007" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-49.859900000000096" style="" y2="-49.859900000000096" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-72.71080000000012" style="" y2="-72.71080000000012" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-95.56170000000014" style="" y2="-95.56170000000014" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-118.41260000000017" style="" y2="-118.41260000000017" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-141.2635000000002" style="" y2="-141.2635000000002" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-164.11440000000022" style="" y2="-164.11440000000022" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-186.96530000000024" style="" y2="-186.96530000000024" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-209.81620000000026" style="" y2="-209.81620000000026" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-232.6671000000003" style="" y2="-232.6671000000003" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="-255.5180000000003" style="" y2="-255.5180000000003" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="338.60540000000003" style="" y2="338.60540000000003" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="361.45630000000006" style="" y2="361.45630000000006" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="384.3072000000001" style="" y2="384.3072000000001" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="407.1581000000001" style="" y2="407.1581000000001" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="430.0090000000001" style="" y2="430.0090000000001" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="452.85990000000015" style="" y2="452.85990000000015" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="475.7108000000002" style="" y2="475.7108000000002" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="498.5617000000002" style="" y2="498.5617000000002" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="521.4126000000002" style="" y2="521.4126000000002" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="544.2635000000002" style="" y2="544.2635000000002" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="567.1144000000003" style="" y2="567.1144000000003" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="589.9653000000003" style="" y2="589.9653000000003" id="" stroke=""/>
+				<line x1="-652.7636" x2="1506.8818" y1="612.8162000000003" style="" y2="612.8162000000003" id="" stroke=""/>
+			</g>
+			<line clip-path="url(#clipPath3)" fill="none" x1="-13.0598" x2="70.167" y1="66.2227" xValue="9.86076E11" y2="189.6175" yValue="153.8" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="70.167" x2="150.8175" y1="189.6175" xValue="9.88668E11" y2="63.4806" yValue="167.6" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="150.8175" x2="234.1564" y1="63.4806" xValue="9.913464E11" y2="143.9157" yValue="158.8" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="234.1564" x2="314.8069" y1="143.9157" xValue="9.939384E11" y2="239.8895" yValue="148.3" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="314.8069" x2="398.1457" y1="239.8895" xValue="9.966168E11" y2="188.7035" yValue="153.9" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="398.1457" x2="481.4846" y1="188.7035" xValue="9.992952E11" y2="291.0755" yValue="142.7" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="481.4846" x2="562.1351" y1="291.0755" xValue="1.0018872E12" y2="469.3125" yValue="123.2" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="645.5859" x2="726.2364" y1="390.7054" xValue="1.0071612E12" y2="319.4106" yValue="139.6" serie=" Capteur 1"/>
+			<line clip-path="url(#clipPath3)" fill="none" x1="726.2364" x2="809.5753" y1="319.4106" xValue="1.0098396E12" y2="289.2474" yValue="142.9" serie=" Capteur 1"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="9.86076E11" yValue="153.8" d="M73.167 189.6175 C73.167 191.2744 71.8239 192.6175 70.167 192.6175 C68.5102 192.6175 67.167 191.2744 67.167 189.6175 C67.167 187.9607 68.5102 186.6175 70.167 186.6175 C71.8239 186.6175 73.167 187.9607 73.167 189.6175 Z" serie=" Capteur 1"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="9.88668E11" yValue="167.6" d="M153.8175 63.4806 C153.8175 65.1374 152.4744 66.4806 150.8175 66.4806 C149.1607 66.4806 147.8175 65.1374 147.8175 63.4806 C147.8175 61.8237 149.1607 60.4806 150.8175 60.4806 C152.4744 60.4806 153.8175 61.8237 153.8175 63.4806 Z" serie=" Capteur 1"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="9.913464E11" yValue="158.8" d="M237.1564 143.9157 C237.1564 145.5726 235.8132 146.9157 234.1564 146.9157 C232.4995 146.9157 231.1564 145.5726 231.1564 143.9157 C231.1564 142.2589 232.4995 140.9157 234.1564 140.9157 C235.8132 140.9157 237.1564 142.2589 237.1564 143.9157 Z" serie=" Capteur 1"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="9.939384E11" yValue="148.3" d="M317.8069 239.8895 C317.8069 241.5464 316.4637 242.8895 314.8069 242.8895 C313.15 242.8895 311.8069 241.5464 311.8069 239.8895 C311.8069 238.2327 313.15 236.8895 314.8069 236.8895 C316.4637 236.8895 317.8069 238.2327 317.8069 239.8895 Z" serie=" Capteur 1" default-fill="none" default-stroke="black" stroke="black" default-stroke-width="1" stroke-width="1" cursor="pointer"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="9.966168E11" yValue="153.9" d="M401.1457 188.7035 C401.1457 190.3604 399.8026 191.7035 398.1457 191.7035 C396.4889 191.7035 395.1457 190.3604 395.1457 188.7035 C395.1457 187.0466 396.4889 185.7035 398.1457 185.7035 C399.8026 185.7035 401.1457 187.0466 401.1457 188.7035 Z" serie=" Capteur 1" default-fill="none" default-stroke="black" stroke="black" default-stroke-width="1" stroke-width="1" cursor="pointer"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="9.992952E11" yValue="142.7" d="M484.4846 291.0755 C484.4846 292.7324 483.1414 294.0755 481.4846 294.0755 C479.8277 294.0755 478.4846 292.7324 478.4846 291.0755 C478.4846 289.4187 479.8277 288.0755 481.4846 288.0755 C483.1414 288.0755 484.4846 289.4187 484.4846 291.0755 Z" serie=" Capteur 1"/>
+			<path clip-path="url(#clipPath3)" fill="none" stroke-linejoin="miter" xValue="1.0071612E12" yValue="139.6" d="M729.2364 319.4106 C729.2364 321.0675 727.8932 322.4106 726.2364 322.4106 C724.5796 322.4106 723.2364 321.0675 723.2364 319.4106 C723.2364 317.7538 724.5796 316.4106 726.2364 316.4106 C727.8932 316.4106 729.2364 317.7538 729.2364 319.4106 Z" serie=" Capteur 1"/>
+		</g>
+		<g fill="white" text-rendering="optimizeLegibility" stroke="white">
+			<path fill="" id="chartContainer" d="M0 0 L800 0 L800 400 L0 400 L0 0 Z M67.1182 33.6406 L67.1182 328.2344 L787.0 328.2344 L787.0 33.6406 Z" style=""/>
+		</g>
+		<g text-rendering="optimizeLegibility" font-size="18" font-weight="bold" font-family="sans-serif">
+			<text space="preserve" x="291.477" y="19.0967" clip-path="url(#clipPath1)" stroke="none">Multiple XYDataset Demo</text>
+		</g>
+		<g fill="white" text-rendering="optimizeLegibility" font-family="sans-serif" stroke="white">
+			<rect x="358.9834" y="375.9062" clip-path="url(#clipPath1)" width="82.0332"  fill="red" height="23.0938" stroke="none"/>
+			<line clip-path="url(#clipPath1)" fill="none" x1="359.4834" x2="440.5166" y1="376.4062" y2="376.4062" stroke="black"/>
+			<line clip-path="url(#clipPath1)" fill="none" x1="359.4834" x2="440.5166" y1="398.5" y2="398.5" stroke="black"/>
+			<line clip-path="url(#clipPath1)" fill="none" x1="359.4834" x2="359.4834" y1="398.5" y2="376.4062" stroke="black"/>
+			<line clip-path="url(#clipPath1)" fill="none" x1="440.5166" x2="440.5166" y1="398.5" y2="376.4062" stroke="black"/>
+			<path fill="none" d="M362.9834 387.4531 L376.9834 387.4531" clip-path="url(#clipPath1)" stroke-linejoin="bevel" stroke="black"/>
+			<path fill="none" d="M372.9834 387.4531 C372.9834 389.11 371.6403 390.4531 369.9834 390.4531 C368.3265 390.4531 366.9834 389.11 366.9834 387.4531 C366.9834 385.7963 368.3265 384.4531 369.9834 384.4531 C371.6403 384.4531 372.9834 385.7963 372.9834 387.4531 Z" clip-path="url(#clipPath1)" stroke="black"/>
+			<text x="380.983" y="391.971" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve"> Capteur 1</text>
+		</g>
+		<g fill="white" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="white">
+			<line clip-path="url(#clipPath1)" fill="none" x1="67.1182" x2="787" y1="333.2344" y2="333.2344" stroke="gray"/>
+			<text x="49.044" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">avr.-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="70.167" x2="70.167" y1="335.2344" y2="333.2344"/>
+			<text x="129.973" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">mai-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="150.8175" x2="150.8175" y1="335.2344" y2="333.2344"/>
+			<text x="213.585" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">juin-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="234.1564" x2="234.1564" y1="335.2344" y2="333.2344"/>
+			<text x="294.516" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">juil.-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="314.8069" x2="314.8069" y1="335.2344" y2="333.2344"/>
+			<text x="375.626" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">août-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="398.1457" x2="398.1457" y1="335.2344" y2="333.2344"/>
+			<text x="457.857" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">sept.-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="481.4846" x2="481.4846" y1="335.2344" y2="333.2344"/>
+			<text x="541.288" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">oct.-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="562.1351" x2="562.1351" y1="335.2344" y2="333.2344"/>
+			<text x="623.347" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">nov.-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="645.5859" x2="645.5859" y1="335.2344" y2="333.2344"/>
+			<text x="703.998" y="347.288" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">déc.-2001</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="726.2364" x2="726.2364" y1="335.2344" y2="333.2344"/>
+			<text font-size="12" x="394.718" y="364.877" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">Time of Day</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="62.1182" x2="62.1182" y1="33.6406" y2="328.2344"/>
+			<text font-size="10" x="31.0938" y="319.519" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">140,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="315.7545" y2="315.7545"/>
+			<text x="31.0938" y="296.668" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">142,5</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="292.9036" y2="292.9036"/>
+			<text x="31.0938" y="273.817" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">145,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="270.0527" y2="270.0527"/>
+			<text x="31.0938" y="250.966" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">147,5</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="247.2018" y2="247.2018"/>
+			<text x="31.0938" y="228.115" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">150,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="224.3509" y2="224.3509"/>
+			<text x="31.0938" y="205.265" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">152,5</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="201.5" y2="201.5"/>
+			<text x="31.0938" y="182.414" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">155,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="178.6491" y2="178.6491"/>
+			<text x="31.0938" y="159.563" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">157,5</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="155.7982" y2="155.7982"/>
+			<text x="31.0938" y="136.712" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">160,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="132.9473" y2="132.9473"/>
+			<text x="31.0938" y="113.861" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">162,5</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="110.0964" y2="110.0964"/>
+			<text x="31.0938" y="91.0102" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">165,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="87.2455" y2="87.2455"/>
+			<text x="31.0938" y="68.1593" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">167,5</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="64.3946" y2="64.3946"/>
+			<text x="31.0938" y="45.3084" clip-path="url(#clipPath1)" fill="black" stroke="none" space="preserve">170,0</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" font-size="10" font-family="sans-serif" stroke="gray">
+			<line clip-path="url(#clipPath1)" fill="none" x1="60.1182" x2="62.1182" y1="41.5437" y2="41.5437"/>
+			<text font-size="12" x="-17.1396" y="185.455" transform="matrix(0, -1, 1, 0, -162.391, 199.484)" clip-path="url(#clipPath2)" fill="black" stroke="none" space="preserve">Range Axis 1</text>
+		</g>
+		<g fill="gray" text-rendering="optimizeLegibility" stroke-width="0.5" font-family="sans-serif" stroke="gray"/>
+	</g>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/SingleFile.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/custom/OpenLayers.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Util.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Class.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Bounds.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Element.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/LonLat.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Pixel.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/BaseTypes/Size.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Events.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Click.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Hover.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Drag.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Box.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/MouseWheel.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Handler/Keyboard.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Control.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Control/DragPan.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/lib/OpenLayers/Control/ZoomBox.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/custom/OpenLayers/Map.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/custom/OpenLayers/Handler/MouseWheel.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/opencharts/custom/OpenLayers/Control/Navigation.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/js/effects.js"/>
+	<script href="/mf/resource.jsf?r=/org/mapfaces/resources/js/init.js"/>
+</svg>
