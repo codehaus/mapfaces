@@ -58,6 +58,7 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
     private ValueExpression styleNode = null;
     private ValueExpression styleOdd = null;
     private ValueExpression styleEven = null;
+    private ValueExpression styleLinesContainer = null;
     private ValueExpression loadAll = null;
 
     /* Abstracts methods*/
@@ -336,6 +337,20 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         this.loadAll = loadAll;
     }
 
+    /**
+     * @return the styleLinesContainer
+     */
+    public ValueExpression getStyleLinesContainer() {
+        return styleLinesContainer;
+    }
+
+    /**
+     * @param styleLinesContainer the styleLinesContainer to set
+     */
+    public void setStyleLinesContainer(ValueExpression styleLinesContainer) {
+        this.styleLinesContainer = styleLinesContainer;
+    }
+
     /* Methods*/
     /**
      * <p>Override properties and attributes of the specified component, 
@@ -364,6 +379,7 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         component.setValueExpression("styleOdd", styleOdd);
         component.setValueExpression("styleEven", styleEven);
         component.setValueExpression("loadAll", loadAll);
+        component.setValueExpression("styleLinesContainer", styleLinesContainer);
     }
 
     /**
@@ -388,5 +404,6 @@ public abstract class UITreePanelELTag extends UITreeComponentELTag {
         setLoadAll(null);
         setStyleOdd(null);
         setStyleEven(null);
+        setStyleLinesContainer(null);
     }
 }

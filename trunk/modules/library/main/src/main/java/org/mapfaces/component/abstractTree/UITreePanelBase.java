@@ -42,6 +42,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
     private String          styleNode;
     private String          styleOdd;
     private String          styleEven;
+    private String          styleLinesContainer;
     private int             oddEvenCountLine;
     private boolean         loadAll;
     private boolean         init;
@@ -207,6 +208,14 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         this.oddEvenCountLine = oddEvenCountLine;
     }
 
+    public String getStyleLinesContainer() {
+        return styleLinesContainer;
+    }
+
+    public void setStyleLinesContainer(String styleLinesContainer) {
+        this.styleLinesContainer = styleLinesContainer;
+    }
+
     /* Methods */
     /**
      * <p>Gets the state of the instance as a Serializable Object.</p>
@@ -219,7 +228,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
      */
     @Override
     public Object saveState(FacesContext context) {
-        final Object values[] = new Object[19];
+        final Object values[] = new Object[20];
         values[0] = super.saveState(context);
         values[1] = getBorder();
         values[2] = isCollapsible();
@@ -239,6 +248,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         values[16] = getStyleOdd();
         values[17] = getStyleEven();
         values[18] = getOddEvenCountLine();
+        values[19] = getStyleLinesContainer();
         return values;
     }
 
@@ -272,6 +282,7 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
         setStyleOdd((String) values[16]);
         setStyleEven((String) values[17]);
         setOddEvenCountLine((Integer) values[18]);
+        setStyleLinesContainer((String)values[19]);
     }
 
     /**
@@ -314,4 +325,5 @@ public abstract class UITreePanelBase extends UITreeBase implements AjaxInterfac
      */
     @Override
     public abstract String getRendererType();
+
 }
