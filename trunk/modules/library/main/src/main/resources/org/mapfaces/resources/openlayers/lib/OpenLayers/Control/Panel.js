@@ -8,6 +8,8 @@
 
 /**
  * Class: OpenLayers.Control.Panel
+ * The Panel control is a container for other controls. With it toolbars
+ * may be composed.
  *
  * Inherits from:
  *  - <OpenLayers.Control>
@@ -21,7 +23,7 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
     
     /** 
      * APIProperty: defaultControl
-     * <OpenLayers.Control> The control which is activated when the control is
+     * {<OpenLayers.Control>} The control which is activated when the control is
      * activated (turned on), which also happens at instantiation.
      */
     defaultControl: null, 
@@ -121,9 +123,6 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
                     element.className = this.controls[i].displayClass + "ItemActive";
                 } else {    
                     element.className = this.controls[i].displayClass + "ItemInactive";
-                    if(this.controls[i].displayClass.indexOf("FeatureInfo") != -1){
-                        if(document.getElementById('form:getFeatureInfo'))document.getElementById('form:getFeatureInfo').innerHTML="";
-                    }
                 }    
                 this.div.appendChild(element);
             }
