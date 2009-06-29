@@ -41,31 +41,31 @@ public class PeriodUtilities {
     /**
      * The number of millisecond in one year.
      */
-    private final static long yearMS = 31536000000L;
+    public final static long yearMS = 31536000000L;
     /**
      * The number of millisecond in one month.
      */
-    private final static long monthMS = 2628000000L;
+    public final static long monthMS = 2628000000L;
     /**
      * The number of millisecond in one week.
      */
-    private final static long weekMS = 604800000L;
+    public final static long weekMS = 604800000L;
     /**
      * The number of millisecond in one day.
      */
-    private final static long dayMS = 86400000L;
+    public final static long dayMS = 86400000L;
     /**
      * The number of millisecond in one hour.
      */
-    private final static long hourMS = 3600000L;
+    public final static long hourMS = 3600000L;
     /**
      * The number of millisecond in one minute.
      */
-    private final static long minMS = 60000;
+    public final static long minMS = 60000;
     /**
      * The number of millisecond in one second.
      */
-    private final static long secondMS = 1000;
+    public final static long secondMS = 1000;
     /**
      * The format of the dates.
      */
