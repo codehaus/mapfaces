@@ -125,9 +125,10 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         for (final UIComponent child : component.getChildren()) {
-            if (child instanceof UITreeToolbarBase) {
+            if (child instanceof UITreeToolbarBase && child.isRendered()) {
                 haveToolbar = true;
                 toolbar = (UITreeToolbarBase) child;
+                break;
             }
         }
 
@@ -250,7 +251,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
             final List<UIComponent> backup = new ArrayList<UIComponent>();
             final List<UIComponent> children = component.getChildren();
             for (UIComponent tmp : children) {
-                if (!(tmp instanceof HtmlPanelGroup) && !(tmp instanceof UITreeToolbarBase)) {
+                if (!(tmp instanceof HtmlPanelGroup) && !(tmp instanceof UITreeToolbarBase) && tmp.isRendered()) {
                     tmp.setId(component.getId() + "_" + tmp.getId());
                     backup.add(tmp);
                 }
@@ -513,6 +514,8 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         }
 
         for (UIComponent child : component.getChildren()) {
+            if (! child.isRendered())
+                continue;
             id++;
             if ((child instanceof UITreeColumnBase) || (child instanceof UIColumnBase)) {
                 renderHeaders(context, child, id);

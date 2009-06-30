@@ -97,6 +97,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
             if (uIComponent instanceof HtmlInputText) {
                 inputPresence = true;
                 input = (HtmlInputText) uIComponent;
+                break;
             }
         }
 

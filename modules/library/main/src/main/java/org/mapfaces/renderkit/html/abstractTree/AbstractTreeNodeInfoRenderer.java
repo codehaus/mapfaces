@@ -123,6 +123,8 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
             writer.writeAttribute("class", "x-clear", null);
             writer.endElement("div");
             for (UIComponent tmp : component.getChildren()) {
+                if (! tmp.isRendered())
+                    continue;
                 writer.startElement("div", component);
                 writer.writeAttribute("class", DESC_STYLE_CLASS, null);
                 FacesUtils.encodeRecursive(context, tmp);

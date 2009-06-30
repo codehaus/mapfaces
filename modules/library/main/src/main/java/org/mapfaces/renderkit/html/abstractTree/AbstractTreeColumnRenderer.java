@@ -309,10 +309,10 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
             UITreeNodeInfoBase treenodeInfoComp = null;
             boolean treenodeinfo = false;
             for (final UIComponent comp : treeline.getChildren()) {
-                if (comp instanceof UITreeNodeInfoBase) {
+                if (comp instanceof UITreeNodeInfoBase && comp.isRendered()) {
                     treenodeinfo = true;
                     treenodeInfoComp = (UITreeNodeInfoBase) comp;
-
+                    break;
                 }
             }
             ImgTreeNodeInfo.setId(treepanel.getId() + "_anchor_info_" + node.getId());
