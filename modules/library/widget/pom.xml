@@ -44,6 +44,12 @@
           <artifactId>jsp-api</artifactId>
           <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-xml-skos</artifactId>
+            <version>${geotoolkit.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
     
@@ -68,40 +74,65 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <!--Don't compress these files -->
+                    <excludes>
+                        <exclude>**/*.gz.*</exclude>
+                        <exclude>**/all.*</exclude>
+                        <exclude>**/*-min.*</exclude>
+                        <exclude>**/*-bs.*</exclude>
+                        <exclude>**/*mapfaces*</exclude>
+                    </excludes>
                     <force>true</force>
                     <nomunge>true</nomunge>
                     <nosuffix>true</nosuffix>
                     <jswarn>false</jswarn>
+                    <gzip>false</gzip>
                     <aggregations>
+			<aggregation>
+                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mapfaces-widgets.css</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/css/autocompleter.css</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/datepicker/css/datepicker.css</include>
+                            </includes>
+                        </aggregation>
                         <aggregation>
                             <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mootools.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/widgetfaces/resources/js/mootools-1.2-core.js</include>
                                 <include>${project.build.directory}/classes/org/widgetfaces/resources/js/mootools-1.2-more.js</include>
                             </includes>
-                            <excludes>
-                                <exclude>**/*.js</exclude>
-                            </excludes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/autocompletion.min.js</output>
+                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mapfaces-widgets.js</output>
                             <includes>
+                                <!--include>${project.build.directory}/classes/org/widgetfaces/resources/js/loading.js</include-->
                                 <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.js</include>
                                 <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/autocompleter.request.js</include>
                                 <include>${project.build.directory}/classes/org/widgetfaces/widget/autocompletion/js/observer.js</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/*.js</exclude>
-                            </excludes>
-                        </aggregation>
-			<aggregation>
-                            <output>${project.build.directory}/classes/org/widgetfaces/resources/compressed/datepicker.min.js</output>
-                            <includes>
                                 <include>${project.build.directory}/classes/org/widgetfaces/widget/datepicker/js/datepickerExtend.js</include>
+                                <include>${project.build.directory}/classes/org/widgetfaces/widget/datepicker/js/lang/en.js</include>
                             </includes>
-                            <excludes>
-                                <exclude>**/*.js</exclude>
-                            </excludes>
+                        </aggregation>
+
+<!--Only for NetBeans who doesn't used Maven plugin -->
+                        <aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/compressed/mapfaces-widgets.css</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mapfaces-widgets.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/compressed/mootools.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mootools.min.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/widgetfaces/resources/compressed/mapfaces-widgets.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/widgetfaces/resources/compressed/mapfaces-widgets.js</include>
+                            </includes>
                         </aggregation>
                     </aggregations>
                 </configuration>
