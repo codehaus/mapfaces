@@ -291,23 +291,6 @@ var Autocompleter = new Class({
 			this.showChoices();
 		}
 	},
-    
-    updateComponent: function(tokens) {
-		this.choices.empty();
-		this.cached = tokens;
-		var type = tokens && $type(tokens);
-		if (!type || (type == 'array' && !tokens.length) || (type == 'hash' && !tokens.getLength())) {
-			(this.options.emptyChoices || this.hideChoices).call(this);
-		} else {
-			if (this.options.maxChoices < tokens.length && !this.options.overflow) tokens.length = this.options.maxChoices;
-			tokens.each(this.options.injectChoice || function(token){
-				var choice = new Element('li', {'html': this.markQueryValue(token)});
-				choice.inputValue = token;
-				this.addChoiceEvents(choice).inject(this.choices);
-			}, this);
-		}
-	},
-
 
 	choiceOver: function(choice, selection) {
 		if (!choice || choice == this.selected) return;

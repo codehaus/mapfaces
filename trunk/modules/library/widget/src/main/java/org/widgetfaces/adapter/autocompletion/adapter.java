@@ -15,7 +15,6 @@
  */
 package org.widgetfaces.adapter.autocompletion;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;

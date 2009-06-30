@@ -102,23 +102,23 @@ var datePickerJs={
     // Load the appropriate language file
     //var scriptFiles = document.getElementsByTagName('head')[0].getElementsByTagName('script');
     //var loc = scriptFiles[scriptFiles.length - 1].src.substr(0, scriptFiles[scriptFiles.length - 1].src.lastIndexOf("/")) + "/lang/" + datePicker.languageinfo + ".js";
-    var loc = "resource.jsf?r=/org/widgetfaces/widget/datepicker/js/lang/" + datePicker.languageinfo + ".js";
-
-    var script  = document.createElement('script');
-    script.type = "text/javascript";
-    script.src  = loc;
-    script.setAttribute("charset", "utf-8");
-    if (AC.Detector.isIE()) {
-            var bases = document.getElementsByTagName('base');
-            if (bases.length && bases[0].childNodes.length) {
-                    bases[0].appendChild(script);
-            } else {
-                document.getElementsByTagName('head')[0].appendChild(script);
-            }
-    }
-    document.getElementsByTagName('head')[0].appendChild(script);
-
-    script  = null;
+//    var loc = "resource.jsf?r=/org/widgetfaces/widget/datepicker/js/lang/" + datePicker.languageinfo + ".js";
+//
+//    var script  = document.createElement('script');
+//    script.type = "text/javascript";
+//    script.src  = loc;
+//    script.setAttribute("charset", "utf-8");
+//    if (AC.Detector.isIE()) {
+//            var bases = document.getElementsByTagName('base');
+//            if (bases.length && bases[0].childNodes.length) {
+//                    bases[0].appendChild(script);
+//            } else {
+//                document.getElementsByTagName('head')[0].appendChild(script);
+//            }
+//    }
+//    document.getElementsByTagName('head')[0].appendChild(script);
+//
+//    script  = null;
 
     // Defaults should the locale file not load
     datePicker.months       = ["January","February","March","April","May","June","July","August","September","October","November","December"];

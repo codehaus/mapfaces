@@ -14,44 +14,33 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.widgetfaces.renderkit.html.autocompletion;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.widgetfaces.adapter.autocompletion.adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
-import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.AjaxUtils;
-import org.mapfaces.util.FacesUtils;
 
 /**
  * @author kevin Delfour
  */
-public class AutocompletionRenderer extends Renderer implements AjaxRendererInterface {
+public class AutocompletionRenderer extends Renderer {
 
     private static final Logger LOGGER = Logger.getLogger(AutocompletionRenderer.class.getName());
-
-    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
-//    private static final String LOAD_Autocompleter = "/org/widgetfaces/widget/autocompletion/js/autocompleter.js";
-//    private static final String LOAD_Autocompleter_Local = "/org/widgetfaces/widget/autocompletion/js/autocompleter.local.js";
-    private static final String LOAD_Autocompleter_Style = "/org/widgetfaces/widget/autocompletion/css/autocompleter.css";
-//    private static final String LOAD_Observer = "/org/widgetfaces/widget/autocompletion/js/observer.js";
-//    private static final String LOAD_Mootools_Min = "/org/widgetfaces/resources/compressed/mootools.min.js";
-    private static final String LOAD_Autocomp_Min = "/org/widgetfaces/resources/compressed/autocompletion.min.js";
+    private static final String MAPFACES_WIDGETS_CSS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
+    private static final String MOOTOOLS_JS = "/org/widgetfaces/resources/compressed/mootools.min.js";
+    private static final String MAPFACES_WIDGETS_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
 
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
@@ -68,68 +57,24 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final UIAutocompletion comp = (UIAutocompletion) component;
-
+        final ResponseWriter writer      = context.getResponseWriter();
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
         if (!extContext.getRequestMap().containsKey("ajaxflag.Autocompleter")) {
             extContext.getRequestMap().put("ajaxflag.Autocompleter", Boolean.TRUE);
             writeHeaders(context, component);
         }
-
-        HtmlInputText input = new HtmlInputText();
-        input.setId(comp.getId() + "_input");
-        input.setStyle(comp.getStyle());
-        input.setStyleClass(comp.getStyleClass());
-        input.setOnblur(comp.getOnblur());
-        input.setOnchange(comp.getOnchange());
-        input.setOnclick(comp.getOnclick());
-        input.setOndblclick(comp.getOndblclick());
-        input.setOnfocus(comp.getOnfocus());
-        input.setOnkeydown(comp.getOnkeydown());
-        input.setOnkeypress(comp.getOnkeypress());
-        input.setOnkeyup(comp.getOnkeyup());
-        input.setOnmousedown(comp.getOnmousedown());
-        input.setOnmousemove(comp.getOnmousemove());
-        input.setOnmouseout(comp.getOnmouseout());
-        input.setOnmouseover(comp.getOnmouseover());
-        input.setOnmouseup(comp.getOnmouseup());
-        input.setOnselect(comp.getOnselect());
-
-        boolean inputPresence = false;
-        for (UIComponent uIComponent : comp.getChildren()) {
-            if (uIComponent instanceof HtmlInputText) {
-                inputPresence = true;
-                input = (HtmlInputText) uIComponent;
-            }
-        }
-
+        writer.startElement("div", component);
+        writer.writeAttribute("id", component.getClientId(context), null);
+        writer.startElement("input", component);
+                writer.writeAttribute("id", comp.getId() + "_input", null);
         ValueExpression ve = comp.getValueExpression("value");
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
-                input.setValue(ve.getValue(context.getELContext()));
-                input.setValueExpression("value", ve);
+                writer.writeAttribute("value", component.getClientId(context), null);
             }
         }
-
-        if (!inputPresence) {
-            comp.getChildren().add(input);
-        }
-    }
-
-    /**
-     * <p>Render the child components of this UIComponent, following the rules described for encodeBegin()
-     * to acquire the appropriate value to be rendered.</p>
-     * <p>This method will only be called if the rendersChildren property of this component is true.</p>
-     * @param context FacesContext for the response we are creating
-     * @param component UIComponent whose children are to be rendered
-     * @throws java.io.IOException if an input/output error occurs while rendering
-     */
-    @Override
-    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-
-        for (final UIComponent tmp : component.getChildren()) {
-            FacesUtils.encodeRecursive(context, tmp);
-        }
+        writer.endElement("input");
     }
 
     /**
@@ -144,26 +89,52 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
         final StringBuilder str = new StringBuilder();
-        final UIForm formContainer = getForm(component);
+        final String clientId = comp.getClientId(context);
+        final String id = comp.getId();
+        final String inputId = id + "_input";
+        final String tokenId = id + "_token";
         super.encodeEnd(context, component);
 
         writer.startElement("script", comp);
         writer.writeAttribute("type", "text/javascript", null);
-        str.append("document.addEvent('domready', function(){").append("var token_").append(comp.getId()).append("=").append(adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).append(";").append("new Autocompleter.Local('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input',").append("token_").append(comp.getId()).append(",{").append(buildOptions(context, component)).append("});");
 
+       
+
+        str.append("document.addEvent('domready', function(){");
         /* Enable ajax request */
-        if (comp.isEnableAjax()) {
+        if (true) {
+            
+            final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());            
             final StringBuilder ajaxrequest = new StringBuilder();
-            final AjaxUtils ajaxtools = new AjaxUtils();
+            ajaxrequest.append("new Autocompleter.Request.HTML($('").
+                    append(inputId). append("'),").
+                    append("'").append(urlRequest).append("',{").
+                    append("postData:{").
+                    //append("'").append(AjaxUtils.AUTOCOMPLETION_VALUE).append("': $('").append(inputId).append("').value,").
+                    append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': 'request.html',").
+                    append("'").append(AjaxUtils.AUTOCOMPLETION_WS_URL).append("': '").append(comp.getWsUrl()).append("',").
+                    append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '" + clientId + "'}});");
 
-            final String urlRequest = ajaxtools.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
-            ajaxrequest.append("new Request.HTML({").append("url:'").append(urlRequest).append("',").append("data:{").append("'javax.faces.ViewState':").append("$('javax.faces.ViewState').value").append(",").append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").append("}}).send();");
-            str.append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('keydown',function(event){if(event.enter)").append(ajaxrequest).append("});").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('blur',function(event){").append(ajaxrequest).append("});");
+//            str.append("$('").append(inputId).append("').addEvent('keydown',function(event){if(event.enter)").
+//                    append(ajaxrequest).append("});");
+//            str.append("$('").append(inputId).append("').addEvent('blur',function(event){").
+//                    append(ajaxrequest).append("});");
+            str.append(ajaxrequest);
+        } else {
+             str.append("var ").append(tokenId).append("=").
+                append(adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).
+                append(";");
+             str.append("new Autocompleter.Local('").append(inputId).append("',").
+                append(tokenId).append(",{").
+                append(buildOptions(component)).append("});");
+                
         }
+       
         str.append("});");
-
         writer.write(str.toString());
         writer.endElement("script");
+
+        writer.endElement("div");
 
     }
 
@@ -181,10 +152,7 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         final ExternalContext ext = context.getExternalContext();
         final UIAutocompletion comp = (UIAutocompletion) component;
         final Map parameterMap = ext.getRequestParameterMap();
-
-        final UIForm formContainer = getForm(component);
-        String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_input";
-        String newValue = (String) parameterMap.get(keyParameterInput);
+        String newValue = (String) parameterMap.get(comp.getClientId(context));
 
         HtmlInputText inputchild = null;
         if (comp.getChildren().size() != 0) {
@@ -203,50 +171,6 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
 
     }
 
-    /* Others methods */
-    /**
-     * <p>Get container form of the UIComponent</p>
-     * @param component UIComponent to be rendered
-     * @return UIForm the form container of the component if exist else return null
-     */
-    private UIForm getForm(UIComponent component) {
-
-        UIComponent parent = component.getParent();
-        while (parent != null && !(parent instanceof UIForm)) {
-            parent = parent.getParent();
-        }
-
-        if (parent == null) {
-            throw new IllegalStateException("Not nested inside a form!");
-        }
-
-        return (UIForm) parent;
-    }
-
-    /**
-     * <p>Return a flag indicating whether this Renderer is responsible for rendering the
-     * children the component it is asked to render. The default implementation returns false.</p>
-     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p>
-     * @return True
-     */
-    @Override
-    public boolean getRendersChildren() {
-        return true;
-    }
-
-    /**
-     * Test if context or the UICompoent exist and are not null
-     * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be tested
-     */
-    private void assertValid(final FacesContext context, final UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        }
-        if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
-    }
 
     /**
      * 
@@ -255,11 +179,20 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
      * @return
      * @throws java.io.IOException
      */
-    private String buildOptions(final FacesContext context, final UIComponent component) throws IOException {
+    private String buildOptions(final UIComponent component) throws IOException {
         final UIAutocompletion comp = (UIAutocompletion) component;
         final StringBuilder str = new StringBuilder();
-
-        str.append("'selectMode' : ").append("'selection'").append(",").append("'minLength' : ").append(comp.getMinLength()).append(",").append("'markQuery' : ").append(comp.isMarkQuery()).append(",").append("'maxChoices' : ").append(comp.getMaxChoices()).append(",").append("'delay' : ").append(comp.getDelay()).append(",").append("'autoSubmit' : ").append(comp.isAutoSubmit()).append(",").append("'overflow' : ").append(comp.isOverflow()).append(",").append("'overflowMargin' : ").append(comp.getOverflowMargin()).append(",").append("'selectFirst' : ").append(comp.isSelectFirst()).append(",").append("'filterCase' : ").append(comp.isFilterCase()).append(",").append("'filterSubset' : ").append(comp.isFilterSubset()).append(",").append("'multiple' : ").append(comp.isMultiple());
+        str.append("'selectMode' : 'selection','minLength' : ").append(comp.getMinLength()).
+                append(",'markQuery' : ").append(comp.isMarkQuery()).
+                append(",'maxChoices' : ").append(comp.getMaxChoices()).
+                append(",'delay' : ").append(comp.getDelay()).
+                append(",'autoSubmit' : ").append(comp.isAutoSubmit()).
+                append(",'overflow' : ").append(comp.isOverflow()).
+                append(",'overflowMargin' : ").append(comp.getOverflowMargin()).
+                append(",'selectFirst' : ").append(comp.isSelectFirst()).
+                append(",'filterCase' : ").append(comp.isFilterCase()).
+                append(",'filterSubset' : ").append(comp.isFilterSubset()).
+                append(",'multiple' : ").append(comp.isMultiple());
 
         return str.toString();
     }
@@ -274,78 +207,22 @@ public class AutocompletionRenderer extends Renderer implements AjaxRendererInte
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
 
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
-        writer.endElement("script");
-//
-//        writer.startElement("script", comp);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocompleter, null), null);
-//        writer.endElement("script");
-//
-//        writer.startElement("script", comp);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocompleter_Local, null), null);
-//        writer.endElement("script");
-//
-//        writer.startElement("script", comp);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Observer, null), null);
-//        writer.endElement("script");
-//
-//        writer.startElement("script", comp);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools_Min, null), null);
-//        writer.endElement("script");
-
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Autocomp_Min, null), null);
-        writer.endElement("script");
-
         writer.startElement("link", comp);
         writer.writeAttribute("type", "text/css", null);
         writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, LOAD_Autocompleter_Style, null), null);
+        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_CSS, null), null);
         writer.endElement("link");
+        
+        writer.startElement("script", comp);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+        writer.endElement("script");
 
-    }
+        writer.startElement("script", comp);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
+        writer.endElement("script");
 
-    @Override
-    public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        final StringBuilder sb = new StringBuilder();
-        final ExternalContext ext = context.getExternalContext();
-        final UIAutocompletion comp = (UIAutocompletion) component;
-        final Map parameterMap = ext.getRequestParameterMap();
-        final String autocompleteValue = request.getParameter(AjaxUtils.AJAX_COMPONENT_VALUE_KEY);
 
-        final UIForm formContainer = getForm(component);
-        String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_input";
-        String newValue = (String) parameterMap.get(keyParameterInput);
-
-        ValueExpression ve = comp.getValueExpression("value");
-        if (ve != null) {
-            if (ve.getValue(context.getELContext()) instanceof String) {
-                ve.setValue(context.getELContext(), newValue);
-            }
-        }
-
-        response.setContentType("text/xml;charset=UTF-8");
-        // need to set no cache or IE will not make future requests when same URL used.
-        response.setHeader("Pragma", "No-Cache");
-        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
-        response.setDateHeader("Expires", 1);
-        sb.append("");
-        sb.append("<response>");
-        sb.append("OK");
-        sb.append("</response>");
-        try {
-            response.getWriter().write(sb.toString());
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
     }
 }

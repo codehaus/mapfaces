@@ -16,10 +16,10 @@
  */
 package org.widgetfaces.component.autocompletion;
 
+import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import org.mapfaces.share.interfaces.AjaxInterface;
-import org.mapfaces.share.interfaces.AjaxRendererInterface;
+import org.mapfaces.component.UIWidgetBase;
 
 /**
  * <p>This AutoCompletion component using script for MooTools provides the
@@ -67,7 +67,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  * </p>
  * @author Kevin Delfour (IRD)
  */
-public class UIAutocompletion extends HtmlInputText implements AjaxInterface {
+public class UIAutocompletion extends HtmlInputText {
 
     public static final String FAMILY = "org.mapfaces.Autocompletion";
     /* Fields */
@@ -85,6 +85,11 @@ public class UIAutocompletion extends HtmlInputText implements AjaxInterface {
     private Object value;
     private Object services;
     private boolean enableAjax = false;
+    private FacesContext context;
+
+    public String getWsUrl() {
+        return "http://solardev:8080/mdweb/WS/thesaurus";
+    }
 
     /* Methods */
     /**
@@ -344,11 +349,4 @@ public class UIAutocompletion extends HtmlInputText implements AjaxInterface {
         this.enableAjax = enableAjax;
     }
 
-    /* Handle Ajax request */
-    @Override
-    public void handleAjaxRequest(FacesContext context) {
-        //Delegate to the renderer
-        AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
-        renderer.handleAjaxRequest(context, this);
-    }
 }
