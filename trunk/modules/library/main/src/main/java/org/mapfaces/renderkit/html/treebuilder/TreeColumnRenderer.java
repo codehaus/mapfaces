@@ -71,9 +71,10 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
             UITreePanel treepanelBase = null;
 
             for (final UIComponent child : treetable.getChildren()) {
-                if (child instanceof UITreePanel) {
+                if (child instanceof UITreePanel && child.isRendered()) {
                     if (((UITreePanel) child).getTarget() != null) {
                         treepanelBase = (UITreePanel) child;
+                        break;
                     }
                 }
             }
@@ -136,7 +137,7 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
                 final UITreeTable treetable = (UITreeTable) treepanel.getParent();
 
                 for (final UIComponent child : treetable.getChildren()) {
-                    if (child instanceof UITreePanel) {
+                    if (child instanceof UITreePanel && child.isRendered()) {
                         final UITreePanel treepanelBase = (UITreePanel) child;
                         if (treepanelBase.getTarget() != null) {
                             if (!node.isLeaf()) {

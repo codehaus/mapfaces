@@ -95,6 +95,9 @@ public class TabPanelRenderer extends Renderer {
 
         for (final UIComponent child : tabpanel.getChildren()) {
             if (child instanceof UITabItem) {
+                if (! child.isRendered()) {
+                    continue;
+                }
                 UITabItem tabItem = (UITabItem) child;
                 writer.startElement("li", tabpanel);
                 writer.writeAttribute("id", "item:"+tabItem.getClientId(context), null);

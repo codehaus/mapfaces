@@ -301,6 +301,8 @@ public class TimeLineRenderer extends Renderer {
             String separator = "";
             int indexBand = 0;
             for (final UIComponent child : comp.getChildren()) {
+                if (! child.isRendered())
+                    continue;
                 if (child.getClass().toString().contains("UIBandInfo")) {
                     final UIBandInfo bandInfo = (UIBandInfo) child;
                     writer.write(separator);
@@ -418,7 +420,7 @@ public class TimeLineRenderer extends Renderer {
                     final Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);
 
                     for (final UIComponent tmp : component.getChildren()) {
-                        if (tmp instanceof UIHotZoneBandInfo) {
+                        if (tmp instanceof UIHotZoneBandInfo && tmp.isRendered()) {
                             final UIHotZoneBandInfo bandinfo = (UIHotZoneBandInfo) tmp;
                             bandinfo.setDate(centerDate);
                             bandinfo.setCenterDate(centerDate);
@@ -436,6 +438,8 @@ public class TimeLineRenderer extends Renderer {
 
         final int visibleBandsCount = TimeLineUtils.getVisibleBandsList(context, comp).size();
         for (final UIComponent child : comp.getChildren()) {
+            if (! child.isRendered())
+                continue;
             //setting the intervalUnit of children from their selectOneMenu component.
             if (child instanceof UIBandInfo) {
                 final UIBandInfo bandInfo    = (UIBandInfo) child;
@@ -470,7 +474,7 @@ public class TimeLineRenderer extends Renderer {
         final int rest                             = 100 - (proportinalwidth * visibleBandsCount);
 
         for (final UIComponent tmp : component.getChildren()) {
-            if (tmp instanceof UIHotZoneBandInfo) {
+            if (tmp instanceof UIHotZoneBandInfo && tmp.isRendered()) {
 //                if (rest != 0) {
 //                    proportinalwidth++;
 //                    rest--;
