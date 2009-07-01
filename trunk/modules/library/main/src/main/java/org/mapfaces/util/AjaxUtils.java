@@ -50,6 +50,15 @@ public class AjaxUtils {
     public static final String DND_OLD_PARENT_LINE      = "org.mapfaces.ajax.DND_OLD_PARENT_LINE";
     public static final String DND_POSITION_LINE        = "org.mapfaces.ajax.DND_POSITION_LINE";
 
+
+    /**
+     * Autocompletion listener parameters
+     */
+    public static final String AUTOCOMPLETION_MODE     = "org.mapfaces.widget.AUTOCOMPLETION_MODE";
+    public static final String AUTOCOMPLETION_WS_URL     = "org.mapfaces.widget.AUTOCOMPLETION_WS_URL";
+    public static final String AUTOCOMPLETION_VALUE        = "org.mapfaces.widget.AUTOCOMPLETION_VALUE";
+    public static final String AUTOCOMPLETION_CLIENTID     = "org.mapfaces.widget.AUTOCOMPLETION_CLIENTID";
+    
     /**
      * Constructor
      */
