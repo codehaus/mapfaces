@@ -14,13 +14,11 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ import org.geotoolkit.ows.xml.v100.BoundingBoxType;
 
 import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.geometry.GeneralEnvelope;
+import org.geotoolkit.owc.xml.v030.ServerType;
 import org.geotoolkit.referencing.CRS;
 
 import org.geotoolkit.wms.xml.AbstractDimension;
@@ -60,7 +59,6 @@ import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
 
-
 /**
  * This class builds all needed geotoolkit and mapfaces object from the map context xml file.
  * 
@@ -72,9 +70,12 @@ public class OWCv030toMFTransformer {
     private static final ContextFactory contextFactory = new DefaultContextFactory();
     private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
     private static final Logger LOGGER = Logger.getLogger(OWCv030toMFTransformer.class.getName());
-    private static final boolean debug = false;
+    private static final boolean debug = true;
+    private static Boolean failed = new Boolean(false);
+    private static Boolean exit = new Boolean(false);
+
     public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
-        
+
         Context ctx = contextFactory.createDefaultContext();
         ctx.setType(doc.getClass().toString());
         ctx.setVersion(doc.getVersion());
@@ -82,13 +83,14 @@ public class OWCv030toMFTransformer {
         ctx.setTitle(doc.getGeneral().getTitle());
         BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
 
-        if (debug)
-            LOGGER.log(Level.INFO, "["+OWCv030toMFTransformer.class.getName()+"]  BoundingBoxType : CRS="+bbox.getCrs()+"   Lower corner="+bbox.getLowerCorner()+"   upper corner="+bbox.getUpperCorner()+"  dimension="+bbox.getDimensions());
-        
+        if (debug) {
+            LOGGER.log(Level.INFO, "[" + OWCv030toMFTransformer.class.getName() + "]  BoundingBoxType : CRS=" + bbox.getCrs() + "   Lower corner=" + bbox.getLowerCorner() + "   upper corner=" + bbox.getUpperCorner() + "  dimension=" + bbox.getDimensions());
+        }
+
         ctx.setSrs(bbox.getCrs());
         final CoordinateReferenceSystem crs;        //Crs with axis order : x,y or y,x        
         final CoordinateReferenceSystem displayCrs; //Crs with axis order : x,y
-        final GeneralEnvelope env;        
+        final GeneralEnvelope env;
         Envelope displayEnv = null;
         try {
             crs = CRS.decode(bbox.getCrs());
@@ -120,13 +122,17 @@ public class OWCv030toMFTransformer {
     public static List visitResourceList(List<LayerType> layerList) throws UnsupportedEncodingException, JAXBException {
         List<Layer> layers = new ArrayList<Layer>();
         HashMap<String, Server> servers = new HashMap<String, Server>();
-        
+
         int i = 0;
         for (final LayerType layerType : layerList) {
             try {
-                switch (layerType.getServer().get(0).getService()) {
+                ServerType serverType = layerType.getServer().get(0);
+                switch (serverType.getService()) {
+
                     case URN_OGC_SERVICE_TYPE_WMS:
-                        final String wmsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
+                        WmsLayer layer = (WmsLayer) contextFactory.createDefaultWmsLayer();
+                        final String wmsUrl = serverType.getOnlineResource().get(0).getHref();
+
                         if (!wmsUrl.contains("http://")) {                            //TODO
 //                                if(wmsUrl.startsWith("/")){
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
@@ -136,58 +142,21 @@ public class OWCv030toMFTransformer {
 //                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
 //                                }
                         }
-                        if (webMapServers.get(wmsUrl) == null) {
-                            new Thread(){
-                                public void run() {
-                                    try {
-                                        WebMapServer wmserver = new WebMapServer(new URL(wmsUrl), layerType.getServer().get(0).getVersion());
-                                        webMapServers.put(wmsUrl, wmserver);
-                                    } catch (IOException ex) {
-                                        LOGGER.log(Level.SEVERE, null, ex);
-                                    }
-                                }
-                            }.start();
-                            long start = System.currentTimeMillis();
-                            long end = 0L;
-                            while (webMapServers.get(wmsUrl) == null && end < 10000) {
-                                try {
-                                    Thread.sleep(200);
-                                } catch (InterruptedException ex) {
-                                    LOGGER.log(Level.SEVERE, null, ex);
-                                }
-                                end = System.currentTimeMillis() - start;
-                                if (webMapServers.get(wmsUrl) != null) {
-                                    if (debug)
-                                        LOGGER.log(Level.INFO,"[OWCv030toMFTransformer] webMapServer object created with geotoolkits in : " + end+" ms");
-                                }
-                            }
-                        }
                         Server wms = contextFactory.createDefaultServer();
                         wms.setHref(wmsUrl);
-                        wms.setService(layerType.getServer().get(0).getService().value());
-                        wms.setVersion(layerType.getServer().get(0).getVersion());
-
-                        AbstractWMSCapabilities wmscapabilities = null;
-
-                        if (webMapServers.get(wmsUrl) != null) {
-                            wmscapabilities = webMapServers.get(wmsUrl).getCapabilities();
-                        } else {
-                           LOGGER.log(Level.SEVERE, "[OWCv030toMFTransformer] WebMapServer from this service " + wmsUrl + " is null");
-                        }
-                        if (wmscapabilities == null) {
-                           LOGGER.log(Level.SEVERE, "[OWCv030toMFTransformer] WmsCapabilities from this service " + wmsUrl + " is null");                            
-                        }
-                        wms.setGTCapabilities(wmscapabilities);
-                        if (servers.get(wmsUrl) != null) {
+                        wms.setService(serverType.getService().value());
+                        wms.setVersion(serverType.getVersion());
+                        
+                        if (webMapServers.get(wmsUrl) == null) {
+                            webMapServers.put(wmsUrl, new WebMapServer(new URL(wmsUrl), serverType.getVersion()));
+                            wms.setGTCapabilities((failed) ? null : webMapServers.get(wmsUrl).getCapabilities());
                             servers.put(wmsUrl, wms);
                         }
-                        WmsLayer layer = (WmsLayer) contextFactory.createDefaultWmsLayer();
-
                         /* Server */
                         layer.setServer(wms);
 
                         /* Type */
-                        switch (layerType.getServer().get(0).getService()) {
+                        switch (serverType.getService()) {
                             case URN_OGC_SERVICE_TYPE_WMS:
                                 layer.setType(org.mapfaces.models.LayerType.WMS);
                                 break;
@@ -259,7 +228,7 @@ public class OWCv030toMFTransformer {
                             layer.setMinScaleDenominator(layerType.getMinScaleDenominator());
                         }
                         /*DimensionList*/
-                        HashMap allDims = visitDimensionList(layerType/*, webMapServers*/);
+                        HashMap allDims = visitDimensionList(layerType, layer.getServer()/*, webMapServers*/);
                         if (allDims.size() > 0) {
                             layer.setDimensionList(allDims);
                         }
@@ -272,7 +241,7 @@ public class OWCv030toMFTransformer {
                                 url += "?";
                             }
                             url += "REQUEST=GetLegendGraphic&amp;VERSION=" +
-                                    wms.getVersion() + "&amp;LAYER=" +
+                                    layer.getServer().getVersion() + "&amp;LAYER=" +
                                     layer.getName() + "&amp;WIDTH=50&amp;HEIGHT=30&amp;FORMAT=image/png";
                             if (allStyles.get("sldBody") != null && !allStyles.get("sldBody").equals("")) {
                                 url += "&amp;SLD_BODY=" + allStyles.get("sldBody");
@@ -297,8 +266,8 @@ public class OWCv030toMFTransformer {
 
                     case URN_OGC_SERVICE_TYPE_WFS:
 //                            DataStore data;
-//                            String wfsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
-//                            String version = layerType.getServer().get(0).getVersion();
+//                            String wfsUrl = serverType.getOnlineResource().get(0).getHref();
+//                            String version = serverType.getVersion();
 //                            if (wfsUrl.contains("?")) {
 //                                wfsUrl += "SERVICE=WFS&REQUEST=GetCapabilities&VERSION=" + version;
 //                            } else {
@@ -401,20 +370,14 @@ public class OWCv030toMFTransformer {
         return dim;
     }
 
-    private static HashMap visitDimensionList(LayerType layerType/*, HashMap<String, WebMapServer> webMapServers*/) {
-        HashMap allDims = new HashMap<String, Dimension>();
+    private static HashMap visitDimensionList(LayerType layerType, Server server/*, HashMap<String, WebMapServer> webMapServers*/) {
+
+        final HashMap allDims = new HashMap<String, Dimension>();
         HashMap tmp = null;
-        String wmsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
         if (layerType.getDimensionList() == null) {
             //TODO find dimension into getcapabilities
-            if (webMapServers.get(wmsUrl) != null) {
-                try {
-                    tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (JAXBException ex) {
-                    Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (server != null && server.getGTCapabilities() != null) {
+                tmp = visitDimensionListFromGetCaps(layerType, server.getGTCapabilities());
             }
             if (tmp != null) {
                 allDims.putAll(tmp);
@@ -425,14 +388,8 @@ public class OWCv030toMFTransformer {
                 if (dim.getUserValue() == null) {
                     if (dim.getDefault() == null) {
                         if (dim.getValue() == null) {
-                            try {
-                                //TODO find dimension into getcapabilities
-                                tmp = visitDimensionListFromGetCaps(layerType, webMapServers.get(wmsUrl).getCapabilities());
-                            } catch (MalformedURLException ex) {
-                                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (JAXBException ex) {
-                                Logger.getLogger(OWCv030toMFTransformer.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            //TODO find dimension into getcapabilities
+                            tmp = visitDimensionListFromGetCaps(layerType, server.getGTCapabilities());
                             if (tmp != null) {
                                 allDims.putAll(tmp);
                             }
@@ -456,7 +413,8 @@ public class OWCv030toMFTransformer {
         return allDims;
     }
 
-    private static HashMap<String, Dimension> visitDimensionListFromGetCaps(LayerType layerType, AbstractWMSCapabilities jaxbCapabilities) {
+    private static HashMap<String, Dimension> visitDimensionListFromGetCaps(
+            LayerType layerType, AbstractWMSCapabilities jaxbCapabilities) {
         HashMap allDims = new HashMap<String, Dimension>();
         if (jaxbCapabilities != null) {
             AbstractLayer layer = jaxbCapabilities.getLayerFromName(layerType.getName());
@@ -464,9 +422,10 @@ public class OWCv030toMFTransformer {
 
                 //From the getCapabilities we can see if the layer is a postgis type by the keyword "Vector datas".
                 boolean postgisflag = false;
-                if (layer != null && layer.getKeywordList() != null && FacesUtils.matchesKeywordfromList(layer.getKeywordList().getKeyword(), "Vector datas")) {
+                if (layer != null && layer.getKeywordList() != null && FacesUtils.matchesKeywordfromList(
+                        layer.getKeywordList().getKeyword(), "Vector datas")) {
                     postgisflag = true;
-                    LOGGER.log(Level.INFO,"[" + layerType.getName() + "] postgis layer detected ! ");
+                    LOGGER.log(Level.INFO, "[" + layerType.getName() + "] postgis layer detected ! ");
                 }
 
                 List<AbstractDimension> dims = layer.getAbstractDimension();
@@ -530,9 +489,7 @@ public class OWCv030toMFTransformer {
         }
         return allStyles;
     }
-    
 //    public static transformGTMapContextToMFLayer(MapContext){
 //        
 //    }
-            
 }
