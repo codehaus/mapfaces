@@ -36,6 +36,11 @@
 
         <!-- geotoolkit library -->
         <dependency>
+            <groupId>org.geotoolkit</groupId>
+            <artifactId>geotk-epsg</artifactId>
+        </dependency>
+        <!-- geotoolkit-pending  -->
+        <dependency>
             <groupId>org.geotoolkit.pending</groupId>
             <artifactId>geotk-wms</artifactId>
         </dependency>
@@ -55,7 +60,6 @@
             <groupId>org.geotoolkit.pending</groupId>
             <artifactId>geotk-xml-wmc</artifactId>
         </dependency>
-
 	<!-- this dependency should not be here but in the geotk project-->
         <dependency>
             <groupId>org.geotoolkit.pending</groupId>
@@ -63,10 +67,22 @@
         </dependency>
 
         <!--postgres driver for EPSG database -->
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
+       <dependency>
+        <groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.postgis</groupId>
+        <artifactId>postgis-driver</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbyLocale_fr</artifactId>
+      </dependency>
 
 
         <!-- JSF -->
@@ -131,6 +147,7 @@
                         <exclude>**/all.*</exclude>
                         <exclude>**/*-min.*</exclude>
                         <exclude>**/*-bs.*</exclude>
+                        <exclude>**/*mapfaces*</exclude>
                     </excludes>
                     <force>true</force>
                     <nomunge>true</nomunge>
