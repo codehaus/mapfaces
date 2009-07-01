@@ -165,6 +165,11 @@
     <dependencies>
       <!-- constellation -->
       <dependency>
+        <groupId>org.geotoolkit</groupId>
+        <artifactId>geotk-epsg</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
 	<groupId>org.geotoolkit.pending</groupId>
 	<artifactId>geotk-xml-ogc</artifactId>
 	<version>${geotoolkit.version}</version>
@@ -324,6 +329,18 @@
         <artifactId>batik-svggen</artifactId>
         <version>1.7</version>
       </dependency>
+
+      <dependency>
+        <groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>8.3-603.jdbc4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.4.2.0</version>
+      </dependency>
+
 
       <!-- COMMONS -->
       <!-- (certaines de ces dependances sont deja chargé via un plugin donc on les as commentés)-->
