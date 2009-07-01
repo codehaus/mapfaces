@@ -102,7 +102,7 @@ public class AutocompletionRenderer extends Renderer {
 
         str.append("document.addEvent('domready', function(){");
         /* Enable ajax request */
-        if (true) {
+        if (comp.isEnableAjax()) {
             
             final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());            
             final StringBuilder ajaxrequest = new StringBuilder();
@@ -120,6 +120,7 @@ public class AutocompletionRenderer extends Renderer {
 //            str.append("$('").append(inputId).append("').addEvent('blur',function(event){").
 //                    append(ajaxrequest).append("});");
             str.append(ajaxrequest);
+
         } else {
              str.append("var ").append(tokenId).append("=").
                 append(adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).
