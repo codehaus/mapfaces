@@ -116,7 +116,7 @@ if(!window.OpenLayers){
                 //            "openlayers/lib/OpenLayers/Layer/KaMap.js",
                 //            "openlayers/lib/OpenLayers/Layer/KaMapCache.js",
                 //            "openlayers/lib/OpenLayers/Layer/MultiMap.js",
-                //            "openlayers/lib/OpenLayers/Layer/Markers.js",
+                            "openlayers/lib/OpenLayers/Layer/Markers.js",
                 //            "openlayers/lib/OpenLayers/Layer/Text.js",
                 //            "openlayers/lib/OpenLayers/Layer/WorldWind.js",
                 //            "openlayers/lib/OpenLayers/Layer/ArcGIS93Rest.js",
