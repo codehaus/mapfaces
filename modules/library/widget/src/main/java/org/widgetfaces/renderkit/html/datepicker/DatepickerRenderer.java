@@ -47,7 +47,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 //    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
     private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
     private static final String LOAD_Datepicker_min = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
-    private static final String LOAD_Datepicker_css = "/org/widgetfaces/widget/datepicker/css/mapfaces-widgets.css";
+    private static final String LOAD_Datepicker_css = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
     private static final String datepickerClass = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
 
     /**
