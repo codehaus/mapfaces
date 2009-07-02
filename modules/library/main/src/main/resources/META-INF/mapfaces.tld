@@ -935,7 +935,7 @@
                 Active snapping when modify
             </description>
         </attribute>
-        <attribute>
+        <!--attribute>
             <name>split</name>
             <deferred-value>
                 <type>boolean</type>
@@ -945,7 +945,7 @@
             <description>
                 Active splitting when modify
             </description>
-        </attribute>
+        </attribute-->
     </tag>
     <!-- CursorTrack -->
     <tag>

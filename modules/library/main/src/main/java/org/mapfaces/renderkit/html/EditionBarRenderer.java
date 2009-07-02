@@ -49,7 +49,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
         String mapJsVariable = null ;
         UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
-                mapJsVariable = uIMapPane.getClientId(context);
+                mapJsVariable = FacesUtils.getJsVariableFromClientId(uIMapPane.getClientId(context));
         } else {
             LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
             component.setRendered(false);
@@ -83,24 +83,10 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         
-        /*
-         * @todo : Allow to specify by an attribute, the mappane component to attach NavigationHistory control
-         */
-        if (mapJsVariable.contains(":")) {
-            mapJsVariable = mapJsVariable.replace(":", "");
-        }
         writer.write(new StringBuilder("").append("if(!window.controlToAdd" + mapJsVariable + "){window.controlToAdd" + mapJsVariable + " = [];}\n").
                 append("window.controlToAdd" + mapJsVariable + ".push(\n\tfunction() {\n" +
                 "").toString());
 
-        if (comp.isDrawPoint()) {
-
-            writer.write(
-                    "\t\tif (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavigationHistory) {\n" +
-                    "\t\t\twindow.nav = new OpenLayers.Control.NavigationHistory();\n");
-            writer.write("\t\t\t" + mapJsVariable + ".addControl(window.nav);\n" +
-                    "\t\t}\n");
-        }
         if (comp.isDrawPoint() || comp.isDrawLine() || comp.isDrawPolygon() || comp.isModify() || comp.isSelect()) {
 
             final String idDivbar;
@@ -111,7 +97,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
             }
             
             //Name of the js variable in client side
-            String controlJsVariable = mapJsVariable + comp.getId();
+            String controlJsVariable = FacesUtils.getJsVariableFromClientId(clientId);
 //            /**
 //             *TBD
 //             *Test for editing tools 
@@ -168,9 +154,10 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
                 writer.write("\n\t\t\t" + controlJsVariable + "_Snapping.activate();\n");
             }
             if (comp.isSplit()) {
-                writer.write("\n\t\t\t" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});\n");
-                writer.write("\n\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);\n");
-                writer.write("\n\t\t\t" + controlJsVariable + "_Split.activate();\n");
+//This control is not enough robust
+//                writer.write("\n\t\t\t" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});\n");
+//                writer.write("\n\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Split);\n");
+//                writer.write("\n\t\t\t" + controlJsVariable + "_Split.activate();\n");
             }
 
             writer.write("\n\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + ");\n");

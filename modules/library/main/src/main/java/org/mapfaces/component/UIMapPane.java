@@ -39,33 +39,7 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 public class UIMapPane extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane";
-    //public static final double INCHES_PER_UNIT = 4374754;
-    static final HashMap<String, Double> INCHES_PER_UNIT = new HashMap<String, Double>();
-
-
-    static {
-        INCHES_PER_UNIT.put("inches", 1.0);
-        INCHES_PER_UNIT.put("ft", 12.0);
-        INCHES_PER_UNIT.put("mi", 63360.0);
-        INCHES_PER_UNIT.put("m", 39.3701);
-        INCHES_PER_UNIT.put("km", 39370.1);
-        INCHES_PER_UNIT.put("degree", 4374754.0);
-        INCHES_PER_UNIT.put("yd", 36.0);
-    }
-//    {
-//        'inches': 1.0,
-//    'ft': 12.0,
-//    'mi': 63360.0,
-//    'm': 39.3701,
-//    'km': 39370.1,
-//    'dd': 4374754,
-//    'yd': 36
-//};
-    /**
-     * Constant: DOTS_PER_INCH
-     * {Integer} 72 (A sensible default)
-     */
-    public static final int DOTS_PER_INCH = 72;
+    
     private MapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
@@ -115,7 +89,7 @@ public class UIMapPane extends UIWidgetBase {
     private Boolean fixedSize = false;
     private Boolean fractionalZoom = true;
     private Boolean singleTile = true;
-    private Integer numZoomLevels = 16;
+    private Integer numZoomLevels = 18;
     /**
      * Control options
      */
@@ -134,46 +108,7 @@ public class UIMapPane extends UIWidgetBase {
 
     public String getAjaxCompId() {
         return ajaxCompId;
-    }
-
-    public Double getScale(Context model) {
-        try {
-            final int width = Integer.valueOf(model.getWindowWidth());
-            final double widthBbox = Double.valueOf(model.getMaxx()) - Double.valueOf(model.getMinx());
-            final String unitName;
-            if (unit == null) {
-                unit = CRS.decode(model.getSrs()).getCoordinateSystem().getAxis(0).getUnit();
-            }
-            if (Units.isLinear(unit)) {
-                unitName = "m";
-            } else {
-                unitName = "degree";
-            }
-            return ((widthBbox / width) * INCHES_PER_UNIT.get(unitName) * DOTS_PER_INCH) / 1000000; // /1000000 to obtain kilometers
-        //@TOD0 actually we use the OpenLayers method to calculate scale but the geotoolkit method seems to be better but gives bad result when the extent is
-        //equal or bigger than -180,180
-
-//            final double minx = Double.valueOf(model.getMinx());
-//            final double maxx = Double.valueOf(model.getMaxx());
-//            final double miny = Double.valueOf(model.getMiny());
-//            final double maxy = Double.valueOf(model.getMaxy());
-////            final double minx = Double.valueOf("-179");
-////            final double maxx = Double.valueOf("179");
-////            final double miny = Double.valueOf("-90");
-////            final double maxy = Double.valueOf("90");
-//            final double centery = (maxy+miny)/2;
-//            //@TODO specific to GeoTK
-//            Measure mes = ((AbstractCRS) CRS.decode("EPSG:4326")).distance(new double[]{minx,centery}, new double[]{maxx,centery});
-//            System.out.println(mes.doubleValue());
-//            return mes.getUnit().getConverterTo(SI.KILO(SI.METRE)).convert(mes.doubleValue());
-
-        } catch (NoSuchAuthorityCodeException ex) {
-            Logger.getLogger(UIMapPane.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FactoryException ex) {
-            Logger.getLogger(UIMapPane.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+    }    
 
     public void setAjaxCompId(final String ajaxCompId) {
         this.ajaxCompId = ajaxCompId;
@@ -183,6 +118,11 @@ public class UIMapPane extends UIWidgetBase {
      * (set to true after the first page loads)     *
      */
     private boolean initDisplay = false;
+
+    /**
+     * JavaScript for adding all the layers*
+     */
+    private String addLayersScript = "";
 
     /** Creates a new instance of UIMapPane */
     public UIMapPane() {
@@ -427,7 +367,7 @@ public class UIMapPane extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[27];
+        final Object values[] = new Object[28];
         values[0] = super.saveState(context);
         values[1] = imageBuffer;
         values[2] = maxExtent;
@@ -455,6 +395,7 @@ public class UIMapPane extends UIWidgetBase {
         values[24] = yahoo;
         values[25] = virtualEarth;
         values[26] = ajaxCompId;
+        values[27] = addLayersScript;
         return values;
     }
 
@@ -491,6 +432,7 @@ public class UIMapPane extends UIWidgetBase {
         yahoo = (Boolean) values[24];
         virtualEarth = (Boolean) values[25];
         ajaxCompId = (String) values[26];
+        addLayersScript = (String) values[27];
     }
 
     /**
@@ -511,6 +453,20 @@ public class UIMapPane extends UIWidgetBase {
      */
     public void addLayer(final UIComponent layerComp) {
         this.getChildren().add(layerComp);
+    }
+
+    /**
+     * @return the addLayersScript
+     */
+    public String getAddLayersScript() {
+        return addLayersScript;
+    }
+
+    /**
+     * @param addLayersScript the addLayersScript to set
+     */
+    public void setAddLayersScript(String addLayersScript) {
+        this.addLayersScript = addLayersScript;
     }
 }
 

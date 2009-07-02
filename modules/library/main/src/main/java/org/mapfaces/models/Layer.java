@@ -64,9 +64,11 @@ public interface Layer extends Serializable, Cloneable {
 
     Double getMinScaleDenominator();
 
-    public boolean isDisplayable();
+    boolean isDisplayable();
     
-    public void setDisplayable(boolean displayable);
+    boolean isDisplayable(Double scale);
+
+    void setDisplayable(boolean displayable);
 
     String getName();
 
@@ -177,6 +179,10 @@ public interface Layer extends Serializable, Cloneable {
     void setAttrDimension(String name, String attrName, String attrValue);
 
     void setDimensionList(HashMap<String, Dimension> dimensionList);
+
+    void setDisable(boolean disable);
+    
+    boolean isDisable();
 
     /*
      * properties needed by JSF

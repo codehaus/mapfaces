@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
@@ -56,50 +55,62 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
 
         comp.setHeaderTitle("Display or hide temporal information in the timeline.");
         comp.setStyleImg("display:none;");
+        final TreeNodeModel currentNode = ((UITreeLines) (component.getParent())).getNodeInstance();
 
-        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
+        if (currentNode.isLeaf() && getTimes(context, (UITimeColumn) component) != null) {
             super.encodeBegin(context, component);
             final HashMap<String, String> paramsMap1 = new HashMap();
             paramsMap1.put("hidden", "true");
 
-            final UIComponent uicomp = (UIComponent) component.getChildren().get(0);
+            final HtmlGraphicImage child = (HtmlGraphicImage) component.getChildren().get(0);
+            final TreeItem currentTreeItem = (TreeItem) currentNode.getUserObject();
 
-            //Adding a new img component to remove the corresponding bandInfo on the timeline.
-            final HtmlGraphicImage img = new HtmlGraphicImage();
-            img.setId(component.getId() + "-off");
+            if (currentTreeItem.getUserObject() instanceof Layer) {
+                final Layer layer = (Layer) currentTreeItem.getUserObject();
 
-            uicomp.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
-                    (UIComponent) component.getChildren().get(0),
-                    "onclick",
-                    getVarId(context, (UIColumnBase) component),
-                    FacesUtils.getFormId(context, component) + ":timeline",
-                    paramsMap1,
-                    "hideOrDisplay(\"" + uicomp.getClientId(context) + "\",\"" + img.getClientId(context) + "\")",
-                    "resizeDivs()"));
+                if (layer.isDisable()) {
+                    child.setRendered(false);
 
-            img.setTitle(comp.getHeaderTitle());
-            img.setStyle("cursor:pointer;");
+                } else {
+                    //Adding a new img component to remove the corresponding bandInfo on the timeline.
+                    final HtmlGraphicImage img = new HtmlGraphicImage();
+                    img.setId(component.getId() + "-off");
 
-            final String urlOff = comp.getImg();
-            if (urlOff != null) {
-                if (urlOff.lastIndexOf(".") != -1) {
-                    final String extension = urlOff.substring(urlOff.lastIndexOf(".")); //.png
-                    String preUrl = urlOff.substring(0, urlOff.lastIndexOf(".")); // path/name
-                    preUrl += "-off"; //an image file with name imgurl concated with "-off" must be added in the resources packages.
-                    img.setUrl(preUrl + extension);
+                    child.getFacets().put("a4jsupport",
+                            FacesUtils.createTreeAjaxSupportWithParameters(context,
+                            child,
+                            "onclick",
+                            getVarId(context, (UIColumnBase) component),
+                            FacesUtils.getFormId(context, component) + ":timeline",
+                            paramsMap1,
+                            "hideOrDisplay(\"" + child.getClientId(context) + "\",\"" + img.getClientId(context) + "\")",
+                            "resizeDivs()"));
+
+                    img.setTitle(comp.getHeaderTitle());
+                    img.setStyle("cursor:pointer;");
+
+                    final String urlOff = comp.getImg();
+                    
+                    if (urlOff != null) {
+                        if (urlOff.lastIndexOf(".") != -1) {
+                            final String extension = urlOff.substring(urlOff.lastIndexOf(".")); //.png
+                            String preUrl = urlOff.substring(0, urlOff.lastIndexOf(".")); // path/name
+                            preUrl += "-off"; //an image file with name imgurl concated with "-off" must be added in the resources packages.
+                            img.setUrl(preUrl + extension);
+                        }
+                    }
+
+                    final HashMap<String, String> paramsMap2 = new HashMap();
+                    paramsMap2.put("hidden", "false");
+                    img.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
+                            img, "onclick", getVarId(context, (UIColumnBase) component),
+                            FacesUtils.getFormId(context, component) + ":timeline",
+                            paramsMap2, "hideOrDisplay(\"" + img.getClientId(context) + "\",\"" + child.getClientId(context) + "\")",
+                            "resizeDivs()"));
+
+                    component.getChildren().add(img);
                 }
             }
-
-            final HashMap<String, String> paramsMap2 = new HashMap();
-            paramsMap2.put("hidden", "false");
-            img.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
-                    img, "onclick", getVarId(context, (UIColumnBase) component),
-                    FacesUtils.getFormId(context, component) + ":timeline",
-                    paramsMap2, "hideOrDisplay(\"" + img.getClientId(context) + "\",\"" + uicomp.getClientId(context) + "\")",
-                    "resizeDivs()"));
-
-            component.getChildren().add(img);
-
         }
     }
 
@@ -127,8 +138,8 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         if (ti.getUserObject() instanceof Layer) {
             layer = (Layer) ti.getUserObject();
         }
-         
-        if (tnm.isLeaf() && layer !=null && layer.getDimensionList() != null) {
+
+        if (tnm.isLeaf() && layer != null && layer.getDimensionList() != null) {
             if (layer.getTime() != null) {
                 return layer.getTime().getValue();
             }
@@ -143,14 +154,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.write(new StringBuilder("function hideOrDisplay(id1, id2){\n")
-                              .append("if( document.getElementById(id1).style.display==\"none\" ){\n")
-                              .append("document.getElementById(id1).style.display=\"block\";\n")
-                              .append("document.getElementById(id2).style.display=\"none\";\n")
-                              .append("}else{\n")
-                              .append("document.getElementById(id1).style.display=\"none\";\n")
-                              .append("document.getElementById(id2).style.display=\"block\";\n")
-                              .append("}}").toString());
+        writer.write(new StringBuilder("function hideOrDisplay(id1, id2){\n").append("if( document.getElementById(id1).style.display==\"none\" ){\n").append("document.getElementById(id1).style.display=\"block\";\n").append("document.getElementById(id2).style.display=\"none\";\n").append("}else{\n").append("document.getElementById(id1).style.display=\"none\";\n").append("document.getElementById(id2).style.display=\"block\";\n").append("}}").toString());
         writer.write("if(typeof(resizeDivs)=='undefined'){resizeDivs = function(){};}\n");
         writer.endElement("script");
     }

@@ -34,22 +34,29 @@ OpenLayers.Control.EditingToolbar = OpenLayers.Class(
 //          [ new OpenLayers.Control.Navigation() ]
 //        ); 
         var controls = [];
+
         if (options.drawPoint)
             controls.push(new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Point, {'displayClass': 'EditPoint'}));
+
         if (options.drawLine)
             controls.push(new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Path, {'displayClass': 'EditLine'}));
+
         if (options.drawPolygon)
             controls.push(new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.Polygon, {'displayClass': 'EditPolygon'}));
+
         if (options.drawRegularPolygon) {
             if (!options.regularPolygonSides)
                 options.regularPolygonSides = 4;
             controls.push(new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler.RegularPolygon, {'displayClass': 'EditRegularPolygon',handlerOptions: {sides: options.regularPolygonSides}}));
         }
+
         if (options.deleteFeature) {
             controls.push(new OpenLayers.Control.DeleteFeature(layer,{'displayClass': 'Delete'}));
         }
+
         if (options.modify)
             controls.push(new OpenLayers.Control.ModifyFeature(layer,{'displayClass': 'Modify'}));
+
         if (options.select)
             controls.push(new OpenLayers.Control.SelectFeature(layer, {'displayClass': 'Select',
                         clickout: false, toggle: false,
@@ -58,6 +65,7 @@ OpenLayers.Control.EditingToolbar = OpenLayers.Class(
                         multipleKey: "shiftKey", // shift key adds to selection
                         box: true
                     }));
+
         if (options.drag)
             controls.push(new OpenLayers.Control.DragFeature(layer,{'displayClass': 'Drag'}));
 //TODO Create an OpenLayers.Control

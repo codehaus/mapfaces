@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectOne;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -46,7 +47,7 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
 
         if(comp.getValue() != null && comp.getItemsLabels()!=null &&
             comp.getChildCount() == 0){
-            final UISelectOne selectOneMenu = new UISelectOne();
+            final HtmlSelectOneMenu selectOneMenu = new HtmlSelectOneMenu();
             final String itemsLabels        = comp.getItemsLabels();
             final String[] labelsArray      = itemsLabels.split(comp.getSeparator());
             final String[] valuesArray      = itemsLabels.split(comp.getSeparator());
@@ -118,6 +119,10 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
     @Override
     public String addAfterRequestScript(FacesContext context, UIComponent component) throws IOException {
         return "";
+    }
+
+    public void handleAjaxRequest(FacesContext context, UIComponent component) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 

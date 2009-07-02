@@ -607,6 +607,7 @@ public class FacesUtils {
         extraParams.put(AjaxUtils.AJAX_LAYER_ID, varId);
         extraParams.put(AjaxUtils.AJAX_CONTAINER_ID_KEY, comp.getClientId(context));
         extraParams.putAll(params);
+
         if (idsToReRender == null) {
             idsToReRender = varId;
         }
@@ -638,6 +639,7 @@ public class FacesUtils {
         ajaxComp.setEvent(event);
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setLimitToList(true);
+        System.out.println("idsToReRender : " + idsToReRender);
         ajaxComp.setReRender(idsToReRender);
 
         if (onSubmitJS != null && !onSubmitJS.equals("")) {
@@ -1299,8 +1301,13 @@ public class FacesUtils {
         return clientId;
     }
 
-
-
+    public static String getJsVariableFromClientId(String clientId) {
+        String jsVariable = clientId;
+        if (jsVariable.contains(":")) {
+            jsVariable = clientId.replace(":", "");
+        }
+        return jsVariable;
+    }
 
 
 

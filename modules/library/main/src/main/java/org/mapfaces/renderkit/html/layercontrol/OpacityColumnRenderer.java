@@ -19,14 +19,17 @@ package org.mapfaces.renderkit.html.layercontrol;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.tree.UITreeLines;
+import org.mapfaces.models.Layer;
+import org.mapfaces.models.tree.TreeItem;
+import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
 import org.mapfaces.util.FacesUtils;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys).
  */
 public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
@@ -34,15 +37,27 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
      * {@inheritDoc }
      */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
+    public void encodeBegin(FacesContext context, UIComponent component)
+            throws IOException {
+
+        final TreeNodeModel currentNode =
+                ((UITreeLines) (component.getParent())).getNodeInstance();
+
+        if (currentNode.isLeaf()) {
             super.encodeBegin(context, component);
-            if(component.getChildCount()>0){
-                    component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context,
-                    (UIComponent) component.getChildren().get(0),
-                    "onchange",
-                    getVarId(context, (UIColumnBase) component),
-                    null));
+            final HtmlSelectOneMenu child =
+                    (HtmlSelectOneMenu) component.getChildren().get(0);
+            final TreeItem currentTreeItem =
+                    (TreeItem) currentNode.getUserObject();
+
+            if (currentTreeItem.getUserObject() instanceof Layer) {
+                 final Layer layer = (Layer) currentTreeItem.getUserObject();
+                 if (layer.isDisable()) {
+                     child.setRendered(false);
+                 } else {
+                     child.setOnchange(FacesUtils.getJsVariableFromClientId(
+                             layer.getCompId()) + ".setOpacity(this.value);");
+                 }
             }
         }
     }
@@ -51,7 +66,8 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
      * {@inheritDoc }
      */
     @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(FacesContext context, UIComponent component)
+            throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeEnd(context, component);
         }
@@ -61,7 +77,8 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
      * {@inheritDoc }
      */
     @Override
-    public void addRequestScript(FacesContext context, UIComponent component, String event) throws IOException {
+    public void addRequestScript(FacesContext context, UIComponent component,
+            String event) throws IOException {
 //        ResponseWriter writer = context.getResponseWriter();
 //        writer.startElement("script", component);
 //        writer.write("document.getElementById('" + component.getChildren().get(0).getClientId(context) + "').onchange = function(this){" + addBeforeRequestScript(getVarId(context, (UIColumnBase) component)) + "};");

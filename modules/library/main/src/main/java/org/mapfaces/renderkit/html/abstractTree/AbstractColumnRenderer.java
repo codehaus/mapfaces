@@ -98,7 +98,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
         }
 
         writer.startElement("div", component);
-        writer.writeAttribute("id", "treecol:" + component.getId() + ":" + node.getId(), null);
+        writer.writeAttribute("id",  component.getClientId(context), null);
         writer.writeAttribute("class", "x-tree-col " + classUser, null);
         writer.writeAttribute("style", "width:" + size + "; " + styleUser, null);
 
@@ -157,46 +157,46 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      */
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
-        final UITreeLinesBase treeline   = (UITreeLinesBase) component.getParent();
-        final Object userObject          = treeline.getNodeInstance().getUserObject();
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String new_value           = request.getParameter(AjaxUtils.AJAX_COMPONENT_VALUE_KEY);
-        final String[] targetNameSplit   = component.getId().split("_");
-        final String propName            = StringUtils.capitalize( targetNameSplit[targetNameSplit.length - 1] );
-        final Method method              = ReflectionUtils.lookupSetter(userObject.getClass(), propName);
-
-        boolean haveBeenResolved = false;
-
-        if (method != null) {
-            try {
-                method.invoke(userObject, new_value);
-                haveBeenResolved = true;
-            } catch (IllegalAccessException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (IllegalArgumentException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (InvocationTargetException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-
-        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        response.setContentType("text/xml;charset=UTF-8");
-        // need to set no cache or IE will not make future requests when same URL used.
-        response.setHeader("Pragma", "No-Cache");
-        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
-        response.setDateHeader("Expires", 1);
-
-        final StringBuilder sb = new StringBuilder();
-        sb.append("<response>");
-        sb.append((haveBeenResolved) ? "OK" : "FAILED");
-        sb.append("</response>");
-
-        try {
-            response.getWriter().write(sb.toString());
-        } catch (IOException iox) {
-            LOGGER.log(Level.SEVERE, "",iox);
-        }
+//        final UITreeLinesBase treeline   = (UITreeLinesBase) component.getParent();
+//        final Object userObject          = treeline.getNodeInstance().getUserObject();
+//        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+//        final String new_value           = request.getParameter(AjaxUtils.AJAX_COMPONENT_VALUE_KEY);
+//        final String[] targetNameSplit   = component.getId().split("_");
+//        final String propName            = StringUtils.capitalize( targetNameSplit[targetNameSplit.length - 1] );
+//        final Method method              = ReflectionUtils.lookupSetter(userObject.getClass(), propName);
+//
+//        boolean haveBeenResolved = false;
+//
+//        if (method != null) {
+//            try {
+//                method.invoke(userObject, new_value);
+//                haveBeenResolved = true;
+//            } catch (IllegalAccessException ex) {
+//                LOGGER.log(Level.SEVERE, null, ex);
+//            } catch (IllegalArgumentException ex) {
+//                LOGGER.log(Level.SEVERE, null, ex);
+//            } catch (InvocationTargetException ex) {
+//                LOGGER.log(Level.SEVERE, null, ex);
+//            }
+//        }
+//
+//        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+//        response.setContentType("text/xml;charset=UTF-8");
+//        // need to set no cache or IE will not make future requests when same URL used.
+//        response.setHeader("Pragma", "No-Cache");
+//        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
+//        response.setDateHeader("Expires", 1);
+//
+//        final StringBuilder sb = new StringBuilder();
+//        sb.append("<response>");
+//        sb.append((haveBeenResolved) ? "OK" : "FAILED");
+//        sb.append("</response>");
+//
+//        try {
+//            response.getWriter().write(sb.toString());
+//        } catch (IOException iox) {
+//            LOGGER.log(Level.SEVERE, "",iox);
+//        }
 
     }
 
@@ -205,17 +205,17 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
      */
     public HttpServletResponse createResponse(final FacesContext context, final boolean haveBeenResolved) throws IOException {
         final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        final StringBuilder sb = new StringBuilder();
-        response.setContentType("text/xml;charset=UTF-8");
-        // need to set no cache or IE will not make future requests when same URL used.
-        response.setHeader("Pragma", "No-Cache");
-        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
-        response.setDateHeader("Expires", 1);
-        sb.append("<response>");
-        sb.append( (haveBeenResolved)? "OK" : "FAILED");
-        sb.append("</response>");
-        response.getWriter().write(sb.toString());
-        LOGGER.log(Level.INFO, "Response : " +sb.toString());
+//        final StringBuilder sb = new StringBuilder();
+//        response.setContentType("text/xml;charset=UTF-8");
+//        // need to set no cache or IE will not make future requests when same URL used.
+//        response.setHeader("Pragma", "No-Cache");
+//        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
+//        response.setDateHeader("Expires", 1);
+//        sb.append("<response>");
+//        sb.append( (haveBeenResolved)? "OK" : "FAILED");
+//        sb.append("</response>");
+//        response.getWriter().write(sb.toString());
+//        LOGGER.log(Level.INFO, "Response : " +sb.toString());
         return response;
     }
 

@@ -51,6 +51,9 @@ public class DefaultLayer implements Layer {
     private String legendUrl;
     private Double minScaleDenominator;
     private Double maxScaleDenominator;
+    
+    //if set to true, the layer is never displaying on the map
+    private boolean disable = false;
     //private List<Style> style;
     private HashMap<String, Dimension> dimensionList;
     // private HashMap<String,Parameter> parameterList;
@@ -744,18 +747,32 @@ public class DefaultLayer implements Layer {
         return object;
     }
 
-    /**
-     * @return the displayable
-     */
-    public boolean isDisplayable() {
-        return displayable;
-    }
 
-    /**
-     * @param displayable the displayable to set
-     */
     public void setDisplayable(boolean displayable) {
         this.displayable = displayable;
     }
+
+    public boolean isDisplayable() {
+        return displayable;
+    }
+    
+    public boolean isDisplayable(Double scale) {
+        //Test is the layer is displayable at the specified scale or not
+        if (((maxScaleDenominator == null) || maxScaleDenominator > scale)
+                && ((minScaleDenominator == null) || minScaleDenominator <= scale)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void setDisable(boolean disable) {
+       this.disable = disable;
+    }
+
+    public boolean isDisable() {
+        return disable;
+    }
+
 
 }

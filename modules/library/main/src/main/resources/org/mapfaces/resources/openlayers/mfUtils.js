@@ -4,11 +4,12 @@ function loadMap(id) {
     if (id.indexOf(":") != -1) {
         id = id.replace(":","");
     }
-    eval("else if(window.loadMap"+id+")window.loadMap"+id+"();"); 
+    eval("if(window.loadMap"+id+")window.loadMap"+id+"();"); 
 }
 function loadMapAndZoom(id) {
     alert("je load " + window.maps[id]);
-    loadMap(id);    
+    loadMap(id);
+    addControlsToMap(id);
     alert("je zoom " + window.maps[id]);
     window.maps[id].zoomToExtent(window.maps[id].currentExtent);
 }
@@ -30,8 +31,7 @@ function reloadAllMaps() {
                 else
                   map.zoomToMaxExtent();
             } else {
-                loadMapAndZoom(i);  
-                addControlsToMap(i);   
+                loadMapAndZoom(i);    
             }
         }
     }

@@ -100,6 +100,8 @@ public class ContextRenderer extends Renderer {
 
         //Add MapFaces css
         if (resourcesFlag) {
+            writer.startElement("head", component);
+            writer.startElement("link", component);
             writer.startElement("link", component);
             writer.writeAttribute("rel", "stylesheet", "rel");
             if(comp.isMinifyJS())
@@ -108,6 +110,8 @@ public class ContextRenderer extends Renderer {
                 writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
             writer.writeAttribute("type", "text/css", null);
             writer.endElement("link");
+
+            writer.endElement("head");
         }
 
 /*@TODO remove all Mootools reference from MapFaces */
@@ -306,6 +310,9 @@ public class ContextRenderer extends Renderer {
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setImmediate(true);
         ajaxComp.setLimitToList(true);
+        //ajaxComp.setIgnoreDupResponses(true);
+        //ajaxComp.setBypassUpdates(true);
+        ajaxComp.setRequestDelay(5);
         ajaxComp.setReRender(comp.getId());
         if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
             comp.getFacets().put("a4jsupport", ajaxComp);
