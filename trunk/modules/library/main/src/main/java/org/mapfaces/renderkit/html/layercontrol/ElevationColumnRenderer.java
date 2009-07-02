@@ -20,6 +20,8 @@ package org.mapfaces.renderkit.html.layercontrol;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.UISelectOne;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.layercontrol.UIElevationColumn;
@@ -40,21 +42,42 @@ public class ElevationColumnRenderer extends SelectOneMenuColumnRenderer {
      * {@inheritDoc }
      */
     @Override
-    public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
+    public void beforeEncodeBegin(FacesContext context, UIComponent component)
+            throws IOException {
         ((UIElevationColumn) component).setSeparator(",");
         super.beforeEncodeBegin(context, component);
-        ((UIElevationColumn) component).setItemsLabels(getElevations(context, (UIElevationColumn) component));
-        ((UIElevationColumn) component).setItemsValues(getElevations(context, (UIElevationColumn) component));
+        ((UIElevationColumn) component).setItemsLabels(getElevations(context,
+                (UIElevationColumn) component));
+        ((UIElevationColumn) component).setItemsValues(getElevations(context,
+                (UIElevationColumn) component));
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        super.encodeBegin(context, component);
-        if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf() && getElevations(context, (UIElevationColumn) component) != null) {
-            component.getChildren().get(0).getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context, (UIComponent) component.getChildren().get(0), "onchange", getVarId(context, (UIColumnBase) component), null));
+    public void encodeBegin(FacesContext context, UIComponent component)
+            throws IOException {
+
+        final TreeNodeModel currentNode =
+                ((UITreeLines) (component.getParent())).getNodeInstance();
+        if (currentNode.isLeaf() &&
+                getElevations(context, (UIElevationColumn) component) != null) {
+            super.encodeBegin(context, component);
+            final HtmlSelectOneMenu child =
+                    (HtmlSelectOneMenu) component.getChildren().get(0);
+            final TreeItem currentTreeItem = 
+                    (TreeItem) currentNode.getUserObject();
+
+            if (currentTreeItem.getUserObject() instanceof Layer) {
+                final Layer layer = (Layer) currentTreeItem.getUserObject();
+                if (layer.isDisable())
+                    child.setRendered(false);
+                else
+                    child.setOnchange(FacesUtils.getJsVariableFromClientId(layer.getCompId()) + ".setElevation(this.value);");
+
+            }
+
         }
     }
 

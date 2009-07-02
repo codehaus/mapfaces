@@ -62,39 +62,39 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        if (component instanceof UICheckColumn) {
-            final UICheckColumn comp = (UICheckColumn) component;
-            if (comp.getParent() instanceof UITreeLines) {
-                final UITreeLines treeLine = (UITreeLines) comp.getParent();
-                final ExternalContext ext = context.getExternalContext();
-                final ELContext elContext = context.getELContext();
-                final Map parameterMap = ext.getRequestParameterMap();
-                final UIForm formContainer = FacesUtils.findForm(component);
-                String keyParameterInput = formContainer.getId() + ":check_" + comp.getId();
-                String newValue = (String) parameterMap.get(keyParameterInput);
-                boolean booleanValue = false;
-                if (newValue != null && newValue.equals("on")) {
-                    booleanValue = true;
-                } else {
-                    booleanValue = false;
-                }
-
-                String expression = "";
-                if (comp.getValueExpression("value") != null) {
-                    expression = comp.getValueExpression("value").getExpressionString();
-                    String tmp = expression.substring(expression.lastIndexOf("."));
-                    String property = tmp.substring(1, tmp.lastIndexOf("}"));
-                    Object userObject = null;
-                    if (treeLine.getNodeInstance() != null && treeLine.getNodeInstance().getUserObject() instanceof TreeItem) {
-                        TreeItem ti = (TreeItem) treeLine.getNodeInstance().getUserObject();
-                        userObject = ti.getUserObject();
-                    }
-                    if (userObject != null) {
-                        elContext.getELResolver().setValue(elContext, userObject, property, booleanValue);
-                    }
-                }
-            }
-        }
+//        if (component instanceof UICheckColumn) {
+//            final UICheckColumn comp = (UICheckColumn) component;
+//            if (comp.getParent() instanceof UITreeLines) {
+//                final UITreeLines treeLine = (UITreeLines) comp.getParent();
+//                final ExternalContext ext = context.getExternalContext();
+//                final ELContext elContext = context.getELContext();
+//                final Map parameterMap = ext.getRequestParameterMap();
+//                final UIForm formContainer = FacesUtils.findForm(component);
+//                String keyParameterInput = formContainer.getId() + ":check_" + comp.getId();
+//                String newValue = (String) parameterMap.get(keyParameterInput);
+//                boolean booleanValue = false;
+//                if (newValue != null && newValue.equals("on")) {
+//                    booleanValue = true;
+//                } else {
+//                    booleanValue = false;
+//                }
+//
+//                String expression = "";
+//                if (comp.getValueExpression("value") != null) {
+//                    expression = comp.getValueExpression("value").getExpressionString();
+//                    String tmp = expression.substring(expression.lastIndexOf("."));
+//                    String property = tmp.substring(1, tmp.lastIndexOf("}"));
+//                    Object userObject = null;
+//                    if (treeLine.getNodeInstance() != null && treeLine.getNodeInstance().getUserObject() instanceof TreeItem) {
+//                        TreeItem ti = (TreeItem) treeLine.getNodeInstance().getUserObject();
+//                        userObject = ti.getUserObject();
+//                    }
+//                    if (userObject != null) {
+//                        elContext.getELResolver().setValue(elContext, userObject, property, booleanValue);
+//                    }
+//                }
+//            }
+//        }
     }
 
     /**

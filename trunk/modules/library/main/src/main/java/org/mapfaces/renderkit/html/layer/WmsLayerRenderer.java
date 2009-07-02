@@ -33,10 +33,12 @@ import org.geotoolkit.wms.map.WMSMapLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.renderkit.html.LayerRenderer;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.MapUtils;
 
 /**
  * @author Olivier Terral.
@@ -61,7 +63,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         final String clientId = comp.getClientId(context);
         final Context model = (Context) comp.getModel();
         final WmsLayer layer = (WmsLayer) comp.getLayer();
-        final UIMapPane mappane= FacesUtils.getParentUIMapPane(context, comp);
+        final UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
 
         if (model == null) {
             if (this.debug) {
@@ -70,20 +72,10 @@ public class WmsLayerRenderer extends LayerRenderer {
                 LOGGER.log(Level.INFO, "[DEBUG] model id : " + model.getId());
             }
         }
-        final double scale = mappane.getScale(model);
-        final Double maxScale = layer.getMaxScaleDenominator();
-        final Double minScale = layer.getMinScaleDenominator();
-
-        //Test is the layer is displayable at this scale or not
-        if (((maxScale == null) || maxScale >= scale) && ((minScale == null) || minScale <= scale)) {
-            layer.setDisplayable(true);
-        } else {
-            layer.setDisplayable(false);
-        }
 
         final String opacity = (layer.getOpacity() != null) ? layer.getOpacity() : "1";
-        final String styleImg = "filter:alpha(opacity=" + ( Float.parseFloat(opacity) * 100) + ");opacity:" + opacity + ";";
-        final String display = (layer.isHidden()) ? "display:none" : "display:block;";
+        final String styleImg = "filter:alpha(opacity=" + (Float.parseFloat(opacity) * 100) + ");opacity:" + opacity + ";";
+        final String display = "display:none;";
 
         //Create the Layer_WMS_0 div
         writer.startElement("div", comp);
@@ -92,22 +84,33 @@ public class WmsLayerRenderer extends LayerRenderer {
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !layer.isHidden()));        //Add layer image if not the first page loads
+            LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + 
+                    (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay()
+                    && !layer.isHidden() && layer.isDisplayable() && !layer.isDisable()));        //Add layer image if not the first page loads
         }
+        layer.setDisplayable(layer.isDisplayable(MapUtils.getScale(model)));
 
-        if (mappane.getInitDisplay() && !layer.isHidden()) {
+        //If the WMSLayer has a bad server with no getCapabilities, never display this layer.
+        if (layer.getServer() == null || layer.getServer().getGTCapabilities() == null) {
+            layer.setHidden(true);
+            layer.setDisplayable(false);
+            layer.setMaxScaleDenominator(new Double (0.0));
+            layer.setDisable(true);
+        }
+        
+        if (mappane.getInitDisplay() && (!layer.isHidden() && layer.isDisplayable())) {
 
             //Set to 0 by default because if the upper Layer isn't displayable at this extent,
             //MouseWheel events aren't triggered by Img element  under this Layer.
             final Dimension dim = new Dimension(0, 0);
-            if (layer.isDisplayable()) {
-                dim.setSize(Integer.parseInt(model.getWindowWidth()),
+            dim.setSize(Integer.parseInt(model.getWindowWidth()),
                     Integer.parseInt(model.getWindowHeight()));
-            }
-            
+
             //Write the image DIV
             writer.startElement("div", comp);
-            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
+            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; " +
+                    "left: 0px; top: 0px; width: " + dim.width + "px; " +
+                    "height: " + dim.height + "px;", "style");
 
             //Write the image element  -------------------------------------
             writer.startElement("img", comp);
@@ -115,11 +118,8 @@ public class WmsLayerRenderer extends LayerRenderer {
             writer.writeAttribute("class", "layerImg", "style");
 
             if (styleImg != null) {
-                writer.writeAttribute("style", "position:relative;", "style");
-            }
-
-
-
+                writer.writeAttribute("style", "position:relative;" + styleImg, "style");
+            } 
 
             //Generate the URL contents
             // 1. recuperate the existing info
@@ -143,57 +143,50 @@ public class WmsLayerRenderer extends LayerRenderer {
             final double[] imgExtentLowerCorner = {new Double(model.getMinx()), new Double(model.getMiny())};
             final double[] imgExtentUpperCorner = {new Double(model.getMaxx()), new Double(model.getMaxy())};
             URL url = new URL("http://");
-            
+
             // 3. get the URL fragment
             if (mapLayer != null) {
-                if(layer.isDisplayable()){
-                    GetMapRequest request = mapLayer.createGetMapRequest();
-                    request.setDimension(dim);
-                    request.setEnvelope(model.getEnvelope());
-                    url = request.getURL();
-                    writer.writeAttribute("src", url, "src");
-                } 
-
+                writer.writeAttribute("src", mapLayer.query(model.getEnvelope(), dim), "src");
             }
 
-            if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {                
+            if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {
                 String begin = layer.getUrlGetMap().substring(0, layer.getUrlGetMap().indexOf("&SLD_BODY"));
                 String temp = layer.getUrlGetMap().substring(layer.getUrlGetMap().indexOf("&SLD_BODY"));
                 begin += "&TRANSPARENT=TRUE";
                 begin += temp;
-                
+
                 String completeUrl = begin;
-                if (! completeUrl.contains("SRS=")) {
+                if (!completeUrl.contains("SRS=")) {
                     completeUrl = completeUrl.concat("&SRS=");
                 }
-                if (! completeUrl.contains("BBOX=")) {
+                if (!completeUrl.contains("BBOX=")) {
                     completeUrl = completeUrl.concat("&BBOX=");
                 }
-                if (! completeUrl.contains("WIDTH=")) {
+                if (!completeUrl.contains("WIDTH=")) {
                     completeUrl = completeUrl.concat("&WIDTH=");
                 }
-                if (! completeUrl.contains("HEIGHT=")) {
+                if (!completeUrl.contains("HEIGHT=")) {
                     completeUrl = completeUrl.concat("&HEIGHT=");
                 }
-                
+
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
                 completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);                
-                url = new URL(completeUrl);                
+                completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
+                url = new URL(completeUrl);
             }
 
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : " + url);
             }
-            
+
             writer.endElement("img");
-            
+
             //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.
             if (layer instanceof DefaultWmsGetMapLayer) {
-                writer.write("<script>var url"+comp.getId() + "_ImgSrc = '"+url.toString()+"';\n document.getElementById('" + comp.getId() + "_Img').src=url"+comp.getId() + "_ImgSrc;\n </script>\n");
+                writer.write("<script>var url" + comp.getId() + "_ImgSrc = '" + url.toString() + "';\n document.getElementById('" + comp.getId() + "_Img').src=url" + comp.getId() + "_ImgSrc;\n </script>\n");
             }
-            
+
             writer.endElement("div");
 
         }
@@ -214,21 +207,24 @@ public class WmsLayerRenderer extends LayerRenderer {
     public WMSMapLayer createWMSMapLayer(final WmsLayer layer) throws IOException {
 
         // to avoid a NullPointerException when creating an object org.geotoolkit.data.wms.WebMapServer.
-        if (layer == null || layer.getServer() == null ) {
+        if (layer == null || layer.getServer() == null) {
             if (layer.getUrlGetMap() == null) {
                 LOGGER.log(Level.SEVERE, "[WmsLayerRenderer] Error the getcapabilities returned null !!!!!  url = " + layer.getServer().getHref());
                 return null;
-            }else {
+            } else {
                 //in this case there is a getMap url attached on the Layer, then we skip the building of WMSMapLayer object.
                 return null;
             }
         }
-
-        final WebMapServer server = new WebMapServer(new URL(layer.getServer().getHref()), layer.getServer().getVersion());
-        final WMSMapLayer mapLayer = new WMSMapLayer(server, layer.getName());
+        Server server = layer.getServer();
+        final WebMapServer wepmapserver = new WebMapServer(new URL(server.getHref()), server.getVersion(), server.getGTCapabilities());
+        final WMSMapLayer mapLayer = new WMSMapLayer(wepmapserver, layer.getName());
         final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
+
+        System.out.println(dims);
         if (dims != null) {
             for (final String tmp : dims.keySet()) {
+                System.out.println(dims.get(tmp).getUserValue());
                 mapLayer.dimensions().put(tmp, dims.get(tmp).getUserValue());
             }
         }

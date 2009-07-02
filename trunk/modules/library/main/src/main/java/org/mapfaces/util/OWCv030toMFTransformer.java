@@ -71,8 +71,6 @@ public class OWCv030toMFTransformer {
     private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
     private static final Logger LOGGER = Logger.getLogger(OWCv030toMFTransformer.class.getName());
     private static final boolean debug = true;
-    private static Boolean failed = new Boolean(false);
-    private static Boolean exit = new Boolean(false);
 
     public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
 
@@ -146,13 +144,13 @@ public class OWCv030toMFTransformer {
                         wms.setHref(wmsUrl);
                         wms.setService(serverType.getService().value());
                         wms.setVersion(serverType.getVersion());
-                        
+
                         if (webMapServers.get(wmsUrl) == null) {
                             webMapServers.put(wmsUrl, new WebMapServer(new URL(wmsUrl), serverType.getVersion()));
-                            wms.setGTCapabilities((failed) ? null : webMapServers.get(wmsUrl).getCapabilities());
-                            servers.put(wmsUrl, wms);
                         }
                         /* Server */
+                        wms.setGTCapabilities(webMapServers.get(wmsUrl).getCapabilities());
+                        servers.put(wmsUrl, wms);
                         layer.setServer(wms);
 
                         /* Type */

@@ -83,13 +83,6 @@ public class DefaultFeatureLayer extends DefaultLayer implements FeatureLayer {
         this.rotation = rotation;
     }
 
-    public boolean isDisplayable() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setDisplayable(boolean displayable) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     
 }

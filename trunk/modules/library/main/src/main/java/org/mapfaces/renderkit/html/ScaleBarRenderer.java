@@ -42,10 +42,10 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         
         //Find UIMapPane refers to this widget 
-        String jsObject = null ;
+        String mapJsVariable = null ;
         UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
-                jsObject = uIMapPane.getClientId(context);
+                mapJsVariable = uIMapPane.getClientId(context);
         } else {
             LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
             component.setRendered(false);
@@ -71,20 +71,22 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
        
-        if (jsObject.contains(":")) {
-            jsObject = jsObject.replace(":", "");
+        if (mapJsVariable.contains(":")) {
+            mapJsVariable = mapJsVariable.replace(":", "");
         }
         writer.write(new StringBuilder("").
-        append("if (!window.controlToAdd" + jsObject + ") { \n").
-        append("    window.controlToAdd" + jsObject + " = []; \n").
+        //Add reRender of ScaleBar on moveend event
+        append(mapJsVariable+".moveend.push('" + clientId + "');").
+        append("if (!window.controlToAdd" + mapJsVariable + ") { \n").
+        append("    window.controlToAdd" + mapJsVariable + " = []; \n").
         append("} \n").
-        append("window.controlToAdd" + jsObject + ".push(function() {\n").
+        append("window.controlToAdd" + mapJsVariable + ".push(function() {\n").
         append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.ScaleBar) { \n").
         append("        var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')}); \n").
-        append("        "+jsObject + ".addControl(scb); \n").
+        append("        "+mapJsVariable + ".addControl(scb); \n").
         append("    } \n").
         append("}) \n").
-        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n").toString());
+        append("window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1](); \n").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();
