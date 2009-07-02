@@ -21,3 +21,10 @@
 .page_red { background-position: 0 -52px; }
 .sheet { background-position: 0 -69px; }
 .windows { background-position: 0 -86px; }
+.logo {
+    background-image:url(../img/logo-65.png);
+    background-repeat: no-repeat;
+    background-position:center center;
+    height:65px;
+    width:186px;
+ }

@@ -3,18 +3,28 @@
 
 <div id="desktopHeader">
     <!-- Banniere -->
-    <div id="desktopTitlebarWrapper" style="height:65px;">
-        <div id="desktopTitlebar">
-            <div id="topNav">
-                <ul class="menu-right">
-                    <li><a href="#" onclick="MochaUI.notification('Do Something');return false;">Login</a></li>
-                </ul>
+    <div id="desktopTitlebarWrapper" style="height:65px;border-bottom:1px solid black;" >
+        <div style="width: 500px; height: 100%; position: absolute; top: 0px; left: 0px;" id="headerLeft">
+            <!--div style="height: 100%; left: 60px; position: absolute; top: 0pt;" class="logo"></div-->
+        </div>
+        <center>
+            <div id="headerMiddle">
+                <div style="padding: 15px 0px 5px 15px; font-size: 18px; font-weight: bold; color: #23678C;">Title project</div>
+                <div style="padding: 0px 0px 0px 15px; color: #58595B; font-size: 12px; font-weight: bold;">Subtitle project</div>
             </div>
+        </center>
+        <div id="headerRight"
+             style="width: 100px; 
+             position: absolute; top: 20px; right: 0px;
+             <%--background:transparent url(resources/skin/geobs/img/bg_right.jpg) no-repeat scroll 0% 0%;--%>
+            ">
+             <ul class="menu-right">
+                    <li><a href="#" onclick="MochaUI.notification('Do Something');return false;">Login</a></li>
+             </ul>
         </div>
     </div>
     
-    <!-- navigation bar -->
-    
+    <!-- navigation bar -->    
     <div id="desktopNavbar">
         <ul>
             <li>

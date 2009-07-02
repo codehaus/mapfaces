@@ -139,17 +139,7 @@ function webAppPageWrapper(){
         }
     });
     
-    new MochaUI.Panel({
-        id: 'panel2',
-        title: 'Panel',
-        column: 'left',
-        padding:{
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-        }
-    });
+   
     new MochaUI.Panel({
         id: 'panel3',
         title: 'Outils de navigation / mesure',
@@ -161,7 +151,19 @@ function webAppPageWrapper(){
             left: 0
         }
     });
-
+    
+    new MochaUI.Panel({
+        id: 'panel2',
+        title: "Outils d\'édition",
+        column: 'right',
+        padding:{
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        }
+    });
+    
     MochaUI.Desktop.desktop.setStyles({
         //'background': '#fff',
         'visibility': 'visible'
@@ -194,7 +196,7 @@ function webAppPageWrapper(){
         'height' : '100%',
         'width' : '100%'
     });
-    if (window.reloadAllMaps)
+  if (window.reloadAllMaps)
         window.reloadAllMaps();
 }
 
