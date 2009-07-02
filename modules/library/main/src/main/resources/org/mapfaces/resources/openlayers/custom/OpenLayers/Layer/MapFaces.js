@@ -141,12 +141,13 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
 
     onZoomChanged: function(parameters) {
         this.requestParams = {
-            'refresh': this.onZoomChanged
+            'refresh': this.zoomchanged
         };
         this.onRefresh(parameters);
     },
 
     onVisibilityChanged: function(parameters) {
+        
         this.requestParams = {
             'refresh':this.visibilitychanged,
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': !this.visibility,

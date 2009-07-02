@@ -230,7 +230,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UIMapPane uiMapPane = (UIMapPane) component;
-        uiMapPane.setAddLayersScript("");
+        final String jsMapVariable = FacesUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
+        uiMapPane.setAddLayersScript("window.layerToAdd" + jsMapVariable + "=[];");
         final List<UIComponent> childrens = component.getChildren();
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] Le composant " + component.getFamily() + " has " + childrens.size() + " children :");
@@ -245,22 +246,21 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 final Layer layer = uiLayer.getLayer();
                 if (!layer.isDisable()) {
                     final String clientId = uiLayer.getClientId(context);
-                    final String jsMapVariable = FacesUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
                     final String jsLayerVariable = FacesUtils.getJsVariableFromClientId(uiLayer.getClientId(context));
 
                     final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
                     //Create an array whjo contains all the MapFaces layers to add for a specific MapPane
-                    stringBuilder.append("if(!window.layerToAdd").append(jsMapVariable).
-                            append("){window.layerToAdd").append(jsMapVariable).append("=[];}").
+                    stringBuilder.
+                           
                             append("window.layerToAdd").append(jsMapVariable).append(".push(function() {").
                             //If OpenLayers classes are correctly loaded
                             append("if (window.OpenLayers &&  window.OpenLayers.Layer && window.OpenLayers.Layer.MapFaces) {").
                             //Create a MapFaces layer
-                            append("").append(jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
-                            append("id:").append("'").append(jsLayerVariable).append("'").append(",").
-                            append("visibility:").append(!layer.isHidden()).append(",").
-                            append("maxScale:").append(layer.getMinScaleDenominator()).append(",").
-                            append("minScale:").append(layer.getMaxScaleDenominator()).append("").
+                            append(jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
+                                append("id:").append("'").append(jsLayerVariable).append("'").append(",").
+                                append("visibility:").append(!layer.isHidden()).append(",").
+                                append("maxScale:").append(layer.getMinScaleDenominator()).append(",").
+                                append("minScale:").append(layer.getMaxScaleDenominator()).append("").
                             append("});").
                             //append(jsMapVariable).append(".removeLayer(").append(jsLayerVariable).append(");").
                             append(jsMapVariable).append(".addLayer(").append(jsLayerVariable).append(");").
@@ -302,22 +302,35 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         String jsObject = FacesUtils.getJsVariableFromClientId(comp.getClientId(context));
         final String srs = model.getSrs().toUpperCase();
 
-        StringBuilder stringBuilder = new StringBuilder("") /**
+        StringBuilder stringBuilder = new StringBuilder("")
+                /**
                  * If window.maps (list of the maps)  doesn't exist , we create it;
                  */
-                .append("if(!window.maps)window.maps = {};\n") /**
+                .append("if(!window.maps)window.maps = {};\n")
+
+                /**
                  * Add a null object to the window.maps list
                  */
-                .append("window.maps.").append(jsObject).append(" = null;\n") /**
+                .append("window.maps.").append(jsObject).append(" = null;\n")
+
+                /**
                  * Create an empty Array wich contains all controls to add to the current map
                  */
-                .append("window.controlToAdd" + jsObject + " = [];\n ") /**
+                .append("window.controlToAdd" + jsObject + " = [];\n ")
+
+                /**
                  * Define a function  who will load the map;
                  */
-                .append("window.loadMap" + jsObject + " = function() {\n") /**
+                .append("window.loadMap" + jsObject + " = function() {\n")
+
+                /**
                  * Test if map options object doesn't exist and all needed OpenLayers class has been loaded correctly
                  */
-                .append("if (typeof ").append(jsObject).append("_mapOptions == 'undefined' ").append("&& window.OpenLayers && window.OpenLayers.Projection ").append("&& window.OpenLayers.Size && window.OpenLayers.Bounds) { \n") /**
+                .append("if (typeof ").append(jsObject).append("_mapOptions == 'undefined' ").
+                append("&& window.OpenLayers && window.OpenLayers.Projection ").
+                append("&& window.OpenLayers.Size && window.OpenLayers.Bounds) { \n")
+
+                /**
                  * Create the map options object, it contains all options needed to render a map;
                  */
                 .append("var ").append(jsObject).append("_mapOptions = {\n");
@@ -455,6 +468,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 /**
                  * Create the JS  Map object
                  */
+               // append("if(window.").append(jsObject).append(")window.").append(jsObject).append(".destroy();").
                 append("window.").append(jsObject).append("     = new OpenLayers.Map('").append(comp.getClientId(context)).append("'," + jsObject + "_mapOptions);").
                 /**
                  * Add the MapFaces layers
@@ -467,7 +481,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 /**
                  * Attach OpenLayers.MapFaces.Layer(s) to the map
                  */
-                append("if(window.maps.").append(jsObject).append(".layers.length == 0)").append("for (var i = 0 ; i <  window.layerToAdd" + jsObject + ".length; i++) {").
+                append("if( window.layerToAdd" + jsObject + ")").
+                append("for (var i = 0 ; i <  window.layerToAdd" + jsObject + ".length; i++) {").
                 append("window.layerToAdd" + jsObject + "[i]();\n").
                 append("}").
                 /**
