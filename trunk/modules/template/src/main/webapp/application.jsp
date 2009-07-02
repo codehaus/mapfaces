@@ -7,13 +7,13 @@
 
 
 
-<mf-model:Context id="owsVisuContext" minifyJS="true" service="map-context.xml" scriptaculous="false" mootools="false" debug="false">
+<mf-model:Context id="owsVisuContext" minifyJS="false" service="map-context.xml" scriptaculous="false" mootools="false" debug="false">
     
     <%--  The main mappane is englobed with a h:panelGroup tag
     with a styleClass ="mochaMainAppColumn" to fix it in the main column  --%>
     <h:panelGroup id="mappaneBox" layout="block" styleClass="mochaMainAppColumn">
         <mf:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
-            <mf:MapPane id="mappane" style="width:100%; height:100%;" debug="false" navigation="true" />
+            <mf:MapPane id="mappane" numZoomLevels="18" style="width:100%; height:100%;" debug="false" navigation="true" />
             <mf:Div styleClass="footerMap">
                 <mf:ScaleBar></mf:ScaleBar>
             </mf:Div>
@@ -23,13 +23,15 @@
      <%-- The layer control is englobed with a h:panelGroup tag
         with a styleClass ="mochaPanel1" to fix it in the first top panel in the right column  --%>
     <h:panelGroup id="layerControlBox" layout="block" styleClass="mochaPanel1" style="height: 100%;width:100%;">
-        <mf:LayerControl style="height:100%;opacity:1;position:relative;width:400px;" ></mf:LayerControl>
+        <mf:LayerControl id="lc" style="height:100%;opacity:1;position:relative;width:400px;" ></mf:LayerControl>
     </h:panelGroup>
 
     <%-- Other components can be englobed with a h:panelGroup tag
     with a styleClass ="mochaPanel2" to fix it in the second bottom panel in the right column  --%>
     <h:panelGroup id="editToolBox" layout="block" styleClass="mochaPanel2" style="height: 100%;width:100%;">
-        
+        <mf:EditionBar id="EditionBar"  styleClass="mfEditionBar horizontal" 
+        deleteFeature="true" modify="true" select="true" 
+        regularPolygonSides="4"drawRegularPolygon="true" snapping="true"> </mf:EditionBar>
     </h:panelGroup>
     <h:panelGroup id="toolBox" layout="block" styleClass="mochaPanel3" style="height: 100%;width:100%;font-size:12px;font-family:verdana;">
         <mf:ButtonBar id="ButtonBar" styleClass="mfButtonBar horizontal" style="height:34px;opacity:1;position:relative;width:100%;" />
