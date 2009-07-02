@@ -22,7 +22,7 @@ OpenLayers.Map = OpenLayers.Class({
 
     /******* MapFaces extra function***********/
     onChangeLayer: function(context) {
-        context.layer.events.triggerEvent(context.property + "changed");
+       // context.layer.events.triggerEvent(context.property + "changed");
     },
     reRenderById: function (divId) {
          var  parameters = {
