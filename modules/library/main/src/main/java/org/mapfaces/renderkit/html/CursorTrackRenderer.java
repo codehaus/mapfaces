@@ -81,35 +81,35 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
             System.out.println("show PX " +comp.isShowPX());
         }
         writer.write(new StringBuilder("").
-        append("if (!window.controlToAdd" + jsObject + ") { \n").
-        append("    window.controlToAdd" + jsObject + " = []; \n").
-        append("} \n").
-        append("window.controlToAdd" + jsObject + ".push(function() {\n").
-        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.MousePosition) { \n" ).
+        append("if (!window.controlToAdd" + jsObject + ") { ").
+        append("    window.controlToAdd" + jsObject + " = []; ").
+        append("} ").
+        append("window.controlToAdd" + jsObject + ".push(function() {").
+        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.MousePosition) { " ).
         append("        var mp = new OpenLayers.Control.MousePosition({'div':OpenLayers.Util.getElement('" + clientId + "')").toString());
         
         if (comp.isShowPX()) {
-            writer.write(",\nPX: true");
+            writer.write(",PX: true");
         }
         if (comp.isShowXY()) {
-            writer.write(",\nXY: true");
+            writer.write(",XY: true");
         }
         if (comp.isShowLatLon()) {
-            writer.write(",\nLatLon: true");
+            writer.write(",LatLon: true");
         }
         if (comp.isShowDMS()) {
-            writer.write(",\nDMS: true");
+            writer.write(",DMS: true");
         }
         if (comp.isShowDM()) {
-            writer.write(",\nDM: true");
+            writer.write(",DM: true");
         }
         
         writer.write(new StringBuilder("").
-        append("        \n}); \n").
-        append("        window."+jsObject + ".addControl(mp); \n").
-        append("    } \n").
-        append("}); \n").
-        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n").toString());
+        append("        }); ").
+        append("        window."+jsObject + ".addControl(mp); ").
+        append("    } ").
+        append("}); ").
+        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); ").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

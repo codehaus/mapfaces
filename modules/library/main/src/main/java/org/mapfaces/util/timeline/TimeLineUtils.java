@@ -153,7 +153,7 @@ public class TimeLineUtils {
                     }
                 }
             }
-            writer.write(idjs + "_eventSource._fire(\"onAddMany\", []);\n");
+            writer.write(idjs + "_eventSource._fire(\"onAddMany\", []);");
         }
         return erasZones;
     }
@@ -185,88 +185,88 @@ public class TimeLineUtils {
 
             final String start;
             if (event.getDateBegin() != null) {
-                start = jsFormater + "('" + sdf.format(event.getDateBegin()) + "'),\n";
+                start = jsFormater + "('" + sdf.format(event.getDateBegin()) + "'),";
             }else{
-                start = jsFormater + "('" + sdf.format(cal.getTime()) + "') ,\n";
+                start = jsFormater + "('" + sdf.format(cal.getTime()) + "') ,";
             }
 
-            String end = "null ,\n";
+            String end = "null ,";
             if (event.getDateEnd() != null) {
-                end = jsFormater + "('" + sdf.format(event.getDateEnd()) + "') , \n";
+                end = jsFormater + "('" + sdf.format(event.getDateEnd()) + "') , ";
             }
 
-            String instant = "true,\n";
+            String instant = "true,";
             if (event.isTopological()) {
-                instant = "false,\n";
+                instant = "false,";
 
                 // if isTopological() then the end date must not be null !! default is new Date().
                 if (end.equals("null")) {
-                    end = jsFormater + "('" + sdf.format(cal.getTime()) + "') , \n";
+                    end = jsFormater + "('" + sdf.format(cal.getTime()) + "') , ";
                 }
             }
 
-            String title = "'' ,\n";
+            String title = "'' ,";
             if (event.getTitle() != null) {
-                title = "\"" + event.getTitle() + "\" ,\n";
+                title = "\"" + event.getTitle() + "\" ,";
             }
 
-            String description = "'' ,\n";
+            String description = "'' ,";
             if (event.getDescription() != null) {
-                description = "\"" + event.getDescription() + "\" ,\n";
+                description = "\"" + event.getDescription() + "\" ,";
             }
 
-            String image = "'' ,\n";
+            String image = "'' ,";
             if (event.getImage() != null) {
-                image = "\"" + event.getImage() + "\" ,\n";
+                image = "\"" + event.getImage() + "\" ,";
             }
 
-            String link = "'' ,\n";
+            String link = "'' ,";
             if (event.getLink() != null) {
-                link = "\"" + event.getLink() + "\" ,\n";
+                link = "\"" + event.getLink() + "\" ,";
             }
 
-            String icon = "'' ,\n";
+            String icon = "'' ,";
             if (event.getPriority() != null) {
                 if (event.getPriority().equals(Priority.HIGH)) {
-                    icon = "\"" + domainUrl + highIcon + "\" ,\n";
+                    icon = "\"" + domainUrl + highIcon + "\" ,";
                 } else if (event.getPriority().equals(Priority.LOW)) {
-                    icon = "\"" + domainUrl + lowIcon + "\" ,\n";
+                    icon = "\"" + domainUrl + lowIcon + "\" ,";
                 } else {
-                    icon = "\"" + domainUrl + normalIcon + "\" ,\n";
+                    icon = "\"" + domainUrl + normalIcon + "\" ,";
                 }
             }
             if (event.getIcon() != null && (!event.getIcon().equals(""))) {
                 if (event.getIcon().startsWith("http")) {
-                    icon = "\"" + event.getIcon() + "\" ,\n";
+                    icon = "\"" + event.getIcon() + "\" ,";
                 } else {
-                    icon = "\"" + fullContextPath + event.getIcon() + "\" ,\n";
+                    icon = "\"" + fullContextPath + event.getIcon() + "\" ,";
                 }
             }
 
-            String color = "'' ,\n";
+            String color = "'' ,";
             if (event.getStatus() != null) {
                 if (event.getStatus().equals(Status.IN_PROGRESS)) {
-                    color = "'green' ,\n";
+                    color = "'green' ,";
                 } else if (event.getStatus().equals(Status.NOT_STARTED)) {
-                    color = "'red' ,\n";
+                    color = "'red' ,";
                 } else {
-                    color = "'blue' ,\n";
+                    color = "'blue' ,";
                 }
             }
             if (event.getColor() != null && (!event.getColor().equals(""))) {
-                color = "'" + event.getColor() + "' ,\n";
+                color = "'" + event.getColor() + "' ,";
             }
 
-            String textColor = "''\n";
+            String textColor = "''";
             if (event.getTextColor() != null && (!event.getTextColor().equals(""))) {
-                textColor = "'" + event.getTextColor() + "' \n";
+                textColor = "'" + event.getTextColor() + "' ";
             }
 
-            writer.write(idjs + "_eventSource.add(new Timeline.DefaultEventSource.Event(\n");
+            writer.write(idjs + "_eventSource.add(new Timeline.DefaultEventSource.Event(");
             writer.write(start +
                     end +
-                    "null,\n" +
-                    "null,\n" +
+                    "null," +
+                    "null," +
                     instant +
                     title +
                     description +
@@ -275,7 +275,7 @@ public class TimeLineUtils {
                     icon +
                     color +
                     textColor);
-            writer.write("));\n");
+            writer.write("));");
         }
     }
 
@@ -342,14 +342,14 @@ public class TimeLineUtils {
         writer.writeAttribute("style", style, null);
         writer.endElement("input");
 
-        writer.write(new StringBuilder("<script>\n")
-                .append("function ").append(idjs).append("_centerToDate(){\n")
-                .append("var valdate = document.getElementById('").append(idjs).append("_inputdate').value;\n")
-                .append("var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);\n")
-                .append("if (dateInput instanceof Date) {\n")
-                .append(idjs).append("_tl.getBand(0).scrollToCenter(dateInput);\n")
-                .append("} return false;}\n")
-                .append("</script>\n")
+        writer.write(new StringBuilder("<script>")
+                .append("function ").append(idjs).append("_centerToDate(){")
+                .append("var valdate = document.getElementById('").append(idjs).append("_inputdate').value;")
+                .append("var dateInput = Timeline.DateTime.parseIso8601DateTime(valdate);")
+                .append("if (dateInput instanceof Date) {")
+                .append(idjs).append("_tl.getBand(0).scrollToCenter(dateInput);")
+                .append("} return false;}")
+                .append("</script>")
                 .toString());
     }
 

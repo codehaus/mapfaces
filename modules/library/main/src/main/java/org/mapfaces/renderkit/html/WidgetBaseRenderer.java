@@ -90,7 +90,7 @@ public class WidgetBaseRenderer extends Renderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE CHILDREN \n");
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE CHILDREN ");
         }
         final List<UIComponent> childrens = component.getChildren();
         if (this.debug) {
@@ -98,7 +98,7 @@ public class WidgetBaseRenderer extends Renderer {
         }
         for (final UIComponent tmp : childrens) {
             if (this.debug) {
-                LOGGER.log(Level.INFO, "[DEBUG]  \tChild family's " + tmp.getFamily());
+                LOGGER.log(Level.INFO, "[DEBUG]  Child family's " + tmp.getFamily());
             }
             FacesUtils.encodeRecursive(context, tmp);
         }
@@ -110,7 +110,7 @@ public class WidgetBaseRenderer extends Renderer {
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE END \n");
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE END ");
         }
     }
 
@@ -120,7 +120,7 @@ public class WidgetBaseRenderer extends Renderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer DECODE \n");
+            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer DECODE ");
         }
     }
 
@@ -138,7 +138,7 @@ public class WidgetBaseRenderer extends Renderer {
         String compClientId = comp.getClientId(facesContext);
         session.put(compClientId + "_model", comp.getModel());
         if (debug) {
-            LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "\n");
+            LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "");
         }
     }
     void removeChildren(final FacesContext context, final UIComponent component) {

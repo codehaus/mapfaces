@@ -75,16 +75,16 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         }
 
         writer.write(new StringBuilder("").
-        append("if (!window.controlToAdd" + jsObject + ") { \n").
-        append("    window.controlToAdd" + jsObject + " = []; \n").
-        append("} \n").
-        append("window.controlToAdd" + jsObject + ".push(function() {\n").
-        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.Scale) { \n").
-        append("        var sc = new OpenLayers.Control.Scale({'div': OpenLayers.Util.getElement('" + clientId + "')}); \n").
-        append("        window."+jsObject + ".addControl(sc); \n").
-        append("    } \n").
-        append("}) \n").
-        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); \n").toString());
+        append("if (!window.controlToAdd" + jsObject + ") { ").
+        append("    window.controlToAdd" + jsObject + " = []; ").
+        append("} ").
+        append("window.controlToAdd" + jsObject + ".push(function() {").
+        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.Scale) { ").
+        append("        var sc = new OpenLayers.Control.Scale({'div': OpenLayers.Util.getElement('" + clientId + "')}); ").
+        append("        window."+jsObject + ".addControl(sc); ").
+        append("    } ").
+        append("}) ").
+        append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); ").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

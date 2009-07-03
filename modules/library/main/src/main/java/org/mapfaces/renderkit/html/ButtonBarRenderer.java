@@ -89,17 +89,17 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         if (jsObject.contains(":")) {
             jsObject = jsObject.replace(":", "");
         }
-        writer.write(new StringBuilder("").append("if(!window.controlToAdd" + jsObject + "){window.controlToAdd" + jsObject + " = [];}\n").
-                append("window.controlToAdd" + jsObject + ".push(\n\tfunction() {\n" +
+        writer.write(new StringBuilder("").append("if(!window.controlToAdd" + jsObject + "){window.controlToAdd" + jsObject + " = [];}").
+                append("window.controlToAdd" + jsObject + ".push(function() {" +
                 "").toString());
 
         if (comp.isHistory()) {
 
             writer.write(
-                    "\t\tif (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavigationHistory) {\n" +
-                    "\t\t\twindow.nav = new OpenLayers.Control.NavigationHistory();\n");
-            writer.write("\t\t\t" + jsObject + ".addControl(window.nav);\n" +
-                    "\t\t}\n");
+                    "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavigationHistory) {" +
+                    "window.nav = new OpenLayers.Control.NavigationHistory();");
+            writer.write("" + jsObject + ".addControl(window.nav);" +
+                    "}");
         }
         if (comp.isZoomIn() || comp.isHistory() || comp.isZoomOut() || comp.isPan() || comp.isZoomMaxExtent()) {
 
@@ -113,62 +113,62 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
 //             *TBD
 //             *Test for editing tools 
 //             */
-//            writer.write("\t\t\twindow.vlayer = new OpenLayers.Layer.Vector( 'Editable' );\n");
-//           writer.write("\t\t\t" + jsObject + ".addLayer(window.vlayer);\n");
-//          // writer.write("\t\t\t" + jsObject + ".addLayer(window.gml);\n");
-//           //writer.write("\t\t\t" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
+//            writer.write("window.vlayer = new OpenLayers.Layer.Vector( 'Editable' );");
+//           writer.write("" + jsObject + ".addLayer(window.vlayer);");
+//          // writer.write("" + jsObject + ".addLayer(window.gml);");
+//           //writer.write("" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
 //            //TBD
            
-            writer.write("\n" +
-                    "\t\tif (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavToolbar) {\n" +
-                    "\t\t\tvar " + jsObject + comp.getId() + " = new OpenLayers.Control.NavToolbar({\n\t\t\t\t'div':OpenLayers.Util.getElement('" + idDivbar + "')");
+            writer.write("" +
+                    "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.NavToolbar) {" +
+                    "var " + jsObject + comp.getId() + " = new OpenLayers.Control.NavToolbar({'div':OpenLayers.Util.getElement('" + idDivbar + "')");
 
             if (comp.isZoomIn()) {
-                writer.write(",\n\t\t\t\tzoomIn: true");
+                writer.write(",zoomIn: true");
             }
             if (comp.isZoomOut()) {
-                writer.write(",\n\t\t\t\tzoomOut: true");
+                writer.write(",zoomOut: true");
             }
             if (comp.isPan()) {
-                writer.write(",\n\t\t\t\tpan: true");
+                writer.write(",pan: true");
             }
             if (comp.isZoomMaxExtent()) {
-                writer.write(",\n\t\t\t\tzoomMaxExtent: true");
+                writer.write(",zoomMaxExtent: true");
             }
             if (comp.isHistory()) {
-                writer.write(",\n\t\t\t\thistory: true");
+                writer.write(",history: true");
             }
             if (comp.isGraticule()) {
-                writer.write(",\n\t\t\t\tgraticule: true");
+                writer.write(",graticule: true");
             }
             if (comp.isSave()) {
-                writer.write(",\n\t\t\t\tsave: true");
+                writer.write(",save: true");
             }
             if (comp.isPan() && comp.isPanEffect()) {
-                writer.write(",\n\t\t\t\tpanEffect: true");
+                writer.write(",panEffect: true");
             }
             if (comp.isFeatureInfo()) {
                 final String rerender = comp.getReRender();
                 String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
                 String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
 
-                writer.write(",\n\t\t\t\tgetFeatureInfo: true");
+                writer.write(",getFeatureInfo: true");
                 if (idsToRefresh != null) {
-                    writer.write(",\n\t\t\t\tgetFeatureInfoOptions: {\n\t\t\t\t\tidToRefresh:'" + idsToRefresh + "'");
+                    writer.write(",getFeatureInfoOptions: {idToRefresh:'" + idsToRefresh + "'");
                 }
 
                 if (comp.isCallAjaxRegion() && clientIdAjaxRegion != null) {
-                    writer.write(",\n\t\t\t\t\tajaxRegionClientId:'"+clientIdAjaxRegion+"'");
+                    writer.write(",ajaxRegionClientId:'"+clientIdAjaxRegion+"'");
                 }
-                writer.write("\n\t\t\t\t}");
+                writer.write("}");
 
 
             }
             if (comp.isMeasureDistance()) {
-                writer.write(",\n\t\t\t\tmeasureDistance: true");
+                writer.write(",measureDistance: true");
             }
             if (comp.isMeasureArea()) {
-                writer.write(",\n\t\t\t\tmeasureArea: true");
+                writer.write(",measureArea: true");
             }
 
             if (comp.isSelectionZoomBox()) {
@@ -180,21 +180,21 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
                 final String focusId = comp.getFocusIdSelectionBox();
                 final String colorBox = comp.getColorSelectionBox();
 
-                writer.write(",\n\t\t\t\tselectionZoomBox: true");
-                writer.write(",\n\t\t\t\tselectionZoomBoxOptions: {north:'" + northId + "',south:'" + southId + "',east:'" + eastId + "',west:'" + westId + "',focusId:'" + focusId + "',color:'" + colorBox + "'}");
+                writer.write(",selectionZoomBox: true");
+                writer.write(",selectionZoomBoxOptions: {north:'" + northId + "',south:'" + southId + "',east:'" + eastId + "',west:'" + westId + "',focusId:'" + focusId + "',color:'" + colorBox + "'}");
             }
 
-            writer.write("\n\t\t\t});\n");
+            writer.write("});");
   
            
            
-            writer.write("\n\t\t\t" + jsObject + ".addControl(" + jsObject + comp.getId() + ");\n");
+            writer.write("" + jsObject + ".addControl(" + jsObject + comp.getId() + ");");
             
             
             
-            writer.write("\t\t}\n" +
-                    "\t}\n);\n" +
-                    "window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1]();\n");
+            writer.write("}" +
+                    "});" +
+                    "window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1]();");
             }
         writer.endElement("script");
         writer.endElement("div");

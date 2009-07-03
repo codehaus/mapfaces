@@ -138,7 +138,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
             //writing js code for this component events list.
             writer.startElement("script", comp);
             writer.writeAttribute("type", "text/javascript", "text/javascript");
-            writer.write("var " + idjs + "_eventSource = new Timeline.DefaultEventSource();\n");
+            writer.write("var " + idjs + "_eventSource = new Timeline.DefaultEventSource();");
 
             final List<Event> events;
             final Object value = comp.getAttributes().get("value");
@@ -284,15 +284,15 @@ public class HotZoneBandInfoRenderer extends Renderer {
         final Date centerDate         = bandInfo.getDate();
         final String DATE_FORMAT      = "yyyy-MM-dd'T'HH:mm:ss";
         final SimpleDateFormat sdf    = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        final String savedate         = idjs + "_tl.getBand(bandId).getCenterVisibleDate();\n";
-        final String reloadDate       = idjs + "_tl.getBand(bandId).setCenterVisibleDate(savedate);\n";
-        final String scrolltocenter   = idjs + "_tl.getBand(bandId).scrollToCenter(savedate);\n";
+        final String savedate         = idjs + "_tl.getBand(bandId).getCenterVisibleDate();";
+        final String reloadDate       = idjs + "_tl.getBand(bandId).setCenterVisibleDate(savedate);";
+        final String scrolltocenter   = idjs + "_tl.getBand(bandId).scrollToCenter(savedate);";
 
         final String centerdateScript;
         if (centerDate == null) {
-            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());\n";
+            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());";
         } else {
-            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(Timeline.DateTime.parseIso8601DateTime(\"" + sdf.format(centerDate) + "\"));\n";
+            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(Timeline.DateTime.parseIso8601DateTime(\"" + sdf.format(centerDate) + "\"));";
         }
 
         final ExternalContext extContext = context.getExternalContext();
@@ -300,20 +300,20 @@ public class HotZoneBandInfoRenderer extends Renderer {
             extContext.getRequestMap().put(idbandjs + "ajaxflag.jsfunction", Boolean.TRUE);
             writer.startElement("script", bandInfo);
             writer.writeAttribute("type", "text/javascript", null);
-            writer.write(new StringBuilder("function ").append(idbandjs).append("_changeIntervalUnit(bandId,val){\n")
-                    .append("var ms = Timeline.DateTime.gregorianUnitLengths[eval(val)];\n")
+            writer.write(new StringBuilder("function ").append(idbandjs).append("_changeIntervalUnit(bandId,val){")
+                    .append("var ms = Timeline.DateTime.gregorianUnitLengths[eval(val)];")
                     .append("var savedate = ").append(savedate)
-                    .append(idjs).append("_bandInfos[bandId].ether._interval=ms;\n")
-                    .append(idjs).append("_bandInfos[bandId].ether._params.interval=ms;\n")
-                    .append(idjs).append("_bandInfos[bandId].etherPainter._params.unit=eval(val);\n")
-                    .append("var size = ").append(idjs).append("_bandInfos[bandId].etherPainter._zones.length;\n")
-                    .append(idjs).append("_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);\n")
-                    .append(idjs).append("_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);\n")
+                    .append(idjs).append("_bandInfos[bandId].ether._interval=ms;")
+                    .append(idjs).append("_bandInfos[bandId].ether._params.interval=ms;")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._params.unit=eval(val);")
+                    .append("var size = ").append(idjs).append("_bandInfos[bandId].etherPainter._zones.length;")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._zones[0].unit=eval(val);")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._zones[size-1].unit=eval(val);")
                     //                    centerdateScript +
                     .append(reloadDate)
-                    .append(idjs).append("_eventSource._fire(\"onAddMany\", []);\n")
-                    .append(idjs).append("_tl.getBand(bandId).layout();\n")
-                    //idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());\n" +
+                    .append(idjs).append("_eventSource._fire(\"onAddMany\", []);")
+                    .append(idjs).append("_tl.getBand(bandId).layout();")
+                    //idjs + "_bandInfos[1].eventPainter.setLayout(" + idjs + "_bandInfos[0].eventPainter.getLayout());" +
                     .append("}").toString());
             writer.endElement("script");
         }

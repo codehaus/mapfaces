@@ -154,8 +154,8 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
         }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.write(new StringBuilder("function hideOrDisplay(id1, id2){\n").append("if( document.getElementById(id1).style.display==\"none\" ){\n").append("document.getElementById(id1).style.display=\"block\";\n").append("document.getElementById(id2).style.display=\"none\";\n").append("}else{\n").append("document.getElementById(id1).style.display=\"none\";\n").append("document.getElementById(id2).style.display=\"block\";\n").append("}}").toString());
-        writer.write("if(typeof(resizeDivs)=='undefined'){resizeDivs = function(){};}\n");
+        writer.write(new StringBuilder("function hideOrDisplay(id1, id2){").append("if( document.getElementById(id1).style.display==\"none\" ){").append("document.getElementById(id1).style.display=\"block\";").append("document.getElementById(id2).style.display=\"none\";").append("}else{").append("document.getElementById(id1).style.display=\"none\";").append("document.getElementById(id2).style.display=\"block\";").append("}}").toString());
+        writer.write("if(typeof(resizeDivs)=='undefined'){resizeDivs = function(){};}");
         writer.endElement("script");
     }
 }

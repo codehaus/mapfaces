@@ -116,8 +116,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 if (clientIdAjaxRegion != null) {
                     targetregion = clientIdAjaxRegion;
                 }
-                responseWriter.write("<script>\n" +
-                        "A4J.AJAX.Submit('" + targetregion + "','" + formId + "',null,{'parameters':{'" + formId + ":" + a4jSupport.getId() + "':'" + formId + ":" + a4jSupport.getId() + "'} ,'actionUrl':window.location.href} );\n" +
+                responseWriter.write("<script type='text/javascript'>" +
+                        "A4J.AJAX.Submit('" + targetregion + "','" + formId + "',null,{'parameters':{'" + formId + ":" + a4jSupport.getId() + "':'" + formId + ":" + a4jSupport.getId() + "'} ,'actionUrl':window.location.href} );" +
                         "</script>");
             }
         }
@@ -405,7 +405,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         try {
                             String response = (String) FacesUtils.sendRequest(request, null, null, null);
                             if (response != null) {
-                                //final String responseClean = response.replace("\n", " ");
+                                //final String responseClean = response.replace("", " ");
                                 featureInfoValues.add(response);
                             }
                         } catch (MalformedURLException ex) {
