@@ -306,34 +306,34 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 /**
                  * If window.maps (list of the maps)  doesn't exist , we create it;
                  */
-                .append("if(!window.maps)window.maps = {};\n")
+                .append("if(!window.maps)window.maps = {};")
 
                 /**
                  * Add a null object to the window.maps list
                  */
-                .append("window.maps.").append(jsObject).append(" = null;\n")
+                .append("window.maps.").append(jsObject).append(" = null;")
 
                 /**
                  * Create an empty Array wich contains all controls to add to the current map
                  */
-                .append("window.controlToAdd" + jsObject + " = [];\n ")
+                .append("window.controlToAdd" + jsObject + " = []; ")
 
                 /**
                  * Define a function  who will load the map;
                  */
-                .append("window.loadMap" + jsObject + " = function() {\n")
+                .append("window.loadMap" + jsObject + " = function() {")
 
                 /**
                  * Test if map options object doesn't exist and all needed OpenLayers class has been loaded correctly
                  */
                 .append("if (typeof ").append(jsObject).append("_mapOptions == 'undefined' ").
                 append("&& window.OpenLayers && window.OpenLayers.Projection ").
-                append("&& window.OpenLayers.Size && window.OpenLayers.Bounds) { \n")
+                append("&& window.OpenLayers.Size && window.OpenLayers.Bounds) { ")
 
                 /**
                  * Create the map options object, it contains all options needed to render a map;
                  */
-                .append("var ").append(jsObject).append("_mapOptions = {\n");
+                .append("var ").append(jsObject).append("_mapOptions = {");
 
 
         /**
@@ -342,64 +342,64 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         /**
          * Id of the javascript Map object
          */
-        stringBuilder.append("id: '" + jsObject + "',\n");
+        stringBuilder.append("id: '" + jsObject + "',");
 
         /**
          * List of Control objects to add to the map by default
          */
-        stringBuilder.append("controls: [],\n");
+        stringBuilder.append("controls: [],");
 
         /**
          * Projection
          */
-        stringBuilder.append("projection: new OpenLayers.Projection('").append(srs).append("'),\n");
+        stringBuilder.append("projection: new OpenLayers.Projection('").append(srs).append("'),");
 
         /**
          * Units
          */
-        stringBuilder.append("units: '").append(MapUtils.getUnits(srs)).append("',\n");
+        stringBuilder.append("units: '").append(MapUtils.getUnits(srs)).append("',");
 
         /**
          * Size
          */
-        stringBuilder.append("size: new OpenLayers.Size('").append(model.getWindowWidth()).append("','").append(model.getWindowHeight()).append("'),\n");
+        stringBuilder.append("size: new OpenLayers.Size('").append(model.getWindowWidth()).append("','").append(model.getWindowHeight()).append("'),");
 
 
         //@Todo Define clearly which extent is used to restrict the zoom
         /**
          * MaxExtent
          */
-        stringBuilder.append("maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n");
+        stringBuilder.append("maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),");
 
         /**
          * CurrentExtent , it'as a MapFaces option not an OpenLayers one
          */
-        stringBuilder.append("currentExtent: new OpenLayers.Bounds(").append(model.getMinx()).append(",").append(model.getMiny()).append(",").append(model.getMaxx()).append(",").append(model.getMaxy()).append("),\n");
+        stringBuilder.append("currentExtent: new OpenLayers.Bounds(").append(model.getMinx()).append(",").append(model.getMiny()).append(",").append(model.getMaxx()).append(",").append(model.getMaxy()).append("),");
 
         /**
          * RestrictedExtent
          */
-        stringBuilder.append("restrictedExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n");
+        stringBuilder.append("restrictedExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),");
 
         /**
          * MaxResolution
          */
-        stringBuilder.append("maxResolution: 'auto',\n");
+        stringBuilder.append("maxResolution: 'auto',");
 
         /**
          * NumZoomLevels
          */
-        stringBuilder.append("numZoomLevels: ").append(comp.getNumZoomLevels()).append(",\n");
+        stringBuilder.append("numZoomLevels: ").append(comp.getNumZoomLevels()).append(",");
 
         /**
          * Theme
          */
-        stringBuilder.append("theme:  null,\n");
+        stringBuilder.append("theme:  null,");
 
         /**
          * FractionnalZoom
          */
-        stringBuilder.append("fractionalZoom:  true,\n");
+        stringBuilder.append("fractionalZoom:  true,");
 
 
         /**
@@ -408,30 +408,30 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         /**
          * moveend event
          */
-        stringBuilder.append("moveend:  [],\n");
+        stringBuilder.append("moveend:  [],");
         /**
          * zoomend event
          */
-        stringBuilder.append("zoomend:  [],\n");
+        stringBuilder.append("zoomend:  [],");
         /**
          * LayersName
          */
-        stringBuilder.append("layersName:  '").append(model.getLayersCompId()).append("',\n");
+        stringBuilder.append("layersName:  '").append(model.getLayersCompId()).append("',");
 
         /**
          * mfAjaxCompId : Id of the a4j component to call for refresh  the map
          */
-        stringBuilder.append("mfAjaxCompId: '").append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',\n");
+        stringBuilder.append("mfAjaxCompId: '").append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',");
 
         /**
          * mfFormId : Id of the parent UIForm  of the UIMapPane;
          */
-        stringBuilder.append("mfFormId: '").append(FacesUtils.getFormId(context, component)).append("',\n");
+        stringBuilder.append("mfFormId: '").append(FacesUtils.getFormId(context, component)).append("',");
 
         /**
          * mfRequestId : Id of the request, a totally arbitrary attribute
          */
-        stringBuilder.append("mfRequestId: 'updateBboxOrWindow'\n");
+        stringBuilder.append("mfRequestId: 'updateBboxOrWindow'");
 
         /**
          * Close  the map options creation
@@ -441,12 +441,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         /**
          * Else If map options object already exist and all needed OpenLayers class has been loaded correctly
          */
-        stringBuilder.append("} else if (window.OpenLayers && window.OpenLayers.Bounds) {\n").
+        stringBuilder.append("} else if (window.OpenLayers && window.OpenLayers.Bounds) {").
 
                 /**
                  * Overwrite the current layersName
                  */
-                append(jsObject + "_mapOptions.layersName = '").append(model.getLayersCompId()).append("' ;\n").
+                append(jsObject + "_mapOptions.layersName = '").append(model.getLayersCompId()).append("' ;").
 
                 /**
                  * Overwrite the current extent
@@ -455,16 +455,16 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
                 append(model.getMinx()).append(",").append(model.getMiny()).append(",").
 
-                append(model.getMaxx()).append(",").append(model.getMaxy()).append(");\n");
+                append(model.getMaxx()).append(",").append(model.getMaxy()).append(");");
 
         /**
          * Close the Else If
          */
-        stringBuilder.append("}\n").
+        stringBuilder.append("}").
                 /**
                  * If OpenLayers class are correctly loaded we create the Map object and push it into the window.maps list
                  */
-                append("if (window.OpenLayers && window.OpenLayers.Map) {\n").
+                append("if (window.OpenLayers && window.OpenLayers.Map) {").
                 /**
                  * Create the JS  Map object
                  */
@@ -483,20 +483,20 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                  */
                 append("if( window.layerToAdd" + jsObject + ")").
                 append("for (var i = 0 ; i <  window.layerToAdd" + jsObject + ".length; i++) {").
-                append("window.layerToAdd" + jsObject + "[i]();\n").
+                append("window.layerToAdd" + jsObject + "[i]();").
                 append("}").
                 /**
                  * Close the If
                  */
-                append("}\n").
+                append("}").
                 /**
                  * Close the loadMap function declaration
                  */
-                append("};\n").
+                append("};").
                 /**
                  * Run the loadMap function
                  */
-                append("window.loadMap" + jsObject + "();\n");
+                append("window.loadMap" + jsObject + "();");
 
 
         writer.write(stringBuilder.toString());

@@ -83,8 +83,8 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
         writer.writeAttribute("type", "text/javascript", "text/javascript");
 
         
-        writer.write(new StringBuilder("").append("if(!window.controlToAdd" + mapJsVariable + "){window.controlToAdd" + mapJsVariable + " = [];}\n").
-                append("window.controlToAdd" + mapJsVariable + ".push(\n\tfunction() {\n" +
+        writer.write(new StringBuilder("").append("if(!window.controlToAdd" + mapJsVariable + "){window.controlToAdd" + mapJsVariable + " = [];}").
+                append("window.controlToAdd" + mapJsVariable + ".push(\tfunction() {" +
                 "").toString());
 
         if (comp.isDrawPoint() || comp.isDrawLine() || comp.isDrawPolygon() || comp.isModify() || comp.isSelect()) {
@@ -102,68 +102,68 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
 //             *TBD
 //             *Test for editing tools 
 //             */
-            writer.write("\t\t\twindow.editingLayer = new OpenLayers.Layer.Vector( 'Editing' );\n");
-            writer.write("\t\t\t" + mapJsVariable + ".addLayer(window.editingLayer);\n");
-//          // writer.write("\t\t\t" + jsObject + ".addLayer(window.gml);\n");
+            writer.write("\t\t\twindow.editingLayer = new OpenLayers.Layer.Vector( 'Editing' );");
+            writer.write("\t\t\t" + mapJsVariable + ".addLayer(window.editingLayer);");
+//          // writer.write("\t\t\t" + jsObject + ".addLayer(window.gml);");
 //           //writer.write("\t\t\t" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
 //            //TBD
            
-            writer.write("\n" +
-                    "\t\tif (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.EditingToolbar) {\n" +
-                    "\t\t\tvar " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(editingLayer, {\n\t\t\t\t'div':OpenLayers.Util.getElement('" + idDivbar + "')");
+            writer.write("" +
+                    "\t\tif (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.EditingToolbar) {" +
+                    "\t\t\tvar " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(editingLayer, {\t\t\t\t'div':OpenLayers.Util.getElement('" + idDivbar + "')");
 
 
             if (comp.isDrawPoint()) {
-                writer.write(",\n\t\t\t\tdrawPoint: true");
+                writer.write(",\t\t\t\tdrawPoint: true");
             }
             if (comp.isDrawLine()) {
-                writer.write(",\n\t\t\t\tdrawLine: true");
+                writer.write(",\t\t\t\tdrawLine: true");
             }
             if (comp.isDrawPolygon()) {
-                writer.write(",\n\t\t\t\tdrawPolygon: true");
+                writer.write(",\t\t\t\tdrawPolygon: true");
             }
             if (comp.isDrawRegularPolygon()) {
-                writer.write(",\n\t\t\t\tdrawRegularPolygon: true");
-                writer.write(",\n\t\t\t\tregularPolygonSides: " + comp.getRegularPolygonSides());
+                writer.write(",\t\t\t\tdrawRegularPolygon: true");
+                writer.write(",\t\t\t\tregularPolygonSides: " + comp.getRegularPolygonSides());
             }
             if (comp.isSelect()) {
-                writer.write(",\n\t\t\t\tselect: true");
+                writer.write(",\t\t\t\tselect: true");
             }
             if (comp.isModify()) {
-                writer.write(",\n\t\t\t\tmodify: true");
+                writer.write(",\t\t\t\tmodify: true");
             }
             if (comp.isDeleteFeature()) {
-                writer.write(",\n\t\t\t\tdeleteFeature: true");
+                writer.write(",\t\t\t\tdeleteFeature: true");
             }
             if (comp.isDrag()) {
-                writer.write(",\n\t\t\t\tdrag: true");
+                writer.write(",\t\t\t\tdrag: true");
             }
             if (comp.isResize()) {
-                writer.write(",\n\t\t\t\tresize: true");
+                writer.write(",\t\t\t\tresize: true");
             }
             if (comp.isRotate()) {
-                writer.write(",\n\t\t\t\trotate: true");
+                writer.write(",\t\t\t\trotate: true");
             }
                     
 
-            writer.write("\n\t\t\t});\n");
+            writer.write("\t\t\t});");
 
             if (comp.isSnapping()) {
-                writer.write("\n\t\t\t" + controlJsVariable + "_Snapping = new OpenLayers.Control.Snapping({layer: window.editingLayer});\n");
-                writer.write("\n\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);\n");
-                writer.write("\n\t\t\t" + controlJsVariable + "_Snapping.activate();\n");
+                writer.write("\t\t\t" + controlJsVariable + "_Snapping = new OpenLayers.Control.Snapping({layer: window.editingLayer});");
+                writer.write("\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);");
+                writer.write("\t\t\t" + controlJsVariable + "_Snapping.activate();");
             }
             if (comp.isSplit()) {
 //This control is not enough robust
-//                writer.write("\n\t\t\t" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});\n");
-//                writer.write("\n\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Split);\n");
-//                writer.write("\n\t\t\t" + controlJsVariable + "_Split.activate();\n");
+//                writer.write("\t\t\t" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});");
+//                writer.write("\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Split);");
+//                writer.write("\t\t\t" + controlJsVariable + "_Split.activate();");
             }
 
-            writer.write("\n\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + ");\n");
-            writer.write("\t\t}\n" +
-                    "\t}\n);\n" +
-                    "window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1]();\n");
+            writer.write("\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + ");");
+            writer.write("\t\t}" +
+                    "\t});" +
+                    "window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1]();");
             }
         writer.endElement("script");
         writer.endElement("div");

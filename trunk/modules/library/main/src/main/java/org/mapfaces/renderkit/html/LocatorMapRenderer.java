@@ -92,27 +92,27 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             }else{
                 mapJsObject = "mappane";
             }
-            writer.write(new StringBuilder("    var ovmapOptions = {\n")
-                    .append("                       id:'").append(jsObject).append("',\n")
+            writer.write(new StringBuilder("    var ovmapOptions = {")
+                    .append("                       id:'").append(jsObject).append("',")
                     .append("                       outsideViewport:true,")
-                    .append("                       controls:[],\n")
-                    .append("                       projection: new OpenLayers.Projection('").append(model.getSrs().toUpperCase()).append("'),\n")
-                    .append("                       size: new OpenLayers.Size('300','150'),\n")
-                    .append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),\n")
-                    .append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx().toString()).append(",").append(model.getMiny().toString()).append(",").append(model.getMaxx().toString()).append(",").append(model.getMaxy().toString()).append("),\n")
-                    .append("                       maxResolution: 'auto',\n")
-                    .append("                       theme:  null ,\n")
-                    .append("                       fractionnalZoom:  true ,\n")
-                    .append("                       layersName:  '").append(model.getLayersCompId().split(",")[0] ).append("' ,\n")
-                    .append("                       mfAjaxCompId:'").append(comp.getAjaxCompId()).append("',\n")
-                    .append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',\n")
-                    .append("                       mfRequestId:'updateBboxOrWindow'\n")
-                    .append("                   };\n").toString());
+                    .append("                       controls:[],")
+                    .append("                       projection: new OpenLayers.Projection('").append(model.getSrs().toUpperCase()).append("'),")
+                    .append("                       size: new OpenLayers.Size('300','150'),")
+                    .append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),")
+                    .append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx().toString()).append(",").append(model.getMiny().toString()).append(",").append(model.getMaxx().toString()).append(",").append(model.getMaxy().toString()).append("),")
+                    .append("                       maxResolution: 'auto',")
+                    .append("                       theme:  null ,")
+                    .append("                       fractionnalZoom:  true ,")
+                    .append("                       layersName:  '").append(model.getLayersCompId().split(",")[0] ).append("' ,")
+                    .append("                       mfAjaxCompId:'").append(comp.getAjaxCompId()).append("',")
+                    .append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',")
+                    .append("                       mfRequestId:'updateBboxOrWindow'")
+                    .append("                   };").toString());
 
-            writer.write("var " + jsObject + " = new OpenLayers.Control.OverviewMap({div: OpenLayers.Util.getElement('" + clientId + "'),mapOptions:ovmapOptions});\n");
-            writer.write(new StringBuilder(mapJsObject).append(".addControl(").append(jsObject).append(");\n")
-                .append("    if(!window.maps){window.maps = {};}\n")
-                .append("    window.maps.").append(jsObject).append(" = ").append(jsObject).append(".ovmap;\n").toString());
+            writer.write("var " + jsObject + " = new OpenLayers.Control.OverviewMap({div: OpenLayers.Util.getElement('" + clientId + "'),mapOptions:ovmapOptions});");
+            writer.write(new StringBuilder(mapJsObject).append(".addControl(").append(jsObject).append(");")
+                .append("    if(!window.maps){window.maps = {};}")
+                .append("    window.maps.").append(jsObject).append(" = ").append(jsObject).append(".ovmap;").toString());
             writer.endElement("script");
         }
         writer.endElement("div");

@@ -77,16 +77,16 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         writer.write(new StringBuilder("").
         //Add reRender of ScaleBar on moveend event
         append(mapJsVariable+".moveend.push('" + clientId + "');").
-        append("if (!window.controlToAdd" + mapJsVariable + ") { \n").
-        append("    window.controlToAdd" + mapJsVariable + " = []; \n").
-        append("} \n").
-        append("window.controlToAdd" + mapJsVariable + ".push(function() {\n").
-        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.ScaleBar) { \n").
-        append("        var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')}); \n").
-        append("        "+mapJsVariable + ".addControl(scb); \n").
-        append("    } \n").
-        append("}) \n").
-        append("window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1](); \n").toString());
+        append("if (!window.controlToAdd" + mapJsVariable + ") { ").
+        append("    window.controlToAdd" + mapJsVariable + " = []; ").
+        append("} ").
+        append("window.controlToAdd" + mapJsVariable + ".push(function() {").
+        append("    if (window.OpenLayers && window.OpenLayers.Control && window.OpenLayers.Control.ScaleBar) { ").
+        append("        var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')}); ").
+        append("        "+mapJsVariable + ".addControl(scb); ").
+        append("    } ").
+        append("}) ").
+        append("window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1](); ").toString());
         writer.endElement("script");
         writer.endElement("div");
         writer.flush();

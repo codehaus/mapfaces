@@ -184,7 +184,7 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.
             if (layer instanceof DefaultWmsGetMapLayer) {
-                writer.write("<script>var url" + comp.getId() + "_ImgSrc = '" + url.toString() + "';\n document.getElementById('" + comp.getId() + "_Img').src=url" + comp.getId() + "_ImgSrc;\n </script>\n");
+                writer.write("<script type='text/javascript'>var url" + comp.getId() + "_ImgSrc = '" + url.toString() + "';document.getElementById('" + comp.getId() + "_Img').src=url" + comp.getId() + "_ImgSrc;</script>");
             }
 
             writer.endElement("div");

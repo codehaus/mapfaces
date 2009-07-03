@@ -179,9 +179,9 @@ public class BandInfoRenderer extends Renderer {
         final String centerdateScript;
 
         if (centerDate == null) {
-            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());\n";
+            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(new Date());";
         } else {
-            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(Timeline.DateTime.parseIso8601DateTime(\"" + sdf.format(centerDate) + "\"));\n";
+            centerdateScript = idjs + "_tl.getBand(bandId).setCenterVisibleDate(Timeline.DateTime.parseIso8601DateTime(\"" + sdf.format(centerDate) + "\"));";
         }
 
         final ExternalContext extContext = context.getExternalContext();
@@ -189,46 +189,46 @@ public class BandInfoRenderer extends Renderer {
             extContext.getRequestMap().put(idbandjs + "ajaxflag.jsfunction", Boolean.TRUE);
             writer.startElement("script", bandInfo);
             writer.writeAttribute("type", "text/javascript", null);
-            writer.write(new StringBuilder("function ").append(idbandjs).append("_changeIntervalUnit(bandId,val){\n")
-                    .append(idjs).append("_bandInfos[bandId].etherPainter._unit=eval(val);\n")
-                    .append("var ms =1;\n")
-                    .append("if (val == \"Timeline.DateTime.MILLENNIUM\") {\n")
-                    .append("ms=31536000000000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.CENTURY\") {\n")
-                    .append("ms=3153600000000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.DECADE\") {\n")
-                    .append("ms=315360000000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.YEAR\") {\n")
-                    .append("ms=31536000000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.MONTH\") {\n")
-                    .append("ms=2678400000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.WEEK\") {\n")
-                    .append("ms=604800000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.DAY\") {\n")
-                    .append("ms=86400000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.HOUR\") {\n")
-                    .append("ms=3600000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.MINUTE\") {\n")
-                    .append("ms=60000;\n")
-                    .append("}else\n")
-                    .append("if (val == \"Timeline.DateTime.SECOND\") {\n")
-                    .append("ms=1000;\n")
-                    .append("}\n")
-                    .append(idjs).append("_bandInfos[bandId].ether._interval=ms;\n")
+            writer.write(new StringBuilder("function ").append(idbandjs).append("_changeIntervalUnit(bandId,val){")
+                    .append(idjs).append("_bandInfos[bandId].etherPainter._unit=eval(val);")
+                    .append("var ms =1;")
+                    .append("if (val == \"Timeline.DateTime.MILLENNIUM\") {")
+                    .append("ms=31536000000000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.CENTURY\") {")
+                    .append("ms=3153600000000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.DECADE\") {")
+                    .append("ms=315360000000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.YEAR\") {")
+                    .append("ms=31536000000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.MONTH\") {")
+                    .append("ms=2678400000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.WEEK\") {")
+                    .append("ms=604800000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.DAY\") {")
+                    .append("ms=86400000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.HOUR\") {")
+                    .append("ms=3600000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.MINUTE\") {")
+                    .append("ms=60000;")
+                    .append("}else")
+                    .append("if (val == \"Timeline.DateTime.SECOND\") {")
+                    .append("ms=1000;")
+                    .append("}")
+                    .append(idjs).append("_bandInfos[bandId].ether._interval=ms;")
                     .append(centerdateScript)
-                    .append(idjs).append("_eventSource._fire(\"onAddMany\", []);\n")
+                    .append(idjs).append("_eventSource._fire(\"onAddMany\", []);")
                     .append(idjs).append("_bandInfos[bandId].etherPainter.paint();")
-                    //"tl.layout();\n" +
-                    //"tl._distributeWidths();\n" +
-                    .append(idjs).append("_bandInfos[1].eventPainter.setLayout(").append(idjs).append("_bandInfos[0].eventPainter.getLayout());\n")
+                    //"tl.layout();" +
+                    //"tl._distributeWidths();" +
+                    .append(idjs).append("_bandInfos[1].eventPainter.setLayout(").append(idjs).append("_bandInfos[0].eventPainter.getLayout());")
                     .append("}").toString());
             writer.endElement("script");
         }

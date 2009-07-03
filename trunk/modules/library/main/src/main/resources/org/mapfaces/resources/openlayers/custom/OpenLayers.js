@@ -241,7 +241,7 @@ if(!window.OpenLayers){
                 //            "openlayers/lib/OpenLayers/Format/WFSDescribeFeatureType.js",
                 //            "openlayers/lib/OpenLayers/Format/WMSDescribeLayer.js",
                 //            "openlayers/lib/OpenLayers/Format/WMSDescribeLayer/v1_1.js",
-                            "openlayers/lib/OpenLayers/Format/WKT.js",
+                "openlayers/lib/OpenLayers/Format/WKT.js",
                 //            "openlayers/lib/OpenLayers/Format/OSM.js",
                 //            "openlayers/lib/OpenLayers/Format/GPX.js",
                 //            "openlayers/lib/OpenLayers/Format/Filter.js",
