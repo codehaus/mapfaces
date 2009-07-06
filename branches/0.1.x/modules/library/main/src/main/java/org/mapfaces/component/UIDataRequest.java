@@ -26,11 +26,13 @@ import javax.faces.context.FacesContext;
  */
 public class UIDataRequest extends UIWidgetBase {
 
+    public static String[] FORMATSGETFEATUREINFO = {"application/vnd.ogc.wms_xml","text/xml","text/plain"};
+
     public static final String FAMILIY = "org.mapfaces.DataRequest";
     /**
      * Format of feature information. The default value is application/vnd.ogc.wms_xml. Other options are text/xml, text/html, and text/plain.
      */
-    private String outputFormat = "application/vnd.ogc.wms_xml";
+    private String outputFormat = FORMATSGETFEATUREINFO[0];
     /**
      * This is a serializable object witch is containing in a Feature from FeatureLayer model. Note: it can be used for wms or no wms layers, this object is String for wms layers.
      */

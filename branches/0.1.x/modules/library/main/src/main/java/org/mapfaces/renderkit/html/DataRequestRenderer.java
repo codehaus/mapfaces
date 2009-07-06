@@ -220,8 +220,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                 boolean FeatureLayerExist = false;
                 int countFeature = comp.getFeatureCount();
-                String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
+                String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/plain";
                 String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "";
+
+                final Map<String, String> wmsFeatureInfoValues = new HashMap<String,String>();
+                final List<Thread> runList = new ArrayList<Thread>();
 
                 for (Layer queryLayer : model.getVisibleLayers()) {
                     if (queryLayer != null && queryLayer.getType() != null) {
@@ -257,7 +260,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                             append("?BBOX=").append(model.getBoundingBox()).
                                             append("&STYLES=").
                                             append("&FORMAT=").append(wmsLayer.getOutputFormat()).
-                                            append("&INFO_FORMAT=").append("text/plain"). //force the info_format to text/plain to store in the list featureInfoValues
+                                            append("&INFO_FORMAT=").append(outputFormat).
                                             append("&VERSION=").append(wmsLayer.getServer().getVersion()).
                                             append("&SRS=").append(model.getSrs().toUpperCase()).
                                             append("&REQUEST=GetFeatureInfo").
@@ -277,25 +280,14 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         featureInfoRequest.append("&TIME=").append(timeValue);
                                     }
 
-                                    String urlRequestInfo = featureInfoRequest.toString();
+                                    final String urlRequestInfo = featureInfoRequest.toString();
                                     if (!requestUrlList.contains(urlRequestInfo)) {
                                         requestUrlList.add(urlRequestInfo);
                                     }
 
-                                    try {
-                                        String response = (String) FacesUtils.sendRequest(urlRequestInfo, null, null, null);
-                                        if (response != null) {
-                                            final String responseClean = response.replace("\n", " ");
-                                            if (!featureInfoValues.contains(wmsLayer.getName() + " : " + responseClean)) {
-                                                featureInfoValues.add(wmsLayer.getName() + " : " + responseClean);
-                                            }
-                                        }
-                                    } catch (MalformedURLException ex) {
-                                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (IOException ex) {
-                                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-
+                                    FeatureInfoContent fiContent = new FeatureInfoContent(wmsFeatureInfoValues, urlRequestInfo, queryLayer.getName());
+                                    fiContent.start();
+                                    runList.add(fiContent);
                                 }
 
                                 break;
@@ -393,6 +385,19 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 break;
                         }
                     }
+                }
+
+                //Joining the threads for wms requests.
+                for (Thread th : runList) {
+                    try {
+                        th.join(20000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                for (String urlKey : wmsFeatureInfoValues.keySet()) {
+                    featureInfoValues.add(wmsFeatureInfoValues.get(urlKey));
                 }
 
                 //setting the value expression for dataResult if not null
@@ -527,4 +532,41 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         }
         return;
     }
+
+
+    private static class FeatureInfoContent extends Thread {
+
+        final private Map<String, String> map;
+        final private String url;
+        final String layerName;
+
+        public FeatureInfoContent(Map<String, String> map, String url, String layerName) {
+            this.map = map;
+            this.url = url;
+            this.layerName = layerName;
+        }
+
+        @Override
+        public void run() {
+            long d1 = System.currentTimeMillis();
+            try {
+                String response = (String) FacesUtils.sendRequest(url, null, null, null);
+                if (response != null) {
+                    final String responseClean = response.replace("\n", " ");
+                    map.put(url, responseClean);
+                }
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            long d2 = System.currentTimeMillis();
+            long diff = d2 - d1;
+            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer "+layerName+"  in "+diff+" ms.");
+
+        }
+    }
 }
+
+
+
