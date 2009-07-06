@@ -24,15 +24,16 @@ OpenLayers.Map = OpenLayers.Class({
     onChangeLayer: function(context) {
        // context.layer.events.triggerEvent(context.property + "changed");
     },
-    reRenderById: function (divId) {
-         var  parameters = {
+    reRenderById: function (divId, parameters) {
+    if (!parameters) parameters = {};
+        OpenLayers.Util.extend(parameters, {
                 'synchronized': 'true',
                 'refresh': divId,
                 'bbox': this.getExtent().toBBOX(),
                 'window':  this.getSize().w+','+ this.getSize().h,
                 'render': 'true', //render the layers, always set to true after the first page loads
                 'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
-            };
+            });
             parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
          OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormId, parameters);
     },

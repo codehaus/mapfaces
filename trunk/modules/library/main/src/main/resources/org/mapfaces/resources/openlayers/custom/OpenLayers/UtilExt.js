@@ -22,8 +22,8 @@ OpenLayers.Util.reRender = function(jsObject, reqId, formId, parameters) {
                 'control':jsObject,
                 'single':true,
                 'parameters': parameters,
-                'actionUrl': window.location.href,
-                'oncomplete': jsObject.A4JOnComplete
+                'actionUrl': window.location.href//,
+                //'oncomplete': jsObject.onComplete
             }
             );
 
