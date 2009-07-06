@@ -51,8 +51,7 @@ public class PopupRenderer extends WidgetBaseRenderer {
 
         responseWriter.writeAttribute("id", clientId, "id");
 
-
-        if (! comp.isHidden()) {
+        if (!comp.isHidden()) {
             if (getStyleClass() == null) {
                 responseWriter.writeAttribute("class", "mfPopup "+comp.getStyleClass(), "styleclass");
             }

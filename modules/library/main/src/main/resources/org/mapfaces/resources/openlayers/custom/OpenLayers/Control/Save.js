@@ -46,7 +46,7 @@ OpenLayers.Control.Save = OpenLayers.Class(OpenLayers.Control, {
                             'org.mapfaces.ajax.ACTION_SAVE_DIR' : this.dir,
                             'org.mapfaces.ajax.ACTION_SAVE_FILENAME' : this.name
             }
-            this.map.sendAjaxRequest(parameters);
+            this.map.reRender(parameters);
             //TODO ADD onComplete parameter to the sendAjaxRequest
             window.Timer=function () {
                window.open("tmp/saveContext.xml");

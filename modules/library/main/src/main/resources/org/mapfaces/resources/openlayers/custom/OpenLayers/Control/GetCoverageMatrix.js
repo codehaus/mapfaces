@@ -31,7 +31,11 @@ OpenLayers.Control.GetCoverageMatrix = OpenLayers.Class(OpenLayers.Control, {
      */    
     draw: function() {
         this.handler = new OpenLayers.Handler.Box( this,
-                            {done: this.zoomBox}, {keyMask: this.keyMask} );
+        {
+            done: this.zoomBox
+            }, {
+            keyMask: this.keyMask
+            } );
     },
 
     /**
@@ -44,32 +48,32 @@ OpenLayers.Control.GetCoverageMatrix = OpenLayers.Class(OpenLayers.Control, {
         if (position instanceof OpenLayers.Bounds) {
             if (!this.out) {
                 var minXY = this.map.getLonLatFromPixel(
-                            new OpenLayers.Pixel(position.left, position.bottom));
+                    new OpenLayers.Pixel(position.left, position.bottom));
                 var maxXY = this.map.getLonLatFromPixel(
-                            new OpenLayers.Pixel(position.right, position.top));
+                    new OpenLayers.Pixel(position.right, position.top));
                 var bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat,
-                                               maxXY.lon, maxXY.lat); 
+                    maxXY.lon, maxXY.lat);
                 if (this.map) { 
-                  //TODO org.mapfaces.ajax.ACTION_SAVE_DIR param is not used in the ontext save function
-                  //http://demo.geomatys.fr/constellation/WS/wms?bbox=-130,24,-66,50&styles=&format=image/png&info_format=text/plain&version=1.1.1&srs=epsg:4326&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width=550&height=250&x=170&y=160
-                  var parameters = {  
-                                        'refresh' : 'form:getCoverage',
-                                        'synchronized' : 'true',
-                                        'org.mapfaces.ajax.ACTION' : 'getCoverage',
-                                        'org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI' : minXY.lon+","+minXY.lat+","+maxXY.lon+","+maxXY.lat,
-                                        'org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL' :  (position.right-position.left)+","+(position.bottom-position.top),
-                                        'org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT' : "matrix"
-                  }
-                this.map.sendAjaxRequest(parameters);
+                    //TODO org.mapfaces.ajax.ACTION_SAVE_DIR param is not used in the ontext save function
+                    //http://demo.geomatys.fr/constellation/WS/wms?bbox=-130,24,-66,50&styles=&format=image/png&info_format=text/plain&version=1.1.1&srs=epsg:4326&request=GetFeatureInfo&layers=BlueMarble&query_layers=BlueMarble&width=550&height=250&x=170&y=160
+                    var parameters = {
+                        'refresh' : 'form:getCoverage',
+                        'synchronized' : 'true',
+                        'org.mapfaces.ajax.ACTION' : 'getCoverage',
+                        'org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI' : minXY.lon+","+minXY.lat+","+maxXY.lon+","+maxXY.lat,
+                        'org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL' :  (position.right-position.left)+","+(position.bottom-position.top),
+                        'org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT' : "matrix"
+                    }
+                    this.map.reRenderById('form:getCoverage',parameters);
                 }
             }    
         } else { // it's a pixel
             if (!this.out) {
                 this.map.setCenter(this.map.getLonLatFromPixel(position),
-                               this.map.getZoom() + 1);
+                    this.map.getZoom() + 1);
             } else {
                 this.map.setCenter(this.map.getLonLatFromPixel(position),
-                               this.map.getZoom() - 1);
+                    this.map.getZoom() - 1);
             }
         }
     },

@@ -1184,7 +1184,8 @@ public class FacesUtils {
      * @throws java.io.IOException
      * @throws org.constellation.coverage.web.WebServiceException
      */
-    public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller) throws MalformedURLException, IOException {
+    public static Object sendRequest(String sourceURL, Object request,
+            Marshaller marshaller, Unmarshaller unmarshaller) throws MalformedURLException, IOException {
        URL source = new URL(sourceURL);
         URLConnection conec = source.openConnection();
         Object harvested = null;
