@@ -70,7 +70,7 @@ public class OWCv030toMFTransformer {
     private static final ContextFactory contextFactory = new DefaultContextFactory();
     private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
     private static final Logger LOGGER = Logger.getLogger(OWCv030toMFTransformer.class.getName());
-    private static final boolean debug = true;
+    private static final boolean debug = false;
 
     public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
 
@@ -80,7 +80,6 @@ public class OWCv030toMFTransformer {
         ctx.setId(doc.getId());
         ctx.setTitle(doc.getGeneral().getTitle());
         BoundingBoxType bbox = doc.getGeneral().getBoundingBox().getValue();
-
         if (debug) {
             LOGGER.log(Level.INFO, "[" + OWCv030toMFTransformer.class.getName() + "]  BoundingBoxType : CRS=" + bbox.getCrs() + "   Lower corner=" + bbox.getLowerCorner() + "   upper corner=" + bbox.getUpperCorner() + "  dimension=" + bbox.getDimensions());
         }
@@ -349,7 +348,7 @@ public class OWCv030toMFTransformer {
      * @param postgisflag this is a flag for postgis layers, if true the time parameter should be a null string in the initialization.
      * @return
      */
-    private static Dimension visitDimensionFromGetCaps(AbstractDimension dimType, boolean postgisflag) {
+    private static Dimension visitDimensionFromGetCaps(AbstractDimension dimType, boolean vectorsflag) {
         Dimension dim = contextFactory.createDefaultDimension();
         dim.setCurrent(true);
         dim.setDefault(dimType.getDefault());
@@ -359,7 +358,7 @@ public class OWCv030toMFTransformer {
         dim.setUnitSymbol(dimType.getUnitSymbol());
         dim.setUnits(dimType.getUnits());
 
-        if (postgisflag) {
+        if (vectorsflag) {
             dim.setUserValue("");
         } else {
             dim.setUserValue(dimType.getDefault());
@@ -419,17 +418,18 @@ public class OWCv030toMFTransformer {
             if (layer != null) {
 
                 //From the getCapabilities we can see if the layer is a postgis type by the keyword "Vector datas".
-                boolean postgisflag = false;
+                boolean vectorsflag = false;
                 if (layer != null && layer.getKeywordList() != null && FacesUtils.matchesKeywordfromList(
                         layer.getKeywordList().getKeyword(), "Vector datas")) {
-                    postgisflag = true;
-                    LOGGER.log(Level.INFO, "[" + layerType.getName() + "] postgis layer detected ! ");
+                    vectorsflag = true;
+                    if (debug)
+                        LOGGER.log(Level.INFO, "[" + layerType.getName() + "] postgis or shape layer detected ! ");
                 }
 
                 List<AbstractDimension> dims = layer.getAbstractDimension();
                 if (dims.size() > 0) {
                     for (AbstractDimension tmp : dims) {
-                        allDims.put(tmp.getName(), visitDimensionFromGetCaps(tmp, postgisflag));
+                        allDims.put(tmp.getName(), visitDimensionFromGetCaps(tmp, vectorsflag));
                     }
                     return allDims;
                 }
