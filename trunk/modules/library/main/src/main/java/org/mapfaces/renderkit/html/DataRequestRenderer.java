@@ -399,21 +399,31 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     }
                 }
 
+                final Map<String, String> wmsFeatureInfoValues = new HashMap<String,String>();
+                final List<Thread> runList = new ArrayList<Thread>();
+                
                 //If the popup isn't in Iframe mode or if popup is null, load results of all getfeatureInfo requests in featureInfoValues List
                 if (popup == null || !popup.isIframe()) {
                     for (String request : requestUrlList) {
-                        try {
-                            String response = (String) FacesUtils.sendRequest(request, null, null, null);
-                            if (response != null) {
-                                //final String responseClean = response.replace("", " ");
-                                featureInfoValues.add(response);
-                            }
-                        } catch (MalformedURLException ex) {
-                            LOGGER.log(Level.SEVERE, "The GetFeatureInfo request is malformed : " + request, ex);
-                        } catch (IOException ex) {
-                            LOGGER.log(Level.SEVERE, null, ex);
-                        }
+
+                        FeatureInfoThread fiThread = new FeatureInfoThread(wmsFeatureInfoValues, request);
+                        fiThread.start();
+                        runList.add(fiThread);
+
                     }
+                }
+
+                //Joining the threads for wms requests.
+                for (Thread th : runList) {
+                    try {
+                        th.join(20000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                //setting the featureInfoValues list
+                for (String urlKey : wmsFeatureInfoValues.keySet()) {
+                    featureInfoValues.add(wmsFeatureInfoValues.get(urlKey));
                 }
 
                 //setting the value expression for dataResult if not null
@@ -556,5 +566,36 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
         }
         return;
+    }
+
+
+    private static class FeatureInfoThread extends Thread {
+
+        final private Map<String, String> map;
+        final private String url;
+
+        public FeatureInfoThread(Map<String, String> map, String url) {
+            this.map = map;
+            this.url = url;
+        }
+
+        @Override
+        public void run() {
+            long d1 = System.currentTimeMillis();
+            try {
+                String response = (String) FacesUtils.sendRequest(url, null, null, null);
+                if (response != null) {
+                    map.put(url, response);
+                }
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            long d2 = System.currentTimeMillis();
+            long diff = d2 - d1;
+            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer(s) "+FacesUtils.getParameterValue("LAYERS", url)+"  in "+diff+" ms.");
+
+        }
     }
 }
