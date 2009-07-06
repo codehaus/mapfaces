@@ -285,7 +285,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         requestUrlList.add(urlRequestInfo);
                                     }
 
-                                    FeatureInfoContent fiContent = new FeatureInfoContent(wmsFeatureInfoValues, urlRequestInfo, queryLayer.getName());
+                                    FeatureInfoContent fiContent = new FeatureInfoContent(wmsFeatureInfoValues, urlRequestInfo);
                                     fiContent.start();
                                     runList.add(fiContent);
                                 }
@@ -538,12 +538,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
         final private Map<String, String> map;
         final private String url;
-        final String layerName;
+        private String layersName;
 
-        public FeatureInfoContent(Map<String, String> map, String url, String layerName) {
+        public FeatureInfoContent(Map<String, String> map, String url) {
             this.map = map;
             this.url = url;
-            this.layerName = layerName;
+            layersName = FacesUtils.getParameterValue("LAYERS", url);
         }
 
         @Override
@@ -553,7 +553,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 String response = (String) FacesUtils.sendRequest(url, null, null, null);
                 if (response != null) {
                     final String responseClean = response.replace("\n", " ");
-                    map.put(url, responseClean);
+                    map.put(url, layersName +" : "+ responseClean);
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
@@ -562,7 +562,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             }
             long d2 = System.currentTimeMillis();
             long diff = d2 - d1;
-            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer "+layerName+"  in "+diff+" ms.");
+            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer(s) "+FacesUtils.getParameterValue("LAYERS", url)+"  in "+diff+" ms.");
 
         }
     }
