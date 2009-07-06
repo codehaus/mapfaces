@@ -83,7 +83,7 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         append("        var sc = new OpenLayers.Control.Scale({'div': OpenLayers.Util.getElement('" + clientId + "')}); ").
         append("        window."+jsObject + ".addControl(sc); ").
         append("    } ").
-        append("}) ").
+        append("});").
         append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); ").toString());
         writer.endElement("script");
         writer.endElement("div");

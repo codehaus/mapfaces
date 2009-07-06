@@ -83,7 +83,7 @@ public final class TreeStyle {
      * Css Style customize
      */
     /* Row customize style */
-    public static final String default_rowStyle = "position:relative; ,position:inherit; list-style-type:none;"; //@TODO the conditionnal css must be applied instead this hack for Internet Explorer.
+    public static final String default_rowStyle = "position:relative; position:inherit; list-style-type:none;"; //@TODO the conditionnal css must be applied instead this hack for Internet Explorer.
     private static String rowStyle="";
     private static String rowClass = "x-tree-node x-tree-lines";
 
