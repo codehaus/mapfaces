@@ -85,7 +85,7 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         append("        var scb = new OpenLayers.Control.ScaleBar({div: OpenLayers.Util.getElement('" + clientId + "')}); ").
         append("        "+mapJsVariable + ".addControl(scb); ").
         append("    } ").
-        append("}) ").
+        append("});").
         append("window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1](); ").toString());
         writer.endElement("script");
         writer.endElement("div");

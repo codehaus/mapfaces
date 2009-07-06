@@ -145,8 +145,8 @@
 }
 
 .mfButtonBar {
-    width:350px;
-    heigth:24px;
+    width:24px;
+    height:24px;
     position:absolute;
     margin:5px;
 }
@@ -157,6 +157,9 @@
     margin:2px;
     background-image: url("resource.jsf?r=/org/mapfaces/resources/img/button.gif");
     background-repeat: no-repeat;
+}
+.horizontal {
+    width:350px;
 }
 .horizontal div{
     top:0px;
@@ -216,7 +219,7 @@
 }
 .mfEditionBar {
     width:350px;
-    heigth:24px;
+    height:24px;
     position:absolute;
     margin:5px;
 }

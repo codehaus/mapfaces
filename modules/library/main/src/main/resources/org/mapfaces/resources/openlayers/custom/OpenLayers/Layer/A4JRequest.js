@@ -137,6 +137,9 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * data - {}  JSON representation of the result.
      */
     onBeforeDomUpdate: function(request, event, data) {
+
+//        if(requestParams.refresh.indexOf(this.clientId) != -1)
+//        window.console.debug(this.clientId + " onBeforeDomUpdate");
     },
 
     /**
@@ -148,10 +151,9 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * event - {}  DOMEvent.
      * data - {}  JSON representation of the result.
      */
-    onSubmit: function(request, event, data) {
-        if (this.div)
-            this.div.style.display = none;
-        this.events.triggerEvent("loadstart");
+    onSubmit: function(requestParams) {
+        if(requestParams.refresh.indexOf(this.clientId) != -1)
+            this.events.triggerEvent("loadstart");
     },
 
     /**
@@ -159,8 +161,9 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * 	JavaScript code for call before submission of ajax event
      *
      */
-    submit: function() {
-        this.requestParams[this.compId] = this.compId;
+    submit: function(requestParams) {
+        this.onSubmit(requestParams);
+        requestParams[this.compId] = this.compId;
         A4J.AJAX.Submit( 
             this.requestId, 
             this.formId,
@@ -168,10 +171,9 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
             {   //'affected': this.affected,
                 'control':this,
                 'single':this.ajaxSingle,
-                'parameters': this.requestParams,
+                'parameters': requestParams,
                 'actionUrl': window.location.href,
-                'onbeforedomupdate': this.onBeforeDomUpdate,
-                'onsubmit': OpenLayers.Function.bind(this.onSubmit, this),
+//                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
                 'oncomplete': OpenLayers.Function.bind(this.onComplete, this)
             }
             );
@@ -189,11 +191,19 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
     onComplete: function(request, event, data) {
         //this is the A4JRequest object
         //this.control is the Layer object
-        this.div  = document.getElementById(this.clientId);
-        if (this.div && this.div.childNodes[0]) {
-            this.imgDiv  = this.div.childNodes[0];
+
+        if(request.options.parameters.refresh.indexOf(this.clientId) != -1) {
+            this.div  = document.getElementById(this.clientId);
+            if (this.div && this.div.childNodes[0]) {
+                this.imgDiv  = this.div.childNodes[0];
+            }
+            //TODO load and error events on .imgDiv.childNodes[0] doesn't works on Opera
+            //so we triggered the loadend event directly
+            //but the good way is to triggered events on image (success or error) events
+
+            this.events.triggerEvent("loadend");
+            //this.registerEvents();
         }
-        this.registerEvents();
     },
     /**
      * APIMethod: onLoad
@@ -205,9 +215,8 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * data - {}  JSON representation of the result.
      */
     onLoad: function(request, event, data) {
-        this.events.triggerEvent("loadsuccess");
+        //this.events.triggerEvent("loadsuccess");
         this.events.triggerEvent("loadend");
-        this.unregisterEvents();
     },
      /**
      * APIMethod: onError     *
@@ -219,19 +228,20 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * data - {}  JSON representation of the result.
      */
     onError: function(request, event, data) {
-        this.events.triggerEvent("loadfailed");
+        //this.events.triggerEvent("loadfailed");
+
         this.events.triggerEvent("loadend");
-        this.unregisterEvents();
     },
 
     registerEvents: function() {
+    var test = function() {alert(this.id)};
         if (this.imgDiv) {
             OpenLayers.Event.observe(this.imgDiv.childNodes[0], 'load',
-                OpenLayers.Function.bind(this.onLoad, this));
+                OpenLayers.Function.bind(test, this.imgDiv.childNodes[0]));
             OpenLayers.Event.observe(this.imgDiv.childNodes[0], 'error',
-                OpenLayers.Function.bind(this.onError, this));
+                OpenLayers.Function.bind(test, this.imgDiv.childNodes[0]));
         }
-    },
+    }, 
     
     unregisterEvents: function() {
         OpenLayers.Event.stopObservingElement(this.imgDiv.childNodes[0]);

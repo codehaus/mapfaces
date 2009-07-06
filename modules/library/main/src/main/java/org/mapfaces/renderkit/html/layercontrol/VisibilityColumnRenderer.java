@@ -67,15 +67,15 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                 if (layer.isDisable()) {
                     checkbox.setRendered(false);
                 } else {
-                    checkbox.setDisabled(!layer.isDisplayable());
+                    //checkbox.setDisabled(!layer.isDisplayable());
                     checkbox.setValue(!layer.isHidden());
                     checkbox.setSelected(!layer.isHidden());
                     checkbox.setOnclick(FacesUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(this.checked);");
                     ResponseWriter writer = context.getResponseWriter();
-                    writer.startElement("script", component);
-                    writer.writeAttribute("type", "text/javascript", null);
-                    writer.write(FacesUtils.getJsVariableFromClientId(layer.getCompId()) +".visibilitychanged=['" + component.getClientId(context) + "'];");
-                    writer.endElement("script");
+//                    writer.startElement("script", component);
+//                    writer.writeAttribute("type", "text/javascript", null);
+//                    writer.write(FacesUtils.getJsVariableFromClientId(layer.getCompId()) +".visibilitychanged=['" + component.getClientId(context) + "'];");
+//                    writer.endElement("script");
                 }
 
             }

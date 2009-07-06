@@ -81,7 +81,10 @@ public class WmsLayerRenderer extends LayerRenderer {
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "style");
         writer.writeAttribute("class", "layerDiv", "style");
-        writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
+        String style = comp.getStyle();
+        if (style == null)
+            style = "";
+        writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + style, "style");
 
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + 
@@ -184,7 +187,8 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.
             if (layer instanceof DefaultWmsGetMapLayer) {
-                writer.write("<script type='text/javascript'>var url" + comp.getId() + "_ImgSrc = '" + url.toString() + "';document.getElementById('" + comp.getId() + "_Img').src=url" + comp.getId() + "_ImgSrc;</script>");
+                writer.write("<script type='text/javascript'>var url" + comp.getId() + "_ImgSrc = '" + url.toString() + "';" +
+                        "document.getElementById('" + comp.getId() + "_Img').src=url" + comp.getId() + "_ImgSrc;</script>");
             }
 
             writer.endElement("div");

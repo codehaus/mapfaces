@@ -84,7 +84,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
 
         
         writer.write(new StringBuilder("").append("if(!window.controlToAdd" + mapJsVariable + "){window.controlToAdd" + mapJsVariable + " = [];}").
-                append("window.controlToAdd" + mapJsVariable + ".push(\tfunction() {" +
+                append("window.controlToAdd" + mapJsVariable + ".push(function() {" +
                 "").toString());
 
         if (comp.isDrawPoint() || comp.isDrawLine() || comp.isDrawPolygon() || comp.isModify() || comp.isSelect()) {
@@ -102,67 +102,67 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
 //             *TBD
 //             *Test for editing tools 
 //             */
-            writer.write("\t\t\twindow.editingLayer = new OpenLayers.Layer.Vector( 'Editing' );");
-            writer.write("\t\t\t" + mapJsVariable + ".addLayer(window.editingLayer);");
-//          // writer.write("\t\t\t" + jsObject + ".addLayer(window.gml);");
-//           //writer.write("\t\t\t" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
+            writer.write("window.editingLayer = new OpenLayers.Layer.Vector( 'Editing' );");
+            writer.write("" + mapJsVariable + ".addLayer(window.editingLayer);");
+//          // writer.write("" + jsObject + ".addLayer(window.gml);");
+//           //writer.write("" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
 //            //TBD
            
             writer.write("" +
-                    "\t\tif (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.EditingToolbar) {" +
-                    "\t\t\tvar " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(editingLayer, {\t\t\t\t'div':OpenLayers.Util.getElement('" + idDivbar + "')");
+                    "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.EditingToolbar) {" +
+                    "var " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(editingLayer, {'div':OpenLayers.Util.getElement('" + idDivbar + "')");
 
 
             if (comp.isDrawPoint()) {
-                writer.write(",\t\t\t\tdrawPoint: true");
+                writer.write(",drawPoint: true");
             }
             if (comp.isDrawLine()) {
-                writer.write(",\t\t\t\tdrawLine: true");
+                writer.write(",drawLine: true");
             }
             if (comp.isDrawPolygon()) {
-                writer.write(",\t\t\t\tdrawPolygon: true");
+                writer.write(",drawPolygon: true");
             }
             if (comp.isDrawRegularPolygon()) {
-                writer.write(",\t\t\t\tdrawRegularPolygon: true");
-                writer.write(",\t\t\t\tregularPolygonSides: " + comp.getRegularPolygonSides());
+                writer.write(",drawRegularPolygon: true");
+                writer.write(",regularPolygonSides: " + comp.getRegularPolygonSides());
             }
             if (comp.isSelect()) {
-                writer.write(",\t\t\t\tselect: true");
+                writer.write(",select: true");
             }
             if (comp.isModify()) {
-                writer.write(",\t\t\t\tmodify: true");
+                writer.write(",modify: true");
             }
             if (comp.isDeleteFeature()) {
-                writer.write(",\t\t\t\tdeleteFeature: true");
+                writer.write(",deleteFeature: true");
             }
             if (comp.isDrag()) {
-                writer.write(",\t\t\t\tdrag: true");
+                writer.write(",drag: true");
             }
             if (comp.isResize()) {
-                writer.write(",\t\t\t\tresize: true");
+                writer.write(",resize: true");
             }
             if (comp.isRotate()) {
-                writer.write(",\t\t\t\trotate: true");
+                writer.write(",rotate: true");
             }
                     
 
-            writer.write("\t\t\t});");
+            writer.write("});");
 
             if (comp.isSnapping()) {
-                writer.write("\t\t\t" + controlJsVariable + "_Snapping = new OpenLayers.Control.Snapping({layer: window.editingLayer});");
-                writer.write("\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);");
-                writer.write("\t\t\t" + controlJsVariable + "_Snapping.activate();");
+                writer.write("" + controlJsVariable + "_Snapping = new OpenLayers.Control.Snapping({layer: window.editingLayer});");
+                writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);");
+                writer.write("" + controlJsVariable + "_Snapping.activate();");
             }
             if (comp.isSplit()) {
 //This control is not enough robust
-//                writer.write("\t\t\t" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});");
-//                writer.write("\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + "_Split);");
-//                writer.write("\t\t\t" + controlJsVariable + "_Split.activate();");
+//                writer.write("" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});");
+//                writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + "_Split);");
+//                writer.write("" + controlJsVariable + "_Split.activate();");
             }
 
-            writer.write("\t\t\t" + mapJsVariable + ".addControl(" + controlJsVariable + ");");
-            writer.write("\t\t}" +
-                    "\t});" +
+            writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + ");");
+            writer.write("}" +
+                    "});" +
                     "window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1]();");
             }
         writer.endElement("script");

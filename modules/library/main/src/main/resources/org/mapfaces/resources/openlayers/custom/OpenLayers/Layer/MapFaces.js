@@ -3,7 +3,7 @@
  * @requires OpenLayers/Renderer.js
  * @requires OpenLayers/StyleMap.js
  * @requires OpenLayers/Feature/MapFaces.js
- * @requires OpenLayers/Console.js
+ * @requires OpenLayers/window.console.js
  */
 
 /**
@@ -130,63 +130,62 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     },
 
     onMoveEnd: function(parameters) {
-        this.requestParams = {
+        var  requestParams = {
             'refresh': this.moveend
         };
         if (parameters.zoomChanged)
-            this.onZoomChanged(parameters);
+            this.onZoomChanged(requestParams);
         else
-            this.onRefresh(parameters);
+            this.onRefresh(requestParams);
     },
 
-    onZoomChanged: function(parameters) {
-        this.requestParams = {
+    onZoomChanged: function(requestParams) {
+        var requestParams = {
             'refresh': this.zoomchanged
         };
-        this.onRefresh(parameters);
+        this.onRefresh(requestParams);
     },
 
     onVisibilityChanged: function(parameters) {
-        
-        this.requestParams = {
+        var requestParams = {
             'refresh':this.visibilitychanged,
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': !this.visibility,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'hidden'
         };
-        this._reRender();
+        //this._reRender(requestParams);
     },
 
     onOpacityChanged: function(parameters) {
-        this.requestParams = {
+        var requestParams = {
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.opacity,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'opacity',
             'org.mapfaces.ajax.NO_RERENDER': true
         };
-        this._reRender();
+        this._reRender(requestParams);
     },
 
     onElevationChanged: function(parameters) {
-        this.requestParams = {
+        var requestParams = {
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.elevation,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'elevation'
         };
-        this.onRefresh(parameters);
+        this.onRefresh(requestParams);
     },
 
     onTimeChanged: function(parameters) {
-        this.requestParams = {
+        var requestParams = {
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.time,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'time'
         };
-        this.onRefresh(parameters);
+        this.onRefresh(requestParams);
     },
 
     onDimRangeChanged: function(parameters) {
-        this.requestParams = {
+        var requestParams = {
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.dimRange,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'dimRange'
         };
-        this.onRefresh(parameters);
+        this.onRefresh(requestParams);
     },
     /**
      * APIMethod: destroy
@@ -201,22 +200,23 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     /*
     *Send A4J request to refrsh layers when a moveend event is triggered
     */
-    onRefresh: function() {
+    onRefresh: function(requestParams) {
         var refresh = this.clientId;
         var window = this.map.getSize();
         var bbox=this.map.getExtent().toBBOX();
-        OpenLayers.Util.extend(this.requestParams, {
+        OpenLayers.Util.extend(requestParams, {
             'bbox': bbox,
             'window': window.w+','+window.h,
             'synchronized': 'false',
-            'refresh': refresh
+            'refresh': refresh,
+            'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': !this.visibility,
+            'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'hidden'
         });
-        this._reRender();
-
+        this._reRender(requestParams);
     },
 
-    _reRender: function() {
-        OpenLayers.Util.extend(this.requestParams, {
+    _reRender: function(requestParams) {
+        OpenLayers.Util.extend(requestParams, {
             //render the layers, always set to true after the first page loads
             'render': 'true',
             'org.mapfaces.ajax.AJAX_LAYER_ID': this.clientId,
@@ -233,7 +233,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
 
         this.compId = this.map.mfAjaxCompId;
         this.formId = this.map.mfFormId;
-        this.submit();
+        this.submit(requestParams);
     },
 
     /**
@@ -321,11 +321,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     },
     /*************************************** functions triggerred on  loading  events******************************/
     onLoadStart: function() {
-        this.div.style.display = "none";
-    },
-
-    onLoadEnd: function() {
-        this.div.style.display = "block";
+            this.div.style.display = "none";
     },
 
     onLoadSuccess: function() {
@@ -333,7 +329,12 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     
     onLoadFailed: function() {
         this.div.style.backgroundColor = "red";
+    },
 
+    onLoadEnd: function() {
+            if (this.div)
+                this.div.style.display = "block";
+        //this.unregisterEvents();
     },
 
     CLASS_NAME: "OpenLayers.Layer.MapFaces"
