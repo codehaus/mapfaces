@@ -250,22 +250,27 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 //        writer.writeAttribute("type", "text/javascript", null);
 //        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker, null), null);
 //        writer.endElement("script");
+        if (comp.isLoadMootools()) {
+            writer.startElement("script", comp);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
+            writer.endElement("script");
+        }
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
-        writer.endElement("script");
+        if (comp.isLoadJs()) {
+            writer.startElement("script", comp);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker_min, null), null);
+            writer.endElement("script");
+        }
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker_min, null), null);
-        writer.endElement("script");
-
-        writer.startElement("link", comp);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, LOAD_Datepicker_css, null), null);
-        writer.endElement("link");
+        if (comp.isLoadCss()) {
+            writer.startElement("link", comp);
+            writer.writeAttribute("type", "text/css", null);
+            writer.writeAttribute("rel", "stylesheet", null);
+            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, LOAD_Datepicker_css, null), null);
+            writer.endElement("link");
+        }
 
     }
 

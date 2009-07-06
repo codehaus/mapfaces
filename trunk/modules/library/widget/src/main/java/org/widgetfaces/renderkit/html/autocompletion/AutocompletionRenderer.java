@@ -208,21 +208,26 @@ public class AutocompletionRenderer extends Renderer {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
 
-        writer.startElement("link", comp);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_CSS, null), null);
-        writer.endElement("link");
-        
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-        writer.endElement("script");
+        if (comp.isLoadCss()) {
+            writer.startElement("link", comp);
+            writer.writeAttribute("type", "text/css", null);
+            writer.writeAttribute("rel", "stylesheet", null);
+            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_CSS, null), null);
+            writer.endElement("link");
+        }
+        if (comp.isLoadMootools()) {
+            writer.startElement("script", comp);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+            writer.endElement("script");
+        }
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
-        writer.endElement("script");
+        if (comp.isLoadJs()) {
+            writer.startElement("script", comp);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
+            writer.endElement("script");
+        }
 
 
     }

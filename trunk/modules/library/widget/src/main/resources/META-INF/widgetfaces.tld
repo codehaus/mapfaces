@@ -336,6 +336,31 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>loadMootools</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>loadCss</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>loadJs</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
     </tag>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- DatePicker -->
@@ -522,6 +547,31 @@
         </attribute>
         <attribute>
             <name>enableAjax</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+         <attribute>
+            <name>loadMootools</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>loadCss</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>loadJs</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>

@@ -35,6 +35,9 @@ public abstract class BaseELTag extends UIComponentELTag {
     private ValueExpression debug = null;
     private ValueExpression style = null;
     private ValueExpression styleClass = null;
+    private ValueExpression loadMootools = null;
+    private ValueExpression loadCss = null;
+    private ValueExpression loadJs = null;
 
     /* Abstracts methods*/
     /**
@@ -67,6 +70,9 @@ public abstract class BaseELTag extends UIComponentELTag {
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("style", getStyle());
         component.setValueExpression("styleClass", getStyleClass());
+        component.setValueExpression("loadMootools", getLoadMootools());
+        component.setValueExpression("loadCss", getLoadCss());
+        component.setValueExpression("loadJs", getLoadJs());
     }
 
     /**
@@ -78,6 +84,9 @@ public abstract class BaseELTag extends UIComponentELTag {
         setDebug(null);
         setStyle(null);
         setStyleClass(null);
+        setLoadMootools(null);
+        setLoadJs(null);
+        setLoadCss(null);
     }
 
     /* Accessors */
@@ -127,5 +136,47 @@ public abstract class BaseELTag extends UIComponentELTag {
      */
     public void setStyleClass(ValueExpression styleClass) {
         this.styleClass = styleClass;
+    }
+
+    /**
+     * @return the loadMootools
+     */
+    public ValueExpression getLoadMootools() {
+        return loadMootools;
+    }
+
+    /**
+     * @param loadMootools the loadMootools to set
+     */
+    public void setLoadMootools(ValueExpression loadMootools) {
+        this.loadMootools = loadMootools;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public ValueExpression getLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(ValueExpression loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the loadJs
+     */
+    public ValueExpression getLoadJs() {
+        return loadJs;
+    }
+
+    /**
+     * @param loadJs the loadJs to set
+     */
+    public void setLoadJs(ValueExpression loadJs) {
+        this.loadJs = loadJs;
     }
 }

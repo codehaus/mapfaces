@@ -85,10 +85,16 @@ public class UIAutocompletion extends HtmlInputText {
     private Object value;
     private Object services;
     private boolean enableAjax = false;
-    private FacesContext context;
+    private boolean loadMootools = true;
+    private boolean loadCss = true;
+    private boolean loadJs = true;
 
     public String getWsUrl() {
         return "http://solardev:8080/mdweb/WS/thesaurus";
+    }
+
+    public boolean isMapfacesWidgetsCss() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /* Methods */
@@ -103,7 +109,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[15];
+        final Object values[] = new Object[18];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -119,6 +125,9 @@ public class UIAutocompletion extends HtmlInputText {
         values[12] = getValue();
         values[13] = getServices();
         values[14] = isEnableAjax();
+        values[15] = isLoadMootools();
+        values[16] = isLoadJs();
+        values[17] = isLoadCss();
         return values;
     }
 
@@ -148,6 +157,9 @@ public class UIAutocompletion extends HtmlInputText {
         setValue(values[12]);
         setServices(values[13]);
         setEnableAjax((Boolean) values[14]);
+        setLoadMootools((Boolean) values[15]);
+        setLoadJs((Boolean) values[16]);
+        setLoadCss((Boolean) values[17]);
     }
 
     /**
@@ -347,6 +359,48 @@ public class UIAutocompletion extends HtmlInputText {
      */
     public void setEnableAjax(boolean enableAjax) {
         this.enableAjax = enableAjax;
+    }
+
+    /**
+     * @return the loadMootools
+     */
+    public boolean isLoadMootools() {
+        return loadMootools;
+    }
+
+    /**
+     * @param loadMootools the loadMootools to set
+     */
+    public void setLoadMootools(boolean loadMootools) {
+        this.loadMootools = loadMootools;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public boolean isLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(boolean loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the loadJs
+     */
+    public boolean isLoadJs() {
+        return loadJs;
+    }
+
+    /**
+     * @param loadJs the loadJs to set
+     */
+    public void setLoadJs(boolean loadJs) {
+        this.loadJs = loadJs;
     }
 
 }

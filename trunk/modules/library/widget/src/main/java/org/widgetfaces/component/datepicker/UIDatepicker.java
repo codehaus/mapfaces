@@ -35,8 +35,12 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
 public class UIDatepicker extends HtmlInputText implements AjaxInterface {
 
     public static final String FAMILY = "org.mapfaces.Datepicker";
+    
     /* Fields */
     private boolean enableAjax = false;
+    private boolean loadMootools = true;
+    private boolean loadCss = true;
+    private boolean loadJs = true;
 
     /* Methods */
     /**
@@ -50,9 +54,12 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[2];
+        final Object values[] = new Object[5];
         values[0] = super.saveState(context);
         values[1] = isEnableAjax();
+        values[2] = isLoadMootools();
+        values[3] = isLoadJs();
+        values[4] = isLoadCss();
         return values;
     }
 
@@ -69,6 +76,9 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setEnableAjax((Boolean) values[1]);
+        setLoadMootools((Boolean) values[2]);
+        setLoadJs((Boolean) values[3]);
+        setLoadCss((Boolean) values[4]);
     }
 
     /**
@@ -102,5 +112,47 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
         //Delegate to the renderer
         AjaxRendererInterface renderer = (AjaxRendererInterface) this.getRenderer(context);
         renderer.handleAjaxRequest(context, this);
+    }
+
+    /**
+     * @return the loadMootools
+     */
+    public boolean isLoadMootools() {
+        return loadMootools;
+    }
+
+    /**
+     * @param loadMootools the loadMootools to set
+     */
+    public void setLoadMootools(boolean loadMootools) {
+        this.loadMootools = loadMootools;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public boolean isLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(boolean loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the loadJs
+     */
+    public boolean isLoadJs() {
+        return loadJs;
+    }
+
+    /**
+     * @param loadJs the loadJs to set
+     */
+    public void setLoadJs(boolean loadJs) {
+        this.loadJs = loadJs;
     }
 }
