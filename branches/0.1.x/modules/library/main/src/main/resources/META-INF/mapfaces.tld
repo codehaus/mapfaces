@@ -1192,6 +1192,28 @@
                 Flag that indicates if the innerHtml will be added in a iframe tag.
             </description>
         </attribute>
+        <attribute>
+            <name>width</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Specify the popup width as integer value.
+            </description>
+        </attribute>
+        <attribute>
+            <name>height</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Specify popup height as integer value.
+            </description>
+        </attribute>
     </tag>
      <!-- DataRequest -->
     <tag>

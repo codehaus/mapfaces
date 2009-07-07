@@ -552,8 +552,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             try {
                 String response = (String) FacesUtils.sendRequest(url, null, null, null);
                 if (response != null) {
-                    final String responseClean = response.replace("\n", " ");
-                    map.put(url, layersName +" : "+ responseClean);
+//                    final String responseClean = response.replace("\n", " ");
+                    map.put(url, layersName +" : "+ response);
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
