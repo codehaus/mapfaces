@@ -963,7 +963,7 @@ public class FacesUtils {
      * @throws java.net.MalformedURLException
      * @throws java.io.IOException
      */
-    public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller, List<String> logs) throws MalformedURLException, IOException {
+    public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller, List<String> logs, int timeout) throws MalformedURLException, IOException {
 
         if (logs != null) {
             Date d = new Date();
@@ -972,6 +972,7 @@ public class FacesUtils {
 
         URL source = new URL(sourceURL);
         URLConnection conec = source.openConnection();
+        conec.setConnectTimeout(timeout);
         Object harvested = null;
 
         try {
@@ -998,6 +999,8 @@ public class FacesUtils {
 
             // we get the response document
             InputStream in = conec.getInputStream();
+
+
             StringWriter out = new StringWriter();
             byte[] buffer = new byte[1024];
             int size;
