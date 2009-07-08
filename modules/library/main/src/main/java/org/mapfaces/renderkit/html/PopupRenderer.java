@@ -51,11 +51,9 @@ public class PopupRenderer extends WidgetBaseRenderer {
 
         responseWriter.writeAttribute("id", clientId, "id");
 
-
+        
         if (! comp.isHidden()) {
-            if (getStyleClass() == null) {
-                responseWriter.writeAttribute("class", "mfPopup "+comp.getStyleClass(), "styleclass");
-            }
+            responseWriter.writeAttribute("class", "mfPopup "+comp.getStyleClass(), "styleclass");
             responseWriter.writeAttribute("style", "width:" + comp.getWidth() + "px; height: " + comp.getHeight() + "px; position: absolute; z-index: 1500;" + comp.getTop() + comp.getLeft() + comp.getStyle(), "style");
             //<div style="width: 323px; height: 125px; position: absolute; z-index: 1500;"+top+";"+left+";">
             responseWriter.startElement("div", comp);
@@ -107,9 +105,7 @@ public class PopupRenderer extends WidgetBaseRenderer {
 
         } else {
             //responseWriter.writeAttribute("style", "display:block;", "style");
-            if (getStyleClass() == null) {
-                responseWriter.writeAttribute("class", "mfPopupInvisible", "styleclass");
-            }
+            responseWriter.writeAttribute("class", "mfPopupInvisible", "styleclass");
         }
 
         responseWriter.flush();
