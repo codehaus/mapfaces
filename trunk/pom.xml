@@ -205,6 +205,11 @@
           <artifactId>geotk-filter</artifactId>
           <version>${geotoolkit.version}</version>
       </dependency>
+      <dependency>
+          <groupId>org.geotoolkit.pending</groupId>
+          <artifactId>geotk-feature</artifactId>
+          <version>${geotoolkit.version}</version>
+      </dependency>
 
       <!-- JSF -->
 <!-- we should be in 1.2_12 but between 1.2_10 and 1.2_11 the ResourcePhaseListener (omit .jsf extension) doesn't load resources as it should-->  
