@@ -294,68 +294,10 @@ public class OWCv030toMFTransformer {
                         break;
 
                     case URN_OGC_SERVICE_TYPE_WFS:
-//                            DataStore data;
-//                            String wfsUrl = layerType.getServer().get(0).getOnlineResource().get(0).getHref();
-//                            String version = layerType.getServer().get(0).getVersion();
-//                            if (wfsUrl.contains("?")) {
-//                                wfsUrl += "SERVICE=WFS&REQUEST=GetCapabilities&VERSION=" + version;
-//                            } else {
-//                                wfsUrl += "?SERVICE=WFS&REQUEST=GetCapabilities&VERSION=" + version;
-//                            }
-//                            if (wfsDataStores == null) {
-//                                wfsDataStores = new HashMap<String, DataStore>();
-//                            }
-//                            if (wfsDataStores.get(wfsUrl) == null) {
-//                                Map connectionParameters = new HashMap();
-//                                connectionParameters.put("WFSDataStoreFactory:GET_CAPABILITIES_URL", wfsUrl);
-//                                if (layerType.getMaxFeatures() != null) {
-//                                    connectionParameters.put("WFSDataStoreFactory:MAXFEATURES", layerType.getMaxFeatures());
-//                                // Step 2 - connection
-//                                }
-//                                data = DataStoreFinder.getDataStore(connectionParameters);
-//                                wfsDataStores.put(wfsUrl, data);
-//                            } else {
-//                                data = wfsDataStores.get(wfsUrl);
-//                            }
-//
-//                            // Step 3 - discouvery
-//                            String typeName = layerType.getName();
-//                            SimpleFeatureType schema = data.getSchema(typeName);
-//
-//                            /* Style style = getWfsLayerStyle(layerType,schema);
-//                            // Step 4 - target
-//                            DefaultMapLayer wfsLayer = new DefaultMapLayer(data.getFeatureSource(typeName),style);
-//                            if(layerType.getId()==null)
-//                            layerType.setId(Utils.generateUniqueId("MapFaces_Layer_WFS_"));
-//                            wfsLayer.setId(layerType.getId());
-//                            if(layerType.getLayerOpacity()!=null)
-//                            wfsLayer.setLayerOpacity(layerType.getLayerOpacity().toString());
-//                            if (wfsLayer == null) {
-//                            break;
-//                            }
-//                            mapLayers[i] = wfsLayer;  */
+
                         break;
                     case URN_OGC_SERVICE_TYPE_GML:
 
-                        //create the parser with the gml 2.0 configuration
-                      /* GML DataStore was not very efficient
-                        Configuration configuration = new org.geotools.gml2.GMLConfiguration();
-                        Parser parser = new org.geotools.xml.Parser( configuration );
-                        //the xml instance document above
-                        InputStream gml =new URL(layerType.getServer().get(0).getOnlineResource().get(0).getHref()).openStream();
-                        //parse
-                        FeatureCollection fc = (FeatureCollection) parser.parse( gml );
-                        // Step 3 - discouvery
-                        String gmlName = layerType.getName();
-                        SimpleFeatureType gmlSchema = (SimpleFeatureType) fc.getSchema();
-                        Style gmlStyle = getWfsLayerStyle(layerType,gmlSchema);
-                        // Step 4 - target
-                        DefaultMapLayer gmlLayer = new DefaultMapLayer(fc, gmlStyle);
-                        // wfsLayer.setSEStyle((org.opengis.style.Style) style);
-                        if (gmlLayer == null) {
-                        break;
-                        }
-                        mapLayers[i] = gmlLayer;  */
                         break;
                     case URN_OGC_SERVICE_TYPE_KML:
                         break;
