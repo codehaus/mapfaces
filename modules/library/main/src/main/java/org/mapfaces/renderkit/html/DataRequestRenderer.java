@@ -38,10 +38,10 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
 import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureCollections;
-import org.geotools.feature.simple.SimpleFeatureImpl;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.filter.identity.FeatureIdImpl;
+import org.geotoolkit.feature.FeatureCollections;
+import org.geotoolkit.feature.simple.DefaultSimpleFeature;
+import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.map.FeatureMapLayer;
 import org.geotoolkit.map.MapBuilder;
 import org.geotoolkit.map.MapContext;
@@ -311,7 +311,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         objects.add(f.getAttributes().get(key));
                                     }
 
-                                    SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(f.getId()));
+                                    SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(f.getId()));
                                     features.add(sf);
                                 }
 

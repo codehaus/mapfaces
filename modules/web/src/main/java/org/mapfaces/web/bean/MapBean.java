@@ -37,10 +37,10 @@ import javax.faces.event.ActionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureCollections;
-import org.geotools.feature.simple.SimpleFeatureImpl;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.filter.identity.FeatureIdImpl;
+import org.geotoolkit.feature.FeatureCollections;
+import org.geotoolkit.feature.simple.DefaultSimpleFeature;
+import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.map.FeatureMapLayer;
 import org.geotoolkit.map.MapBuilder;
 import org.geotoolkit.map.MapContext;
@@ -265,7 +265,7 @@ public class MapBean {
                     objects.add(f.getAttributes().get(key));
                 }
 
-                SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+                SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
                 featureCollection.add(sf);
                 featureId++;
             }

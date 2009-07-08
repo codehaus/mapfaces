@@ -17,7 +17,6 @@
 package org.mapfaces.renderkit.html.layer;
 
 import com.vividsolutions.jts.geom.Geometry;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,14 +29,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureCollections;
-import org.geotools.feature.simple.SimpleFeatureImpl;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.filter.identity.FeatureIdImpl;
+import org.geotoolkit.feature.FeatureCollections;
+import org.geotoolkit.feature.simple.DefaultSimpleFeature;
+import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.map.FeatureMapLayer;
 import org.geotoolkit.map.MapBuilder;
 import org.geotoolkit.map.MapContext;
-import org.geotoolkit.map.MapLayer;
 import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.style.MutableStyle;
 
@@ -162,7 +160,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
                 objects.add(f.getAttributes().get(key));
             }
             
-            SimpleFeature sf = new SimpleFeatureImpl(objects, sft, new FeatureIdImpl(String.valueOf(featureId)));
+            SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
             features.add(sf);
             featureId++;
         }
