@@ -297,6 +297,10 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         final UITreePanelBase treepanel = (UITreePanelBase) component;
         Date phaseStart, phaseEnd;
 
+        if (treepanel.getView() == null){
+            LOGGER.severe("encodeChildren : Treepanel view is null");
+            return;
+        }
         /* Initialisation */
         phaseStart = new Date();
 
