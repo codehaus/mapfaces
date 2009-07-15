@@ -20,7 +20,7 @@ package org.mapfaces.models;
 import java.io.ObjectStreamException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.geotoolkit.util.collection.SoftValueHashMap;
+import org.geotoolkit.util.collection.Cache;
 import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
 import org.mapfaces.util.FacesUtils;
 
@@ -30,7 +30,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class DefaultServer implements Server {
     
-    private static final Map<String, AbstractWMSCapabilities> cache = new SoftValueHashMap<String, AbstractWMSCapabilities>(50);
+    private static final Map<String, AbstractWMSCapabilities> cache = new Cache<String, AbstractWMSCapabilities>(50, 50, false);
     private static final AtomicInteger incr = new AtomicInteger();
     private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+incr.incrementAndGet();
 
