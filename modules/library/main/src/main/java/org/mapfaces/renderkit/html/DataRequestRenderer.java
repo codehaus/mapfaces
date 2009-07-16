@@ -37,7 +37,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
-import org.geotools.feature.FeatureCollection;
+import org.geotoolkit.feature.collection.FeatureCollection;
 import org.geotoolkit.feature.FeatureCollections;
 import org.geotoolkit.feature.simple.DefaultSimpleFeature;
 import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
