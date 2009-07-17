@@ -405,7 +405,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 //If the popup isn't in Iframe mode or if popup is null, load results of all getfeatureInfo requests in featureInfoValues List
                 if (popup == null || !popup.isIframe()) {
                     for (String request : requestUrlList) {
-
+                       if (debug)
+                           Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "GetfeatureInfo url requested : "+request);
                         FeatureInfoThread fiThread = new FeatureInfoThread(wmsFeatureInfoValues, request);
                         fiThread.start();
                         runList.add(fiThread);
@@ -479,14 +480,14 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                     StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).
                             append("px;height:").append(innerHeight).
-                            append("px;overflow-x:auto;overflow-y:auto;font-size:11px;font-family:Arial;'>");
+                            append("px;overflow" + (popup.isIframe() ? "hidden" : "auto") + "font-size:11px;font-family:Arial;'>");
 
                     if (popup.isIframe()) {
                         for (String request : requestUrlList) {
                             innerHtml.append("<iframe style='width:").append(innerWidth).
                                     append("px;height:").
                                     append(innerHeight).
-                                    append("px;font-size:0.7em;font-family:verdana;border:none;overflow:hidden;z-index:150;' id='popup' name='popup' src='").
+                                    append("px;font-size:0.7em;font-family:verdana;border:none;overflow:auto;z-index:150;' id='popup' name='popup' src='").
                                     append(request).append("'></iframe><br/>");
                         }
                     } else {

@@ -109,8 +109,8 @@ public class PopupRenderer extends WidgetBaseRenderer {
 
             //  <div style="background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/close-button.png) repeat scroll 0% 0%; left: 280px; top: 19px; cursor: pointer; position: absolute; width: 16px; height: 16px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"/>
             responseWriter.startElement("div", comp);
-            responseWriter.writeAttribute("style", "background: white none repeat scroll 0% 0%; overflow: auto; position: absolute; left: 33px; top: 33px; width: " + innerWidth + "px; height: " + innerHeight + "px;", "style");
-
+            responseWriter.writeAttribute("style", "background: white none repeat scroll 0% 0%; overflow: " + (comp.isIframe() ? "hidden" : "auto") + "; position: absolute; left: 33px; top: 33px; width: " + innerWidth + "px; height: " + innerHeight + "px;", "style");
+            
         } else {
             //responseWriter.writeAttribute("style", "display:block;", "style");
             responseWriter.writeAttribute("class", "mfPopupInvisible", "styleclass");
