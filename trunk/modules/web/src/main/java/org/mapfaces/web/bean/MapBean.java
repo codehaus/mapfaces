@@ -37,7 +37,7 @@ import javax.faces.event.ActionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.geotoolkit.feature.collection.FeatureCollection;
-import org.geotoolkit.feature.FeatureCollections;
+import org.geotoolkit.feature.FeatureCollectionUtilities;
 import org.geotoolkit.feature.simple.DefaultSimpleFeature;
 import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotoolkit.filter.identity.DefaultFeatureId;
@@ -241,7 +241,7 @@ public class MapBean {
 
             final MutableStyle mutableStyle;
             //building a FeatureCollection for this layer.
-            FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = FeatureCollections.newCollection();
+            FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = FeatureCollectionUtilities.createCollection();
             long featureId = 0;
             SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
             List<Feature> features = buildFeatureList("EPSG:4326");
