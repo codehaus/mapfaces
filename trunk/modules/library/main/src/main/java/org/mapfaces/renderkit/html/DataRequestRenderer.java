@@ -38,7 +38,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
 import org.geotoolkit.feature.collection.FeatureCollection;
-import org.geotoolkit.feature.FeatureCollections;
+import org.geotoolkit.feature.FeatureCollectionUtilities;
 import org.geotoolkit.feature.simple.DefaultSimpleFeature;
 import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotoolkit.filter.identity.DefaultFeatureId;
@@ -275,7 +275,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 MapContext mapContext;
                                 MutableStyle mutableStyle = null;
                                 //building a FeatureCollection for this layer.
-                                FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+                                FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
                                 SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 
                                 try {
