@@ -29,7 +29,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.geotoolkit.feature.collection.FeatureCollection;
-import org.geotoolkit.feature.FeatureCollections;
+import org.geotoolkit.feature.FeatureCollectionUtilities;
 import org.geotoolkit.feature.simple.DefaultSimpleFeature;
 import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotoolkit.filter.identity.DefaultFeatureId;
@@ -138,7 +138,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         final MutableStyle mutableStyle = FacesUtils.createStyle(comp.getImage(), size, rotation, indexLayer);
 
         //building a FeatureCollection for this layer.
-        FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollections.newCollection();
+        FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
         long featureId = 0;
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         if (comp.getFeatures() != null && comp.getFeatures().size() != 0 && comp.getFeatures().get(0) != null) {
