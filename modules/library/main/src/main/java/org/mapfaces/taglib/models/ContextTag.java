@@ -97,7 +97,6 @@ public class ContextTag extends UIComponentELTag {
         super.setProperties(component);
 
         final UIContext compContext = (UIContext) component;
-        final FacesContext context  = FacesContext.getCurrentInstance();
 
         component.setValueExpression("service", service);
         component.setValueExpression("value", value);

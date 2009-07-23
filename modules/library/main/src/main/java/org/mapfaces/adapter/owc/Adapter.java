@@ -53,6 +53,7 @@ import org.mapfaces.util.XMLContextUtilities;
  * @author Mehdi Sidhoum (Geomatys).
  */
 public class Adapter {
+    private static String rootKey = "root";
 
     public static DefaultTreeModel OWC2Tree(final String fileUrl) throws JAXBException, UnsupportedEncodingException {
 
@@ -60,13 +61,14 @@ public class Adapter {
         final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
         final Context model = new XMLContextUtilities().readContext(sc.getRealPath(fileUrl));
         final DefaultTreeModel tree = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootKey);
         final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);
         final List<Layer> layers = model.getLayers();
         final int depth = 1;
 
         //Then we get a list layers to construct the tree
-        for (int id = 0, n = layers.size(); id < n; id++) {
+        final int n = layers.size();
+        for (int id = 0; id < n; id++) {
             final Layer layer = layers.get(id);
             contextOwc.add(new TreeNodeModel(layer, id + 1, depth, id + 1, false));
         }
@@ -86,7 +88,7 @@ public class Adapter {
     public static DefaultTreeModel context2Tree(final FacesContext context, final Context model) {
 
         final DefaultTreeModel tree = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootKey);
         final TreeItem treeItemRoot = new TreeItem(model);
         final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(treeItemRoot);
         final List<Layer> layers = model.getLayers();
@@ -95,7 +97,8 @@ public class Adapter {
         root.add(contextOwc);
 
         //Then we get a list layers to construct the tree
-        for (int id = 0, n = layers.size(); id < n; id++) {
+        final int n = layers.size();
+        for (int id = 0; id < n; id++) {
             final Layer layer = layers.get(id);
             final TreeItem treeItem = new TreeItem(layer);
             final TreeNodeModel item = new TreeNodeModel(treeItem, id + 1, depth, id + 1, false);
@@ -111,11 +114,12 @@ public class Adapter {
     public static DefaultTreeModel contextGrp2Tree(final FacesContext context, final Context model) {
 
         final DefaultTreeModel tree = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootKey);
         boolean allLayerHaveGrp = true;
         final List<Layer> layers = model.getLayers();
         final int layerId = layers.size() - 1;
-        for (int id = layerId, n = -1; id > n; id--) {
+        final int n = -1;
+        for (int id = layerId; id > n; id--) {
             final Layer layer = layers.get(id);
 
             if (layer != null && layer.getGroup() != null && !layer.getGroup().equals("Raster") && !layer.getGroup().equals("Shape")) {
@@ -141,7 +145,7 @@ public class Adapter {
             root.add(contextOwc);
 
             //Then we get a list layers to construct the tree
-            for (int id = layerId, n = -1; id > n; id--) {
+            for (int id = layerId; id > n; id--) {
                 final Layer layer = layers.get(id);
                 final TreeItem treeItem = new TreeItem(layer);
                 final TreeNodeModel item = new TreeNodeModel(treeItem, id + 1, depth, id + 1, false);
@@ -167,22 +171,22 @@ public class Adapter {
      */
     public static DefaultTreeModel ContextGroupedLayers2Tree(final Context model) {
         final DefaultTreeModel tree = new DefaultTreeModel(null);
-        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem("root"));
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem(rootKey));
         final List<Layer> layers = model.getLayers();
         final int depth = 1;
         int i = 0;
-        Map<List, DefaultMutableTreeNode> nodes = new HashMap<List, DefaultMutableTreeNode>();
+        final Map<List, DefaultMutableTreeNode> nodes = new HashMap<List, DefaultMutableTreeNode>();
 
         for (Layer layer : layers) {
-            List path = new ArrayList();
+            final List path = new ArrayList();
 
             if (layer != null && layer.getGroup() != null && !layer.getGroup().equals("")) {
-                String group = layer.getGroup();
-                HashMap<String, Serializable> map = layer.getMapGroupHierarchiesValues();
-                String[] array = Utils.splitStringToArray(group, "/");
+                final String group = layer.getGroup();
+                final HashMap<String, Serializable> map = layer.getMapGroupHierarchiesValues();
+                final String[] array = Utils.splitStringToArray(group, "/");
 
                 if (array.length != 0) {
-                    String key = array[0];
+                    final String key = array[0];
                     if (map != null && map.get(key) != null) {
                         TreeNodeModel item;
                         path.add(map.get(key));
@@ -241,13 +245,13 @@ public class Adapter {
         return tree;
     }
 
-    public static void concatNodesFromArray(TreeNodeModel node, String[] array, HashMap<String, Serializable> map, int indexNode, int indexArray, Map<List, DefaultMutableTreeNode> nodes, Layer layer, List path) {
+    public static void concatNodesFromArray(TreeNodeModel node, String[] array, Map<String, Serializable> map, int indexNode, int indexArray, Map<List, DefaultMutableTreeNode> nodes, Layer layer, List path) {
 
         if (indexArray + 1 < array.length) {
-            String key = array[indexArray + 1];
+            final String key = array[indexArray + 1];
             if (map != null && map.get(key) != null) {
 
-                List appendpath = new ArrayList();
+                final List appendpath = new ArrayList();
                 appendpath.addAll(path);
                 appendpath.add(map.get(key));
 
@@ -262,7 +266,7 @@ public class Adapter {
                 }
             } else {
 
-                List appendpath = new ArrayList();
+                final List appendpath = new ArrayList();
                 appendpath.addAll(path);
                 appendpath.add(key);
 
@@ -282,7 +286,7 @@ public class Adapter {
             
             //Adding children for the layer if it contains elements in the composite list.
             if (layer instanceof DefaultWmsGetMapLayer) {
-                List<WmsGetMapEntry> entriesLayers = ((DefaultWmsGetMapLayer) layer).getComposite();
+                final List<WmsGetMapEntry> entriesLayers = ((DefaultWmsGetMapLayer) layer).getComposite();
                 if (entriesLayers != null && entriesLayers.size() != 0) {
                     for (WmsGetMapEntry entry : entriesLayers) {
                         final TreeItem treeItemEntryLayer = new TreeItem(entry);
@@ -296,62 +300,62 @@ public class Adapter {
     }
 
     public static void displayTree(DefaultMutableTreeNode node) {
-        Enumeration children = node.children();
+        final Enumeration children = node.children();
         while (children.hasMoreElements()) {
-            DefaultMutableTreeNode child = (DefaultMutableTreeNode) children.nextElement();
+            final DefaultMutableTreeNode child = (DefaultMutableTreeNode) children.nextElement();
             System.out.println("-----   child : " + child);
             displayTree((DefaultMutableTreeNode) child);
         }
     }
 
     public static void main(String... s) {
-        DefaultContext context = new DefaultContext();
-        List<WmsLayer> layers = new ArrayList<WmsLayer>();
+        final  DefaultContext context = new DefaultContext();
+        final List<WmsLayer> layers = new ArrayList<WmsLayer>();
 
-        WmsLayer layer0 = new DefaultWmsLayer();
+        final WmsLayer layer0 = new DefaultWmsLayer();
         layer0.setName("Layer0");
         layer0.setGroup("feature/context");
 
-        WmsLayer layer1 = new DefaultWmsLayer();
+        final WmsLayer layer1 = new DefaultWmsLayer();
         layer1.setName("Layer1");
         layer1.setGroup("/dimension/feature/context");
         //HashMap<String, Serializable> map = new HashMap<String, Serializable>();
         //layer1.setMapGroupHierarchiesValues(map);
 
-        WmsLayer layer2 = new DefaultWmsLayer();
+        final WmsLayer layer2 = new DefaultWmsLayer();
         layer2.setName("Layer2");
         layer2.setGroup("dimension/feature/node2/context");
         HashMap<String, Serializable> map2 = new HashMap<String, Serializable>();
 //        map2.put("dimension", new DefaultDimension());
-        DefaultFeature f2 = new DefaultFeature();
+        final DefaultFeature f2 = new DefaultFeature();
         f2.setName("feature2");
-        DefaultContext c2 = new DefaultContext();
+        final DefaultContext c2 = new DefaultContext();
         c2.setName("context2");
         map2.put("feature", f2);
         map2.put("context", c2);
         layer2.setMapGroupHierarchiesValues(map2);
 
-        WmsLayer layer3 = new DefaultWmsLayer();
+        final WmsLayer layer3 = new DefaultWmsLayer();
         layer3.setName("Layer3");
         layer3.setGroup("dimension/feature/context");
-        HashMap<String, Serializable> map3 = new HashMap<String, Serializable>();
-        DefaultDimension d3 = new DefaultDimension();
+        final HashMap<String, Serializable> map3 = new HashMap<String, Serializable>();
+        final DefaultDimension d3 = new DefaultDimension();
         d3.setName("dimension3");
-        DefaultFeature f3 = new DefaultFeature();
+        final DefaultFeature f3 = new DefaultFeature();
         f3.setName("feature3");
-        DefaultContext c3 = new DefaultContext();
+        final DefaultContext c3 = new DefaultContext();
         c3.setName("context3");
         map3.put("dimension", d3);
         map3.put("feature", f3);
         map3.put("context", c3);
         layer3.setMapGroupHierarchiesValues(map3);
 
-        WmsLayer layer4 = new DefaultWmsLayer();
+        final WmsLayer layer4 = new DefaultWmsLayer();
         layer4.setName("Layer4");
         layer4.setGroup("node4/dimension/feature/context");
-        HashMap<String, Serializable> map4 = new HashMap<String, Serializable>();
-        DefaultFeature f4 = new DefaultFeature();
-        DefaultContext c4 = new DefaultContext();
+       final  HashMap<String, Serializable> map4 = new HashMap<String, Serializable>();
+        final DefaultFeature f4 = new DefaultFeature();
+        final DefaultContext c4 = new DefaultContext();
         c4.setName("context4");
         f4.setName("feature4");
         map4.put("dimension", d3);
@@ -359,70 +363,70 @@ public class Adapter {
         map4.put("context", c4);
         layer4.setMapGroupHierarchiesValues(map4);
 
-        WmsLayer layer5 = new DefaultWmsLayer();
+       final  WmsLayer layer5 = new DefaultWmsLayer();
         layer5.setName("Layer5");
         layer5.setGroup("dimension/feature/context");
-        HashMap<String, Serializable> map5 = new HashMap<String, Serializable>();
-        DefaultContext c5 = new DefaultContext();
+        final HashMap<String, Serializable> map5 = new HashMap<String, Serializable>();
+        final DefaultContext c5 = new DefaultContext();
         c5.setName("context5");
         map5.put("dimension", d3);
         map5.put("feature", f3);
         map5.put("context", c5);
         layer5.setMapGroupHierarchiesValues(map5);
 
-        WmsLayer layer6 = new DefaultWmsLayer();
+        final WmsLayer layer6 = new DefaultWmsLayer();
         layer6.setName("Layer6");
         layer6.setGroup("dimension/feature/context");
-        HashMap<String, Serializable> map6 = new HashMap<String, Serializable>();
+        final HashMap<String, Serializable> map6 = new HashMap<String, Serializable>();
         map6.put("feature", f4);
         layer6.setMapGroupHierarchiesValues(map6);
 
-        WmsLayer layer7 = new DefaultWmsLayer();
+        final WmsLayer layer7 = new DefaultWmsLayer();
         layer7.setName("Layer7");
         layer7.setGroup("dimension/feature/context");
-        HashMap<String, Serializable> map7 = new HashMap<String, Serializable>();
+        final HashMap<String, Serializable> map7 = new HashMap<String, Serializable>();
         layer7.setMapGroupHierarchiesValues(map7);
 
-        WmsLayer layer8 = new DefaultWmsLayer();
+        final WmsLayer layer8 = new DefaultWmsLayer();
         layer8.setName("Layer8");
         layer8.setGroup("dimension/feature/context");
 
-        WmsLayer layer9 = new DefaultWmsLayer();
+        final WmsLayer layer9 = new DefaultWmsLayer();
         layer9.setName("Layer9");
 
-        WmsLayer layer10 = new DefaultWmsLayer();
+        final WmsLayer layer10 = new DefaultWmsLayer();
         layer10.setName("Layer10");
         layer10.setGroup("dimension/feature/context");
-        HashMap<String, Serializable> map10 = new HashMap<String, Serializable>();
-        DefaultDimension d10 = new DefaultDimension();
+        final HashMap<String, Serializable> map10 = new HashMap<String, Serializable>();
+        final DefaultDimension d10 = new DefaultDimension();
         d10.setName("dimension10");
-        DefaultFeature f10 = new DefaultFeature();
+        final DefaultFeature f10 = new DefaultFeature();
         f10.setName("feature10");
         map10.put("dimension", d10);
         map10.put("feature", f10);
         map10.put("context", c3);
         layer10.setMapGroupHierarchiesValues(map10);
 
-        WmsLayer layer11 = new DefaultWmsLayer();
+        final WmsLayer layer11 = new DefaultWmsLayer();
         layer11.setName("Layer11");
         layer11.setGroup("dimension/node11/feature/context");
-        HashMap<String, Serializable> map11 = new HashMap<String, Serializable>();
+        final HashMap<String, Serializable> map11 = new HashMap<String, Serializable>();
         map11.put("dimension", d3);
         map11.put("feature", f3);
         map11.put("context", c5);
         layer11.setMapGroupHierarchiesValues(map11);
 
-        WmsLayer layer12 = new DefaultWmsLayer();
+        final WmsLayer layer12 = new DefaultWmsLayer();
         layer12.setName("bluemarble");
         //layer12.setGroup("world maps");
 
-        WmsLayer layer13 = new DefaultWmsLayer();
+        final WmsLayer layer13 = new DefaultWmsLayer();
         layer13.setName("Demis world");
         //layer13.setGroup("world maps");
         
-        DefaultWmsGetMapLayer layer14 = new DefaultWmsGetMapLayer();
+        final DefaultWmsGetMapLayer layer14 = new DefaultWmsGetMapLayer();
         layer14.setGroup("dimension/node11/feature/context");
-        List<WmsGetMapEntry> entires = new ArrayList<WmsGetMapEntry>();
+        final List<WmsGetMapEntry> entires = new ArrayList<WmsGetMapEntry>();
         entires.add(new WmsGetMapEntry());
         entires.add(new WmsGetMapEntry());
         entires.add(new WmsGetMapEntry());
@@ -451,12 +455,12 @@ public class Adapter {
 
         context.setLayers((List) layers);
 
-        DefaultTreeModel tree = ContextGroupedLayers2Tree(context);
+        final DefaultTreeModel tree = ContextGroupedLayers2Tree(context);
 
         //displayTree((DefaultMutableTreeNode) tree.getRoot());
 
-        JFrame frame = new JFrame();
-        JTree jtree = new JTree();
+        final JFrame frame = new JFrame();
+        final JTree jtree = new JTree();
         jtree.setModel(tree);
         frame.setContentPane(new JScrollPane(jtree));
         frame.setSize(640, 480);

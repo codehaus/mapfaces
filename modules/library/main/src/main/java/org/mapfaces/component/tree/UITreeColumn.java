@@ -17,12 +17,11 @@
 package org.mapfaces.component.tree;
 
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
-import org.mapfaces.share.interfaces.A4JInterface;
 
 /**
  * @author Kevin Delfour (Geomatys)
  */
-public class UITreeColumn extends UITreeColumnBase implements A4JInterface {
+public class UITreeColumn extends UITreeColumnBase {
 
     private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn";
     private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeColumn";

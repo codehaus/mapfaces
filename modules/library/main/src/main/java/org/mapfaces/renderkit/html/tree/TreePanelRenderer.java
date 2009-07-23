@@ -68,10 +68,10 @@ public class TreePanelRenderer extends AbstractTreePanelRenderer {
      */
     @Override
     public void createTreeLines(final UIComponent component, final TreeNodeModel node,
-            final List<UIComponent> list, final boolean LoadingOption) {
+            final List<UIComponent> list, final boolean loadingOption) {
         final TreeTableUtils tools = new TreeTableUtils();
         try {
-            tools.createTreeLines(component, node, list, LoadingOption);
+            tools.createTreeLines(component, node, list, loadingOption);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
