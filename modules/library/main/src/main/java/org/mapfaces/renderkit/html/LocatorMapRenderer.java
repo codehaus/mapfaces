@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
 import org.mapfaces.component.UILocatorMap;
 import org.mapfaces.models.Context;
 import org.mapfaces.taglib.LocatorMapTag;
@@ -57,19 +58,19 @@ public class LocatorMapRenderer extends MapPaneRenderer {
         final ResponseWriter writer = context.getResponseWriter();
         final Context model;
 
-        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+        if (comp.getModel() instanceof Context) {
             model = (Context) comp.getModel();
         } else {
             //The model context is null or not an Context instance
             throw new UnsupportedOperationException("The model context is null or not supported yet !");
         }        
 
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
 
         if(comp.getTargetContextCompId() != null){
-            writer.startElement("script", comp);
-            writer.writeAttribute("type", "text/javascript", "text/javascript");
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
 
             //suppression des ":" pour nommer l'objet javascript correspondant correctement   String jsObject = component.getClientId(context);
             String jsObject = comp.getClientId(context);
@@ -78,7 +79,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             //suppression des ":" pour nommer l'objet javascript correspondant correctement
             //Find UIMapPane refers to this widget 
             String mapJsObject = null ;
-            UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+            final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
             if (uIMapPane != null) {
                     mapJsObject = uIMapPane.getClientId(context);
             } else {
@@ -92,30 +93,33 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             }else{
                 mapJsObject = "mappane";
             }
-            writer.write(new StringBuilder("    var ovmapOptions = {")
-                    .append("                       id:'").append(jsObject).append("',")
-                    .append("                       outsideViewport:true,")
-                    .append("                       controls:[],")
-                    .append("                       projection: new OpenLayers.Projection('").append(model.getSrs().toUpperCase()).append("'),")
-                    .append("                       size: new OpenLayers.Size('300','150'),")
-                    .append("                       maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),")
-                    .append("                       currentExtent: new OpenLayers.Bounds(").append(model.getMinx().toString()).append(",").append(model.getMiny().toString()).append(",").append(model.getMaxx().toString()).append(",").append(model.getMaxy().toString()).append("),")
-                    .append("                       maxResolution: 'auto',")
-                    .append("                       theme:  null ,")
-                    .append("                       fractionnalZoom:  true ,")
-                    .append("                       layersName:  '").append(model.getLayersCompId().split(",")[0] ).append("' ,")
-                    .append("                       mfAjaxCompId:'").append(comp.getAjaxCompId()).append("',")
-                    .append("                       mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',")
-                    .append("                       mfRequestId:'updateBboxOrWindow'")
-                    .append("                   };").toString());
+            writer.write(new StringBuilder("var ovmapOptions = {")
+                    .append("id:'").append(jsObject).append("',")
+                    .append("outsideViewport:true,")
+                    .append("controls:[],")
+                    .append("projection: new OpenLayers.Projection('").append(model.getSrs().toUpperCase()).append("'),")
+                    .append("size: new OpenLayers.Size('300','150'),")
+                    .append("maxExtent: new OpenLayers.Bounds(").append(comp.getMaxExtent()).append("),")
+                    .append("currentExtent: new OpenLayers.Bounds(").append(model.getMinx()).
+                        append(",").append(model.getMiny()).append(",").
+                        append(model.getMaxx()).append(",").
+                        append(model.getMaxy()).append("),")
+                    .append("maxResolution: 'auto',")
+                    .append("theme:  null ,")
+                    .append("fractionnalZoom:  true ,")
+                    .append("layersName:  '").append(model.getLayersCompId().split(",")[0] ).append("' ,")
+                    .append("mfAjaxCompId:'").append(comp.getAjaxCompId()).append("',")
+                    .append("mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',")
+                    .append("mfRequestId:'updateBboxOrWindow'")
+                    .append("};").toString());
 
             writer.write("var " + jsObject + " = new OpenLayers.Control.OverviewMap({div: OpenLayers.Util.getElement('" + clientId + "'),mapOptions:ovmapOptions});");
             writer.write(new StringBuilder(mapJsObject).append(".addControl(").append(jsObject).append(");")
                 .append("    if(!window.maps){window.maps = {};}")
                 .append("    window.maps.").append(jsObject).append(" = ").append(jsObject).append(".ovmap;").toString());
-            writer.endElement("script");
+            writer.endElement(HTML.SCRIPT_ELEM);
         }
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
