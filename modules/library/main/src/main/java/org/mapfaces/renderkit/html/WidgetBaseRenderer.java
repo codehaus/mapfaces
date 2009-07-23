@@ -27,7 +27,6 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
 import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -134,8 +133,8 @@ public class WidgetBaseRenderer extends Renderer {
     }
     // creates and puts the model data to session for this chart object
     public void setModelAtSession(FacesContext facesContext, UIWidgetBase comp) {
-        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String compClientId = comp.getClientId(facesContext);
+        final Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        final String compClientId = comp.getClientId(facesContext);
         session.put(compClientId + "_model", comp.getModel());
         if (debug) {
             LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "");

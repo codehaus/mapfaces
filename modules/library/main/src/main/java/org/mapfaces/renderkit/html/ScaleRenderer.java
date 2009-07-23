@@ -26,6 +26,7 @@ import org.mapfaces.component.UIScale;
 import org.mapfaces.taglib.ScaleTag;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -44,7 +45,7 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
         //Find UIMapPane refers to this widget 
         String jsObject = null;
-        UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
             jsObject = uIMapPane.getClientId(context);
         } else {
@@ -55,19 +56,19 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         final UIScale comp    = (UIScale) component;
         final String clientId = comp.getClientId(context);
 
-        writer.startElement("div", comp);
-        writer.writeAttribute("id",clientId,"id");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE,clientId,HTML.id_ATTRIBUTE);
 
         if (getStyleClass() == null)
-            writer.writeAttribute("class","mf"+ScaleTag.COMP_TYPE.substring(ScaleTag.COMP_TYPE.lastIndexOf(".")+1,ScaleTag.COMP_TYPE.length()),"styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE,"mf"+ScaleTag.COMP_TYPE.substring(ScaleTag.COMP_TYPE.lastIndexOf(".")+1,ScaleTag.COMP_TYPE.length()),"styleclass");
         else
-            writer.writeAttribute("class",getStyleClass(),"styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE,getStyleClass(),"styleclass");
         
         if (getStyle() != null)
-            writer.writeAttribute("style",getStyle(),"style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE,getStyle(),HTML.style_ATTRIBUTE);
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", "text/javascript");
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
 
        
         if (jsObject.contains(":")) {
@@ -85,8 +86,8 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         append("    } ").
         append("});").
         append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); ").toString());
-        writer.endElement("script");
-        writer.endElement("div");
+        writer.endElement(HTML.SCRIPT_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
 
     }
