@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import org.mapfaces.component.UIDiv;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
  *
@@ -44,22 +45,21 @@ public class DivRenderer extends Renderer {
             return;
         }
         
-        ResponseWriter writer = context.getResponseWriter();
-        writer.startElement("div", component);
-        writer.writeAttribute("id", component.getClientId(context), "clientId");
-        writer.writeAttribute("style", comp.getStyle(), "style");
-        writer.writeAttribute("class",  comp.getStyleClass(), "styleClass");
+        final ResponseWriter writer = context.getResponseWriter();
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, component.getClientId(context), "clientId");
+        writer.writeAttribute(HTML.style_ATTRIBUTE, comp.getStyle(), HTML.style_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE,  comp.getStyleClass(), "styleClass");
         writer.flush();
     }
 
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        writer.endElement("div");
+        final ResponseWriter writer = context.getResponseWriter();
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
     public void decode(FacesContext context, UIComponent component) {
-        return;
     }
     
     private void assertValid(final FacesContext context, final UIComponent component) {

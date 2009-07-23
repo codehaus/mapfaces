@@ -19,7 +19,6 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIGraphic;
 import javax.faces.component.UIOutput;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
@@ -32,7 +31,6 @@ import org.mapfaces.component.layercontrol.UIElevationColumn;
 import org.mapfaces.component.layercontrol.UIOpacityColumn;
 import org.mapfaces.component.layercontrol.UITimeColumn;
 import org.mapfaces.component.layercontrol.UIVisibilityColumn;
-import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.tree.UITreeColumn;
 import org.mapfaces.component.tree.UITreeNodeInfo;
 import org.mapfaces.component.tree.UITreePanel;
@@ -49,24 +47,24 @@ import org.mapfaces.util.FacesUtils;
 public class LayerControlRenderer extends WidgetBaseRenderer {
 
     /* Messages */
-    private static final String _Info_TreePanel_Title = "List of layers";
-    private static final String _Info_Visibility_Title = "Display or Hide the layer in the MapPane component.";
-    private static final String _Info_TimeLine_Title = "To display the corresponding timeline of a layer.";
-    private static final String _Info_TreeNodeInfo_Title = "More informations";
+    private static final String Info_TreePanel_Title = "List of layers";
+    private static final String Info_Visibility_Title = "Display or Hide the layer in the MapPane component.";
+    private static final String InfoTimeLine_Title = "To display the corresponding timeline of a layer.";
+    private static final String InfoTreeNodeInfo_Title = "More informations";
     /* Error messages*/
-    private static final String _Error_Null_Context = "[WARNING] LayerControlRenderer : The model context is null or not supported yet !";
-    private static final String _Error_Null_Tree = "[WARNING] LayerControlRenderer : The tree model is null or empty";
+    private static final String Error_Null_Context = "[WARNING] LayerControlRenderer : The model context is null or not supported yet !";
+    private static final String Error_Null_Tree = "[WARNING] LayerControlRenderer : The tree model is null or empty";
     /* Defaults Styles */
-    private static final String _Style_Class_LayerControl = "mfLayerControl";
-    private static final String _Style_TreeTable = "border:none;";
-    private static final String _Style_TreeNodeInfo = "border:none;";
+    private static final String Style_Class_LayerControl = "mfLayerControl";
+    private static final String Style_TreeTable = "border:none;";
+    private static final String Style_TreeNodeInfo = "border:none;";
     /* Defaults Sizes */
-    private static final int _Style_Width_Treetable = 450;
-    private static final String _Style_Width_Treecolumn = "200";
-    private static final String _Style_Width_Visibilitycolumn = "26";
-    private static final String _Style_Width_Opacitycolumn = "70";
-    private static final String _Style_Width_Elevationcolumn = "100";
-    private static final String _Style_Width_Timecolumn = "28";
+    //private static final int Style_Width_Treetable = 450;
+    private static final String Style_Width_Treecolumn = "200";
+    private static final String Style_Width_Visibilitycolumn = "26";
+    private static final String Style_Width_Opacitycolumn = "70";
+    private static final String Style_Width_Elevationcolumn = "100";
+    private static final String Style_Width_Timecolumn = "28";
 
     /*DefaultsClassName*/
      private static final String _visibilityHeaderStyleClass = "eye";
@@ -84,11 +82,11 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         final Context model;
 
         /* Control */
-        if (layerControl.getModel() != null && layerControl.getModel() instanceof Context) {
+        if (layerControl.getModel() instanceof Context) {
             model = (Context) layerControl.getModel();
         } else {
             //The model context is null or not an Context instance
-            throw new UnsupportedOperationException(_Error_Null_Context);
+            throw new UnsupportedOperationException(Error_Null_Context);
         }
         
         layerControl.setTree(Adapter.ContextGroupedLayers2Tree(model));
@@ -96,7 +94,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
         final DefaultTreeModel tree = layerControl.getTree();
         if (tree == null) {
-            throw new NullPointerException(_Error_Null_Tree);
+            throw new NullPointerException(Error_Null_Tree);
         }
 
         /* Initialisation */
@@ -134,7 +132,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
         final String styleClass = getStyleClass();
         if (styleClass == null) {
-            writer.writeAttribute("class", _Style_Class_LayerControl, "styleClass");
+            writer.writeAttribute("class", Style_Class_LayerControl, "styleClass");
         } else {
             writer.writeAttribute("class", styleClass, "styleClass");
         }
@@ -146,7 +144,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treeTable.setVarName("treeItem");
         treeTable.setMootools(addMootools);
         treeTable.setMinifyJS(addMinifyJs);
-        treeTable.setStyle(_Style_TreeTable + styleTreetable);
+        treeTable.setStyle(Style_TreeTable + styleTreetable);
         treeTable.setStyleClass(styleClassTreeTable);
 
         /* -- TreePanel Declaration -- */
@@ -164,7 +162,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treePanel.setStyleClass(styleClassTreePanel);
         treePanel.setHeader(displayHeader);
         if (titlePanel == null || titlePanel.isEmpty()) {
-            treePanel.setTitle(_Info_TreePanel_Title);
+            treePanel.setTitle(Info_TreePanel_Title);
         } else {
             treePanel.setTitle(titlePanel);
         }
@@ -179,7 +177,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             treecolumn.setHeaderTitle(headerTreeColumn);
         }
         if (widthTreeColumn == null || widthTreeColumn.isEmpty()) {
-            treecolumn.setWidth(_Style_Width_Treecolumn);
+            treecolumn.setWidth(Style_Width_Treecolumn);
         } else {
             treecolumn.setWidth(widthTreeColumn);
         }
@@ -191,9 +189,9 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             vc.setId(vc.getLayerProperty());
             vc.setValue("#{!treeItem.hidden}");
             vc.setHeaderIcon(_visibilityHeaderStyleClass);
-            vc.setHeaderTitle(_Info_Visibility_Title);
+            vc.setHeaderTitle(Info_Visibility_Title);
             if (widthVisibilityColumn == null || widthVisibilityColumn.isEmpty()) {
-                vc.setWidth(_Style_Width_Visibilitycolumn);
+                vc.setWidth(Style_Width_Visibilitycolumn);
             } else {
                 vc.setWidth(widthVisibilityColumn);
             }
@@ -207,7 +205,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             oc.setValue("#{treeItem.opacity}");
             oc.setHeaderIcon(_opacityHeaderStyleClass);
             if (widthOpacityColumn == null || widthOpacityColumn.isEmpty()) {
-                oc.setWidth(_Style_Width_Opacitycolumn);
+                oc.setWidth(Style_Width_Opacitycolumn);
             } else {
                 oc.setWidth(widthOpacityColumn);
             }
@@ -221,7 +219,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             ec.setValue("#{treeItem.userValueElevation}");
             ec.setHeaderIcon(_elevationHeaderStyleClass);
             if (widthElevationColumn == null || widthElevationColumn.isEmpty()) {
-                ec.setWidth(_Style_Width_Elevationcolumn);
+                ec.setWidth(Style_Width_Elevationcolumn);
             } else {
                 ec.setWidth(widthElevationColumn);
             }
@@ -232,10 +230,10 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         if (addTimeColumn) {
             final UITimeColumn tic = new UITimeColumn();
             tic.setId(tic.getLayerProperty());
-            tic.setHeaderTitle(_Info_TimeLine_Title);
+            tic.setHeaderTitle(InfoTimeLine_Title);
             tic.setHeaderIcon(_timeHeaderStyleClass);
             if (widthTimeColumn == null || widthTimeColumn.isEmpty()) {
-                tic.setWidth(_Style_Width_Timecolumn);
+                tic.setWidth(Style_Width_Timecolumn);
             } else {
                 tic.setWidth(widthTimeColumn);
             }
@@ -244,8 +242,8 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
         if (addLayerInfo || addColorMapEditor) {
             final UITreeNodeInfo tni = new UITreeNodeInfo();
-            tni.setTitle(_Info_TreeNodeInfo_Title);
-            tni.setStyle(_Style_TreeNodeInfo);
+            tni.setTitle(InfoTreeNodeInfo_Title);
+            tni.setStyle(Style_TreeNodeInfo);
             if (layerControl.isLayerInfo()) {
                 final UIOutput o1 = new UIOutput();
                 final UIOutput o3 = new UIOutput();

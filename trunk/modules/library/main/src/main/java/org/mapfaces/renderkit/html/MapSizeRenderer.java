@@ -29,6 +29,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIMapSize;
 import org.mapfaces.models.Context;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
  * @author Olivier Terral.
@@ -46,18 +47,18 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         final UIMapSize comp = (UIMapSize) component;
         final Context model  = (Context) comp.getModel();
 
-        getWriter().startElement("div", comp);
-        getWriter().writeAttribute("id", comp.getClientId(context), "id");
-        getWriter().writeAttribute("style", getStyle(), "style");
+        getWriter().startElement(HTML.DIV_ELEM, comp);
+        getWriter().writeAttribute(HTML.id_ATTRIBUTE, comp.getClientId(context), HTML.id_ATTRIBUTE);
+        getWriter().writeAttribute(HTML.style_ATTRIBUTE, getStyle(), HTML.style_ATTRIBUTE);
 
         if (getStyleClass() == null) {
-            getWriter().writeAttribute("class", "mfMapSize", "styleClass");
+            getWriter().writeAttribute(HTML.class_ATTRIBUTE, "mfMapSize", "styleClass");
         } else {
-            getWriter().writeAttribute("class", getStyleClass(), "styleClass");
+            getWriter().writeAttribute(HTML.class_ATTRIBUTE, getStyleClass(), "styleClass");
         /* Add <h:outputText> */
         }
         if (comp.getTitle() != null) {
-            if( (comp.getChildCount() == 0) ){
+            if(comp.getChildCount() == 0){
                 final UIOutput outputText = new UIOutput();
                 outputText.setId(comp.getId() + "_Title");
                 outputText.setValue(comp.getTitle());
@@ -70,11 +71,11 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         /* Add <h:selectOneMenu> */
         if (comp.getItemsLabels() != null && comp.getItemsValues() != null) {
             if(comp.getChildCount() == 1){
-                comp.getChildren().add(createSelectOneMenu(context, comp, true, model.getLayersId()));
+                comp.getChildren().add(createSelectOneMenu(context, comp, true));
             }
-        } else {
+        }// else {
             //TODO if no items specified
-        }
+        //}
         getWriter().flush();
     }
 
@@ -84,21 +85,21 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         super.encodeChildren(context, component);
-        getWriter().endElement("div");
+        getWriter().endElement(HTML.DIV_ELEM);
         getWriter().flush();
     }
 
     private UISelectOne createSelectOneMenu(final FacesContext context, final UIMapSize comp,
-            final boolean ajaxSupport,final String idsToRefresh) {
+            final boolean ajaxSupport) {
         final UISelectOne selectOneMenu= new UISelectOne();
         selectOneMenu.setId(comp.getId()+"_Select");
         final String[] labelsArray = comp.getItemsLabels().split("/");
         final String[] valuesArray = comp.getItemsValues().split("/");
 
         if (labelsArray.length > 0 && valuesArray.length > 0) {
-            if (labelsArray.length != valuesArray.length) {
-                //TODO if length are not equals, add missing values or labels
-            }
+            //TODO if length are not equals, add missing values or labels
+            //if (labelsArray.length != valuesArray.length) {
+            //}
             for (int i = 0; i < labelsArray.length; i++) {
                 final UISelectItem selectItem = new UISelectItem();
                 selectItem.setItemLabel(labelsArray[i]);
@@ -106,7 +107,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
                 selectOneMenu.getChildren().add(selectItem);
             }
             if (ajaxSupport) {
-                selectOneMenu.getFacets().put("a4jsupport", createAjaxSupport(context, comp, idsToRefresh));
+                selectOneMenu.getFacets().put("a4jsupport", createAjaxSupport(context, comp));
             }
         }
 
@@ -114,7 +115,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
         return selectOneMenu;
     }
 
-    private HtmlAjaxSupport createAjaxSupport(final FacesContext context, final UIMapSize comp, final String idsToRefresh) {
+    private HtmlAjaxSupport createAjaxSupport(final FacesContext context, final UIMapSize comp) {
 
         /* Add <a4j:support> component */
         final HtmlAjaxSupport ajaxComp = FacesUtils.createBasicAjaxSupport(context, comp, "onchange", null);

@@ -23,11 +23,11 @@ import javax.faces.context.FacesContext;
 
 import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.UIWidget;
-import org.mapfaces.models.Context;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class WidgetRenderer extends WidgetBaseRenderer {
 
@@ -40,34 +40,18 @@ public class WidgetRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
 
         final UIWidget comp         = (UIWidget) component;
-        final Context model         = (Context) comp.getModel();
         final ResponseWriter writer = getWriter();
 
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", getClientId(), "id");
-        writer.writeAttribute("style", getStyle(), "style");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, getClientId(), HTML.id_ATTRIBUTE);
+        writer.writeAttribute(HTML.style_ATTRIBUTE, getStyle(), HTML.style_ATTRIBUTE);
         if (getStyleClass() == null) {
-            writer.writeAttribute("class", "mfWidget", "styleClass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "mfWidget", "styleClass");
         } else {
-            writer.writeAttribute("class", getStyleClass(), "styleClass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, getStyleClass(), "styleClass");
         }
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        super.encodeEnd(context, component);
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void decode(FacesContext context, UIComponent component) {
-        super.decode(context, component);
-    }
 }
