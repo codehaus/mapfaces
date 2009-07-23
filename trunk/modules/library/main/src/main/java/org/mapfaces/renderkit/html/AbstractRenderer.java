@@ -21,6 +21,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.component.UIAbstract;
 import org.mapfaces.models.Context;
 
@@ -41,13 +42,13 @@ public class AbstractRenderer extends WidgetBaseRenderer {
         final Context model   = (Context) comp.getModel();
         final String clientId = comp.getClientId(context);
 
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("style",getStyle(), "style");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
+        writer.writeAttribute(HTML.style_ATTRIBUTE,getStyle(), HTML.style_ATTRIBUTE);
         if (getStyleClass() == null) {
-            writer.writeAttribute("class", "mfMapTitle", "styleClass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "mfMapTitle", "styleClass");
         } else {
-            writer.writeAttribute("class",getStyleClass(), "styleClass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE,getStyleClass(), "styleClass");
         }
         writer.startElement("h3", comp);
 
@@ -57,7 +58,7 @@ public class AbstractRenderer extends WidgetBaseRenderer {
         }
 
         writer.endElement("h3");
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 

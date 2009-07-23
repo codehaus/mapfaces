@@ -20,7 +20,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.component.UIPopup;
 import org.mapfaces.util.FacesUtils;
 

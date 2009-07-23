@@ -23,7 +23,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.component.UIExtPanel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;

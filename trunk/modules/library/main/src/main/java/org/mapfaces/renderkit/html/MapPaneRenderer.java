@@ -26,7 +26,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.geotoolkit.map.MapContext;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;

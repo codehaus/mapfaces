@@ -23,7 +23,8 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
-import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
+
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.component.UIButtonBar;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.util.Utils;
