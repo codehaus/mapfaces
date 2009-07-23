@@ -18,6 +18,7 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +26,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
 import org.geotoolkit.map.MapContext;
-import org.geotoolkit.referencing.CRS;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
@@ -66,7 +67,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
         final String clientId = comp.getClientId(context);
         final Context model;
-        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+        if (comp.getModel() instanceof Context) {
             model = (Context) comp.getModel();
         } else {
             //The model context is null or not a Context instance
@@ -74,7 +75,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
 
         String style = getStyle();
-        String styleClass = getStyleClass();
+        final String styleClass = getStyleClass();
         final ResponseWriter writer = context.getResponseWriter();
 
         final String height = model.getWindowHeight();
@@ -84,7 +85,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             comp.setMaxExtent(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }
 
-        final String id = (String) comp.getAttributes().get("id");
+        final String id = (String) comp.getAttributes().get(HTML.id_ATTRIBUTE);
         if (style == null) {
             style = "width:" + width + "px;height:" + height + "px;z-index:0;";
         } else {
@@ -94,43 +95,43 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "\t the style property of the MapPane is " + style);
         }
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
         if (styleClass == null) {
-            writer.writeAttribute("class", "mfMapPane", "styleClass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "mfMapPane", "styleClass");
         } else {
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, styleClass, "styleClass");
         }
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE, style, HTML.style_ATTRIBUTE);
         /*MapPane ViewPort div*/
         }
-        writer.startElement("div", comp);
+        writer.startElement(HTML.DIV_ELEM, comp);
 
         if (id != null) {
-            writer.writeAttribute("id", id + "_MapFaces_Viewport", "id");
+            writer.writeAttribute(HTML.id_ATTRIBUTE, id + "_MapFaces_Viewport", HTML.id_ATTRIBUTE);
         } else {
-            writer.writeAttribute("id", clientId + "_MapFaces_Viewport", "id");
+            writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "_MapFaces_Viewport", HTML.id_ATTRIBUTE);
         }
-        writer.writeAttribute("style", "overflow: hidden;position:relative;width:100%;height:100%;", "style");
-        writer.writeAttribute("class", "mfMapViewport", "styleClass");
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "overflow: hidden;position:relative;width:100%;height:100%;", HTML.style_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "mfMapViewport", "styleClass");
 
         /*Layers Container div*/
-        writer.startElement("div", comp);
+        writer.startElement(HTML.DIV_ELEM, comp);
 
         if (id != null) {
-            writer.writeAttribute("id", id + "_MapFaces_Container", "id");
+            writer.writeAttribute(HTML.id_ATTRIBUTE, id + "_MapFaces_Container", HTML.id_ATTRIBUTE);
         } else {
-            writer.writeAttribute("id", clientId + "_MapFaces_Container", "id");
+            writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "_MapFaces_Container", HTML.id_ATTRIBUTE);
         }
-        writer.writeAttribute("style", "top:0px;left:0px;position:absolute;z-index: 0;", "style");
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "top:0px;left:0px;position:absolute;z-index: 0;", HTML.style_ATTRIBUTE);
 
         final MapContext mapcontext = (MapContext) comp.getValue();
         if (mapcontext != null) {
             //adding all the MapContext layers  into an allInOne layer.
             final ContextFactory contextFactory = new DefaultContextFactory();
             model.clearMapContextLayers();
-            DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
+            final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
             mcLayer.setMapContext(mapcontext);
             model.addLayer((MapContextLayer) mcLayer);
         }
@@ -151,13 +152,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             }
             if (temp != null && temp.getType() != null) {
                 switch (temp.getType()) {
-                    case DEFAULT:
-                        break;
                     case WMS:
                         final UIWmsLayer layer = new UIWmsLayer();
                         layer.setModel((AbstractModelBase) model);
                         if (temp.getId() != null) {
-                            layer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                            layer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         } else {
                             temp.setId(layer.getId());
                         }
@@ -165,23 +164,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         temp.setCompId(layer.getClientId(context));
                         layer.setLayer((WmsLayer) temp);
                         break;
-                    case WFS:
-                        break;
-                    case WCS:
-                        break;
-                    case SLD:
-                        break;
-                    case FES:
-                        break;
-                    case GML:
-                        break;
-                    case KML:
-                        break;
                     case MAPCONTEXT:
-                        MapContextLayer tmpMContext = (MapContextLayer) temp;
-                        UIMapContextLayer uiMCLayer = new UIMapContextLayer();
+                        final MapContextLayer tmpMContext = (MapContextLayer) temp;
+                        final UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
-                        uiMCLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                        uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         tmpMContext.setCompId(uiMCLayer.getClientId(context));
                         uiMCLayer.setLayer(tmpMContext);
                         if (tmpMContext.getMapContext() != null) {
@@ -190,8 +177,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         comp.getChildren().add(uiMCLayer);
                         break;
                     case FEATURE:
-                        FeatureLayer tmpfeature = (FeatureLayer) temp;
-                        UIFeatureLayer uiFLayer = new UIFeatureLayer();
+                        final FeatureLayer tmpfeature = (FeatureLayer) temp;
+                        final UIFeatureLayer uiFLayer = new UIFeatureLayer();
                         uiFLayer.setModel((AbstractModelBase) model);
                         uiFLayer.setImage(tmpfeature.getImage());
                         uiFLayer.setFeatures(tmpfeature.getFeatures());
@@ -200,7 +187,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         uiFLayer.setBindingIndex(tmpfeature.getGroupId());
 
                         if (temp.getId() != null) {
-                            uiFLayer.getAttributes().put("id", FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmpfeature.getId());
+                            uiFLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmpfeature.getId());
                         } else {
                             tmpfeature.setId(uiFLayer.getId());
                         }
@@ -208,6 +195,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         tmpfeature.setCompId(uiFLayer.getClientId(context));
                         uiFLayer.setLayer(tmpfeature);
                         break;
+
+                    case DEFAULT:
+                    case WFS:
+                    case WCS:
+                    case SLD:
+                    case FES:
+                    case GML:
+                    case KML:
                     default:
                         break;
                 }
@@ -216,7 +211,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         writer.flush();
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] La mappane a  " + comp.getChildren().size() + " fils");
+            LOGGER.log(Level.INFO, "[DEBUG]  mappane has " + comp.getChildren().size() + " childrens");
         }
         //Setting the model to all children of the MapPane component
         for (final UIComponent tmp : comp.getChildren()) {
@@ -251,7 +246,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
                     //Create an array whjo contains all the MapFaces layers to add for a specific MapPane
                     stringBuilder.
-                           
+
                             append("window.layerToAdd").append(jsMapVariable).append(".push(function() {").
                             //If OpenLayers classes are correctly loaded
                             append("if (window.OpenLayers &&  window.OpenLayers.Layer && window.OpenLayers.Layer.MapFaces) {").
@@ -282,7 +277,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             LOGGER.log(Level.INFO, "[DEBUG] MapPaneRenderer ENCOD END");
         }
         final Context model;
-        if (comp.getModel() != null && comp.getModel() instanceof Context) {
+        if (comp.getModel() instanceof Context) {
             model = (Context) comp.getModel();
         } else {
             //The model context is null or not an Context instance
@@ -291,18 +286,18 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         final ResponseWriter writer = context.getResponseWriter();
         // ... ending the started elements
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         /* Construct OpenLayers Map Object */
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", "text/javascript");
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", HTML.TYPE_ATTR);
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
 //        String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);
-        String jsObject = FacesUtils.getJsVariableFromClientId(comp.getClientId(context));
-        final String srs = model.getSrs().toUpperCase();
+        final String jsObject = FacesUtils.getJsVariableFromClientId(comp.getClientId(context));
+        final String srs = model.getSrs().toUpperCase(Locale.getDefault());
 
-        StringBuilder stringBuilder = new StringBuilder("")
+        final StringBuilder stringBuilder = new StringBuilder("")
                 /**
                  * If window.maps (list of the maps)  doesn't exist , we create it;
                  */
@@ -500,8 +495,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
 
         writer.write(stringBuilder.toString());
-        writer.endElement("script");
-        writer.endElement("div");
+        writer.endElement(HTML.SCRIPT_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
