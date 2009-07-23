@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,7 +78,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
         final UIDataRequest comp = (UIDataRequest) component;
         final String clientId = comp.getClientId(context);
-        ResponseWriter responseWriter = context.getResponseWriter();
+        final ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.startElement("div", comp);
         responseWriter.writeAttribute("id", clientId, "id");
     }
@@ -99,20 +100,21 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
 
             HtmlAjaxSupport a4jSupport = null;
-            if (comp.getFacets().containsKey("a4jsupport")) {
-                a4jSupport = (HtmlAjaxSupport) comp.getFacets().get("a4jsupport");
+            final String a4jsupportFacetKey = "a4jsupport";
+            if (comp.getFacets().containsKey(a4jsupportFacetKey)) {
+                a4jSupport = (HtmlAjaxSupport) comp.getFacets().get(a4jsupportFacetKey);
             } else {
                 a4jSupport = FacesUtils.createBasicAjaxSupport(context, comp, "", rerender);
-                comp.getFacets().put("a4jsupport", a4jSupport);
+                comp.getFacets().put(a4jsupportFacetKey, a4jSupport);
             }
             String formId = FacesUtils.getFormId(context, component);
             if (formId == null && clientId.contains(":")) {
-                formId = clientId.substring(0, clientId.indexOf(":"));
+                formId = clientId.substring(0, clientId.indexOf(':'));
             }
             if (comp.isInvokeActions()) {
 
                 String targetregion = formId;
-                String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
+                final String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
                 if (clientIdAjaxRegion != null) {
                     targetregion = clientIdAjaxRegion;
                 }
@@ -168,31 +170,38 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         final Map params = context.getExternalContext().getRequestParameterMap();
         if (params != null) {
             final Context model = (Context) comp.getModel();
-            String X = "170";
-            String Y = "160";
+            String x = "170";
+            String y = "160";
 
-            if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getFeatureInfo") //                    && params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context)))
+            //@TODO these keys should be in static utility class but where?
+            final String mfActionKey = "org.mapfaces.ajax.ACTION";
+            final String mfGfiXKey = "org.mapfaces.ajax.ACTION_GETFEATUREINFO_X";
+            final String mfGfiYKey = "org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y";
+            final String mfGfiLatKey = "org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT";
+            final String mfGfiLonKey = "org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON";
+
+            if (params.get(mfActionKey) != null && ((String) params.get(mfActionKey)).equals("getFeatureInfo") //                    && params.get("refresh") != null && params.get("refresh").equals(comp.getClientId(context)))
                     ) {
-                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y") != null) {
-                    Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
+                if (params.get(mfGfiYKey) != null) {
+                    y = (String) params.get(mfGfiYKey);
 
                     if (popup != null) {
-                        final int realTop = (new Integer(Y)) - popup.getHeight();
+                        final int realTop = (new Integer(y)) - popup.getHeight();
                         popup.setTop("top:" + realTop + "px;");
                     }
                 }
-                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X") != null) {
-                    X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
+                if (params.get(mfGfiXKey) != null) {
+                    x = (String) params.get(mfGfiXKey);
                     if (popup != null) {
-                        final int realLeft = (new Integer(X)) - (popup.getWidth() / 2);
+                        final int realLeft = (new Integer(x)) - (popup.getWidth() / 2);
                         popup.setLeft("left:" + realLeft + "px;");
                     }
                 }
 
                 //setting to the component the real latitude and logitude by calculating from pixels.
                 //setting the values lat and lon expressions if not null
-                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT") != null) {
-                    final double lat = Double.parseDouble((String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LAT"));
+                if (params.get(mfGfiLatKey) != null) {
+                    final double lat = Double.parseDouble((String) params.get(mfGfiLatKey));
                     final ValueExpression veLat = comp.getValueExpression("outputLatitude");
                     if (veLat != null) {
                         veLat.setValue(context.getELContext(), lat);
@@ -200,8 +209,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     }
                     comp.setOutputLatitude(lat);
                 }
-                if (params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON") != null) {
-                    final double lon = Double.parseDouble((String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_LON"));
+                if (params.get(mfGfiLonKey) != null) {
+                    final double lon = Double.parseDouble((String) params.get(mfGfiLonKey));
                     final ValueExpression veLon = comp.getValueExpression("outputLongitude");
                     if (veLon != null) {
                         veLon.setValue(context.getELContext(), lon);
@@ -211,7 +220,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
 
                 //QUERY_LAYERS attribute for each server
-                HashMap<String, List<WmsLayer>> wmsServers = new HashMap<String, List<WmsLayer>>();
+                final HashMap<String, List<WmsLayer>> wmsServers = new HashMap<String, List<WmsLayer>>();
                 final List<Feature> featureInfoList = new ArrayList<Feature>();
                 final List<String> featureInfoValues = new ArrayList<String>();
                 //List of request url to send. Result of this request will be display in UIPopup
@@ -220,10 +229,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 final String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
                 final String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "1000";
 
-                int loop = 0;
-                boolean FeatureLayerExist = false;
-
-                List<Layer> queryableAndVisibleLayers = model.getQueryableAndVisibleLayers();
+                final List<Layer> queryableAndVisibleLayers = model.getQueryableAndVisibleLayers();
                 //System.out.println("nombre de lauers visible et queryable : " + queryableAndVisibleLayers.size());
                 for (Layer queryLayer : queryableAndVisibleLayers) {
                     if (queryLayer != null && queryLayer.getType() != null) {
@@ -240,11 +246,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                                 if (!comp.isFeatureLayerOnly() && !skipLayer) {
                                     //Range Layer by Server
-                                    WmsLayer wmsLayer = (WmsLayer) queryLayer;
+                                    final WmsLayer wmsLayer = (WmsLayer) queryLayer;
                                     if (wmsServers.containsKey(wmsLayer.getServer().getHref())) {
                                         wmsServers.get(wmsLayer.getServer().getHref()).add(wmsLayer);
                                     } else {
-                                        List<WmsLayer> list = new ArrayList<WmsLayer>();
+                                        final List<WmsLayer> list = new ArrayList<WmsLayer>();
                                         list.add(wmsLayer);
                                         wmsServers.put(wmsLayer.getServer().getHref(), list);
                                     }
@@ -265,18 +271,17 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             case MAPCONTEXT:
                                 break;
                             case FEATURE:
-                                FeatureLayer temp = (FeatureLayer) queryLayer;
-                                Map mapFeaturesLayer = new HashMap<String, Feature>();
-
-                                FeatureLayerExist = true;
-                                final String featureInfo_X = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_X");
-                                final String featureInfo_Y = (String) params.get("org.mapfaces.ajax.ACTION_GETFEATUREINFO_Y");
+                                final FeatureLayer temp = (FeatureLayer) queryLayer;
+                                final Map mapFeaturesLayer = new HashMap<String, Feature>();
+                                
+                                final String featureInfoX = (String) params.get(mfGfiXKey);
+                                final String featureInfoY = (String) params.get(mfGfiYKey);
 
                                 MapContext mapContext;
                                 MutableStyle mutableStyle = null;
                                 //building a FeatureCollection for this layer.
-                                FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
-                                SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+                                final FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
+                                final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 
                                 try {
                                     mutableStyle = FacesUtils.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
@@ -287,7 +292,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
                                 if (temp.getFeatures() != null && temp.getFeatures().size() != 0) {
 
-                                    Feature f = temp.getFeatures().get(0);
+                                    final Feature f = temp.getFeatures().get(0);
                                     builder.setName(f.getName());
                                     layerCrs = f.getCrs();
                                     builder.setCRS(layerCrs);
@@ -306,12 +311,12 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         mapFeaturesLayer.put(f.getId(), f);
                                     }
 
-                                    List<Object> objects = new ArrayList<Object>();
+                                    final List<Object> objects = new ArrayList<Object>();
                                     for (String key : f.getAttributes().keySet()) {
                                         objects.add(f.getAttributes().get(key));
                                     }
 
-                                    SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(f.getId()));
+                                    final SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(f.getId()));
                                     features.add(sf);
                                 }
 
@@ -319,8 +324,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 mapLayer.setSelectable(true);
                                 mapContext = MapBuilder.createContext(layerCrs);
                                 mapContext.layers().add(mapLayer);
-                                Rectangle rect = new Rectangle(Integer.parseInt(featureInfo_X), Integer.parseInt(featureInfo_Y), 1, 1);
-                                FeatureVisitor featureVisitor = new FeatureVisitor();
+                                final Rectangle rect = new Rectangle(Integer.parseInt(featureInfoX), Integer.parseInt(featureInfoY), 1, 1);
+                                final FeatureVisitor featureVisitor = new FeatureVisitor();
                                 try {
                                     DefaultPortrayalService.visit(mapContext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
                                 } catch (PortrayalException ex) {
@@ -330,9 +335,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 //Adding the resulting feature into the final list of features for dataResult ValueExpression value.
                                 for (org.opengis.feature.Feature f : featureVisitor.getFeatureList()) {
                                     if (f instanceof org.opengis.feature.simple.SimpleFeature) {
-                                        org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
+                                        final org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
 
-                                        Feature resultFeature = (Feature) mapFeaturesLayer.get(ff.getID());
+                                        final Feature resultFeature = (Feature) mapFeaturesLayer.get(ff.getID());
                                         if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
                                             featureInfoList.add(resultFeature);
                                         }
@@ -348,28 +353,28 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 //Probably use only for getfeatureinfo
                 if (wmsServers.size() > 0) {
                     //building the getfeatureInfo request for each wms server
-                    Iterator<String> it = wmsServers.keySet().iterator();
+                    final Iterator<String> it = wmsServers.keySet().iterator();
                     while (it.hasNext()) {
-                        String href = it.next();
-                        StringBuilder featureInfoRequest = new StringBuilder();
+                        final String href = it.next();
+                        final StringBuilder featureInfoRequest = new StringBuilder();
                         featureInfoRequest.append(href);
-                        featureInfoRequest.append(((featureInfoRequest.toString().contains("?")) ? "&" : "?")).
+                        featureInfoRequest.append((featureInfoRequest.toString().contains("?") ? "&" : "?")).
                                 append("BBOX=").append(model.getBoundingBox()).
                                 append("&STYLES=").
                                 append("&FORMAT=").append("image/gif").
-                                append("&INFO_FORMAT=").append(comp.getOutputFormat()). //info_format is specified on the tag of the component default to text/plain, other cass hasn't be tested
+                                append("&INFO_FORMAT=").append(outputFormat). //info_format is specified on the tag of the component default to text/plain, other cass hasn't be tested
                                 append("&VERSION=1.1.1").
-                                append("&SRS=").append(model.getSrs().toUpperCase()).
+                                append("&SRS=").append(model.getSrs().toUpperCase(Locale.getDefault())).
                                 append("&REQUEST=GetFeatureInfo").
                                 append("&WIDTH=").append(model.getWindowWidth()).
                                 append("&HEIGHT=").append(model.getWindowHeight()).
-                                append("&X=").append(X).
-                                append("&Y=").append(Y).
+                                append("&X=").append(x).
+                                append("&Y=").append(y).
                                 append("&SERVICE=WMS").
                                 append("&FEATURE_COUNT=").append(featureCount);
-                        List<WmsLayer> list = wmsServers.get(href);
-                        boolean requestHasElevationParam = false;
-                        boolean requestHasTimeParam = false;
+                        final List<WmsLayer> list = wmsServers.get(href);
+                        final boolean requestHasElevationParam = false;
+                        final boolean requestHasTimeParam = false;
                         String layers = "";
                         for (WmsLayer wmsLayer : list) {
 
@@ -378,7 +383,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             if (wmsLayer.getElevation() != null) {
                                 elevationValue = wmsLayer.getElevation().getUserValue();
                                 if (elevationValue != null && !elevationValue.equals("") && !requestHasElevationParam) {
-                                    requestHasElevationParam = true;
                                     featureInfoRequest.append("&ELEVATION=").append(elevationValue);
                                 }
                             }
@@ -407,7 +411,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     for (String request : requestUrlList) {
                        if (debug)
                            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "GetfeatureInfo url requested : "+request);
-                        FeatureInfoThread fiThread = new FeatureInfoThread(wmsFeatureInfoValues, request);
+                        final FeatureInfoThread fiThread = new FeatureInfoThread(wmsFeatureInfoValues, request);
                         fiThread.start();
                         runList.add(fiThread);
 
@@ -428,15 +432,16 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
 
                 //setting the value expression for dataResult if not null
-                ValueExpression ve = comp.getValueExpression("dataResult");
+                final String veDataResultKey = "dataResult";
+                final ValueExpression ve = comp.getValueExpression(veDataResultKey);
                 if (ve != null) {
                     ve.setValue(context.getELContext(), featureInfoList);
-                    comp.setValueExpression("dataResult", ve);
+                    comp.setValueExpression(veDataResultKey, ve);
                 }
                 comp.setDataResult(featureInfoList);
 
                 //setting the value expression for featureInfoValues if not null
-                ValueExpression veVal = comp.getValueExpression("featureInfoValues");
+                final ValueExpression veVal = comp.getValueExpression("featureInfoValues");
                 if (veVal != null) {
                     veVal.setValue(context.getELContext(), featureInfoValues);
                     comp.setValueExpression("featureInfoValues", veVal);
@@ -444,7 +449,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 comp.setFeatureInfoValues(featureInfoValues);
 
                 //setting the value expression for requestUrlList if not null.
-                ValueExpression veLog = comp.getValueExpression("requestUrlList");
+                final ValueExpression veLog = comp.getValueExpression("requestUrlList");
                 if (veLog != null) {
                     veLog.setValue(context.getELContext(), requestUrlList);
                     comp.setValueExpression("requestUrlList", veLog);
@@ -478,7 +483,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                 if (popup != null && !comp.isFeatureLayerOnly()) {
 
-                    StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).
+                    final StringBuilder innerHtml = new StringBuilder("<div style='width:").append(innerWidth).
                             append("px;height:").append(innerHeight).
                             append("px;overflow" + (popup.isIframe() ? "hidden" : "auto") + "font-size:11px;font-family:Arial;'>");
 
@@ -508,13 +513,13 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     //setting the value expression for dataResult if not null
                     if (ve != null && (ve.getValue(context.getELContext()) instanceof String)) {
                         ve.setValue(context.getELContext(), innerHtml);
-                        comp.setValueExpression("dataResult", ve);
+                        comp.setValueExpression(veDataResultKey, ve);
                     }
                     comp.setDataResult(innerHtml);
 
                 }
 
-            } else if (params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("getCoverage")) {
+            } else if (params.get(mfActionKey) != null && ((String) params.get(mfActionKey)).equals("getCoverage")) {
 
                 final Layer queryLayer = model.getVisibleLayers().get(model.getVisibleLayers().size() - 1);
 
@@ -528,17 +533,18 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     }
 
                     innerHTML.append("<iframe style='display:none' id='popup' name='popup' src='").
-                            append(serverHref.substring(0, serverHref.lastIndexOf("/"))).
+                            append(serverHref.substring(0, serverHref.lastIndexOf('/'))).
                             append("/wcs?BBOX=").
                             append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_AOI"));
 
                     if (queryLayer.getElevation() != null) {
-                        String elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
+                        final String elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
                         innerHTML.append(',').append(elevation);
                     }
-
                     innerHTML.append("&STYLES=").append("&FORMAT=").
-                            append((String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT")).
+                            append(
+                            (params.containsKey("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") ?
+                                (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") : "matrix")).
                             append("&VERSION=1.0.0").
                             append("&CRS=").append(model.getSrs()).
                             append("&REQUEST=GetCoverage'").
@@ -547,8 +553,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             append("&HEIGHT=").append(windowPixel[1]);
 
                     if (queryLayer.getTime() != null) {
-                        String time = time = queryLayer.getTime().getUserValue();
-                        innerHTML.append("&TIME=" + time);
+                        innerHTML.append("&TIME=" + queryLayer.getTime().getUserValue());
                     }
 
                     innerHTML.append("'></iframe>");
@@ -566,14 +571,13 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             comp.setModel((AbstractModelBase) model);
 
         }
-        return;
     }
 
 
     private static class FeatureInfoThread extends Thread {
 
-        final private Map<String, String> map;
-        final private String url;
+        private final Map<String, String> map;
+        private final String url;
 
         public FeatureInfoThread(Map<String, String> map, String url) {
             this.map = map;
@@ -582,9 +586,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
         @Override
         public void run() {
-            long d1 = System.currentTimeMillis();
+            final long d1 = System.currentTimeMillis();
             try {
-                String response = (String) FacesUtils.sendRequest(url, null, null, null);
+                final String response = (String) FacesUtils.sendRequest(url, null, null, null);
                 if (response != null) {
                     map.put(url, response);
                 }
@@ -593,8 +597,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             } catch (IOException ex) {
                 Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            long d2 = System.currentTimeMillis();
-            long diff = d2 - d1;
+            final long d2 = System.currentTimeMillis();
+            final long diff = d2 - d1;
             Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer(s) "+FacesUtils.getParameterValue("LAYERS", url)+"  in "+diff+" ms.");
 
         }
