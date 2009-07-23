@@ -16,6 +16,7 @@
  */
 package org.mapfaces.renderkit.html;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,10 +66,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] \t\tparams.get('bbox'') = " + bbox);
-            LOGGER.log(Level.INFO, "[DEBUG] \t\tmodel.getbbox = " + model.getMinx() + "," + model.getMiny().toString() + "," + model.getMaxx() + "," + model.getMaxy());
+            LOGGER.log(Level.INFO, "[DEBUG] \t\tmodel.getbbox = " + model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }
 
-        if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny().toString() + "," + model.getMaxx() + "," + model.getMaxy())) {
+        if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy())) {
             model.setMinx(bbox.split(",")[0]);
             model.setMiny(bbox.split(",")[1]);
             model.setMaxx(bbox.split(",")[2]);
@@ -97,12 +98,18 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
                 final String layerProperty = params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID");
                 if (layerProperty != null && value != null) {
+                    final String opacityKey = "opacity";
+                    final String hiddenKey = "hidden";
+                    final String timeKey = "time";
+                    final String elevationKey = "elevation";
+                    final String dimrangeKey = "dimrange";
+                    final String uservalueKey = "uservalue";
                     //Modify Context property
-                    if (layerProperty.toLowerCase().contains("hidden")) {
-                        final boolean hidden = (value.equals("true"));
+                    if (layerProperty.toLowerCase(Locale.getDefault()).contains(hiddenKey)) {
+                        final boolean hidden = value.equals("true");
                         //                    tmp.setLayerHidden(layer.getId(), test);
                         if (layer instanceof DefaultWmsGetMapLayer) {
-                            String sldIdentifier = params.get("WmsGetMapEntry_SLD_identifier");
+                            final String sldIdentifier = params.get("WmsGetMapEntry_SLD_identifier");
                             layer.setHidden(hidden, sldIdentifier);
                         } else {
                             layer.setHidden(hidden);
@@ -110,40 +117,50 @@ public class LayerRenderer extends WidgetBaseRenderer {
 
                         layer.setDisplayable(layer.isDisplayable(MapUtils.getScale(model)));
                         if (isDebug()) {
-                            LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property hidden of the layer " + layer.getId() + " has been modified :" + model.isLayerHidden(layer.getId()));
+                            LOGGER.log(Level.INFO,
+                                    this.debugChangePropertyMessage(hiddenKey,
+                                        layer.getId(),
+                                        String.valueOf(model.isLayerHidden(layer.getId()))));
                         }
 
-                    } else if (layerProperty.toLowerCase().contains("opacity")) {
+                    } else if (layerProperty.toLowerCase().contains(opacityKey)) {
                         model.setLayerOpacity(layer.getId(), value);
                         if (isDebug()) {
-                            LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property opacity of the layer " + layer.getId() + " has been modified :" + model.getLayerOpacity(layer.getId()));
+                            LOGGER.log(Level.INFO, 
+                                    this.debugChangePropertyMessage(opacityKey,
+                                        layer.getId(),
+                                        String.valueOf(model.getLayerOpacity(layer.getId()))));
                         }
 
-                    } else if (layerProperty.toLowerCase().contains("time")) {
-                        if (value == null) {
-                            value = "";
-                        }
+                    } else if (layerProperty.toLowerCase().contains(timeKey)) {
+                        model.setLayerAttrDimension(layer.getId(), timeKey, uservalueKey, value);
 
-                        model.setLayerAttrDimension(layer.getId(), "time", "userValue", value);
                         if (isDebug()) {
-                            LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property time of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "time", "userValue"));
+                            LOGGER.log(Level.INFO,
+                                    this.debugChangePropertyMessage(timeKey,
+                                        layer.getId(),
+                                        String.valueOf(model.getLayerAttrDimension(layer.getId(), timeKey, uservalueKey))));
                         }
 
-                    } else if (layerProperty.toLowerCase().contains("elevation")) {
-                        if (value == null) {
-                            value = "";
-                        }
+                    } else if (layerProperty.toLowerCase().contains(elevationKey)) {
+                        model.setLayerAttrDimension(layer.getId(), elevationKey, uservalueKey, value);
 
-                        model.setLayerAttrDimension(layer.getId(), "elevation", "userValue", value);
                         if (isDebug()) {
-                            LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property elevation of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "elevation", "userValue"));
-                        }
+                            LOGGER.log(Level.INFO,
+                                    this.debugChangePropertyMessage(elevationKey,
+                                        layer.getId(),
+                                        String.valueOf(model.getLayerAttrDimension(layer.getId(), elevationKey, uservalueKey))));
+                         }
 
-                    } else if (layerProperty.toLowerCase().contains("dimrange")) {
-                        model.setLayerAttrDimension(layer.getId(), "dim_range", "userValue", value);
+                    } else if (layerProperty.toLowerCase().contains(dimrangeKey)) {
+                        model.setLayerAttrDimension(layer.getId(), "dim_range", uservalueKey, value);
+                        
                         if (isDebug()) {
-                            LOGGER.log(Level.INFO, "[DEBUG] \t\tThe property dim_range of the layer " + layer.getId() + " has been modified :" + model.getLayerAttrDimension(layer.getId(), "dim_range", "userValue"));
-                        }
+                            LOGGER.log(Level.INFO,
+                                    this.debugChangePropertyMessage(dimrangeKey,
+                                        layer.getId(),
+                                        String.valueOf(model.getLayerAttrDimension(layer.getId(), "dim_range", uservalueKey))));
+                         }                     
 
                     }
                 }
@@ -158,9 +175,10 @@ public class LayerRenderer extends WidgetBaseRenderer {
         comp.setModel((AbstractModelBase) model);
         comp.setLayer(model.getLayerFromId(layer.getId()));
 
-        return;
     }
-
+    private String debugChangePropertyMessage( String property, String id, String value) {
+        return "[DEBUG] \t\tThe property " + property + " of the component " + id + " has been modified : " + value;
+    }
     /**
      * {@inheritDoc }
      */
