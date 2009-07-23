@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.component.UILocatorMap;
 import org.mapfaces.models.Context;
 import org.mapfaces.taglib.LocatorMapTag;

@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.component.UICursorTrack;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.taglib.CursorTrackTag;
@@ -57,18 +58,18 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         final UICursorTrack comp = (UICursorTrack) component;
         final String clientId    = comp.getClientId(context);
 
-        writer.startElement("div", comp);
-        writer.writeAttribute("id",clientId,"id");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE,clientId,HTML.id_ATTRIBUTE);
            
         if (getStyleClass() == null)
-            writer.writeAttribute("class","mf"+CursorTrackTag.COMP_TYPE.substring(CursorTrackTag.COMP_TYPE.lastIndexOf(".")+1,CursorTrackTag.COMP_TYPE.length()),"styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE,"mf"+CursorTrackTag.COMP_TYPE.substring(CursorTrackTag.COMP_TYPE.lastIndexOf(".")+1,CursorTrackTag.COMP_TYPE.length()),"styleclass");
         else
-            writer.writeAttribute("class",getStyleClass(),"styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE,getStyleClass(),"styleclass");
         if (getStyle() != null)
-            writer.writeAttribute("style",getStyle(),"style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE,getStyle(),HTML.style_ATTRIBUTE);
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", "text/javascript");
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "text/javascript", "text/javascript");
 
        
         /*
@@ -110,8 +111,8 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         append("    } ").
         append("}); ").
         append("window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1](); ").toString());
-        writer.endElement("script");
-        writer.endElement("div");
+        writer.endElement(HTML.SCRIPT_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
 
     }
