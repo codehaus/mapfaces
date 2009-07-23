@@ -24,6 +24,6 @@ import javax.faces.context.FacesContext;
  */
 public interface A4JInterface {
 
-    public void A4JPostRequest(FacesContext context);
+    void A4JPostRequest(FacesContext context);
     
 }
