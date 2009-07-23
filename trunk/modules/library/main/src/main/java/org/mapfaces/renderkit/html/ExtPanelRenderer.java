@@ -18,12 +18,12 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
 import org.mapfaces.component.UIExtPanel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.FacesUtils;
@@ -34,7 +34,7 @@ import org.mapfaces.util.FacesUtils;
  */
 public class ExtPanelRenderer extends Renderer {
 
-    private static final Logger LOGGER = Logger.getLogger(ExtPanelRenderer.class.getName());
+    //private static final Logger LOGGER = Logger.getLogger(ExtPanelRenderer.class.getName());
 
     /**
      * {@inheritDoc }
@@ -47,8 +47,7 @@ public class ExtPanelRenderer extends Renderer {
         assertValid(context, component);
         
         final UIExtPanel comp = (UIExtPanel) component;
-
-        final boolean debug = comp.isDebug();
+        //final boolean debug = comp.isDebug();
         final String clientId = comp.getClientId(context);
         final String title = (comp.getTitle() != null)? comp.getTitle()  : "";
         final String style = (comp.getStyle() != null)? comp.getStyle() : "";
@@ -61,96 +60,94 @@ public class ExtPanelRenderer extends Renderer {
         final int height = ( comp.getHeight() != 0)? comp.getHeight() : 200;
 
         //begin to render the component.
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
         
         //Write the css once per page
         final ExternalContext extContext = context.getExternalContext();
         if (! extContext.getRequestMap().containsKey("cssflag.ExtPanel")) {
             extContext.getRequestMap().put("cssflag.ExtPanel", Boolean.TRUE);
-            writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/css/ext-widgets.css", null) + "\"/>");
+            writer.write("<link rel='stylesheet' type='text/css' href='" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/css/ext-widgets.css", null) + "'/>");
         }
         
         
-        writer.startElement("div", component);
-        writer.writeAttribute("id", clientId, "clientId");
-        writer.writeAttribute("style", "left: 0px; top: 0px; width: "+width+"px; " + style, "style");
-        writer.writeAttribute("class", "x-panel x-border-panel " + styleClass, "styleclass");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, "clientId");
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "left: 0px; top: 0px; width: "+width+"px; " + style, HTML.style_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel x-border-panel " + styleClass, "styleclass");
 
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-tl", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-tl", HTML.class_ATTRIBUTE);
 
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-tr", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-tr", HTML.class_ATTRIBUTE);
 
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-tc", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-tc", HTML.class_ATTRIBUTE);
 
-        writer.startElement("div", component);
-        writer.writeAttribute("id", clientId + "-ext-panel-head", "id");
-        writer.writeAttribute("class", "x-panel-header x-unselectable " + headerStyleClass, "class");
-        writer.writeAttribute("style", "height:15px; "+headerStyle, "style");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "-ext-panel-head", HTML.id_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-header x-unselectable " + headerStyleClass, HTML.class_ATTRIBUTE);
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "height:15px; "+headerStyle, HTML.style_ATTRIBUTE);
 
-        writer.startElement("span", component);
-        writer.writeAttribute("id", component.getClientId(context) + "-ext-panel-title", "id");
+        writer.startElement(HTML.SPAN_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, component.getClientId(context) + "-ext-panel-title", HTML.id_ATTRIBUTE);
         writer.write(title);
-        writer.endElement("span");
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div"); //end of head divs
+        writer.endElement(HTML.SPAN_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM); //end of head divs
         
-        writer.startElement("div", component);
-        writer.writeAttribute("id", clientId + "-ext-panel-body", "id");
-        writer.writeAttribute("class", "x-panel-bwrap "+bodyStyleClass, "class");
-        writer.writeAttribute("style", "width: "+width+"px;height:"+height+"px;"+bodyStyle, "style");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "-ext-panel-body", HTML.id_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-bwrap "+bodyStyleClass, HTML.class_ATTRIBUTE);
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "width: "+width+"px;height:"+height+"px;"+bodyStyle, HTML.style_ATTRIBUTE);
         
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-ml", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-ml", HTML.class_ATTRIBUTE);
                 
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-mr", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-mr", HTML.class_ATTRIBUTE);
         
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-mc", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-mc", HTML.class_ATTRIBUTE);
         
-        writer.startElement("div", component);
-        writer.writeAttribute("id", clientId + "-ext-panel-content", "id");
-        writer.writeAttribute("class", "x-panel-body " + bodyStyleClass, "class");
-        writer.writeAttribute("style", "height: "+(height - 15)+"px; width: 100%; "+bodyStyle, "style");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "-ext-panel-content", HTML.id_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-body " + bodyStyleClass, HTML.class_ATTRIBUTE);
+        writer.writeAttribute(HTML.style_ATTRIBUTE, "height: "+(height - 15)+"px; width: 100%; "+bodyStyle, HTML.style_ATTRIBUTE);
         
         writer.flush();
     }
 
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         
-        ResponseWriter writer = context.getResponseWriter();
+        final ResponseWriter writer = context.getResponseWriter();
         
         
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div"); //end of body divs
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM); //end of body divs
         
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-bl x-panel-nofooter", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-bl x-panel-nofooter", HTML.class_ATTRIBUTE);
         
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-br", "class");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-br", HTML.class_ATTRIBUTE);
         
-        writer.startElement("div", component);
-        writer.writeAttribute("class", "x-panel-bc", "class");
-        writer.endElement("div");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "x-panel-bc", HTML.class_ATTRIBUTE);
+        writer.endElement(HTML.DIV_ELEM);
         
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
-    public void decode(FacesContext context, UIComponent component) {
-        return;
-    }
     
     /**
      * {@inheritDoc }
