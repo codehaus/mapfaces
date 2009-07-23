@@ -22,10 +22,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
+import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
 import org.mapfaces.component.UIEditionBar;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.util.Utils;
 import org.mapfaces.util.FacesUtils;
 
 /**
@@ -47,7 +46,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
         
         //Find UIMapPane refers to this widget 
         String mapJsVariable = null ;
-        UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
                 mapJsVariable = FacesUtils.getJsVariableFromClientId(uIMapPane.getClientId(context));
         } else {
@@ -61,26 +60,26 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
 
         String formId = FacesUtils.getFormId(context, component);
         if (formId == null && clientId.contains(":")) {
-            formId = clientId.substring(0, clientId.indexOf(":"));
+            formId = clientId.substring(0, clientId.indexOf(':'));
         }
 
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
 
-        final String style = (String) comp.getAttributes().get("style");
+        final String style = (String) comp.getAttributes().get(HTML.style_ATTRIBUTE);
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE, style, HTML.style_ATTRIBUTE);
         } else {
-            writer.writeAttribute("style", "position:absolute;z-index:150;", "style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE, "position:absolute;z-index:150;", HTML.style_ATTRIBUTE);
         }
         final String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) {
-            writer.writeAttribute("class", styleclass, "styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, styleclass, "styleclass");
         } else {
-            writer.writeAttribute("class", "mfEditionBar", "styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "mfEditionBar", "styleclass");
         }
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", "text/javascript");
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
 
         
         writer.write(new StringBuilder("").append("if(!window.controlToAdd" + mapJsVariable + "){window.controlToAdd" + mapJsVariable + " = [];}").
@@ -97,7 +96,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
             }
             
             //Name of the js variable in client side
-            String controlJsVariable = FacesUtils.getJsVariableFromClientId(clientId);
+            final String controlJsVariable = FacesUtils.getJsVariableFromClientId(clientId);
 //            /**
 //             *TBD
 //             *Test for editing tools 
@@ -153,20 +152,20 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
                 writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);");
                 writer.write("" + controlJsVariable + "_Snapping.activate();");
             }
-            if (comp.isSplit()) {
+//            if (comp.isSplit()) {
 //This control is not enough robust
 //                writer.write("" + controlJsVariable + "_Split = new OpenLayers.Control.Split({layer: window.editingLayer, source: window.editingLayer,tolerance: 0.0001});");
 //                writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + "_Split);");
 //                writer.write("" + controlJsVariable + "_Split.activate();");
-            }
+//            }
 
             writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + ");");
             writer.write("}" +
                     "});" +
                     "window.controlToAdd" + mapJsVariable + "[window.controlToAdd" + mapJsVariable + ".length-1]();");
             }
-        writer.endElement("script");
-        writer.endElement("div");
+        writer.endElement(HTML.SCRIPT_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
