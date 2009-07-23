@@ -30,7 +30,7 @@ public class UITimeColumn extends UIImgColumn {
     /**
      * This property is used only in LayerControlRenderer to define a basic id for this Column.
      */
-    private static final String layerProperty = "Time";
+    private static final String LAYER_PROPERTY = "Time";
 
     private String layerId;
     private String imgData = "/resource.jsf?r=/org/mapfaces/resources/img/calendar_select.png";
@@ -44,7 +44,7 @@ public class UITimeColumn extends UIImgColumn {
     }
 
     public String getLayerProperty() {
-        return layerProperty;
+        return LAYER_PROPERTY;
     }
 
     /**

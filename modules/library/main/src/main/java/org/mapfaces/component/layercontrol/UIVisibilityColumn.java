@@ -37,10 +37,6 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
 
     private String layerId;
 
-    public UIVisibilityColumn(){
-        super();
-    }
-
     /**
      * {@inheritDoc }
      */
