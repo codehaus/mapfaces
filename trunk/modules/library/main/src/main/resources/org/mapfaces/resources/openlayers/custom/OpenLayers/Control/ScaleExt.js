@@ -80,7 +80,7 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control.Scale, {
         } else if (scale < 1000) {
             scaleStr=scale;
         }
-        this.element.innerHTML = OpenLayers.i18n("scale", {'scaleDenom':scaleStr+" "+unitsStr});
+        this.element.innerHTML = OpenLayers.i18n("scale", {'scaleDenom':scaleStr});//+" "+unitsStr});
     },
     /**
      * Method: setMap
