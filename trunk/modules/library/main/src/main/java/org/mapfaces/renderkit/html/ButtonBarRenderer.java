@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
+import org.ajax4jsf.framework.renderer.RendererUtils.HTML;
 import org.mapfaces.component.UIButtonBar;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.util.Utils;
@@ -47,7 +48,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         
         //Find UIMapPane refers to this widget 
         String jsObject = null ;
-        UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
                 jsObject = uIMapPane.getClientId(context);
         } else {
@@ -61,26 +62,26 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
 
         String formId = FacesUtils.getFormId(context, component);
         if (formId == null && clientId.contains(":")) {
-            formId = clientId.substring(0, clientId.indexOf(":"));
+            formId = clientId.substring(0, clientId.indexOf(':'));
         }
 
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "id");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
 
-        final String style = (String) comp.getAttributes().get("style");
+        final String style = (String) comp.getAttributes().get(HTML.style_ATTRIBUTE);
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE, style, HTML.style_ATTRIBUTE);
         } else {
-            writer.writeAttribute("style", "position:absolute;z-index:150;", "style");
+            writer.writeAttribute(HTML.style_ATTRIBUTE, "position:absolute;z-index:150;", HTML.style_ATTRIBUTE);
         }
         final String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) {
-            writer.writeAttribute("class", styleclass, "styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, styleclass, "styleclass");
         } else {
-            writer.writeAttribute("class", "mfButtonBar", "styleclass");
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "mfButtonBar", "styleclass");
         }
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", "text/javascript");
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
 
         
         /*
@@ -149,8 +150,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             }
             if (comp.isFeatureInfo()) {
                 final String rerender = comp.getReRender();
-                String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
-                String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
+                final String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
+                final String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
 
                 writer.write(",getFeatureInfo: true");
                 if (idsToRefresh != null) {
@@ -196,8 +197,8 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
                     "});" +
                     "window.controlToAdd" + jsObject + "[window.controlToAdd" + jsObject + ".length-1]();");
             }
-        writer.endElement("script");
-        writer.endElement("div");
+        writer.endElement(HTML.SCRIPT_ELEM);
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
 
     }
