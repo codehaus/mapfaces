@@ -186,14 +186,14 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     y = (String) params.get(mfGfiYKey);
 
                     if (popup != null) {
-                        final int realTop = (new Integer(y)) - popup.getHeight();
+                        final int realTop = Integer.valueOf(y) - popup.getHeight();
                         popup.setTop("top:" + realTop + "px;");
                     }
                 }
                 if (params.get(mfGfiXKey) != null) {
                     x = (String) params.get(mfGfiXKey);
                     if (popup != null) {
-                        final int realLeft = (new Integer(x)) - (popup.getWidth() / 2);
+                        final int realLeft = Integer.valueOf(x) - (popup.getWidth() / 2);
                         popup.setLeft("left:" + realLeft + "px;");
                     }
                 }
@@ -234,8 +234,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 for (Layer queryLayer : queryableAndVisibleLayers) {
                     if (queryLayer != null && queryLayer.getType() != null) {
                         switch (queryLayer.getType()) {
-                            case DEFAULT:
-                                break;
                             case WMS:
 
                                 boolean skipLayer = false;
@@ -255,20 +253,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         wmsServers.put(wmsLayer.getServer().getHref(), list);
                                     }
                                 }
-                                break;
-                            case WFS:
-                                break;
-                            case WCS:
-                                break;
-                            case SLD:
-                                break;
-                            case FES:
-                                break;
-                            case GML:
-                                break;
-                            case KML:
-                                break;
-                            case MAPCONTEXT:
                                 break;
                             case FEATURE:
                                 final FeatureLayer temp = (FeatureLayer) queryLayer;
@@ -305,7 +289,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     }
                                 }
 
-                                SimpleFeatureType sft = builder.buildFeatureType();
+                                final SimpleFeatureType sft = builder.buildFeatureType();
                                 for (Feature f : temp.getFeatures()) {
                                     if (!mapFeaturesLayer.containsKey(f.getId())) {
                                         mapFeaturesLayer.put(f.getId(), f);
@@ -345,6 +329,14 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 }
                                 mapFeaturesLayer.clear();
                                 break;
+                            case DEFAULT:
+                            case WFS:
+                            case WCS:
+                            case SLD:
+                            case FES:
+                            case GML:
+                            case KML:
+                            case MAPCONTEXT:
                             default:
                                 break;
                         }
@@ -358,7 +350,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         final String href = it.next();
                         final StringBuilder featureInfoRequest = new StringBuilder();
                         featureInfoRequest.append(href);
-                        featureInfoRequest.append((featureInfoRequest.toString().contains("?") ? "&" : "?")).
+                        featureInfoRequest.append(featureInfoRequest.toString().contains("?") ? "&" : "?").
                                 append("BBOX=").append(model.getBoundingBox()).
                                 append("&STYLES=").
                                 append("&FORMAT=").append("image/gif").
@@ -541,12 +533,13 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         final String elevation = queryLayer.getElevation().getUserValue() + "," + queryLayer.getElevation().getUserValue();
                         innerHTML.append(',').append(elevation);
                     }
+                    final String srs = (model.getSrs() != null) ? model.getSrs() : "EPSG:4326";
                     innerHTML.append("&STYLES=").append("&FORMAT=").
                             append(
-                            (params.containsKey("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") ?
-                                (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") : "matrix")).
+                            params.containsKey("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") ?
+                                (String) params.get("org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT") : "matrix").
                             append("&VERSION=1.0.0").
-                            append("&CRS=").append(model.getSrs()).
+                            append("&CRS=").append(srs).
                             append("&REQUEST=GetCoverage'").
                             append("&COVERAGE=").append(queryLayer.getName()).
                             append("&WIDTH=").append(windowPixel[0]).
