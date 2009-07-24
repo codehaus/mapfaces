@@ -30,9 +30,9 @@ import org.mapfaces.util.FacesUtils;
  */
 public class DefaultServer implements Server {
     
-    private static final Map<String, AbstractWMSCapabilities> cache = new Cache<String, AbstractWMSCapabilities>(50, 50, false);
-    private static final AtomicInteger incr = new AtomicInteger();
-    private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+incr.incrementAndGet();
+    private static final Map<String, AbstractWMSCapabilities> CACHE = new Cache<String, AbstractWMSCapabilities>(50, 50, false);
+    private static final AtomicInteger INCR = new AtomicInteger();
+    private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+INCR.incrementAndGet();
 
     private static final long serialVersionUID = 7526471155622776147L;
     private String href;
@@ -41,14 +41,9 @@ public class DefaultServer implements Server {
     private transient AbstractWMSCapabilities gtCapabilities;
     private String title = null;
 
-    /**
-     * Empty constructor used for Serialization.
-     */
-    public DefaultServer() {
-    }
     
     public static Map<String, AbstractWMSCapabilities> getCache() {
-        return cache;
+        return CACHE;
     }
 
     /**
@@ -116,7 +111,7 @@ public class DefaultServer implements Server {
     }
 
     Object writeReplace() throws ObjectStreamException {
-        AbstractWMSCapabilities gtcapa = getGTCapabilities();
+        final AbstractWMSCapabilities gtcapa = getGTCapabilities();
         if (gtcapa != null) {
             getCache().put(getcapaId, gtcapa);
         }
@@ -124,7 +119,7 @@ public class DefaultServer implements Server {
     }
 
     Object readResolve() throws ObjectStreamException {
-        AbstractWMSCapabilities gtcapa = getCache().get(getcapaId);
+        final AbstractWMSCapabilities gtcapa = getCache().get(getcapaId);
         
         //@TODO  The cache must be cleared after the session timeout.
         //cache.remove(getcapaId);

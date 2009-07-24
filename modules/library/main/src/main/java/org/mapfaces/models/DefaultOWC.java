@@ -22,5 +22,5 @@ package org.mapfaces.models;
  * @author Olivier Terral.
  */
 public class DefaultOWC extends DefaultContext {
-
+    
 }

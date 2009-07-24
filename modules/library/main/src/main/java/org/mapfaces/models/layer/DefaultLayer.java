@@ -20,6 +20,7 @@ package org.mapfaces.models.layer;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
@@ -55,8 +56,8 @@ public class DefaultLayer implements Layer {
     //if set to true, the layer is never displaying on the map
     private boolean disable = false;
     //private List<Style> style;
-    private HashMap<String, Dimension> dimensionList;
-    // private HashMap<String,Parameter> parameterList;
+    private Map<String, Dimension> dimensionList;
+    // private Map<String,Parameter> parameterList;
     //private Server server;
     private String maxFeatures;
     private String inlineGeometry;
@@ -67,7 +68,7 @@ public class DefaultLayer implements Layer {
     private String resX;
     private String resY;
     private String resZ;
-    private HashMap<String, Serializable> MapGroupHierarchiesValues;
+    private Map<String, Serializable> MapGroupHierarchiesValues;
 
     /*
      * JSF properties we need to know the id of its component
@@ -272,7 +273,7 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public HashMap<String, Dimension> getDimensionList() {
+    public Map<String, Dimension> getDimensionList() {
         return dimensionList;
     }
 
@@ -280,7 +281,7 @@ public class DefaultLayer implements Layer {
      * {@inheritDoc }
      */
     @Override
-    public void setDimensionList(final HashMap<String, Dimension> dimensionList) {
+    public void setDimensionList(final Map<String, Dimension> dimensionList) {
         if (this.dimensionList == null) {
             this.dimensionList = new HashMap<String, Dimension>(dimensionList);
         }
@@ -568,7 +569,7 @@ public class DefaultLayer implements Layer {
      */
     @Override
     public void setDimension(final Dimension dim) {
-        HashMap<String, Dimension> dimList = getDimensionList();
+        Map<String, Dimension> dimList = getDimensionList();
         if (dimList != null) {
             Dimension oldDim = dimList.get(dim.getName());
             if (oldDim != null) {
@@ -724,12 +725,12 @@ public class DefaultLayer implements Layer {
     }
 
     @Override
-    public HashMap<String, Serializable> getMapGroupHierarchiesValues() {
+    public Map<String, Serializable> getMapGroupHierarchiesValues() {
         return MapGroupHierarchiesValues;
     }
 
     @Override
-    public void setMapGroupHierarchiesValues(HashMap<String, Serializable> map) {
+    public void setMapGroupHierarchiesValues(Map<String, Serializable> map) {
         this.MapGroupHierarchiesValues = map;
     }
     

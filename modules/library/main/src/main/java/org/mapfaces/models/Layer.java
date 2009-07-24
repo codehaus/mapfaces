@@ -18,7 +18,7 @@
 package org.mapfaces.models;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 import org.opengis.geometry.Envelope;
 import org.opengis.util.Cloneable;
 
@@ -26,17 +26,14 @@ import org.opengis.util.Cloneable;
  * @author Olivier Terral (Geomatys).
  */
 public interface Layer extends Serializable, Cloneable {
-
-
-//    public Parameter getParameterList();
     
     /**
      * This method returns a hashmap that contains all values of tokens in the group property when group1\group2\... are the map keys.
      * @return
      */
-    HashMap<String, Serializable> getMapGroupHierarchiesValues();
+    Map<String, Serializable> getMapGroupHierarchiesValues();
     
-    void setMapGroupHierarchiesValues(HashMap<String, Serializable> map);
+    void setMapGroupHierarchiesValues(Map<String, Serializable> map);
 
     DescriptionURL getMetadataURL();
 
@@ -46,7 +43,7 @@ public interface Layer extends Serializable, Cloneable {
 
     String getDepth();
 
-    HashMap<String, Dimension> getDimensionList();
+    Map<String, Dimension> getDimensionList();
 
     String getGroup();
     
@@ -105,7 +102,7 @@ public interface Layer extends Serializable, Cloneable {
 
     void setHidden(boolean hidden);
     
-    void setHidden(boolean hidden, String SLDidentifier);
+    void setHidden(boolean hidden, String sldIdentifier);
 
     void setId(String id);
 
@@ -178,7 +175,7 @@ public interface Layer extends Serializable, Cloneable {
 
     void setAttrDimension(String name, String attrName, String attrValue);
 
-    void setDimensionList(HashMap<String, Dimension> dimensionList);
+    void setDimensionList(Map<String, Dimension> dimensionList);
 
     void setDisable(boolean disable);
     

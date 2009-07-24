@@ -28,30 +28,30 @@ import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
  */
 public interface Feature extends Serializable {
     
-    public final static String POINT = "POINT";
-    public final static String POLYGON = "POLYGON";
+    static final String POINT = "POINT";
+    static final String POLYGON = "POLYGON";
     
-    public String getId();
+    String getId();
     
-    public void setId(String id);
+    void setId(String id);
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
-    public DefaultGeographicCRS getCrs();
+    DefaultGeographicCRS getCrs();
 
-    public void setCrs(DefaultGeographicCRS crs);
+    void setCrs(DefaultGeographicCRS crs);
 
-    public Map<String, Serializable> getAttributes();
+    Map<String, Serializable> getAttributes();
 
-    public void setAttributes(Map<String, Serializable> attributes);
+    void setAttributes(Map<String, Serializable> attributes);
 
-    public Geometry getGeometry();
+    Geometry getGeometry();
 
-    public void setGeometry(Geometry geometry);
+    void setGeometry(Geometry geometry);
     
-    public Serializable getUserObject();
+    Serializable getUserObject();
 
-    public void setUserObject(Serializable object);
+    void setUserObject(Serializable object);
 }

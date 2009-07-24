@@ -26,9 +26,9 @@ import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
  */
 public interface  Server  extends Serializable {
 
-    public void setGTCapabilities(AbstractWMSCapabilities capabilities);
+    void setGTCapabilities(AbstractWMSCapabilities capabilities);
 
-    public AbstractWMSCapabilities getGTCapabilities();
+    AbstractWMSCapabilities getGTCapabilities();
 
     String getHref();
 
