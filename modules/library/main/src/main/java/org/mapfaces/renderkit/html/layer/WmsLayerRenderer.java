@@ -223,7 +223,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         Server server = layer.getServer();
         final WebMapServer wepmapserver = new WebMapServer(new URL(server.getHref()), server.getVersion(), server.getGTCapabilities());
         final WMSMapLayer mapLayer = new WMSMapLayer(wepmapserver, layer.getName());
-        final HashMap<String, org.mapfaces.models.Dimension> dims = layer.getDimensionList();
+        final HashMap<String, org.mapfaces.models.Dimension> dims = (HashMap) layer.getDimensionList();
         if (dims != null) {
             for (final String tmp : dims.keySet()) {
                 mapLayer.dimensions().put(tmp, dims.get(tmp).getUserValue());

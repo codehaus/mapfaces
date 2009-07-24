@@ -182,7 +182,7 @@ public class Adapter {
 
             if (layer != null && layer.getGroup() != null && !layer.getGroup().equals("")) {
                 final String group = layer.getGroup();
-                final HashMap<String, Serializable> map = layer.getMapGroupHierarchiesValues();
+                final HashMap<String, Serializable> map = (HashMap) layer.getMapGroupHierarchiesValues();
                 final String[] array = Utils.splitStringToArray(group, "/");
 
                 if (array.length != 0) {

@@ -130,7 +130,7 @@ public class MFtoOWCv030Transformer {
             //layerType.setDataURL(value);
             //layerType.setDepth(value);
             if (layer.getDimensionList() != null) {
-                layerType.setDimensionList(visitDimensionList(layer.getDimensionList()));
+                layerType.setDimensionList(visitDimensionList((HashMap) layer.getDimensionList()));
             //layerType.setExtension(value);
             }
             if (layer.getGroup() != null) {
