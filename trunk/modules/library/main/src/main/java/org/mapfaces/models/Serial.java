@@ -44,7 +44,7 @@ public class Serial implements Serializable {
     private static final long serialVersionUID = 7526471155622776147L;
     private String name;
     private transient Dimension dimension;
-    static private Serial singleton = null;
+    private static Serial singleton = null;
 
     /**
      * Empty constructor used for Serialization.
@@ -77,18 +77,19 @@ public class Serial implements Serializable {
     public String toString() {
     return "[ " + this.getClass().getSimpleName() + " : " + this.name + " : " + this.dimension + " ] ";
     }*/
-    public static void main(String... args) {
+    
+    /*public static void main(String... args) {
 
         try {
-            Dimension d = new DefaultDimension();
+            final Dimension d = new DefaultDimension();
             d.setCurrent(true);
 
             Serial serial = new Serial("monserial", d);
             System.out.println(serial + " : " + serial.getDimension().isCurrent());
 
 
-            FileOutputStream fos = new FileOutputStream("serial.serial");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            final FileOutputStream fos = new FileOutputStream("serial.serial");
+            final ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             try {
                 oos.writeObject(serial);
@@ -100,8 +101,8 @@ public class Serial implements Serializable {
                     fos.close();
                 }
             }
-            FileInputStream fis = new FileInputStream("serial.serial");
-            ObjectInputStream ois = new ObjectInputStream(fis);
+            final FileInputStream fis = new FileInputStream("serial.serial");
+            final ObjectInputStream ois = new ObjectInputStream(fis);
             try {
                 serial = (Serial) ois.readObject();
                 System.out.println(serial + " : " + serial.getDimension().isCurrent());
@@ -114,26 +115,26 @@ public class Serial implements Serializable {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-    }
+    }*/
 
     Object writeReplace() throws ObjectStreamException {
-        Dimension dim = getDimension();
-        Serial tmp = getSingleton();
+        final Dimension dim = getDimension();
+        final Serial tmp = getSingleton();
         tmp.setDimension(dim);
-        Serial s = this;
+        final Serial s = this;
 
         return s;
     }
 
     Object readResolve() throws ObjectStreamException {
-        Serial s = this;
-        Dimension dim = getSingleton().getDimension();
+        final Serial s = this;
+        final Dimension dim = getSingleton().getDimension();
         s.setDimension(dim);
 
         return s;
     }
 
-    static public synchronized Serial getSingleton() {
+    public static synchronized Serial getSingleton() {
         if (singleton == null) {
             singleton = new Serial();
         }

@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +42,10 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  */
 public class DefaultContext extends AbstractModelBase implements Context {
 
-    private static Logger LOGGER = Logger.getLogger(DefaultContext.class.getName());
+
+    private static final long serialVersionUID = 7526471155622776147L;
+    private static final Logger LOGGER = Logger.getLogger(DefaultContext.class.getName());
+
 
     private String type;
     private String id;
@@ -57,8 +60,8 @@ public class DefaultContext extends AbstractModelBase implements Context {
     private String maxy;
     private String srs;
     private List<Layer> layers = new ArrayList<Layer>();
-    private HashMap<String, Server> wmsServers;
-    private HashMap<String, Server> wfsServers;
+    private Map<String, Server> wmsServers;
+    private Map<String, Server> wfsServers;
 
 
     /**
@@ -253,10 +256,10 @@ public class DefaultContext extends AbstractModelBase implements Context {
         } catch (FactoryException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        double dminx = Double.parseDouble(this.minx);
-        double dmaxx = Double.parseDouble(this.maxx);
-        double dminy = Double.parseDouble(this.miny);
-        double dmaxy = Double.parseDouble(this.maxy);
+        final double dminx = Double.valueOf(this.minx);
+        final double dmaxx = Double.valueOf(this.maxx);
+        final double dminy = Double.valueOf(this.miny);
+        final double dmaxy = Double.valueOf(this.maxy);
 
         return new Envelope2D(crs, dminx, dminy, dmaxx-dminx, dmaxy-dminy);
     }
@@ -265,7 +268,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public HashMap<String, Server> getWmsServers() {
+    public Map<String, Server> getWmsServers() {
         return wmsServers;
     }
 
@@ -273,7 +276,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public void setWmsServers(HashMap<String, Server> wmsServers) {
+    public void setWmsServers(Map<String, Server> wmsServers) {
         this.wmsServers = wmsServers;
     }
 
@@ -281,7 +284,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public HashMap<String, Server> getWfsServers() {
+    public Map<String, Server> getWfsServers() {
         return wfsServers;
     }
 
@@ -289,7 +292,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public void setWfsServers(HashMap<String, Server> servers) {
+    public void setWfsServers(Map<String, Server> servers) {
         this.wfsServers = servers;
     }
 
@@ -451,8 +454,8 @@ public class DefaultContext extends AbstractModelBase implements Context {
     }
 
     public List<Layer> getQueryableAndVisibleLayers() {
-        List<Layer> queryableLayers = getQueryableLayers();
-        List<Layer> returnLayers = new ArrayList<Layer>();
+        final List<Layer> queryableLayers = getQueryableLayers();
+        final List<Layer> returnLayers = new ArrayList<Layer>();
         for (Layer layer : queryableLayers) {
             if (!layer.isHidden()) {
                 returnLayers.add(layer);
@@ -661,14 +664,20 @@ public class DefaultContext extends AbstractModelBase implements Context {
     public void save(final ServletContext sc, final String fileName) {
         try {
             File output;
-            if (fileName == null){
-                File dstDir = new File(sc.getRealPath("tmp"));
-            if (!dstDir.exists()) {
-                dstDir.mkdir();
+            if (fileName == null) {
+                final File dstDir = new File(sc.getRealPath("tmp"));
+                if (!dstDir.exists()) {
+                    final boolean tmp = dstDir.mkdir();
+                    if (tmp)
+                        LOGGER.log(Level.FINE, "The directory tmp has been created !!!");
+                    else
+                        LOGGER.log(Level.FINE, "The directory tmp hasn't been created but it should !!!");
+
+                }
+                output = File.createTempFile("owc", ".xml", dstDir);
+            } else {
+                output = new File(sc.getRealPath("tmp") + "/" + fileName);
             }
-            output = File.createTempFile("owc", ".xml",dstDir);
-        }else
-            output = new File(sc.getRealPath("tmp")+"/"+fileName);
             (new XMLContextUtilities()).writeContext(this, output);
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -691,7 +700,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      */
     @Override
     public void clearMapContextLayers() {
-        List<Layer> listtoremove = new ArrayList<Layer>();
+        final List<Layer> listtoremove = new ArrayList<Layer>();
         for (Layer layer : this.getLayers()) {
             if (layer instanceof  MapContextLayer) {
                 listtoremove.add(layer);

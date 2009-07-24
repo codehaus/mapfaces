@@ -18,15 +18,17 @@
 package org.mapfaces.models;
 
 /**
- * @author Olivier Terral.
+ * @author Olivier Terral (Geomatys).
  */
 public class DefaultDimension implements Dimension {
 
+
+    private static final long serialVersionUID = 7526471155622776147L;
     private String name;
     private String units;
     private String unitSymbol;
     private String userValue;
-    private String Default;
+    private String deflt;   //default
     private String value;
     private boolean multipleValues;
     private boolean nearestValues;
@@ -149,15 +151,15 @@ public class DefaultDimension implements Dimension {
      */
     @Override
     public String getDefault() {
-        return Default;
+        return deflt;
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void setDefault(final String Default) {
-        this.Default = Default;
+    public void setDefault(final String deflt) {
+        this.deflt = deflt;
     }
 
     /**

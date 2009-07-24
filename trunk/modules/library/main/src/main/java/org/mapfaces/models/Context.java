@@ -18,7 +18,7 @@
 package org.mapfaces.models;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import javax.servlet.ServletContext;
 import org.opengis.geometry.Envelope;
@@ -27,7 +27,7 @@ import org.opengis.geometry.Envelope;
  * @author Olivier Terral.
  */
 public interface Context extends Serializable {
-
+    
 
     String getId();
 
@@ -167,13 +167,13 @@ public interface Context extends Serializable {
 
 /*********************************** Servers functions*******************************/
 
-    HashMap<String, Server> getWmsServers();
+    Map<String, Server> getWmsServers();
 
-    void setWmsServers(HashMap<String, Server> servers);
+    void setWmsServers(Map<String, Server> servers);
 
-    HashMap<String, Server> getWfsServers();
+    Map<String, Server> getWfsServers();
 
-    void setWfsServers(HashMap<String, Server> servers);
+    void setWfsServers(Map<String, Server> servers);
 
     void save(ServletContext sc, String fileUrl);
 
