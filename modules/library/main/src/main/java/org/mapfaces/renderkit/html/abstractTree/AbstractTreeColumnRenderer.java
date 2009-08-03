@@ -305,7 +305,6 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
 
             // 5 : Add HtmlGraphicImage displaying on click the TreeItem info if it exists
 
-            final HtmlGraphicImage ImgTreeNodeInfo = new HtmlGraphicImage();
             UITreeNodeInfoBase treenodeInfoComp = null;
             boolean treenodeinfo = false;
             for (final UIComponent comp : treeline.getChildren()) {
@@ -315,21 +314,18 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
                     break;
                 }
             }
-            ImgTreeNodeInfo.setId(treepanel.getId() + "_anchor_info_" + node.getId());
             if (treenodeinfo) {
+                final  HtmlAjaxCommandLink ImgTreeNodeInfo = new HtmlAjaxCommandLink();
+                ImgTreeNodeInfo.setId(treepanel.getId() + "_anchor_info_" + node.getId());
                 if (treenodeInfoComp.getTitle() != null) {
                     ImgTreeNodeInfo.setTitle(treenodeInfoComp.getTitle());
                 } else {
                     ImgTreeNodeInfo.setTitle(SHOW_MORE_INFORMATION_TITLE);
                 }
-            }
-
-            ImgTreeNodeInfo.setOnclick("showInfo('" + treepanel.getClientId(context) + "','" + node.getId() + "');");
-            ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO + PIXEL);
-            ImgTreeNodeInfo.setStyle("margin-left:5px;");
-            //ImgTreeNodeInfo.setUrl(NODE_IDENT);
-
-            if (treenodeinfo) {
+                ImgTreeNodeInfo.setOnclick("showInfo('" + treepanel.getClientId(context) + "','" + node.getId() + "');return false;");
+                ImgTreeNodeInfo.setStyleClass(CLASS_ANCHOR_INFO + PIXEL);
+                ImgTreeNodeInfo.setStyle("margin-left:5px;position:absolute;");
+                //ImgTreeNodeInfo.setUrl(NODE_IDENT);
                 children.add(component.getChildCount(), ImgTreeNodeInfo);
             }
             ((UITreeColumnBase) component).setAlreadyRender(true);

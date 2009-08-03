@@ -28,6 +28,7 @@ import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.mapfaces.component.abstractTree.UITreeBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.component.abstractTree.UITreeTableBase;
@@ -302,11 +303,9 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         //@TODO Maybe thereis a better way to not load css
         UIContext temp = FacesUtils.getParentUIContext(context, comp);
         if ( (temp == null) || (temp != null && !temp.isMinifyJS())) {
-            writer.startElement("link", component);
-            writer.writeAttribute("type", "text/css", null);
-            writer.writeAttribute("rel", "stylesheet", null);
-            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, TreeStyle.default_cssFilesUrl, null), null);
-            writer.endElement("link");
+            HtmlLoadStyle css = new HtmlLoadStyle();
+            css.setSrc(ResourcePhaseListener.getLoadStyleURL(context, TreeStyle.default_cssFilesUrl, null));
+            comp.getChildren().add(css);
         }
 
         //If TreeTable is not a UIContext children
