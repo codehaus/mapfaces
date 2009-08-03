@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.web.bean;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -82,7 +81,7 @@ public class MapBean {
         leaf1.setWrite(true);
         final DefaultMutableTreeNode nleaf1 = new DefaultMutableTreeNode(new TreeItem(leaf1));
         final ModelTreeRow leaf2 = new ModelTreeRow(2, "leaf2");
-        final  DefaultMutableTreeNode nleaf2 = new DefaultMutableTreeNode(new TreeItem(leaf2));
+        final DefaultMutableTreeNode nleaf2 = new DefaultMutableTreeNode(new TreeItem(leaf2));
         final ModelTreeRow node3 = new ModelTreeRow(3, "node3");
         final DefaultMutableTreeNode nnode3 = new DefaultMutableTreeNode(new TreeItem(node3));
         final ModelTreeRow leaf3 = new ModelTreeRow(4, "leaf3");
@@ -294,7 +293,7 @@ public class MapBean {
             try {
                 feature.setCrs((DefaultGeographicCRS) CRS.decode(srs));
             } catch (Exception e) {
-                 LOGGER.log(Level.SEVERE, "Decode SRS failed !!!", e);
+                LOGGER.log(Level.SEVERE, "Decode SRS failed !!!", e);
             }
 
             final Map<String, Serializable> attributes = new HashMap<String, Serializable>();
@@ -347,7 +346,7 @@ public class MapBean {
     }
 
     public void dispose() {
-        LOGGER.log(Level.INFO,"Map bean : dispose ... Done");
+        LOGGER.log(Level.INFO, "Map bean : dispose ... Done");
     }
 
     public List<Feature> getFeatures() {

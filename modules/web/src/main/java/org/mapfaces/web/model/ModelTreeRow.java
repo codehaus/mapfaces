@@ -14,8 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
-
 package org.mapfaces.web.model;
 
 import java.io.Serializable;
@@ -27,9 +25,7 @@ public class ModelTreeRow implements Serializable {
 
     private static final long serialVersionUID = 7526471155622776147L;
     private int id;
-
     private String name;
-
     private boolean read;
     private boolean write;
 
@@ -96,9 +92,6 @@ public class ModelTreeRow implements Serializable {
 
     @Override
     public String toString() {
-        return ModelTreeRow.class.getName() +" : "+ this.id + " name= "+this.getName()+"  read= "+this.isRead()+" write= "+this.isWrite();
+        return ModelTreeRow.class.getName() + " : " + this.id + " name= " + this.getName() + "  read= " + this.isRead() + " write= " + this.isWrite();
     }
-
-
-
 }
