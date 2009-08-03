@@ -30,6 +30,7 @@ import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
  * @author Kevin Delfour
@@ -91,15 +92,15 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         }
 
         if (treetable != null) {
-            writer.startElement("div", treenodeinfo);
-            writer.writeAttribute("class",classUser, null);
-            writer.writeAttribute("id", "info:" + treepanelId + ":" + node.getId(), null);
+            writer.startElement(HTML.DIV_ELEM, treenodeinfo);
+            writer.writeAttribute(HTML.class_ATTRIBUTE,classUser, null);
+            writer.writeAttribute(HTML.id_ATTRIBUTE, "info:" + treepanelId + ":" + node.getId(), null);
             if (treenodeinfo.getAttributes().get("hide") != null) {
                 if (!(Boolean) treenodeinfo.getAttributes().get("hide")) {
-                    writer.writeAttribute("style", "display:block;"+styleUser, null);
+                    writer.writeAttribute(HTML.style_ATTRIBUTE, "display:block;"+styleUser, null);
                 }
             } else {
-                writer.writeAttribute("style", "display:none;", null);
+                writer.writeAttribute(HTML.style_ATTRIBUTE, "display:none;", null);
             }
         }
 
@@ -119,16 +120,16 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         final ResponseWriter writer = context.getResponseWriter();
 
         if (component.getChildCount() != 0) {
-            writer.startElement("div", component);
-            writer.writeAttribute("class", "x-clear", null);
-            writer.endElement("div");
+            writer.startElement(HTML.DIV_ELEM, component);
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "x-clear", null);
+            writer.endElement(HTML.DIV_ELEM);
             for (UIComponent tmp : component.getChildren()) {
                 if (! tmp.isRendered())
                     continue;
-                writer.startElement("div", component);
-                writer.writeAttribute("class", DESC_STYLE_CLASS, null);
+                writer.startElement(HTML.DIV_ELEM, component);
+                writer.writeAttribute(HTML.class_ATTRIBUTE, DESC_STYLE_CLASS, null);
                 FacesUtils.encodeRecursive(context, tmp);
-                writer.endElement("div");
+                writer.endElement(HTML.DIV_ELEM);
             }
         }
     }
@@ -146,7 +147,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
 
         if (debug) LOGGER.info("encodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
 
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
 
         if (debug) LOGGER.info("afterEncodeEnd : " + AbstractTreeNodeInfoRenderer.class.getName());
 
