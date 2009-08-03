@@ -313,7 +313,6 @@ public class ContextRenderer extends Renderer {
             comp.getFacets().put("a4jsupport", ajaxComp);
             comp.setAjaxCompId(ajaxComp.getClientId(context));
         }
-        System.out.println( comp.getAjaxCompId());
     }
 
     /**
