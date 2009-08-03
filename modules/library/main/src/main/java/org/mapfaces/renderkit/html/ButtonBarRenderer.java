@@ -73,7 +73,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         if (style != null) {
             writer.writeAttribute(HTML.style_ATTRIBUTE, style, HTML.style_ATTRIBUTE);
         } else {
-            writer.writeAttribute(HTML.style_ATTRIBUTE, "position:absolute;z-index:150;", HTML.style_ATTRIBUTE);
+            writer.writeAttribute(HTML.style_ATTRIBUTE, "z-index:150;", HTML.style_ATTRIBUTE);
         }
         final String styleclass = (String) comp.getAttributes().get("styleClass");
         if (styleclass != null) {
