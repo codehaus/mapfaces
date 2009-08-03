@@ -10,25 +10,6 @@
         <title>MapFaces Welcome Page</title>
         <script>window.location="examples/index.jsf"</script>
     </head>
-    <body style="background-image:url(resources/img/mf_bg.jpg)">
-        <br/>
-        <%--ul>
-            <li>
-                <a href="./examples/index.jsf">MapFaces examples page</a>
-            </li>
-            <li>
-                <a href="./mapfaces.jsf">MapPane page</a>
-            </li>
-            <li>
-                <a href="./timeline.jsf">TimeLine page</a>
-            </li>
-            <li>
-                <a href="./treetable.jsf">TreeTable page</a>
-            </li>
-            <li>
-                <a href="./treelayout.jsf">TreeLayout page</a>
-            </li>
-        </ul--%>
-        <br/>
+    <body>
     </body>
 </html>
