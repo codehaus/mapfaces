@@ -23,6 +23,8 @@ import java.util.Date;
  * @author Sidhoum Mehdi.
  */
 public class LinearEther implements Serializable {
+    
+    private static final long serialVersionUID = 7526471155622776147L;
     /**
      *  the number of milliseconds for example Timeline.DateTime.MONTH.
      */

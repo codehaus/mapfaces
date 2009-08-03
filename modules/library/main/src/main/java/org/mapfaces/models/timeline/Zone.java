@@ -25,6 +25,8 @@ import org.geotoolkit.util.Utilities;
  * @author Mehdi Sidhoum
  */
 public class Zone implements Serializable {
+
+    private static final long serialVersionUID = 7526471155622776147L;
     private Date begin;
     private Date end;
     private String unit;

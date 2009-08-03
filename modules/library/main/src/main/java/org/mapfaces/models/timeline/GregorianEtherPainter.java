@@ -23,6 +23,8 @@ import java.io.Serializable;
  * @author Mehdi Sidhoum.
  */
 public class GregorianEtherPainter implements Serializable {
+    
+    private static final long serialVersionUID = 7526471155622776147L;
 
     private String theme;
 

@@ -23,6 +23,8 @@ import java.io.Serializable;
  * @author Mehdi Sidhoum.
  */
 public class Status implements Serializable {
+    
+    private static final long serialVersionUID = 7526471155622776147L;
 
     /**
      * The constant attribute that defines the In Progress status.
