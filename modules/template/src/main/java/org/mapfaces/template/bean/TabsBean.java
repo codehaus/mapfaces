@@ -1,7 +1,8 @@
 
 package org.mapfaces.template.bean;
 
-import javax.faces.context.FacesContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.event.ActionEvent;
 
 /**
@@ -12,15 +13,15 @@ public class TabsBean {
 
     private boolean displayHome = true;
     private boolean displayApp = true;
-
-    public TabsBean() {
-    }
+    private static final Logger LOGGER = Logger.getLogger(TabsBean.class.getName());
 
     public void printState() {
-        System.out.println("------------------------------------");
-        System.out.println("==== home = " + displayHome);
-        System.out.println("==== APP = " + displayApp);
-        System.out.println("------------------------------------");
+        
+        LOGGER.log(Level.INFO,
+                new StringBuilder("------------------------------------\n").
+                    append("==== home = ").append(displayHome).append("\n").
+                    append("==== app = ").append(displayApp).append("\n").
+                    append("------------------------------------").toString());
     }
 
     public boolean isDisplayHome() {
@@ -43,7 +44,6 @@ public class TabsBean {
     public void goHome() {
         setDisplayApp(false);
         setDisplayHome(true);
-        return;
     }
 
     public void goHomeActionEvent(ActionEvent actionEvent) {
@@ -54,7 +54,6 @@ public class TabsBean {
     public void goApp() {
         setDisplayApp(true);
         setDisplayHome(false);
-        return;
     }
 
     public void goAppActionEvent(ActionEvent actionEvent) {
