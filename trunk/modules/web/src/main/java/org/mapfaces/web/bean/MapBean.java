@@ -69,24 +69,24 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 public class MapBean {
 
     private static final Logger LOGGER = Logger.getLogger(MapBean.class.getName());
-    public MapContext mapContext = null;
+    private MapContext mapContext = null;
     private List<Feature> features = null;
     private DefaultTreeModel exampleModel;
     private List<ModelTreeRow> rowList = new ArrayList<ModelTreeRow>();
 
     public MapBean() {
-        ModelTreeRow node1 = new ModelTreeRow(0, "node1");
-        DefaultMutableTreeNode tnode = new DefaultMutableTreeNode(new TreeItem(node1));
-        ModelTreeRow leaf1 = new ModelTreeRow(1, "leaf1");
+        final ModelTreeRow node1 = new ModelTreeRow(0, "node1");
+        final DefaultMutableTreeNode tnode = new DefaultMutableTreeNode(new TreeItem(node1));
+        final ModelTreeRow leaf1 = new ModelTreeRow(1, "leaf1");
         leaf1.setRead(true);
         leaf1.setWrite(true);
-        DefaultMutableTreeNode nleaf1 = new DefaultMutableTreeNode(new TreeItem(leaf1));
-        ModelTreeRow leaf2 = new ModelTreeRow(2, "leaf2");
-        DefaultMutableTreeNode nleaf2 = new DefaultMutableTreeNode(new TreeItem(leaf2));
-        ModelTreeRow node3 = new ModelTreeRow(3, "node3");
-        DefaultMutableTreeNode nnode3 = new DefaultMutableTreeNode(new TreeItem(node3));
-        ModelTreeRow leaf3 = new ModelTreeRow(4, "leaf3");
-        DefaultMutableTreeNode nleaf3 = new DefaultMutableTreeNode(new TreeItem(leaf3));
+        final DefaultMutableTreeNode nleaf1 = new DefaultMutableTreeNode(new TreeItem(leaf1));
+        final ModelTreeRow leaf2 = new ModelTreeRow(2, "leaf2");
+        final  DefaultMutableTreeNode nleaf2 = new DefaultMutableTreeNode(new TreeItem(leaf2));
+        final ModelTreeRow node3 = new ModelTreeRow(3, "node3");
+        final DefaultMutableTreeNode nnode3 = new DefaultMutableTreeNode(new TreeItem(node3));
+        final ModelTreeRow leaf3 = new ModelTreeRow(4, "leaf3");
+        final DefaultMutableTreeNode nleaf3 = new DefaultMutableTreeNode(new TreeItem(leaf3));
         rowList.add(node1);
         rowList.add(leaf1);
         rowList.add(leaf2);
@@ -98,25 +98,25 @@ public class MapBean {
         tnode.add(nnode3);
 
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem("root"));
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeItem("root"));
         root.add(tnode);
-        DefaultTreeModel model = new DefaultTreeModel(root);
+        final DefaultTreeModel model = new DefaultTreeModel(root);
         exampleModel = model;
     }
 
     public void updateRows() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        List<ModelTreeRow> treeRowsList = new ArrayList<ModelTreeRow>();
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final List<ModelTreeRow> treeRowsList = new ArrayList<ModelTreeRow>();
 
-        UIComponent component = FacesUtils.findComponentById(context, context.getViewRoot(), "treetable");
+        final UIComponent component = FacesUtils.findComponentById(context, context.getViewRoot(), "treetable");
         if (component instanceof UITreeTable) {
-            UITreeTable treetable = (UITreeTable) component;
-            UITreePanel treePanel = TreeTableUtils.getChildTreePanel(treetable);
+            final UITreeTable treetable = (UITreeTable) component;
+            final UITreePanel treePanel = TreeTableUtils.getChildTreePanel(treetable);
             if (treePanel != null) {
-                List<UITreeLines> treeLinesList = new ArrayList<UITreeLines>();
+                final List<UITreeLines> treeLinesList = new ArrayList<UITreeLines>();
                 for (UIComponent child : treePanel.getChildren()) {
                     if (child.getChildCount() > 0 && child.getChildren().get(0) instanceof UITreeLines) {
-                        UITreeLines treeline = (UITreeLines) child.getChildren().get(0);
+                        final UITreeLines treeline = (UITreeLines) child.getChildren().get(0);
                         treeLinesList.add(treeline);
                     }
                 }
@@ -130,17 +130,16 @@ public class MapBean {
 
                     for (UIComponent treelineChild : treeLineComp.getChildren()) {
                         if (treelineChild instanceof UICheckColumn) {
-                            UICheckColumn checkColumn = (UICheckColumn) treelineChild;
+                            final UICheckColumn checkColumn = (UICheckColumn) treelineChild;
                             if (checkColumn.getChildCount() > 0 && checkColumn.getChildren().get(0) instanceof HtmlSelectBooleanCheckbox) {
-                                HtmlSelectBooleanCheckbox selectBooleanCheckbox = (HtmlSelectBooleanCheckbox) checkColumn.getChildren().get(0);
-//                                System.out.println("===>  value = "+selectBooleanCheckbox.getValue()+"    property = "+checkColumn.getValueExpression("value").getExpressionString());
+                                final HtmlSelectBooleanCheckbox selectBooleanCheckbox = (HtmlSelectBooleanCheckbox) checkColumn.getChildren().get(0);
 
-                                ELContext elContext = context.getELContext();
-                                String property = checkColumn.getValueExpression("value").getExpressionString();
-                                String prop = property.substring(property.lastIndexOf("."));
-                                String pro = prop.substring(1, prop.lastIndexOf("}"));
+                                final ELContext elContext = context.getELContext();
+                                final String property = checkColumn.getValueExpression("value").getExpressionString();
+                                final String prop = property.substring(property.lastIndexOf('.'));
+                                final String pro = prop.substring(1, prop.lastIndexOf('}'));
 
-                                Object value = selectBooleanCheckbox.getValue();
+                                final Object value = selectBooleanCheckbox.getValue();
                                 elContext.getELResolver().setValue(elContext, userObject, pro, value);
                             }
                         }
@@ -193,9 +192,9 @@ public class MapBean {
      * @return
      */
     public static List<Object> mfTreeAsList(DefaultTreeModel treeModel, Class c) {
-        List<Object> result = result = new ArrayList<Object>();
+        final List<Object> result = new ArrayList<Object>();
         if (treeModel != null) {
-            DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeModel.getRoot();
+            final DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeModel.getRoot();
             appendNodeToList(root, result, c);
         }
         return result;
@@ -203,9 +202,9 @@ public class MapBean {
     }
 
     public static void appendNodeToList(DefaultMutableTreeNode node, List list, Class c) {
-        Object obj = node.getUserObject();
+        final Object obj = node.getUserObject();
         if (obj instanceof TreeItem) {
-            Object treeItemUserObject = ((TreeItem) obj).getUserObject();
+            final Object treeItemUserObject = ((TreeItem) obj).getUserObject();
             if (c.isInstance(treeItemUserObject) && !list.contains(treeItemUserObject)) {
                 list.add(treeItemUserObject);
             }
@@ -217,8 +216,7 @@ public class MapBean {
 
     public MapContext getMapContext() {
         if (mapContext == null) {
-            Context model = (Context) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("model");
-            System.out.println("##################### model ? " + model);
+            final Context model = (Context) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("model");
             if (model != null) {
                 final String srs = model.getSrs();
                 final CoordinateReferenceSystem crs;
@@ -231,8 +229,6 @@ public class MapBean {
                 mapContext = MapBuilder.createContext(crs);
             }
         }
-
-        System.out.println("##################### mapContext ? " + mapContext);
         return mapContext;
     }
 
@@ -241,13 +237,15 @@ public class MapBean {
 
             final MutableStyle mutableStyle;
             //building a FeatureCollection for this layer.
-            FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = FeatureCollectionUtilities.createCollection();
+            final FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = FeatureCollectionUtilities.createCollection();
             long featureId = 0;
-            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-            List<Feature> features = buildFeatureList("EPSG:4326");
-            mutableStyle = FacesUtils.createStyle("http://localhost:8084/mf/resource/skin/default/img/europa.gif", 10, 0, new Integer(String.valueOf(Math.round(Math.random()) * 10)));
-            if (features != null && features.size() != 0) {
-                Feature f = features.get(0);
+            final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+            final List<Feature> featureList = buildFeatureList("EPSG:4326");
+            mutableStyle = FacesUtils.createStyle(
+                    "http://localhost:8084/mf/resource/skin/default/img/europa.gif",
+                    10, 0, Integer.valueOf(String.valueOf(Math.round(Math.random()) * 10)));
+            if (featureList != null && featureList.size() != 0) {
+                final Feature f = featureList.get(0);
                 builder.setName(f.getName());
                 builder.setCRS(f.getCrs());
                 for (String key : f.getAttributes().keySet()) {
@@ -258,23 +256,23 @@ public class MapBean {
                     }
                 }
             }
-            SimpleFeatureType sft = builder.buildFeatureType();
+            final SimpleFeatureType sft = builder.buildFeatureType();
             for (Feature f : features) {
-                List<Object> objects = new ArrayList<Object>();
+                final List<Object> objects = new ArrayList<Object>();
                 for (String key : f.getAttributes().keySet()) {
                     objects.add(f.getAttributes().get(key));
                 }
 
-                SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
+                final SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
                 featureCollection.add(sf);
                 featureId++;
             }
-            FeatureMapLayer layer = MapBuilder.createFeatureLayer(featureCollection, mutableStyle);
-            if (mapContext != null) {
-                mapContext.layers().add(layer);
-                System.out.println("Le mapConetxt a " + mapContext.layers().size());
+            final FeatureMapLayer layer = MapBuilder.createFeatureLayer(featureCollection, mutableStyle);
+            if (getMapContext() != null) {
+                getMapContext().layers().add(layer);
+                LOGGER.log(Level.INFO, "Le mapConetxt a " + getMapContext().layers().size());
             } else {
-                System.out.println("MapContext is null");
+                LOGGER.log(Level.SEVERE, "MapContext is null");
             }
         } catch (MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -287,35 +285,35 @@ public class MapBean {
     }
 
     public static List<Feature> buildFeatureList(String srs) {
-        List<Feature> result = new ArrayList<Feature>();
-        GeometryFactory geomBuilder = new GeometryFactory();
+        final List<Feature> result = new ArrayList<Feature>();
+        final GeometryFactory geomBuilder = new GeometryFactory();
 
         for (int i = 0; i < 100; i++) {
-            DefaultFeature feature = new DefaultFeature();
+            final DefaultFeature feature = new DefaultFeature();
             feature.setName("Feature " + i);
             try {
                 feature.setCrs((DefaultGeographicCRS) CRS.decode(srs));
-            } catch (Exception exp) {
-                exp.printStackTrace();
+            } catch (Exception e) {
+                 LOGGER.log(Level.SEVERE, "Decode SRS failed !!!", e);
             }
 
-            Map<String, Serializable> attributes = new HashMap<String, Serializable>();
-            List<Object> objects = new ArrayList<Object>();
-            double x1 = (Math.random() - Math.random()) * 180;
-            double x2 = (Math.random() - Math.random()) * 180;
-            double y1 = (Math.random() - Math.random()) * 90;
-            double y2 = (Math.random() - Math.random()) * 90;
-            double minx = Math.min(x1, x2);
-            double miny = Math.min(y1, y2);
-            double maxx = Math.max(x1, x2);
-            double maxy = Math.max(y1, y2);
-            Coordinate[] coords = new Coordinate[]{
+            final Map<String, Serializable> attributes = new HashMap<String, Serializable>();
+            final List<Object> objects = new ArrayList<Object>();
+            final double x1 = (Math.random() - Math.random()) * 180;
+            final double x2 = (Math.random() - Math.random()) * 180;
+            final double y1 = (Math.random() - Math.random()) * 90;
+            final double y2 = (Math.random() - Math.random()) * 90;
+            final double minx = Math.min(x1, x2);
+            final double miny = Math.min(y1, y2);
+            final double maxx = Math.max(x1, x2);
+            final double maxy = Math.max(y1, y2);
+            final Coordinate[] coords = new Coordinate[]{
                 new Coordinate(minx, miny),
                 new Coordinate(minx, maxy),
                 new Coordinate(maxx, maxy),
                 new Coordinate(maxx, miny),
                 new Coordinate(minx, miny),};
-            LinearRing linear = geomBuilder.createLinearRing(coords);
+            final LinearRing linear = geomBuilder.createLinearRing(coords);
             Geometry geometry = geomBuilder.createPolygon(linear, new LinearRing[0]);
 
             final String featuretype;
@@ -345,11 +343,11 @@ public class MapBean {
     }
 
     public void clearCache() {
-        System.out.println("Map bean : clear cache ... Done");
+        LOGGER.log(Level.INFO, "Map bean : clear cache ... Done");
     }
 
     public void dispose() {
-        System.out.println("Map bean : dispose ... Done");
+        LOGGER.log(Level.INFO,"Map bean : dispose ... Done");
     }
 
     public List<Feature> getFeatures() {
@@ -386,5 +384,12 @@ public class MapBean {
      */
     public void setRowList(List<ModelTreeRow> rowList) {
         this.rowList = rowList;
+    }
+
+    /**
+     * @param mapContext the mapContext to set
+     */
+    public void setMapContext(MapContext mapContext) {
+        this.mapContext = mapContext;
     }
 }
