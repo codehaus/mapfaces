@@ -6,7 +6,6 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>MapFaces examples page</title>
     </head>
     <body>
@@ -42,11 +41,22 @@
             <li>
                 <a href="./allbasic.jsf">All basic components in one page</a>
             </li>
+        </ul>
+        <br/>
+        <h2>Chart examples : </h2>
+        <ul>
             <li>
                 <a href="./charts/index.html">Chart demos SVG and VML</a>
             </li>
         </ul>
         <br/>
+        <%--h2>Widget examples : </h2>
+        <ul>
+            <li>
+                <a href="./charts/index.html">Chart demos SVG and VML</a>
+            </li>
+        </ul>
+        <br/--%>
         <h2>Online application examples : </h2>
         <ul>
             <li>

@@ -11,7 +11,7 @@
     <html>
         <head></head>
         <body>
-            <h1></h1>
+            <h1>All basic components in one page</h1>
             <br/>
             <h:form>
                 <h:commandButton value="submit"/>
