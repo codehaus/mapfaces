@@ -24,6 +24,8 @@ import java.io.Serializable;
  * @author Mehdi Sidhoum (Geomatys)
  */
 public class ModelTreeRow implements Serializable {
+
+    private static final long serialVersionUID = 7526471155622776147L;
     private int id;
 
     private String name;
