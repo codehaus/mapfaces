@@ -21,6 +21,8 @@ import java.beans.Introspector;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -30,21 +32,22 @@ import javax.servlet.ServletContextListener;
  */
 public class CleanupListener implements ServletContextListener {
 
+    private static final Logger LOGGER = Logger.getLogger(CleanupListener.class.getName());
+
     public void contextInitialized(ServletContextEvent event) {
     }
 
     public void contextDestroyed(ServletContextEvent event) {
         try {
             Introspector.flushCaches();
-            for (Enumeration e = DriverManager.getDrivers(); e.hasMoreElements();) {
-                Driver driver = (Driver) e.nextElement();
+            for (final Enumeration e = DriverManager.getDrivers(); e.hasMoreElements();) {
+                final Driver driver = (Driver) e.nextElement();
                 if (driver.getClass().getClassLoader() == getClass().getClassLoader()) {
                     DriverManager.deregisterDriver(driver);
                 }
             }
-        } catch (Throwable e) {
-            System.err.println("Failed to cleanup ClassLoader for webapp");
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"Failed to cleanup ClassLoader for webapp",e);
         }
     }
 }

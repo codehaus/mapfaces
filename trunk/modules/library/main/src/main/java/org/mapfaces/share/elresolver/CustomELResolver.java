@@ -30,7 +30,6 @@ import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.lang.model.element.Name;
 import javax.naming.Context;
 import javax.naming.NamingException;
 
@@ -55,7 +54,7 @@ import org.mapfaces.util.ReflectionUtils;
 public class CustomELResolver extends ELResolver {
 
     private static final Logger LOGGER = Logger.getLogger(CustomELResolver.class.getName());
-    
+    private static final String NOT_SUPPORTED = "Not supported yet.";
     /**
      * Evaluates the expression relative to the provided context, and returns the resulting value.
      * Attempts to resolve the given property object on the given base object.
@@ -146,7 +145,7 @@ public class CustomELResolver extends ELResolver {
      */
     @Override
     public boolean isReadOnly(ELContext arg0, Object arg1, Object arg2) throws NullPointerException, PropertyNotFoundException, ELException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     /**
@@ -154,7 +153,7 @@ public class CustomELResolver extends ELResolver {
      */
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext arg0, Object arg1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 
     /**
@@ -162,6 +161,6 @@ public class CustomELResolver extends ELResolver {
      */
     @Override
     public Class<?> getCommonPropertyType(ELContext arg0, Object arg1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(NOT_SUPPORTED);
     }
 }
