@@ -7,28 +7,36 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>MapFaces Example Page</title>
-        <!--script>window.location="./mapfaces.jsf"</script-->
+        <title>MapFaces examples page</title>
     </head>
-    <body style="background-image:url(resources/img/mf_bg.jpg)">
+    <body>
         <br/>
-        <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
+        <h1>Basic examples : </h1>
         <ul>
             <li>
-                <a href="./basic.jsf">basic</a>
+                <a href="./mappane.jsf">MapPane</a>
             </li>
             <li>
-                <a href="./wmsOwc.jsf">Wms</a>
+                <a href="./buttonbar.jsf">ButtonBar</a>
             </li>
             <li>
-                <a href="./wfsOwc.jsf">Wfs</a>
+                <a href="./cursortrack.jsf">CursorTrack</a>
             </li>
             <li>
-                <a href="./blueMarble.jsf">WMS BlueMarble </a>
+                <a href="./scalebar.jsf">ScaleBar</a>
             </li>
             <li>
-                <a href="./blueMarbleMercator.jsf">WMS projected BlueMarble</a>
-            </li>           
+                <a href="./layercontrol.jsf">LayerControl</a>
+            </li>
+            <li>
+                <a href="./featureinfo.jsf">FeatureInfo</a>
+            </li>
+            <li>
+                <a href="./editionbar.jsf">EditionBar</a>
+            </li>
+        </ul>
+        <!--h2>Basic examples</h2>
+        <ul>
             <li>
                 <a href="./fullScreen.jsf">Full screen</a>
             </li>
@@ -37,21 +45,20 @@
             </li>
             <li>
                 <a href="./cursorTrack.jsf">Cursor Track</a>
-            </li>              
+            </li>
             <li>
                 <a href="./multipleWmsLayers.jsf">21 WMS layers from 3 different servers (Demis, Openplans, Geomatys)</a>
-            </li>         
+            </li>
             <li>
                 <a href="./foss4g2008/index.jsf">FOSS4G South Africa 2008 demo</a>
-            </li> 
-             <li>
+            </li>
+            <li>
                 <a href="./multiMapPane.jsf">4 MapPanes to compare geoserver and constellation</a>
             </li>
-	    <li>
+            <li>
                 <a href="./charts/index.html">Chart demos SVG and VML</a>
             </li>
-        </ul>
+        </ul-->
         <br/>
-       
     </body>
 </html>
