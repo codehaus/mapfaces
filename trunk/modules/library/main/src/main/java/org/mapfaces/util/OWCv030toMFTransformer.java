@@ -224,6 +224,15 @@ public class OWCv030toMFTransformer {
                         if (layerType.getMinScaleDenominator() != null) {
                             layer.setMinScaleDenominator(layerType.getMinScaleDenominator());
                         }
+                        /*MetadataURL*/
+                        if (layerType.getMetadataURL() != null ) {
+                            layer.setMetadataUrl(URLEncoder.encode(layerType.getMetadataURL().getOnlineResource().getHref(), "UTF-8"));
+                        }
+                        /*DataURL*/
+                        if (layerType.getDataURL() != null) {
+                            layer.setDataUrl(layerType.getDataURL().getOnlineResource().getHref());
+                        }
+                        
                         /*DimensionList*/
                         HashMap allDims = visitDimensionList(layerType, layer.getServer()/*, webMapServers*/);
                         if (allDims.size() > 0) {

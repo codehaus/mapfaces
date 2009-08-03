@@ -183,6 +183,13 @@ public class TreeItem implements Serializable {
         return ReflectionUtils.invokeGetter(userObject, "CompId", String.class, true);
     }
 
+    /**
+     * This is a getter for MetadataUrl when the userObject is an instance of Layer.
+     */
+    public String getMetadataUrl() {
+        return ReflectionUtils.invokeGetter(userObject, "MetadataUrl", String.class, false);
+    }
+
     public void setName(String name) {
         this.name = name;
     }

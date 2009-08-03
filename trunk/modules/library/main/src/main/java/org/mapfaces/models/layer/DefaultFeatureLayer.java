@@ -21,10 +21,7 @@ package org.mapfaces.models.layer;
  * @author Olivier Terral.
  * @author Mehdi Sidhoum.
  */
-import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.LayerType;
 

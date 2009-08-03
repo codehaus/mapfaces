@@ -39,6 +39,7 @@ import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.renderkit.html.LayerRenderer;
 import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.MapUtils;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
  * @author Olivier Terral.
@@ -78,13 +79,13 @@ public class WmsLayerRenderer extends LayerRenderer {
         final String display = "display:block;";
 
         //Create the Layer_WMS_0 div
-        writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "style");
-        writer.writeAttribute("class", "layerDiv", "style");
+        writer.startElement(HTML.DIV_ELEM, comp);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
+        writer.writeAttribute(HTML.class_ATTRIBUTE, "layerDiv", "styleClass");
         String style = comp.getStyle();
         if (style == null)
             style = "";
-        writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + style, "style");
+        writer.writeAttribute(HTML.style_ATTRIBUTE, display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + style, HTML.style_ATTRIBUTE);
 
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + 
@@ -110,18 +111,18 @@ public class WmsLayerRenderer extends LayerRenderer {
                     Integer.parseInt(model.getWindowHeight()));
 
             //Write the image DIV
-            writer.startElement("div", comp);
-            writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; " +
+            writer.startElement(HTML.DIV_ELEM, comp);
+            writer.writeAttribute(HTML.style_ATTRIBUTE, "overflow: hidden; position: absolute; z-index: 1; " +
                     "left: 0px; top: 0px; width: " + dim.width + "px; " +
-                    "height: " + dim.height + "px;", "style");
+                    "height: " + dim.height + "px;", HTML.style_ATTRIBUTE);
 
             //Write the image element  -------------------------------------
-            writer.startElement("img", comp);
-            writer.writeAttribute("id", comp.getId() + "_Img", "style");
-            writer.writeAttribute("class", "layerImg", "style");
+            writer.startElement(HTML.IMG_ELEM, comp);
+            writer.writeAttribute(HTML.id_ATTRIBUTE, comp.getId() + "_Img", HTML.style_ATTRIBUTE);
+            writer.writeAttribute(HTML.class_ATTRIBUTE, "layerImg", HTML.style_ATTRIBUTE);
 
             if (styleImg != null) {
-                writer.writeAttribute("style", "position:relative;" + styleImg, "style");
+                writer.writeAttribute(HTML.style_ATTRIBUTE, "position:relative;" + styleImg, HTML.style_ATTRIBUTE);
             } 
 
             //Generate the URL contents
@@ -135,8 +136,8 @@ public class WmsLayerRenderer extends LayerRenderer {
                 } catch (IOException ex) {
                     LOGGER.log(Level.SEVERE, "Could not create wms map layer.", ex);
                     //TODO should close divs and writer correctly is this happens
-                    writer.endElement("img");
-                    writer.endElement("div");
+                    writer.endElement(HTML.IMG_ELEM);
+                    writer.endElement(HTML.DIV_ELEM);
                     return;
                 }
             }
@@ -149,7 +150,7 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             // 3. get the URL fragment
             if (mapLayer != null) {
-                writer.writeAttribute("src", mapLayer.query(model.getEnvelope(), dim), "src");
+                writer.writeAttribute(HTML.src_ATTRIBUTE, mapLayer.query(model.getEnvelope(), dim), HTML.src_ATTRIBUTE);
             }
 
             if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {
@@ -183,7 +184,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                 LOGGER.log(Level.INFO, "[WmsLayerRenderer] URL : " + url);
             }
 
-            writer.endElement("img");
+            writer.endElement(HTML.IMG_ELEM);
 
             //@TODO this is a hack to resolve the strange behaviour when the url is too longer for getMap layers only.
             if (layer instanceof DefaultWmsGetMapLayer) {
@@ -191,10 +192,10 @@ public class WmsLayerRenderer extends LayerRenderer {
                         "document.getElementById('" + comp.getId() + "_Img').src=url" + comp.getId() + "_ImgSrc;</script>");
             }
 
-            writer.endElement("div");
+            writer.endElement(HTML.DIV_ELEM);
 
         }
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
         writer.flush();
     }
 
