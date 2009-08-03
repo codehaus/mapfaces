@@ -32,6 +32,8 @@ import org.opengis.temporal.Period;
  * @author Mehdi Sidhoum.
  */
 public class Event implements Serializable {
+    
+    private static final long serialVersionUID = 7526471155622776147L;
 
     private Date dateBegin;
     private Date dateEnd;
