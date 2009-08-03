@@ -49,8 +49,14 @@
         <h2>Chart examples : </h2>
         <ul>
             <li>
-                <a href="./charts/index.html">Chart demos SVG and VML</a>
+                <a href="./charts/chartPNG.jsf">PNG chart example</a>
             </li>
+            <li>
+                <a href="./charts/chartSVG.jsf">SVG chart example</a>
+            </li>
+            <!--li>
+                <a href="./charts/chartVML.jsf">VML chart example</a>
+            </li-->
         </ul>
         <br/>
         <%--h2>Widget examples : </h2>
