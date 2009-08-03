@@ -10,8 +10,9 @@
         <title>MapFaces examples page</title>
     </head>
     <body>
+        <center><h1>Mapfaces examples</h1></center>
         <br/>
-        <h1>Basic examples : </h1>
+        <h2>Basic examples : </h2>
         <ul>
             <li>
                 <a href="./mappane.jsf">MapPane</a>
@@ -35,30 +36,26 @@
                 <a href="./editionbar.jsf">EditionBar</a>
             </li>
         </ul>
-        <!--h2>Basic examples</h2>
+        <br/>
+        <h2>Complex examples : </h2>
         <ul>
             <li>
-                <a href="./fullScreen.jsf">Full screen</a>
-            </li>
-            <li>
-                <a href="./mapSize.jsf">Modify map size</a>
-            </li>
-            <li>
-                <a href="./cursorTrack.jsf">Cursor Track</a>
-            </li>
-            <li>
-                <a href="./multipleWmsLayers.jsf">21 WMS layers from 3 different servers (Demis, Openplans, Geomatys)</a>
-            </li>
-            <li>
-                <a href="./foss4g2008/index.jsf">FOSS4G South Africa 2008 demo</a>
-            </li>
-            <li>
-                <a href="./multiMapPane.jsf">4 MapPanes to compare geoserver and constellation</a>
+                <a href="./allbasic.jsf">All basic components in one page</a>
             </li>
             <li>
                 <a href="./charts/index.html">Chart demos SVG and VML</a>
             </li>
-        </ul-->
+        </ul>
+        <br/>
+        <h2>Online application examples : </h2>
+        <ul>
+            <li>
+                <a target="_blank" href="http://demo.geomatys.com">Geomatys demos site</a>
+            </li>
+            <li>
+                <a target="_blank" href="http://demo20.mdweb-project.org">MDweb 2</a>
+            </li>
+        </ul>
         <br/>
     </body>
 </html>
