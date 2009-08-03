@@ -24,6 +24,7 @@
                     <mf:CursorTrack showDM="true" showLatLon="true"
                                     showPX="true" showXY="true">
                     </mf:CursorTrack>
+                    <mf:Scale></mf:Scale>
                     <mf:ScaleBar></mf:ScaleBar>
                     <mf:LayerControl id="lc"></mf:LayerControl>
                     <mf:DataRequest id="datarequest" targetPopupId="popupfeatureInfo"
