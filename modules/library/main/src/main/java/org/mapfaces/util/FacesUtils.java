@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -42,7 +43,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -120,11 +123,11 @@ import org.opengis.style.Stroke;
 public class FacesUtils {
 
     private static final Logger LOGGER = Logger.getLogger(FacesUtils.class.getName());
-    
     /**
      * this array of colors have a binding with the png markers witih index 0 to 9.
      */
-    public final static Color colors[] = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK, Color.DARK_GRAY, Color.LIGHT_GRAY, Color.BLACK};
+    protected static final Color[] COLORS = {Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.WHITE, Color.PINK, Color.DARK_GRAY, Color.LIGHT_GRAY, Color.BLACK};
+    private static final String DEFAULT_CHARSET = "UTF-8";
 
     /**
      * This is a recursive method to encode all component's children.
@@ -144,7 +147,7 @@ public class FacesUtils {
         } else {
             final Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
+                final UIComponent kid = (UIComponent) kids.next();
                 encodeRecursive(context, kid);
             }
         }
@@ -175,7 +178,7 @@ public class FacesUtils {
             } else {
                 final Iterator kids = component.getChildren().iterator();
                 while (kids.hasNext()) {
-                    UIComponent kid = (UIComponent) kids.next();
+                    final UIComponent kid = (UIComponent) kids.next();
                     encodeRecursive(context, kid, node);
                 }
             }
@@ -241,7 +244,7 @@ public class FacesUtils {
         }
         return (UIMapPane) parent;
     }
-    
+
     /**
      * Returns the corresponding UIMapPane of a specific UIContext
      * @param context
@@ -254,12 +257,13 @@ public class FacesUtils {
         } else {
             final Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
+                final UIComponent kid = (UIComponent) kids.next();
                 return getChildUIMapPane(context, kid);
             }
         }
         return null;
     }
+
     /**
      * Returns the corresponding UIMapPane of a specific UIWidget 
      * @param context
@@ -287,9 +291,13 @@ public class FacesUtils {
             }
 
         } catch (IllegalArgumentException ex) {
+            LOGGER.log(Level.FINE, null, ex);
         } catch (IllegalAccessException ex) {
+            LOGGER.log(Level.FINE, null, ex);
         } catch (NoSuchFieldException ex) {
+            LOGGER.log(Level.FINE, null, ex);
         } catch (SecurityException ex) {
+            LOGGER.log(Level.FINE, null, ex);
         }
         //If component has no property to refers to A UIMapPane, it is include in a UIContext tag
         //so we find this UIContext component and we go through its childs to find UIMapPane who displays its layers
@@ -297,7 +305,7 @@ public class FacesUtils {
             //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
             return getChildUIMapPane(context, component);
         } else {
-            UIComponent parent = FacesUtils.getParentUIContext(context, component);
+            final UIComponent parent = FacesUtils.getParentUIContext(context, component);
 
             if (parent == null) {
                 return null;
@@ -332,44 +340,38 @@ public class FacesUtils {
         while (parent != null && !(parent instanceof UIContext)) {
             parent = parent.getParent();
         }
-        return ((parent == null) ? null : (UIContext) parent);
+        return (parent == null) ? null : (UIContext) parent;
     }
 
     public static PrintWriter getResponseWriter(FacesContext fc) {
         PrintWriter writer = null;
         try {
             writer = getResponse(fc).getWriter();
-        } catch (java.io.IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Can't get the response writer !!!", ex);
         }
         return writer;
     }
 
     public static String getRequestParam(FacesContext fc, String name) {
-        Map<String, String> requestParams = fc.getExternalContext().getRequestParameterMap();
-        return (String) requestParams.get(name);
+        return (String) fc.getExternalContext().getRequestParameterMap().get(name);
     }
 
     public static HttpServletResponse getResponse(FacesContext fc) {
         return (HttpServletResponse) fc.getExternalContext().getResponse();
     }
 
-     /************************************* UIForm functions *********************************/
-    
-
-
-
-     /************************************* find functions *********************************/
-
+    /************************************* UIForm functions *********************************/
+    /************************************* find functions *********************************/
     public static UIForm findForm(UIComponent component) {
         return (UIForm) findParentComponentByClass(component, UIForm.class);
     }
+
     /**
      * <p>Get container form of the UIComponent</p>
      * @param component UIComponent to be rendered
      * @return UIForm the form container of the component if exist else return null
      */
-
     public static String getFormId(FacesContext context, UIComponent component) {
         return findForm(component).getId();
     }
@@ -381,6 +383,7 @@ public class FacesUtils {
     public static UIComponent findComponentByClientId(FacesContext faceContext, String clientId) {
         return findComponentByClientId(faceContext, faceContext.getViewRoot(), clientId);
     }
+
     /**
      * Returns a component referenced by his id.
      * @param context
@@ -402,6 +405,7 @@ public class FacesUtils {
         }
         return component;
     }
+
     /**
      * Returns a component referenced by his clientId.
      *
@@ -412,9 +416,9 @@ public class FacesUtils {
      */
     public static UIComponent findComponentByClientId(final FacesContext context,
             final UIComponent root, final String clientId) {
-       return root.findComponent(clientId);
+        return root.findComponent(clientId);
     }
-    
+
     public static UIComponent findParentComponentByClass(final UIComponent component, final Class c) {
         UIComponent parent = component;
         while (!(c.isInstance(parent))) {
@@ -422,35 +426,32 @@ public class FacesUtils {
         }
         return parent;
     }
+
     public static String getParentComponentIdByClass(final UIComponent component, final Class c) {
         return findParentComponentByClass(component, c).getId();
     }
+
     public static String getParentComponentClientIdByClass(final FacesContext faceContext,
             final UIComponent component, final Class c) {
         return findParentComponentByClass(component, c).getClientId(faceContext);
     }
 
-
-
-    
     public static RenderKit getRenderKit(final FacesContext context) {
         String renderKitId = context.getViewRoot().getRenderKitId();
         renderKitId = (null != renderKitId) ? renderKitId : RenderKitFactory.HTML_BASIC_RENDER_KIT;
-        RenderKitFactory fact = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-        assert (null != fact);
-
-        RenderKit curRenderKit = fact.getRenderKit(context, renderKitId);
-        return curRenderKit;
+        final RenderKitFactory fact = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+        assert null != fact;
+        return fact.getRenderKit(context, renderKitId);
     }
 
     public static ResponseWriter getResponseWriter2(FacesContext context) throws IOException {
         ResponseWriter curWriter = context.getResponseWriter();
         if (null == curWriter) {
-            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
-            RenderKitFactory rkf = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-            RenderKit renderKit = rkf.getRenderKit(context,
+            final RenderKitFactory rkf = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+            final RenderKit renderKit = rkf.getRenderKit(context,
                     context.getViewRoot().getRenderKitId());
 
             curWriter = renderKit.createResponseWriter(response.getWriter(),
@@ -468,12 +469,12 @@ public class FacesUtils {
      * @return the Map of the component.
      */
     public static Map<String, Object> getParameterMap(UIComponent component) {
-        Map result = new HashMap();
-        for (Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
-            UIComponent child = (UIComponent) iter.next();
+        final Map result = new HashMap();
+        for (final Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
+            final UIComponent child = (UIComponent) iter.next();
             if (child instanceof UIParameter) {
-                UIParameter uiparam = (UIParameter) child;
-                Object value = uiparam.getValue();
+                final UIParameter uiparam = (UIParameter) child;
+                final Object value = uiparam.getValue();
                 if (value != null) {
                     result.put(uiparam.getName(), value);
                 }
@@ -489,7 +490,7 @@ public class FacesUtils {
      * @return the id of the life cycle.
      */
     public static String getLifecycleId(ServletContext context) {
-        String lifecycleId = context.getInitParameter(FacesServlet.LIFECYCLE_ID_ATTR);
+        final String lifecycleId = context.getInitParameter(FacesServlet.LIFECYCLE_ID_ATTR);
         return lifecycleId != null ? lifecycleId
                 : LifecycleFactory.DEFAULT_LIFECYCLE;
     }
@@ -513,8 +514,8 @@ public class FacesUtils {
         extraParams.put(AjaxUtils.AJAX_CONTAINER_ID_KEY, comp.getClientId(context));
         /*if we don't want to reRender another component than the "var" component */
         //if (idsToReRender == null) {
-            idsToReRender += "," +varId ;
-       // }
+        idsToReRender += "," + varId;
+        // }
         return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);
     }
 
@@ -529,13 +530,12 @@ public class FacesUtils {
      * @return  ajaxComp        the <a4j:support> component
      */
     public static HtmlAjaxSupport createSynchronizedAjaxSupport(final FacesContext context, final UIComponent comp,
-            final String event, String idsToReRender, final HashMap<String, String> extraParams) {
+            final String event, String idsToReRender, final Map<String, String> extraParams) {
 
         /* To use the synchronized parameter the reRender attribute must be null*/
         extraParams.put("synchronized", "true");
         extraParams.put("refresh", idsToReRender);
-        idsToReRender = null;
-        return createExtraAjaxSupport(context, comp, event, idsToReRender, extraParams);
+        return createExtraAjaxSupport(context, comp, event, null, extraParams);
     }
 
     /**
@@ -549,12 +549,12 @@ public class FacesUtils {
      * @return  ajaxComp        the <a4j:support> component
      */
     public static HtmlAjaxSupport createExtraAjaxSupport(final FacesContext context, final UIComponent comp,
-            final String event, final String idsToReRender, final HashMap<String, String> extraParams) {
+            final String event, final String idsToReRender, final Map<String, String> extraParams) {
 
         /* Add <a4j:support> component */
         final HtmlAjaxSupport ajaxComp = createBasicAjaxSupport(context, comp, event, idsToReRender);
-        for (final String tmp : extraParams.keySet()) {
-            ajaxComp.getChildren().add(createFParam(tmp, extraParams.get(tmp)));
+        for (final Entry tmp : extraParams.entrySet()) {
+            ajaxComp.getChildren().add(createFParam((String) tmp.getKey(), extraParams.get(tmp.getKey())));
         }
         return ajaxComp;
     }
@@ -598,7 +598,7 @@ public class FacesUtils {
      */
     public static HtmlAjaxSupport createTreeAjaxSupportWithParameters(final FacesContext context,
             final UIComponent comp, final String event, final String varId, String idsToReRender,
-            final HashMap<String, String> params, final String onSubmitJS, String onCompleteJS) {
+            final Map<String, String> params, final String onSubmitJS, String onCompleteJS) {
 
         if (comp == null) {
             return null;
@@ -614,8 +614,8 @@ public class FacesUtils {
 
         /* Add <a4j:support> component */
         final HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS);
-        for (final String tmp : extraParams.keySet()) {
-            ajaxComp.getChildren().add(createFParam(tmp, extraParams.get(tmp)));
+        for (final Entry tmp : extraParams.entrySet()) {
+            ajaxComp.getChildren().add(createFParam((String) tmp.getKey(), extraParams.get(tmp.getKey())));
         }
         return ajaxComp;
     }
@@ -639,7 +639,6 @@ public class FacesUtils {
         ajaxComp.setEvent(event);
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setLimitToList(true);
-        System.out.println("idsToReRender : " + idsToReRender);
         ajaxComp.setReRender(idsToReRender);
 
         if (onSubmitJS != null && !onSubmitJS.equals("")) {
@@ -667,15 +666,15 @@ public class FacesUtils {
      * @return
      */
     public static boolean matchesStringfromList(final List<String> list, final String str) {
-        boolean str_available = false;
+        boolean strAvailable = false;
         for (final String s : list) {
             final Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
             final Matcher matcher = pattern.matcher(s);
             if (matcher.find()) {
-                str_available = true;
+                strAvailable = true;
             }
         }
-        return str_available;
+        return strAvailable;
     }
 
     /**
@@ -685,15 +684,15 @@ public class FacesUtils {
      * @return
      */
     public static boolean matchesKeywordfromList(List<? extends AbstractKeyword> list, String str) {
-        boolean str_available = false;
+        boolean strAvailable = false;
         for (AbstractKeyword k : list) {
-            Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
-            Matcher matcher = pattern.matcher(k.getValue());
+            final Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
+            final Matcher matcher = pattern.matcher(k.getValue());
             if (matcher.find()) {
-                str_available = true;
+                strAvailable = true;
             }
         }
-        return str_available;
+        return strAvailable;
     }
 
     /**
@@ -748,7 +747,7 @@ public class FacesUtils {
      * @return
      */
     public static List<UIHotZoneBandInfo> getBandInfoTimelineChildren(FacesContext context, UITimeLine timeline) {
-        List<UIHotZoneBandInfo> result = new ArrayList<UIHotZoneBandInfo>();
+        final List<UIHotZoneBandInfo> result = new ArrayList<UIHotZoneBandInfo>();
         if (context != null && timeline != null) {
             for (UIComponent child : timeline.getChildren()) {
                 if (child instanceof UIHotZoneBandInfo) {
@@ -765,10 +764,10 @@ public class FacesUtils {
      */
     public static String getCurrentSessionId() {
         String result = null;
-        FacesContext context = FacesContext.getCurrentInstance();
+        final FacesContext context = FacesContext.getCurrentInstance();
         if (context != null) {
-            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            HttpSession session = request.getSession();
+            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            final HttpSession session = request.getSession();
             result = session.getId();
         }
         return result;
@@ -779,10 +778,10 @@ public class FacesUtils {
      * @return the server name.
      */
     public static String getServerInfoFromContext() {
-        FacesContext context = FacesContext.getCurrentInstance();
+        final FacesContext context = FacesContext.getCurrentInstance();
         if (context != null) {
-            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            HttpSession session = request.getSession();
+            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            final HttpSession session = request.getSession();
             return session.getServletContext().getServerInfo();
         }
         return null;
@@ -815,15 +814,13 @@ public class FacesUtils {
     public static MutableStyle createStyle(String urlImage, int size, double rotation, int indexLayer) throws MalformedURLException {
 
         final FilterFactory filterFactory = org.geotoolkit.factory.FactoryFinder.getFilterFactory(null);
-        final MutableStyleFactory styleFactory = (MutableStyleFactory) org.geotoolkit.factory.FactoryFinder.
-                getStyleFactory(new Hints(Hints.STYLE_FACTORY, MutableStyleFactory.class));
+        final MutableStyleFactory styleFactory = (MutableStyleFactory) org.geotoolkit.factory.FactoryFinder.getStyleFactory(new Hints(Hints.STYLE_FACTORY, MutableStyleFactory.class));
         final MutableStyle style = styleFactory.style();
         final MutableFeatureTypeStyle fts = styleFactory.featureTypeStyle();
         final MutableRule rulePoint = styleFactory.rule();
         final MutableRule rulePolygon = styleFactory.rule();
 
 
-        final String format = "image/png";
         final ImageIcon icon = new ImageIcon(new URL(urlImage));
 
         final ExternalGraphic external = styleFactory.externalGraphic(icon, null);
@@ -836,20 +833,20 @@ public class FacesUtils {
         final Expression expRotation = filterFactory.literal(rotation);
 
         final AnchorPoint anchor = styleFactory.anchorPoint(0.5, 1); //for markers we need to move the anchor point to the img bottom.
-        final Displacement disp = null;
-        final Graphic graphic = styleFactory.graphic(symbols, opacity, expSize, expRotation, anchor, disp);
-
-        final Filter filterPoint = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POINT));
+        //final Displacement disp = null ;
+        final Graphic graphic = styleFactory.graphic(symbols, opacity, expSize, expRotation, anchor, null);
+        final String typePropertyKey = "type";
+        final Filter filterPoint = filterFactory.equals(filterFactory.property(typePropertyKey), filterFactory.literal(Feature.POINT));
         final PointSymbolizer pointSymbol = styleFactory.pointSymbolizer(graphic, "");
 
         rulePoint.symbolizers().add(pointSymbol);
         rulePoint.setFilter(filterPoint);
 
-        final Filter filterPolygon = filterFactory.equals(filterFactory.property("type"), filterFactory.literal(Feature.POLYGON));
-        final Stroke stroke = styleFactory.stroke(styleFactory.literal(colors[indexLayer]),
+        final Filter filterPolygon = filterFactory.equals(filterFactory.property(typePropertyKey), filterFactory.literal(Feature.POLYGON));
+        final Stroke stroke = styleFactory.stroke(styleFactory.literal(COLORS[indexLayer]),
                 filterFactory.literal(2),
                 filterFactory.literal(0.8));
-        final Fill fill = styleFactory.fill(styleFactory.literal(colors[indexLayer]), filterFactory.literal(0.1));
+        final Fill fill = styleFactory.fill(styleFactory.literal(COLORS[indexLayer]), filterFactory.literal(0.1));
         final PolygonSymbolizer polygonSymbol = styleFactory.polygonSymbolizer(stroke, fill, "marker");
 
         rulePolygon.symbolizers().add(polygonSymbol);
@@ -872,15 +869,15 @@ public class FacesUtils {
         if (param == null || url == null || url.equals("")) {
             return null;
         }
-        Pattern patternParam = Pattern.compile("(?i)" + param + "=");
-        Matcher matcherParam = patternParam.matcher(url);
+        final Pattern patternParam = Pattern.compile("(?i)" + param + "=");
+        final Matcher matcherParam = patternParam.matcher(url);
         if (matcherParam.find()) {
-            String subst = url.substring(url.lastIndexOf(matcherParam.group()));
+            final String subst = url.substring(url.lastIndexOf(matcherParam.group()));
             String result;
             if (subst.contains("&")) {
-                result = subst.substring(subst.indexOf("=") + 1, subst.indexOf("&"));
+                result = subst.substring(subst.indexOf('=') + 1, subst.indexOf('&'));
             } else {
-                result = subst.substring(subst.indexOf("=") + 1);
+                result = subst.substring(subst.indexOf('=') + 1);
             }
             return result;
         }
@@ -898,14 +895,14 @@ public class FacesUtils {
         if (param == null || param.equals("") || url == null) {
             return url;
         } else {
-            Pattern patternParam = Pattern.compile("(?i)" + param + "=");
-            Matcher matcherParam = patternParam.matcher(url);
+            final Pattern patternParam = Pattern.compile("(?i)" + param + "=");
+            final Matcher matcherParam = patternParam.matcher(url);
             if (matcherParam.find()) {
                 String subst = url.substring(0, matcherParam.end());
-                String temp = url.substring(matcherParam.end());
+                final String temp = url.substring(matcherParam.end());
                 String endStr;
                 if (temp.contains("&")) {
-                    endStr = temp.substring(temp.indexOf("&"));
+                    endStr = temp.substring(temp.indexOf('&'));
                 } else {
                     endStr = "";
                 }
@@ -923,27 +920,27 @@ public class FacesUtils {
      * This method builds a feature.
      */
     public static DefaultFeature buildFeature(String identifier, String srs, Double[] bbox, GeometryFactory geomBuilder, String toponym, String title, String resume, Serializable obj) {
-        DefaultFeature feature = new DefaultFeature();
+        final DefaultFeature feature = new DefaultFeature();
         feature.setId(identifier);
         try {
             feature.setCrs((DefaultGeographicCRS) CRS.decode(srs));
-        } catch (Exception exp) {
-            exp.printStackTrace();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
         }
-        Map<String, Serializable> attributes = new HashMap<String, Serializable>();
-        double minx = bbox[0];
-        double miny = bbox[1];
-        double maxx = bbox[2];
-        double maxy = bbox[3];
+        final Map<String, Serializable> attributes = new HashMap<String, Serializable>();
+        final double minx = bbox[0];
+        final double miny = bbox[1];
+        final double maxx = bbox[2];
+        final double maxy = bbox[3];
 
-        Coordinate[] coords = new Coordinate[]{
+        final Coordinate[] coords = new Coordinate[]{
             new Coordinate(minx, miny),
             new Coordinate(minx, maxy),
             new Coordinate(maxx, maxy),
             new Coordinate(maxx, miny),
             new Coordinate(minx, miny),};
 
-        LinearRing linear = geomBuilder.createLinearRing(coords);
+        final LinearRing linear = geomBuilder.createLinearRing(coords);
         Geometry geometry = geomBuilder.createPolygon(linear, new LinearRing[0]);
 
         final String featuretype;
@@ -1007,21 +1004,23 @@ public class FacesUtils {
 
     public static MutableStyledLayerDescriptor getSLDfromGetmapUrl(String url) {
         MutableStyledLayerDescriptor result = null;
-        if (url == null || FacesUtils.getParameterValue("SLD_BODY", url) == null || FacesUtils.getParameterValue("SLD_BODY", url).equals("")) {
+        final String sldbodyKey = "SLD_BODY";
+        if (url == null || FacesUtils.getParameterValue(sldbodyKey, url) == null || FacesUtils.getParameterValue(sldbodyKey, url).equals("")) {
             return result;
         }
-        String sldbody = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + FacesUtils.getParameterValue("SLD_BODY", url);
+        String sldbody = "<?xml version=\"1.0\" encoding=\"" + DEFAULT_CHARSET + "\"?>" +
+                FacesUtils.getParameterValue(sldbodyKey, url);
         sldbody = convertSpecialCharsToValidXml(sldbody);
 
-        XMLUtilities xmlUtils = new XMLUtilities();
+        final XMLUtilities xmlUtils = new XMLUtilities();
         try {
             byte[] arrayByte = null;
             try {
-                arrayByte = sldbody.getBytes("UTF-8");
+                arrayByte = sldbody.getBytes(DEFAULT_CHARSET);
             } catch (UnsupportedEncodingException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayByte);
+            final ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayByte);
             result = xmlUtils.readSLD(inputStream, StyledLayerDescriptor.V_1_0_0);
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -1058,10 +1057,10 @@ public class FacesUtils {
         double lat = 0;
         double lon = 0;
         if (envelope != null && dimension != null && envelope.getLowerCorner() != null && envelope.getUpperCorner() != null) {
-            double envWidth = Math.abs(envelope.getUpperCorner().getCoordinate()[0] - envelope.getLowerCorner().getCoordinate()[0]);
-            double envHeight = Math.abs(envelope.getUpperCorner().getCoordinate()[1] - envelope.getLowerCorner().getCoordinate()[1]);
-            double objX = envelope.getLowerCorner().getCoordinate()[0] + (x * envWidth) / dimension.width;
-            double objY = -(envelope.getLowerCorner().getCoordinate()[1] + (y * envHeight) / dimension.height);
+            final double envWidth = Math.abs(envelope.getUpperCorner().getCoordinate()[0] - envelope.getLowerCorner().getCoordinate()[0]);
+            final double envHeight = Math.abs(envelope.getUpperCorner().getCoordinate()[1] - envelope.getLowerCorner().getCoordinate()[1]);
+            final double objX = envelope.getLowerCorner().getCoordinate()[0] + (x * envWidth) / dimension.width;
+            final double objY = -(envelope.getLowerCorner().getCoordinate()[1] + (y * envHeight) / dimension.height);
             lat = objY;
             lon = objX;
         }
@@ -1073,103 +1072,12 @@ public class FacesUtils {
      * @return String
      */
     public static String getHostUrl() {
-        ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        //ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String url = request.getRequestURL().toString();
-        String uri = request.getRequestURI();
+        final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        final String url = request.getRequestURL().toString();
+        final String uri = request.getRequestURI();
         return url.substring(0, url.indexOf(uri));
-    }
-
-    /**
-     * Send a request and add logs in a list.
-     * @param sourceURL
-     * @param request
-     * @param marshaller
-     * @param unmarshaller
-     * @param logs
-     * @return
-     * @throws java.net.MalformedURLException
-     * @throws java.io.IOException
-     */
-    public static Object sendRequest(String sourceURL, Object request, Marshaller marshaller, Unmarshaller unmarshaller, List<String> logs) throws MalformedURLException, IOException {
-
-        if (logs != null) {
-            Date d = new Date();
-            logs.add("["+d+"] Trying to connect to URL = " + sourceURL);
-        }
-
-        URL source = new URL(sourceURL);
-        URLConnection conec = source.openConnection();
-        Object harvested = null;
-
-        try {
-            // for a POST request
-            if (request != null) {
-
-                conec.setDoOutput(true);
-                conec.setRequestProperty("Content-Type", "text/xml");
-                OutputStreamWriter wr = new OutputStreamWriter(conec.getOutputStream());
-                StringWriter sw = new StringWriter();
-                try {
-                    marshaller.marshal(request, sw);
-                } catch (JAXBException ex) {
-                    LOGGER.log(Level.SEVERE, "Unable to marshall the request: " + ex.getMessage());
-                }
-                String XMLRequest = sw.toString();
-                if (logs != null) {
-                    logs.add("Post request URL = " + sourceURL);
-                    logs.add("XMLRequest = " + XMLRequest);
-                }
-                wr.write(XMLRequest);
-                wr.flush();
-            }
-
-            // we get the response document
-            InputStream in = conec.getInputStream();
-            StringWriter out = new StringWriter();
-            byte[] buffer = new byte[1024];
-            int size;
-
-            while ((size = in.read(buffer, 0, 1024)) > 0) {
-                out.write(new String(buffer, 0, size));
-            }
-
-            //we convert the brut String value into UTF-8 encoding
-            String brutString = out.toString();
-
-            //we need to replace % character by "percent because they are reserved char for url encoding
-            brutString = brutString.replaceAll("%", "percent");
-            String decodedString = java.net.URLDecoder.decode(brutString, "UTF-8");
-
-            try {
-                decodedString = decodedString.replaceAll("percent", "%");
-                if (unmarshaller == null) {
-                    return decodedString;
-                } else {
-                    harvested = unmarshaller.unmarshal(new StringReader(decodedString));
-                    if (harvested != null && harvested instanceof JAXBElement) {
-                        harvested = ((JAXBElement) harvested).getValue();
-                    }
-                }
-            } catch (JAXBException ex) {
-                LOGGER.log(Level.SEVERE, "The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
-                        "cause: " + ex.getMessage(),ex);
-                if (logs != null) {
-                    logs.add("The distant service does not respond correctly: unable to unmarshall response document." + '\n' +
-                            "cause: " + ex.getMessage());
-                }
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "The Distant service have made an error ! "+ex.getStackTrace());
-
-            if (logs != null) {
-                logs.add("The Distant service has made an error ! url = " + sourceURL);
-                logs.add(ex.getMessage());
-            }
-            return null;
-        }
-        return harvested;
     }
 
     /**
@@ -1186,8 +1094,8 @@ public class FacesUtils {
      */
     public static Object sendRequest(String sourceURL, Object request,
             Marshaller marshaller, Unmarshaller unmarshaller) throws MalformedURLException, IOException {
-       URL source = new URL(sourceURL);
-        URLConnection conec = source.openConnection();
+        final URL source = new URL(sourceURL);
+        final URLConnection conec = source.openConnection();
         Object harvested = null;
 
         try {
@@ -1196,22 +1104,23 @@ public class FacesUtils {
 
                 conec.setDoOutput(true);
                 conec.setRequestProperty("Content-Type", "text/xml");
-                OutputStreamWriter wr = new OutputStreamWriter(conec.getOutputStream());
-                StringWriter sw = new StringWriter();
+                final OutputStreamWriter wr = new OutputStreamWriter(conec.getOutputStream());
+                final StringWriter sw = new StringWriter();
                 try {
                     marshaller.marshal(request, sw);
                 } catch (JAXBException ex) {
                     LOGGER.log(Level.SEVERE, "Unable to marshall the request: ", ex);
                 }
-                String XMLRequest = sw.toString();
-                wr.write(XMLRequest);
+                final String xmlRequest = sw.toString();
+                wr.write(xmlRequest);
                 wr.flush();
+                wr.close();
             }
 
             // we get the response document
-            InputStream in = conec.getInputStream();
-            StringWriter out = new StringWriter();
-            byte[] buffer = new byte[1024];
+            final InputStream in = conec.getInputStream();
+            final StringWriter out = new StringWriter();
+            final byte[] buffer = new byte[1024];
             int size;
 
             while ((size = in.read(buffer, 0, 1024)) > 0) {
@@ -1220,18 +1129,18 @@ public class FacesUtils {
 
             //we convert the brut String value into UTF-8 encoding
             String brutString = out.toString();
-
+            final String percentKey = "percent";
             //we need to replace % character by "percent because they are reserved char for url encoding
-            brutString = brutString.replaceAll("%", "percent");
+            brutString = brutString.replaceAll("%", percentKey);
             String decodedString = URLDecoder.decode(brutString, "UTF-8");
 
             try {
-                decodedString = decodedString.replaceAll("percent", "%");
+                decodedString = decodedString.replaceAll(percentKey, "%");
                 if (unmarshaller == null) {
                     return decodedString;
                 } else {
                     harvested = unmarshaller.unmarshal(new StringReader(decodedString));
-                    if (harvested != null && harvested instanceof JAXBElement) {
+                    if (harvested instanceof JAXBElement) {
                         harvested = ((JAXBElement) harvested).getValue();
                     }
                 }
@@ -1253,12 +1162,12 @@ public class FacesUtils {
      * @return
      */
     public static boolean isIEBrowser(FacesContext context) {
-        HttpServletRequest servletReq = (HttpServletRequest) context.getExternalContext().getRequest();
-        String useragent = servletReq.getHeader("User-Agent");
+        final HttpServletRequest servletReq = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String useragent = servletReq.getHeader("User-Agent");
         boolean isIE = false;
         if (useragent != null) {
-            String user = useragent.toLowerCase();
-            if ((user.indexOf("msie") != -1)) {
+            final String user = useragent.toLowerCase(Locale.getDefault());
+            if (user.indexOf("msie") != -1) {
                 isIE = true;
             }
         }
@@ -1272,11 +1181,11 @@ public class FacesUtils {
      */
     public static PhaseListener getListenerFromLifeCycle(Class<?> c) {
         //getting the DetectBrowserListener if is exists, else uses the FacesUtils method.
-        LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-        Lifecycle lifecycle = factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
-        PhaseListener[] listeners = lifecycle.getPhaseListeners();
+        final LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+        final Lifecycle lifecycle = factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
+        final PhaseListener[] listeners = lifecycle.getPhaseListeners();
         for (int i = 0; i < listeners.length; i++) {
-            PhaseListener listener = listeners[i];
+            final PhaseListener listener = listeners[i];
             if (c.isInstance(listener)) {
                 return listener;
             }
@@ -1289,7 +1198,7 @@ public class FacesUtils {
      * @param context
      * @return
      */
-    public static String findClientIdComponentClass(final FacesContext context, final UIComponent root,final Class cl) {
+    public static String findClientIdComponentClass(final FacesContext context, final UIComponent root, final Class cl) {
         String clientId = null;
         for (int i = 0; i < root.getChildCount() && clientId == null; i++) {
             final UIComponent child = (UIComponent) root.getChildren().get(i);
@@ -1309,16 +1218,6 @@ public class FacesUtils {
         }
         return jsVariable;
     }
-
-
-
-
-
-
-
-
-
-   
 
     public static UIComponent showComponent(FacesContext faceContext, UIComponent root) {
         UIComponent component = null;

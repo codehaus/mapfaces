@@ -26,6 +26,7 @@ import org.mapfaces.models.DescriptionURL;
 import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.LayerType;
+import org.mapfaces.models.metadata.Metadata;
 import org.opengis.geometry.Envelope;
 
 public class DefaultLayer implements Layer {
@@ -63,6 +64,7 @@ public class DefaultLayer implements Layer {
     private String inlineGeometry;
     private String dataUrl;
     private String metadataUrl;
+    private Metadata metadata;
     private String responseCRS;
     private String depth;
     private String resX;
@@ -773,6 +775,14 @@ public class DefaultLayer implements Layer {
 
     public boolean isDisable() {
         return disable;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 
 

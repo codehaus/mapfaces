@@ -17,13 +17,17 @@
 
 package org.mapfaces.renderkit.html;
 
+import com.sun.faces.renderkit.html_basic.OutputLinkRenderer;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlGraphicImage;
+import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
 import org.mapfaces.adapter.owc.Adapter;
 import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UILayerControl;
@@ -245,21 +249,44 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             tni.setTitle(INFOTREENODEINFO_TITLE);
             tni.setStyle(STYLE_TREENODEINFO);
             if (layerControl.isLayerInfo()) {
-                final UIOutput o1 = new UIOutput();
-                final UIOutput o3 = new UIOutput();
+
                 final UIOutput o4 = new UIOutput();
-                final UIOutput o5 = new UIOutput();
-                final HtmlGraphicImage o6 = new HtmlGraphicImage();
                 o4.setValue("Id : #{treeItem.id}");
-                o1.setValue("Name : #{treeItem.name}");
-                o3.setValue("Group : #{treeItem.group}");
-                o5.setValue("Format : #{treeItem.outputFormat}");
-                o6.setUrl("#{treeItem.legendUrl}");
                 tni.getChildren().add(o4);
+
+                final UIOutput o1 = new UIOutput();
+                o1.setValue("Name : #{treeItem.name}");
                 tni.getChildren().add(o1);
-                tni.getChildren().add(o6);
+
+                final UIOutput o3 = new UIOutput();
+                o3.setValue("Group : #{treeItem.group}");
                 tni.getChildren().add(o3);
+
+                final UIOutput o5 = new UIOutput();
+                o5.setValue("Format : #{treeItem.outputFormat}");
                 tni.getChildren().add(o5);
+
+                final HtmlGraphicImage o6 = new HtmlGraphicImage();
+                o6.setUrl("#{treeItem.legendUrl}");
+                tni.getChildren().add(o6);
+//
+                final HtmlOutputLink o7 = new HtmlOutputLink();
+                o7.setValue("../metaDataPopup.jsf?url=#{treeItem.metadataUrl}");
+                o7.setTarget("_blank");
+                final UIOutput o71 = new UIOutput();
+                o71.setId("metadataUrl_label");
+                o71.setValue("link to metadata");
+                o7.getChildren().add(o71);
+                tni.getChildren().add(o7);
+
+                final HtmlOutputLink o8 = new HtmlOutputLink();
+                o8.setValue("#{treeItem.dataUrl}");
+                o8.setTarget("_blank");
+                final UIOutput o81 = new UIOutput();
+                o81.setId("dataUrl_label");
+                o81.setValue("link to data");
+                o8.getChildren().add(o81);
+                tni.getChildren().add(o8);
             }
             if (layerControl.isColorMapEditor()) {
                 final UIDimRange dr = new UIDimRange();

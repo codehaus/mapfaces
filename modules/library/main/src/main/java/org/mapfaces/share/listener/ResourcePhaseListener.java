@@ -40,6 +40,8 @@ public class ResourcePhaseListener implements PhaseListener {
     public static final String CONTENT_TYPE_PARAM = "ct";
     public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
     static public final long DEFAULT_EXPIRE = 1000L * 60L * 60L * 24L * 30L;// 30 day
+
+   
     private final Map<String, String> extensionToContentType;
     private static final Map<String, String> POOL = new HashMap<String, String>();
 
@@ -151,20 +153,29 @@ public class ResourcePhaseListener implements PhaseListener {
         }
         final ViewHandler handler = context.getApplication().getViewHandler();
         final String url = handler.getActionURL(context, RESOURCE_PREFIX);
-
-        final StringBuilder sb = new StringBuilder(url);
-        sb.append("?").append(RESOURCE_LOCATION_PARAM).append("=").append(resourcePath);
-        if (contentType != null) {
-            sb.append(",").append(CONTENT_TYPE_PARAM).append("=").append(contentType);
-        }
-        POOL.put(resourcePath, sb.toString());
-
-        return sb.toString();
+        
+        return buildUrl(url, resourcePath, contentType);
     }
-
+    public static String getLoadStyleURL(final FacesContext context, final String resourcePath, final String contentType) {
+        if (POOL.containsKey(resourcePath)) {
+            return getURLvalue(resourcePath);
+        }
+        return buildUrl(RESOURCE_PREFIX + ".jsf", resourcePath, contentType);
+    }
     public static String getURLvalue(final String key) {
         synchronized (POOL) {
             return POOL.get(key);
         }
     }
+
+    private static String buildUrl(final String url, final String resourcePath, final String contentType) {
+         final StringBuilder sb = new StringBuilder(url);
+        sb.append("?").append(RESOURCE_LOCATION_PARAM).append("=").append(resourcePath);
+        if (contentType != null) {
+            sb.append(",").append(CONTENT_TYPE_PARAM).append("=").append(contentType);
+        }
+        POOL.put(resourcePath, sb.toString());
+        return sb.toString();
+    }
+
 }

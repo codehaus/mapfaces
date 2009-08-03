@@ -19,6 +19,7 @@ package org.mapfaces.models;
 
 import java.io.Serializable;
 import java.util.Map;
+import org.mapfaces.models.metadata.Metadata;
 import org.opengis.geometry.Envelope;
 import org.opengis.util.Cloneable;
 
@@ -58,6 +59,8 @@ public interface Layer extends Serializable, Cloneable {
     Double getMaxScaleDenominator();
 
     String getMetadataUrl();
+    
+    Metadata getMetadata();
 
     Double getMinScaleDenominator();
 
@@ -113,6 +116,8 @@ public interface Layer extends Serializable, Cloneable {
     void setMaxScaleDenominator(Double maxScaleDenominator);
 
     void setMetadataUrl(String metadataUrl);
+
+    void setMetadata(Metadata metadata);
 
     void setMinScaleDenominator(Double minScaleDenominator);
 

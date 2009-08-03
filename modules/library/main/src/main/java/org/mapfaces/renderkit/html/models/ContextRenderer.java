@@ -38,6 +38,8 @@ import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
+import org.ajax4jsf.ajax.html.HtmlLoadScript;
+import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.geotoolkit.map.MapContext;
 
 import org.mapfaces.component.UIWidgetBase;
@@ -100,18 +102,9 @@ public class ContextRenderer extends Renderer {
 
         //Add MapFaces css
         if (resourcesFlag) {
-            writer.startElement("head", component);
-            writer.startElement("link", component);
-            writer.startElement("link", component);
-            writer.writeAttribute("rel", "stylesheet", "rel");
-            if(comp.isMinifyJS())
-                writer.writeAttribute("href", ResourcePhaseListener.getURL(context, MAPFACES_CSS, null), null);
-            else
-                writer.writeAttribute("href", ResourcePhaseListener.getURL(context, WIDGET_CSS, null), null);
-            writer.writeAttribute("type", "text/css", null);
-            writer.endElement("link");
-
-            writer.endElement("head");
+            HtmlLoadStyle css = new HtmlLoadStyle();
+            css.setSrc(ResourcePhaseListener.getLoadStyleURL(context, MAPFACES_CSS, null));
+            comp.getChildren().add(css);
         }
 
 /*@TODO remove all Mootools reference from MapFaces */
@@ -310,15 +303,17 @@ public class ContextRenderer extends Renderer {
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setImmediate(true);
         ajaxComp.setLimitToList(true);
-        //ajaxComp.setIgnoreDupResponses(true);
+        ajaxComp.setIgnoreDupResponses(true);
         //ajaxComp.setBypassUpdates(true);
+        //ajaxComp.setEventsQueue("org.mapfaces.ajax.AJAX_LAYER_ID");
         ajaxComp.setRequestDelay(5);
         ajaxComp.setReRender(comp.getId());
+        
         if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
             comp.getFacets().put("a4jsupport", ajaxComp);
             comp.setAjaxCompId(ajaxComp.getClientId(context));
         }
-
+        System.out.println( comp.getAjaxCompId());
     }
 
     /**
@@ -374,7 +369,8 @@ public class ContextRenderer extends Renderer {
 
             final Map params = context.getExternalContext().getRequestParameterMap();
             final String title = (String) params.get(FacesUtils.getFormId(context, component) + ":title");
-            if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
+            if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null
+                    && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
                 final ServletContext servletCtx = (ServletContext) context.getExternalContext().getContext();
                 if (!params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME").equals("null")) {
                     tmp.save(servletCtx, (String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));
