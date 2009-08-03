@@ -23,6 +23,9 @@
                 <a href="./cursortrack.jsf">CursorTrack</a>
             </li>
             <li>
+                <a href="./scale.jsf">ScaleText</a>
+            </li>
+            <li>
                 <a href="./scalebar.jsf">ScaleBar</a>
             </li>
             <li>
