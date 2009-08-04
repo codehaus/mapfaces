@@ -26,8 +26,6 @@ public class AbstractUI extends UIBase {
 
     public static final String FAMILIY = "org.mapfaces.example";
 
-    /* Fields */
-    private String id;
     
 
     /* Methods */
@@ -42,7 +40,7 @@ public class AbstractUI extends UIBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[1];
+        final Object[] values = new Object[1];
         values[0] = super.saveState(context);
         return values;
     }
@@ -57,7 +55,7 @@ public class AbstractUI extends UIBase {
      */
     @Override
     public void restoreState(final FacesContext context, final Object state) {
-        final Object values[] = (Object[]) state;
+        final Object[] values = (Object[]) state;
         super.restoreState(context, values[0]);
     }
 

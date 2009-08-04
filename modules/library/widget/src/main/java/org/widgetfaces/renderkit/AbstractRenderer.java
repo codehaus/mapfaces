@@ -19,7 +19,6 @@ package org.widgetfaces.renderkit;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 import org.mapfaces.util.FacesUtils;
@@ -87,20 +86,7 @@ public class AbstractRenderer extends Renderer{
     }
 
     /* Others methods */
-    /**
-     * <p>Get container form of the UIComponent</p>
-     * @param component UIComponent to be rendered
-     * @return UIForm the form container of the component if exist else return null
-     */
-    private UIForm getForm(UIComponent component) {
-
-        UIComponent parent = component.getParent();
-        while( parent != null && !(parent instanceof UIForm) ) parent = parent.getParent();
-
-        if (parent == null) throw new IllegalStateException("Not nested inside a form!");
-
-        return (UIForm) parent;
-    }
+    
 
     /**
      * <p>Return a flag indicating whether this Renderer is responsible for rendering the
@@ -113,13 +99,5 @@ public class AbstractRenderer extends Renderer{
         return true;
     }
 
-    /**
-     * Test if context or the UICompoent exist and are not null
-     * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be tested
-     */
-    private void assertValid(final FacesContext context, final UIComponent component) {
-        if (context == null)   throw new NullPointerException("FacesContext should not be null");
-        if (component == null) throw new NullPointerException("component should not be null");
-    }
+    
 }
