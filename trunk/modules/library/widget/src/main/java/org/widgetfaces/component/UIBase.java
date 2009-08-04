@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
  * Such a component is typically rendered as a push button, a menu item, or a hyperlink.
  * @author Kevin Delfour (IRD)
  */
-public class UIBase extends UICommand implements StateHolder {
+public class UIBase extends UICommand {
 
     /* Fields */
     private String style;
@@ -29,7 +29,7 @@ public class UIBase extends UICommand implements StateHolder {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[4];
+        final Object[] values = new Object[4];
         values[0] = super.saveState(context);
         values[1] = isDebug();
         values[2] = getStyle();
@@ -47,7 +47,7 @@ public class UIBase extends UICommand implements StateHolder {
      */
     @Override
     public void restoreState(final FacesContext context, final Object state) {
-        final Object values[] = (Object[]) state;
+        final Object[] values = (Object[]) state;
         super.restoreState(context, values[0]);
         setDebug((Boolean) values[1]);
         setStyle((String) values[2]);

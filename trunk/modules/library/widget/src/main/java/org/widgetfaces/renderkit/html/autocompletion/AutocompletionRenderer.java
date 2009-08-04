@@ -27,10 +27,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
-import org.widgetfaces.adapter.autocompletion.adapter;
+import org.ajax4jsf.ajax.html.HtmlLoadStyle;
+import org.widgetfaces.adapter.autocompletion.Adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.AjaxUtils;
+import org.mapfaces.util.RendererUtils.HTML;
 
 /**
  * @author kevin Delfour
@@ -42,6 +44,7 @@ public class AutocompletionRenderer extends Renderer {
     private static final String MOOTOOLS_JS = "/org/widgetfaces/resources/compressed/mootools.min.js";
     private static final String MAPFACES_WIDGETS_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
 
+    private static final String VALUE_KEY =   "value";
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
@@ -64,17 +67,17 @@ public class AutocompletionRenderer extends Renderer {
             extContext.getRequestMap().put("ajaxflag.Autocompleter", Boolean.TRUE);
             writeHeaders(context, component);
         }
-        writer.startElement("div", component);
-        writer.writeAttribute("id", component.getClientId(context), null);
-        writer.startElement("input", component);
-                writer.writeAttribute("id", comp.getId() + "_input", null);
-        ValueExpression ve = comp.getValueExpression("value");
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, component.getClientId(context), null);
+        writer.startElement(HTML.INPUT_ELEM, component);
+                writer.writeAttribute(HTML.id_ATTRIBUTE, comp.getId() + "_input", null);
+        final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
-                writer.writeAttribute("value", component.getClientId(context), null);
+                writer.writeAttribute(VALUE_KEY, component.getClientId(context), null);
             }
         }
-        writer.endElement("input");
+        writer.endElement(HTML.INPUT_ELEM);
     }
 
     /**
@@ -95,8 +98,8 @@ public class AutocompletionRenderer extends Renderer {
         final String tokenId = id + "_token";
         super.encodeEnd(context, component);
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
 
        
 
@@ -123,7 +126,7 @@ public class AutocompletionRenderer extends Renderer {
 
         } else {
              str.append("var ").append(tokenId).append("=").
-                append(adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).
+                append(Adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).
                 append(";");
              str.append("new Autocompleter.Local('").append(inputId).append("',").
                 append(tokenId).append(",{").
@@ -133,9 +136,9 @@ public class AutocompletionRenderer extends Renderer {
        
         str.append("});");
         writer.write(str.toString());
-        writer.endElement("script");
+        writer.endElement(HTML.SCRIPT_ELEM);
 
-        writer.endElement("div");
+        writer.endElement(HTML.DIV_ELEM);
 
     }
 
@@ -153,18 +156,18 @@ public class AutocompletionRenderer extends Renderer {
         final ExternalContext ext = context.getExternalContext();
         final UIAutocompletion comp = (UIAutocompletion) component;
         final Map parameterMap = ext.getRequestParameterMap();
-        String newValue = (String) parameterMap.get(comp.getClientId(context));
+        final String newValue = (String) parameterMap.get(comp.getClientId(context));
 
         HtmlInputText inputchild = null;
         if (comp.getChildren().size() != 0) {
             inputchild = (HtmlInputText) comp.getChildren().get(0);
         }
 
-        ValueExpression ve = comp.getValueExpression("value");
+        final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
         if (ve != null && inputchild != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 inputchild.setValue(ve.getValue(context.getELContext()));
-                inputchild.setValueExpression("value", ve);
+                inputchild.setValueExpression(VALUE_KEY, ve);
                 ve.setValue(context.getELContext(), newValue);
             }
         }
@@ -208,25 +211,25 @@ public class AutocompletionRenderer extends Renderer {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
 
-        if (comp.isLoadCss()) {
-            writer.startElement("link", comp);
-            writer.writeAttribute("type", "text/css", null);
-            writer.writeAttribute("rel", "stylesheet", null);
-            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_CSS, null), null);
-            writer.endElement("link");
-        }
+        
         if (comp.isLoadMootools()) {
-            writer.startElement("script", comp);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
-            writer.endElement("script");
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
         }
 
-        if (comp.isLoadJs()) {
-            writer.startElement("script", comp);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
-            writer.endElement("script");
+         if (comp.isLoadJs()) {
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
+        }
+
+        if (comp.isLoadCss()) {
+            final HtmlLoadStyle css = new HtmlLoadStyle();
+            css.setSrc(ResourcePhaseListener.getLoadStyleURL(context, MAPFACES_WIDGETS_CSS, null));
+            comp.getChildren().add(css);
         }
 
 

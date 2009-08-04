@@ -27,6 +27,7 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
 
 		public static final String IMG_ELEM = "img";
 		public static final String src_ATTRIBUTE = "src";
+		public static final String TEXTJAVASCRIPT_VALUE = "text/javascript";
     }
 
 }

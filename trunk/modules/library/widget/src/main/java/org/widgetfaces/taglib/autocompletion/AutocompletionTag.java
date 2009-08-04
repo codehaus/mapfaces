@@ -87,7 +87,6 @@ public class AutocompletionTag extends BaseELTag {
     @Override
     public void setProperties(UIComponent component) {
         super.setProperties(component);
-        UIAutocompletion autocompletion = (UIAutocompletion) component;
         component.setValueExpression("minLength", getMinLength());
         component.setValueExpression("markQuery", getMarkQuery());
         component.setValueExpression("maxChoices", getMaxChoices());

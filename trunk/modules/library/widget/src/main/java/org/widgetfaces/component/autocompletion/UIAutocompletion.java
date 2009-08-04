@@ -16,10 +16,8 @@
  */
 package org.widgetfaces.component.autocompletion;
 
-import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.UIWidgetBase;
 
 /**
  * <p>This AutoCompletion component using script for MooTools provides the
@@ -82,7 +80,6 @@ public class UIAutocompletion extends HtmlInputText {
     private boolean filterCase = false;
     private boolean filterSubset = true;
     private boolean multiple = true;
-    private Object value;
     private Object services;
     private boolean enableAjax = false;
     private boolean loadMootools = true;
@@ -109,7 +106,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[18];
+        final Object[] values = new Object[18];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -141,7 +138,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public void restoreState(final FacesContext context, final Object state) {
-        final Object values[] = (Object[]) state;
+        final Object[] values = (Object[]) state;
         super.restoreState(context, values[0]);
         setMinLength((Integer) values[1]);
         setMarkQuery((Boolean) values[2]);
@@ -325,13 +322,6 @@ public class UIAutocompletion extends HtmlInputText {
         this.multiple = multiple;
     }
 
-    /**
-     * @param value the value to set
-     */
-    @Override
-    public void setValue(Object value) {
-        this.value = value;
-    }
 
     /**
      * @return the inputValue

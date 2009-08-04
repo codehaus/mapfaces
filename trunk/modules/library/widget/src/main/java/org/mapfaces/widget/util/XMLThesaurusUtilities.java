@@ -45,11 +45,11 @@ import org.xml.sax.InputSource;
  */
 public class XMLThesaurusUtilities {
 
-    private static final String jaxbInstance = "org.geotoolkit.skos.xml";
+    private static final String JAXBINSTANCE = "org.geotoolkit.skos.xml";
 
+    private XMLThesaurusUtilities() {}
 
-     public static List<Concept> readThesaurus(Object source, String outputFormat) throws JAXBException, UnsupportedEncodingException {
-         System.out.println("source = " + source.toString());
+    public static List<Concept> readThesaurus(Object source, String outputFormat) throws JAXBException, UnsupportedEncodingException {
         return readSKOS(unmarshal(source));
     }
 
@@ -57,40 +57,40 @@ public class XMLThesaurusUtilities {
         return elt.getConcept();
     }
     private static RDF unmarshal(Object source) throws JAXBException {
-        JAXBContext Jcontext = JAXBContext.newInstance(jaxbInstance);
-        Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
+        final JAXBContext jcontext = JAXBContext.newInstance(JAXBINSTANCE);
+        final Unmarshaller unmarshaller = jcontext.createUnmarshaller();
         return (RDF) unmarshall(source,unmarshaller);
     }
-    private static final Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
+    private static Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
         if(source instanceof File){
-            File s = (File) source;
+            final File s = (File) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof InputSource){
-            InputSource s = (InputSource) source;
+            final InputSource s = (InputSource) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof InputStream){
-            InputStream s = (InputStream) source;
+            final InputStream s = (InputStream) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof Node){
-            Node s = (Node) source;
+            final Node s = (Node) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof Reader){
-            Reader s = (Reader) source;
+            final Reader s = (Reader) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof Source){
-            Source s = (Source) source;
+            final Source s = (Source) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof URL){
-            URL s = (URL) source;
+            final URL s = (URL) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof XMLEventReader){
-            XMLEventReader s = (XMLEventReader) source;
+            final XMLEventReader s = (XMLEventReader) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof XMLStreamReader){
-            XMLStreamReader s = (XMLStreamReader) source;
+            final XMLStreamReader s = (XMLStreamReader) source;
             return unMarshaller.unmarshal(s);
         }else if(source instanceof OnLineResource){
-            OnLineResource online = (OnLineResource) source;
+            final OnLineResource online = (OnLineResource) source;
             try {
                 URL url = online.getLinkage().toURL();
                 return unMarshaller.unmarshal(url);

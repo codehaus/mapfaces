@@ -31,10 +31,12 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.util.AjaxUtils;
 import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.widgetfaces.component.datepicker.UIDatepicker;
 
 /**
@@ -45,11 +47,13 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     private static final Logger LOGGER = Logger.getLogger(DatepickerRenderer.class.getName());
 
 //    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
-    private static final String LOAD_Mootools = "/org/widgetfaces/resources/js/loading.js";
-    private static final String LOAD_Datepicker_min = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
-    private static final String LOAD_Datepicker_css = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
-    private static final String datepickerClass = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
+    private static final String LOAD_MOOTOOLS = "/org/widgetfaces/resources/js/loading.js";
+    private static final String MAPFACES_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
+    private static final String MAPFACES_CSS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
+    private static final String DATEPICKER_STYLECLASS = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
 
+    private static final String INPUTDATE_SUFFIX =   "_inputdate";
+    private static final String VALUE_KEY =   "value";
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
@@ -62,9 +66,11 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
      * @param component UIComponent to be rendered
      * @throws java.io.IOException if an input/output error occurs while rendering
      */
+
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final UIDatepicker comp = (UIDatepicker) component;
+        
 
         //Write the scripts once per page
         final ExternalContext extContext = context.getExternalContext();
@@ -74,9 +80,9 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         }
 
         HtmlInputText input = new HtmlInputText();
-        input.setId(comp.getId() + "_inputdate");
+        input.setId(comp.getId() + INPUTDATE_SUFFIX);
         input.setStyle(comp.getStyle());
-        input.setStyleClass(datepickerClass + " " + comp.getStyleClass());
+        input.setStyleClass(DATEPICKER_STYLECLASS + " " + comp.getStyleClass());
         input.setOnblur(comp.getOnblur());
         input.setOnchange(comp.getOnchange());
         input.setOnclick(comp.getOnclick());
@@ -101,11 +107,11 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
             }
         }
 
-        ValueExpression ve = comp.getValueExpression("value");
+        final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 input.setValue(ve.getValue(context.getELContext()));
-                input.setValueExpression("value", ve);
+                input.setValueExpression(VALUE_KEY, ve);
             }
         }
 
@@ -137,8 +143,8 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         final StringBuilder str = new StringBuilder();
         final UIForm formContainer = getForm(component);
 
-        writer.startElement("script", comp);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.startElement(HTML.SCRIPT_ELEM, comp);
+        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
         str.append("document.addEvent('domready', function(){").append("DatePickerReloading();");
 
         /* Enable ajax request */
@@ -146,13 +152,22 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
             final StringBuilder ajaxrequest = new StringBuilder();
 
             final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
-            ajaxrequest.append("new Request.HTML({").append("url:'").append(urlRequest).append("',").append("data:{").append("'javax.faces.ViewState':").append("$('javax.faces.ViewState').value").append(",").append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").append("}}).send();");
+            ajaxrequest.append("new Request.HTML({").
+                    append("url:'").append(urlRequest).append("',").
+                    append("data:{").append("'javax.faces.ViewState':").
+                        append("$('javax.faces.ViewState').value").append(",").
+                        append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'"). append(",").
+                        append("'" + AjaxUtils.AJAX_COMPONENT_VALUE_KEY + "':").
+                        append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input').value").append(",").
+                        append("'" + AjaxUtils.AJAX_CONTAINER_ID_KEY + "':").append("'" + comp.getId() + "'").append(",").
+                        append("'" + AjaxUtils.AJAX_COMPONENT_ID_KEY + "':").append("'" + comp.getId() + "'").
+                        append("}}).send();");
             str.append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('keydown',function(event){if(event.enter)").append(ajaxrequest).append("});").append("$('").append(formContainer.getId()).append(":").append(comp.getId()).append("_input").append("').addEvent('blur',function(event){").append(ajaxrequest).append("});");
         }
         str.append("});");
 
         writer.write(str.toString());
-        writer.endElement("script");
+        writer.endElement(HTML.SCRIPT_ELEM);
     }
 
     /**
@@ -171,24 +186,25 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         final Map parameterMap = ext.getRequestParameterMap();
 
         final UIForm formContainer = getForm(component);
-        String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_inputdate";
-        String newValue = (String) parameterMap.get(keyParameterInput);
+        final String keyParameterInput = formContainer.getId() + ":" + comp.getId() + INPUTDATE_SUFFIX;
+       final  String newValue = (String) parameterMap.get(keyParameterInput);
 
         HtmlInputText inputchild = null;
         if (comp.getChildren().size() != 0) {
             inputchild = (HtmlInputText) comp.getChildren().get(0);
         }
 
-        ValueExpression ve = comp.getValueExpression("value");
+        final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
         if (ve != null && inputchild != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 inputchild.setValue(ve.getValue(context.getELContext()));
-                inputchild.setValueExpression("value", ve);
+                inputchild.setValueExpression(VALUE_KEY, ve);
                 ve.setValue(context.getELContext(), newValue);
             }
         }
 
     }
+
 
     /* Others methods */
     /**
@@ -221,19 +237,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         return true;
     }
 
-    /**
-     * Test if context or the UICompoent exist and are not null
-     * @param context FacesContext for the request we are processing
-     * @param component UIComponent to be tested
-     */
-    private void assertValid(final FacesContext context, final UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("FacesContext should not be null");
-        }
-        if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
-    }
+    
 
     /**
      * Write headers css and js with the resource
@@ -246,30 +250,29 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         final UIDatepicker comp = (UIDatepicker) component;
 
 
-//        writer.startElement("script", comp);
-//        writer.writeAttribute("type", "text/javascript", null);
-//        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker, null), null);
-//        writer.endElement("script");
+//        writer.startElement(HTML.SCRIPT_ELEM, comp);
+//        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+//        writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, LOAD_Datepicker, null), null);
+//        writer.endElement(HTML.SCRIPT_ELEM);
+
         if (comp.isLoadMootools()) {
-            writer.startElement("script", comp);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
-            writer.endElement("script");
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, LOAD_MOOTOOLS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
         }
 
         if (comp.isLoadJs()) {
-            writer.startElement("script", comp);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Datepicker_min, null), null);
-            writer.endElement("script");
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MAPFACES_JS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
         }
 
         if (comp.isLoadCss()) {
-            writer.startElement("link", comp);
-            writer.writeAttribute("type", "text/css", null);
-            writer.writeAttribute("rel", "stylesheet", null);
-            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, LOAD_Datepicker_css, null), null);
-            writer.endElement("link");
+            final HtmlLoadStyle css = new HtmlLoadStyle();
+            css.setSrc(ResourcePhaseListener.getLoadStyleURL(context, MAPFACES_CSS, null));
+            comp.getChildren().add(css);
         }
 
     }
@@ -282,13 +285,12 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         final ExternalContext ext = context.getExternalContext();
         final UIDatepicker comp = (UIDatepicker) component;
         final Map parameterMap = ext.getRequestParameterMap();
-        final String autocompleteValue = request.getParameter(AjaxUtils.AJAX_COMPONENT_VALUE_KEY);
-
+        
         final UIForm formContainer = getForm(component);
-        String keyParameterInput = formContainer.getId() + ":" + comp.getId() + "_inputdate";
-        String newValue = (String) parameterMap.get(keyParameterInput);
+        final String keyParameterInput = formContainer.getId() + ":" + comp.getId() + INPUTDATE_SUFFIX;
+        final String newValue = (String) parameterMap.get(keyParameterInput);
 
-        ValueExpression ve = comp.getValueExpression("value");
+        final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 ve.setValue(context.getELContext(), newValue);
