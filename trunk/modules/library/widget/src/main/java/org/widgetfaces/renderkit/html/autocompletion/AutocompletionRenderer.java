@@ -159,8 +159,12 @@ public class AutocompletionRenderer extends Renderer {
         final String newValue = (String) parameterMap.get(comp.getClientId(context));
 
         HtmlInputText inputchild = null;
-        if (comp.getChildren().size() != 0) {
-            inputchild = (HtmlInputText) comp.getChildren().get(0);
+        final int size = comp.getChildren().size();
+        for (int i = 0; i < size; i++) {
+            if(comp.getChildren().get(i) instanceof HtmlInputText) {
+                inputchild = (HtmlInputText) comp.getChildren().get(i);
+                break;
+            }
         }
 
         final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
