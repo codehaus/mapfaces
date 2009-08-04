@@ -18,8 +18,6 @@
 package org.mapfaces.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -30,8 +28,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -54,14 +50,14 @@ import org.mapfaces.models.Context;
 
 public  class XMLContextUtilities {
 
-    private final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
+    private static final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
 
-    private org.geotoolkit.owc.xml.v030.ObjectFactory factory_owc_030 = new org.geotoolkit.owc.xml.v030.ObjectFactory();
-    private org.geotoolkit.wmc.xml.v110.ObjectFactory factory_wmc_110 = new org.geotoolkit.wmc.xml.v110.ObjectFactory();
+    private static final org.geotoolkit.owc.xml.v030.ObjectFactory factory_owc_030 = new org.geotoolkit.owc.xml.v030.ObjectFactory();
+    private static final org.geotoolkit.wmc.xml.v110.ObjectFactory factory_wmc_110 = new org.geotoolkit.wmc.xml.v110.ObjectFactory();
 
 
 
-    public Context readContext(Object source) throws JAXBException, UnsupportedEncodingException {
+    public static Context readContext(Object source) throws JAXBException, UnsupportedEncodingException {
         JAXBElement elt =  unmarshal(source);
         if(elt.getName().toString().equals("{http://www.opengis.net/ows-context}OWSContext"))
             return readOWC(elt);
@@ -71,21 +67,21 @@ public  class XMLContextUtilities {
             throw new NullPointerException("Bad file type");
     }
 
-    private Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
+    private static Context readOWC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class org.geotoolkit.owc.xml.v030.OWSContextType")){
             return OWCv030toMFTransformer.visit( (org.geotoolkit.owc.xml.v030.OWSContextType) elt.getValue());
         }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
 
     }
 
-    private Context readWMC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
+    private static Context readWMC(JAXBElement elt) throws UnsupportedEncodingException, JAXBException {
         if(elt.getDeclaredType().toString().equals("class org.geotoolkit.wmc.xml.v110.ViewContextType")){
             return (new WMCv110toMFTransformer()).visit( (org.geotoolkit.wmc.xml.v110.ViewContextType) elt.getValue());
         }else throw new UnsupportedOperationException("Bad file version, versions available are : owc 0.3.0 ");
     }
 
 
-    public void  writeContext(Context ctx, File output) throws JAXBException, UnsupportedEncodingException, IOException {
+    public static void  writeContext(Context ctx, File output) throws JAXBException, UnsupportedEncodingException, IOException {
         JAXBElement elt;
         if(ctx.getContextType().contains("OWSContextType")){
             elt = writeOWC(ctx);
@@ -98,7 +94,7 @@ public  class XMLContextUtilities {
         marshal(elt,output);
     }
 
-    private JAXBElement writeOWC(Context ctx) throws UnsupportedEncodingException, JAXBException {
+    private static JAXBElement writeOWC(Context ctx) throws UnsupportedEncodingException, JAXBException {
         if (ctx.getVersion().equals("0.3.0")){
             return writeOWC030(ctx);
         }
@@ -107,7 +103,7 @@ public  class XMLContextUtilities {
                ", only OWC 0.3.0 is supported !!!!!");
     }
 
-    private JAXBElement unmarshal(Object source) throws JAXBException {
+    private static JAXBElement unmarshal(Object source) throws JAXBException {
        JAXBContext Jcontext;
         Jcontext = JAXBContext.newInstance(jaxbInstance);
         Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
@@ -116,7 +112,7 @@ public  class XMLContextUtilities {
 
 
 
-    public  void  marshal(Object jaxbElement, File output) throws JAXBException {
+    public static void  marshal(Object jaxbElement, File output) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(jaxbInstance);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -124,7 +120,7 @@ public  class XMLContextUtilities {
         marshall(output,jaxbElement,marshaller);
 
     }
-    private final Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
+    private static final Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
         if(source instanceof File){
             File s = (File) source;
             return unMarshaller.unmarshal(s);
@@ -166,7 +162,7 @@ public  class XMLContextUtilities {
         }
 
     }
-    private final void marshall(Object target, Object jaxbElement, Marshaller marshaller) throws JAXBException{
+    private static final void marshall(Object target, Object jaxbElement, Marshaller marshaller) throws JAXBException{
 
         if(target instanceof File){
             File s = (File) target;
@@ -198,11 +194,11 @@ public  class XMLContextUtilities {
         }
 
     }
-    private JAXBElement writeOWC030(Context ctx) throws UnsupportedEncodingException, JAXBException {
+    private static JAXBElement writeOWC030(Context ctx) throws UnsupportedEncodingException, JAXBException {
         return factory_owc_030.createOWSContext((new MFtoOWCv030Transformer()).visit(ctx));
     }
 
-    private JAXBElement writeWMC(Context ctx) {
+    private static JAXBElement writeWMC(Context ctx) {
         throw new UnsupportedOperationException("The version of your context file " +
                "isn't supported yet !!!!! Type : "+ ctx.getContextType() +", version : "+ctx.getVersion()+
                ", only OWC 0.3.0 is supported !!!!!");

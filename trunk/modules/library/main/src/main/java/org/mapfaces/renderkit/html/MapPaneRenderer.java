@@ -85,7 +85,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             comp.setMaxExtent(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }
 
-        final String id = (String) comp.getAttributes().get(HTML.id_ATTRIBUTE);
         if (style == null) {
             style = "width:" + width + "px;height:" + height + "px;z-index:0;";
         } else {
@@ -108,22 +107,16 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         }
         writer.startElement(HTML.DIV_ELEM, comp);
 
-        if (id != null) {
-            writer.writeAttribute(HTML.id_ATTRIBUTE, id + "_MapFaces_Viewport", HTML.id_ATTRIBUTE);
-        } else {
             writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "_MapFaces_Viewport", HTML.id_ATTRIBUTE);
-        }
+        
         writer.writeAttribute(HTML.style_ATTRIBUTE, "overflow: hidden;position:relative;width:100%;height:100%;", HTML.style_ATTRIBUTE);
         writer.writeAttribute(HTML.class_ATTRIBUTE, "mfMapViewport", "styleClass");
 
         /*Layers Container div*/
         writer.startElement(HTML.DIV_ELEM, comp);
 
-        if (id != null) {
-            writer.writeAttribute(HTML.id_ATTRIBUTE, id + "_MapFaces_Container", HTML.id_ATTRIBUTE);
-        } else {
             writer.writeAttribute(HTML.id_ATTRIBUTE, clientId + "_MapFaces_Container", HTML.id_ATTRIBUTE);
-        }
+        
         writer.writeAttribute(HTML.style_ATTRIBUTE, "top:0px;left:0px;position:absolute;z-index: 0;", HTML.style_ATTRIBUTE);
 
         final MapContext mapcontext = (MapContext) comp.getValue();

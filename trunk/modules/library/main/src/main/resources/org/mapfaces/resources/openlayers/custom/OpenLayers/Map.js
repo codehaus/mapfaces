@@ -513,19 +513,25 @@ OpenLayers.Map = OpenLayers.Class({
         //this.id = OpenLayers.Util.createUniqueID("OpenLayers.Map_");
         
         this.div = OpenLayers.Util.getElement(div);
-        
+        if (this.div == null) {
+            alert("Map can't be rendered because one map.div property !!! Div.id  value is " + div );
+            return;
+        }
         //Deletee the ifForm: if it's an id and not an DOM element  else take the div.id      
-        if (typeof div == 'string')div=div.split(":")[1];
-        else div=div.id; 
-        if (div.indexOf(':')!=-1)div=div.split(":")[1];
+//        if (typeof div == 'string')div=div.split(":")[1];
+//        else div=div.id;
+//        if (div.indexOf(':')!=-1)div=div.split(":")[1];
 
 
         //MF replace creation of viewport div and layerContainer div
         // the viewPortDiv is the outermost div we modify
-        this.viewPortDiv = OpenLayers.Util.getElement(div+"_MapFaces_Viewport");
+        this.viewPortDiv = OpenLayers.Util.getElement(this.div.id+"_MapFaces_Viewport");
         // the layerContainerDiv is the one that holds all the layers
-        this.layerContainerDiv =  OpenLayers.Util.getElement(div+"_MapFaces_Container");
-        
+        this.layerContainerDiv =  OpenLayers.Util.getElement(this.div.id+"_MapFaces_Container");
+        if (this.viewPortDiv == null || this.layerContainerDiv == null) {
+            alert("Map can't be rendered because one of these properties is  null : map.viewPortDiv property  or map.layerContainerDiv  !!! Div value is " + div );
+            return;
+        }
         
         this.events = new OpenLayers.Events(this, 
             this.div,

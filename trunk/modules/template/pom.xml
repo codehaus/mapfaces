@@ -55,7 +55,11 @@
             <artifactId>mapfaces-main</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+	<dependency>
+	    <groupId>org.mapfaces</groupId>
+	    <artifactId>mapfaces-widgets</artifactId>
+	    <version>${project.version}</version>
+	</dependency>
         <!-- JSP, Servlet ,JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>

@@ -17,7 +17,7 @@
             <iframe id='target_upload' name='target_upload' src='' style='display: none'></iframe>
             <h:form id="form">
                 <h:commandButton value="submit" style="margin-left:-60px;left:50%;top:300px;width:100px;z-index:1000;position:absolute;"/>
-                <mf-model:Context minifyJS="false"  debug="true" service="data/context/owc030.xml">
+                <mf-model:Context minifyJS="true"  debug="false" service="data/context/blueMarble.xml">
                     <mf:MapPane/>
                     <mf:ButtonBar featureInfo="true" reRender="datarequest" styleClass="mfButtonBar horizontal"></mf:ButtonBar>
                     <mf:DataRequest id="datarequest"
@@ -26,8 +26,10 @@
                                     featureCount="0">
                         <mf:Popup id="popupfeatureInfo" iframe="false" style="width:500px;"></mf:Popup>
                     </mf:DataRequest>
-                    <mf:LayerControl style="position:relative;top:50px;"></mf:LayerControl>
+                    <mf:LayerControl id="lc" layerInfo="true" style="position:relative;top:50px;"></mf:LayerControl>
                 </mf-model:Context>
+
+                    <%--a4j:log popup="true" width="600" height="300" ></a4j:log--%>
             </h:form>
         </body>
     </html>
