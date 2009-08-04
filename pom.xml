@@ -163,12 +163,18 @@
   
   <dependencyManagement>
     <dependencies>
-      <!-- constellation -->
+      <!-- geotoolkit -->
       <dependency>
         <groupId>org.geotoolkit</groupId>
         <artifactId>geotk-epsg</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
+      <dependency>
+         <groupId>org.geotoolkit</groupId>
+         <artifactId>geotk-metadata-fra</artifactId>
+         <version>${geotoolkit.version}</version>
+      </dependency>
+      <!-- geotoolkit-pending -->
       <dependency>
 	<groupId>org.geotoolkit.pending</groupId>
 	<artifactId>geotk-xml-ogc</artifactId>
@@ -199,6 +205,41 @@
         <artifactId>geotk-xml-wmc</artifactId>
         <version>${geotoolkit.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-engine-core</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-go2</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-render</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-xml-sld</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-style</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-wms</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-temporal</artifactId>
+        <version>${geotoolkit.version}</version>
+      </dependency>
       <!-- this dependency should not be here but in the geotk project-->
       <dependency>
           <groupId>org.geotoolkit.pending</groupId>
@@ -212,7 +253,7 @@
       </dependency>
 
       <!-- JSF -->
-<!-- we should be in 1.2_12 but between 1.2_10 and 1.2_11 the ResourcePhaseListener (omit .jsf extension) doesn't load resources as it should-->  
+      <!-- we should be in 1.2_12 but between 1.2_10 and 1.2_11 the ResourcePhaseListener (omit .jsf extension) doesn't load resources as it should-->  
       <dependency>
 	<groupId>javax.faces</groupId>
 	<artifactId>jsf-api</artifactId>
@@ -275,41 +316,7 @@
       </dependency>
 
       
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-engine-core</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-go2</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-render</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-xml-sld</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-style</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-wms</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotoolkit.pending</groupId>
-        <artifactId>geotk-temporal</artifactId>
-        <version>${geotoolkit.version}</version>
-      </dependency>
+      
 
       <!-- JFreeChart -->
       <dependency>
@@ -355,10 +362,26 @@
         <version>2.1</version>
       </dependency>
 
+       <!-- database driver -->
       <dependency>
         <groupId>postgresql</groupId>
         <artifactId>postgresql</artifactId>
         <version>8.3-603.jdbc4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.postgis</groupId>
+        <artifactId>postgis-driver</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.4.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbyLocale_fr</artifactId>
+        <version>10.4.2.0</version>
       </dependency>
 
     </dependencies>
