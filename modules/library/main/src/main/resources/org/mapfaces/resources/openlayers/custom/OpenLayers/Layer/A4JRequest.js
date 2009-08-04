@@ -164,6 +164,10 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
     submit: function(requestParams) {
         this.onSubmit(requestParams);
         requestParams[this.compId] = this.compId;
+        var actionUrl = window.location.href;;
+        if (actionUrl.indexOf("?") != -1)
+            actionUrl = actionUrl.substring(0,actionUrl.indexOf("?"));
+        
         A4J.AJAX.Submit( 
             this.requestId, 
             this.formId,
@@ -172,7 +176,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
                 'control':this,
                 'single':this.ajaxSingle,
                 'parameters': requestParams,
-                'actionUrl': window.location.href,
+                'actionUrl': actionUrl,
 //                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
                 'oncomplete': OpenLayers.Function.bind(this.onComplete, this)
             }
@@ -234,7 +238,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
     },
 
     registerEvents: function() {
-    var test = function() {alert(this.id)};
+    var test = function() {alert("test l241 : " +this.id)};
         if (this.imgDiv) {
             OpenLayers.Event.observe(this.imgDiv.childNodes[0], 'load',
                 OpenLayers.Function.bind(test, this.imgDiv.childNodes[0]));

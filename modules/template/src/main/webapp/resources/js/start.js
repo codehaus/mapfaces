@@ -4,9 +4,22 @@
 
 
 //declare your var as flag for your page, it is used for navigation in client side.
-var _Home_Tabs = false;
-var _App_Tabs = false;
-
+var tabs = {
+    '_Home_Tabs': false ,
+    '_App_Tabs': false
+};
+var setTabs = function(idTab) {
+    for (var i in tabs) {
+        if (typeof i != "function") {
+            if (i == idTab) {
+                if (tabs[i]) break;
+                else tabs[i] = true;
+            } else {
+                tabs[i] = false;
+            }
+        }
+    }
+}
 /*
  *
  */
@@ -198,21 +211,21 @@ function webAppPageWrapper(){
     });
   if (window.reloadAllMaps)
         window.reloadAllMaps();
+};
+
+function handleMeasurements(event) {
+    var geometry = event.geometry;
+    var units = event.units;
+    var order = event.order;
+    var measure = event.measure;
+    var element = document.getElementById('output');
+    var out = "";
+    if(order == 1) {
+        out += "measure: " + measure.toFixed(3) + " " + units;
+
+    } else {
+        out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
+    }
+    element.innerHTML = out;
 }
-
- function handleMeasurements(event) {
-                var geometry = event.geometry;
-                var units = event.units;
-                var order = event.order;
-                var measure = event.measure;
-                var element = document.getElementById('output');
-                var out = "";
-                if(order == 1) {
-                    out += "measure: " + measure.toFixed(3) + " " + units;
-
-                } else {
-                    out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
-                }
-                element.innerHTML = out;
-            }
 

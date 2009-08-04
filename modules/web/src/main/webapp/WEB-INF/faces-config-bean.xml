@@ -15,6 +15,11 @@
         <managed-bean-class>org.mapfaces.web.bean.MapBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>metadata</managed-bean-name>
+        <managed-bean-class>org.mapfaces.web.bean.MetadataBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
     
     <!-- Charts beans -->
     <managed-bean>

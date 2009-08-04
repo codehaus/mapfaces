@@ -38,7 +38,6 @@ import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
-import org.ajax4jsf.ajax.html.HtmlLoadScript;
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.geotoolkit.map.MapContext;
 
@@ -55,6 +54,7 @@ import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
+import org.mapfaces.util.RendererUtils.HTML;
 import org.mapfaces.util.XMLContextUtilities;
 
 /**
@@ -88,7 +88,7 @@ public class ContextRenderer extends Renderer {
 
         //Add the context path variable to load openlayers with the good url , see  custom/OpenLayers.js
         /*writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
         writer.write("window.contextpath=\""+sc.getContextPath()+"\"");
         writer.endElement("script");*/
 
@@ -110,7 +110,7 @@ public class ContextRenderer extends Renderer {
 /*@TODO remove all Mootools reference from MapFaces */
         if (comp.isMootools() && resourcesFlag) {
             writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
             writer.endElement("script");
         }
@@ -123,13 +123,13 @@ public class ContextRenderer extends Renderer {
 //            //Add Prototype script
 //            writer.startElement("script", component);
 //            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
-//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
 //            writer.endElement("script");
 //
 //            //Add Scriptaculous scripts
 //            if (isMinifyJS) {
 //                writer.startElement("script", component);
-//                writer.writeAttribute("type", "text/javascript", null);
+//                writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
 //                writer.write("window.SCRIPTACULOUS_SINGLE_FILE = true;");
 //                writer.endElement("script");
 //            }
@@ -139,14 +139,14 @@ public class ContextRenderer extends Renderer {
 //            } else {
 //                writer.writeAttribute("src", ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
 //            }
-//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
 //            writer.endElement("script");
 //        }
 
 //Add OpenLayers scripts
 //        if (isMinifyJS && resourcesFlag) {
 //            writer.startElement("script", component);
-//            writer.writeAttribute("type", "text/javascript", null);
+//            writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
 //            writer.write("var OpenLayers = { singleFile: true };");
 //            writer.endElement("script");
 //        }
@@ -158,7 +158,7 @@ public class ContextRenderer extends Renderer {
             } else {
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_JS, null), null);
             }
-            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
             writer.endElement("script");
         }
 

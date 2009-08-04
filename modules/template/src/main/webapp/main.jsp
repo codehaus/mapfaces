@@ -6,6 +6,7 @@
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <%@taglib prefix="mf" uri="http://mapfaces.org/taglib"%>
 <%@taglib prefix="mf-model" uri="http://mapfaces.org/taglib-models"%>
+<%@taglib prefix="wf" uri="http://widget-mapfaces.org/taglib"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -73,6 +74,7 @@
 
                     </div><!-- desktop end -->
                 </a4j:region>
+                    <%--a4j:log popup="false" width="600" height="300"></a4j:log--%>
             </h:form>
 
             <a4j:status for="main_form:stat1" forceId="true" id="ajaxStatus">
