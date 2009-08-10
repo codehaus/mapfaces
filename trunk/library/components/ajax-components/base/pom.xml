@@ -10,7 +10,7 @@
 	<!--     Module Description                                      -->
 	<!-- =========================================================== -->
     <groupId>org.mapfaces</groupId>
-    <artifactId>mapfaces-components-core</artifactId>
+    <artifactId>mapfaces-components-base</artifactId>
     <packaging>jar</packaging>
     <name>Mapfaces - Components core module</name>
 	<!-- =========================================================== -->
