@@ -12,7 +12,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-components-base</artifactId>
     <packaging>jar</packaging>
-    <name>Mapfaces - Components core module</name>
+    <name>Mapfaces - Base components module</name>
 	<!-- =========================================================== -->
 	<!--     Developers and Contributors                             -->
 	<!-- =========================================================== -->
