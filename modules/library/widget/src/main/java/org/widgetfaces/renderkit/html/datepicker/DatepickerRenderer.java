@@ -191,7 +191,12 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
         HtmlInputText inputchild = null;
         if (comp.getChildren().size() != 0) {
-            inputchild = (HtmlInputText) comp.getChildren().get(0);
+            for (UIComponent uIComponent : comp.getChildren()) {
+                if (uIComponent instanceof HtmlInputText) {
+                    inputchild = (HtmlInputText) uIComponent;
+                    break;
+                }
+            }
         }
 
         final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
