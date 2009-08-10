@@ -38,11 +38,10 @@
   <!--     Modules included in the build                           -->
   <!-- =========================================================== -->
   <modules>
-    <module>component-core</module>
+    <module>base</module>
     <module>chart</module>
     <module>map</module>
     <module>widget</module>
-    <module>main</module>
   </modules>
 
 
