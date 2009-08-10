@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee     http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <tlib-version>1.1</tlib-version>
+    <jsp-version>2.1</jsp-version>
+    <short-name>wf</short-name>
+    <uri>http://widget-mapfaces.org/taglib</uri>
+    <display-name>Widget Mapfaces Components</display-name>
+    <description>Widget components for Mapfaces</description>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Autocompletion -->
+    <tag>
+        <name>Autocompletion</name>
+        <tag-class>org.widgetfaces.taglib.autocompletion.AutocompletionTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            This is the tag that creates a component widget which provides the
+            functionality for text suggestion and completion
+        </description>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                an empty property element to show debugging output during
+                stylesheet processing. Optional.
+            </description>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>minLength</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (integer) the minimum length of the string the user must enter
+                before the suggestions are displayed; defaults to 1
+            </description>
+        </attribute>
+        <attribute>
+            <name>markQuery</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (boolean) whether or not to wrap the portion of each suggestion
+                that matches the user entry with a span tag (which gets the css
+                class autocompleter-queried); defaults to true
+            </description>
+        </attribute>
+        <attribute>
+            <name>maxChoices</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (integer) the maximum number of suggestion items to display;
+                defaults to 10
+            </description>
+        </attribute>
+        <attribute>
+            <name>delay</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (integer) the period (in milliseconds) to wait befor the
+                suggestion dropdown is displayed or its items updated after
+                typing in the input; defaults to 400
+            </description>
+        </attribute>
+        <attribute>
+            <name>autoSubmit</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (boolean) whether to submit the form when the user chooses a
+                suggestion item by hitting enter; defaults to false
+            </description>
+        </attribute>
+        <attribute>
+            <name>overflow</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (boolean) If set to true, the maxChoices option is ignored and
+                all the available suggestion items are displayed; defaults to false
+            </description>
+        </attribute>
+        <attribute>
+            <name>overflowMargin</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (integer) if overflow is true and the user moves their selection
+                (using the cursor keys) to an item that is outside the viewable
+                list, this option specifies how far to jump down the suggestions
+                dropdown to show more suggestion items; defaults to 25
+            </description>
+        </attribute>
+        <attribute>
+            <name>selectFirst</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (boolean) whether to automatically select the first suggestion
+                item even if it doesn't completely match the user entry.
+                * For instance: if the user types "aj" and the first suggestion
+                is "ajax",a true setting for this option would select that
+                first entry even though it doesn't completely match the user's
+                entry; defaults to false
+            </description>
+        </attribute>
+        <attribute>
+            <name>filterSubset</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (boolean) if filter is not defined (and therefore the filter
+                used is the default one) this setting will, if true, allow for
+                matches anywhere in the suggestion, otherwise the user entry
+                must match the beginning of the suggestion; defaults to false
+            </description>
+        </attribute>
+        <attribute>
+            <name>multiple</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                (boolean) whether to split the user entered text into multiple
+                values; defaults to false;
+                the following two options affect the behavior of the split.
+            </description>
+        </attribute>
+        <!-- Events -->
+        <attribute>
+            <name>onblur</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onchange</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onclick</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>ondblclick</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onfocus</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onkeydown</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onkeypress</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onkeyup</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmousedown</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmousemove</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmouseout</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmouseover</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmouseup</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onselect</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>services</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>enableAjax</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>loadMootools</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>loadCss</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>loadJs</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- DatePicker -->
+    <tag>
+        <name>Datepicker</name>
+        <tag-class>org.widgetfaces.taglib.datepicker.DatepickerTag</tag-class>
+        <body-content>scriptless</body-content>
+        <description>
+            This is the tag that creates a component widget which provides the
+            functionality for date suggestion and completion
+        </description>
+        <attribute>
+            <name>debug</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                an empty property element to show debugging output during
+                stylesheet processing. Optional.
+            </description>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The component identifier for this component.  This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style class of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                The style of the overall div that surrounds this component.
+            </description>
+        </attribute>
+        <!-- Events -->
+        <attribute>
+            <name>onblur</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onchange</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onclick</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>ondblclick</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onfocus</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onkeydown</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onkeypress</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onkeyup</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmousedown</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmousemove</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmouseout</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmouseover</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onmouseup</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onselect</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>enableAjax</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+         <attribute>
+            <name>loadMootools</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>loadCss</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>loadJs</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+</taglib>

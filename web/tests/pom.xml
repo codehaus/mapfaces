@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mapfaces</groupId>
+        <artifactId>mapfaces-web</artifactId>
+        <version>0.2-SNAPSHOT</version>
+    </parent>
+
+
+  <!-- =========================================================== -->
+  <!--     Module Description                                      -->
+  <!-- =========================================================== -->
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces-test</artifactId>
+    <packaging>war</packaging>
+    <name>Mapfaces - Tests application</name>
+
+    <description>MapFaces webapp modules.</description>
+
+    <!-- Repository needed for JSFUnit tests -->
+    <repositories>
+        <repository>
+            <id>jboss</id>
+            <name>JBoss Repository</name>
+            <url>http://repository.jboss.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+  <!-- =========================================================== -->
+  <!--     Dependency Management                                   -->
+  <!-- =========================================================== -->
+    <dependencies>
+
+        <!-- Core jar needed for all JSFUnit tests -->
+        <dependency>
+            <groupId>org.jboss.jsfunit</groupId>
+            <artifactId>jboss-jsfunit-core</artifactId>
+            <version>1.1.0.GA</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-examples</artifactId>
+            <version>0.2-SNAPSHOT</version>
+             <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+            <!-- Configure the Surefire plugin to run your tests during a Maven build-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <!-- We only want test to run during integration-test phase -->
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>surefire-it</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <systemProperties>
+                                <property>
+                                    <name>cactus.contextURL</name>
+                                    <value>http://localhost:8080/${artifactId}</value>
+                                </property>
+                            </systemProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--  Configure Cargo to start and stop your container for the tests. -->
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <configuration>
+                    <wait>false</wait>
+                    <configuration>
+                        <deployables>
+                            <deployable>
+                                <location>${project.build.directory}/mapfaces.war</location>
+                                <type>war</type>
+                            </deployable>
+                        </deployables>
+                    </configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    </properties>
+
+</project>
+
