@@ -36,7 +36,7 @@
 
         <dependency>
             <groupId>org.mapfaces</groupId>
-            <artifactId>mapfaces-components-core</artifactId>
+            <artifactId>mapfaces-components-base</artifactId>
             <version>${project.version}</version>
         </dependency>
 
