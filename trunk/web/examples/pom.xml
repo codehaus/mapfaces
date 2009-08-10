@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.mapfaces</groupId>
+        <artifactId>mapfaces-web</artifactId>
+        <version>0.2-SNAPSHOT</version>
+    </parent>
+
+
+  <!-- =========================================================== -->
+  <!--     Module Description                                      -->
+  <!-- =========================================================== -->
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces-examples</artifactId>
+    <packaging>war</packaging>
+    <name>Mapfaces - Web application</name>
+
+    <scm>
+        <connection>scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/web/</connection>
+        <url>http://svn.codehaus.org/mapfaces/trunk/modules/web/</url>
+    </scm>
+ 
+    <description>MapFaces webapp modules.</description>
+
+
+
+  <!-- =========================================================== -->
+  <!--     Dependency Management                                   -->
+  <!-- =========================================================== -->
+    <dependencies>
+
+    <!-- Mapfaces library -->
+        <dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-main</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- JSP, Servlet ,JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+    </plugins>
+</build>
+<properties>
+    <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+</properties>
+
+</project>
