@@ -27,12 +27,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
- *
- * @author Mehdi Sidhoum.
+ * This is a servlet context listener that cleans ClassLoader and intercept the deployment context phases.
+ * @author Mehdi Sidhoum (Geomatys).
  */
-public class CleanupListener implements ServletContextListener {
+public class DefaultServletContextListener implements ServletContextListener {
 
-    private static final Logger LOGGER = Logger.getLogger(CleanupListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DefaultServletContextListener.class.getName());
 
     public void contextInitialized(ServletContextEvent event) {
     }
