@@ -33,9 +33,24 @@
     <dependencies>
 
     <!-- Mapfaces library -->
+	<dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.mapfaces</groupId>
-            <artifactId>mapfaces-main</artifactId>
+            <artifactId>mapfaces-map</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+	<dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-chart</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+	<dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-widgets</artifactId>
             <version>${project.version}</version>
         </dependency>
 

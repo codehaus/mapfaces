@@ -60,6 +60,7 @@ public class UIContext extends UIModelBase {
         values[2] = mootools;
         values[3] = minifyJS;
         values[4] = service;
+        values[5] = openlayers;
         return values;
     }
 
@@ -74,6 +75,7 @@ public class UIContext extends UIModelBase {
         mootools = (Boolean) values[2];
         minifyJS = (Boolean) values[3];
         service = (String) values[4];
+        openlayers = (Boolean) values[5];
     }
 
     /**
