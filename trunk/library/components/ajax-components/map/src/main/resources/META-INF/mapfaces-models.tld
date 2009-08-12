@@ -130,6 +130,17 @@
                 a flag that indicates if the compressed JS libs must be loaded or the uncompressed(better for development).
             </description>
         </attribute>
+        <attribute>
+            <name>openlayers</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                a flag that indicates if openlayers script will be loaded or not.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>ContextCollection</name>

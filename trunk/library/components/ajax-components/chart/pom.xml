@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>org.mapfaces</groupId>
-            <artifactId>mapfaces-components-base</artifactId>
+            <artifactId>mapfaces-base</artifactId>
             <version>${project.version}</version>
         </dependency>
 
