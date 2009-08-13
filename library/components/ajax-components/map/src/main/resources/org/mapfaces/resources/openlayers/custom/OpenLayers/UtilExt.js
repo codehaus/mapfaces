@@ -51,7 +51,7 @@ OpenLayers.Util.reRender = function(jsObject, reqId, formId, parameters) {
  */
 OpenLayers.Util.isvalidExtent = function(projection, extent) {
     if(extent && (projection == 'CRS:84' || projection == 'EPSG:4326')) {
-        if (extent.left < -180 || extent.bottom < -90 || extent.right > 180 || extent.top > 90) {
+        if (extent.left < -180 && extent.bottom < -90 && extent.right > 180 && extent.top > 90) {
             return false;
         }else {
             return true;
