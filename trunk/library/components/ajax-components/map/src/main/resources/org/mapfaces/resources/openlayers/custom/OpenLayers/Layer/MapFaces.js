@@ -204,15 +204,17 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
         var refresh = this.clientId;
         var window = this.map.getSize();
         var bbox=this.map.getExtent().toBBOX();
-        OpenLayers.Util.extend(requestParams, {
-            'bbox': bbox,
-            'window': window.w+','+window.h,
-            'synchronized': 'false',
-            'refresh': refresh,
-            'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': !this.visibility,
-            'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'hidden'
-        });
-        this._reRender(requestParams);
+        if(OpenLayers.Util.isvalidExtent(this.map.getProjection(), this.map.getExtent())) {
+            OpenLayers.Util.extend(requestParams, {
+                'bbox': bbox,
+                'window': window.w+','+window.h,
+                'synchronized': 'false',
+                'refresh': refresh,
+                'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': !this.visibility,
+                'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'hidden'
+            });
+            this._reRender(requestParams);
+        }
     },
 
     _reRender: function(requestParams) {
