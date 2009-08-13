@@ -19,7 +19,6 @@ package org.mapfaces.taglib;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 /**
  * @author Mehdi Sidhoum
