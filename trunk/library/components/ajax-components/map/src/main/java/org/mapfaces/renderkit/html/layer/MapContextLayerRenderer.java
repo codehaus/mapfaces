@@ -30,7 +30,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.geotoolkit.map.MapContext;
-import org.geotoolkit.referencing.CRS;
 
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
@@ -39,8 +38,6 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.FacesUtils;
 
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 public class MapContextLayerRenderer extends LayerRenderer {
 

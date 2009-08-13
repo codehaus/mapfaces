@@ -29,7 +29,6 @@ import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
-import org.mapfaces.util.FacesUtils;
 import org.mapfaces.util.MapUtils;
 
 /**
@@ -54,9 +53,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
         final Context model = (Context) comp.getModel();
         final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
         final Layer layer = comp.getLayer();
-        final String formId = FacesUtils.getFormId(context, comp);
 
-
+        
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] \t\tparams.get('refresh') =  " + params.get("refresh"));
             LOGGER.log(Level.INFO, "[DEBUG] \t\tcomp.getClientId(context) =  " + comp.getClientId(context));
@@ -69,24 +67,21 @@ public class LayerRenderer extends WidgetBaseRenderer {
             LOGGER.log(Level.INFO, "[DEBUG] \t\tmodel.getbbox = " + model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy());
         }
 
-        if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy())) {
+        String win = params.get("window");
+
+        if (win != null && ! win.equals("100,100")) {
+            final String[] window = win.split(",");
+            model.setWindowWidth(window[0]);
+            model.setWindowHeight(window[1]);
+        }
+
+        if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy()) && ! win.equals("100,100")) {
             model.setMinx(bbox.split(",")[0]);
             model.setMiny(bbox.split(",")[1]);
             model.setMaxx(bbox.split(",")[2]);
             model.setMaxy(bbox.split(",")[3]);
         }
-
-        String win = params.get("window");
-
-        if (win == null) {
-            win = params.get(formId + ":window");
-        }
-
-        if (win != null) {
-            final String[] window = win.split(",");
-            model.setWindowWidth(window[0]);
-            model.setWindowHeight(window[1]);
-        }
+   
 
         final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
 
