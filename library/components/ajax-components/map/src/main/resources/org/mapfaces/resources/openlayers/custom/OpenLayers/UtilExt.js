@@ -44,3 +44,18 @@ OpenLayers.Util.reRender = function(jsObject, reqId, formId, parameters) {
         } )*/
 
 };
+
+/**
+ * This method returns false to wrong extent defined with a projection.
+ * @TODO only CRS:84 and EPSG:4326 are tested. this method should be complete for a most of crs. ie: epsg:3394 mercator.
+ */
+OpenLayers.Util.isvalidExtent = function(projection, extent) {
+    if(extent && (projection == 'CRS:84' || projection == 'EPSG:4326')) {
+        if (extent.left < -180 || extent.bottom < -90 || extent.right > 180 || extent.top > 90) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+    return true; //in other cases it return true for an unknown projection
+}
