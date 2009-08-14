@@ -18,14 +18,13 @@
 package org.mapfaces.models.layer;
 
 import java.util.Date;
-import org.geotoolkit.map.MapContext;
 import org.mapfaces.models.*;
 
 public interface MapContextLayer extends Layer {
     
-    public MapContext getMapContext();
+    public String getMapContextKeyInSession();
 
-    public void setMapContext(MapContext mapContext);
+    public void setMapContextKeyInSession(String key);
 
     public Date getDateFilter();
     

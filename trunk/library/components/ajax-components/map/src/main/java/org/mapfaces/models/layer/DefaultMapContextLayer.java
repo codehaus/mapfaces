@@ -18,24 +18,13 @@
 package org.mapfaces.models.layer;
 
 import java.util.Date;
-import org.geotoolkit.map.MapContext;
 import org.mapfaces.models.LayerType;
 
 public class DefaultMapContextLayer extends DefaultLayer implements MapContextLayer {
-    
-   public LayerType type = LayerType.MAPCONTEXT;
-   
-   private transient MapContext mapContext = null;
 
-   private Date dateFilter;
-
-    public MapContext getMapContext() {
-        return mapContext;
-    }
-
-    public void setMapContext(MapContext mapContext) {
-        this.mapContext = mapContext;
-    }
+    public LayerType type = LayerType.MAPCONTEXT;
+    private String mapContextKeyInSession;
+    private Date dateFilter;
 
     /**
      * @return the dateFilter
@@ -49,5 +38,19 @@ public class DefaultMapContextLayer extends DefaultLayer implements MapContextLa
      */
     public void setDateFilter(Date dateFilter) {
         this.dateFilter = dateFilter;
+    }
+
+    /**
+     * @return the mapContextKeyInSession
+     */
+    public String getMapContextKeyInSession() {
+        return mapContextKeyInSession;
+    }
+
+    /**
+     * @param mapContextKeyInSession the mapContextKeyInSession to set
+     */
+    public void setMapContextKeyInSession(String mapContextKeyInSession) {
+        this.mapContextKeyInSession = mapContextKeyInSession;
     }
 }

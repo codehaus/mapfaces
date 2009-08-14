@@ -17,8 +17,13 @@
 
 package org.mapfaces.taglib;
 
+import java.util.Map;
+import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import org.mapfaces.component.UIMapPane;
+import org.mapfaces.util.FacesUtils;
 
 /**
  * @author Mehdi Sidhoum
@@ -106,6 +111,15 @@ public class MapPaneTag extends WidgetBaseTag {
         component.setValueExpression("yahoo",yahoo);
         component.setValueExpression("virtualEarth",virtualEarth);
         component.setValueExpression("value",value);
+
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final UIMapPane uimappane = (UIMapPane) component;
+
+        if (value != null) {
+            Map sessionMap = context.getExternalContext().getSessionMap();
+            sessionMap.put(FacesUtils.getCurrentSessionId() + uimappane.getId() + UIMapPane.MAPCONTEXT_KEY_SUFFIX,
+                           value.getValue(context.getELContext()));
+        }
     }
 
     /**

@@ -119,15 +119,28 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         
         writer.writeAttribute(HTML.style_ATTRIBUTE, "top:0px;left:0px;position:absolute;z-index: 0;", HTML.style_ATTRIBUTE);
 
-        final MapContext mapcontext = (MapContext) comp.getValue();
-        if (mapcontext != null) {
-            //adding all the MapContext layers  into an allInOne layer.
+        //getting the mappane mapcontext stored in sessionMap by attribute value
+        Map sessionMap = context.getExternalContext().getSessionMap();
+        Object mapcontextObj = sessionMap.get(FacesUtils.getCurrentSessionId()+comp.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX);
+        
+        if (mapcontextObj instanceof MapContext) {
+            final MapContext mapcontext = (MapContext) mapcontextObj;
+            //@TODO here we can separate all mapcontext layers for every layer contained into the mapcontext.
             final ContextFactory contextFactory = new DefaultContextFactory();
             model.clearMapContextLayers();
             final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
-            mcLayer.setMapContext(mapcontext);
+            String mapcontextKey = FacesUtils.getCurrentSessionId()+
+                                   FacesUtils.getParentUIModelBase(context, component).getId() + "_" +
+                                   comp.getId() + "_" +
+                                   mcLayer.getId()+
+                                   UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+            
+            //putting mapcontext's layer into session map and set key into layer model
+            FacesUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
+            mcLayer.setMapContextKeyInSession(mapcontextKey);
             model.addLayer((MapContextLayer) mcLayer);
         }
+        
 
         final List<Layer> layers = model.getLayers();
 
@@ -146,27 +159,26 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             if (temp != null && temp.getType() != null) {
                 switch (temp.getType()) {
                     case WMS:
-                        final UIWmsLayer layer = new UIWmsLayer();
-                        layer.setModel((AbstractModelBase) model);
+                        final UIWmsLayer uiwmsLayer = new UIWmsLayer();
+                        uiwmsLayer.setModel((AbstractModelBase) model);
                         if (temp.getId() != null) {
-                            layer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                            uiwmsLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         } else {
-                            temp.setId(layer.getId());
+                            temp.setId(uiwmsLayer.getId());
                         }
-                        comp.getChildren().add(layer);
-                        temp.setCompId(layer.getClientId(context));
-                        layer.setLayer((WmsLayer) temp);
+                        
+                        temp.setCompId(uiwmsLayer.getClientId(context));
+                        uiwmsLayer.setLayer((WmsLayer) temp);
+                        comp.getChildren().add(uiwmsLayer);
                         break;
                     case MAPCONTEXT:
-                        final MapContextLayer tmpMContext = (MapContextLayer) temp;
                         final UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
                         uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
-                        tmpMContext.setCompId(uiMCLayer.getClientId(context));
-                        uiMCLayer.setLayer(tmpMContext);
-                        if (tmpMContext.getMapContext() != null) {
-                            uiMCLayer.setValue(tmpMContext.getMapContext());
-                        }
+                        final MapContextLayer mcLayer = (MapContextLayer) temp;
+                        
+                        mcLayer.setCompId(uiMCLayer.getClientId(context));
+                        uiMCLayer.setLayer(mcLayer);
                         comp.getChildren().add(uiMCLayer);
                         break;
                     case FEATURE:

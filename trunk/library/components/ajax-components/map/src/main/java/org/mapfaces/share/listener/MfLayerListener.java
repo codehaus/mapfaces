@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,7 @@ import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 
+import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 
 import org.opengis.geometry.Envelope;
@@ -74,7 +76,7 @@ public class MfLayerListener implements PhaseListener {
         if (compId != null) {
             try {
                 if (externalContext.getResponse() instanceof HttpServletResponse) {
-                    writeChartWithServletResponse(context, compId, (HttpServletResponse) externalContext.getResponse(), datevalue);
+                    writeLayerWithServletResponse(context, compId, (HttpServletResponse) externalContext.getResponse(), datevalue);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -87,7 +89,7 @@ public class MfLayerListener implements PhaseListener {
     public void beforePhase(PhaseEvent phaseEvent) {
     }
 
-    private void writeChartWithServletResponse(FacesContext context, String id, HttpServletResponse response, Date datevalue) throws IOException {
+    private void writeLayerWithServletResponse(FacesContext context, String id, HttpServletResponse response, Date datevalue) throws IOException {
         OutputStream stream = response.getOutputStream();
         writeLayer(context, id, stream, datevalue);
     }
@@ -134,15 +136,13 @@ public class MfLayerListener implements PhaseListener {
 
             if (mapContext != null) {
                 try {
-//                    long start = (new Date()).getTime();
                     LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
                     LOGGER.log(Level.INFO, "Enveloppe = " + env);
                     DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
-//                    long end = (new Date()).getTime();
                 } catch (PortrayalException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
-                    LOGGER.log(Level.WARNING, "Exception : "+exp.getMessage());
+                    LOGGER.log(Level.WARNING, "Exception : "+exp.getStackTrace().toString());
                 } finally {
                     emptySession(sessionMap, id);
                 }
