@@ -135,7 +135,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                                    mcLayer.getId()+
                                    UIMapPane.MAPCONTEXT_KEY_SUFFIX;
             
-            //putting mapcontext's layer into session map and set key into layer model
+            //putting layer's mapcontext into session map and set key for the layer model
             FacesUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
             mcLayer.setMapContextKeyInSession(mapcontextKey);
             model.addLayer((MapContextLayer) mcLayer);
@@ -166,20 +166,19 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         } else {
                             temp.setId(uiwmsLayer.getId());
                         }
-                        
+                        comp.getChildren().add(uiwmsLayer);
                         temp.setCompId(uiwmsLayer.getClientId(context));
                         uiwmsLayer.setLayer((WmsLayer) temp);
-                        comp.getChildren().add(uiwmsLayer);
                         break;
                     case MAPCONTEXT:
                         final UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
                         uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         final MapContextLayer mcLayer = (MapContextLayer) temp;
-                        
+
+                        comp.getChildren().add(uiMCLayer);
                         mcLayer.setCompId(uiMCLayer.getClientId(context));
                         uiMCLayer.setLayer(mcLayer);
-                        comp.getChildren().add(uiMCLayer);
                         break;
                     case FEATURE:
                         final FeatureLayer tmpfeature = (FeatureLayer) temp;
@@ -256,7 +255,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                             //If OpenLayers classes are correctly loaded
                             append("if (window.OpenLayers &&  window.OpenLayers.Layer && window.OpenLayers.Layer.MapFaces) {").
                             //Create a MapFaces layer
-                            append(jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
+                            append("var "+jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
                                 append("id:").append("'").append(jsLayerVariable).append("'").append(",").
                                 append("visibility:").append(!layer.isHidden()).append(",").
                                 append("maxScale:").append(layer.getMinScaleDenominator()).append(",").
