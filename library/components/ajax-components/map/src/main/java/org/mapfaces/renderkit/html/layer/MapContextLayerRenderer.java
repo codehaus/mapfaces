@@ -95,15 +95,13 @@ public class MapContextLayerRenderer extends LayerRenderer {
 
         UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
 
-        //If a MapContext is specified in value attribute, layer will display the context in a allInOne layer
-        Object obj = comp.getValue();
-        if (obj instanceof MapContext) {
-            layer.setMapContext((MapContext) obj);
-        }
+        //Getting mapcontext for this layer if exists
+        Map sessionMap = context.getExternalContext().getSessionMap();
+        Object obj = sessionMap.get(layer.getMapContextKeyInSession());
 
-        //Save the mapContext in session for MfLayerListener can rendering it
-        if (layer.getMapContext() != null) {
-            setMapContextAtSession(context, comp, layer.getMapContext());
+        //Save the mapContext in session for MfLayerListener to proceed a portraying renderer
+        if (obj instanceof MapContext) {
+            setMapContextAtSession(context, comp, (MapContext) obj);
         }
 
         if (debug) {
@@ -156,7 +154,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
                 try {
                     date = org.geotoolkit.temporal.object.Utils.createDate(datevalue);
                 } catch (Exception exp) {
-                    System.out.println("[MapContextLayerRenderer] Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
+                    LOGGER.log(Level.WARNING," Decode : the ajax param datevalueFilter is not a valid date format ! datevalueFilter = " + datevalue);
                 }
                 layer.setDateFilter(date);
             }

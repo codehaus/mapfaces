@@ -17,20 +17,10 @@
 
 package org.mapfaces.component;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-
 import javax.measure.unit.Unit;
-import org.geotoolkit.map.MapContext;
-import org.geotoolkit.measure.Units;
-import org.geotoolkit.referencing.CRS;
-import org.mapfaces.models.Context;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 /**
  * @author Olivier Terral.(Geomatys)
@@ -39,8 +29,12 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 public class UIMapPane extends UIWidgetBase {
 
     public static final String FAMILIY = "org.mapfaces.MapPane";
+
+    /**
+     * This is a static suffix for mapcontext keys used to store into session map.
+     */
+    public static final String MAPCONTEXT_KEY_SUFFIX = "_mapContext";
     
-    private MapContext defaultMapContext;
     /**
      * for untiled wms layers: how many times should the map image be
      * larger than the visible map. Large values mean slow loading, small
@@ -352,14 +346,6 @@ public class UIMapPane extends UIWidgetBase {
 
     public void setNumZoomLevels(final Integer numZoomLevels) {
         this.numZoomLevels = numZoomLevels;
-    }
-
-    public MapContext getDefaultMapContext() {
-        return defaultMapContext;
-    }
-
-    public void setDefaultMapContext(final MapContext defaultMapContext) {
-        this.defaultMapContext = defaultMapContext;
     }
 
     /**

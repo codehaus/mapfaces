@@ -789,6 +789,18 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
     }
 
     /**
+     * This method puts at the sessionmap a couple key value.
+     * @param context
+     * @param key
+     * @param value
+     */
+    public static void putAtSessionMap(FacesContext context, Object key, Object value) {
+        Map sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put(key, value);
+        
+    }
+
+    /**
      * This method returns true if the mappane contains MFLayers.
      * @param mappane
      * @return

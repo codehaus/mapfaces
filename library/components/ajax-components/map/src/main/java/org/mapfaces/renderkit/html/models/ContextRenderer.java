@@ -41,6 +41,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.geotoolkit.map.MapContext;
 
+import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractModelBase;
@@ -238,9 +239,13 @@ public class ContextRenderer extends Renderer {
         }
         if (obj instanceof MapContext) {
             //add all the MapContext (gt) layers  into an allInOne layer.
-            MapContextLayer layer = (MapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(ctx));
-            layer.setMapContext((MapContext) obj);
-            ctx.addLayer(layer);
+            MapContextLayer mcLayer = (MapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(ctx));
+            String mapcontextKey = FacesUtils.getCurrentSessionId()+mcLayer.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+            
+            //putting this layer's mapcontext into session map and set key into mclayer model
+            FacesUtils.putAtSessionMap(context, mapcontextKey, (MapContext) obj);
+            mcLayer.setMapContextKeyInSession(mapcontextKey);
+            ctx.addLayer(mcLayer);
 
         } else if (obj instanceof Context) {
             //TODO add layers at the end of the context if it exists
