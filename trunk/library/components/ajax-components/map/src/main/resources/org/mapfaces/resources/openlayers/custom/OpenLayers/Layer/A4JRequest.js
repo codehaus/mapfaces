@@ -164,7 +164,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
     submit: function(requestParams) {
         this.onSubmit(requestParams);
         requestParams[this.compId] = this.compId;
-        var actionUrl = window.location.href;;
+        var actionUrl = window.location.href;
         if (actionUrl.indexOf("?") != -1)
             actionUrl = actionUrl.substring(0,actionUrl.indexOf("?"));
         
