@@ -127,7 +127,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         final double rotation = comp.getRotation();
 
         writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "style");
+        writer.writeAttribute("id", clientId, "id");
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
