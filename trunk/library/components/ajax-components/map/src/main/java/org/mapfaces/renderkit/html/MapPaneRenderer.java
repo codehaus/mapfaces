@@ -26,8 +26,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.geotoolkit.map.MapBuilder;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.geotoolkit.map.MapContext;
+import org.geotoolkit.map.MapLayer;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
@@ -128,17 +130,40 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             //@TODO here we can separate all mapcontext layers for every layer contained into the mapcontext.
             final ContextFactory contextFactory = new DefaultContextFactory();
             model.clearMapContextLayers();
-            final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
-            String mapcontextKey = FacesUtils.getCurrentSessionId()+
-                                   FacesUtils.getParentUIModelBase(context, component).getId() + "_" +
-                                   comp.getId() + "_" +
-                                   mcLayer.getId()+
-                                   UIMapPane.MAPCONTEXT_KEY_SUFFIX;
-            
-            //putting layer's mapcontext into session map and set key for the layer model
-            FacesUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
-            mcLayer.setMapContextKeyInSession(mapcontextKey);
-            model.addLayer((MapContextLayer) mcLayer);
+
+            if (!comp.isLayersGrouped()) {
+                if (mapcontext.layers() != null) {
+                    for (MapLayer maplayer : mapcontext.layers()) {
+                        final MapContext newMapCtxt = MapBuilder.createContext(mapcontext.getCoordinateReferenceSystem());
+                        newMapCtxt.layers().add(maplayer);
+
+                        final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
+                        String mapcontextKey = FacesUtils.getCurrentSessionId() +
+                                               FacesUtils.getParentUIModelBase(context, component).getId() + "_" +
+                                               comp.getId() + "_" +
+                                               mcLayer.getId() +
+                                               UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+                        //putting layer's mapcontext into session map and set key for the layer model
+                        FacesUtils.putAtSessionMap(context, mapcontextKey, newMapCtxt);
+                        mcLayer.setMapContextKeyInSession(mapcontextKey);
+                        model.addLayer((MapContextLayer) mcLayer);
+                    }
+                }
+            } else {
+                final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
+                String mapcontextKey = FacesUtils.getCurrentSessionId() +
+                                       FacesUtils.getParentUIModelBase(context, component).getId() + "_" +
+                                       comp.getId() + "_" +
+                                       mcLayer.getId() +
+                                       UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+
+                //putting layer's mapcontext into session map and set key for the layer model
+                FacesUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
+                mcLayer.setMapContextKeyInSession(mapcontextKey);
+                model.addLayer((MapContextLayer) mcLayer);
+            }
+
+
         }
         
 
