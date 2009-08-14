@@ -318,7 +318,7 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Format/GeoJSON.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/NavToolbar.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/EditingToolbar.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/js/mfUtils.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/mfUtils.js</include>
                             </includes>
                         </aggregation>
 
