@@ -60,6 +60,7 @@ public class MapPaneTag extends WidgetBaseTag {
     private ValueExpression singleTile = null;
     private ValueExpression fixedSize = null;
     private ValueExpression fractionalZoom = null;
+    private ValueExpression layersGrouped = null;
     /**
      * Commercial OpenLayers.Layer
      */
@@ -111,6 +112,7 @@ public class MapPaneTag extends WidgetBaseTag {
         component.setValueExpression("yahoo",yahoo);
         component.setValueExpression("virtualEarth",virtualEarth);
         component.setValueExpression("value",value);
+        component.setValueExpression("layersGrouped",layersGrouped);
 
         final FacesContext context = FacesContext.getCurrentInstance();
         final UIMapPane uimappane = (UIMapPane) component;
@@ -149,6 +151,7 @@ public class MapPaneTag extends WidgetBaseTag {
         yahoo = null;
         virtualEarth = null;
         value = null;
+        layersGrouped = null;
     }
 
     public void setPanZoomBar(ValueExpression panZoomBar) {
@@ -229,5 +232,19 @@ public class MapPaneTag extends WidgetBaseTag {
 
     public void setValue(ValueExpression value) {
         this.value = value;
+    }
+
+    /**
+     * @return the layersGrouped
+     */
+    public ValueExpression getLayersGrouped() {
+        return layersGrouped;
+    }
+
+    /**
+     * @param layersGrouped the layersGrouped to set
+     */
+    public void setLayersGrouped(ValueExpression layersGrouped) {
+        this.layersGrouped = layersGrouped;
     }
 }

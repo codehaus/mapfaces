@@ -85,6 +85,10 @@ public class UIMapPane extends UIWidgetBase {
     private Boolean singleTile = true;
     private Integer numZoomLevels = 18;
     /**
+     * Flag that indicates if the mapcontext' layers will be grouped or not in allInOne layer.
+     */
+    private boolean layersGrouped = true;
+    /**
      * Control options
      */
     private Boolean panZoomBar = false;
@@ -353,7 +357,7 @@ public class UIMapPane extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[28];
+        final Object values[] = new Object[29];
         values[0] = super.saveState(context);
         values[1] = imageBuffer;
         values[2] = maxExtent;
@@ -382,6 +386,7 @@ public class UIMapPane extends UIWidgetBase {
         values[25] = virtualEarth;
         values[26] = ajaxCompId;
         values[27] = addLayersScript;
+        values[28] = layersGrouped;
         return values;
     }
 
@@ -419,6 +424,7 @@ public class UIMapPane extends UIWidgetBase {
         virtualEarth = (Boolean) values[25];
         ajaxCompId = (String) values[26];
         addLayersScript = (String) values[27];
+        layersGrouped = (Boolean) values[28];
     }
 
     /**
@@ -453,6 +459,20 @@ public class UIMapPane extends UIWidgetBase {
      */
     public void setAddLayersScript(String addLayersScript) {
         this.addLayersScript = addLayersScript;
+    }
+
+    /**
+     * @return the layersGrouped
+     */
+    public boolean isLayersGrouped() {
+        return layersGrouped;
+    }
+
+    /**
+     * @param layersGrouped the layersGrouped to set
+     */
+    public void setLayersGrouped(boolean layersGrouped) {
+        this.layersGrouped = layersGrouped;
     }
 }
 

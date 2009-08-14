@@ -2691,6 +2691,17 @@
                 Add VirtualEarth layer to the map as a base layer (VEMapStyle.Aerial,VEMapStyle.Road,VEMapStyle.Hybrid).
             </description>
         </attribute>
+        <attribute>
+            <name>layersGrouped</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                Flag that indicates if the mapcontext' layers will be grouped or not in allInOne layer.
+            </description>
+        </attribute>
     </tag>
     <tag>
         <name>AoiBoxDHTML</name>
