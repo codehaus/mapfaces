@@ -477,7 +477,7 @@
                     </execution>
                 </executions>
             </plugin>
-      <!-- rename the war file -->
+           <!-- rename the war file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
