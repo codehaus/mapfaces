@@ -185,6 +185,25 @@
                     </aggregations>
                 </configuration>
             </plugin>
+<!-- taglib transform -->
+	    <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xslt-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <xslFile>../base/src/main/tld/misc/resolve_entities.xsl</xslFile>
+                    <srcIncludes>**/*.tld</srcIncludes>
+                    <srcDir>src/main/tld</srcDir>
+                    <destDir>target/classes/META-INF</destDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <properties>
