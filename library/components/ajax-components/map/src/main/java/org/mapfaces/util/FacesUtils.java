@@ -296,7 +296,7 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         } catch (IllegalAccessException ex) {
             LOGGER.log(Level.FINE, null, ex);
         } catch (NoSuchFieldException ex) {
-            LOGGER.log(Level.FINE, null, ex);
+            LOGGER.log(Level.FINE, "");
         } catch (SecurityException ex) {
             LOGGER.log(Level.FINE, null, ex);
         }
