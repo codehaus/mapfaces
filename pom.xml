@@ -10,9 +10,10 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces</artifactId>
     <packaging>pom</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2.3</version>
     <name>MapFaces</name>
-  
+    <url>http://mapfaces.codehaus.org</url>
+    <description>This version contains a new project structure.</description>
     <scm>
         <connection>
       scm:svn:http://svn.codehaus.org/mapfaces/trunk/
