@@ -1,0 +1,37 @@
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+
+<%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
+<%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
+<%@taglib prefix="mf" uri="http://mapfaces.org/taglib" %>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <f:view>
+            <h:form>
+                <mf:TreeTable value="#{treebean.tree}" var="layer" id="Treetable" width="500" debug="true">
+                    <mf:TreePanel header="true" id="panel1" title="My tree" rowId="true" >
+                        
+                        <mf:TreeColumn headerTitle="Tree Items" width="300" value="#{layer.name}" />
+                        
+                        <mf:TreeNodeInfo title="title" >
+                            <h:outputLabel value="TITLE : #{layer.title}"/>
+                            <h:outputLabel value="TYPE : #{layer.type}"/>
+                            <h:outputLabel value="ID : #{layer.id}"/>
+                            <h:outputLabel value="Group ID : #{layer.groupId}"/>
+                        </mf:TreeNodeInfo>
+                        
+                    </mf:TreePanel>
+                    
+                </mf:TreeTable>
+            </h:form>
+        </f:view>
+    </body>
+</html>   

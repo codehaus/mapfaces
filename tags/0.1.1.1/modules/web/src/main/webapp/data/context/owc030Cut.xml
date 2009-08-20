@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OWSContext version="0.3.0" id="ows-context-ex-1-v3" xmlns="http://www.opengis.net/ows-context" xmlns:gml="http://www.opengis.net/gml" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/ows-context http://www.ogcnetwork.net/schemas/owc/0.3.0/owsContext.xsd">
+	<General>
+                
+		<Window width="600" height="300"/>
+		<ows:BoundingBox crs="EPSG:4326">
+                        <ows:LowerCorner>22.5 -125</ows:LowerCorner>
+			<ows:UpperCorner>51 -67</ows:UpperCorner>
+		</ows:BoundingBox>
+		<ows:Title>OWS Context version 0.3.0 examples : 21 WMS layers on 3 differents servers</ows:Title>
+	</General>	
+	<ResourceList>		
+		<!-- WMS Example -->                
+                <Layer name="Bathymetry" queryable="1" hidden="0" group="World/France">                        
+			<ows:Title>Bathymetry</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                  
+		</Layer> 
+                <Layer name="Countries" queryable="1" hidden="0" opacity="0.6" group="World/USA">                        
+			<ows:Title>Countries</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                
+		</Layer> 
+                <Layer name="Topography" queryable="1" hidden="0" opacity="0.8" group="World">                        
+			<ows:Title>Topography</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                 
+		</Layer> 
+                <!--Layer name="topp:states" queryable="1" hidden="0" opacity="0.5" group="States">
+			<ows:Title>States</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver"/>
+			</Server>
+		</Layer-->
+                <Layer name="Builtup areas" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Builtup+areas</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                 
+		</Layer>                 
+                <Layer name="Coastlines" queryable="1" hidden="0">                        
+			<ows:Title>Coastlines</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                 
+		</Layer> 
+                <Layer name="Waterbodies" queryable="1" hidden="0">                        
+			<ows:Title>Waterbodies</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                  
+		</Layer> 
+                <Layer name="Inundated" queryable="1" hidden="0">                        
+			<ows:Title>Inundated</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                  
+		</Layer> 
+                <Layer name="Rivers" queryable="1" hidden="0">                        
+			<ows:Title>Rivières</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Streams" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Streams</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Railroads" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Ferroutages</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+               <Layer name="Highways" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Autoroutes</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Roads" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Routes</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Trails" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Rails</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Borders" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Bords</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Cities" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Villes</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer> 
+                <Layer name="Settlements" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Settlements</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer>
+                <Layer name="Spot elevations" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Points culminant</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer>
+                <Layer name="Airports" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Aéroports</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer>
+                <Layer name="Ocean features" queryable="1" hidden="0" group="World">                        
+			<ows:Title>Ocean+features</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+                                <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+			</Server>                   
+		</Layer>
+                <!--Layer name="topp:major_roads" queryable="1" hidden="0" group="States">
+			<ows:Title>Tiger 2005fe major roads</ows:Title>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<Server service="urn:ogc:serviceType:WMS" version="1.1.1">
+				<OnlineResource xlink:href="http://sigma.openplans.org:8080/geoserver/wms?"/>
+			</Server>
+                        
+		</Layer-->
+	</ResourceList>
+</OWSContext>
