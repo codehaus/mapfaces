@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config   version="1.2"
+                xmlns="http://java.sun.com/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- COMPONENTS -->
+    <!--            HTML components -->
+    <component>
+        <component-type>org.mapfaces.TreeTable</component-type>
+        <component-class>org.mapfaces.component.treetable.UITreetable</component-class>
+    </component>
+
+    <component>
+        <component-type>org.mapfaces.TreeTable.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.treetable.UITreecolumn</component-class>
+    </component>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- RENDERKIT -->
+    <render-kit>
+        <renderer>
+            <component-family>org.mapfaces.TreeTable</component-family>
+            <renderer-type>org.mapfaces.renderkit.TreeTable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.treetable.TreetableRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+</faces-config>

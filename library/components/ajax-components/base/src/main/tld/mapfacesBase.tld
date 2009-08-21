@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd" [
+
+<!ENTITY resources_attributes       SYSTEM "entities/default_attributes.xml">
+<!ENTITY events_attributes          SYSTEM "entities/events_attributes.xml">
+<!ENTITY HTMLtreetable_attributes   SYSTEM "entities/HTMLTreeTable_attributes.xml">
+<!ENTITY treetable_attributes       SYSTEM "entities/TreeTable_attributes.xml">
+<!ENTITY HTMLtreecolumn_attributes  SYSTEM "entities/HTMLTreeColumn_attributes.xml">
+]>
+
+<taglib>
+
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>mfb</short-name>
+    <uri>http://mapfaces-base.org/taglib</uri>
+    <description>
+        <![CDATA[Mapfaces Base library components]]>
+    </description>
+
+    <tag>
+        <name>treetable</name>
+        <tag-class>org.mapfaces.taglib.treetable.TreetableTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Treetable component]]>
+        </description>
+        &resources_attributes;
+        &events_attributes;
+        &HTMLtreetable_attributes;
+        &treetable_attributes;
+    </tag>
+
+    <tag>
+        <name>treecolumn</name>
+        <tag-class>org.mapfaces.taglib.treetable.TreecolumnTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Treetable component]]>
+        </description>
+        &resources_attributes;
+        &HTMLtreecolumn_attributes;
+    </tag>
+
+</taglib>
