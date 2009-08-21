@@ -17,9 +17,9 @@
   <!--     Module Description                                      -->
   <!-- =========================================================== -->
     <groupId>org.mapfaces</groupId>
-    <artifactId>mapfaces-library</artifactId>
+    <artifactId>mapfaces-templates</artifactId>
     <packaging>pom</packaging>
-    <name>Mapfaces - libraries</name>
+    <name>Mapfaces - templates</name>
   
     <scm>
         <connection>
@@ -29,7 +29,7 @@
     </scm>
   
     <description>
-    MapFaces core modules.
+    MapFaces templates modules.
     </description>
 
 
@@ -38,10 +38,7 @@
   <!--     Modules included in the build                           -->
   <!-- =========================================================== -->
     <modules>
-        <module>core</module>
-        <module>comet</module>
-        <module>components</module>
-        <module>templates</module>
+        <module>mochafaces</module>
     </modules>
 
 

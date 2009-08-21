@@ -1,0 +1,25 @@
+/*
+ * Mocha UI modification for Dekka Ressource Library
+ *
+ *
+ */
+
+/*  ---------------------------------------------------------------------------------------------------
+ *  Last Modification : June 23th, 2009
+    --------------------------------------------------------------------------------------------------- */
+
+ - Css themes
+    . Change url link images ../images to resource.jsf?r=/org/dekka/mocha/themes/[theme name]/images/
+    . Change in window.css mochaTitlebar background from "background: url(resource.jsf?r=/org/dekka/mocha/images/spacer.gif?from=494949&to=393939);"
+        to "background: url(resource.jsf?r=/org/dekka/mocha/images/spacer.gif);"
+
+ - Window.js
+    . line 1441 :
+        /*
+         *  Replace this by a gradientFrom and a gradienTo fix
+         * var gradientFrom = gradient.from;
+         * var gradientTo = gradient.to.replace(/\"/, ''); // IE7 was adding a quotation mark in. No idea why.
+         *
+         */
+        var gradientFrom = "494949";
+        var gradientTo = "393939";
