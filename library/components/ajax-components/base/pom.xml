@@ -44,6 +44,24 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xslt-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <xslFile>src/main/tld/misc/resolve_entities.xsl</xslFile>
+                    <srcIncludes>**/*.tld</srcIncludes>
+                    <srcDir>src/main/tld</srcDir>
+                    <destDir>target/classes/META-INF</destDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.0.2</version>
                 <configuration>
@@ -51,10 +69,194 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    <properties>
-        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
-    </properties>
+
+    <reporting>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>changelog-maven-plugin</artifactId>
+                <version>2.0-beta-1</version>
+                <reportSets>
+                    <reportSet>
+                        <id>dual-report</id>
+                        <configuration>
+                            <type>range</type>
+                            <range>30</range>
+                        </configuration>
+                        <reports>
+                            <report>changelog</report>
+                            <report>file-activity</report>
+                            <report>dev-activity</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.0-beta-3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jxr-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.0-beta-1</version>
+                <configuration>
+                    <tags>TODO, FIXME, XXX, @deprecated</tags>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>surefire-report-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>generate-site</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xslt-maven-plugin</artifactId>
+                        <version>1.0</version>
+                        <executions>
+                            <execution>
+                                <id>generate-tld-for-tlddoc</id>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                                <configuration>
+                                    <xslFile>src/main/tld/misc/resolve_entities-tlddoc.xsl</xslFile>
+                                    <srcIncludes>**/*.tld</srcIncludes>
+                                    <srcDir>src/main/tld</srcDir>
+                                    <destDir>target/tlddoc-site</destDir>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-tld-for-jar</id>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                                <configuration>
+                                    <xslFile>src/main/tld/misc/resolve_entities.xsl</xslFile>
+                                    <srcIncludes>**/*.tld</srcIncludes>
+                                    <srcDir>src/main/tld</srcDir>
+                                    <destDir>target/classes/META-INF</destDir>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>net.sourceforge.maven-taglib</groupId>
+                        <artifactId>maven-taglib-plugin</artifactId>
+                        <configuration>
+                            <taglib.src.dir>/Users/kevindelfour/Workspace/Private/target/tlddoc-site</taglib.src.dir>
+                            <tldDocDir>/Users/kevindelfour/Workspace/Private/target/site/tlddoc</tldDocDir>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+        <profile>
+            <id>generate-assembly</id>
+            <activation>
+              <property>
+                <name>performRelease</name>
+                <value>true</value>
+              </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xslt-maven-plugin</artifactId>
+                        <version>1.0</version>
+                        <executions>
+                            <execution>
+                                <id>generate-tld-for-tlddoc</id>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                                <configuration>
+                                    <xslFile>src/main/tld/misc/resolve_entities-tlddoc.xsl</xslFile>
+                                    <srcIncludes>**/*.tld</srcIncludes>
+                                    <srcDir>src/main/tld</srcDir>
+                                    <destDir>target/tlddoc-site</destDir>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-tld-for-jar</id>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                                <configuration>
+                                    <xslFile>src/main/tld/misc/resolve_entities.xsl</xslFile>
+                                    <srcIncludes>**/*.tld</srcIncludes>
+                                    <srcDir>src/main/tld</srcDir>
+                                    <destDir>target/classes/META-INF</destDir>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals><goal>jar</goal></goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>net.sourceforge.maven-taglib</groupId>
+                        <artifactId>maven-taglib-plugin</artifactId>
+                        <configuration>
+                            <taglib.src.dir>/Users/kevindelfour/Workspace/Private/target/tlddoc-site</taglib.src.dir>
+                            <tldDocDir>/Users/kevindelfour/Workspace/Private/target/tlddoc</tldDocDir>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals><goal>taglibdocjar</goal></goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
 </project>
