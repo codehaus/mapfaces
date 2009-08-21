@@ -1,0 +1,17 @@
+<attribute>
+    <description></description>
+    <name>viewControls</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <description></description>
+    <name>width</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
