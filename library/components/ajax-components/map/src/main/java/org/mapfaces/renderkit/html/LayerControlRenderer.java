@@ -175,7 +175,11 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         final UITreeColumn treecolumn = new UITreeColumn();
         treecolumn.setId(treePanel.getId() + "_Layers");
         treecolumn.setValue("#{treeItem.title}");
-        if (headerTreeColumn == null || headerTreeColumn.isEmpty()) {
+
+        //to fix title translations with bundle files we need to get the value by getting the appropriate valueExpression first.
+        if (layerControl.getValueExpression("headerTreeColumn") != null && layerControl.getValueExpression("headerTreeColumn").getValue(context.getELContext()) != null) {
+            treecolumn.setHeaderTitle(layerControl.getValueExpression("headerTreeColumn").getValue(context.getELContext()).toString());
+        } else if (headerTreeColumn == null || headerTreeColumn.isEmpty()) {
             treecolumn.setHeaderTitle("");
         } else {
             treecolumn.setHeaderTitle(headerTreeColumn);
