@@ -280,7 +280,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                             //If OpenLayers classes are correctly loaded
                             append("if (window.OpenLayers &&  window.OpenLayers.Layer && window.OpenLayers.Layer.MapFaces) {").
                             //Create a MapFaces layer
-                            append("var "+jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
+                            append("window."+jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
                                 append("id:").append("'").append(jsLayerVariable).append("'").append(",").
                                 append("visibility:").append(!layer.isHidden()).append(",").
                                 append("maxScale:").append(layer.getMinScaleDenominator()).append(",").
