@@ -152,7 +152,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * data - {}  JSON representation of the result.
      */
     onSubmit: function(requestParams) {
-        if(requestParams.refresh.indexOf(this.clientId) != -1)
+        if(requestParams && requestParams.refresh && requestParams.refresh.indexOf(this.clientId) != -1)
             this.events.triggerEvent("loadstart");
     },
 
@@ -196,7 +196,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
         //this is the A4JRequest object
         //this.control is the Layer object
 
-        if(request.options.parameters.refresh.indexOf(this.clientId) != -1) {
+        if(request && request.options && request.options.parameters && request.options.parameters.refresh && request.options.parameters.refresh.indexOf(this.clientId) != -1) {
             this.div  = document.getElementById(this.clientId);
             if (this.div && this.div.childNodes[0]) {
                 this.imgDiv  = this.div.childNodes[0];
