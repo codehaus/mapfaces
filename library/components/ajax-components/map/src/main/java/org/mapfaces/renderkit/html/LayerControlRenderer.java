@@ -176,7 +176,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
         treecolumn.setId(treePanel.getId() + "_Layers");
         treecolumn.setValue("#{treeItem.title}");
         if (headerTreeColumn == null || headerTreeColumn.isEmpty()) {
-            treecolumn.setHeaderTitle("Layers grouped");
+            treecolumn.setHeaderTitle("");
         } else {
             treecolumn.setHeaderTitle(headerTreeColumn);
         }

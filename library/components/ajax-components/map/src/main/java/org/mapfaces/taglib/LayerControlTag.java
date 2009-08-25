@@ -19,6 +19,8 @@ package org.mapfaces.taglib;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import org.mapfaces.component.UILayerControl;
 
 /**
  * @author Olivier Terral
@@ -193,7 +195,7 @@ public class LayerControlTag extends WidgetBaseTag {
      * {@inheritDoc }
      */
     @Override
-    protected void setProperties(final UIComponent component) {
+    protected void setProperties(UIComponent component) {
         super.setProperties(component);
         component.setValueExpression("styleTreeTable", styleTreeTable);
         component.setValueExpression("styleClassTreeTable", styleClassTreeTable);
@@ -221,6 +223,15 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("layerInfo", layerInfo);
         component.setValueExpression("colorMapEditor", colorMapEditor);
         component.setValueExpression("activateDnd", activateDnd);
+
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final UILayerControl layercontrol = (UILayerControl) component;
+
+        if (headerTreeColumn != null) {
+            if (headerTreeColumn.getValue(context.getELContext()) instanceof String) {
+                layercontrol.setHeaderTreeColumn((String) headerTreeColumn.getValue(context.getELContext()));
+            }
+        }
     }
 
     public ValueExpression getStyleTreeTable() {
