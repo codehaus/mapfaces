@@ -144,8 +144,26 @@
             <deferred-value>
                 <type>java.lang.Object</type>
             </deferred-value>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+	<attribute>
+            <name>loadMootools</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]></description>
+        </attribute>
+	<attribute>
+            <name>loadJs</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]></description>
         </attribute>
         
     </tag>
