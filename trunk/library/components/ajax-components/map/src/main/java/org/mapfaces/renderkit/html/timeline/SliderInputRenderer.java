@@ -29,7 +29,7 @@ import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Mehdi Sidhoum
@@ -180,7 +180,7 @@ public class SliderInputRenderer extends Renderer {
     public void writeSilderScripts(final FacesContext context, final UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
         writer.startElement("script", component);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/slider/js/JSSlider.js", null), null);

@@ -37,7 +37,7 @@ import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.renderkit.html.LayerRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.MapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
@@ -64,7 +64,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         final String clientId = comp.getClientId(context);
         final Context model = (Context) comp.getModel();
         final WmsLayer layer = (WmsLayer) comp.getLayer();
-        final UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
+        final UIMapPane mappane = FacesMapUtils.getParentUIMapPane(context, comp);
 
         if (model == null) {
             if (this.debug) {
@@ -89,7 +89,7 @@ public class WmsLayerRenderer extends LayerRenderer {
 
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + 
-                    (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay()
+                    (FacesMapUtils.getParentUIMapPane(context, comp).getInitDisplay()
                     && !layer.isHidden() && layer.isDisplayable() && !layer.isDisable()));        //Add layer image if not the first page loads
         }
         layer.setDisplayable(layer.isDisplayable(MapUtils.getScale(model)));
@@ -173,10 +173,10 @@ public class WmsLayerRenderer extends LayerRenderer {
                     completeUrl = completeUrl.concat("&HEIGHT=");
                 }
 
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
-                completeUrl = FacesUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
+                completeUrl = FacesMapUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
+                completeUrl = FacesMapUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
+                completeUrl = FacesMapUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);
+                completeUrl = FacesMapUtils.setParameterValueAndGetUrl("HEIGHT", String.valueOf(dim.getHeight()), completeUrl);
                 url = new URL(completeUrl);
             }
 

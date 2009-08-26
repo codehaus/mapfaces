@@ -29,7 +29,7 @@ import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.treelayout.UITreeLines;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 public class DimRangeRenderer extends WidgetBaseRenderer {
@@ -131,7 +131,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
              dimRange.setId(layerId+"_inputDimRange");
              dimRange.setValue(((String) comp.getValue()));
              comp.getChildren().add(dimRange);
-             dimRange.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupport(context,dimRange,"onchange",getVarId(context, comp),null));
+             dimRange.getFacets().put("a4jsupport", FacesMapUtils.createTreeAjaxSupport(context,dimRange,"onchange",getVarId(context, comp),null));
              dimRange.encodeBegin(context);
              dimRange.encodeChildren(context);
              dimRange.encodeEnd(context);
@@ -163,7 +163,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
         final String layerClientId = getVarId(context, comp);
         final String layerId       = layerClientId.split(":")[1];
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
-        String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);
+        String jsObject = FacesMapUtils.getParentUIModelBase(context, component).getClientId(context);
         if(jsObject.contains(":")) jsObject = jsObject.replace(":","");
 
         final String value = comp.getValue().toString();
@@ -204,7 +204,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
      * Extra fonction useful for layercontrol columns
      */
     public String getVarId(final FacesContext context, final UIWidgetBase component) {
-        final UITreeLinesBase comp = FacesUtils.getParentUITreeLines(context, component);
+        final UITreeLinesBase comp = FacesMapUtils.getParentUITreeLines(context, component);
         if (comp.getNodeInstance().isLeaf()) {
             comp.setVarId( ((TreeItem) (comp.getNodeInstance().getUserObject())).getCompId() );
             if (comp.getVarId() == null) {
@@ -219,7 +219,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
      * Extra fonction useful for layercontrol columns
      */
     public String getVarLegendUrl(final FacesContext context, final UIWidgetBase component) {
-        final UITreeLines comp = FacesUtils.getParentUITreeLines(context, component);
+        final UITreeLines comp = FacesMapUtils.getParentUITreeLines(context, component);
         if (comp.getNodeInstance().isLeaf()) {
             comp.setVarId(((TreeItem)(comp.getNodeInstance().getUserObject())).getId());
             if ( comp.getVarId() == null) {

@@ -28,7 +28,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.UIMapSize;
 import org.mapfaces.models.Context;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
@@ -118,7 +118,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
     private HtmlAjaxSupport createAjaxSupport(final FacesContext context, final UIMapSize comp) {
 
         /* Add <a4j:support> component */
-        final HtmlAjaxSupport ajaxComp = FacesUtils.createBasicAjaxSupport(context, comp, "onchange", null);
+        final HtmlAjaxSupport ajaxComp = FacesMapUtils.createBasicAjaxSupport(context, comp, "onchange", null);
 
         /*2 ways to resize the map:
          *  -use OpenLayers javascript, but the resize change the resolution of the map but in term of speed it's the better solution
@@ -126,7 +126,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
          *  -use the AjaxSupport to refresh only layers , but we don't change the OpenLayers.Map size
          */
 
-        final String mappaneJsObject =  FacesUtils.getParentUIModelBase(context, comp).getClientId(context).replace(":", "");
+        final String mappaneJsObject =  FacesMapUtils.getParentUIModelBase(context, comp).getClientId(context).replace(":", "");
 
         ajaxComp.setOnsubmit(new StringBuilder()
                 .append("var size = this.value.split(',');")

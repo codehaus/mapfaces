@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -26,7 +27,6 @@ import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -39,7 +39,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -102,13 +101,13 @@ import org.geotoolkit.wms.xml.AbstractKeyword;
 
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.AjaxUtils;
+import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.Utilities;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
-import org.opengis.filter.spatial.Equals;
 import org.opengis.geometry.Envelope;
 import org.opengis.style.AnchorPoint;
-import org.opengis.style.Displacement;
 import org.opengis.style.ExternalGraphic;
 import org.opengis.style.Fill;
 import org.opengis.style.Graphic;
@@ -121,9 +120,9 @@ import org.opengis.style.Stroke;
  * @author Mehdi Sidhoum (Geomatys).
  * @author Olivier Terral (Geomatys).
  */
-public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
+public class FacesMapUtils extends FacesUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(FacesUtils.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FacesMapUtils.class.getName());
     /**
      * this array of colors have a binding with the png markers witih index 0 to 9.
      */
@@ -131,38 +130,13 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
     private static final String DEFAULT_CHARSET = "UTF-8";
 
     /**
-     * This is a recursive method to encode all component's children.
-     * @param context
-     * @param component
-     * @throws java.io.IOException
-     */
-    public static void encodeRecursive(final FacesContext context,
-            final UIComponent component) throws IOException {
-        if (!component.isRendered()) {
-            return;
-        // Render this component and its children recursively
-        }
-        component.encodeBegin(context);
-        if (component.getRendersChildren()) {
-            component.encodeChildren(context);
-        } else {
-            final Iterator kids = component.getChildren().iterator();
-            while (kids.hasNext()) {
-                final UIComponent kid = (UIComponent) kids.next();
-                encodeRecursive(context, kid);
-            }
-        }
-        component.encodeEnd(context);
-    }
-
-    /**
-     * This is a recursive method to encode all component's children who referring to a TreeNodeModel.
+     * This is a recursive method to encode all component's children who refering to a TreeNodeModel.
      * @param context
      * @param component
      * @param node
      * @throws java.io.IOException
      */
-    public static void encodeRecursive(final FacesContext context, final UIComponent component,
+    public static void encodeRecursiveTreeNode(final FacesContext context, final UIComponent component,
             final TreeNodeModel node) throws IOException {
 
         if (!component.isRendered()) {
@@ -180,7 +154,7 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
                 final Iterator kids = component.getChildren().iterator();
                 while (kids.hasNext()) {
                     final UIComponent kid = (UIComponent) kids.next();
-                    encodeRecursive(context, kid, node);
+                    encodeRecursiveTreeNode(context, kid, node);
                 }
             }
 
@@ -206,30 +180,17 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         return result;
     }
 
-    public static int getNewIndex(Context ctx) {
+    /**
+     * Returns a new index for existing layers.
+     * @param ctx
+     * @return
+     */
+    public static int getNewLayerIndex(Context ctx) {
         if (ctx == null) {
             return 1;
         } else {
             return ctx.getLayers().size();
         }
-    }
-
-    /**
-     * Returns the UIModelBase of the mapfaces component.
-     * @param context
-     * @param comp
-     * @return
-     */
-    public static UIModelBase getParentUIModelBase(FacesContext context, UIComponent component) {
-        UIComponent parent = component;
-        while (!(parent instanceof UIModelBase)) {
-            if (parent != null) {
-                parent = parent.getParent();
-            } else {
-                return null;
-            }
-        }
-        return (UIModelBase) parent;
     }
 
     /**
@@ -306,7 +267,7 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
             //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
             return getChildUIMapPane(context, component);
         } else {
-            final UIComponent parent = FacesUtils.getParentUIContext(context, component);
+            final UIComponent parent = FacesMapUtils.getParentUIContext(context, component);
 
             if (parent == null) {
                 return null;
@@ -343,158 +304,7 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         }
         return (parent == null) ? null : (UIContext) parent;
     }
-
-    public static PrintWriter getResponseWriter(FacesContext fc) {
-        PrintWriter writer = null;
-        try {
-            writer = getResponse(fc).getWriter();
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Can't get the response writer !!!", ex);
-        }
-        return writer;
-    }
-
-    public static String getRequestParam(FacesContext fc, String name) {
-        return (String) fc.getExternalContext().getRequestParameterMap().get(name);
-    }
-
-    public static HttpServletResponse getResponse(FacesContext fc) {
-        return (HttpServletResponse) fc.getExternalContext().getResponse();
-    }
-
-    /************************************* UIForm functions *********************************/
-    /************************************* find functions *********************************/
-    public static UIForm findForm(UIComponent component) {
-        return (UIForm) findParentComponentByClass(component, UIForm.class);
-    }
-
-    /**
-     * <p>Get container form of the UIComponent</p>
-     * @param component UIComponent to be rendered
-     * @return UIForm the form container of the component if exist else return null
-     */
-    public static String getFormId(FacesContext context, UIComponent component) {
-        return findForm(component).getId();
-    }
-
-    public static String getFormClientId(FacesContext context, UIComponent component) {
-        return findForm(component).getClientId(context);
-    }
-
-    public static UIComponent findComponentByClientId(FacesContext faceContext, String clientId) {
-        return findComponentByClientId(faceContext, faceContext.getViewRoot(), clientId);
-    }
-
-    /**
-     * Returns a component referenced by his id.
-     * @param context
-     * @param root
-     * @param id
-     * @return component referenced by id or null if not found
-     */
-    public static UIComponent findComponentById(final FacesContext context,
-            final UIComponent root, final String id) {
-        UIComponent component = null;
-        for (int i = 0; i < root.getChildCount() && component == null; i++) {
-            final UIComponent child = (UIComponent) root.getChildren().get(i);
-            component = findComponentById(context, child, id);
-        }
-        if (root.getId() != null) {
-            if (component == null && root.getId().equals(id)) {
-                component = root;
-            }
-        }
-        return component;
-    }
-
-    /**
-     * Returns a component referenced by his clientId.
-     *
-     * @param context
-     * @param root
-     * @param clientId
-     * @return component referenced by clientId or null if not found
-     */
-    public static UIComponent findComponentByClientId(final FacesContext context,
-            final UIComponent root, final String clientId) {
-        return root.findComponent(clientId);
-    }
-
-    public static UIComponent findParentComponentByClass(final UIComponent component, final Class c) {
-        UIComponent parent = component;
-        while (!(c.isInstance(parent))) {
-            parent = parent.getParent();
-        }
-        return parent;
-    }
-
-    public static String getParentComponentIdByClass(final UIComponent component, final Class c) {
-        return findParentComponentByClass(component, c).getId();
-    }
-
-    public static String getParentComponentClientIdByClass(final FacesContext faceContext,
-            final UIComponent component, final Class c) {
-        return findParentComponentByClass(component, c).getClientId(faceContext);
-    }
-
-    public static RenderKit getRenderKit(final FacesContext context) {
-        String renderKitId = context.getViewRoot().getRenderKitId();
-        renderKitId = (null != renderKitId) ? renderKitId : RenderKitFactory.HTML_BASIC_RENDER_KIT;
-        final RenderKitFactory fact = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-        assert null != fact;
-        return fact.getRenderKit(context, renderKitId);
-    }
-
-    public static ResponseWriter getResponseWriter2(FacesContext context) throws IOException {
-        ResponseWriter curWriter = context.getResponseWriter();
-        if (null == curWriter) {
-            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-
-            final RenderKitFactory rkf = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-            final RenderKit renderKit = rkf.getRenderKit(context,
-                    context.getViewRoot().getRenderKitId());
-
-            curWriter = renderKit.createResponseWriter(response.getWriter(),
-                    "text/html", request.getCharacterEncoding());
-
-            context.setResponseWriter(curWriter);
-        }
-        return curWriter;
-    }
-
-    /**
-     * The getParameterMap() is used for getting the parameters
-     * of a specific component.
-     * @param component
-     * @return the Map of the component.
-     */
-    public static Map<String, Object> getParameterMap(UIComponent component) {
-        final Map result = new HashMap();
-        for (final Iterator iter = component.getChildren().iterator(); iter.hasNext();) {
-            final UIComponent child = (UIComponent) iter.next();
-            if (child instanceof UIParameter) {
-                final UIParameter uiparam = (UIParameter) child;
-                final Object value = uiparam.getValue();
-                if (value != null) {
-                    result.put(uiparam.getName(), value);
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * The getLifecycleId() is used for getting the id of
-     * the Lifecycle from the ServletContext.
-     * @param context
-     * @return the id of the life cycle.
-     */
-    public static String getLifecycleId(ServletContext context) {
-        final String lifecycleId = context.getInitParameter(FacesServlet.LIFECYCLE_ID_ATTR);
-        return lifecycleId != null ? lifecycleId
-                : LifecycleFactory.DEFAULT_LIFECYCLE;
-    }
+   
 
     /**
      * Function to create a <a4j:support> component with extra parameters based on the "var" attribute of the treepanel component
@@ -651,51 +461,6 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         return ajaxComp;
     }
 
-    private static UIParameter createFParam(final String name, final String value) {
-
-        /* Add <f:param> component */
-        final UIParameter fParam = new UIParameter();
-        fParam.setName(name);
-        fParam.setValue(value);
-        return fParam;
-    }
-
-    /**
-     * Returns true if the list contains a string in one of the list elements.
-     * @param list
-     * @param str
-     * @return
-     */
-    public static boolean matchesStringfromList(final List<String> list, final String str) {
-        boolean strAvailable = false;
-        for (final String s : list) {
-            final Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
-            final Matcher matcher = pattern.matcher(s);
-            if (matcher.find()) {
-                strAvailable = true;
-            }
-        }
-        return strAvailable;
-    }
-
-    /**
-     * Returns true if the list contains a string in one of the list elements.
-     * @param list
-     * @param str
-     * @return
-     */
-    public static boolean matchesKeywordfromList(List<? extends AbstractKeyword> list, String str) {
-        boolean strAvailable = false;
-        for (AbstractKeyword k : list) {
-            final Pattern pattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
-            final Matcher matcher = pattern.matcher(k.getValue());
-            if (matcher.find()) {
-                strAvailable = true;
-            }
-        }
-        return strAvailable;
-    }
-
     /**
      * This method returns the number of temporal layers in a list.
      * @param layers
@@ -757,47 +522,6 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
             }
         }
         return result;
-    }
-
-    /**
-     * This method returns the current Session id, if context is null then {@code null} is returned.
-     * @return String id
-     */
-    public static String getCurrentSessionId() {
-        String result = null;
-        final FacesContext context = FacesContext.getCurrentInstance();
-        if (context != null) {
-            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            final HttpSession session = request.getSession();
-            result = session.getId();
-        }
-        return result;
-    }
-
-    /**
-     * This method returns the  current server informations ie:  Sun Java System Application Server or Apache Tomcat/6.0.13 ...
-     * @return the server name.
-     */
-    public static String getServerInfoFromContext() {
-        final FacesContext context = FacesContext.getCurrentInstance();
-        if (context != null) {
-            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            final HttpSession session = request.getSession();
-            return session.getServletContext().getServerInfo();
-        }
-        return null;
-    }
-
-    /**
-     * This method puts at the sessionmap a couple key value.
-     * @param context
-     * @param key
-     * @param value
-     */
-    public static void putAtSessionMap(FacesContext context, Object key, Object value) {
-        Map sessionMap = context.getExternalContext().getSessionMap();
-        sessionMap.put(key, value);
-        
     }
 
     /**
@@ -977,53 +701,15 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         return feature;
     }
 
-    /**
-     * This method replace all special characters encoded by urlFormat to valid XML which can be marshalled by JAXB.
-     * @param str
-     * @return
-     */
-    public static String convertSpecialCharsToValidXml(String str) {
-        if (str != null) {
-            str = str.replaceAll("%3C", "<");
-            str = str.replaceAll("%3E", ">");
-            str = str.replaceAll("%3D", "=");
-            str = str.replaceAll("%22", "\"");
-            str = str.replaceAll("%2F", "/");
-            str = str.replaceAll("%23", "#");
-            str = str.replaceAll("%20", " ");
-            str = str.replace('+', ' ');
-        }
-        return str;
-    }
-
-    /**
-     * Encode a string from xml to a valid Url format.
-     * @param str
-     * @return
-     */
-    public static String convertSpecialCharsToUrlXml(String str) {
-        if (str != null) {
-            str = str.replaceAll("<", "%3C");
-            str = str.replaceAll(">", "%3E");
-            str = str.replaceAll("=", "%3D");
-            str = str.replaceAll("\"", "%22");
-            str = str.replaceAll("/", "%2F");
-            str = str.replaceAll("#", "%23");
-            str = str.replaceAll(" ", "%20");
-            str = str.replace(' ', '+');
-        }
-        return str;
-    }
-
     public static MutableStyledLayerDescriptor getSLDfromGetmapUrl(String url) {
         MutableStyledLayerDescriptor result = null;
         final String sldbodyKey = "SLD_BODY";
-        if (url == null || FacesUtils.getParameterValue(sldbodyKey, url) == null || FacesUtils.getParameterValue(sldbodyKey, url).equals("")) {
+        if (url == null || FacesMapUtils.getParameterValue(sldbodyKey, url) == null || FacesMapUtils.getParameterValue(sldbodyKey, url).equals("")) {
             return result;
         }
         String sldbody = "<?xml version=\"1.0\" encoding=\"" + DEFAULT_CHARSET + "\"?>" +
-                FacesUtils.getParameterValue(sldbodyKey, url);
-        sldbody = convertSpecialCharsToValidXml(sldbody);
+                FacesMapUtils.getParameterValue(sldbodyKey, url);
+        sldbody = Utilities.convertSpecialCharsToValidXml(sldbody);
 
         final XMLUtilities xmlUtils = new XMLUtilities();
         try {
@@ -1040,22 +726,6 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         }
 
         return result;
-    }
-
-    /**
-     * This method returns a number of occurences occ in the string s.
-     */
-    public static int getOccurence(String s, String occ) {
-        if (!s.contains(occ)) {
-            return 0;
-        } else {
-            int nbocc = 0;
-            while (s.indexOf(occ) != -1) {
-                s = s.substring(s.indexOf(occ) + 1);
-                nbocc++;
-            }
-            return nbocc;
-        }
     }
 
     /**
@@ -1078,19 +748,6 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
             lon = objX;
         }
         return new Double[]{lon, lat};
-    }
-
-    /**
-     * Returns the host url from the current container.
-     * @return String
-     */
-    public static String getHostUrl() {
-        //ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-
-        final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        final String url = request.getRequestURL().toString();
-        final String uri = request.getRequestURI();
-        return url.substring(0, url.indexOf(uri));
     }
 
     /**
@@ -1169,84 +826,4 @@ public class FacesUtils extends org.mapfaces.share.utils.FacesUtils{
         return harvested;
     }
 
-    /**
-     * Returns a flag that indicates if the browser is Internet Explorer.
-     * @param context
-     * @return
-     */
-    public static boolean isIEBrowser(FacesContext context) {
-        final HttpServletRequest servletReq = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String useragent = servletReq.getHeader("User-Agent");
-        boolean isIE = false;
-        if (useragent != null) {
-            final String user = useragent.toLowerCase(Locale.getDefault());
-            if (user.indexOf("msie") != -1) {
-                isIE = true;
-            }
-        }
-        return isIE;
-    }
-
-    /**
-     * This method returns a PhaseListener which is an instance of Class<?> c passed in argument.
-     * @param Class<?> c
-     * @return PhaseListener
-     */
-    public static PhaseListener getListenerFromLifeCycle(Class<?> c) {
-        final LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-        final Lifecycle lifecycle = factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
-        final PhaseListener[] listeners = lifecycle.getPhaseListeners();
-        for (int i = 0; i < listeners.length; i++) {
-            final PhaseListener listener = listeners[i];
-            if (c.isInstance(listener)) {
-                return listener;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns a clientId of the first HtmlAjaxRegion if exists, otherwise returns null.
-     * @param context
-     * @return
-     */
-    public static String findClientIdComponentClass(final FacesContext context, final UIComponent root, final Class cl) {
-        String clientId = null;
-        for (int i = 0; i < root.getChildCount() && clientId == null; i++) {
-            final UIComponent child = (UIComponent) root.getChildren().get(i);
-            clientId = findClientIdComponentClass(context, child, cl);
-        }
-
-        if (clientId == null && cl.isInstance(root)) {
-            clientId = root.getClientId(context);
-        }
-        return clientId;
-    }
-
-    public static String getJsVariableFromClientId(String clientId) {
-        String jsVariable = clientId;
-        if (jsVariable.contains(":")) {
-            jsVariable = clientId.replace(":", "");
-        }
-        return jsVariable;
-    }
-
-    public static UIComponent showComponent(FacesContext faceContext, UIComponent root) {
-        UIComponent component = null;
-        for (int i = 0; i < root.getChildCount() && component == null; i++) {
-            final UIComponent child = (UIComponent) root.getChildren().get(i);
-            component = showComponent(faceContext, child);
-        }
-        return component;
-    }
-
-    public static void showArborescence(UIComponent component) {
-        System.out.println("COMP :" + component.getId());
-        for (final UIComponent tmp : component.getChildren()) {
-            System.out.println(" + CHILD >" + tmp.getId());
-            if (tmp.getChildCount() > 0) {
-                showArborescence(tmp);
-            }
-        }
-    }
 }

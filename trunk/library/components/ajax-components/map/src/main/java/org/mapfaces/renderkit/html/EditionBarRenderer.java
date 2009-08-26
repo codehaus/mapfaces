@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UIEditionBar;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -46,9 +46,9 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
         
         //Find UIMapPane refers to this widget 
         String mapJsVariable = null ;
-        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
-                mapJsVariable = FacesUtils.getJsVariableFromClientId(uIMapPane.getClientId(context));
+                mapJsVariable = FacesMapUtils.getJsVariableFromClientId(uIMapPane.getClientId(context));
         } else {
             LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
             component.setRendered(false);
@@ -58,7 +58,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
         final UIEditionBar comp = (UIEditionBar) component;
         final String clientId = comp.getClientId(context);
 
-        String formId = FacesUtils.getFormId(context, component);
+        String formId = FacesMapUtils.getFormId(context, component);
         if (formId == null && clientId.contains(":")) {
             formId = clientId.substring(0, clientId.indexOf(':'));
         }
@@ -96,7 +96,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
             }
             
             //Name of the js variable in client side
-            final String controlJsVariable = FacesUtils.getJsVariableFromClientId(clientId);
+            final String controlJsVariable = FacesMapUtils.getJsVariableFromClientId(clientId);
 //            /**
 //             *TBD
 //             *Test for editing tools 

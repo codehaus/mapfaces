@@ -36,7 +36,7 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.AjaxUtils;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
@@ -192,7 +192,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " encodeChildren : " + AbstractTreeTableRenderer.class.getName());
 
         for (final UIComponent tmp : component.getChildren()) {
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
 
         phaseEnd = new Date();
@@ -301,7 +301,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         if (debug) Logger.getLogger(AbstractTreeTableRenderer.class.getName()).log(Level.INFO, " decode : " + AbstractTreeTableRenderer.class.getName());
 
         //@TODO Maybe thereis a better way to not load css
-        UIContext temp = FacesUtils.getParentUIContext(context, comp);
+        UIContext temp = FacesMapUtils.getParentUIContext(context, comp);
         if ( (temp == null) || (temp != null && !temp.isMinifyJS())) {
             HtmlLoadStyle css = new HtmlLoadStyle();
             css.setSrc(ResourcePhaseListener.getLoadStyleURL(context, TreeStyle.default_cssFilesUrl, null));

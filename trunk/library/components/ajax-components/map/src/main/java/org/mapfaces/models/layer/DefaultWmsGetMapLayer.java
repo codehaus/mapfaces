@@ -19,7 +19,7 @@ package org.mapfaces.models.layer;
 
 import java.util.List;
 import org.mapfaces.models.Feature;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * this model is for wms layers with an existing url getMap, 
@@ -77,7 +77,7 @@ public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
     @Override
     public void setHidden(final boolean hidden, final String identifierSLD) {
         if (identifierSLD != null) {
-            String sld_body = FacesUtils.getParameterValue("SLD_BODY", getUrlGetMap());
+            String sld_body = FacesMapUtils.getParameterValue("SLD_BODY", getUrlGetMap());
             if (hidden) {
                 //remove the identifier from the getMapUrl if exists
                 if (sld_body != null && sld_body.contains(identifierSLD)) {
@@ -91,7 +91,7 @@ public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
                     sld_body = sld_body.replaceFirst(literaltagBegin + literaltagEnd, literaltagBegin + identifierSLD + literaltagEnd);
                 }
             }
-            String newUrl = FacesUtils.setParameterValueAndGetUrl("SLD_BODY", sld_body, getUrlGetMap());
+            String newUrl = FacesMapUtils.setParameterValueAndGetUrl("SLD_BODY", sld_body, getUrlGetMap());
             this.setUrlGetMap(newUrl);
         } else {
             this.setHidden(hidden);

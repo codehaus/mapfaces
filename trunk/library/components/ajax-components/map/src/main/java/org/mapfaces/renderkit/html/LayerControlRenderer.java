@@ -41,7 +41,7 @@ import org.mapfaces.component.tree.UITreePanel;
 import org.mapfaces.component.tree.UITreeTable;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.tree.TreeModelsUtils;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -304,7 +304,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
 
         treeTable.getChildren().add(treePanel);
 
-        final UIComponent treetableTmp = FacesUtils.findComponentById(context, component, treeTable.getId());
+        final UIComponent treetableTmp = FacesMapUtils.findComponentById(context, component, treeTable.getId());
         if (treetableTmp != null) {
             layerControl.getChildren().set(component.getChildren().indexOf(treetableTmp), treeTable);
         } else {

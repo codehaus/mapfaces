@@ -54,6 +54,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.WmsLayer;
 
+import org.mapfaces.share.utils.Utilities;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -428,7 +429,7 @@ public class OWCv030toMFTransformer {
 
                 //From the getCapabilities we can see if the layer is a postgis type by the keyword "Vector datas".
                 boolean vectorsflag = false;
-                if (layer != null && layer.getKeywordList() != null && FacesUtils.matchesKeywordfromList(
+                if (layer != null && layer.getKeywordList() != null && Utilities.matchesKeywordfromList(
                         layer.getKeywordList().getKeyword(), "Vector datas")) {
                     vectorsflag = true;
                     if (debug)

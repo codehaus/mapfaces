@@ -36,7 +36,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIMapContextLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.MapContextLayer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 
 public class MapContextLayerRenderer extends LayerRenderer {
@@ -93,7 +93,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
-        UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
+        UIMapPane mappane = FacesMapUtils.getParentUIMapPane(context, comp);
 
         //Getting mapcontext for this layer if exists
         Map sessionMap = context.getExternalContext().getSessionMap();
@@ -105,7 +105,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
         }
 
         if (debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesUtils.getParentUIMapPane(context, comp).getInitDisplay() && !hidden));        //Add layer image if not the first page loads
+            LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesMapUtils.getParentUIMapPane(context, comp).getInitDisplay() && !hidden));        //Add layer image if not the first page loads
         }
         if (mappane.getInitDisplay() && !hidden) {
             writer.startElement("div", comp);

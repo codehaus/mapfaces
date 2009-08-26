@@ -30,7 +30,7 @@ import org.mapfaces.component.treebuilder.UITreeTable;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeColumnRenderer;
 import org.mapfaces.share.interfaces.A4JRendererInterface;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Kevin Delfour
@@ -50,15 +50,15 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
     @Override
     public void afterEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         final UITreeLines treeline  = (UITreeLines) component.getParent();
-        final UITreePanel treepanel = (UITreePanel) FacesUtils.findParentComponentByClass(component, UITreePanel.class);
+        final UITreePanel treepanel = (UITreePanel) FacesMapUtils.findParentComponentByClass(component, UITreePanel.class);
         final String treepanelId    = treepanel.getClientId(context);
-        final String formId         = FacesUtils.getFormClientId(context, component);
+        final String formId         = FacesMapUtils.getFormClientId(context, component);
         final String ajaxSupportId;
 
         if (treepanel.getTarget() != null) {
             final String treepanelTargetId = formId + ":" + treepanel.getTarget();
             ajaxSupportId = treepanelId + "_ajax_" + treeline.getNodeInstance().getId();
-            final HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) FacesUtils.findComponentByClientId(context, context.getViewRoot(), ajaxSupportId);
+            final HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), ajaxSupportId);
             if (ajaxSupport == null) {
                 System.out.println("[WARNING] AjaxSupport on LoadAll option can't be found for " + ajaxSupportId);
             } else {
@@ -80,7 +80,7 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
             }
             if (treepanelBase != null) {
                 ajaxSupportId = treepanel.getClientId(context) + "_ajax_" + treeline.getNodeInstance().getId();
-                final HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) FacesUtils.findComponentByClientId(context, context.getViewRoot(), ajaxSupportId);
+                final HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), ajaxSupportId);
 
                 if (ajaxSupport == null) {
                     System.out.println("[WARNING] AjaxSupport on LoadAll option can't be found for " + ajaxSupportId);
@@ -115,9 +115,9 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
         super.A4JPostRequest(context, component);
         final UITreeLinesBase treeline = (UITreeLinesBase) component.getParent();
         final TreeNodeModel node       = treeline.getNodeInstance();
-        final UITreePanel treepanel = (UITreePanel) FacesUtils.findParentComponentByClass(component, UITreePanel.class);
+        final UITreePanel treepanel = (UITreePanel) FacesMapUtils.findParentComponentByClass(component, UITreePanel.class);
         final String treepanelId    = treepanel.getClientId(context);
-        final String formId         = FacesUtils.getFormClientId(context, component);
+        final String formId         = FacesMapUtils.getFormClientId(context, component);
 
         if (treepanelId != null) {
             if (treepanel.getTarget() != null) {
@@ -125,7 +125,7 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
                     for (int i=0,n=node.getChildCount(); i<n ; i++) {
                         final TreeNodeModel nodeTemp      = (TreeNodeModel) node.getChildAt(i);
                         final String Line2Modify          = formId + ":" + treepanel.getTarget() + "_line_" + nodeTemp.getId();
-                        final UITreeLines treeline2change = (UITreeLines) FacesUtils.findComponentByClientId(context, context.getViewRoot(), Line2Modify);
+                        final UITreeLines treeline2change = (UITreeLines) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), Line2Modify);
                         if (treeline2change != null) {
                             treeline2change.getNodeInstance().setChecked(true);
                             treeline2change.setRendered(true);
@@ -144,7 +144,7 @@ public class TreeColumnRenderer extends AbstractTreeColumnRenderer implements A4
                                 for (int i=0,n=node.getChildCount(); i<n ; i++) {
                                     final TreeNodeModel nodeTemp = (TreeNodeModel) node.getChildAt(i);
                                     final String Line2Modify = treepanelBase.getClientId(context) + "_line_" + nodeTemp.getId();
-                                    final UITreeLines treeline2change = (UITreeLines) FacesUtils.findComponentByClientId(context, context.getViewRoot(), Line2Modify);
+                                    final UITreeLines treeline2change = (UITreeLines) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), Line2Modify);
                                     if (treeline2change != null) {
                                         treeline2change.getNodeInstance().setChecked(true);
                                         treeline2change.setRendered(true);

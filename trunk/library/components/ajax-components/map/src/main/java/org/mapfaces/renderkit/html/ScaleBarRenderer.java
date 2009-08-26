@@ -26,7 +26,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIScaleBar;
 import org.mapfaces.taglib.ScaleBarTag;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
@@ -44,7 +44,7 @@ public class ScaleBarRenderer extends WidgetBaseRenderer {
         
         //Find UIMapPane refers to this widget 
         String mapJsVariable = null ;
-        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
                 mapJsVariable = uIMapPane.getClientId(context);
         } else {

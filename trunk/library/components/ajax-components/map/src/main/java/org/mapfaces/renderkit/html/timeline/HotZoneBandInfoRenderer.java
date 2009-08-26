@@ -41,7 +41,7 @@ import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.timeline.Event;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.timeline.TimeLineUtils;
 
 /**
@@ -110,7 +110,7 @@ public class HotZoneBandInfoRenderer extends Renderer {
             sliderInput.setMaxval("22");
             sliderInput.setTransient(true);
 
-            if (FacesUtils.findComponentById(context, context.getViewRoot(), component.getId() + "slider") == null) {
+            if (FacesMapUtils.findComponentById(context, context.getViewRoot(), component.getId() + "slider") == null) {
                 component.getChildren().add(sliderInput);
             }
         }
@@ -172,8 +172,8 @@ public class HotZoneBandInfoRenderer extends Renderer {
         final Map requestMap            = context.getExternalContext().getRequestParameterMap();
 
         //if the dynamicbands property is True then each bandInfo component have its own layer.
-        if (FacesUtils.getParentUIModelBase(context, component) != null &&
-                (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
+        if (FacesMapUtils.getParentUIModelBase(context, component) != null &&
+                (FacesMapUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
                 parentTimeline.isDynamicBands()) {
             if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
                     requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
@@ -201,13 +201,13 @@ public class HotZoneBandInfoRenderer extends Renderer {
                     //do the rerender of the bandInfo only if hidden was set to False.
                     if (hidden.equals("false")) {
                         comp.setHidden(false);
-                        final UIHotZoneBandInfo mainBand = (UIHotZoneBandInfo) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband");
+                        final UIHotZoneBandInfo mainBand = (UIHotZoneBandInfo) FacesMapUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband");
                         if (mainBand != null) {
                             mainBand.setWidth(40);
                         }
 
                         try {
-                            final UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                            final UILayer uiLayer = ((UILayer) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
                             final Layer layer = uiLayer.getLayer();
                             final List<Event> layerEvents = TimeLineUtils.getEventsFromLayer(layer);
                             final Date centerDate = TimeLineUtils.getDefaultDateFromLayer(layer);

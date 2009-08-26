@@ -26,7 +26,7 @@ import javax.faces.render.Renderer;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UIExtPanel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  *
@@ -164,7 +164,7 @@ public class ExtPanelRenderer extends Renderer {
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final List<UIComponent> childrens = component.getChildren();
         for (final UIComponent tmp : childrens) {
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
     

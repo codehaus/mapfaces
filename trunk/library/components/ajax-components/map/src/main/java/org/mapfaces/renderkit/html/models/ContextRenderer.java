@@ -46,7 +46,7 @@ import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
@@ -239,11 +239,11 @@ public class ContextRenderer extends Renderer {
         }
         if (obj instanceof MapContext) {
             //add all the MapContext (gt) layers  into an allInOne layer.
-            MapContextLayer mcLayer = (MapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(ctx));
-            String mapcontextKey = FacesUtils.getCurrentSessionId()+mcLayer.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+            MapContextLayer mcLayer = (MapContextLayer) contextFactory.createDefaultMapContextLayer(FacesMapUtils.getNewLayerIndex(ctx));
+            String mapcontextKey = FacesMapUtils.getCurrentSessionId()+mcLayer.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX;
             
             //putting this layer's mapcontext into session map and set key into mclayer model
-            FacesUtils.putAtSessionMap(context, mapcontextKey, (MapContext) obj);
+            FacesMapUtils.putAtSessionMap(context, mapcontextKey, (MapContext) obj);
             mcLayer.setMapContextKeyInSession(mapcontextKey);
             ctx.addLayer(mcLayer);
 
@@ -253,7 +253,7 @@ public class ContextRenderer extends Renderer {
             //add the list of feature (mapfaces) into a FeatureLayer
             List list = (List) obj;
             if (list != null && list.size() != 0 && list.get(0) instanceof Feature) {
-                FeatureLayer layer = (FeatureLayer) contextFactory.createDefaultFeatureLayer(FacesUtils.getNewIndex(ctx));
+                FeatureLayer layer = (FeatureLayer) contextFactory.createDefaultFeatureLayer(FacesMapUtils.getNewLayerIndex(ctx));
                 layer.setFeatures(list);
                 layer.setImage("http://localhost:8080/mf/resource/skin/default/img/europa.gif");
                 layer.setGroup("features");
@@ -275,7 +275,7 @@ public class ContextRenderer extends Renderer {
                 }
                 
                 int layercount = (ctx != null && ctx.getLayers() != null) ? ctx.getLayers().size() : 0;
-                layercount = layercount - FacesUtils.getCountWMSGetMapLayers(ctx);
+                layercount = layercount - FacesMapUtils.getCountWMSGetMapLayers(ctx);
                 int loop = 0;
                 for (Object l : list) {
                     loop++;
@@ -314,7 +314,7 @@ public class ContextRenderer extends Renderer {
         ajaxComp.setRequestDelay(5);
         ajaxComp.setReRender(comp.getId());
         
-        if (FacesUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
+        if (FacesMapUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
             comp.getFacets().put("a4jsupport", ajaxComp);
             comp.setAjaxCompId(ajaxComp.getClientId(context));
         }
@@ -333,7 +333,7 @@ public class ContextRenderer extends Renderer {
             if (tmp instanceof UIWidgetBase) {
                 ((UIWidgetBase) tmp).setModel(comp.getModel());
             }
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
 
@@ -372,7 +372,7 @@ public class ContextRenderer extends Renderer {
             final Context tmp = (Context) comp.getModel();
 
             final Map params = context.getExternalContext().getRequestParameterMap();
-            final String title = (String) params.get(FacesUtils.getFormId(context, component) + ":title");
+            final String title = (String) params.get(FacesMapUtils.getFormId(context, component) + ":title");
             if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null
                     && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
                 final ServletContext servletCtx = (ServletContext) context.getExternalContext().getContext();

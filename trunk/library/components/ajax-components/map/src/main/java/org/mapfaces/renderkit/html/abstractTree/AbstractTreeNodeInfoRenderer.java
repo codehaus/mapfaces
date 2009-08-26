@@ -29,7 +29,7 @@ import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
 import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
@@ -78,7 +78,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
         final TreeNodeModel node              = treeline.getNodeInstance();
         final ResponseWriter writer           = context.getResponseWriter();
 
-        final UITreePanelBase treetable = (UITreePanelBase) FacesUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        final UITreePanelBase treetable = (UITreePanelBase) FacesMapUtils.findParentComponentByClass(component, UITreePanelBase.class);
         final String treepanelId = treetable.getClientId(context);
 
         String styleUser = "";
@@ -128,7 +128,7 @@ public abstract class AbstractTreeNodeInfoRenderer extends Renderer implements C
                     continue;
                 writer.startElement(HTML.DIV_ELEM, component);
                 writer.writeAttribute(HTML.class_ATTRIBUTE, DESC_STYLE_CLASS, null);
-                FacesUtils.encodeRecursive(context, tmp);
+                FacesMapUtils.encodeRecursive(context, tmp);
                 writer.endElement(HTML.DIV_ELEM);
             }
         }

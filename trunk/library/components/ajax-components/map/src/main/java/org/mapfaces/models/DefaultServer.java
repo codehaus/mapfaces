@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.geotoolkit.util.collection.Cache;
 import org.geotoolkit.wms.xml.AbstractWMSCapabilities;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  *
@@ -32,7 +32,7 @@ public class DefaultServer implements Server {
     
     private static final Map<String, AbstractWMSCapabilities> CACHE = new Cache<String, AbstractWMSCapabilities>(50, 50, false);
     private static final AtomicInteger INCR = new AtomicInteger();
-    private final String getcapaId = FacesUtils.getCurrentSessionId()+"-"+INCR.incrementAndGet();
+    private final String getcapaId = FacesMapUtils.getCurrentSessionId()+"-"+INCR.incrementAndGet();
 
     private static final long serialVersionUID = 7526471155622776147L;
     private String href;

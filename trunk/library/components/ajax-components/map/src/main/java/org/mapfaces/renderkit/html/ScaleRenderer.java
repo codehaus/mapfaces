@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.component.UIScale;
 import org.mapfaces.taglib.ScaleTag;
 import org.mapfaces.component.UIMapPane;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
@@ -45,7 +45,7 @@ public class ScaleRenderer extends WidgetBaseRenderer {
         super.encodeBegin(context, component);
         //Find UIMapPane refers to this widget 
         String jsObject = null;
-        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
             jsObject = uIMapPane.getClientId(context);
         } else {

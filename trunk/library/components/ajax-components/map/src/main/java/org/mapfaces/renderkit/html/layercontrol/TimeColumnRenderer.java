@@ -31,7 +31,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.ImgColumnRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -77,11 +77,11 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
                     img.setId(component.getId() + "-off");
 
                     child.getFacets().put("a4jsupport",
-                            FacesUtils.createTreeAjaxSupportWithParameters(context,
+                            FacesMapUtils.createTreeAjaxSupportWithParameters(context,
                             child,
                             "onclick",
                             getVarId(context, (UIColumnBase) component),
-                            FacesUtils.getFormId(context, component) + ":timeline",
+                            FacesMapUtils.getFormId(context, component) + ":timeline",
                             paramsMap1,
                             "hideOrDisplay(\"" + child.getClientId(context) + "\",\"" + img.getClientId(context) + "\")",
                             "resizeDivs()"));
@@ -102,9 +102,9 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
 
                     final HashMap<String, String> paramsMap2 = new HashMap();
                     paramsMap2.put("hidden", "false");
-                    img.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
+                    img.getFacets().put("a4jsupport", FacesMapUtils.createTreeAjaxSupportWithParameters(context,
                             img, "onclick", getVarId(context, (UIColumnBase) component),
-                            FacesUtils.getFormId(context, component) + ":timeline",
+                            FacesMapUtils.getFormId(context, component) + ":timeline",
                             paramsMap2, "hideOrDisplay(\"" + img.getClientId(context) + "\",\"" + child.getClientId(context) + "\")",
                             "resizeDivs()"));
 
@@ -150,7 +150,7 @@ public class TimeColumnRenderer extends ImgColumnRenderer {
     private void writeTimeColumnScripts(final FacesContext context, final UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);

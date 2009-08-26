@@ -30,7 +30,7 @@ import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.CheckColumnRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -70,18 +70,18 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                     //checkbox.setDisabled(!layer.isDisplayable());
                     checkbox.setValue(!layer.isHidden());
                     checkbox.setSelected(!layer.isHidden());
-                    checkbox.setOnclick(FacesUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(this.checked);");
+                    checkbox.setOnclick(FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(this.checked);");
                     ResponseWriter writer = context.getResponseWriter();
 //                    writer.startElement("script", component);
 //                    writer.writeAttribute("type", "text/javascript", null);
-//                    writer.write(FacesUtils.getJsVariableFromClientId(layer.getCompId()) +".visibilitychanged=['" + component.getClientId(context) + "'];");
+//                    writer.write(FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) +".visibilitychanged=['" + component.getClientId(context) + "'];");
 //                    writer.endElement("script");
                 }
 
             }
 
             //Add an a4j support component to the HtmlSelectBooleanCheckbox
-//            checkbox.getFacets().put("a4jsupport", FacesUtils.createTreeAjaxSupportWithParameters(context,
+//            checkbox.getFacets().put("a4jsupport", FacesMapUtils.createTreeAjaxSupportWithParameters(context,
 //                    (UIComponent) component.getChildren().get(0),
 //                    "onclick",
 //                    getVarId(context, (UIColumnBase) component),
