@@ -46,7 +46,7 @@ import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.MapUtils;
 
 /**
@@ -123,7 +123,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         //getting the mappane mapcontext stored in sessionMap by attribute value
         Map sessionMap = context.getExternalContext().getSessionMap();
-        Object mapcontextObj = sessionMap.get(FacesUtils.getCurrentSessionId()+comp.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX);
+        Object mapcontextObj = sessionMap.get(FacesMapUtils.getCurrentSessionId()+comp.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX);
         
         if (mapcontextObj instanceof MapContext) {
             final MapContext mapcontext = (MapContext) mapcontextObj;
@@ -137,28 +137,28 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         final MapContext newMapCtxt = MapBuilder.createContext(mapcontext.getCoordinateReferenceSystem());
                         newMapCtxt.layers().add(maplayer);
 
-                        final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
-                        String mapcontextKey = FacesUtils.getCurrentSessionId() +
-                                               FacesUtils.getParentUIModelBase(context, component).getId() + "_" +
+                        final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesMapUtils.getNewLayerIndex(model));
+                        String mapcontextKey = FacesMapUtils.getCurrentSessionId() +
+                                               FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" +
                                                comp.getId() + "_" +
                                                mcLayer.getId() +
                                                UIMapPane.MAPCONTEXT_KEY_SUFFIX;
                         //putting layer's mapcontext into session map and set key for the layer model
-                        FacesUtils.putAtSessionMap(context, mapcontextKey, newMapCtxt);
+                        FacesMapUtils.putAtSessionMap(context, mapcontextKey, newMapCtxt);
                         mcLayer.setMapContextKeyInSession(mapcontextKey);
                         model.addLayer((MapContextLayer) mcLayer);
                     }
                 }
             } else {
-                final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesUtils.getNewIndex(model));
-                String mapcontextKey = FacesUtils.getCurrentSessionId() +
-                                       FacesUtils.getParentUIModelBase(context, component).getId() + "_" +
+                final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesMapUtils.getNewLayerIndex(model));
+                String mapcontextKey = FacesMapUtils.getCurrentSessionId() +
+                                       FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" +
                                        comp.getId() + "_" +
                                        mcLayer.getId() +
                                        UIMapPane.MAPCONTEXT_KEY_SUFFIX;
 
                 //putting layer's mapcontext into session map and set key for the layer model
-                FacesUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
+                FacesMapUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
                 mcLayer.setMapContextKeyInSession(mapcontextKey);
                 model.addLayer((MapContextLayer) mcLayer);
             }
@@ -169,7 +169,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         final List<Layer> layers = model.getLayers();
 
-        comp.setAjaxCompId(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId());
+        comp.setAjaxCompId(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
         removeChildren(context, component);
 
@@ -187,7 +187,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         final UIWmsLayer uiwmsLayer = new UIWmsLayer();
                         uiwmsLayer.setModel((AbstractModelBase) model);
                         if (temp.getId() != null) {
-                            uiwmsLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                            uiwmsLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         } else {
                             temp.setId(uiwmsLayer.getId());
                         }
@@ -198,7 +198,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     case MAPCONTEXT:
                         final UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
-                        uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                        uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
                         final MapContextLayer mcLayer = (MapContextLayer) temp;
 
                         comp.getChildren().add(uiMCLayer);
@@ -216,7 +216,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         uiFLayer.setBindingIndex(tmpfeature.getGroupId());
 
                         if (temp.getId() != null) {
-                            uiFLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmpfeature.getId());
+                            uiFLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmpfeature.getId());
                         } else {
                             tmpfeature.setId(uiFLayer.getId());
                         }
@@ -254,7 +254,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UIMapPane uiMapPane = (UIMapPane) component;
-        final String jsMapVariable = FacesUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
+        final String jsMapVariable = FacesMapUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
         uiMapPane.setAddLayersScript("window.layerToAdd" + jsMapVariable + "=[];");
         final List<UIComponent> childrens = component.getChildren();
         if (this.debug) {
@@ -264,13 +264,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[DEBUG]  \tChild family's " + tmp.getFamily());
             }
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
             if (tmp instanceof UILayer) {
                 final UILayer uiLayer = (UILayer) tmp;
                 final Layer layer = uiLayer.getLayer();
                 if (!layer.isDisable()) {
                     final String clientId = uiLayer.getClientId(context);
-                    final String jsLayerVariable = FacesUtils.getJsVariableFromClientId(uiLayer.getClientId(context));
+                    final String jsLayerVariable = FacesMapUtils.getJsVariableFromClientId(uiLayer.getClientId(context));
 
                     final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
                     //Create an array whjo contains all the MapFaces layers to add for a specific MapPane
@@ -322,8 +322,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", HTML.TYPE_ATTR);
 
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
-//        String jsObject = FacesUtils.getParentUIModelBase(context, component).getClientId(context);
-        final String jsObject = FacesUtils.getJsVariableFromClientId(comp.getClientId(context));
+//        String jsObject = FacesMapUtils.getParentUIModelBase(context, component).getClientId(context);
+        final String jsObject = FacesMapUtils.getJsVariableFromClientId(comp.getClientId(context));
         final String srs = model.getSrs().toUpperCase(Locale.getDefault());
 
         final StringBuilder stringBuilder = new StringBuilder("")
@@ -445,12 +445,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         /**
          * mfAjaxCompId : Id of the a4j component to call for refresh  the map
          */
-        stringBuilder.append("mfAjaxCompId: '").append(FacesUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',");
+        stringBuilder.append("mfAjaxCompId: '").append(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',");
 
         /**
          * mfFormId : Id of the parent UIForm  of the UIMapPane;
          */
-        stringBuilder.append("mfFormId: '").append(FacesUtils.getFormId(context, component)).append("',");
+        stringBuilder.append("mfFormId: '").append(FacesMapUtils.getFormId(context, component)).append("',");
 
         /**
          * mfRequestId : Id of the request, a totally arbitrary attribute
@@ -539,7 +539,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] MapPaneRenderer DECODE");
         }
-        final UIContext contextComp = (UIContext) FacesUtils.getParentUIContext(context, comp);
+        final UIContext contextComp = (UIContext) FacesMapUtils.getParentUIContext(context, comp);
         final Context tmp = (Context) contextComp.getModel();
 
         if (context.getExternalContext().getRequestParameterMap() != null) {

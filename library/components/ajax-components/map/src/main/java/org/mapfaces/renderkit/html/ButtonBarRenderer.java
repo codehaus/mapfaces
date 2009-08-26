@@ -28,7 +28,7 @@ import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UIButtonBar;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.util.Utils;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -49,7 +49,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         
         //Find UIMapPane refers to this widget 
         String jsObject = null ;
-        final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        final UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
                 jsObject = uIMapPane.getClientId(context);
         } else {
@@ -61,7 +61,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
         final UIButtonBar comp = (UIButtonBar) component;
         final String clientId = comp.getClientId(context);
 
-        String formId = FacesUtils.getFormId(context, component);
+        String formId = FacesMapUtils.getFormId(context, component);
         if (formId == null && clientId.contains(":")) {
             formId = clientId.substring(0, clientId.indexOf(':'));
         }
@@ -152,7 +152,7 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isFeatureInfo()) {
                 final String rerender = comp.getReRender();
                 final String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
-                final String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
+                final String clientIdAjaxRegion = FacesMapUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
 
                 writer.write(",getFeatureInfo: true");
                 if (idsToRefresh != null) {

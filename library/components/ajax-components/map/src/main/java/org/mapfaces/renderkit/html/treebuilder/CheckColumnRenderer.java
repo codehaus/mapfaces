@@ -28,7 +28,7 @@ import org.mapfaces.component.treebuilder.UITreePanel;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractColumnRenderer;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Kevin Delfour
@@ -43,9 +43,9 @@ public class CheckColumnRenderer extends AbstractColumnRenderer implements Custo
         final UICheckColumn checkColumn = (UICheckColumn) component;
         final UITreeLines treeline      = (UITreeLines) component.getParent();
         final TreeNodeModel node        = treeline.getNodeInstance();
-        final String treepanelId        = FacesUtils.getParentComponentClientIdByClass(context, component, UITreePanel.class);
-        final String formId             = FacesUtils.getFormClientId(context, component);
-        final UITreePanel treepanel     = (UITreePanel) FacesUtils.findComponentByClientId(context, context.getViewRoot(), treepanelId);
+        final String treepanelId        = FacesMapUtils.getParentComponentClientIdByClass(context, component, UITreePanel.class);
+        final String formId             = FacesMapUtils.getFormClientId(context, component);
+        final UITreePanel treepanel     = (UITreePanel) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), treepanelId);
         
         if (checkColumn.isDebug()) {
             System.out.println("[INFO] afterEncodeBegin " + CheckColumnRenderer.class.getCanonicalName());

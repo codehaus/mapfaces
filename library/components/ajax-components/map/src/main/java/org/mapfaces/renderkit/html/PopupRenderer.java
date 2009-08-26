@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UIPopup;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -131,7 +131,7 @@ public class PopupRenderer extends WidgetBaseRenderer {
         final int innerMiddle = (comp.getWidth() / 2) - 21;
         ResponseWriter responseWriter = context.getResponseWriter();
         if (responseWriter == null) {
-            responseWriter = FacesUtils.getResponseWriter2(context);
+            responseWriter = FacesMapUtils.getResponseWriter2(context);
         }
 
         if (! comp.isHidden()) {
@@ -167,7 +167,7 @@ public class PopupRenderer extends WidgetBaseRenderer {
             return;
         }
         for (final UIComponent tmp : component.getChildren()) {
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
 

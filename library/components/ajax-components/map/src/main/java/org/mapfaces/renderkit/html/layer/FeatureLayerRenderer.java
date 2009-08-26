@@ -45,7 +45,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -131,11 +131,11 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         writer.writeAttribute("class", "layerDiv", "style");
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
-        UIMapPane mappane = FacesUtils.getParentUIMapPane(context, comp);
+        UIMapPane mappane = FacesMapUtils.getParentUIMapPane(context, comp);
         MapContext mapContext;
 
         final int indexLayer = comp.getBindingIndex();
-        final MutableStyle mutableStyle = FacesUtils.createStyle(comp.getImage(), size, rotation, indexLayer);
+        final MutableStyle mutableStyle = FacesMapUtils.createStyle(comp.getImage(), size, rotation, indexLayer);
 
         //building a FeatureCollection for this layer.
         FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();

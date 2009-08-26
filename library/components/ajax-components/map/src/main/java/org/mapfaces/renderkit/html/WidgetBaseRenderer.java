@@ -27,7 +27,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
 import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -62,10 +62,10 @@ public class WidgetBaseRenderer extends Renderer {
              this.debug = false;
         }
       
-        if (FacesUtils.getParentUIModelBase(context, component) == null) {
+        if (FacesMapUtils.getParentUIModelBase(context, component) == null) {
             throw new NullPointerException("UIModelBase should not be null");
         } else if (comp.getModel() == null) {
-            comp.setModel(FacesUtils.getParentUIModelBase(context, component).getModel());
+            comp.setModel(FacesMapUtils.getParentUIModelBase(context, component).getModel());
         }
 
         setStyle((String) comp.getAttributes().get("style"));
@@ -99,7 +99,7 @@ public class WidgetBaseRenderer extends Renderer {
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[DEBUG]  Child family's " + tmp.getFamily());
             }
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
 

@@ -44,7 +44,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.request.ServletUtils;
 import org.mapfaces.share.utils.AjaxUtils;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.tree.TreeStyle;
 import org.mapfaces.util.treetable.TreeTableConfig;
 
@@ -74,7 +74,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
-        final UITreeTableBase treetable = (UITreeTableBase) FacesUtils.findParentComponentByClass(component, UITreeTableBase.class);
+        final UITreeTableBase treetable = (UITreeTableBase) FacesMapUtils.findParentComponentByClass(component, UITreeTableBase.class);
         final UITreePanelBase treepanel = (UITreePanelBase) component;
         UITreeToolbarBase toolbar = null;
         final boolean loadAll;
@@ -315,7 +315,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
                 }
             } else {
                 if (treepanel.isShowRoot()) {
-                    ((UITreeLinesBase) FacesUtils.findComponentByClientId(context, context.getViewRoot(), treepanel.getClientId(context) + "_line_1")).setToRender(true);
+                    ((UITreeLinesBase) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), treepanel.getClientId(context) + "_line_1")).setToRender(true);
                 }
             }
         }
@@ -325,8 +325,8 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         for (int i = 0, n = root.getChildCount(); i < n; i++) {
             final TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
-            if (FacesUtils.findComponentByClientId(context, context.getViewRoot(), treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
-                FacesUtils.encodeRecursive(context, (FacesUtils.findComponentByClientId(context,context.getViewRoot(), treepanel.getClientId(context) + "_panel_" + child.getId())));
+            if (FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
+                FacesMapUtils.encodeRecursive(context, (FacesMapUtils.findComponentByClientId(context,context.getViewRoot(), treepanel.getClientId(context) + "_panel_" + child.getId())));
             } else {
                 System.out.println("[WARNING] encodeChildren in " + AbstractTreePanelRenderer.class.getName() + " : findComponent " +
                         "throw java.nullPointerException to " + treepanel.getClientId(context) + "_panel_" + child.getId());
@@ -462,8 +462,8 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         final String TreeLineNewParentId = request.getParameter(AjaxUtils.DND_NEW_PARENT_COMPONENT);
         final String TreeLineinDragId = request.getParameter(AjaxUtils.AJAX_COMPONENT_ID_KEY);
         final String dropPosition = request.getParameter(AjaxUtils.DND_POSITION_LINE);
-        final UITreeLinesBase treeLinesToDrag = (UITreeLinesBase) FacesUtils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
-        final UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) FacesUtils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
+        final UITreeLinesBase treeLinesToDrag = (UITreeLinesBase) FacesMapUtils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
+        final UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) FacesMapUtils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
 
         TreeTableModel tree = treepanel.getView();
 
@@ -603,7 +603,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
     private void renderToolbar(final FacesContext context, final UITreeToolbarBase toolbar) throws IOException {
         if (toolbar.getChildCount() > 0) {
-            FacesUtils.encodeRecursive(context, toolbar);
+            FacesMapUtils.encodeRecursive(context, toolbar);
         }
     }
     /* Abstracts Methods */

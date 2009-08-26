@@ -56,7 +56,7 @@ import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.WmsLayer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.FeatureVisitor;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -92,7 +92,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         final String clientId = comp.getClientId(context);
         ResponseWriter responseWriter = context.getResponseWriter();
         if (responseWriter == null) {
-            responseWriter = FacesUtils.getResponseWriter2(context);
+            responseWriter = FacesMapUtils.getResponseWriter2(context);
         }
 
         final String rerender = comp.getReRender();
@@ -104,17 +104,17 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             if (comp.getFacets().containsKey(a4jsupportFacetKey)) {
                 a4jSupport = (HtmlAjaxSupport) comp.getFacets().get(a4jsupportFacetKey);
             } else {
-                a4jSupport = FacesUtils.createBasicAjaxSupport(context, comp, "", rerender);
+                a4jSupport = FacesMapUtils.createBasicAjaxSupport(context, comp, "", rerender);
                 comp.getFacets().put(a4jsupportFacetKey, a4jSupport);
             }
-            String formId = FacesUtils.getFormId(context, component);
+            String formId = FacesMapUtils.getFormId(context, component);
             if (formId == null && clientId.contains(":")) {
                 formId = clientId.substring(0, clientId.indexOf(':'));
             }
             if (comp.isInvokeActions()) {
 
                 String targetregion = formId;
-                final String clientIdAjaxRegion = FacesUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
+                final String clientIdAjaxRegion = FacesMapUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
                 if (clientIdAjaxRegion != null) {
                     targetregion = clientIdAjaxRegion;
                 }
@@ -143,7 +143,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             return;
         }
         for (final UIComponent tmp : component.getChildren()) {
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
 
@@ -155,7 +155,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
         final UIDataRequest comp = (UIDataRequest) component;
 
-        final UIPopup popup = (UIPopup) FacesUtils.findComponentById(context, context.getViewRoot(), comp.getTargetPopupId());
+        final UIPopup popup = (UIPopup) FacesMapUtils.findComponentById(context, context.getViewRoot(), comp.getTargetPopupId());
         final int popupWidth;
         final int popupHeight;
 
@@ -268,7 +268,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 
                                 try {
-                                    mutableStyle = FacesUtils.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
+                                    mutableStyle = FacesMapUtils.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
                                 } catch (MalformedURLException ex) {
                                     LOGGER.log(Level.SEVERE, null, ex);
                                 }
@@ -581,7 +581,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
         public void run() {
             final long d1 = System.currentTimeMillis();
             try {
-                final String response = (String) FacesUtils.sendRequest(url, null, null, null);
+                final String response = (String) FacesMapUtils.sendRequest(url, null, null, null);
                 if (response != null) {
                     map.put(url, response);
                 }
@@ -592,7 +592,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             }
             final long d2 = System.currentTimeMillis();
             final long diff = d2 - d1;
-            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer(s) "+FacesUtils.getParameterValue("LAYERS", url)+"  in "+diff+" ms.");
+            Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "Finished getfeatureInfo for layer(s) "+FacesMapUtils.getParameterValue("LAYERS", url)+"  in "+diff+" ms.");
 
         }
     }

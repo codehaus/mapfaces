@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
 
 import org.mapfaces.component.treebuilder.UITreePanel;
 import org.mapfaces.renderkit.html.abstractTree.AbstractTreeLinesRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
 /**
@@ -43,7 +43,7 @@ public class TreeLinesRenderer extends AbstractTreeLinesRenderer {
      */
     @Override
     public void beforeEncodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-        final UITreePanel treepanel = (UITreePanel) FacesUtils.findParentComponentByClass(component, UITreePanel.class);
+        final UITreePanel treepanel = (UITreePanel) FacesMapUtils.findParentComponentByClass(component, UITreePanel.class);
 
         if (treepanel == null) {
             throw new IOException("No treepanel parent have been found for this treeline.");

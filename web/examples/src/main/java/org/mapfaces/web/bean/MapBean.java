@@ -54,7 +54,8 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.tree.TreeItem;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.treetable.TreeTableUtils;
 import org.mapfaces.web.model.ModelTreeRow;
 import org.opengis.feature.simple.SimpleFeature;
@@ -240,7 +241,7 @@ public class MapBean {
             long featureId = 0;
             final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
             final List<Feature> featureList = buildFeatureList("EPSG:4326");
-            mutableStyle = FacesUtils.createStyle(
+            mutableStyle = FacesMapUtils.createStyle(
                     "http://localhost:8084/mf/resource/skin/default/img/europa.gif",
                     10, 0, Integer.valueOf(String.valueOf(Math.round(Math.random()) * 10)));
             if (featureList != null && featureList.size() != 0) {

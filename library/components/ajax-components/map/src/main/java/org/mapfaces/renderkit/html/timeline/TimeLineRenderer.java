@@ -57,7 +57,7 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.component.timeline.UIBandInfo;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.timeline.UITimeLineControl;
 import org.mapfaces.models.AbstractModelBase;
@@ -103,7 +103,7 @@ public class TimeLineRenderer extends Renderer {
         final String clientId = component.getClientId(context);
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
         
         comp.setJsObject(comp.getId().replace("-", "_") + "_Container");
@@ -124,7 +124,7 @@ public class TimeLineRenderer extends Renderer {
         }
 
         //Adding BandInfos sub components if the timeline is wrapped by an UIModelBase component.
-        final UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
+        final UIModelBase parentContext = FacesMapUtils.getParentUIModelBase(context, component);
         if (parentContext != null && (parentContext instanceof UIContext) && comp.isDynamicBands()) {
             final AbstractModelBase modelbase = ((UIContext) parentContext).getModel();
             if (modelbase instanceof Context) {
@@ -132,8 +132,8 @@ public class TimeLineRenderer extends Renderer {
                 final List<Event> events = new ArrayList<Event>();
                 int i = 0;
 
-                if (FacesUtils.getCountTemporalLayers(layers) != 0) {
-                    //int proportinalwidth = Math.round(60 / FacesUtils.getCountTemporalLayers(layers));
+                if (FacesMapUtils.getCountTemporalLayers(layers) != 0) {
+                    //int proportinalwidth = Math.round(60 / FacesMapUtils.getCountTemporalLayers(layers));
                     for (final Layer layer : layers) {
                         if (layer.getDimensionList() != null && layer.getTime() != null) {
                             final UIHotZoneBandInfo bandinfo = new UIHotZoneBandInfo();
@@ -150,7 +150,7 @@ public class TimeLineRenderer extends Renderer {
                             bandinfo.setTheme(comp.getTheme());
                             bandinfo.setBackgroundColor(TimeLineUtils.colors[i + 1]);
                             bandinfo.setHidden(true); //hide the bandinfo component at the first time.
-                            if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
+                            if (FacesMapUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_band" + i) == null) {
                                 comp.getChildren().add(bandinfo);
                             }
                             i++;
@@ -183,7 +183,7 @@ public class TimeLineRenderer extends Renderer {
                 mainBandinfo.setTrackHeight(0.3);
                 mainBandinfo.setBackgroundColor(TimeLineUtils.colors[0]);
                 mainBandinfo.setTheme(comp.getTheme());
-                if (FacesUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband") == null) {
+                if (FacesMapUtils.findComponentById(context, context.getViewRoot(), comp.getId() + "_mainband") == null) {
                     comp.getChildren().add(mainBandinfo);
                 }
 
@@ -250,7 +250,7 @@ public class TimeLineRenderer extends Renderer {
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
         final UITimeLine comp = (UITimeLine) component;
         final String idjs     = comp.getJsObject();
@@ -348,7 +348,7 @@ public class TimeLineRenderer extends Renderer {
         writeScriptsEras(context, comp, erasZones);
 
         //declare a new Timeline widget.
-        writer.write(idjs + "_tl = Timeline.create(document.getElementById('" + FacesUtils.getFormId(context, component) + ":" + idjs + "'), " + idjs + "_bandInfos);\n");
+        writer.write(idjs + "_tl = Timeline.create(document.getElementById('" + FacesMapUtils.getFormId(context, component) + ":" + idjs + "'), " + idjs + "_bandInfos);\n");
 
         //set the background color for all visible bandsInfos components. Note this script must be after the declaration of the new timeline calls.
         int i = 0;
@@ -364,7 +364,7 @@ public class TimeLineRenderer extends Renderer {
         writeResizeFunction(context, comp);
 
         //TO BE DELETED no reference to mapfaces components because the timeline should be works alone, without a context
-        final UIModelBase parentContext = FacesUtils.getParentUIModelBase(context, component);
+        final UIModelBase parentContext = FacesMapUtils.getParentUIModelBase(context, component);
         if (parentContext != null && (parentContext instanceof UIContext)) {
 
             writer.write(new StringBuilder("Timeline.sendAjaxRequest=function(img,domEvt,evt){\n")
@@ -376,7 +376,7 @@ public class TimeLineRenderer extends Renderer {
                     .append("                              'render': 'true' //render the layers, always set to true after the first page loads\n")
                     .append("                         };")
                     .append("parameters['").append(((UIContext) parentContext).getAjaxCompId()).append("'] =' ").append(((UIContext) parentContext).getAjaxCompId()).append("';")
-                    .append("        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','").append(FacesUtils.getFormId(context, component)).append("',\n")
+                    .append("        A4J.AJAX.Submit( 'j_id_jsp_1260680181_0','").append(FacesMapUtils.getFormId(context, component)).append("',\n")
                     .append("                        null,\n")
                     .append("                        {   'control':this,\n")
                     .append("                            'single':true,\n")
@@ -405,14 +405,14 @@ public class TimeLineRenderer extends Renderer {
         final Map requestMap  = context.getExternalContext().getRequestParameterMap();
 
         //if the dynamicbands property is False the entire timeline is set to one layer. Else each band have its own layer.
-        if (FacesUtils.getParentUIModelBase(context, component) != null &&
-                (FacesUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
+        if (FacesMapUtils.getParentUIModelBase(context, component) != null &&
+                (FacesMapUtils.getParentUIModelBase(context, component) instanceof UIContext) &&
                 !comp.isDynamicBands()) {
             if (requestMap.containsKey("org.mapfaces.ajax.AJAX_LAYER_ID") &&
                     requestMap.containsKey("org.mapfaces.ajax.AJAX_CONTAINER_ID") &&
                     ((String) requestMap.get("org.mapfaces.ajax.AJAX_CONTAINER_ID")).contains("Time")) {
                 
-                final UILayer uiLayer = ((UILayer) FacesUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
+                final UILayer uiLayer = ((UILayer) FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), (String) requestMap.get("org.mapfaces.ajax.AJAX_LAYER_ID")));
                 final Layer layer = uiLayer.getLayer();
                 
                 try {
@@ -484,7 +484,7 @@ public class TimeLineRenderer extends Renderer {
 //                    proportinalwidth--;
 //                }
             }
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
 
@@ -945,7 +945,7 @@ public class TimeLineRenderer extends Renderer {
         ResponseWriter writer = context.getResponseWriter();
         final UITimeLine comp = (UITimeLine) component;
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
 
         writer.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResourcePhaseListener.getURL(context, "/org/mapfaces/resources/timeline/api/bundle.css", null) + "\"/>");
@@ -1175,7 +1175,7 @@ public class TimeLineRenderer extends Renderer {
 
     public void writeSilderScripts(ResponseWriter writer, UITimeLine comp, FacesContext context) throws IOException {
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
         if (!comp.isMinifyJS()) {
             writer.startElement("script", comp);

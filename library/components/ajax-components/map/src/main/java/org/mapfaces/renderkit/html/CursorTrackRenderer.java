@@ -26,7 +26,7 @@ import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UICursorTrack;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.taglib.CursorTrackTag;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -46,7 +46,7 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         
         //Find UIMapPane refers to this widget 
         String jsObject = null ;
-        UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+        UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
         if (uIMapPane != null) {
                 jsObject = uIMapPane.getClientId(context);
         } else {

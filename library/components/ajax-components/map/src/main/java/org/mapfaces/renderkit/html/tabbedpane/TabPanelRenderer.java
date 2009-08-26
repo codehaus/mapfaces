@@ -27,7 +27,7 @@ import javax.faces.render.Renderer;
 import org.mapfaces.component.tabbedpane.UITabItem;
 import org.mapfaces.component.tabbedpane.UITabPanel;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys).
@@ -134,7 +134,7 @@ public class TabPanelRenderer extends Renderer {
         final UITabPanel tabpanel = (UITabPanel) component;
 
         for (final UIComponent tmp : tabpanel.getChildren()) {
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
 
     }

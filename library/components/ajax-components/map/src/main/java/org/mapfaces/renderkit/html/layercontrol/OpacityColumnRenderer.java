@@ -26,7 +26,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -55,7 +55,7 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
                  if (layer.isDisable()) {
                      child.setRendered(false);
                  } else {
-                     child.setOnchange(FacesUtils.getJsVariableFromClientId(
+                     child.setOnchange(FacesMapUtils.getJsVariableFromClientId(
                              layer.getCompId()) + ".setOpacity(this.value);");
                  }
             }

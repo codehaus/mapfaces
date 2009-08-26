@@ -27,7 +27,7 @@ import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UISliderInput;
 import org.mapfaces.component.timeline.UITimeLine;
 import org.mapfaces.component.timeline.UITimeLineControl;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.timeline.TimeLineUtils;
 
 /**
@@ -54,7 +54,7 @@ public class TimeLineControlRenderer extends Renderer {
 
         ResponseWriter writer = context.getResponseWriter();
         if (writer == null) {
-            writer = FacesUtils.getResponseWriter2(context);
+            writer = FacesMapUtils.getResponseWriter2(context);
         }
 
         UITimeLine timelineComp = null;
@@ -116,7 +116,7 @@ public class TimeLineControlRenderer extends Renderer {
             int i = 0;
 
             writer.write("  <div id= \"content-lines-div\">");
-            for (final UIHotZoneBandInfo bandinfo : FacesUtils.getBandInfoTimelineChildren(context, timelineComp)) {
+            for (final UIHotZoneBandInfo bandinfo : FacesMapUtils.getBandInfoTimelineChildren(context, timelineComp)) {
                 if (!bandinfo.isHidden()) {
                     bandinfo.setJsObject(bandinfo.getId().replace("-", "_"));
                     String labelLayer = "";
@@ -235,7 +235,7 @@ public class TimeLineControlRenderer extends Renderer {
             return;
         }
         for (final UIComponent tmp : component.getChildren()) {
-            FacesUtils.encodeRecursive(context, tmp);
+            FacesMapUtils.encodeRecursive(context, tmp);
         }
     }
 

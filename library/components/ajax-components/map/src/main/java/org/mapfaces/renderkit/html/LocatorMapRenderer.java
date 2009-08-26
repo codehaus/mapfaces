@@ -27,7 +27,7 @@ import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UILocatorMap;
 import org.mapfaces.models.Context;
 import org.mapfaces.taglib.LocatorMapTag;
-import org.mapfaces.util.FacesUtils;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.component.UIMapPane;
 
 /**
@@ -79,7 +79,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             //suppression des ":" pour nommer l'objet javascript correspondant correctement
             //Find UIMapPane refers to this widget 
             String mapJsObject = null ;
-            final UIMapPane uIMapPane = FacesUtils.getUIMapPane(context, component);
+            final UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
             if (uIMapPane != null) {
                     mapJsObject = uIMapPane.getClientId(context);
             } else {
@@ -109,7 +109,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
                     .append("fractionnalZoom:  true ,")
                     .append("layersName:  '").append(model.getLayersCompId().split(",")[0] ).append("' ,")
                     .append("mfAjaxCompId:'").append(comp.getAjaxCompId()).append("',")
-                    .append("mfFormId:'").append(FacesUtils.getFormId(context, component)).append("',")
+                    .append("mfFormId:'").append(FacesMapUtils.getFormId(context, component)).append("',")
                     .append("mfRequestId:'updateBboxOrWindow'")
                     .append("};").toString());
 
