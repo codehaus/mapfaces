@@ -70,11 +70,14 @@ public class AutocompletionRenderer extends Renderer {
         writer.startElement(HTML.DIV_ELEM, component);
         writer.writeAttribute(HTML.id_ATTRIBUTE, component.getClientId(context), null);
         writer.startElement(HTML.INPUT_ELEM, component);
-                writer.writeAttribute(HTML.id_ATTRIBUTE, comp.getId() + "_input", null);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, comp.getId() + "_input", null);
+        writer.writeAttribute(HTML.NAME_ATTRIBUTE, comp.getId() + "_input", null);
         final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
-                writer.writeAttribute(VALUE_KEY, component.getClientId(context), null);
+                comp.setValue(ve.getValue(context.getELContext()));
+                comp.setValueExpression("value", ve);
+                writer.writeAttribute(VALUE_KEY, ve.getValue(context.getELContext()), null);
             }
         }
         writer.endElement(HTML.INPUT_ELEM);
@@ -156,27 +159,17 @@ public class AutocompletionRenderer extends Renderer {
         final ExternalContext ext = context.getExternalContext();
         final UIAutocompletion comp = (UIAutocompletion) component;
         final Map parameterMap = ext.getRequestParameterMap();
-        final String newValue = (String) parameterMap.get(comp.getClientId(context));
-
-        HtmlInputText inputchild = null;
-        final int size = comp.getChildren().size();
-        for (int i = 0; i < size; i++) {
-            if(comp.getChildren().get(i) instanceof HtmlInputText) {
-                inputchild = (HtmlInputText) comp.getChildren().get(i);
-                break;
-            }
-        }
+        final String newValue = (String) parameterMap.get(comp.getId()+"_input");
 
         final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
-        if (ve != null && inputchild != null) {
+        if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
-                inputchild.setValue(ve.getValue(context.getELContext()));
-                inputchild.setValueExpression(VALUE_KEY, ve);
                 ve.setValue(context.getELContext(), newValue);
+                comp.setValue(ve.getValue(context.getELContext()));
+                comp.setValueExpression(VALUE_KEY, ve);
             }
         }
         comp.setSubmittedValue(newValue);
-
     }
 
 

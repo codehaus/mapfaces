@@ -23,7 +23,7 @@ package org.mapfaces.share.utils;
  */
 public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils{
 
-	public interface HTML extends org.ajax4jsf.framework.renderer.RendererUtils.HTML{
+	public static interface HTML extends org.ajax4jsf.framework.renderer.RendererUtils.HTML{
 
 		public static final String IMG_ELEM = "img";
 		public static final String src_ATTRIBUTE = "src";
