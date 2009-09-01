@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.widgetfaces.renderkit.html.autocompletion;
 
 import java.io.IOException;
@@ -21,7 +22,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -80,6 +80,12 @@ public class AutocompletionRenderer extends Renderer {
                 writer.writeAttribute(VALUE_KEY, ve.getValue(context.getELContext()), null);
             }
         }
+
+        //@TODO write for all events attributs onclick, on....
+        if (comp.getOnkeyup() != null && ! comp.getOnkeyup().equals("")) {
+            writer.writeAttribute(HTML.onkeyup_ATTRIBUTE, comp.getOnkeyup(), null);
+        }
+
         writer.endElement(HTML.INPUT_ELEM);
     }
 
