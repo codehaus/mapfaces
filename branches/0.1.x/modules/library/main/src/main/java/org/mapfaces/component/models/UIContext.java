@@ -33,6 +33,7 @@ public class UIContext extends UIModelBase {
     private boolean mootools = true;
     private boolean minifyJS = true;
     private String service = "";
+    private boolean openlayers = true;
 
     /** Creates a new instance of UIAbstract */
     public UIContext(){
@@ -59,6 +60,7 @@ public class UIContext extends UIModelBase {
         values[2] = mootools;
         values[3] = minifyJS;
         values[4] = service;
+        values[5] = openlayers;
         return values;
     }
 
@@ -73,6 +75,7 @@ public class UIContext extends UIModelBase {
         mootools = (Boolean) values[2];
         minifyJS = (Boolean) values[3];
         service = (String) values[4];
+        openlayers = (Boolean) values[5];
     }
 
     /**
@@ -124,6 +127,20 @@ public class UIContext extends UIModelBase {
 
     public void setService(String service) {
         this.service = service;
+    }
+
+    /**
+     * @return the openlayers
+     */
+    public boolean isOpenlayers() {
+        return openlayers;
+    }
+
+    /**
+     * @param openlayers the openlayers to set
+     */
+    public void setOpenlayers(boolean openlayers) {
+        this.openlayers = openlayers;
     }
 
 }

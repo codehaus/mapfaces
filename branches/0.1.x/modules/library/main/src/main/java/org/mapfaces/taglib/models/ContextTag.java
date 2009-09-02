@@ -67,6 +67,7 @@ public class ContextTag extends UIComponentELTag {
      * This is a flag that indicates if we must load compressed scripts or uncompressed.
      */
     private ValueExpression minifyJS = null;
+    private ValueExpression openlayers = null;
 
     /**
      * {@inheritDoc }
@@ -103,6 +104,7 @@ public class ContextTag extends UIComponentELTag {
         component.setValueExpression("scriptaculous", scriptaculous);
         component.setValueExpression("mootools", mootools);
         component.setValueExpression("minifyJS", minifyJS);
+        component.setValueExpression("openlayers", openlayers);
         
         //setting the flag to load or not the prototype and scriptaculous js libs
         if (scriptaculous != null) {
@@ -132,6 +134,7 @@ public class ContextTag extends UIComponentELTag {
         scriptaculous = null;
         mootools = null;
         minifyJS = null;
+        openlayers = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -180,5 +183,19 @@ public class ContextTag extends UIComponentELTag {
 
     public void setMinifyJS(ValueExpression minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    /**
+     * @return the openlayers
+     */
+    public ValueExpression getOpenlayers() {
+        return openlayers;
+    }
+
+    /**
+     * @param openlayers the openlayers to set
+     */
+    public void setOpenlayers(ValueExpression openlayers) {
+        this.openlayers = openlayers;
     }
 }
