@@ -147,7 +147,7 @@ public class ContextRenderer extends Renderer {
 //            writer.endElement("script");
 //        }
 
-        if (resourcesFlag) {
+        if (resourcesFlag && comp.isOpenlayers()) {
             writer.startElement("script", component);
             if (isMinifyJS) {
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
