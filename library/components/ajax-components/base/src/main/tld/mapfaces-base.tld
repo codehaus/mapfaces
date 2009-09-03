@@ -15,8 +15,8 @@
 
     <tlib-version>1.0</tlib-version>
     <jsp-version>1.2</jsp-version>
-    <short-name>mfb</short-name>
-    <uri>http://mapfaces-base.org/taglib</uri>
+    <short-name>mf-base</short-name>
+    <uri>http://mapfaces.org/taglib-base</uri>
     <description>
         <![CDATA[Mapfaces Base library components]]>
     </description>
