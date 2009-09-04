@@ -1,3 +1,20 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.renderkit.treetable;
 
 import java.io.IOException;
@@ -12,10 +29,9 @@ import javax.faces.component.UIComponent;
 import com.sun.faces.renderkit.html_basic.HtmlBasicRenderer;
 import com.sun.faces.util.Util;
 
-import org.mapfaces.component.treetable.UITreecolumn;
+import org.mapfaces.component.treetable.UITreeColumn;
 import org.mapfaces.component.treetable.UITreeData;
-import org.mapfaces.component.treetable.UITreetable;
-import org.mapfaces.model.tree.ExtendMutableTreeNode;
+import org.mapfaces.component.treetable.UITreeTable;
 import org.mapfaces.share.utils.FacesUtils;
 
 /**
@@ -202,7 +218,7 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
             final ResponseWriter writer)
             throws IOException {
 
-        final UITreetable data = (UITreetable) table;
+        final UITreeTable data = (UITreeTable) table;
         final TableMetaInfo info = getMetaInfo(table);
 
         if (data.getRowData() instanceof String) {
@@ -263,12 +279,12 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
     // ----------------------------------------------------------- Inner Classes
     protected static class TableMetaInfo {
 
-        private final static UITreecolumn PLACE_HOLDER_COLUMN = new UITreecolumn();
+        private final static UITreeColumn PLACE_HOLDER_COLUMN = new UITreeColumn();
         private final static String[] EMPTY_STRING_ARRAY = new String[0];
         public final static String KEY = TableMetaInfo.class.getName();
         public final String[] rowClasses;
         public final String[] columnClasses;
-        public final List<UITreecolumn> columns;
+        public final List<UITreeColumn> columns;
         public final boolean hasHeaderFacets;
         public final boolean hasFooterFacets;
         public int columnStyleCounter;
@@ -349,16 +365,16 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
          *
          * @return the List of all UIColumn children
          */
-        private static List<UITreecolumn> getColumns(UIComponent table) {
+        private static List<UITreeColumn> getColumns(UIComponent table) {
 
             if (table instanceof UITreeData) {
                 int childCount = table.getChildCount();
                 if (childCount > 0) {
-                    List<UITreecolumn> results =
-                            new ArrayList<UITreecolumn>(childCount);
+                    List<UITreeColumn> results =
+                            new ArrayList<UITreeColumn>(childCount);
                     for (UIComponent kid : table.getChildren()) {
-                        if ((kid instanceof UITreecolumn) && kid.isRendered()) {
-                            results.add((UITreecolumn) kid);
+                        if ((kid instanceof UITreeColumn) && kid.isRendered()) {
+                            results.add((UITreeColumn) kid);
                         }
                     }
                     return results;
@@ -376,7 +392,7 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
                 if (count < 1) {
                     count = 1;
                 }
-                List<UITreecolumn> result = new ArrayList<UITreecolumn>(count);
+                List<UITreeColumn> result = new ArrayList<UITreeColumn>(count);
                 for (int i = 0; i < count; i++) {
                     result.add(PLACE_HOLDER_COLUMN);
                 }
@@ -395,10 +411,10 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
          *
          * @return the number of columns associated with the specified Facet name
          */
-        private static boolean hasFacet(String name, List<UITreecolumn> columns) {
+        private static boolean hasFacet(String name, List<UITreeColumn> columns) {
 
             if (!columns.isEmpty()) {
-                for (UITreecolumn column : columns) {
+                for (UITreeColumn column : columns) {
                     if (column.getFacetCount() > 0) {
                         if (column.getFacets().containsKey(name)) {
                             return true;

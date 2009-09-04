@@ -1,17 +1,34 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.taglib.treetable;
 
 import com.sun.faces.taglib.html_basic.ColumnTag;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import org.mapfaces.component.treetable.UITreecolumn;
+import org.mapfaces.component.treetable.UITreeColumn;
 
 /**
  *
  * @author kevindelfour
  */
-public class TreecolumnTag extends ColumnTag {
+public class TreeColumnTag extends ColumnTag {
 
-    private static final String COMP_TYPE = "org.mapfaces.TreeTable.TreeColumn";
+    private static final String COMP_TYPE = "org.mapfaces.component.tree.TreeColumn";
     private static final String RENDER_TYPE = null;
     private ValueExpression viewControls;
     private ValueExpression width;
@@ -30,11 +47,11 @@ public class TreecolumnTag extends ColumnTag {
     protected void setProperties(UIComponent component) {
         super.setProperties(component);
 
-        if (!(component instanceof UITreecolumn)) {
+        if (!(component instanceof UITreeColumn)) {
             throw new IllegalStateException("Component " + component.toString() + " not expected type.  Expected: org.mapfaces.components.treetable.UITreeData.  Perhaps you're missing a tag?");
         }
 
-        final UITreecolumn column = (UITreecolumn) component;
+        final UITreeColumn column = (UITreeColumn) component;
 
         if (getViewControls() != null) {
             column.setValueExpression("viewControls", getViewControls());

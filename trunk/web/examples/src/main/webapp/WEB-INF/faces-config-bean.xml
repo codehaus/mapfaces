@@ -20,6 +20,11 @@
         <managed-bean-class>org.mapfaces.web.bean.MetadataBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>mfbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.web.bean.MFBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     
     <!-- Charts beans -->
     <managed-bean>

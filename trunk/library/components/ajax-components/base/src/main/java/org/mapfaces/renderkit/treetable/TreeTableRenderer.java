@@ -1,3 +1,20 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.renderkit.treetable;
 
 import com.sun.faces.renderkit.AttributeManager;
@@ -11,8 +28,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.mapfaces.component.treetable.UITreecolumn;
-import org.mapfaces.component.treetable.UITreetable;
+import org.mapfaces.component.treetable.UITreeColumn;
+import org.mapfaces.component.treetable.UITreeTable;
 import org.mapfaces.model.tree.ExtendMutableTreeNode;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.style.TreeTableStyleManager;
@@ -21,7 +38,7 @@ import org.mapfaces.share.style.TreeTableStyleManager;
  *
  * @author Kevin Delfour
  */
-public class TreetableRenderer extends BaseTreeTableRenderer {
+public class TreeTableRenderer extends BaseTreeTableRenderer {
 
     private static final String[] ATTRIBUTES = AttributeManager.getAttributes(AttributeManager.Key.DATATABLE);
 
@@ -54,7 +71,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
             return;
         }
 
-        final UITreetable data = (UITreetable) component;
+        final UITreeTable data = (UITreeTable) component;
         final ResponseWriter writer = context.getResponseWriter();
         data.setRowIndex(-1);
 
@@ -83,7 +100,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
             return;
         }
 
-        final UITreetable data = (UITreetable) component;
+        final UITreeTable data = (UITreeTable) component;
         final ResponseWriter writer = context.getResponseWriter();
 
         // Iterate over the rows of data that are provided
@@ -130,7 +147,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
             return;
         }
 
-        final UITreetable data = (UITreetable) component;
+        final UITreeTable data = (UITreeTable) component;
 
         clearMetaInfo(data);
         data.setRowIndex(-1);
@@ -163,7 +180,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
         if (info.hasFooterFacets) {
             writer.startElement("div", table);
             writer.writeText("\n", table, null);
-            for (UITreecolumn column : info.columns) {
+            for (UITreeColumn column : info.columns) {
                 String columnFooterClass =
                         (String) column.getAttributes().get("footerClass");
                 writer.startElement("div", column);
@@ -232,7 +249,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
         if (info.hasHeaderFacets) {
             writer.startElement("div", table);
             writer.writeText("\n", table, null);
-            for (UITreecolumn column : info.columns) {
+            for (UITreeColumn column : info.columns) {
                 String columnHeaderClass =
                         (String) column.getAttributes().get("headerClass");
                 writer.startElement("div", column);
@@ -282,7 +299,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
         // Iterate over the child UITreeColumn components for each row
         int columnStyleIdx = 0;
 
-        final UITreetable data = (UITreetable) table;
+        final UITreeTable data = (UITreeTable) table;
         final TableMetaInfo info = getMetaInfo(table);
         final ExtendMutableTreeNode node;
         final int collapseDepth = (Integer) table.getAttributes().get("collapseDepth");
@@ -349,7 +366,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
         if (classes.length() > 0) {
             writer.writeAttribute("class", classes.toString(), "classes");
         }
-        for (UITreecolumn column : info.columns) {
+        for (UITreeColumn column : info.columns) {
             // Render the beginning of this cell
             writer.startElement("div", column);
             if (info.columnClasses.length > 0) {
@@ -385,7 +402,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
 
 
             // Render the clear div of this cell if it's the last cell of the row
-            List<UITreecolumn> list = info.columns;
+            List<UITreeColumn> list = info.columns;
             if (list.get(list.size() - 1).equals(column)) {
 
                 writer.startElement("div", column);
@@ -424,7 +441,7 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
             final ResponseWriter writer)
             throws IOException {
         
-        final UITreetable data = (UITreetable) table;
+        final UITreeTable data = (UITreeTable) table;
         final ExtendMutableTreeNode node = (ExtendMutableTreeNode) data.getRowData();
         final int collapseDepth = (Integer) table.getAttributes().get("collapseDepth");
 
@@ -445,12 +462,12 @@ public class TreetableRenderer extends BaseTreeTableRenderer {
 
     protected void renderControls(final FacesContext context,
             final UIComponent table,
-            final UITreecolumn column,
+            final UITreeColumn column,
             final ExtendMutableTreeNode node,
             final ResponseWriter writer)
             throws IOException {
 
-        final UITreetable data = (UITreetable) table;
+        final UITreeTable data = (UITreeTable) table;
         final int collapseDepth = data.getCollapseDepth();
 
         for (int i = 0; i < node.getDepth(); i++) {
