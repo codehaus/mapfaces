@@ -6,21 +6,21 @@
 
     <!-- COMPONENTS -->
     <component>
-        <component-type>org.mapfaces.TreeTable</component-type>
-        <component-class>org.mapfaces.component.treetable.UITreetable</component-class>
+        <component-type>org.mapfaces.component.tree.TreeTable</component-type>
+        <component-class>org.mapfaces.component.treetable.UITreeTable</component-class>
     </component>
 
     <component>
-        <component-type>org.mapfaces.TreeTable.TreeColumn</component-type>
-        <component-class>org.mapfaces.component.treetable.UITreecolumn</component-class>
+        <component-type>org.mapfaces.component.tree.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.treetable.UITreeColumn</component-class>
     </component>
 
     <!-- RENDERKIT -->
     <render-kit>
         <renderer>
-            <component-family>org.mapfaces.TreeTable</component-family>
-            <renderer-type>org.mapfaces.renderkit.TreeTable</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.treetable.TreetableRenderer</renderer-class>
+            <component-family>org.mapfaces.component.tree.TreeTable</component-family>
+            <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.treetable.TreeTableRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>

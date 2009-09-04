@@ -23,7 +23,7 @@
 
     <tag>
         <name>treetable</name>
-        <tag-class>org.mapfaces.taglib.treetable.TreetableTag</tag-class>
+        <tag-class>org.mapfaces.taglib.treetable.TreeTableTag</tag-class>
         <body-content>JSP</body-content>
         <description>
                 <![CDATA[Treetable component]]>
@@ -36,7 +36,7 @@
 
     <tag>
         <name>treecolumn</name>
-        <tag-class>org.mapfaces.taglib.treetable.TreecolumnTag</tag-class>
+        <tag-class>org.mapfaces.taglib.treetable.TreeColumnTag</tag-class>
         <body-content>JSP</body-content>
         <description>
                 <![CDATA[Treetable component]]>

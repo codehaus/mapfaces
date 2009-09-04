@@ -1,3 +1,20 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
 package org.mapfaces.taglib.treetable;
 
 import javax.el.ValueExpression;
@@ -8,10 +25,10 @@ import org.mapfaces.taglib.html.HtmlTreeTableTag;
  *
  * @author Kevin Delfour
  */
-public class TreetableTag extends HtmlTreeTableTag {
+public class TreeTableTag extends HtmlTreeTableTag {
 
-    private static final String COMP_TYPE = "org.mapfaces.TreeTable";
-    private static final String RENDER_TYPE = "org.mapfaces.renderkit.TreeTable";
+    private static final String COMP_TYPE = "org.mapfaces.component.tree.TreeTable";
+    private static final String RENDER_TYPE = "org.mapfaces.renderkit.tree.TreeTable";
 
     // ---------------------------------------------------------- Additionals fields
     // Displays attributes
