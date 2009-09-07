@@ -158,7 +158,7 @@
   <!-- =========================================================== -->
     <properties>
         <geoapi.version>2.3-SNAPSHOT</geoapi.version>
-        <geotoolkit.version>SNAPSHOT</geotoolkit.version>
+        <geotoolkit.version>3.03</geotoolkit.version>
     </properties>
   
     <dependencyManagement>
