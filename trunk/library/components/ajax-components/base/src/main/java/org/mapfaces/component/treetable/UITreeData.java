@@ -103,10 +103,13 @@ public class UITreeData extends UIData {
                 setDataModel(new TreeDataModel((ExtendTreeModel) object));
             } else if (object instanceof TreeDataModel) {
                 setDataModel((TreeDataModel) object);
+            } else{
+                setDataModel(new TreeDataModel());
             }
         } else {
             setDataModel(new ScalarDataModel(current));
         }
+        
         if (model == null) {
             setDataModel(new TreeDataModel());
         }
