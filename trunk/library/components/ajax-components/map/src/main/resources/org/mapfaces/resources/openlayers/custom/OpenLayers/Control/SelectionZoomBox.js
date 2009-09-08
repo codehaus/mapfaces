@@ -66,9 +66,7 @@ OpenLayers.Control.SelectionZoomBox = OpenLayers.Class(OpenLayers.Control, {
              tmpBox.setBorder(this.color);                                        
              this.searchFormBox.addMarker(tmpBox);
              this.map.addLayer(this.searchFormBox);
-             //Hack for submit form when press enter button
-             //if(document.getElementById("search_form:searchButton"))
-             //document.getElementById("search_form:searchButton").focus();
+            //set focus on target element if specified focusId
              if(document.getElementById(this.focusId)) {
               document.getElementById(this.focusId).focus();
              }
