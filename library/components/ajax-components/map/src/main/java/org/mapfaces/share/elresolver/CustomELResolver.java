@@ -145,7 +145,7 @@ public class CustomELResolver extends ELResolver {
      */
     @Override
     public boolean isReadOnly(ELContext arg0, Object arg1, Object arg2) throws NullPointerException, PropertyNotFoundException, ELException {
-        throw new UnsupportedOperationException(NOT_SUPPORTED);
+        return false;
     }
 
     /**

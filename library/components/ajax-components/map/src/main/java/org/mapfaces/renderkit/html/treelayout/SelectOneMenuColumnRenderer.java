@@ -68,7 +68,9 @@ public class SelectOneMenuColumnRenderer extends AbstractColumnRenderer {
             }
             comp.getChildren().add(selectOneMenu);
         } else {
-            ((UISelectOne) comp.getChildren().get(0)).setValue(comp.getValue());
+            if(comp.getChildren().size() != 0){
+                ((UISelectOne) comp.getChildren().get(0)).setValue(comp.getValue());
+            }
         }
         writer.startElement("center", comp);
 
