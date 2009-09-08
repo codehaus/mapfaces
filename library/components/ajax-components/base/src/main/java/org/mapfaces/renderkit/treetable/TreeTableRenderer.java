@@ -33,6 +33,7 @@ import org.mapfaces.component.treetable.UITreeTable;
 import org.mapfaces.model.tree.ExtendMutableTreeNode;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.style.TreeTableStyleManager;
+import org.mapfaces.share.utils.RendererUtils;
 
 /**
  *
@@ -67,7 +68,7 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
 
         rendererParamsNotNull(context, component);
 
-        if (!shouldEncode(component)) {
+        if (!RendererUtils.shouldEncode(component)) {
             return;
         }
 
@@ -96,13 +97,13 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
 
         rendererParamsNotNull(context, component);
 
-        if (!shouldEncodeChildren(component)) {
+        if (!RendererUtils.shouldEncodeChildren(component)) {
             return;
         }
 
         final UITreeTable data = (UITreeTable) component;
         final ResponseWriter writer = context.getResponseWriter();
-
+        
         // Iterate over the rows of data that are provided
         int processed = 0;
         data.setRowIndex(data.getFirst() - 1);
@@ -143,7 +144,7 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
 
         rendererParamsNotNull(context, component);
 
-        if (!shouldEncode(component)) {
+        if (!RendererUtils.shouldEncode(component)) {
             return;
         }
 

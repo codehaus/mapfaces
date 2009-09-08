@@ -533,5 +533,7 @@
   <modules>
     <module>examples</module>
     <module>templates</module>
-  </modules> 
+    <module>testHttpUnit</module>
+  </modules>
 </project>
+

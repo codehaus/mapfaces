@@ -1432,9 +1432,11 @@ MUI.Window = new Class({
 			// Set TitlebarColor
 			var pattern = /\?(.*?)\)/;
 			if (this.titleBarEl.getStyle('backgroundImage') != 'none'){
-				var gradient = this.titleBarEl.getStyle('backgroundImage');								
+				/*
+                                var gradient = this.titleBarEl.getStyle('backgroundImage');
 				gradient = gradient.match(pattern)[1];
 				gradient = gradient.parseQueryString();
+                                */
 				/*
                                  *  Replace this by a gradientFrom and a gradienTo fix
                                  * var gradientFrom = gradient.from;

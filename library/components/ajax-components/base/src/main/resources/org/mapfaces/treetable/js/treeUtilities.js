@@ -5,8 +5,8 @@ var TREETABLE = new Hash({
 
 TREETABLE.switchView = function(parentID, children){
     var parentnode = document.getElementById(parentID);
-    var parentClass = parentnode.getAttribute('class');
-    var nextNodeClass = parentnode.nextSibling.getAttribute('class');
+    var parentClass = parentnode.getAttribute("class");
+    var nextNodeClass = parentnode.nextSibling.getAttribute("class");
     var reg, regfolder;
     if (parentClass.search('treenode-expand_symbol') > -1){
         reg = new RegExp("treenode-expand_symbol", "g");

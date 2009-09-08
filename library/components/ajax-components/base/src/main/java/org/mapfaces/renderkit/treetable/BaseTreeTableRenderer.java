@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.treetable;
 
 import java.io.IOException;
@@ -27,6 +26,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIComponent;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicRenderer;
+import com.sun.faces.util.MessageUtils;
 import com.sun.faces.util.Util;
 
 import org.mapfaces.component.treetable.UITreeColumn;
@@ -38,6 +38,26 @@ import org.mapfaces.share.utils.FacesUtils;
  * Base class for concrete Tree Table renderers.
  */
 public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
+
+    @Override
+    protected void rendererParamsNotNull(FacesContext context,
+            UIComponent component) {
+
+        if (context == null) {
+            throw new NullPointerException(
+                  MessageUtils.getExceptionMessageString(
+                      MessageUtils.NULL_PARAMETERS_ERROR_MESSAGE_ID, "context"));
+        }
+
+        if (component == null) {
+            throw new NullPointerException(
+                  MessageUtils.getExceptionMessageString(
+                      MessageUtils.NULL_PARAMETERS_ERROR_MESSAGE_ID, "component"));
+        }
+
+    }
+
+    
 
     // ------------------------------------------------------- Protected Methods
     /**
@@ -228,7 +248,7 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
             }
         } else {
             writer.startElement("li", table);
-            writer.writeAttribute("id", "li:" + table.getId() + ":" + data.getRowIndex(), "id");           
+            writer.writeAttribute("id", "li:" + table.getId() + ":" + data.getRowIndex(), "id");
         }
         writer.writeText("\n", table, null);
     }
