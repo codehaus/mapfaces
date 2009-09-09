@@ -63,9 +63,19 @@ public class MapContextLayerRenderer extends LayerRenderer {
         final Context model = (Context) comp.getModel();
         setModelAtSession(context, comp);
 
+        //fix case when width and height are null, default is dim (1,1)
+        //because openlayers lib will recalculate the good dimension;
+        String width="1";
+        String height="1";
+        if(model.getWindowWidth() != null &&  model.getWindowWidth().matches("[0-9]+")) {
+            width = model.getWindowWidth();
+        }
+        if(model.getWindowHeight() != null && model.getWindowHeight().matches("[0-9]+")) {
+            height = model.getWindowHeight();
+        }
         final Dimension dim = new Dimension(
-                Integer.parseInt(model.getWindowWidth()),
-                Integer.parseInt(model.getWindowHeight()));
+                Integer.parseInt(width),
+                Integer.parseInt(height));
 
         // test if Dimension is not valid, width and height must be > 0.
         if (dim.width <= 0) {

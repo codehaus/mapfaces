@@ -324,7 +324,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         //suppression des ":" pour nommer l'objet javascript correspondant correctement
 //        String jsObject = FacesMapUtils.getParentUIModelBase(context, component).getClientId(context);
         final String jsObject = FacesMapUtils.getJsVariableFromClientId(comp.getClientId(context));
-        final String srs = model.getSrs().toUpperCase(Locale.getDefault());
+
+        //when srs is null the default value is CRS:84
+        final String srs = (model.getSrs() != null) ? model.getSrs().toUpperCase(Locale.getDefault()) : "CRS:84";
 
         final StringBuilder stringBuilder = new StringBuilder("")
                 /**
