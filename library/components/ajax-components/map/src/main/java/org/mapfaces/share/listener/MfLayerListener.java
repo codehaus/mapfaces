@@ -20,7 +20,6 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +36,6 @@ import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 
-import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 
 import org.opengis.geometry.Envelope;
@@ -129,10 +127,10 @@ public class MfLayerListener implements PhaseListener {
             final Envelope env = new Envelope2D(crs,
                     new Double(model.getMinx()), new Double(model.getMiny()),
                     new Double(model.getMaxx()) - new Double(model.getMinx()),
-                    new Double(model.getMaxy()) - new Double(model.getMiny())
-                    );
+                    new Double(model.getMaxy()) - new Double(model.getMiny()));
 
             MapContext mapContext = (MapContext) sessionMap.get(id + "_mapContext");
+            mapContext.setCoordinateReferenceSystem(crs);
 
             if (mapContext != null) {
                 try {
@@ -142,7 +140,7 @@ public class MfLayerListener implements PhaseListener {
                 } catch (PortrayalException ex) {
                     LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
-                    LOGGER.log(Level.WARNING, "Exception : "+exp.getStackTrace().toString());
+                    LOGGER.log(Level.WARNING, "Exception : " + exp.getStackTrace().toString());
                 } finally {
                     emptySession(sessionMap, id);
                 }
