@@ -405,7 +405,7 @@
         <repository>
             <id>geomatys</id>
             <name>Other projects</name>
-            <url>http://maven.geomatys.fr/repository</url>
+            <url>http://maven.geomatys.com/repository</url>
         </repository>
 
         <repository>
@@ -507,13 +507,13 @@
         <site>
             <id>geomatys</id>
             <name>Site geomatys</name>
-            <url>dav:https://maven.geomatys.fr/maven/reports</url>
+            <url>dav:https://maven.geomatys.com/maven/reports</url>
         </site>
         <repository>
             <uniqueVersion>false</uniqueVersion>
             <id>geomatys</id>
             <name>Distribution geomatys</name>
-            <url>dav:https://maven.geomatys.fr/repository</url>
+            <url>dav:https://maven.geomatys.com</url>
         </repository>
     </distributionManagement>
   
