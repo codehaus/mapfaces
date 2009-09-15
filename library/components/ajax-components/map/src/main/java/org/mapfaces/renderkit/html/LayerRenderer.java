@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.util.Locale;
@@ -24,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 
+import org.geotoolkit.map.MapContext;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
@@ -32,8 +34,8 @@ import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.util.MapUtils;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class LayerRenderer extends WidgetBaseRenderer {
 
@@ -68,13 +70,13 @@ public class LayerRenderer extends WidgetBaseRenderer {
         }
 
         String win = params.get("window");
-
+        //Setting window values of the model only if the values are valid.
         if (win != null && ! win.equals("100,100")) {
             final String[] window = win.split(",");
             model.setWindowWidth(window[0]);
             model.setWindowHeight(window[1]);
         }
-
+        //Setting bounding box values of the model only if the values are valid.
         if (bbox != null && !bbox.equals(model.getMinx() + "," + model.getMiny() + "," + model.getMaxx() + "," + model.getMaxy()) && ! win.equals("100,100")) {
             model.setMinx(bbox.split(",")[0]);
             model.setMiny(bbox.split(",")[1]);
@@ -183,6 +185,21 @@ public class LayerRenderer extends WidgetBaseRenderer {
         }
         if (component == null) {
             throw new NullPointerException("component should not be null");
+        }
+    }
+    /**
+     * Setting a mapcontext object into session map because MapContext is not a serializable object.
+     * @param facesContext
+     * @param comp
+     * @param context
+     */
+    public void setMapContextAtSession(FacesContext facesContext, UILayer comp, MapContext context) {
+        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        String clientId = comp.getClientId(facesContext);
+
+        session.put(clientId + "_mapContext", context);
+        if (debug) {
+            LOGGER.log(Level.INFO, "Mapcontext saved in  session map for this layer,  clientId : " + clientId + "\n");
         }
     }
 }

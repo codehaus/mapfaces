@@ -18,7 +18,6 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
@@ -48,6 +47,7 @@ public class WidgetBaseRenderer extends Renderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
+        // suppress rendering if "rendered" property on the component is false.
         if (!component.isRendered()) {
             return;
         }
@@ -57,13 +57,13 @@ public class WidgetBaseRenderer extends Renderer {
         final UIWidgetBase comp = (UIWidgetBase) component;
         if (comp.isDebug()) {
             this.debug = true;
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE BEGIN "+comp.isDebug());
+            LOGGER.log(Level.INFO, "[DEBUG] ENCODE BEGIN "+comp.isDebug());
         } else {
              this.debug = false;
         }
       
         if (FacesMapUtils.getParentUIModelBase(context, component) == null) {
-            throw new NullPointerException("UIModelBase should not be null");
+            throw new NullPointerException("UIModelBase should not be null, you should declare an UIModelBase component as the mapfaces component  wrapper.");
         } else if (comp.getModel() == null) {
             comp.setModel(FacesMapUtils.getParentUIModelBase(context, component).getModel());
         }
@@ -89,11 +89,11 @@ public class WidgetBaseRenderer extends Renderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE CHILDREN ");
+            LOGGER.log(Level.INFO, "[DEBUG] ENCODE CHILDREN ");
         }
         final List<UIComponent> childrens = component.getChildren();
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] Le composant " + component.getFamily() + " has " + childrens.size() + " children :");
+            LOGGER.log(Level.INFO, "[DEBUG] THe component " + component.getFamily() + " has " + childrens.size() + " children :");
         }
         for (final UIComponent tmp : childrens) {
             if (this.debug) {
@@ -109,7 +109,7 @@ public class WidgetBaseRenderer extends Renderer {
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer ENCODE END ");
+            LOGGER.log(Level.INFO, "[DEBUG] ENCODE END ");
         }
     }
 
@@ -119,10 +119,14 @@ public class WidgetBaseRenderer extends Renderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         if (this.debug) {
-            LOGGER.log(Level.INFO, "[DEBUG] WidgetBaseRenderer DECODE ");
+            LOGGER.log(Level.INFO, "[DEBUG] DECODE PROCESS");
         }
     }
-
+    /**
+     * Ensure that the FacesContext and UIComponent instances are not null, otherwise NullPointerException is throwed.
+     * @param context
+     * @param component
+     */
     private void assertValid(final FacesContext context, final UIComponent component) {
         if (context == null) {
             throw new NullPointerException("context should not be null");
@@ -131,22 +135,7 @@ public class WidgetBaseRenderer extends Renderer {
             throw new NullPointerException("component should not be null");
         }
     }
-    // creates and puts the model data to session for this chart object
-    public void setModelAtSession(FacesContext facesContext, UIWidgetBase comp) {
-        final Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        final String compClientId = comp.getClientId(facesContext);
-        session.put(compClientId + "_model", comp.getModel());
-        if (debug) {
-            LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "");
-        }
-    }
-    void removeChildren(final FacesContext context, final UIComponent component) {
-        final List<UIComponent> children = component.getChildren();
-        for (int i = children.size() - 1; i >= 0; i--) {
-            children.remove(i);
-        }
-    }
-
+    
     public ResponseWriter getWriter() {
         return writer;
     }

@@ -17,17 +17,14 @@
 
 package org.mapfaces.renderkit.html;
 
-import com.sun.faces.renderkit.html_basic.OutputLinkRenderer;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
-import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
 import org.mapfaces.adapter.owc.Adapter;
 import org.mapfaces.component.UIDimRange;
 import org.mapfaces.component.UILayerControl;

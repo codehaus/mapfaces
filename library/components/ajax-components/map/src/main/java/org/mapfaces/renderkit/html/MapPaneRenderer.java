@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ import org.mapfaces.models.layer.DefaultMapContextLayer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.models.layer.WmsLayer;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesMapUtils;
@@ -124,7 +126,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         //getting the mappane mapcontext stored in sessionMap by attribute value
         Map sessionMap = context.getExternalContext().getSessionMap();
         Object mapcontextObj = sessionMap.get(FacesMapUtils.getCurrentSessionId()+comp.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX);
-        
+
         if (mapcontextObj instanceof MapContext) {
             final MapContext mapcontext = (MapContext) mapcontextObj;
             //@TODO here we can separate all mapcontext layers for every layer contained into the mapcontext.
@@ -162,8 +164,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 mcLayer.setMapContextKeyInSession(mapcontextKey);
                 model.addLayer((MapContextLayer) mcLayer);
             }
-
-
         }
         
 
@@ -171,42 +171,42 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         comp.setAjaxCompId(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
-        removeChildren(context, component);
+        FacesUtils.removeChildren(context, component);
 
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
 
-        for (final Layer temp : layers) {
+        for (final Layer layer : layers) {
             if (this.debug) {
-                LOGGER.log(Level.INFO, "[DEBUG] The current layer is a :  " + temp.getType() + " layer.");
+                LOGGER.log(Level.INFO, "[DEBUG] The current layer is a :  " + layer.getType() + " layer.");
             }
-            if (temp != null && temp.getType() != null) {
-                switch (temp.getType()) {
+            if (layer != null && layer.getType() != null) {
+                switch (layer.getType()) {
                     case WMS:
                         final UIWmsLayer uiwmsLayer = new UIWmsLayer();
                         uiwmsLayer.setModel((AbstractModelBase) model);
-                        if (temp.getId() != null) {
-                            uiwmsLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
+                        if (layer.getId() != null) {
+                            uiwmsLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + layer.getId());
                         } else {
-                            temp.setId(uiwmsLayer.getId());
+                            layer.setId(uiwmsLayer.getId());
                         }
                         comp.getChildren().add(uiwmsLayer);
-                        temp.setCompId(uiwmsLayer.getClientId(context));
-                        uiwmsLayer.setLayer((WmsLayer) temp);
+                        layer.setCompId(uiwmsLayer.getClientId(context));
+                        uiwmsLayer.setLayer((WmsLayer) layer);
                         break;
                     case MAPCONTEXT:
                         final UIMapContextLayer uiMCLayer = new UIMapContextLayer();
                         uiMCLayer.setModel((AbstractModelBase) model);
-                        uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + temp.getId());
-                        final MapContextLayer mcLayer = (MapContextLayer) temp;
+                        uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + layer.getId());
+                        final MapContextLayer mcLayer = (MapContextLayer) layer;
 
                         comp.getChildren().add(uiMCLayer);
                         mcLayer.setCompId(uiMCLayer.getClientId(context));
                         uiMCLayer.setLayer(mcLayer);
                         break;
                     case FEATURE:
-                        final FeatureLayer tmpfeature = (FeatureLayer) temp;
+                        final FeatureLayer tmpfeature = (FeatureLayer) layer;
                         final UIFeatureLayer uiFLayer = new UIFeatureLayer();
                         uiFLayer.setModel((AbstractModelBase) model);
                         uiFLayer.setImage(tmpfeature.getImage());
@@ -215,7 +215,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         uiFLayer.setSize(tmpfeature.getSize());
                         uiFLayer.setBindingIndex(tmpfeature.getGroupId());
 
-                        if (temp.getId() != null) {
+                        if (layer.getId() != null) {
                             uiFLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + tmpfeature.getId());
                         } else {
                             tmpfeature.setId(uiFLayer.getId());

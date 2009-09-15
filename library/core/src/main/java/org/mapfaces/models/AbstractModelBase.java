@@ -17,10 +17,12 @@
 
 package org.mapfaces.models;
 
+import java.io.Serializable;
+
 /**
  * @author Olivier Terral.
  */
-public abstract class AbstractModelBase {
+public abstract class AbstractModelBase implements Serializable {
 
     private String namespace;
 

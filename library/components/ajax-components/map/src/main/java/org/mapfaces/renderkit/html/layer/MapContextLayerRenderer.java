@@ -1,4 +1,3 @@
-
 /*
  *    Mapfaces -
  *    http://www.mapfaces.org
@@ -31,7 +30,6 @@ import javax.faces.context.ResponseWriter;
 
 import org.geotoolkit.map.MapContext;
 
-import org.mapfaces.component.UILayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIMapContextLayer;
 import org.mapfaces.models.Context;
@@ -61,7 +59,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
         final String id = comp.getAttributes().get("id").toString();
         final MapContextLayer layer = (MapContextLayer) comp.getLayer();
         final Context model = (Context) comp.getModel();
-        setModelAtSession(context, comp);
+        FacesMapUtils.setModelAtSession(context, comp);
 
         //fix case when width and height are null, default is dim (1,1)
         //because openlayers lib will recalculate the good dimension;
@@ -91,7 +89,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             hidden = layer.isHidden();
             opacity = layer.getOpacity();
         } else {
-            LOGGER.log(Level.WARNING, "[MapContextLayerRenderer] layer is null ");
+            LOGGER.log(Level.WARNING, "Layer is null ");
             hidden = false;
             opacity = "1";
         }
@@ -121,7 +119,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
 
-            //Set the chartURL
+            //Set the img url
             String url = null;
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
@@ -173,15 +171,6 @@ public class MapContextLayerRenderer extends LayerRenderer {
 
     @Override
     public boolean getRendersChildren() {
-        return false;
-    }
-
-    public void setMapContextAtSession(FacesContext facesContext, UILayer comp, MapContext context) {
-        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String clientId = comp.getClientId(facesContext);
-        session.put(clientId + "_mapContext", context);
-        if (debug) {
-            LOGGER.log(Level.INFO, "[MapContextLayerRenderer] mapcontext saved in  session map for this layer,  clientId : " + clientId + "\n");
-        }
+        return false;//This component does not have any children.
     }
 }

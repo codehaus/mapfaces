@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
@@ -434,6 +435,16 @@ public class FacesUtils {
         }
         return jsVariable;
     }
-
+    /**
+     * Removes all children components of the UIComponent passed in args from the contextViewRoot.
+     * @param context
+     * @param component
+     */
+    public static void removeChildren(final FacesContext context, final UIComponent component) {
+        final List<UIComponent> children = component.getChildren();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            children.remove(i);
+        }
+    }
 
 }
