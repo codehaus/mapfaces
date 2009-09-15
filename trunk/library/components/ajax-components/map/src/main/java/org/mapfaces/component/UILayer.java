@@ -18,18 +18,17 @@
 package org.mapfaces.component;
 
 import java.io.File;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import org.mapfaces.models.Layer;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class UILayer extends UIWidgetBase {
 
-    public static final String FAMILIY = "org.mapfaces.Layer";
+    private static final String FAMILIY = "org.mapfaces.Layer";
 
     private Layer layer;
     /*

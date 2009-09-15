@@ -81,6 +81,7 @@ import org.geotoolkit.style.MutableRule;
 import org.geotoolkit.style.MutableStyle;
 import org.geotoolkit.style.MutableStyleFactory;
 
+import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
@@ -806,6 +807,20 @@ public class FacesMapUtils extends FacesUtils {
             return null;
         }
         return harvested;
+    }
+
+    /**
+     * Put an Abstract model base to the session map from a UIWidgetBase component.
+     * @param facesContext
+     * @param comp
+     */
+    public static void setModelAtSession(FacesContext facesContext, UIWidgetBase comp) {
+        final Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        final String compClientId = comp.getClientId(facesContext);
+        session.put(compClientId + "_model", comp.getModel());
+        if (comp.isDebug()) {
+            LOGGER.log(Level.INFO, "Model saved at the  session map for the component,  clientId : " + compClientId + "");
+        }
     }
 
 }

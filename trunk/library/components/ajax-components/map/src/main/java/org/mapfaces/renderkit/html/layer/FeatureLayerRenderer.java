@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layer;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -21,7 +22,6 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
@@ -39,12 +39,12 @@ import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.style.MutableStyle;
 
-import org.mapfaces.component.UILayer;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.Feature;
-import org.mapfaces.models.Layer;
+import org.mapfaces.models.layer.FeatureLayer;
+import org.mapfaces.renderkit.html.LayerRenderer;
 import org.mapfaces.util.FacesMapUtils;
 
 import org.opengis.feature.simple.SimpleFeature;
@@ -56,7 +56,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * @author Mehdi Sidhoum (Geomatys).
  * @author Olivier Terral (Geomatys).
  */
-public class FeatureLayerRenderer extends MapContextLayerRenderer {
+public class FeatureLayerRenderer extends LayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger(FeatureLayerRenderer.class.getName());
 
@@ -66,29 +66,19 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
 
-        assertValid(context, component);
-
-        // suppress rendering if "rendered" property on the component is false.
-        if (!component.isRendered()) {
-            return;
-        }
+        super.encodeBegin(context, component);
 
         final UIFeatureLayer comp = (UIFeatureLayer) component;
-        if (comp.isDebug()) {
-            this.debug = true;
-            LOGGER.log(Level.INFO, "[this.debug] ENCODE BEGIN  clientId : " + comp.getClientId(context) + ", id : " + comp.getId());
-        }
-
-        if (this.debug) {
-            LOGGER.log(Level.INFO, "[this.debug] clientId : " + comp.getClientId(context) + ", id : " + comp.getId());
+        if (debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] ENCODE BEGIN  clientId : " + comp.getClientId(context) + ", id : " + comp.getId());
         }
 
         final ResponseWriter writer = context.getResponseWriter();
         final String clientId = comp.getClientId(context);
         final String id = comp.getAttributes().get("id").toString();
-        final Layer layer = comp.getLayer();
+        final FeatureLayer layer = (FeatureLayer) comp.getLayer();
         final Context model = (Context) comp.getModel();
-        setModelAtSession(context, comp);
+        FacesMapUtils.setModelAtSession(context, comp);
 
         final String srs = model.getSrs();
         final CoordinateReferenceSystem crs;
@@ -98,9 +88,20 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
             LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
             return;
         }
+
+        //fix case when width and height are null, default is dim (1,1)
+        //because openlayers lib will recalculate the good dimension;
+        String width="1";
+        String height="1";
+        if(model.getWindowWidth() != null &&  model.getWindowWidth().matches("[0-9]+")) {
+            width = model.getWindowWidth();
+        }
+        if(model.getWindowHeight() != null && model.getWindowHeight().matches("[0-9]+")) {
+            height = model.getWindowHeight();
+        }
         final Dimension dim = new Dimension(
-                Integer.parseInt(model.getWindowWidth()),
-                Integer.parseInt(model.getWindowHeight()));
+                Integer.parseInt(width),
+                Integer.parseInt(height));
 
         // test if Dimension is not valid, width and height must be > 0.
         if (dim.width <= 0) {
@@ -116,7 +117,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
             hidden = layer.isHidden();
             opacity = layer.getOpacity();
         } else {
-            LOGGER.log(Level.WARNING, "layer is null ");
+            LOGGER.log(Level.WARNING, "Layer is null ");
             hidden = false;
             opacity = "1";
         }
@@ -171,7 +172,7 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         mapContext.layers().add(mapLayer);
 
         if (this.debug) {
-            LOGGER.log(Level.INFO, "mapContext.layers().size() > 1 ?" + mapContext.layers().size());
+            LOGGER.log(Level.INFO, "mapContext.layers().size() = " + mapContext.layers().size());
         }
 
         //if we want to load just one layer of the mapContext
@@ -189,11 +190,11 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
             writer.startElement("div", comp);
             writer.writeAttribute("style", "overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px; width: " + dim.width + "px; height: " + dim.height + "px;" + styleImg + display, "style");
 
-            //Set the chartURL
+            //Set the img url
             String url = null;
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
-            url = actionURL + "?ts=" + System.currentTimeMillis() + "&mfLayerId=" + clientId;
+            url = actionURL + "?ts=" + System.currentTimeMillis() + "&mfLayerId=" + clientId + "&tmp=" + Math.random();
             writer.startElement("img", comp);
             writer.writeAttribute("id", id + "_Img", "style");
             writer.writeAttribute("class", "layerImg", "style");
@@ -209,13 +210,18 @@ public class FeatureLayerRenderer extends MapContextLayerRenderer {
         writer.flush();
     }
 
-    public void setMapContextAtSession(FacesContext facesContext, UILayer comp, MapContext context) {
-        Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        String clientId = comp.getClientId(facesContext);
+    @Override
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+        super.encodeEnd(context, component);
+    }
 
-        session.put(clientId + "_mapContext", context);
-        if (debug) {
-            LOGGER.log(Level.INFO, "[FeatureLayerRenderer] mapcontext saved in  session map for this layer,  clientId : " + clientId + "\n");
-        }
+     @Override
+    public void decode(final FacesContext context, final UIComponent component) {
+        super.decode(context, component);
+     }    
+
+    @Override
+    public boolean getRendersChildren() {
+        return false;//This component does not have any children.
     }
 }
