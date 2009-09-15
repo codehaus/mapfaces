@@ -20,7 +20,6 @@ package org.mapfaces.models;
 import java.io.Serializable;
 import java.util.Map;
 import org.opengis.geometry.Envelope;
-import org.opengis.util.Cloneable;
 
 /**
  * @author Olivier Terral (Geomatys).
