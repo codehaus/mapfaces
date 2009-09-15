@@ -71,7 +71,7 @@ public class OWCv030toMFTransformer {
     private static final ContextFactory contextFactory = new DefaultContextFactory();
     private static final HashMap<String, WebMapServer> webMapServers = new HashMap<String, WebMapServer>();
     private static final Logger LOGGER = Logger.getLogger(OWCv030toMFTransformer.class.getName());
-    private static final boolean debug = false;
+    private static final boolean debug = true;
 
     public static Context visit(OWSContextType doc) throws UnsupportedEncodingException, JAXBException {
 
