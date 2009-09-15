@@ -39,111 +39,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
-  
-  
-  <!-- =========================================================== -->
-  <!--     Issue managements                  -->
-  <!-- =========================================================== -->
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/MAPFACES</url>
-  </issueManagement>
-  
-  <!-- =========================================================== -->
-  <!--    Mailing lists.                    -->
-  <!-- =========================================================== -->  
-  <mailingLists>
-    <mailingList>
-      <name>mapfaces-user</name>
-      <subscribe>http://xircles.codehaus.org/lists/user@mapfaces.codehaus.org</subscribe>
-      <post>user@mapfaces.codehaus.org</post>
-      <archive>http://archive.mapfaces.codehaus.org/user</archive>
-    </mailingList>
-    <mailingList>
-      <name>mapfaces-dev</name>
-      <subscribe>http://xircles.codehaus.org/lists/dev@mapfaces.codehaus.org</subscribe>
-      <post>dev@mapfaces.codehaus.org</post>
-      <archive>http://archive.mapfaces.codehaus.org/dev</archive>
-    </mailingList>
-    <mailingList>
-      <name>mapfaces-announce</name>
-      <subscribe>http://xircles.codehaus.org/lists/announce@mapfaces.codehaus.org</subscribe>
-      <post>announce@mapfaces.codehaus.org</post>
-      <archive>http://archive.mapfaces.codehaus.org/announce</archive>
-    </mailingList>
-    <mailingList>
-      <name>mapfaces-scm</name>
-      <subscribe>http://xircles.codehaus.org/lists/scm@mapfaces.codehaus.org</subscribe>
-      <post>scm@mapfaces.codehaus.org</post>
-      <archive>http://archive.mapfaces.codehaus.org/scm</archive>
-    </mailingList>
-  </mailingLists>
-  
-  <!-- =========================================================== -->
-  <!--     Developers and Contributors                             -->
-  <!-- =========================================================== -->
-  <developers>
-    <developer>
-      <name>Mehdi Sidhoum</name>
-      <id>med</id>
-      <email>mehdi.sidhoum@geomatys.fr</email>
-      <organization>Geomatys</organization>
-      <roles>
-        <role>Project Management Committee (PMC) Member</role>
-        <role>Module Maintainer</role>
-        <role>Java Developer</role>
-      </roles>
-	  <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <name>Olivier Terral</name>
-      <id>oterral</id>
-      <email>olivier.terral@geomatys.fr</email>
-      <organization>Geomatys</organization>
-      <roles>
-        <role>Project Management Committee (PMC) Member</role>
-        <role>Module Maintainer</role>
-        <role>Java Developer</role>
-      </roles>
-	  <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <name>Vincent Heurteaux</name>
-      <id>vheurteaux</id>
-      <email>vincent.heurteaux@geomatys.fr</email>
-      <organization>Geomatys</organization>
-      <roles>
-        <role>Project Management Committee (PMC) Member</role>
-        <role>Documentation</role>
-        <role>Commercial</role>
-      </roles>
-	  <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <name>Johann Sorel</name>
-      <id>eclesia</id>
-      <email>johann.sorel@geomatys.fr</email>
-      <organization>Geomatys</organization>
-      <roles>
-        <role>Project Management Committee (PMC) Member</role>
-        <role>Module Maintainer</role>
-        <role>Java Developer</role>
-      </roles>
-	  <timezone>+1</timezone>
-    </developer>
-
-    <developer>
-      <name>Martin Desruisseaux</name>
-      <id>desruisseaux</id>
-      <email>martin.desruisseaux@geomatys.fr</email>
-      <organization>Geomatys</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-	  <timezone>+1</timezone>
-    </developer>	
-  </developers>
+    
     
   
   <!-- =========================================================== -->
@@ -394,99 +290,13 @@
   </dependencyManagement>
   
   
-  <!-- =========================================================== -->
-  <!--     GeoToolkit, Geomatys and maven repositories     -->
-  <!-- =========================================================== -->
-  <repositories>
-    <repository>
-      <id>java.net.1</id>
-      <name>java.net community</name>
-      <url>http://download.java.net/maven/1</url>
-      <layout>legacy</layout>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net repository</name>
-      <url>http://download.java.net/maven/2</url>
-    </repository>
-    <repository>
-      <id>geomatys</id>
-      <name>Other projects</name>
-      <url>http://maven.geomatys.fr/repository</url>
-    </repository>
 
-    <repository>
-      <id>geotoolkit</id>
-      <name>Geotoolkit</name>
-      <url>http://maven.geotoolkit.org/</url>
-    </repository>
-    
-    <!-- repository for batik 1.7 -->
-    <repository>
-      <id>official2</id>
-      <name>official mavenrepo 2</name>
-      <url>http://repo1.maven.org/maven2</url>
-    </repository>
-
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>geotoolkit</id>
-      <name>Geotoolkit</name>
-      <url>http://maven.geotoolkit.org/</url>
-    </pluginRepository>
-  </pluginRepositories>
-  
   
   <!-- =========================================================== -->
   <!--     build     -->
   <!-- =========================================================== -->
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>        <!-- The -source argument for the Java compiler.   -->
-          <target>1.5</target>        <!-- The -target argument for the Java compiler.   -->
-          <encoding>UTF-8</encoding>  <!-- The -encoding argument for the Java compiler. -->
-        </configuration>
-      </plugin>
-      <!-- plugion maven for loading all commons jar from apache-->
-      <!--plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin-->
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <useSystemClassLoader>true</useSystemClassLoader>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.geotoolkit.project</groupId>
-        <artifactId>geotk-jar-collector</artifactId>
-        <version>SNAPSHOT</version>
-        
-        <executions>
-          <execution>
-            <goals>
-              <goal>collect</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <!-- rename the war file -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -496,36 +306,9 @@
         </configuration>
       </plugin>
     </plugins>
-     <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-ssh-external</artifactId>
-         <version>1.0-alpha-5</version>
-      </extension>
-    </extensions>
   </build>
 
-  <!--
-    Server where to deploy the web site.
-  -->
-  <distributionManagement>
-    <site>
-      <id>geomatys</id>
-      <name>Site geomatys</name>
-      <url>dav:https://maven.geomatys.fr/maven/reports</url>
-    </site>
-    <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>geomatys</id>
-      <name>Distribution geomatys</name>
-      <url>dav:https://maven.geomatys.fr/repository</url>
-    </repository>
-  </distributionManagement>
+
   
   <!-- =========================================================== -->
   <!--     Modules for the build in approximate dependency order   -->
