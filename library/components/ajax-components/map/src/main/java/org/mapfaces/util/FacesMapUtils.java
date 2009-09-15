@@ -25,6 +25,7 @@ import com.vividsolutions.jts.geom.LinearRing;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -557,7 +558,7 @@ public class FacesMapUtils extends FacesUtils {
         final Graphic graphic = styleFactory.graphic(symbols, opacity, expSize, expRotation, anchor, null);
         final String typePropertyKey = "type";
         final Filter filterPoint = filterFactory.equals(filterFactory.property(typePropertyKey), filterFactory.literal(Feature.POINT));
-        final PointSymbolizer pointSymbol = styleFactory.pointSymbolizer(graphic, "");
+        final PointSymbolizer pointSymbol = styleFactory.pointSymbolizer(graphic, "geometry");
 
         rulePoint.symbolizers().add(pointSymbol);
         rulePoint.setFilter(filterPoint);
@@ -567,7 +568,7 @@ public class FacesMapUtils extends FacesUtils {
                 filterFactory.literal(2),
                 filterFactory.literal(0.8));
         final Fill fill = styleFactory.fill(styleFactory.literal(COLORS[indexLayer]), filterFactory.literal(0.1));
-        final PolygonSymbolizer polygonSymbol = styleFactory.polygonSymbolizer(stroke, fill, "marker");
+        final PolygonSymbolizer polygonSymbol = styleFactory.polygonSymbolizer(stroke, fill, "geometry");
 
         rulePolygon.symbolizers().add(polygonSymbol);
         rulePolygon.setFilter(filterPolygon);
