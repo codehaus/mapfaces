@@ -30,8 +30,11 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
+import org.geotoolkit.display.canvas.control.CanvasMonitor;
+import org.geotoolkit.display.canvas.control.NeverFailMonitor;
 import org.geotoolkit.display.exception.PortrayalException;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
+import org.geotoolkit.display2d.service.PortrayalExtension;
 import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
@@ -136,7 +139,8 @@ public class MfLayerListener implements PhaseListener {
                 try {
                     LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
                     LOGGER.log(Level.INFO, "Enveloppe = " + env);
-                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
+                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, dim, true, 0, new NeverFailMonitor(), null, stream, "image/png", null, new PortrayalExtension[0]);
+//                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
                 } catch (PortrayalException ex) {
                     LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
