@@ -74,7 +74,7 @@ public class DefaultContextFactory implements ContextFactory {
 
         Layer layer = new DefaultMapContextLayer();
         layer.setId("MapFaces_Layer_MC_" + String.valueOf(indexLayer));
-        layer.setGroup("mapfaces_group");
+        layer.setGroup("MapContext");
         layer.setName("abstractlayer");
         layer.setHidden(false);
         layer.setOpacity("1");
@@ -102,7 +102,7 @@ public class DefaultContextFactory implements ContextFactory {
         Layer layer = new DefaultFeatureLayer();
         layer.setId("MapFaces_Layer_F_" + String.valueOf(indexLayer));
         layer.setGroupId(indexLayer);
-        layer.setGroup("mapfaces_group");
+        layer.setGroup("Feature");
         layer.setName("markers");
         layer.setHidden(false);
         layer.setOpacity("1");
