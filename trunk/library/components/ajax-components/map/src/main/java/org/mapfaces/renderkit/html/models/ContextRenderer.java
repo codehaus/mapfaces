@@ -180,7 +180,7 @@ public class ContextRenderer extends Renderer {
             }
             if (fileUrl.contains("http://")) {
                 try {
-                    ctx = (new XMLContextUtilities()).readContext(new URL(fileUrl));
+                    ctx = XMLContextUtilities.readContext(new URL(fileUrl));
                 } catch (JAXBException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 } catch (UnsupportedEncodingException ex) {
@@ -206,7 +206,7 @@ public class ContextRenderer extends Renderer {
                         LOGGER.log(Level.INFO, "[DEBBUG] [Loading Mapcontext file] path = " + mapcontextFile);
                     }
                     try {
-                        ctx = (new XMLContextUtilities()).readContext(new FileReader(mapcontextFile));
+                        ctx = XMLContextUtilities.readContext(new FileReader(mapcontextFile));
                     } catch (JAXBException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
                     } catch (UnsupportedEncodingException ex) {
@@ -214,7 +214,7 @@ public class ContextRenderer extends Renderer {
                     }
                 } else {
                     try {
-                        ctx = (new XMLContextUtilities()).readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
+                        ctx = XMLContextUtilities.readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
                     } catch (JAXBException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
                     } catch (UnsupportedEncodingException ex) {
