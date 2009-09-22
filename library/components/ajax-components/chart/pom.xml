@@ -81,7 +81,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <gzip>true</gzip>
+                    <gzip>false</gzip>
                     <force>true</force>
                     <nomunge>true</nomunge>
                     <nosuffix>true</nosuffix>
@@ -134,8 +134,11 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/init.js</include>
                             </includes>
                         </aggregation>
-						<!--Only for NetBeans who doesn't used Maven plugin -->
-                        <aggregation>
+
+<!--Only for NetBeans who doesn't used Maven plugin.
+Since we have changed the way to generate tld files, we have to use Maven plugin.
+These lines are deprecated and are here only for example -->
+                        <!--aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/opencharts.min.js</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/opencharts/lib/OpenCharts/SingleFile.js</include>
@@ -181,7 +184,7 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/effects.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/js/init.js</include>
                             </includes>
-                        </aggregation>
+                        </aggregation-->
                     </aggregations>
                 </configuration>
             </plugin>
