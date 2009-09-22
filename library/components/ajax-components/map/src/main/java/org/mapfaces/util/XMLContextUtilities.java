@@ -17,38 +17,20 @@
 
 package org.mapfaces.util;
 
+import org.mapfaces.share.utils.XMLUtilities;
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.io.IOException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
 
-import org.w3c.dom.Node;
-import org.opengis.metadata.citation.OnLineResource;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.InputSource;
 
 import org.mapfaces.models.Context;
 
-public  class XMLContextUtilities {
+public  class XMLContextUtilities extends XMLUtilities {
 
     private static final String jaxbInstance = "org.geotoolkit.owc.xml.v030:org.geotoolkit.wmc.xml.v110";
 
@@ -58,7 +40,7 @@ public  class XMLContextUtilities {
 
 
     public static Context readContext(Object source) throws JAXBException, UnsupportedEncodingException {
-        JAXBElement elt =  unmarshal(source);
+        JAXBElement elt =  unmarshal(source, jaxbInstance);
         if(elt.getName().toString().equals("{http://www.opengis.net/ows-context}OWSContext"))
             return readOWC(elt);
         else if(elt.getName().toString().equals("{http://www.opengis.net/context}Context"))
@@ -91,7 +73,7 @@ public  class XMLContextUtilities {
                                "isn't supported yet !!!!! Type : "+ ctx.getContextType() +", version : "+ctx.getVersion()+
                                ", only OWC 0.3.0 is supported !!!!!");
 
-        marshal(elt,output);
+        marshal(elt, output, jaxbInstance);
     }
 
     private static JAXBElement writeOWC(Context ctx) throws UnsupportedEncodingException, JAXBException {
@@ -103,97 +85,7 @@ public  class XMLContextUtilities {
                ", only OWC 0.3.0 is supported !!!!!");
     }
 
-    private static JAXBElement unmarshal(Object source) throws JAXBException {
-       JAXBContext Jcontext;
-        Jcontext = JAXBContext.newInstance(jaxbInstance);
-        Unmarshaller unmarshaller = Jcontext.createUnmarshaller();
-        return (JAXBElement) unmarshall(source,unmarshaller);
-    }
-
-
-
-    public static void  marshal(Object jaxbElement, File output) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(jaxbInstance);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshall(output,jaxbElement,marshaller);
-
-    }
-    private static final Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
-        if(source instanceof File){
-            File s = (File) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof InputSource){
-            InputSource s = (InputSource) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof InputStream){
-            InputStream s = (InputStream) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof Node){
-            Node s = (Node) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof Reader){
-            Reader s = (Reader) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof Source){
-            Source s = (Source) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof URL){
-            URL s = (URL) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof XMLEventReader){
-            XMLEventReader s = (XMLEventReader) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof XMLStreamReader){
-            XMLStreamReader s = (XMLStreamReader) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof OnLineResource){
-            OnLineResource online = (OnLineResource) source;
-            try {
-                URL url = online.getLinkage().toURL();
-                return unMarshaller.unmarshal(url);
-            } catch (MalformedURLException ex) {
-                return null;
-            }
-
-        }else{
-            throw new IllegalArgumentException("Source object is not a valid class :" + source.getClass());
-        }
-
-    }
-    private static final void marshall(Object target, Object jaxbElement, Marshaller marshaller) throws JAXBException{
-
-        if(target instanceof File){
-            File s = (File) target;
-            marshaller.marshal(jaxbElement,s);
-        }else if(target instanceof ContentHandler){
-            ContentHandler s = (ContentHandler) target;
-            marshaller.marshal(jaxbElement,s);
-        }else if(target instanceof OutputStream){
-            OutputStream s = (OutputStream) target;
-            marshaller.marshal(jaxbElement,s);
-        }else if(target instanceof Node){
-            Node s = (Node) target;
-            marshaller.marshal(jaxbElement,s);
-        }
-        else if(target instanceof Writer){
-            Writer s = (Writer) target;
-            marshaller.marshal(jaxbElement,s);
-        }else if(target instanceof Result){
-            Result s = (Result) target;
-            marshaller.marshal(jaxbElement,s);
-        }else if(target instanceof XMLEventWriter){
-            XMLEventWriter s = (XMLEventWriter) target;
-            marshaller.marshal(jaxbElement,s);
-        }else if(target instanceof XMLStreamWriter){
-            XMLStreamWriter s = (XMLStreamWriter) target;
-            marshaller.marshal(jaxbElement,s);
-        }else{
-            throw new IllegalArgumentException("target object is not a valid class :" + target.getClass());
-        }
-
-    }
+   
     private static JAXBElement writeOWC030(Context ctx) throws UnsupportedEncodingException, JAXBException {
         return factory_owc_030.createOWSContext((new MFtoOWCv030Transformer()).visit(ctx));
     }
