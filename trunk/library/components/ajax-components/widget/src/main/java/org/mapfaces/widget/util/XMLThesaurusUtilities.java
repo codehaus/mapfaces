@@ -16,34 +16,24 @@
  */
 
 package org.mapfaces.widget.util;
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.transform.Source;
 
 import org.geotoolkit.skos.xml.Concept;
 import org.geotoolkit.skos.xml.RDF;
-import org.w3c.dom.Node;
-import org.opengis.metadata.citation.OnLineResource;
-import org.xml.sax.InputSource;
+import org.mapfaces.share.utils.XMLUtilities;
 
 /**
  *
  * @author Olivier Terral (Geomatys)
  */
-public class XMLThesaurusUtilities {
+public class XMLThesaurusUtilities extends XMLUtilities{
 
     private static final String JAXBINSTANCE = "org.geotoolkit.skos.xml";
 
@@ -61,46 +51,5 @@ public class XMLThesaurusUtilities {
         final Unmarshaller unmarshaller = jcontext.createUnmarshaller();
         return (RDF) unmarshall(source,unmarshaller);
     }
-    private static Object unmarshall(Object source, Unmarshaller unMarshaller) throws JAXBException{
-        if(source instanceof File){
-            final File s = (File) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof InputSource){
-            final InputSource s = (InputSource) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof InputStream){
-            final InputStream s = (InputStream) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof Node){
-            final Node s = (Node) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof Reader){
-            final Reader s = (Reader) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof Source){
-            final Source s = (Source) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof URL){
-            final URL s = (URL) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof XMLEventReader){
-            final XMLEventReader s = (XMLEventReader) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof XMLStreamReader){
-            final XMLStreamReader s = (XMLStreamReader) source;
-            return unMarshaller.unmarshal(s);
-        }else if(source instanceof OnLineResource){
-            final OnLineResource online = (OnLineResource) source;
-            try {
-                URL url = online.getLinkage().toURL();
-                return unMarshaller.unmarshal(url);
-            } catch (MalformedURLException ex) {
-                return null;
-            }
-
-        }else{
-            throw new IllegalArgumentException("Source object is not a valid class :" + source.getClass());
-        }
-
-    }
+   
 }
