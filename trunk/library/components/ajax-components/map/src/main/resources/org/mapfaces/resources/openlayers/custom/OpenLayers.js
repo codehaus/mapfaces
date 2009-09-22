@@ -258,7 +258,7 @@ if(!window.OpenLayers){
                 //            "openlayers/lib/OpenLayers/Format/WFST/v1_1_0.js",
                 //            "openlayers/lib/OpenLayers/Format/Text.js",
                 "openlayers/lib/OpenLayers/Format/JSON.js",
-                //            "openlayers/lib/OpenLayers/Format/GeoJSON.js",
+                "openlayers/lib/OpenLayers/Format/GeoJSON.js",
                 //            "openlayers/lib/OpenLayers/Format/WMC.js",
                 //            "openlayers/lib/OpenLayers/Format/WMC/v1.js",
                 //            "openlayers/lib/OpenLayers/Format/WMC/v1_0_0.js",
@@ -302,7 +302,6 @@ if(!window.OpenLayers){
                 "openlayers/custom/OpenLayers/Control/MeasureArea.js",
                 "openlayers/custom/OpenLayers/Control/DeleteFeature.js",
                 "openlayers/custom/OpenLayers/Control/PanelExt.js",
-                "openlayers/custom/OpenLayers/Format/GeoJSON.js",
                 "openlayers/custom/OpenLayers/Control/NavToolbar.js",
                 "openlayers/custom/OpenLayers/Control/EditingToolbar.js",
                 "openlayers/mfUtils.js"
