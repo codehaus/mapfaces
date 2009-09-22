@@ -27,6 +27,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.geotoolkit.temporal.object.Utils;
+import org.mapfaces.component.layercontrol.UIVisibilityColumn;
 import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.component.treelayout.UICheckColumn;
 import org.mapfaces.models.tree.TreeItem;
@@ -50,7 +52,7 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
         final ResponseWriter writer = context.getResponseWriter();
         
         if (comp.getChildCount() == 0) {
-            final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();
+            final HtmlSelectBooleanCheckbox checkbox = new HtmlSelectBooleanCheckbox();            
             checkbox.setId("check_" + comp.getId());
             String styleClass = (comp.getStyleClass() != null) ? comp.getStyleClass() + "_check" : comp.getId() + "Class";
             checkbox.setStyleClass(styleClass);
@@ -71,6 +73,26 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
                 final Map parameterMap = ext.getRequestParameterMap();
                 final UIForm formContainer = FacesMapUtils.findForm(component);
                 String keyParameterInput = formContainer.getId() + ":check_" + comp.getId();
+
+                //If the current UICheckColumn is an instance of UIVisibilityColumn for layercontrol component
+                //then proceed to check the byPassUpdates flag to update the model on each action.
+                if(comp instanceof UIVisibilityColumn) {
+                    UIVisibilityColumn uiVisibilityColumn = (UIVisibilityColumn) comp;
+                    if (uiVisibilityColumn.isBypassUpdates()) {
+                        boolean continueDecode = false;
+                        for (Object key : parameterMap.keySet()) {
+                            String keyString = key.toString();
+                            if (keyString.contains(keyParameterInput)) {
+                                continueDecode = true;
+                                break;
+                            }
+                        }
+                        if (!continueDecode) {
+                            return;         //There are no checkboxes in the request.
+                        }
+                    }
+                }
+
                 String newValue = (String) parameterMap.get(keyParameterInput);
                 boolean booleanValue = false;
                 if (newValue != null && newValue.equals("on")) {
@@ -89,8 +111,14 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
                         TreeItem ti = (TreeItem) treeLine.getNodeInstance().getUserObject();
                         userObject = ti.getUserObject();
                     }
+                    
                     if (userObject != null) {
-                        elContext.getELResolver().setValue(elContext, userObject, property, booleanValue);
+                        //Setting the negation f there are operator NOT in the value expresion.
+                        if(Utils.getOccurence(expression, "!") % 2 == 1 || Utils.getOccurence(expression, "not ") % 2 == 1) {
+                            elContext.getELResolver().setValue(elContext, userObject, property, ! booleanValue);
+                        }else {
+                            elContext.getELResolver().setValue(elContext, userObject, property, booleanValue);
+                        }   
                     }
                 }
             }

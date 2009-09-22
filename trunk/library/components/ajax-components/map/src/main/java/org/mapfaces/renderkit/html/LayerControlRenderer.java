@@ -18,6 +18,7 @@
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.component.html.HtmlGraphicImage;
@@ -193,6 +194,13 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
             final UIVisibilityColumn vc = new UIVisibilityColumn();
             vc.setId(vc.getLayerProperty());
             vc.setValue("#{!treeItem.hidden}");
+
+            if(layerControl.isBypassUpdates()) {
+                vc.setBypassUpdates(true);
+                ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), "#{!treeItem.hidden}", java.lang.Boolean.class);
+                vc.setValueExpression("value", ve);
+            }
+            
             vc.setHeaderIcon(VISIBILITYHEADERSTYLECLASS);
             vc.setHeaderTitle(INFO_VISIBILITY_TITLE);
             if (widthVisibilityColumn == null || widthVisibilityColumn.isEmpty()) {
@@ -270,7 +278,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
                 final HtmlGraphicImage o6 = new HtmlGraphicImage();
                 o6.setUrl("#{treeItem.legendUrl}");
                 tni.getChildren().add(o6);
-//
+
                 final HtmlOutputLink o7 = new HtmlOutputLink();
                 o7.setValue("../metaDataPopup.jsf?url=#{treeItem.metadataUrl}");
                 o7.setTarget("_blank");

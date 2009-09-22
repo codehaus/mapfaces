@@ -139,8 +139,9 @@ public class MfLayerListener implements PhaseListener {
                 try {
                     LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
                     LOGGER.log(Level.INFO, "Enveloppe = " + env);
-                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, dim, true, 0, new NeverFailMonitor(), null, stream, "image/png", null, new PortrayalExtension[0]);
-//                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, null, stream, "image/png", dim, null, true);
+                    String format = (mapContext.getUserPropertie("format") != null)?(String) mapContext.getUserPropertie("format"):"image/png";
+                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, dim, true, 0, new NeverFailMonitor(), null, stream, format, null, new PortrayalExtension[0]);
+
                 } catch (PortrayalException ex) {
                     LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.

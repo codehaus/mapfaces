@@ -75,10 +75,10 @@ public class DefaultContextFactory implements ContextFactory {
         Layer layer = new DefaultMapContextLayer();
         layer.setId("MapFaces_Layer_MC_" + String.valueOf(indexLayer));
         layer.setGroup("MapContext");
-        layer.setName("abstractlayer");
+        layer.setName("MapContext Layer");
         layer.setHidden(false);
         layer.setOpacity("1");
-        layer.setTitle("MapContext 'all in one' layer" + String.valueOf(indexLayer));
+        layer.setTitle("");
         layer.setType(org.mapfaces.models.LayerType.MAPCONTEXT);
         layer.setOutputFormat("image/png");
         layer.setQueryable(true);

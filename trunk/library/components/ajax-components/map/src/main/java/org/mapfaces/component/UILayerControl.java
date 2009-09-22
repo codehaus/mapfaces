@@ -63,6 +63,11 @@ public class UILayerControl extends UIWidgetBase {
     private boolean colorMapEditor = false;   //Replace Dim_Range
     /* Functionalities */
     private boolean activateDnd = false;
+    /**
+     * This attribute controls the update model values, if true the model is updated, otherwise it keep only the client behaviour.
+     */
+    private boolean bypassUpdates = false;
+
     public static final String FAMILIY = "org.mapfaces.LayerControl";
 
     /* Constructor */
@@ -76,7 +81,7 @@ public class UILayerControl extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[28];
+        final Object values[] = new Object[30];
         values[0] = super.saveState(context);
         values[1] = tree;
         values[2] = styleTreeTable;
@@ -105,6 +110,7 @@ public class UILayerControl extends UIWidgetBase {
         values[25] = layerInfo;
         values[26] = colorMapEditor;
         values[27] = activateDnd;
+        values[28] = bypassUpdates;
         return values;
     }
 
@@ -142,6 +148,7 @@ public class UILayerControl extends UIWidgetBase {
         layerInfo = (Boolean) values[25];
         colorMapEditor = (Boolean) values[26];
         activateDnd = (Boolean) values[27];
+        bypassUpdates = (Boolean) values[28];
     }
 
     /**
@@ -367,5 +374,19 @@ public class UILayerControl extends UIWidgetBase {
 
     public void setActivateDnd(boolean activateDnd) {
         this.activateDnd = activateDnd;
+    }
+
+    /**
+     * @return the bypassUpdates
+     */
+    public boolean isBypassUpdates() {
+        return bypassUpdates;
+    }
+
+    /**
+     * @param bypassUpdates the bypassUpdates to set
+     */
+    public void setBypassUpdates(boolean bypassUpdates) {
+        this.bypassUpdates = bypassUpdates;
     }
 }

@@ -14,16 +14,21 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.layercontrol;
 
 import java.io.IOException;
 
 import java.util.HashMap;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 
 import javax.faces.context.ResponseWriter;
+import org.ajax4jsf.ajax.html.HtmlActionParameter;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.mapfaces.component.layercontrol.UIVisibilityColumn;
 import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.WmsGetMapEntry;
@@ -43,7 +48,7 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component)
             throws IOException {
-
+        final UIVisibilityColumn comp = (UIVisibilityColumn) component;
         final TreeNodeModel currentNode = ((UITreeLines) (component.getParent())).getNodeInstance();
         final HashMap<String, String> paramsMap = new HashMap();
 
@@ -70,24 +75,23 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                     //checkbox.setDisabled(!layer.isDisplayable());
                     checkbox.setValue(!layer.isHidden());
                     checkbox.setSelected(!layer.isHidden());
-                    checkbox.setOnclick(FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(this.checked);");
-                    ResponseWriter writer = context.getResponseWriter();
-//                    writer.startElement("script", component);
-//                    writer.writeAttribute("type", "text/javascript", null);
-//                    writer.write(FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) +".visibilitychanged=['" + component.getClientId(context) + "'];");
-//                    writer.endElement("script");
+
+                    if (comp.isBypassUpdates()) {
+                        final UIForm formContainer = FacesMapUtils.findForm(component);
+                        String checkboxId = formContainer.getId() + ":check_" + component.getId();
+                        HtmlAjaxSupport a4jSupport = FacesMapUtils.createCompleteAjaxSupport(context, checkbox.getId(), "onchange", null, null, "window." + FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(document.getElementById('" + checkboxId + "').checked);", true, false);
+                        HtmlActionParameter param = new HtmlActionParameter();
+                        param.setNoEscape(true);
+                        param.setName(checkboxId);
+                        param.setValue("function (){if(document.getElementById('" + checkboxId + "').checked) {return 'on'}else{return ''}}");
+                        a4jSupport.getChildren().add(param);
+                        checkbox.getChildren().add(a4jSupport);
+                    } else {
+                        checkbox.setOnclick(FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(this.checked);");
+                    }
                 }
 
-            }
-
-            //Add an a4j support component to the HtmlSelectBooleanCheckbox
-//            checkbox.getFacets().put("a4jsupport", FacesMapUtils.createTreeAjaxSupportWithParameters(context,
-//                    (UIComponent) component.getChildren().get(0),
-//                    "onclick",
-//                    getVarId(context, (UIColumnBase) component),
-//                    component.getClientId(context) + "," + getVarId(context, (UIColumnBase) component),
-//                    paramsMap, onSubmit, onComplete));
-
+            }            
         }
     }
 
@@ -98,14 +102,6 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         if (((UITreeLines) (component.getParent())).getNodeInstance().isLeaf()) {
             super.encodeEnd(context, component);
-            if(component.getChildCount() >0) {
-                 ((HtmlSelectBooleanCheckbox) component.getChildren().get(0)).setDisabled(true);
-//                System.out.println(" component.getChildCount() = " + component.getChildCount());
-//                System.out.println(" component.getChildren().get(0).getRendererType() = " + component.getChildren().get(0).getFamily());
-//                System.out.println(" component.getChildren().get(0).isDisabled = " +  ((HtmlSelectBooleanCheckbox) component.getChildren().get(0)).isDisabled());
-//                System.out.println(" component.getChildren().get(0).isSelected = " +  ((HtmlSelectBooleanCheckbox) component.getChildren().get(0)).isSelected());
-//                System.out.println(" component.getChildren().get(0).getValue = " +  ((HtmlSelectBooleanCheckbox) component.getChildren().get(0)).getValue());
-            }
         }
     }
 
@@ -117,7 +113,8 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
         ResponseWriter writer = context.getResponseWriter();
         writer.endElement("center");
     }
-     /**
+
+    /**
      * {@inheritDoc }
      */
     @Override
@@ -130,7 +127,6 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
     @Override
     public void beforeEncodeBegin(FacesContext context, UIComponent component) throws IOException {
     }
-
 
     /**
      * {@inheritDoc }
