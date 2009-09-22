@@ -521,7 +521,8 @@ OpenLayers.Layer = OpenLayers.Class({
             if (!this.isBaseLayer) {
                 this.inRange = this.calculateInRange();
                 var show = ((this.visibility) && (this.inRange));
-                this.div.style.display = show ? "" : "none";
+                if(this.div)
+                    this.div.style.display = show ? "" : "none";
             }
             
             // deal with gutters
@@ -640,7 +641,7 @@ OpenLayers.Layer = OpenLayers.Class({
      */
     display: function(display) {
         var inRange = this.calculateInRange();
-        if (display != (this.div.style.display != "none")) {
+        if (this.div && display != (this.div.style.display != "none")) {
             this.div.style.display = (display && inRange) ? "block" : "none";
         }
     },
@@ -1104,11 +1105,12 @@ OpenLayers.Layer = OpenLayers.Class({
     setOpacity: function(opacity) {
         if (opacity != this.opacity) {
             this.opacity = opacity;
-            for(var i=0, len=this.div.childNodes.length; i<len; ++i) {
-                var element = this.div.childNodes[i].firstChild;
-                OpenLayers.Util.modifyDOMElement(element, null, null, null, 
-                                                 null, null, null, opacity);
-            }
+            if(this.div)
+                for(var i=0, len=this.div.childNodes.length; i<len; ++i) {
+                    var element = this.div.childNodes[i].firstChild;
+                    OpenLayers.Util.modifyDOMElement(element, null, null, null,
+                                                     null, null, null, opacity);
+                }
         }
     },
 
@@ -1119,7 +1121,7 @@ OpenLayers.Layer = OpenLayers.Class({
      * {Integer} the z-index of this layer
      */    
     getZIndex: function () {
-        return this.div.style.zIndex;
+        return (this.div)?this.div.style.zIndex:0;
     },
 
     /**
@@ -1129,7 +1131,8 @@ OpenLayers.Layer = OpenLayers.Class({
      * zIndex - {Integer}
      */    
     setZIndex: function (zIndex) {
-        this.div.style.zIndex = zIndex;
+        if(this.div)
+            this.div.style.zIndex = zIndex;
     },
 
     /**

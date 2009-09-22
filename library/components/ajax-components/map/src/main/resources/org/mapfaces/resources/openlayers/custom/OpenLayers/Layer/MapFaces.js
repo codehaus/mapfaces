@@ -323,6 +323,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     },
     /*************************************** functions triggerred on  loading  events******************************/
     onLoadStart: function() {
+        if(this.div)
             this.div.style.display = "none";
     },
 
@@ -330,7 +331,8 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     },
     
     onLoadFailed: function() {
-        this.div.style.backgroundColor = "red";
+        if(this.div)
+            this.div.style.backgroundColor = "red";
     },
 
     onLoadEnd: function() {

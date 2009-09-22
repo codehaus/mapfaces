@@ -374,7 +374,9 @@ public class FacesMapUtils extends FacesUtils {
         }
         ajaxComp.setAjaxSingle(true);
         ajaxComp.setLimitToList(true);
-        ajaxComp.setReRender(idsToReRender);
+        if(idsToReRender != null && ! idsToReRender.equals("")) {
+            ajaxComp.setReRender(idsToReRender);
+        }
         return ajaxComp;
     }
 
@@ -407,7 +409,7 @@ public class FacesMapUtils extends FacesUtils {
         }
 
         /* Add <a4j:support> component */
-        final HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS);
+        final HtmlAjaxSupport ajaxComp = createCompleteAjaxSupport(context, comp.getId(), event, idsToReRender, onSubmitJS, onCompleteJS, true, true);
         for (final Entry tmp : extraParams.entrySet()) {
             ajaxComp.getChildren().add(createFParam((String) tmp.getKey(), extraParams.get(tmp.getKey())));
         }
@@ -425,15 +427,19 @@ public class FacesMapUtils extends FacesUtils {
      * @return
      */
     public static HtmlAjaxSupport createCompleteAjaxSupport(final FacesContext context, final String parentId,
-            final String event, final String idsToReRender, final String onSubmitJS, final String onCompleteJS) {
+            final String event, final String idsToReRender, final String onSubmitJS, final String onCompleteJS, boolean ajaxSingle, boolean limitTolist) {
 
         /* Add <a4j:support> component */
         final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
         ajaxComp.setId(parentId + "_Ajax");
-        ajaxComp.setEvent(event);
-        ajaxComp.setAjaxSingle(true);
-        ajaxComp.setLimitToList(true);
-        ajaxComp.setReRender(idsToReRender);
+        if(event != null && ! event.equals("")) {
+            ajaxComp.setEvent(event);
+        }
+        ajaxComp.setAjaxSingle(ajaxSingle);
+        ajaxComp.setLimitToList(limitTolist);
+        if(idsToReRender != null && ! idsToReRender.equals("")) {
+            ajaxComp.setReRender(idsToReRender);
+        }
 
         if (onSubmitJS != null && !onSubmitJS.equals("")) {
             ajaxComp.setOnsubmit(onSubmitJS);

@@ -129,7 +129,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         if (mapcontextObj instanceof MapContext) {
             final MapContext mapcontext = (MapContext) mapcontextObj;
-            //@TODO here we can separate all mapcontext layers for every layer contained into the mapcontext.
+            //here we can separate all mapcontext layers for every layer contained into the mapcontext.
             final ContextFactory contextFactory = new DefaultContextFactory();
             model.clearMapContextLayers();
 
@@ -137,6 +137,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 if (mapcontext.layers() != null) {
                     for (MapLayer maplayer : mapcontext.layers()) {
                         final MapContext newMapCtxt = MapBuilder.createContext(mapcontext.getCoordinateReferenceSystem());
+                        //passing user properties from maplayer to the final mapcontext
+                        newMapCtxt.setUserPropertie("format", maplayer.getUserPropertie("format"));
                         newMapCtxt.layers().add(maplayer);
 
                         final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesMapUtils.getNewLayerIndex(model));
@@ -145,9 +147,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                                                comp.getId() + "_" +
                                                mcLayer.getId() +
                                                UIMapPane.MAPCONTEXT_KEY_SUFFIX;
-                        //putting layer's mapcontext into session map and set key for the layer model
+                        //putting for each layer a new mapcontext into session map based on the original mapcontext value and set key for the layer model
                         FacesMapUtils.putAtSessionMap(context, mapcontextKey, newMapCtxt);
                         mcLayer.setMapContextKeyInSession(mapcontextKey);
+                        mcLayer.setName(maplayer.getName());
+                        mcLayer.setTitle(maplayer.getName());
+                        mcLayer.setHidden(! maplayer.isVisible());
                         model.addLayer((MapContextLayer) mcLayer);
                     }
                 }
@@ -159,9 +164,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                                        mcLayer.getId() +
                                        UIMapPane.MAPCONTEXT_KEY_SUFFIX;
 
-                //putting layer's mapcontext into session map and set key for the layer model
+                //putting an allInOne layer's mapcontext into session map and set key for the layer model
                 FacesMapUtils.putAtSessionMap(context, mapcontextKey, mapcontext);
                 mcLayer.setMapContextKeyInSession(mapcontextKey);
+                mcLayer.setName("AllInOne");
+                mcLayer.setTitle("AllInOne");
                 model.addLayer((MapContextLayer) mcLayer);
             }
         }

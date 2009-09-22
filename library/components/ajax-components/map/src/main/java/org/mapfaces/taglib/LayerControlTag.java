@@ -140,6 +140,10 @@ public class LayerControlTag extends WidgetBaseTag {
      * Flag that indicates if Drag n Drop must enable
      */
     private ValueExpression activateDnd = null;
+    /**
+     * This property activate the update model values phase.
+     */
+    private ValueExpression bypassUpdates = null;
 
     /**
      * {@inheritDoc }
@@ -189,6 +193,7 @@ public class LayerControlTag extends WidgetBaseTag {
         setLayerInfo(null);
         setColorMapEditor(null);
         setActivateDnd(null);
+        setBypassUpdates(null);
     }
 
     /**
@@ -223,6 +228,7 @@ public class LayerControlTag extends WidgetBaseTag {
         component.setValueExpression("layerInfo", layerInfo);
         component.setValueExpression("colorMapEditor", colorMapEditor);
         component.setValueExpression("activateDnd", activateDnd);
+        component.setValueExpression("bypassUpdates", bypassUpdates);
 
         final FacesContext context = FacesContext.getCurrentInstance();
         final UILayerControl layercontrol = (UILayerControl) component;
@@ -440,5 +446,19 @@ public class LayerControlTag extends WidgetBaseTag {
 
     public void setActivateDnd(ValueExpression activateDnd) {
         this.activateDnd = activateDnd;
+    }
+
+    /**
+     * @return the bypassUpdates
+     */
+    public ValueExpression getBypassUpdates() {
+        return bypassUpdates;
+    }
+
+    /**
+     * @param bypassUpdates the bypassUpdates to set
+     */
+    public void setBypassUpdates(ValueExpression bypassUpdates) {
+        this.bypassUpdates = bypassUpdates;
     }
 }

@@ -19,6 +19,7 @@ package org.mapfaces.component.layercontrol;
 
 import java.io.Serializable;
 
+import javax.faces.context.FacesContext;
 import org.mapfaces.component.treelayout.UICheckColumn;
 import org.mapfaces.share.interfaces.AjaxInterface;
 
@@ -36,6 +37,7 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
     private static final String LAYER_PROPERTY = "Visible";
 
     private String layerId;
+    private boolean bypassUpdates = false;
 
     /**
      * {@inheritDoc }
@@ -45,6 +47,23 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
         return FAMILY;
     }
 
+    @Override
+    public Object saveState(FacesContext context) {
+        final Object values[] = new Object[3];
+        values[0] = super.saveState(context);
+        values[1] = layerId;
+        values[2] = bypassUpdates;
+        return values;
+    }
+
+    @Override
+    public void restoreState(FacesContext context, Object state) {
+        final Object values[] = (Object[]) state;
+        super.restoreState(context, values[0]);
+        layerId = (String) values[1];
+        bypassUpdates = (Boolean) values[2];
+    }
+    
     /**
      * {@inheritDoc }
      */
@@ -63,5 +82,19 @@ public class UIVisibilityColumn extends UICheckColumn  implements AjaxInterface,
 
     public String getLayerProperty() {
         return LAYER_PROPERTY;
+    }
+
+    /**
+     * @return the bypassUpdates
+     */
+    public boolean isBypassUpdates() {
+        return bypassUpdates;
+    }
+
+    /**
+     * @param bypassUpdates the bypassUpdates to set
+     */
+    public void setBypassUpdates(boolean bypassUpdates) {
+        this.bypassUpdates = bypassUpdates;
     }
 }

@@ -1169,6 +1169,15 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Flag that indicates if the Drag n Drop must be enable or not.]]></description>
         </attribute>
+        <attribute>
+            <name>bypassUpdates</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Flag Attribute to enable the update model values phase on each action @TODO this is working only on Checkbox column.]]></description>
+        </attribute>
     </tag>
     <!-- MapPane -->
     <tag>
