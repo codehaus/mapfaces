@@ -35,6 +35,8 @@ public class PopupTag extends WidgetBaseTag {
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.Popup";
     
     private ValueExpression iframe = null;
+    private ValueExpression width = null;
+    private ValueExpression height = null;
 
     /**
      * {@inheritDoc }
@@ -60,6 +62,8 @@ public class PopupTag extends WidgetBaseTag {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("iframe", iframe);
+        component.setValueExpression("width", width);
+        component.setValueExpression("height", height);
     }
 
     /**
@@ -70,6 +74,8 @@ public class PopupTag extends WidgetBaseTag {
         // allways call the superclass method
         super.release();
         iframe = null;
+        width = null;
+        height = null;
     }
 
     public ValueExpression getIframe() {
@@ -78,6 +84,34 @@ public class PopupTag extends WidgetBaseTag {
 
     public void setIframe(ValueExpression iframe) {
         this.iframe = iframe;
+    }
+
+    /**
+     * @return the width
+     */
+    public ValueExpression getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(ValueExpression width) {
+        this.width = width;
+    }
+
+    /**
+     * @return the height
+     */
+    public ValueExpression getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(ValueExpression height) {
+        this.height = height;
     }
 
 }

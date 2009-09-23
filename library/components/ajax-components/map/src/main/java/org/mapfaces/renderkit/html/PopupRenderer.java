@@ -43,7 +43,6 @@ public class PopupRenderer extends WidgetBaseRenderer {
         final int innerLeft = comp.getWidth() - 40;
         final int innerHeight = comp.getHeight() - 75;
         final int innerTop = comp.getHeight() - 42;
-        //final int innerMiddle = (comp.getWidth() / 2) - 21;
         final int leftCloseButton = comp.getWidth() - 43;
 
         final ResponseWriter responseWriter = context.getResponseWriter();
