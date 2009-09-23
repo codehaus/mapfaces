@@ -156,19 +156,11 @@
   <!--     Dependencies optionals, replace version number for GT dependencies     -->
   <!-- =========================================================== -->
     <properties>
-        <geoapi.version>2.3-SNAPSHOT</geoapi.version>
         <geotoolkit.version>SNAPSHOT</geotoolkit.version>
     </properties>
   
     <dependencyManagement>
         <dependencies>
-
-      <!-- Geoapi -->
-            <dependency>
-                <groupId>org.opengis</groupId>
-                <artifactId>geoapi-pending</artifactId>
-                <version>${geoapi.version}</version>
-            </dependency>
 
       <!-- geotoolkit -->
             <dependency>
