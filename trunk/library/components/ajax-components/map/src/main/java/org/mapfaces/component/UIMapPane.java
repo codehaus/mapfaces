@@ -33,7 +33,7 @@ public class UIMapPane extends UIWidgetBase {
     /**
      * This is a static suffix for mapcontext keys used to store into session map.
      */
-    public static final String MAPCONTEXT_KEY_SUFFIX = "_mapContext";
+    public static String MAPCONTEXT_KEY_SUFFIX = "_mapContext";
     
     /**
      * for untiled wms layers: how many times should the map image be

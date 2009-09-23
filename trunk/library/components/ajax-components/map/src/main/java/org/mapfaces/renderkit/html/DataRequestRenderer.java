@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -46,12 +47,15 @@ import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.map.FeatureMapLayer;
 import org.geotoolkit.map.MapBuilder;
 import org.geotoolkit.map.MapContext;
+import org.geotoolkit.map.MapLayer;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.geotoolkit.style.MutableStyle;
 import org.mapfaces.component.UIDataRequest;
+import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIPopup;
 import org.mapfaces.models.AbstractModelBase;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
@@ -119,7 +123,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                     targetregion = clientIdAjaxRegion;
                 }
                 responseWriter.write("<script type='text/javascript'>" +
-                        "A4J.AJAX.Submit('" + targetregion + "','" + formId + "',null,{'parameters':{'" + formId + ":" + a4jSupport.getId() + "':'" + formId + ":" + a4jSupport.getId() + "'} ,'actionUrl':window.location.href} );" +
+                        "A4J.AJAX.Submit('" + targetregion + "','" + formId + "',null,{'single':'true',parameters':{'" + formId + ":" + a4jSupport.getId() + "':'" + formId + ":" + a4jSupport.getId() + "'} ,'actionUrl':window.location.href} );" +
                         "</script>");
             }
         }
@@ -230,9 +234,14 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 final String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "1000";
 
                 final List<Layer> queryableAndVisibleLayers = model.getQueryableAndVisibleLayers();
-                //System.out.println("nombre de lauers visible et queryable : " + queryableAndVisibleLayers.size());
+
+                
+                
                 for (Layer queryLayer : queryableAndVisibleLayers) {
                     if (queryLayer != null && queryLayer.getType() != null) {
+
+                        //@TODO test the type for MapContext layer case.
+                        
                         switch (queryLayer.getType()) {
                             case WMS:
 
@@ -258,15 +267,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 final FeatureLayer temp = (FeatureLayer) queryLayer;
                                 final Map mapFeaturesLayer = new HashMap<String, Feature>();
                                 
-                                final String featureInfoX = (String) params.get(mfGfiXKey);
-                                final String featureInfoY = (String) params.get(mfGfiYKey);
+                                String featureInfoX = (String) params.get(mfGfiXKey);
+                                String featureInfoY = (String) params.get(mfGfiYKey);
 
                                 MapContext mapContext;
                                 MutableStyle mutableStyle = null;
-                                //building a FeatureCollection for this layer.
-                                final FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
-                                final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+                                
+                                
 
+                                //Creates a mutable style like the layer style.
                                 try {
                                     mutableStyle = FacesMapUtils.createStyle(temp.getImage(), temp.getSize(), temp.getRotation(), 1);
                                 } catch (MalformedURLException ex) {
@@ -274,8 +283,10 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 }
 
                                 DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
-                                if (temp.getFeatures() != null && temp.getFeatures().size() != 0) {
 
+                                //Init a SimpleFeatureTypeBuilder instance by getting the first feature model.
+                                final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+                                if (temp.getFeatures() != null && temp.getFeatures().size() != 0) {
                                     final Feature f = temp.getFeatures().get(0);
                                     builder.setName(f.getName());
                                     layerCrs = f.getCrs();
@@ -289,17 +300,17 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     }
                                 }
 
+                                //building a FeatureCollection for this layer.
+                                final FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
                                 final SimpleFeatureType sft = builder.buildFeatureType();
                                 for (Feature f : temp.getFeatures()) {
+                                    //putting into the map of features an entry as (id, feature)
                                     if (!mapFeaturesLayer.containsKey(f.getId())) {
                                         mapFeaturesLayer.put(f.getId(), f);
                                     }
 
-                                    final List<Object> objects = new ArrayList<Object>();
-                                    for (String key : f.getAttributes().keySet()) {
-                                        objects.add(f.getAttributes().get(key));
-                                    }
-
+                                    final List<Object> objects = new ArrayList<Object>(f.getAttributes().values());
+                                    
                                     final SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(f.getId()));
                                     features.add(sf);
                                 }
@@ -308,8 +319,8 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 mapLayer.setSelectable(true);
                                 mapContext = MapBuilder.createContext(layerCrs);
                                 mapContext.layers().add(mapLayer);
-                                final Rectangle rect = new Rectangle(Integer.parseInt(featureInfoX), Integer.parseInt(featureInfoY), 1, 1);
-                                final FeatureVisitor featureVisitor = new FeatureVisitor();
+                                Rectangle rect = new Rectangle(Integer.parseInt(featureInfoX), Integer.parseInt(featureInfoY), 1, 1);
+                                FeatureVisitor featureVisitor = new FeatureVisitor();
                                 try {
                                     DefaultPortrayalService.visit(mapContext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
                                 } catch (PortrayalException ex) {
@@ -337,6 +348,70 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             case GML:
                             case KML:
                             case MAPCONTEXT:
+
+                                featureInfoX = (String) params.get(mfGfiXKey);
+                                featureInfoY = (String) params.get(mfGfiYKey);
+
+                                
+                                //getting the original mapcontext passed into value attribute of mappane component
+                                Map sessionMap = context.getExternalContext().getSessionMap();
+                                UIMapPane uiMapPane =  FacesMapUtils.getUIMapPane(context, component);
+                                Object properMapCtxtObj = sessionMap.get(FacesMapUtils.getCurrentSessionId() + uiMapPane.getId() + UIMapPane.MAPCONTEXT_KEY_SUFFIX);
+                                
+
+                                MapLayer selectedLayer = null;
+                                MapContext properMapCtxt = null;
+                                if(properMapCtxtObj instanceof MapContext) {
+                                    properMapCtxt = (MapContext) properMapCtxtObj;
+                                    for(MapLayer properMaplayer : properMapCtxt.layers()) {
+                                        if(queryLayer.getName() != null && queryLayer.getName().equals(properMaplayer.getName())) {
+                                            selectedLayer = properMaplayer;
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                if(selectedLayer == null || properMapCtxt == null) {
+                                    continue; //skip if there are one of maplayer or mapcontext to null
+                                }
+
+
+                                //getting the mapcontext that was created by the mappane component for each MCLayer
+                                String mapcontextKey = FacesMapUtils.getCurrentSessionId() +
+                                               FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" +
+                                               uiMapPane.getId() + "_" +
+                                               queryLayer.getId() +
+                                               UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+                               Object mcLayerMapCtxt =  sessionMap.get(mapcontextKey);
+                                
+
+
+                                
+
+
+                                rect = new Rectangle(Integer.parseInt(featureInfoX), Integer.parseInt(featureInfoY), 1, 1);
+                                featureVisitor = new FeatureVisitor();
+                                try {
+                                    DefaultPortrayalService.visit(properMapCtxt, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
+                                } catch (PortrayalException ex) {
+                                    LOGGER.log(Level.SEVERE, null, ex);
+                                }
+
+                                //Adding the resulting feature into the final list of features for dataResult ValueExpression value.
+                                for (org.opengis.feature.Feature f : featureVisitor.getFeatureList()) {
+                                    if (f instanceof org.opengis.feature.simple.SimpleFeature) {
+                                        final org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
+
+                                        final Feature resultFeature = new DefaultFeature();
+                                        resultFeature.setId(ff.getID());
+                                        if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
+                                            //append the resulted feature into the global result feature list
+                                            featureInfoList.add(resultFeature);
+                                        }
+                                    }
+                                }
+
+
                             default:
                                 break;
                         }

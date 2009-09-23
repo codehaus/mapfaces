@@ -142,6 +142,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         newMapCtxt.layers().add(maplayer);
 
                         final DefaultMapContextLayer mcLayer = (DefaultMapContextLayer) contextFactory.createDefaultMapContextLayer(FacesMapUtils.getNewLayerIndex(model));
+                        
+                        
                         String mapcontextKey = FacesMapUtils.getCurrentSessionId() +
                                                FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" +
                                                comp.getId() + "_" +
@@ -153,6 +155,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         mcLayer.setName(maplayer.getName());
                         mcLayer.setTitle(maplayer.getName());
                         mcLayer.setHidden(! maplayer.isVisible());
+                        mcLayer.setQueryable(maplayer.isSelectable());
                         model.addLayer((MapContextLayer) mcLayer);
                     }
                 }
