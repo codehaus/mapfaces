@@ -157,7 +157,6 @@
   <!--     Dependencies optionals, replace version number for GT dependencies     -->
   <!-- =========================================================== -->
     <properties>
-        <geoapi.version>2.3-SNAPSHOT</geoapi.version>
         <geotoolkit.version>3.03</geotoolkit.version>
     </properties>
   
@@ -306,13 +305,6 @@
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
                 <version>2.1.5</version>
-            </dependency>
-
-      <!-- Geoapi -->
-            <dependency>
-                <groupId>org.opengis</groupId>
-                <artifactId>geoapi</artifactId>
-                <version>${geoapi.version}</version>
             </dependency>
 
       <!-- JFreeChart -->
