@@ -65,57 +65,55 @@
   
   <dependencyManagement>
     <dependencies>
+
+      <!-- Geoapi -->
+      <dependency>
+        <groupId>org.opengis</groupId>
+        <artifactId>geoapi-pending</artifactId>
+      </dependency>
+
       <!-- geotoolkit -->
       <dependency>
         <groupId>org.geotoolkit</groupId>
         <artifactId>geotk-epsg</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
          <groupId>org.geotoolkit</groupId>
          <artifactId>geotk-metadata-fra</artifactId>
-         <version>${geotoolkit.version}</version>
       </dependency>
+
       <!-- geotoolkit-pending -->
       <dependency>
-	<groupId>org.geotoolkit.pending</groupId>
-	<artifactId>geotk-xml-ogc</artifactId>
-	<version>${geotoolkit.version}</version>
+	      <groupId>org.geotoolkit.pending</groupId>
+	      <artifactId>geotk-xml-ogc</artifactId>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-xml-gml</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-xml-kml</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-xml-ows</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-xml-owc</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-xml-wmc</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-engine-core</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-go2</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
@@ -125,165 +123,119 @@
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-xml-sld</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-style</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-wms</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geotoolkit.pending</groupId>
         <artifactId>geotk-temporal</artifactId>
-        <version>${geotoolkit.version}</version>
       </dependency>
       <!-- this dependency should not be here but in the geotk project-->
       <dependency>
-          <groupId>org.geotoolkit.pending</groupId>
-          <artifactId>geotk-filter</artifactId>
-          <version>${geotoolkit.version}</version>
+        <groupId>org.geotoolkit.pending</groupId>
+        <artifactId>geotk-filter</artifactId>
       </dependency>
       <dependency>
           <groupId>org.geotoolkit.pending</groupId>
           <artifactId>geotk-feature</artifactId>
-          <version>${geotoolkit.version}</version>
       </dependency>
 
       <!-- JSF -->
       <!-- we should be in 1.2_12 but between 1.2_10 and 1.2_11 the ResourcePhaseListener (omit .jsf extension) doesn't load resources as it should-->  
       <dependency>
-	<groupId>javax.faces</groupId>
-	<artifactId>jsf-api</artifactId>
-	<version>1.2_08</version>
+	      <groupId>javax.faces</groupId>
+	      <artifactId>jsf-api</artifactId>
       </dependency>
       <dependency>
-	<groupId>javax.faces</groupId>
-	<artifactId>jsf-impl</artifactId>
-	<version>1.2_08</version>
+	      <groupId>javax.faces</groupId>
+	      <artifactId>jsf-impl</artifactId>
       </dependency>
 
       <!-- JSP, Servlet ,JSTL -->
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet.jsp</groupId>
         <artifactId>jsp-api</artifactId>
-        <version>2.1</version>
       </dependency>
       <dependency>
         <groupId>jstl</groupId>
         <artifactId>jstl</artifactId>
-        <version>1.2</version>
       </dependency>
 
       <!--Grizzly/Comet-->
       <dependency>
         <groupId>com.sun.grizzly</groupId>
         <artifactId>grizzly-comet-webserver</artifactId>
-        <version>1.8.6.3</version>
       </dependency>
 
       <!-- ajax4jsf -->
       <dependency>
         <groupId>org.ajax4jsf</groupId>
         <artifactId>ajax4jsf</artifactId>
-        <version>1.1.2-SNAPSHOT</version>
       </dependency>
 
       <!-- JAXB -->
       <dependency>
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
-        <version>2.2</version>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-impl</artifactId>
-        <version>2.1.5</version>
       </dependency>
-
-      <!-- Geoapi -->
-      <dependency>
-        <groupId>org.opengis</groupId>
-        <artifactId>geoapi-pending</artifactId>
-        <version>${geoapi.version}</version>
-      </dependency>
-
       
-      
-
       <!-- JFreeChart -->
       <dependency>
         <groupId>jfree</groupId>
         <artifactId>jcommon</artifactId>
-        <version>1.0.15</version>
       </dependency>
       <dependency>
         <groupId>jfree</groupId>
         <artifactId>jfreechart</artifactId>
-        <version>1.0.12</version>
       </dependency>
 
       <!-- Batik SVG -->
       <dependency>
         <groupId>org.apache.xmlgraphics</groupId>
         <artifactId>batik-transcoder</artifactId>
-        <version>1.7</version>
       </dependency>
       <dependency>
         <groupId>org.apache.xmlgraphics</groupId>
         <artifactId>batik-svggen</artifactId>
-        <version>1.7</version>
       </dependency>
-
-      <dependency>
-        <groupId>postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>8.3-603.jdbc4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.derby</groupId>
-        <artifactId>derby</artifactId>
-        <version>10.4.2.0</version>
-      </dependency>
-
 
       <!-- COMMONS -->
       <!-- (certaines de ces dependances sont deja chargé via un plugin donc on les as commentés)-->
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
-        <version>2.1</version>
       </dependency>
 
-       <!-- database driver -->
+       <!-- Database drivers -->
       <dependency>
         <groupId>postgresql</groupId>
         <artifactId>postgresql</artifactId>
-        <version>8.3-603.jdbc4</version>
       </dependency>
       <dependency>
         <groupId>org.postgis</groupId>
         <artifactId>postgis-driver</artifactId>
-        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.derby</groupId>
         <artifactId>derby</artifactId>
-        <version>10.4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.derby</groupId>
         <artifactId>derbyLocale_fr</artifactId>
-        <version>10.4.2.0</version>
       </dependency>
 
     </dependencies>

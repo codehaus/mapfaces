@@ -162,6 +162,14 @@
   
     <dependencyManagement>
         <dependencies>
+
+      <!-- Geoapi -->
+            <dependency>
+                <groupId>org.opengis</groupId>
+                <artifactId>geoapi-pending</artifactId>
+                <version>${geoapi.version}</version>
+            </dependency>
+
       <!-- geotoolkit -->
             <dependency>
                 <groupId>org.geotoolkit</groupId>
@@ -173,6 +181,7 @@
                 <artifactId>geotk-metadata-fra</artifactId>
                 <version>${geotoolkit.version}</version>
             </dependency>
+
       <!-- geotoolkit-pending -->
             <dependency>
                 <groupId>org.geotoolkit.pending</groupId>
@@ -292,7 +301,7 @@
             <dependency>
                 <groupId>org.ajax4jsf</groupId>
                 <artifactId>ajax4jsf</artifactId>
-                <version>1.1.2-SNAPSHOT</version>
+                <version>1.1.2-GEOMATYS</version>
             </dependency>
 
       <!-- JAXB -->
@@ -305,13 +314,6 @@
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
                 <version>2.1.5</version>
-            </dependency>
-
-      <!-- Geoapi -->
-            <dependency>
-                <groupId>org.opengis</groupId>
-                <artifactId>geoapi-pending</artifactId>
-                <version>${geoapi.version}</version>
             </dependency>
 
       <!-- JFreeChart -->
@@ -338,18 +340,6 @@
                 <version>1.7</version>
             </dependency>
 
-            <dependency>
-                <groupId>postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>8.3-603.jdbc4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <version>10.4.2.0</version>
-            </dependency>
-
-
       <!-- COMMONS -->
       <!-- (certaines de ces dependances sont deja chargé via un plugin donc on les as commentés)-->
             <dependency>
@@ -358,7 +348,7 @@
                 <version>2.1</version>
             </dependency>
 
-       <!-- database driver -->
+       <!-- Database drivers -->
             <dependency>
                 <groupId>postgresql</groupId>
                 <artifactId>postgresql</artifactId>
