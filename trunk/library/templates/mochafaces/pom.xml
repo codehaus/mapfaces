@@ -8,7 +8,7 @@
         <version>0.2-SNAPSHOT</version>
     </parent>
 
-<artifactId>mochafaces</artifactId>
+    <artifactId>mochafaces</artifactId>
     <packaging>jar</packaging>
     <groupId>org.mapfaces</groupId>
     <name>Mapfaces - MochaFaces</name>
@@ -19,45 +19,40 @@
         <dependency>
             <groupId>org.mapfaces</groupId>
             <artifactId>mapfaces-core</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- JSF -->
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>1.2_08</version>
         </dependency>
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-impl</artifactId>
-            <version>1.2_08</version>
         </dependency>
 
         <!-- JSP, Servlet ,JSTL -->
+        <!-- using scope 'provided' because mochafaces does not want these in the final war -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
         </dependency>
 
         <!-- ajax4jsf -->
         <dependency>
             <groupId>org.ajax4jsf</groupId>
             <artifactId>ajax4jsf</artifactId>
-            <version>1.1.2-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
