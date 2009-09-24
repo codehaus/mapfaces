@@ -28,12 +28,12 @@ import org.opengis.feature.Feature;
 
 /**
  *
- * @author Mehdi Sidhoum
+ * @author Mehdi Sidhoum (Geomatys).
  */
 public class FeatureVisitor extends AbstractGraphicVisitor {
-    
+
     List<Feature> featureList = new ArrayList<Feature>();
-    
+
     @Override
     public void visit(ProjectedFeature graphic, Shape shape) {
         featureList.add(graphic.getFeature());
@@ -42,9 +42,8 @@ public class FeatureVisitor extends AbstractGraphicVisitor {
     @Override
     public void visit(ProjectedCoverage arg0, Shape arg2) {
     }
-    
+
     public List<Feature> getFeatureList() {
         return featureList;
     }
-
 }

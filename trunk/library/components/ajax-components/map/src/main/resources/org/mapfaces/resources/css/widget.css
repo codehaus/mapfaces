@@ -337,14 +337,14 @@
     background-repeat: repeat-y;
 }
 
-.bubble-left { background-position: 19px 0; }
-.bubble-right { background-position: 0px 0px; }
-.bubble-bottom { background-position: 0 -1px; }
-.bubble-top { background-position: 0 -44px; }
-.bubble-bottom-left { background-position: 0 -1px; }
-.bubble-bottom-right { background-position: 0 -44px; }
-.bubble-top-left { background-position: 0 -87px; }
-.bubble-top-right { background-position: 0 -121px; }
+.bubble-left{background-position:-40px 0;}
+.bubble-right{background-position:0 0;}
+.bubble-bottom{background-position:0 -1px;}
+.bubble-top{background-position:0 -44px;}
+.bubble-bottom-left{background-position:1px -1px;}
+.bubble-bottom-right{background-position:0 -44px;}
+.bubble-top-left{background-position:1px -87px;}
+.bubble-top-right{background-position:0 -121px;}
 
 .close-button {
     background: transparent url(resource.jsf?r=/org/mapfaces/resources/timeline/api/images/close-button.png) repeat scroll 0% 0%;
