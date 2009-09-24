@@ -207,7 +207,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 if (params.get(mfGfiLatKey) != null) {
                     final double lat = Double.parseDouble((String) params.get(mfGfiLatKey));
                     final ValueExpression veLat = comp.getValueExpression("outputLatitude");
-                    if (veLat != null) {
+                    if (veLat != null && veLat.getExpressionString().contains("#")) {
                         veLat.setValue(context.getELContext(), lat);
                         comp.setValueExpression("outputLatitude", veLat);
                     }
@@ -216,7 +216,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 if (params.get(mfGfiLonKey) != null) {
                     final double lon = Double.parseDouble((String) params.get(mfGfiLonKey));
                     final ValueExpression veLon = comp.getValueExpression("outputLongitude");
-                    if (veLon != null) {
+                    if (veLon != null && veLon.getExpressionString().contains("#")) {
                         veLon.setValue(context.getELContext(), lon);
                         comp.setValueExpression("outputLongitude", veLon);
                     }
@@ -357,7 +357,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 Map sessionMap = context.getExternalContext().getSessionMap();
                                 UIMapPane uiMapPane =  FacesMapUtils.getUIMapPane(context, component);
                                 Object properMapCtxtObj = sessionMap.get(FacesMapUtils.getCurrentSessionId() + uiMapPane.getId() + UIMapPane.MAPCONTEXT_KEY_SUFFIX);
-                                
 
                                 MapLayer selectedLayer = null;
                                 MapContext properMapCtxt = null;
@@ -375,20 +374,6 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     continue; //skip if there are one of maplayer or mapcontext to null
                                 }
 
-
-                                //getting the mapcontext that was created by the mappane component for each MCLayer
-                                String mapcontextKey = FacesMapUtils.getCurrentSessionId() +
-                                               FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" +
-                                               uiMapPane.getId() + "_" +
-                                               queryLayer.getId() +
-                                               UIMapPane.MAPCONTEXT_KEY_SUFFIX;
-                               Object mcLayerMapCtxt =  sessionMap.get(mapcontextKey);
-                                
-
-
-                                
-
-
                                 rect = new Rectangle(Integer.parseInt(featureInfoX), Integer.parseInt(featureInfoY), 1, 1);
                                 featureVisitor = new FeatureVisitor();
                                 try {
@@ -405,12 +390,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                         final Feature resultFeature = new DefaultFeature();
                                         resultFeature.setId(ff.getID());
                                         if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
-                                            //append the resulted feature into the global result feature list
+                                            //append the resulted feature into the global result feature list.
                                             featureInfoList.add(resultFeature);
                                         }
                                     }
                                 }
-
 
                             default:
                                 break;
