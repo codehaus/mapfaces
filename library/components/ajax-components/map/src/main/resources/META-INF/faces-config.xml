@@ -260,6 +260,11 @@
         <component-type>org.mapfaces.datatable.Columns</component-type>
         <component-class>org.mapfaces.component.datatable.UIColumns</component-class>
     </component>
+    <!-- Autocompletion -->
+    <component>
+        <component-type>org.mapfaces.Autocompletion</component-type>
+        <component-class>org.widgetfaces.component.autocompletion.UIAutocompletion</component-class>
+    </component>
     <!--component>
         <component-type>org.mapfaces.datatable.Scroller</component-type>
         <component-class>org.mapfaces.component.datatable.UIScroller</component-class>
@@ -651,6 +656,11 @@
             <renderer-type>org.mapfaces.renderkit.html.DataRequest</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.DataRequestRenderer</renderer-class>
         </renderer>
-
+        <!-- Autocompletion -->
+        <renderer>
+            <component-family>org.mapfaces.Autocompletion</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLAutocompletionAndZoom</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.AutocompletionAndZoomRenderer</renderer-class>
+        </renderer>
     </render-kit>
 </faces-config>

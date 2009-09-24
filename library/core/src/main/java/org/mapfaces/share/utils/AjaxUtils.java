@@ -55,9 +55,22 @@ public class AjaxUtils {
      * Autocompletion listener parameters
      */
     public static final String AUTOCOMPLETION_MODE     = "org.mapfaces.widget.AUTOCOMPLETION_MODE";
-    public static final String AUTOCOMPLETION_WS_URL     = "org.mapfaces.widget.AUTOCOMPLETION_WS_URL";
+    public static final String AUTOCOMPLETION_MODE_REQUEST_HTML    = "request.html";
+    public static final String AUTOCOMPLETION_MODE_REQUEST_JSON    = "request.json";
+    public static final String AUTOCOMPLETION_MODE_LOCAL    = "local";
     public static final String AUTOCOMPLETION_VALUE        = "org.mapfaces.widget.AUTOCOMPLETION_VALUE";
     public static final String AUTOCOMPLETION_CLIENTID     = "org.mapfaces.widget.AUTOCOMPLETION_CLIENTID";
+    public static final String AUTOCOMPLETION_INPUT_ID = "org.mapfaces.widget.AUTOCOMPLETION_INPUT_ID";
+
+
+    /**
+     * Thesaurus parameters
+     */
+    public static final String THESAURUS_OUTPUT_EPSG = "org.mapfaces.THESAURUS_OUTPUT_EPSG";
+    public static final String THESAURUS_WS_URL     = "org.mapfaces.THESAURUS_WS_URL";
+    public static final String THESAURUS_WS_REQUEST    = "org.mapfaces.THESAURUS_WS_REQUEST";
+    public static final String THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword = "GetConceptsMatchingKeyword";
+    public static final String THESAURUS_WS_REQUEST_GetGeometricConcept = "GetGeometricConcept";
     
     /**
      * Constructor

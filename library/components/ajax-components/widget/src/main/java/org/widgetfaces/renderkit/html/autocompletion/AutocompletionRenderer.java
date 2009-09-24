@@ -45,6 +45,7 @@ public class AutocompletionRenderer extends Renderer {
     private static final String MAPFACES_WIDGETS_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
 
     private static final String VALUE_KEY =   "value";
+    private String onComplete;
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
@@ -123,14 +124,11 @@ public class AutocompletionRenderer extends Renderer {
                     append("'").append(urlRequest).append("',{").
                     append("postData:{").
                     //append("'").append(AjaxUtils.AUTOCOMPLETION_VALUE).append("': $('").append(inputId).append("').value,").
-                    append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': 'request.html',").
-                    append("'").append(AjaxUtils.AUTOCOMPLETION_WS_URL).append("': '").append(comp.getWsUrl()).append("',").
-                    append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '" + clientId + "'}});");
-
-//            str.append("$('").append(inputId).append("').addEvent('keydown',function(event){if(event.enter)").
-//                    append(ajaxrequest).append("});");
-//            str.append("$('").append(inputId).append("').addEvent('blur',function(event){").
-//                    append(ajaxrequest).append("});");
+                    append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
+                    append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '" + clientId + "',").
+                    append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWsUrl()).append("',").
+                    append("'").append(AjaxUtils.THESAURUS_WS_REQUEST).append("': '").append(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword).append("'").
+                    append("}});");
             str.append(ajaxrequest);
 
         } else {
@@ -234,7 +232,5 @@ public class AutocompletionRenderer extends Renderer {
             css.setSrc(ResourcePhaseListener.getLoadStyleURL(context, MAPFACES_WIDGETS_CSS, null));
             comp.getChildren().add(css);
         }
-
-
-    }
+    }   
 }

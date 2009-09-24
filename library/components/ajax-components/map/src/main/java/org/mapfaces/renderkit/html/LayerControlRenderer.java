@@ -280,7 +280,7 @@ public class LayerControlRenderer extends WidgetBaseRenderer {
                 tni.getChildren().add(o6);
 
                 final HtmlOutputLink o7 = new HtmlOutputLink();
-                o7.setValue("../metaDataPopup.jsf?url=#{treeItem.metadataUrl}");
+                o7.setValue("metadata.jsf?url=#{treeItem.metadataUrl}");
                 o7.setTarget("_blank");
                 final UIOutput o71 = new UIOutput();
                 o71.setId("metadataUrl_label");
