@@ -136,8 +136,10 @@
                         </aggregation>
 
 
-<!--Only for NetBeans devs who doesn't use Maven plugin -->
-                        <aggregation>
+<!--Only for NetBeans who doesn't used Maven plugin.
+Since we have changed the way to generate tld files, we have to use Maven plugin.
+These lines are deprecated and are here only for example -->
+                        <!--aggregation>
                             <output>${project.build.sourceDirectory}/../webapp/resources/all.js</output>
                             <includes>
                                 <include>**/mootools-1.2-core.js</include>
@@ -154,12 +156,10 @@
                         <aggregation>
                             <output>${project.build.sourceDirectory}/../webapp/resources/skin/default/css/all.css</output>
                             <includes>
-                                <!-- Default MOCHA UI CSS -->
                                 <include>**/mocha.css</include>
-                                <!-- Default Template CSS -->
                                 <include>**/main.css</include>
                             </includes>
-                        </aggregation>
+                        </aggregation-->
                     </aggregations>
                 </configuration>
             </plugin>
