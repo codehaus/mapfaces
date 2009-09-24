@@ -73,11 +73,11 @@ function clearPageWrapper(){
     $$('.mocha').each(function(div) {
         div.style.display="block";
     });
-	if ($('dockSort') != null ) {
-	    $('dockSort').getChildren().each(function(div) { 
-		div.style.display="block";
-	    });
-	}
+    if ($('dockSort') != null ) {
+        $('dockSort').getChildren().each(function(div) {
+            div.style.display="block";
+        });
+    }
 }
 
 /*
@@ -209,7 +209,7 @@ function webAppPageWrapper(){
         'height' : '100%',
         'width' : '100%'
     });
-  if (window.reloadAllMaps)
+    if (window.reloadAllMaps)
         window.reloadAllMaps();
 };
 
@@ -228,4 +228,5 @@ function handleMeasurements(event) {
     }
     element.innerHTML = out;
 }
+
 

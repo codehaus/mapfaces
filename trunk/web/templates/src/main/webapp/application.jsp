@@ -34,7 +34,7 @@
         with a styleClass ="mochaPanel1" to fix it in the first top panel in the right column  --%>
     <h:panelGroup id="layerControlBox" layout="block" styleClass="mochaPanel1"
                   style="height: 100%;width:100%;">
-        <mf:LayerControl id="lc"  displayHeader="false"
+        <mf:LayerControl id="lc"  displayHeader="false"  layerInfo="false"
                          style="height:100%;opacity:1;position:relative;width:400px;" >
         </mf:LayerControl>
     </h:panelGroup>
@@ -63,9 +63,10 @@
                   style="height:34px;opacity:1;position:relative;width:100%;font-size: 1em;"/>
 
         <mf:Div>
-            <wf:Autocompletion services="http://solardev:8080/mdweb/thesaurus/"
+            <mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
                                loadMootools="false" enableAjax="true" multiple="true"
-                               maxChoices="5"/>
+                               maxChoices="5" id="autocompleteZoom">
+            </mf:Autocompletion>
         </mf:Div>
     </h:panelGroup>
 </mf-model:Context>
