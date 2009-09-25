@@ -206,6 +206,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 //setting the values lat and lon expressions if not null
                 if (params.get(mfGfiLatKey) != null) {
                     final double lat = Double.parseDouble((String) params.get(mfGfiLatKey));
+                    Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "FeatureInfo latitude = "+lat);
                     final ValueExpression veLat = comp.getValueExpression("outputLatitude");
                     if (veLat != null && veLat.getExpressionString().contains("#")) {
                         veLat.setValue(context.getELContext(), lat);
@@ -215,6 +216,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 }
                 if (params.get(mfGfiLonKey) != null) {
                     final double lon = Double.parseDouble((String) params.get(mfGfiLonKey));
+                    Logger.getLogger(DataRequestRenderer.class.getName()).log(Level.INFO, "FeatureInfo longitude = "+lon);
                     final ValueExpression veLon = comp.getValueExpression("outputLongitude");
                     if (veLon != null && veLon.getExpressionString().contains("#")) {
                         veLon.setValue(context.getELContext(), lon);
