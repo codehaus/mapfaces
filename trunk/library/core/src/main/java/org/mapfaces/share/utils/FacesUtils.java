@@ -237,6 +237,9 @@ public class FacesUtils {
      */
     public static UIComponent findComponentById(final FacesContext context,
             final UIComponent root, final String id) {
+        if (root == null) {
+            return null;
+        }
         UIComponent component = null;
         for (int i = 0; i < root.getChildCount() && component == null; i++) {
             final UIComponent child = (UIComponent) root.getChildren().get(i);
@@ -260,6 +263,9 @@ public class FacesUtils {
      */
     public static UIComponent findComponentByClientId(final FacesContext context,
             final UIComponent root, final String clientId) {
+        if(root == null) {
+            return null;
+        }
         return root.findComponent(clientId);
     }
 

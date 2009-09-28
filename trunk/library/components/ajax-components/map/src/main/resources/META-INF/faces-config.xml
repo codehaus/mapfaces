@@ -8,8 +8,6 @@
     <!-- PhaseListener to load resources from jar -->
     <lifecycle>
     	<phase-listener>org.mapfaces.share.listener.MfLayerListener</phase-listener>
-        <!--phase-listener>org.mapfaces.share.listener.ResourcePhaseListener</phase-listener-->
-        <!--phase-listener>org.mapfaces.share.listener.ResourceLoaderPhaseListener</phase-listener-->
 
         <!-- activate this listener in the appropriate application if needed,
         only used by TreeTable component when loadAll options is set to false -->

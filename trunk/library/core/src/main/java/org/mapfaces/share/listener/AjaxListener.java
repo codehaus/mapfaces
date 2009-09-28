@@ -18,7 +18,6 @@
 package org.mapfaces.share.listener;
 
 import java.util.Enumeration;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -52,47 +51,50 @@ public class AjaxListener implements PhaseListener {
     @Override
     public void afterPhase(final PhaseEvent event) {
 //        FacesContext context = event.getFacesContext();
-        final FacesContext context       = FacesContext.getCurrentInstance();
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String a4jrequest          = request.getParameter("AJAXREQUEST");
-        final String ajaxParam           = request.getParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY);
-        final String ajaxRenderChild     = request.getParameter(AjaxUtils.AJAX_RENDERCHILD_ID_KEY);
-        
-        // Check for the existence of the Ajax param
-        if (ajaxParam != null && ajaxParam.equals("true")) {
-            context.responseComplete();// Let JSF know to skip the rest of the lifecycle
-            final String componentId = request.getParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY);
-            if (componentId == null) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    //LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
-                } else {
-                    //LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
+        final FacesContext context = FacesContext.getCurrentInstance();
+        if (context != null) {
+            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            final String a4jrequest = request.getParameter("AJAXREQUEST");
+            final String ajaxParam = request.getParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY);
+            // Check for the existence of the Ajax param
+            if (ajaxParam != null && ajaxParam.equals("true")) {
+                context.responseComplete();// Let JSF know to skip the rest of the lifecycle
+                final String componentId = request.getParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY);
+//                if (componentId == null) {
+//                    if (LOGGER.isLoggable(Level.WARNING)) {
+//                        //LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
+//                    } else {
+//                        //LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
+//                    }
+//                } else {
+//                    handleAjaxRequest(context, componentId);
+//                }
+                if (componentId != null) {
+                    handleAjaxRequest(context, componentId);
                 }
-            } else {
-                handleAjaxRequest(context, componentId);
-            }
 
-            //Save the state of the page
-            context.getApplication().getStateManager().saveView(context);
-
-        } else if (a4jrequest != null) {
-            final Enumeration<String> listParameters = request.getParameterNames();
-            while (listParameters.hasMoreElements()) {
-                String param = listParameters.nextElement();
-                if (param.equals(request.getParameter(param))) {
-                    A4JPostRequest(context, param);
+                //Save the state of the page
+                context.getApplication().getStateManager().saveView(context);
+            } else if (a4jrequest != null) {
+                final Enumeration<String> listParameters = request.getParameterNames();
+                while (listParameters.hasMoreElements()) {
+                    String param = listParameters.nextElement();
+                    if (param.equals(request.getParameter(param))) {
+                        A4JPostRequest(context, param);
+                    }
                 }
             }
         }
-
-
     }
 
     private void handleAjaxRequest(final FacesContext context, final String componentId) {
         final UIViewRoot viewroot = context.getViewRoot();
+        if(viewroot == null) {
+            return; // if the viewRoot has benn lost the do nothing.
+        }
         UIComponent candidate = FacesUtils.findComponentById(context, viewroot, componentId);
 
-        if(candidate == null){
+        if (candidate == null) {
             candidate = FacesUtils.findComponentByClientId(context, viewroot, componentId);
         }
 
@@ -100,7 +102,7 @@ public class AjaxListener implements PhaseListener {
             //throw new NullPointerException("[WARNING] [AjaxListener] No component found under specified client Id : " + componentId);
         }
 
-        if(!(candidate instanceof AjaxInterface)){
+        if (!(candidate instanceof AjaxInterface)) {
             //throw new IllegalArgumentException("[WARNING] [AjaxListener] Component found under Ajax key was not of expected type");
         }
 
@@ -123,7 +125,7 @@ public class AjaxListener implements PhaseListener {
         } else {
             final UIComponent JSFComponent = AjaxSupport.getParent();
             if (JSFComponent == null) {
-               // LOGGER.warning("[WARNING] [AjaxListener] No parent  found under specified client Id : " + AjaxSupport.getId());
+                // LOGGER.warning("[WARNING] [AjaxListener] No parent  found under specified client Id : " + AjaxSupport.getId());
             } else {
                 if (JSFComponent.getParent() instanceof A4JInterface) {
                     ajaxcomponent = (A4JInterface) JSFComponent.getParent();
@@ -147,5 +149,4 @@ public class AjaxListener implements PhaseListener {
     public PhaseId getPhaseId() {
         return PhaseId.RESTORE_VIEW;
     }
-    
 }
