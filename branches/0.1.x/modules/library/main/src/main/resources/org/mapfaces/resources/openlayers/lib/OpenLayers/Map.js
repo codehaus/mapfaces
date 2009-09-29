@@ -887,7 +887,8 @@ OpenLayers.Map = OpenLayers.Class({
         if (layer.isFixed) {
             this.viewPortDiv.removeChild(layer.div);
         } else {
-            this.layerContainerDiv.removeChild(layer.div);
+            if(this && this.layerContainerDiv)
+                this.layerContainerDiv.removeChild(layer.div);
         }
         OpenLayers.Util.removeItem(this.layers, layer);
         layer.removeMap(this);
