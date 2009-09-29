@@ -74,7 +74,6 @@ public class FacesUtils {
      * @return PhaseListener
      */
     public static PhaseListener getListenerFromLifeCycle(Class<?> c) {
-        //getting the DetectBrowserListener if is exists, else uses the FacesUtils method.
         final LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
         final Lifecycle lifecycle = factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
         final PhaseListener[] listeners = lifecycle.getPhaseListeners();

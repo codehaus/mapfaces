@@ -887,7 +887,8 @@ OpenCharts.Map = OpenCharts.Class({
         if (layer.isFixed) {
             this.viewPortDiv.removeChild(layer.div);
         } else {
-            this.layerContainerDiv.removeChild(layer.div);
+            if(this && this.layerContainerDiv)
+                this.layerContainerDiv.removeChild(layer.div);
         }
         OpenCharts.Util.removeItem(this.layers, layer);
         layer.removeMap(this);
