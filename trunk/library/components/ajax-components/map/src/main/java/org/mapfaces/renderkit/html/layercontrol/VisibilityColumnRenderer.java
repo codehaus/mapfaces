@@ -81,9 +81,10 @@ public class VisibilityColumnRenderer extends CheckColumnRenderer {
                         String checkboxId = formContainer.getId() + ":check_" + component.getId();
                         HtmlAjaxSupport a4jSupport = FacesMapUtils.createCompleteAjaxSupport(context, checkbox.getId(), "onchange", null, null, "window." + FacesMapUtils.getJsVariableFromClientId(layer.getCompId()) + ".setVisibility(document.getElementById('" + checkboxId + "').checked);", true, false);
                         HtmlActionParameter param = new HtmlActionParameter();
+                        //added a new param that contains the visibility checkbox value
                         param.setNoEscape(true);
                         param.setName(checkboxId);
-                        param.setValue("function (){if(document.getElementById('" + checkboxId + "').checked) {return 'on'}else{return ''}}");
+                        param.setValue("eval('function getCheckboxValue(){if(document.getElementById(\\'" + checkboxId + "\\').checked) {return \\'on\\'}else{return \\'\\'}};getCheckboxValue();')");
                         a4jSupport.getChildren().add(param);
                         checkbox.getChildren().add(a4jSupport);
                     } else {

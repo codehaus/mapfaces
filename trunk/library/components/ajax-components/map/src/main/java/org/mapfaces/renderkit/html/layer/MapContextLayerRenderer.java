@@ -30,6 +30,7 @@ import javax.faces.context.ResponseWriter;
 
 import org.geotoolkit.map.MapContext;
 
+import org.geotoolkit.map.MapLayer;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIMapContextLayer;
 import org.mapfaces.models.Context;
@@ -94,7 +95,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             opacity = "1";
         }
 
-        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";
+        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";        
         final String display = (hidden) ? "display:none" : "display:block;";
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "style");
@@ -109,6 +110,13 @@ public class MapContextLayerRenderer extends LayerRenderer {
 
         //Save the mapContext in session for MfLayerListener to proceed a portraying renderer
         if (obj instanceof MapContext) {
+            MapContext mapContext = (MapContext) obj;
+            for(MapLayer lay : mapContext.layers()) {
+                if(lay.getName() != null && lay.getName().equals(layer.getName())) {
+                    lay.setVisible(! hidden);
+                    break;
+                }
+            }
             setMapContextAtSession(context, comp, (MapContext) obj);
         }
 
