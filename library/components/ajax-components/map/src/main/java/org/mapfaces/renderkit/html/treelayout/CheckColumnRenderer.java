@@ -113,7 +113,7 @@ public class CheckColumnRenderer extends AbstractColumnRenderer {
                     }
                     
                     if (userObject != null) {
-                        //Setting the negation f there are operator NOT in the value expresion.
+                        //Setting the negation if there are operator NOT in the value expresion.
                         if(Utils.getOccurence(expression, "!") % 2 == 1 || Utils.getOccurence(expression, "not ") % 2 == 1) {
                             elContext.getELResolver().setValue(elContext, userObject, property, ! booleanValue);
                         }else {
