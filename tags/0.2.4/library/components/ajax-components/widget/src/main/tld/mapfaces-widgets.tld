@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd" [
+
+<!ENTITY commons_attributes                 SYSTEM "entities/commons_attributes.xml">
+<!ENTITY events_attributes                      SYSTEM "entities/events_attributes.xml">
+]>
+
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee     http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+    <tlib-version>1.1</tlib-version>
+    <jsp-version>2.1</jsp-version>
+    <short-name>wf</short-name>
+    <uri>http://widget-mapfaces.org/taglib</uri>
+    <display-name><![CDATA[Widget Mapfaces Components]]></display-name>
+    <description><![CDATA[Widget components for Mapfaces.]]></description>
+
+    <!-- Autocompletion -->
+    <tag>
+        <name>Autocompletion</name>
+        <tag-class>org.widgetfaces.taglib.autocompletion.AutocompletionTag</tag-class>
+        <body-content>JSP</body-content>
+        <description><![CDATA[This is the tag that creates a component widget which provides the
+            functionality for text suggestion and completion.]]></description>
+
+        &commons_attributes;
+	&events_attributes;
+
+        <attribute>
+            <name>minLength</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(integer) the minimum length of the string the user must enter
+                before the suggestions are displayed; defaults to 1]]></description>
+        </attribute>
+        <attribute>
+            <name>markQuery</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) whether or not to wrap the portion of each suggestion
+                that matches the user entry with a span tag (which gets the css
+                class autocompleter-queried); defaults to true.]]></description>
+        </attribute>
+        <attribute>
+            <name>maxChoices</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(integer) the maximum number of suggestion items to display;
+                defaults to 10.]]></description>
+        </attribute>
+        <attribute>
+            <name>delay</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(integer) the period (in milliseconds) to wait befor the
+                suggestion dropdown is displayed or its items updated after
+                typing in the input; defaults to 400.]]></description>
+        </attribute>
+        <attribute>
+            <name>autoSubmit</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) whether to submit the form when the user chooses a
+                suggestion item by hitting enter; defaults to false.]]></description>
+        </attribute>
+        <attribute>
+            <name>overflow</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) If set to true, the maxChoices option is ignored and
+                all the available suggestion items are displayed; defaults to false.]]></description>
+        </attribute>
+        <attribute>
+            <name>overflowMargin</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(integer) if overflow is true and the user moves their selection
+                (using the cursor keys) to an item that is outside the viewable
+                list, this option specifies how far to jump down the suggestions
+                dropdown to show more suggestion items; defaults to 25.]]></description>
+        </attribute>
+        <attribute>
+            <name>selectFirst</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) whether to automatically select the first suggestion
+                item even if it doesn't completely match the user entry.
+                * For instance: if the user types "aj" and the first suggestion
+                is "ajax",a true setting for this option would select that
+                first entry even though it doesn't completely match the user's
+                entry; defaults to false.]]></description>
+        </attribute>
+        <attribute>
+            <name>filterSubset</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) if filter is not defined (and therefore the filter
+                used is the default one) this setting will, if true, allow for
+                matches anywhere in the suggestion, otherwise the user entry
+                must match the beginning of the suggestion; defaults to false.]]></description>
+        </attribute>
+        <attribute>
+            <name>multiple</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) whether to split the user entered text into multiple
+                values; defaults to false;
+                the following two options affect the behavior of the split.]]></description>
+        </attribute>
+        <attribute>
+            <name>services</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+	<attribute>
+            <name>loadMootools</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]></description>
+        </attribute>
+	<attribute>
+            <name>loadJs</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]></description>
+        </attribute>
+        
+    </tag>
+   <!-- DatePicker -->
+    <tag>
+        <name>Datepicker</name>
+        <tag-class>org.widgetfaces.taglib.datepicker.DatepickerTag</tag-class>
+        <body-content>scriptless</body-content>
+        <description><![CDATA[This is the tag that creates a component widget which provides the
+            functionality for date suggestion and completion.]]></description>
+        
+        &commons_attributes;
+        &events_attributes;
+    </tag>
+</taglib>
