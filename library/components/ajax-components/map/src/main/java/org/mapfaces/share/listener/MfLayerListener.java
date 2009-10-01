@@ -33,8 +33,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.geotoolkit.display.canvas.control.CanvasMonitor;
 import org.geotoolkit.display.canvas.control.NeverFailMonitor;
 import org.geotoolkit.display.exception.PortrayalException;
+import org.geotoolkit.display2d.service.CanvasDef;
 import org.geotoolkit.display2d.service.DefaultPortrayalService;
+import org.geotoolkit.display2d.service.OutputDef;
 import org.geotoolkit.display2d.service.PortrayalExtension;
+import org.geotoolkit.display2d.service.SceneDef;
+import org.geotoolkit.display2d.service.ViewDef;
 import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
@@ -140,7 +144,25 @@ public class MfLayerListener implements PhaseListener {
                     LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
                     LOGGER.log(Level.INFO, "Enveloppe = " + env);
                     String format = (mapContext.getUserPropertie("format") != null)?(String) mapContext.getUserPropertie("format"):"image/png";
-                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, dim, true, 0, new NeverFailMonitor(), null, stream, format, null, new PortrayalExtension[0]);
+//                    DefaultPortrayalService.portray(mapContext, env, datevalue, datevalue, dim, true, 0, new NeverFailMonitor(), null, stream, format, null, new PortrayalExtension[0]);
+
+                    CanvasDef canvasDef = new CanvasDef();
+                    SceneDef sceneDef = new SceneDef();
+                    ViewDef viewDef = new ViewDef();
+                    OutputDef outputDef = new OutputDef(format, stream);
+
+                    canvasDef.setDimension(dim);
+                    canvasDef.setStretchImage(true);
+                    sceneDef.setContext(mapContext);
+                    viewDef.setStart(datevalue);
+                    viewDef.setEnd(datevalue);
+                    viewDef.setEnvelope(env);
+                    viewDef.setMonitor(new NeverFailMonitor());
+                    outputDef.setCompression(new Float(0));
+                    outputDef.setCompressionType("FILTERED");
+
+
+                    DefaultPortrayalService.portray(canvasDef, sceneDef, viewDef, outputDef);
 
                 } catch (PortrayalException ex) {
                     LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
