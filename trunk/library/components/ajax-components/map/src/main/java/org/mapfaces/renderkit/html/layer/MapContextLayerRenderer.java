@@ -95,7 +95,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             opacity = "1";
         }
 
-        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";        
+        final String styleImg = "opacity:" + opacity + ";";        
         final String display = (hidden) ? "display:none" : "display:block;";
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "style");

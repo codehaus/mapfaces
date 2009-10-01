@@ -122,7 +122,7 @@ public class FeatureLayerRenderer extends LayerRenderer {
             opacity = "1";
         }
 
-        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";
+        final String styleImg = "opacity:" + opacity + ";";
         final String display = (hidden) ? "display:none" : "display:block;";
         final int size = (comp.getSize() != 0) ? comp.getSize() : 16;
         final double rotation = comp.getRotation();
