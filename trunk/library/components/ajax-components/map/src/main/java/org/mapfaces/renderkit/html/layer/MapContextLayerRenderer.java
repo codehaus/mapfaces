@@ -35,6 +35,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UIMapContextLayer;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.layer.MapContextLayer;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 
 
@@ -95,7 +96,12 @@ public class MapContextLayerRenderer extends LayerRenderer {
             opacity = "1";
         }
 
-        final String styleImg = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");opacity:" + opacity + ";";
+        String filteropacity = "";
+        if(FacesUtils.isIEBrowser(context) && ! layer.isUserValueDisableOpacity()) {
+            filteropacity = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");";
+        }
+
+        final String styleImg = filteropacity+"opacity:" + opacity + ";";
         final String display = (hidden) ? "display:none" : "display:block;";
         writer.startElement("div", comp);
         writer.writeAttribute("id", clientId, "style");

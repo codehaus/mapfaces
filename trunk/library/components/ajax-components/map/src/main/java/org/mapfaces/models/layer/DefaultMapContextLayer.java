@@ -25,6 +25,7 @@ public class DefaultMapContextLayer extends DefaultLayer implements MapContextLa
     public LayerType type = LayerType.MAPCONTEXT;
     private String mapContextKeyInSession;
     private Date dateFilter;
+    private boolean userValueDisableOpacity;
 
     /**
      * @return the dateFilter
@@ -52,5 +53,19 @@ public class DefaultMapContextLayer extends DefaultLayer implements MapContextLa
      */
     public void setMapContextKeyInSession(String mapContextKeyInSession) {
         this.mapContextKeyInSession = mapContextKeyInSession;
+    }
+
+    /**
+     * @return the userValueDisableOpacity
+     */
+    public boolean isUserValueDisableOpacity() {
+        return userValueDisableOpacity;
+    }
+
+    /**
+     * @param userValueDisableOpacity the userValueDisableOpacity to set
+     */
+    public void setUserValueDisableOpacity(boolean userValueDisableOpacity) {
+        this.userValueDisableOpacity = userValueDisableOpacity;
     }
 }

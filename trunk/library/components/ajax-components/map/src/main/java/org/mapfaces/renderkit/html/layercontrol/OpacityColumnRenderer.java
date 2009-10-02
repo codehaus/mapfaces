@@ -23,9 +23,11 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.Layer;
+import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.renderkit.html.treelayout.SelectOneMenuColumnRenderer;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 
 /**
@@ -52,7 +54,11 @@ public class OpacityColumnRenderer extends SelectOneMenuColumnRenderer {
 
             if (currentTreeItem.getUserObject() instanceof Layer) {
                  final Layer layer = (Layer) currentTreeItem.getUserObject();
-                 if (layer.isDisable()) {
+                 boolean disableopacity = false;
+                 if(layer instanceof MapContextLayer && FacesUtils.isIEBrowser(context)) {
+                     disableopacity = ((MapContextLayer) layer).isUserValueDisableOpacity();
+                 }
+                 if (layer.isDisable() || disableopacity) {
                      child.setRendered(false);
                  } else {
                      child.setOnchange(FacesMapUtils.getJsVariableFromClientId(
