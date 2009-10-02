@@ -75,7 +75,7 @@ public class WmsLayerRenderer extends LayerRenderer {
         }
 
         final String opacity = (layer.getOpacity() != null) ? layer.getOpacity() : "1";
-        final String styleImg = "opacity:" + opacity + ";";
+        final String styleImg = "filter:alpha(opacity=" + (Float.parseFloat(opacity) * 100) + ");opacity:" + opacity + ";";
         final String display = "display:block;";
 
         //Create the Layer_WMS_0 div
