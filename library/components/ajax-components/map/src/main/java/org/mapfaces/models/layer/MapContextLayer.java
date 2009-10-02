@@ -29,5 +29,9 @@ public interface MapContextLayer extends Layer {
     public Date getDateFilter();
     
     public void setDateFilter(Date d);
+
+    public boolean isUserValueDisableOpacity();
+
+    public void setUserValueDisableOpacity(boolean b);
     
 }

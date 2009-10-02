@@ -156,6 +156,10 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         mcLayer.setTitle(maplayer.getName());
                         mcLayer.setHidden(! maplayer.isVisible());
                         mcLayer.setQueryable(maplayer.isSelectable());
+                        if(maplayer.getUserPropertie("disableOpacity") instanceof Boolean) {
+                            mcLayer.setUserValueDisableOpacity( ((Boolean) maplayer.getUserPropertie("disableOpacity")).booleanValue());
+                        }
+
                         model.addLayer((MapContextLayer) mcLayer);
                     }
                 }
