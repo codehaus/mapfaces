@@ -112,19 +112,22 @@ public class MapContextLayerRenderer extends LayerRenderer {
 
         //Getting mapcontext for this layer if exists
         Map sessionMap = context.getExternalContext().getSessionMap();
-        Object obj = sessionMap.get(layer.getMapContextKeyInSession());
+        if (sessionMap != null && layer != null) {
+            Object obj = sessionMap.get(layer.getMapContextKeyInSession());
 
-        //Save the mapContext in session for MfLayerListener to proceed a portraying renderer
-        if (obj instanceof MapContext) {
-            MapContext mapContext = (MapContext) obj;
-            for(MapLayer lay : mapContext.layers()) {
-                if(lay.getName() != null && lay.getName().equals(layer.getName())) {
-                    lay.setVisible(! hidden);
-                    break;
+            //Save the mapContext in session for MfLayerListener to proceed a portraying renderer
+            if (obj instanceof MapContext) {
+                MapContext mapContext = (MapContext) obj;
+                for (MapLayer lay : mapContext.layers()) {
+                    if (lay.getName() != null && lay.getName().equals(layer.getName())) {
+                        lay.setVisible(!hidden);
+                        break;
+                    }
                 }
+                setMapContextAtSession(context, comp, (MapContext) obj);
             }
-            setMapContextAtSession(context, comp, (MapContext) obj);
         }
+
 
         if (debug) {
             LOGGER.log(Level.INFO, "[DEBUG] layer should be displayed ?  " + (FacesMapUtils.getParentUIMapPane(context, comp).getInitDisplay() && !hidden));        //Add layer image if not the first page loads

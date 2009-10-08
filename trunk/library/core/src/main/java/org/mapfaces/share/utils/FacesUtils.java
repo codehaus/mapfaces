@@ -171,8 +171,8 @@ public class FacesUtils {
      * @param name
      * @return
      */
-    public static String getRequestParam(FacesContext fc, String name) {
-        return (String) fc.getExternalContext().getRequestParameterMap().get(name);
+    public static Object getRequestParameterValue(FacesContext fc, String name) {
+        return fc.getExternalContext().getRequestParameterMap().get(name);
     }
 
     /**

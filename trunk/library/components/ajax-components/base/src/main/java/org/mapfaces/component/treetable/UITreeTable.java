@@ -48,6 +48,14 @@ public class UITreeTable extends HtmlTreeTable {
      * </p>
      */
     private boolean activateAjaxLoading = true;
+    /**
+     * To disable css loading. True value by default.
+     */
+    private boolean loadCss = true;
+    /**
+     * To disable js loading. True value by default.
+     */
+    private boolean loadJs = true;
 
     // ---------------------------------------------------------- Methods
     /**
@@ -56,7 +64,7 @@ public class UITreeTable extends HtmlTreeTable {
     @Override
     public Object saveState(final FacesContext context) {
 
-        final Object values[] = new Object[11];
+        final Object values[] = new Object[13];
         values[0] = super.saveState(context);
         values[1] = isCollapse();
         values[2] = getCollapseDepth();
@@ -68,6 +76,8 @@ public class UITreeTable extends HtmlTreeTable {
         values[8] = getOddLineClass();
         values[9] = getEvenLineStyle();
         values[10]= getEvenLineClass();
+        values[11]= isLoadCss();
+        values[12]= isLoadJs();
         return values;
 
     }
@@ -90,6 +100,8 @@ public class UITreeTable extends HtmlTreeTable {
         setOddLineClass((String)values[8]);
         setEvenLineStyle((String)values[9]);
         setEvenLineClass((String)values[10]);
+        setLoadCss((Boolean) values[11]);
+        setLoadJs((Boolean) values[12]);
         
     }
 
@@ -259,6 +271,34 @@ public class UITreeTable extends HtmlTreeTable {
      */
     public void setActivateAjaxLoading(boolean activateAjaxLoading) {
         this.activateAjaxLoading = activateAjaxLoading;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public boolean isLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(boolean loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the loadJs
+     */
+    public boolean isLoadJs() {
+        return loadJs;
+    }
+
+    /**
+     * @param loadJs the loadJs to set
+     */
+    public void setLoadJs(boolean loadJs) {
+        this.loadJs = loadJs;
     }
 
 }
