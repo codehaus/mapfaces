@@ -33,6 +33,8 @@ public class UITabPanel extends UIComponentBase implements Serializable {
     private String width;
     private String height;
     private String title;
+    private String style;
+    private String styleClass;
 
     public String getWidth() {
         return width;
@@ -79,11 +81,13 @@ public class UITabPanel extends UIComponentBase implements Serializable {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[4];
+        final Object values[] = new Object[6];
         values[0] = super.saveState(context);
         values[1] = getWidth();
         values[2] = getHeight();
         values[3] = getTitle();
+        values[4] = getStyle();
+        values[5] = getStyleClass();
         return values;
     }
 
@@ -97,5 +101,35 @@ public class UITabPanel extends UIComponentBase implements Serializable {
         setWidth((String) values[1]);
         setHeight((String) values[2]);
         setTitle((String) values[3]);
+        setStyle((String) values[4]);
+        setStyleClass((String) values[5]);
+    }
+
+    /**
+     * @return the style
+     */
+    public String getStyle() {
+        return style;
+    }
+
+    /**
+     * @param style the style to set
+     */
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    /**
+     * @return the styleClass
+     */
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     * @param styleClass the styleClass to set
+     */
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
 }

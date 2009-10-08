@@ -81,10 +81,12 @@ public class TabPanelRenderer extends Renderer {
         }
         writeHeaders(context, component);
 
+        String style=(tabpanel.getStyle() != null)?tabpanel.getStyle():"";
+        String styleClass=(tabpanel.getStyleClass() != null)? " "+tabpanel.getStyleClass():"";
         writer.startElement("div", tabpanel);
         writer.writeAttribute("id", "tabs:" + tabpanel.getClientId(context), null);
-        writer.writeAttribute("class", "tabs", null);
-        writer.writeAttribute("style", dimensionsW + ";" + dimensionsH + ";", null);
+        writer.writeAttribute("class", "tabs"+styleClass, null);
+        writer.writeAttribute("style", dimensionsW + ";" + dimensionsH + ";"+style, null);
 
         writer.startElement("div", tabpanel);
         writer.writeAttribute("class", "tabs_container", null);

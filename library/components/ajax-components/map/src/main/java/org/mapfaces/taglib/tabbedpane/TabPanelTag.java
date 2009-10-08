@@ -31,6 +31,8 @@ public class TabPanelTag extends UIComponentELTag {
     private ValueExpression title = null;
     private ValueExpression width = null;
     private ValueExpression height = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
 
   
     public ValueExpression getTitle() {
@@ -82,6 +84,8 @@ public class TabPanelTag extends UIComponentELTag {
         component.setValueExpression("title", title);
         component.setValueExpression("width", width);
         component.setValueExpression("height", height);
+        component.setValueExpression("style", style);
+        component.setValueExpression("styleClass", styleClass);
     }
 
     /**
@@ -93,6 +97,36 @@ public class TabPanelTag extends UIComponentELTag {
         setTitle(null);
         setWidth(null);
         setHeight(null);
+        setStyle(null);
+        setStyleClass(null);
+    }
+
+    /**
+     * @return the style
+     */
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    /**
+     * @param style the style to set
+     */
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    /**
+     * @return the styleClass
+     */
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     * @param styleClass the styleClass to set
+     */
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
     }
 }
 
