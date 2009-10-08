@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="1.2" 
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+    <component>
+        <component-type>components.timepickers</component-type>
+        <component-class>component.UITimePicker</component-class>
+    </component>
+
+    <render-kit>
+        <renderer>
+            <description>TimePicker</description>
+            <component-family>components.timepickers</component-family>
+            <renderer-type>renderer.timepickers</renderer-type>
+            <renderer-class>component.TimePickerRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+
+    <managed-bean>
+      <managed-bean-name>horloge</managed-bean-name>
+      <managed-bean-class>sources.HorlogeBean</managed-bean-class>
+      <managed-bean-scope>session</managed-bean-scope>
+   </managed-bean>
+   
+</faces-config>
