@@ -97,3 +97,21 @@
         <type>boolean</type>
     </deferred-value>
 </attribute>
+
+<attribute>
+    <description></description>
+    <name>loadCss</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <description></description>
+    <name>loadJs</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>

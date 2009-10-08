@@ -13,13 +13,13 @@
 
 .treeitem{
     float:left;
-    position:relative;
+/*    position:relative;*/
 }
 
 /* --------------------------------------------------------------------------------- */
 .treeicon{
     float: left;
-    position: relative;
+/*    position: relative;*/
     height: 16px;
     width: 16px;
     padding-left:2px;

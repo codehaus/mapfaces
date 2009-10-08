@@ -31,6 +31,7 @@ import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.treetable.UITreeColumn;
 import org.mapfaces.component.treetable.UITreeTable;
 import org.mapfaces.model.tree.ExtendMutableTreeNode;
+import org.mapfaces.models.tree.AbstractTreeItem;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.style.TreeTableStyleManager;
 import org.mapfaces.share.utils.RendererUtils;
@@ -462,30 +463,30 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
     }
 
     protected void renderControls(final FacesContext context,
-            final UIComponent table,
+            final UIComponent component,
             final UITreeColumn column,
             final ExtendMutableTreeNode node,
             final ResponseWriter writer)
             throws IOException {
 
-        final UITreeTable data = (UITreeTable) table;
-        final int collapseDepth = data.getCollapseDepth();
+        final UITreeTable treetable = (UITreeTable) component;
+        final int collapseDepth = treetable.getCollapseDepth();
 
         for (int i = 0; i < node.getDepth(); i++) {
-            writer.startElement("div", table);
+            writer.startElement("div", component);
             writer.writeAttribute("class", ELBOW_LINE_STYLE, "elbowClass");
             writer.endElement("div");
         }
 
-        writer.startElement("div", table);
-        writer.writeAttribute("id", "act:" + table.getClientId(context), "id");
+        writer.startElement("div", component);
+        writer.writeAttribute("id", "act:" + component.getClientId(context), "id");
         if (!node.isLeaf()) {
-            if (data.isCollapse() && node.getDepth() > collapseDepth) {
+            if (treetable.isCollapse() && node.getDepth() > collapseDepth) {
                 writer.writeAttribute("class", NODE_COLLAPSE_SYMBOLE, "iconClass");
             } else {
                 writer.writeAttribute("class", NODE_EXPAND_SYMBOLE, "iconClass");
             }
-            writer.writeAttribute("onclick", "TREETABLE.switchView('act:" + table.getClientId(context) + "', 'ul:" + table.getClientId(context) + "')", "actions");
+            writer.writeAttribute("onclick", "TREETABLE.switchView('act:" + component.getClientId(context) + "', 'ul:" + component.getClientId(context) + "')", "actions");
         } else {
             if (!node.isRoot()) {
                 ExtendMutableTreeNode parent = (ExtendMutableTreeNode) node.getParent();
@@ -499,15 +500,29 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
         }
         writer.endElement("div");
 
-        writer.startElement("div", table);
+        writer.startElement("div", component);
+        
+        /*
+         * Render a specific icon as a background-image style of DIV element
+         * only if the treeitem contains an icon defined by the user.
+         */
+        String iconUrl = null;
+        if (node.getUserObject() instanceof AbstractTreeItem) {
+            AbstractTreeItem treeItem = (AbstractTreeItem) node.getUserObject();
+            iconUrl = treeItem.getIcon();
+        }
+
         if (!node.isLeaf()) {
-            if (data.isCollapse() && node.getDepth() > collapseDepth) {
+            if (treetable.isCollapse() && node.getDepth() > collapseDepth) {
                 writer.writeAttribute("class", NODE_COLLAPSE_STYLE, "iconClass");
             } else {
                 writer.writeAttribute("class", NODE_EXPAND_STYLE, "iconClass");
             }
         } else {
             writer.writeAttribute("class", LEAF_EXPAND_STYLE, "iconClass");
+        }
+        if(iconUrl != null){
+            writer.writeAttribute("style", "background-image:url('"+iconUrl+"')", "style");
         }
         writer.endElement("div");
 
@@ -518,16 +533,20 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
             final ResponseWriter writer)
             throws IOException {
 
-        writer.startElement("link", table);
-        writer.writeAttribute("type", "text/css", null);
-        writer.writeAttribute("rel", "stylesheet", null);
-        writer.writeAttribute("href", ResourcePhaseListener.getURL(context, CSS_CORE, null), null);
-        writer.endElement("link");
-
-        writer.startElement("script", table);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, JS_CORE, null), null);
-        writer.endElement("script");
+        UITreeTable treetable = (UITreeTable) table;
+        if(treetable.isLoadCss()){
+            writer.startElement("link", table);
+            writer.writeAttribute("type", "text/css", null);
+            writer.writeAttribute("rel", "stylesheet", null);
+            writer.writeAttribute("href", ResourcePhaseListener.getURL(context, CSS_CORE, null), null);
+            writer.endElement("link");
+        }
+        if(treetable.isLoadJs()){
+            writer.startElement("script", table);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, JS_CORE, null), null);
+            writer.endElement("script");
+        }
 
     }
 }

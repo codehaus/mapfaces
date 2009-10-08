@@ -21,22 +21,21 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.mapfaces.models.Context;
 import org.mapfaces.models.Dimension;
-import org.mapfaces.models.Layer;
 import org.mapfaces.util.ReflectionUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys).
- * @author Kevin Delfour (Geomatys).
+ * @author Kevin Delfour.
  */
-public class TreeItem implements Serializable {
+public class TreeItem implements AbstractTreeItem {
 
     protected static final Logger LOGGER = Logger.getLogger(TreeItem.class.getName());
 
     private Object userObject;
     private String title = "";
     private String name = "";
+    private Serializable userValue;
 
     /**
      * This property is used to specify an image by uri path for this TreeItem model..
@@ -49,13 +48,6 @@ public class TreeItem implements Serializable {
      */
     public TreeItem(final Object obj) {
         userObject = obj;
-        if (obj != null) {
-            if (obj instanceof Layer) {
-                // do something
-            } else if (obj instanceof Context) {
-                //do something
-            }
-        }
     }
 
     /**
@@ -92,6 +84,7 @@ public class TreeItem implements Serializable {
     /**
      * This is a getter for Group when the userObject is an instance of Layer or Context or other object which contains an id property with the getter method.
      */
+    @Override
     public String getId() {
         return ReflectionUtils.invokeGetter(userObject, "Id", Object.class, true).toString();
     }
@@ -125,6 +118,7 @@ public class TreeItem implements Serializable {
     /**
      * This is a getter for Title when the userObject is an instance of Layer or Context or another bean object that contains the property title .
      */
+    @Override
     public String getTitle() {
         if(userObject instanceof String){
             return (String)userObject;
@@ -193,7 +187,8 @@ public class TreeItem implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
@@ -214,10 +209,12 @@ public class TreeItem implements Serializable {
         return sb.toString();
     }
 
+    @Override
     public Object getUserObject() {
         return userObject;
     }
 
+    @Override
     public void setUserObject(Object userObject) {
         this.userObject = userObject;
     }
@@ -225,6 +222,7 @@ public class TreeItem implements Serializable {
     /**
      * This getter does not use the reflection, it is just an attribute for TreeItem model.
      */
+    @Override
     public String getIcon() {
         return icon;
     }
@@ -232,8 +230,25 @@ public class TreeItem implements Serializable {
     /**
      * This setter does not use the reflection
      */
+    @Override
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    /**
+     * @return the userValue
+     */
+    @Override
+    public Serializable getUserValue() {
+        return userValue;
+    }
+
+    /**
+     * @param userValue the userValue to set
+     */
+    @Override
+    public void setUserValue(Serializable userValue) {
+        this.userValue = userValue;
     }
     
 }

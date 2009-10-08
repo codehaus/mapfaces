@@ -43,8 +43,10 @@ public class TreeTableTag extends HtmlTreeTableTag {
     private ValueExpression oddLineClass;
     private ValueExpression evenLineStyle;
     private ValueExpression evenLineClass;
-    //
+    //options to activate or desactivate css js and ajax
     private ValueExpression activateAjaxLoading;
+    private ValueExpression loadCss;
+    private ValueExpression loadJs;
 
     // ---------------------------------------------------------- Methods
     @Override
@@ -72,6 +74,8 @@ public class TreeTableTag extends HtmlTreeTableTag {
         component.setValueExpression("evenLineStyle",evenLineStyle);
         component.setValueExpression("evenLineClass",evenLineClass);
         component.setValueExpression("activateAjaxLoading",activateAjaxLoading);
+        component.setValueExpression("loadCss",loadCss);
+        component.setValueExpression("loadJs",loadJs);
     }
 
     @Override
@@ -88,6 +92,8 @@ public class TreeTableTag extends HtmlTreeTableTag {
         setEvenLineStyle(null);
         setEvenLineClass(null);
         setActivateAjaxLoading(null);
+        setLoadCss(null);
+        setLoadJs(null);
     }
 
     // ---------------------------------------------------------- Accessors Methods
@@ -243,5 +249,33 @@ public class TreeTableTag extends HtmlTreeTableTag {
      */
     public void setActivateAjaxLoading(ValueExpression activateAjaxLoading) {
         this.activateAjaxLoading = activateAjaxLoading;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public ValueExpression getLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(ValueExpression loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the loadJs
+     */
+    public ValueExpression getLoadJs() {
+        return loadJs;
+    }
+
+    /**
+     * @param loadJs the loadJs to set
+     */
+    public void setLoadJs(ValueExpression loadJs) {
+        this.loadJs = loadJs;
     }
 }
