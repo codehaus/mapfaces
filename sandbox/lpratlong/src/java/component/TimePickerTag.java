@@ -121,10 +121,15 @@ public class TimePickerTag extends UIComponentELTag {
             final Class typeExp = Class.forName(className);
             if (typeExp.isInstance(valueObject)) {
                 final Class uitpClass = timepicker.getClass();
-                for (final Method method : uitpClass.getMethods()) {
-                    if (method.getName().equals("set" + propertyName)) {
-                        method.invoke(timepicker, typeExp.cast(valueObject));
+		boolean findMethod = false;
+		int i = 0;
+		Method[] methodList = uitpClass.getMethods();
+                while ((i < methodList.length) && !findMethod) {
+                    if (methodList[i].getName().equals("set" + propertyName)) {
+			findMethod = true;
+                        methodList[i].invoke(timepicker, typeExp.cast(valueObject));
                     }
+		    i++;
                 }
             }
         }
