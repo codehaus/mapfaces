@@ -87,6 +87,11 @@ public class AutocompletionRenderer extends Renderer {
             writer.writeAttribute(HTML.onkeyup_ATTRIBUTE, comp.getOnkeyup(), null);
         }
 
+        if (comp.getTitle() != null && ! comp.getTitle().isEmpty()) {
+            writer.writeAttribute(HTML.title_ATTRIBUTE, comp.getTitle(), "title");
+        }
+
+
         writer.endElement(HTML.INPUT_ELEM);
     }
 

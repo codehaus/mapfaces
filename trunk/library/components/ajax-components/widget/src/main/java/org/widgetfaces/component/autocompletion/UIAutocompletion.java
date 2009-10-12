@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.widgetfaces.component.autocompletion;
 
 import javax.faces.component.html.HtmlInputText;
@@ -85,8 +86,10 @@ public class UIAutocompletion extends HtmlInputText {
     private boolean loadMootools = true;
     private boolean loadCss = true;
     private boolean loadJs = true;
+    private String title;
 
     public String getWsUrl() {
+        //@TODO to be removed :  use attribute to past the url of thesaurus service
         return "http://solardev:8080/mdweb/WS/thesaurus";
     }
 
@@ -106,7 +109,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object[] values = new Object[18];
+        final Object[] values = new Object[19];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -125,6 +128,7 @@ public class UIAutocompletion extends HtmlInputText {
         values[15] = isLoadMootools();
         values[16] = isLoadJs();
         values[17] = isLoadCss();
+        values[18] = getTitle();
         return values;
     }
 
@@ -157,6 +161,7 @@ public class UIAutocompletion extends HtmlInputText {
         setLoadMootools((Boolean) values[15]);
         setLoadJs((Boolean) values[16]);
         setLoadCss((Boolean) values[17]);
+        setTitle((String)values[18]);
     }
 
     /**
@@ -391,6 +396,20 @@ public class UIAutocompletion extends HtmlInputText {
      */
     public void setLoadJs(boolean loadJs) {
         this.loadJs = loadJs;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

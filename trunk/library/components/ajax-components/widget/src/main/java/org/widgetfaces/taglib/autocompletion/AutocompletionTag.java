@@ -14,11 +14,11 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.widgetfaces.taglib.autocompletion;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.widgetfaces.taglib.BaseELTag;
 
 /**
@@ -60,8 +60,7 @@ public class AutocompletionTag extends BaseELTag {
     private ValueExpression rendered = null;
     private ValueExpression loadMootools = null;
     private ValueExpression loadJs = null;
-
-
+    private ValueExpression title = null;
 
     /* Methods*/
     /**
@@ -118,8 +117,9 @@ public class AutocompletionTag extends BaseELTag {
         component.setValueExpression("services", getServices());
         component.setValueExpression("enableAjax", getEnableAjax());
         component.setValueExpression("rendered", getRendered());
-        component.setValueExpression("loadMootools", loadMootools);
-        component.setValueExpression("loadJs", loadJs);
+        component.setValueExpression("loadMootools", getLoadMootools());
+        component.setValueExpression("loadJs", getLoadJs());
+        component.setValueExpression("title", getTitle());
     }
 
     /**
@@ -157,8 +157,9 @@ public class AutocompletionTag extends BaseELTag {
         setServices(null);
         setEnableAjax(null);
         setRendered(null);
-        loadMootools = null;
-        loadJs = null;
+        setLoadMootools(null);
+        setLoadJs(null);
+        setTitle(null);
     }
 
     /**
@@ -588,6 +589,18 @@ public class AutocompletionTag extends BaseELTag {
         this.loadJs = loadJs;
     }
 
+    /**
+     * @return the title
+     */
+    public ValueExpression getTitle() {
+        return title;
+    }
 
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(ValueExpression title) {
+        this.title = title;
+    }
 }
 

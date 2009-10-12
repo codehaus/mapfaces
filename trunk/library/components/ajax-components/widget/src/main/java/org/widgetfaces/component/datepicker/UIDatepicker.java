@@ -41,6 +41,7 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
     private boolean loadMootools = true;
     private boolean loadCss = true;
     private boolean loadJs = true;
+    private String title;
 
     /* Methods */
     /**
@@ -54,12 +55,13 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[5];
+        final Object values[] = new Object[6];
         values[0] = super.saveState(context);
         values[1] = isEnableAjax();
         values[2] = isLoadMootools();
         values[3] = isLoadJs();
         values[4] = isLoadCss();
+        values[5] = getTitle();
         return values;
     }
 
@@ -79,6 +81,7 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
         setLoadMootools((Boolean) values[2]);
         setLoadJs((Boolean) values[3]);
         setLoadCss((Boolean) values[4]);
+        setTitle((String)values[5]);
     }
 
     /**
@@ -154,5 +157,19 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
      */
     public void setLoadJs(boolean loadJs) {
         this.loadJs = loadJs;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
