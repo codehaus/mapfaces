@@ -97,6 +97,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         input.setOnmouseover(comp.getOnmouseover());
         input.setOnmouseup(comp.getOnmouseup());
         input.setOnselect(comp.getOnselect());
+        input.setTitle(comp.getTitle());
 
         boolean inputPresence = false;
         for (UIComponent uIComponent : comp.getChildren()) {

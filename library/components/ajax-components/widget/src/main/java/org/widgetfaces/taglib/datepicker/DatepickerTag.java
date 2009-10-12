@@ -44,7 +44,7 @@ public class DatepickerTag extends BaseELTag {
     private ValueExpression onselect = null;
     private ValueExpression value = null;
     private ValueExpression enableAjax = null;
-
+    private ValueExpression title = null;
 
 
     /* Methods*/
@@ -89,6 +89,7 @@ public class DatepickerTag extends BaseELTag {
         component.setValueExpression("onselect", getOnselect());
         component.setValueExpression("value", getValue());
         component.setValueExpression("enableAjax", getEnableAjax());
+        component.setValueExpression("title", getTitle());
 
     }
 
@@ -114,6 +115,7 @@ public class DatepickerTag extends BaseELTag {
         setOnselect(null);
         setValue(null);
         setEnableAjax(null);
+        setTitle(null);
     }
 
     
@@ -339,6 +341,20 @@ public class DatepickerTag extends BaseELTag {
      */
     public void setEnableAjax(ValueExpression enableAjax) {
         this.enableAjax = enableAjax;
+    }
+
+    /**
+     * @return the title
+     */
+    public ValueExpression getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(ValueExpression title) {
+        this.title = title;
     }
 
  

@@ -14,8 +14,10 @@
     <jsp-version>2.1</jsp-version>
     <short-name>wf</short-name>
     <uri>http://widget-mapfaces.org/taglib</uri>
-    <display-name><![CDATA[Widget Mapfaces Components]]></display-name>
-    <description><![CDATA[Widget components for Mapfaces.]]></description>
+    <display-name><![CDATA[Widget Mapfaces Components]]>
+    </display-name>
+    <description><![CDATA[Widget components for Mapfaces.]]>
+    </description>
 
     <!-- Autocompletion -->
     <tag>
@@ -23,10 +25,11 @@
         <tag-class>org.widgetfaces.taglib.autocompletion.AutocompletionTag</tag-class>
         <body-content>JSP</body-content>
         <description><![CDATA[This is the tag that creates a component widget which provides the
-            functionality for text suggestion and completion.]]></description>
+            functionality for text suggestion and completion.]]>
+        </description>
 
         &commons_attributes;
-	&events_attributes;
+        &events_attributes;
 
         <attribute>
             <name>minLength</name>
@@ -36,7 +39,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(integer) the minimum length of the string the user must enter
-                before the suggestions are displayed; defaults to 1]]></description>
+                before the suggestions are displayed; defaults to 1]]>
+            </description>
         </attribute>
         <attribute>
             <name>markQuery</name>
@@ -47,7 +51,8 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) whether or not to wrap the portion of each suggestion
                 that matches the user entry with a span tag (which gets the css
-                class autocompleter-queried); defaults to true.]]></description>
+                class autocompleter-queried); defaults to true.]]>
+            </description>
         </attribute>
         <attribute>
             <name>maxChoices</name>
@@ -57,7 +62,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(integer) the maximum number of suggestion items to display;
-                defaults to 10.]]></description>
+                defaults to 10.]]>
+            </description>
         </attribute>
         <attribute>
             <name>delay</name>
@@ -68,7 +74,8 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(integer) the period (in milliseconds) to wait befor the
                 suggestion dropdown is displayed or its items updated after
-                typing in the input; defaults to 400.]]></description>
+                typing in the input; defaults to 400.]]>
+            </description>
         </attribute>
         <attribute>
             <name>autoSubmit</name>
@@ -78,7 +85,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) whether to submit the form when the user chooses a
-                suggestion item by hitting enter; defaults to false.]]></description>
+                suggestion item by hitting enter; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>overflow</name>
@@ -88,7 +96,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) If set to true, the maxChoices option is ignored and
-                all the available suggestion items are displayed; defaults to false.]]></description>
+                all the available suggestion items are displayed; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>overflowMargin</name>
@@ -100,7 +109,8 @@
             <description><![CDATA[(integer) if overflow is true and the user moves their selection
                 (using the cursor keys) to an item that is outside the viewable
                 list, this option specifies how far to jump down the suggestions
-                dropdown to show more suggestion items; defaults to 25.]]></description>
+                dropdown to show more suggestion items; defaults to 25.]]>
+            </description>
         </attribute>
         <attribute>
             <name>selectFirst</name>
@@ -114,7 +124,8 @@
                 * For instance: if the user types "aj" and the first suggestion
                 is "ajax",a true setting for this option would select that
                 first entry even though it doesn't completely match the user's
-                entry; defaults to false.]]></description>
+                entry; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>filterSubset</name>
@@ -126,7 +137,8 @@
             <description><![CDATA[(boolean) if filter is not defined (and therefore the filter
                 used is the default one) this setting will, if true, allow for
                 matches anywhere in the suggestion, otherwise the user entry
-                must match the beginning of the suggestion; defaults to false.]]></description>
+                must match the beginning of the suggestion; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>multiple</name>
@@ -137,7 +149,8 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) whether to split the user entered text into multiple
                 values; defaults to false;
-                the following two options affect the behavior of the split.]]></description>
+                the following two options affect the behavior of the split.]]>
+            </description>
         </attribute>
         <attribute>
             <name>services</name>
@@ -147,23 +160,35 @@
             <required>true</required>
             <rtexprvalue>false</rtexprvalue>
         </attribute>
-	<attribute>
+        <attribute>
             <name>loadMootools</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]></description>
+            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]>
+            </description>
         </attribute>
-	<attribute>
+        <attribute>
             <name>loadJs</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]></description>
+            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]>
+            </description>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[This is the title attribute for input text component.]]>
+            </description>
         </attribute>
         
     </tag>
@@ -173,9 +198,21 @@
         <tag-class>org.widgetfaces.taglib.datepicker.DatepickerTag</tag-class>
         <body-content>scriptless</body-content>
         <description><![CDATA[This is the tag that creates a component widget which provides the
-            functionality for date suggestion and completion.]]></description>
+            functionality for date suggestion and completion.]]>
+        </description>
         
         &commons_attributes;
         &events_attributes;
+
+        <attribute>
+            <name>title</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[This is the title attribute for input text component.]]>
+            </description>
+        </attribute>
     </tag>
 </taglib>
