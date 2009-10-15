@@ -18,6 +18,7 @@ package org.widgetfaces.adapter.autocompletion;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
+import org.mapfaces.share.utils.StringEscapeUtils;
 
 /**
  *
@@ -40,7 +41,8 @@ public final class Adapter {
                 list = (List<String>) obj;
             }
 
-            final StringBuilder sb = new StringBuilder('[');
+            final StringBuilder sb = new StringBuilder();
+            sb.append("[");
             final int n =list.size();
             for(int i=0;i<n;i++){
                 sb.append('\"').append(list.get(i)).append('\"');

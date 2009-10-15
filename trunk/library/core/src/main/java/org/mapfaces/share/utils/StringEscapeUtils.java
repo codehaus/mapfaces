@@ -14,7 +14,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.util;
+package org.mapfaces.share.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
