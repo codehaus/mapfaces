@@ -279,7 +279,7 @@ if(!window.OpenLayers){
                 //            "openlayers/lib/OpenLayers/Control/ZoomPanel.js",
                 //"openlayers/lib/OpenLayers/Control/EditingToolbar.js",
             
-                //File addes or modified for MapFaces
+                //File added or modified for MapFaces
                 "proj4js/lib/proj4js-combined.js",
                 "proj4js/custom/proj4jsExt.js",
                 "openlayers/custom/OpenLayers/Map.js",
@@ -304,6 +304,7 @@ if(!window.OpenLayers){
                 "openlayers/custom/OpenLayers/Control/PanelExt.js",
                 "openlayers/custom/OpenLayers/Control/NavToolbar.js",
                 "openlayers/custom/OpenLayers/Control/EditingToolbar.js",
+                "openlayers/custom/OpenLayers/Control/DragPan.js",
                 "openlayers/mfUtils.js"
                 ); // etc.
         }else{
