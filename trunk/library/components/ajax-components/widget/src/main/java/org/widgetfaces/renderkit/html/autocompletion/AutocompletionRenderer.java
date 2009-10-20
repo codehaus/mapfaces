@@ -18,6 +18,7 @@
 package org.widgetfaces.renderkit.html.autocompletion;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
@@ -32,9 +33,11 @@ import org.widgetfaces.adapter.autocompletion.Adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
+ * @author Mehdi Sidhoum (Geomatys)
  * @author kevin Delfour
  */
 public class AutocompletionRenderer extends Renderer {
@@ -45,7 +48,7 @@ public class AutocompletionRenderer extends Renderer {
     private static final String MAPFACES_WIDGETS_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
 
     private static final String VALUE_KEY =   "value";
-    private String onComplete;
+    
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
@@ -60,6 +63,11 @@ public class AutocompletionRenderer extends Renderer {
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        // suppress rendering if "rendered" property on the component is false.
+        if (!component.isRendered()) {
+            return;
+        }
+        FacesUtils.assertValid(context, component);
         final UIAutocompletion comp = (UIAutocompletion) component;
         final ResponseWriter writer      = context.getResponseWriter();
         //Write the scripts once per page
@@ -179,6 +187,28 @@ public class AutocompletionRenderer extends Renderer {
             }
         }
         comp.setSubmittedValue(newValue);
+    }
+
+    /**
+     * <p>Return a flag indicating whether this Renderer is responsible for rendering the
+     * children the component it is asked to render. The default implementation returns false.</p>
+     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p>
+     * @return True
+     */
+    @Override
+    public boolean getRendersChildren() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final List<UIComponent> childrens = component.getChildren();
+        for (final UIComponent tmp : childrens) {
+            FacesUtils.encodeRecursive(context, tmp);
+        }
     }
 
 

@@ -40,6 +40,7 @@ import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.widgetfaces.component.datepicker.UIDatepicker;
 
 /**
+ * @author Mehdi Sidhoum (Geomatys)
  * @author kevin Delfour
  */
 public class DatepickerRenderer extends Renderer implements AjaxRendererInterface {
@@ -69,6 +70,13 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        // suppress rendering if "rendered" property on the component is false.
+        if (!component.isRendered()) {
+            return;
+        }
+        FacesUtils.assertValid(context, component);
+        super.encodeBegin(context, component);
+        
         final UIDatepicker comp = (UIDatepicker) component;
         
 
@@ -122,6 +130,17 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     }
 
     /**
+     * <p>Return a flag indicating whether this Renderer is responsible for rendering the
+     * children the component it is asked to render. The default implementation returns false.</p>
+     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p>
+     * @return True
+     */
+    @Override
+    public boolean getRendersChildren() {
+        return true;
+    }
+
+    /**
      * <p>Render the child components of this UIComponent, following the rules described for encodeBegin()
      * to acquire the appropriate value to be rendered.</p>
      * <p>This method will only be called if the rendersChildren property of this component is true.</p>
@@ -131,7 +150,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
      */
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
-
+        
         for (final UIComponent tmp : component.getChildren()) {
             FacesUtils.encodeRecursive(context, tmp);
         }
@@ -230,20 +249,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         }
 
         return (UIForm) parent;
-    }
-
-    /**
-     * <p>Return a flag indicating whether this Renderer is responsible for rendering the
-     * children the component it is asked to render. The default implementation returns false.</p>
-     * <p>By default, getRendersChildren returns true, so encodeChildren() will be invoked</p>
-     * @return True
-     */
-    @Override
-    public boolean getRendersChildren() {
-        return true;
-    }
-
-    
+    }    
 
     /**
      * Write headers css and js with the resource
