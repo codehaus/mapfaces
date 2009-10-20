@@ -145,8 +145,10 @@ public class AutocompletionRenderer extends Renderer {
             str.append(ajaxrequest);
 
         } else {
+            //the service value can be a List of String or a String as ['keyword1','keyword2']
+            Object servicesValue = (comp.getValueExpression("services")!=null)?comp.getValueExpression("services").getExpressionString():comp.getServices();
              str.append("var ").append(tokenId).append("=").
-                append(Adapter.array2token(comp.getValueExpression("services").getExpressionString(), context)).
+                append(Adapter.array2token(servicesValue, context)).
                 append(";");
              str.append("new Autocompleter.Local('").append(inputId).append("',").
                 append(tokenId).append(",{").

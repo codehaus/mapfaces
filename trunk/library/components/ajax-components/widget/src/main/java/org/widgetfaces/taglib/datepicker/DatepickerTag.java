@@ -28,6 +28,12 @@ public class DatepickerTag extends InputTextTag {
     /* Fields */
     private static final String COMP_TYPE = "org.mapfaces.Datepicker";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLDatepicker";
+    private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
+    private ValueExpression loadMootools = null;
+    private ValueExpression loadCss = null;
+    private ValueExpression loadJs = null;
     private ValueExpression onblur = null;
     private ValueExpression onchange = null;
     private ValueExpression onclick = null;
@@ -90,6 +96,12 @@ public class DatepickerTag extends InputTextTag {
         component.setValueExpression("value", getValue());
         component.setValueExpression("enableAjax", getEnableAjax());
         component.setValueExpression("title", getTitle());
+        component.setValueExpression("debug", getDebug());
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
+        component.setValueExpression("loadMootools", getLoadMootools());
+        component.setValueExpression("loadCss", getLoadCss());
+        component.setValueExpression("loadJs", getLoadJs());
 
     }
 
@@ -116,6 +128,12 @@ public class DatepickerTag extends InputTextTag {
         setValue(null);
         setEnableAjax(null);
         setTitle(null);
+        setDebug(null);
+        setStyle(null);
+        setStyleClass(null);
+        setLoadMootools(null);
+        setLoadJs(null);
+        setLoadCss(null);
     }
 
     
@@ -355,6 +373,90 @@ public class DatepickerTag extends InputTextTag {
      */
     public void setTitle(ValueExpression title) {
         this.title = title;
+    }
+
+    /**
+     * @return the debug
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * @param debug the debug to set
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
+    /**
+     * @return the style
+     */
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    /**
+     * @param style the style to set
+     */
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    /**
+     * @return the styleClass
+     */
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     * @param styleClass the styleClass to set
+     */
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+
+    /**
+     * @return the loadMootools
+     */
+    public ValueExpression getLoadMootools() {
+        return loadMootools;
+    }
+
+    /**
+     * @param loadMootools the loadMootools to set
+     */
+    public void setLoadMootools(ValueExpression loadMootools) {
+        this.loadMootools = loadMootools;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public ValueExpression getLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(ValueExpression loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the loadJs
+     */
+    public ValueExpression getLoadJs() {
+        return loadJs;
+    }
+
+    /**
+     * @param loadJs the loadJs to set
+     */
+    public void setLoadJs(ValueExpression loadJs) {
+        this.loadJs = loadJs;
     }
 
  

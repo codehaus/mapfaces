@@ -15,6 +15,7 @@
  */
 package org.widgetfaces.adapter.autocompletion;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
@@ -27,26 +28,30 @@ import org.mapfaces.share.utils.StringEscapeUtils;
 public final class Adapter {
 
     public static String array2token(Object obj, FacesContext context) {
-        
+
         if (obj != null) {
-            final List<String> list;
+            List<String> list = new ArrayList<String>();
             if (obj instanceof String) {
                 final ValueExpression ve = context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), (String) obj, java.lang.Object.class);
-                if (ve.getValue(context.getELContext()) instanceof List){
+                if (ve != null && ve.getValue(context.getELContext()) instanceof List) {
                     list = (List<String>) ve.getValue(context.getELContext());
-                }else{
+                } else if(ve != null && ve.getValue(context.getELContext()) instanceof String){
                     return (String) ve.getValue(context.getELContext());
                 }
             } else {
-                list = (List<String>) obj;
+                if (obj instanceof List) {
+                    list = (List<String>) obj;
+                }
             }
 
             final StringBuilder sb = new StringBuilder();
             sb.append("[");
-            final int n =list.size();
-            for(int i=0;i<n;i++){
-                sb.append('\"').append(list.get(i)).append('\"');
-                if(i+1<n) sb.append(',');
+            final int n = list.size();
+            for (int i = 0; i < n; i++) {
+                sb.append('\"').append(StringEscapeUtils.escapeJavaScript(list.get(i))).append('\"');
+                if (i + 1 < n) {
+                    sb.append(',');
+                }
             }
             sb.append(']');
 
