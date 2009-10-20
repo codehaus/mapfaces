@@ -109,7 +109,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object[] values = new Object[19];
+        final Object[] values = new Object[20];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -129,6 +129,7 @@ public class UIAutocompletion extends HtmlInputText {
         values[16] = isLoadJs();
         values[17] = isLoadCss();
         values[18] = getTitle();
+        values[19] = isRendered();
         return values;
     }
 
@@ -162,6 +163,7 @@ public class UIAutocompletion extends HtmlInputText {
         setLoadJs((Boolean) values[16]);
         setLoadCss((Boolean) values[17]);
         setTitle((String)values[18]);
+        setRendered((Boolean) values[19]);
     }
 
     /**

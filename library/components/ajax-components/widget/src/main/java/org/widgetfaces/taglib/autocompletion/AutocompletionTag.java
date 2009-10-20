@@ -27,6 +27,12 @@ import javax.faces.component.UIComponent;
 public class AutocompletionTag extends InputTextTag {
 
     /* Fields */
+    private ValueExpression debug = null;
+    private ValueExpression style = null;
+    private ValueExpression styleClass = null;
+    private ValueExpression loadMootools = null;
+    private ValueExpression loadCss = null;
+    private ValueExpression loadJs = null;
     private static final String COMP_TYPE = "org.mapfaces.Autocompletion";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLAutocompletion";
     private ValueExpression minLength = null;
@@ -58,8 +64,6 @@ public class AutocompletionTag extends InputTextTag {
     private ValueExpression services = null;
     private ValueExpression enableAjax = null;
     private ValueExpression rendered = null;
-    private ValueExpression loadMootools = null;
-    private ValueExpression loadJs = null;
     private ValueExpression title = null;
 
     /* Methods*/
@@ -120,6 +124,9 @@ public class AutocompletionTag extends InputTextTag {
         component.setValueExpression("loadMootools", getLoadMootools());
         component.setValueExpression("loadJs", getLoadJs());
         component.setValueExpression("title", getTitle());
+        component.setValueExpression("debug", getDebug());
+        component.setValueExpression("style", getStyle());
+        component.setValueExpression("styleClass", getStyleClass());
     }
 
     /**
@@ -160,6 +167,10 @@ public class AutocompletionTag extends InputTextTag {
         setLoadMootools(null);
         setLoadJs(null);
         setTitle(null);
+        setDebug(null);
+        setStyle(null);
+        setStyleClass(null);
+        setLoadCss(null);
     }
 
     /**
@@ -555,13 +566,6 @@ public class AutocompletionTag extends InputTextTag {
     }
 
     /**
-     * @return the rendered
-     */
-    public ValueExpression getRendered() {
-        return rendered;
-    }
-
-    /**
      * @return the loadMootools
      */
     public ValueExpression getLoadMootools() {
@@ -601,6 +605,82 @@ public class AutocompletionTag extends InputTextTag {
      */
     public void setTitle(ValueExpression title) {
         this.title = title;
+    }
+
+     /**
+     * Accessor for debug.
+     * @return true if debug is activated, false if debug is not activated
+     */
+    public ValueExpression getDebug() {
+        return debug;
+    }
+
+    /**
+     * Mutator for debug.
+     * @param debug New value for debug.
+     */
+    public void setDebug(ValueExpression debug) {
+        this.debug = debug;
+    }
+
+    /**
+     * Accessor for style.
+     * @return the style value
+     */
+    public ValueExpression getStyle() {
+        return style;
+    }
+
+    /**
+     *  Mutator for style.
+     * @param style New value for style
+     */
+    public void setStyle(ValueExpression style) {
+        this.style = style;
+    }
+
+    /**
+     * Accessor for styleClass
+     * @return the styleClass value
+     */
+    public ValueExpression getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     *  Mutator for styleClass.
+     * @param styleClass New value for styleClass
+     */
+    public void setStyleClass(ValueExpression styleClass) {
+        this.styleClass = styleClass;
+    }
+
+    /**
+     * @return the loadCss
+     */
+    public ValueExpression getLoadCss() {
+        return loadCss;
+    }
+
+    /**
+     * @param loadCss the loadCss to set
+     */
+    public void setLoadCss(ValueExpression loadCss) {
+        this.loadCss = loadCss;
+    }
+
+    /**
+     * @return the rendered
+     */
+    public ValueExpression getRendered() {
+        return rendered;
+    }
+
+    /**
+     * @param rendered the rendered to set
+     */
+    public void setRendered(ValueExpression rendered) {
+        this.rendered = rendered;
     }
 }
 
