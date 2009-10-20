@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
 import org.mapfaces.component.UIWidgetBase;
-import org.mapfaces.util.FacesMapUtils;
+import org.mapfaces.share.utils.FacesUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -62,10 +63,10 @@ public class WidgetBaseRenderer extends Renderer {
              this.debug = false;
         }
       
-        if (FacesMapUtils.getParentUIModelBase(context, component) == null) {
+        if (FacesUtils.getParentUIModelBase(context, component) == null) {
             throw new NullPointerException("UIModelBase should not be null, you should declare an UIModelBase component as the mapfaces component  wrapper.");
         } else if (comp.getModel() == null) {
-            comp.setModel(FacesMapUtils.getParentUIModelBase(context, component).getModel());
+            comp.setModel(FacesUtils.getParentUIModelBase(context, component).getModel());
         }
 
         setStyle((String) comp.getAttributes().get("style"));
@@ -99,7 +100,7 @@ public class WidgetBaseRenderer extends Renderer {
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[DEBUG]  Child family's " + tmp.getFamily());
             }
-            FacesMapUtils.encodeRecursive(context, tmp);
+            FacesUtils.encodeRecursive(context, tmp);
         }
     }
 

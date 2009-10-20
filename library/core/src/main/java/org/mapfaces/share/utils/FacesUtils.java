@@ -452,4 +452,18 @@ public class FacesUtils {
         }
     }
 
+    /**
+     * Ensure that the FacesContext and UIComponent instances are not null, otherwise NullPointerException is throwed.
+     * @param context
+     * @param component
+     */
+    public static void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null) {
+            throw new NullPointerException("context should not be null");
+        }
+        if (component == null) {
+            throw new NullPointerException("component should not be null");
+        }
+    }
+
 }
