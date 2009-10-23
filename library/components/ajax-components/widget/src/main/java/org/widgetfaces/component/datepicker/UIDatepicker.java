@@ -35,6 +35,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
 public class UIDatepicker extends HtmlInputText implements AjaxInterface {
 
     public static final String FAMILY = "org.mapfaces.Datepicker";
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLDatepicker";
     
     /* Fields */
     private boolean enableAjax = false;
@@ -91,6 +92,12 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
     public String getFamily() {
         return FAMILY;
     }
+
+    @Override
+    public String getRendererType() {
+        return RENDERER_TYPE;
+    }
+
 
     /* Accessors */
     

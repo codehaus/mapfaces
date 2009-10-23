@@ -81,11 +81,11 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         
 
         //Write the scripts once per page
-        final ExternalContext extContext = context.getExternalContext();
-        if (!extContext.getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
-            extContext.getRequestMap().put("ajaxflag.DatePickerjs", Boolean.TRUE);
+//        final ExternalContext extContext = context.getExternalContext();
+//        if (!extContext.getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
+//            extContext.getRequestMap().put("ajaxflag.DatePickerjs", Boolean.TRUE);
             writeHeaders(context, component);
-        }
+//        }
 
         HtmlInputText input = new HtmlInputText();
         input.setId(comp.getId() + INPUTDATE_SUFFIX);
