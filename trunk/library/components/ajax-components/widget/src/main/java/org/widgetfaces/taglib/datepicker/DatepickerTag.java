@@ -16,14 +16,14 @@
  */
 package org.widgetfaces.taglib.datepicker;
 
-import com.sun.faces.taglib.html_basic.InputTextTag;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import org.widgetfaces.taglib.BaseELTag;
 
 /**
  * @author Kevin Delfour
  */
-public class DatepickerTag extends InputTextTag {
+public class DatepickerTag extends BaseELTag {
 
     /* Fields */
     private static final String COMP_TYPE = "org.mapfaces.Datepicker";

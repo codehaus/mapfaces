@@ -17,14 +17,14 @@
 
 package org.widgetfaces.taglib.autocompletion;
 
-import com.sun.faces.taglib.html_basic.InputTextTag;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import org.widgetfaces.taglib.BaseELTag;
 
 /**
  * @author Kevin Delfour
  */
-public class AutocompletionTag extends InputTextTag {
+public class AutocompletionTag extends BaseELTag {
 
     /* Fields */
     private ValueExpression debug = null;
