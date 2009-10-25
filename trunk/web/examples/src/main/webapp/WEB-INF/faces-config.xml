@@ -93,4 +93,10 @@
         <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>timepickerbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.web.bean.TimePickerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
 </faces-config>

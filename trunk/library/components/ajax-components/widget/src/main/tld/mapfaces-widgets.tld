@@ -166,26 +166,6 @@
             </description>
         </attribute>
         <attribute>
-            <name>loadMootools</name>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]>
-            </description>
-        </attribute>
-        <attribute>
-            <name>loadJs</name>
-            <deferred-value>
-                <type>boolean</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]>
-            </description>
-        </attribute>
-        <attribute>
             <name>title</name>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -200,7 +180,7 @@
    <!-- DatePicker -->
     <tag>
         <name>Datepicker</name>
-        <tag-class>org.widgetfaces.taglib.datepicker.DatepickerTag</tag-class>
+        <tag-class>org.widgetfaces.taglib.temporal.DatepickerTag</tag-class>
         <body-content>JSP</body-content>
         <description><![CDATA[This is the tag that creates a component widget which provides the
             functionality for date suggestion and completion.]]>
@@ -218,6 +198,22 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[This is the title attribute for input text component.]]>
             </description>
+        </attribute>
+    </tag>
+    <!-- TimePicker -->
+    <tag>
+        <name>timepicker</name>
+        <tag-class>org.widgetfaces.taglib.temporal.TimePickerTag</tag-class>
+        <body-content>JSP</body-content>
+        &commons_attributes;
+        &events_attributes;
+        
+        <attribute>
+            <description><![CDATA[Indicate if the label on which the time is displayed is on the top (true) or on the bottom (false).]]></description>
+            <name>outputTop</name>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
         </attribute>
     </tag>
 </taglib>

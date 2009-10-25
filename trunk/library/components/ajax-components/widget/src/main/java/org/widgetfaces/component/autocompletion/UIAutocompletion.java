@@ -65,10 +65,12 @@ import javax.faces.context.FacesContext;
  * </ul>
  * </p>
  * @author Kevin Delfour (IRD)
+ * @since 0.2
  */
 public class UIAutocompletion extends HtmlInputText {
 
     public static final String FAMILY = "org.mapfaces.Autocompletion";
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLAutocompletion";
     /* Fields */
     private int minLength = 1;
     private boolean markQuery = true;
@@ -87,6 +89,11 @@ public class UIAutocompletion extends HtmlInputText {
     private boolean loadCss = true;
     private boolean loadJs = true;
     private String title;
+
+    public UIAutocompletion() {
+        super();
+        setRendererType(RENDERER_TYPE);
+    }
 
     public String getWsUrl() {
         //@TODO to be removed :  use attribute to past the url of thesaurus service

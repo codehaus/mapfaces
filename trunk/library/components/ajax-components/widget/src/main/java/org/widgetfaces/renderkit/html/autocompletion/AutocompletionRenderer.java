@@ -39,6 +39,7 @@ import org.mapfaces.share.utils.RendererUtils.HTML;
 /**
  * @author Mehdi Sidhoum (Geomatys)
  * @author kevin Delfour
+ * @since 0.2
  */
 public class AutocompletionRenderer extends Renderer {
 
