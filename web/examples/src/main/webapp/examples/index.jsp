@@ -59,13 +59,16 @@
             </li-->
         </ul>
         <br/>
-        <%--h2>Widget examples : </h2>
+        <h2>Widget examples : </h2>
         <ul>
+            <%/*li>
+        <a href="./charts/index.html">Chart demos SVG and VML</a>
+        </li*/%>
             <li>
-                <a href="./charts/index.html">Chart demos SVG and VML</a>
+                <a href="./widgets/timepicker.jsf">TimePicker widget</a>
             </li>
         </ul>
-        <br/--%>
+        <br/>
         <h2>Online application examples : </h2>
         <ul>
             <li>

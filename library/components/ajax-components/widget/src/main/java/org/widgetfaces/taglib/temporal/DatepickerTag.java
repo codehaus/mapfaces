@@ -14,16 +14,17 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.widgetfaces.taglib.datepicker;
+package org.widgetfaces.taglib.temporal;
 
+import com.sun.faces.taglib.html_basic.InputTextTag;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import org.widgetfaces.taglib.BaseELTag;
 
 /**
  * @author Kevin Delfour
+ * @since 0.2
  */
-public class DatepickerTag extends BaseELTag {
+public class DatepickerTag extends InputTextTag {
 
     /* Fields */
     private static final String COMP_TYPE = "org.mapfaces.Datepicker";

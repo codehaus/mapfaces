@@ -14,7 +14,8 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.widgetfaces.component.datepicker;
+
+package org.widgetfaces.component.temporal;
 
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
@@ -31,6 +32,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  * </ul>
  * </p>
  * @author kevin delfour
+ * @since 0.2
  */
 public class UIDatepicker extends HtmlInputText implements AjaxInterface {
 
@@ -43,6 +45,15 @@ public class UIDatepicker extends HtmlInputText implements AjaxInterface {
     private boolean loadCss = true;
     private boolean loadJs = true;
     private String title;
+
+    /**
+     * Default constructor.
+     * Create a new instance of UIHorloge
+     */
+    public UIDatepicker() {
+        super();
+        setRendererType(RENDERER_TYPE);
+    }
 
     /* Methods */
     /**

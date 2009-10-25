@@ -28,13 +28,7 @@
     <!-- CONTEXT PARAM-->
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
-        <param-value>
-                /WEB-INF/faces-config-bean.xml, 
-                /WEB-INF/faces-config.xml,
-                /WEB-INF/faces-config-tree.xml, 
-                /WEB-INF/faces-config-treelayout.xml,
-                /WEB-INF/faces-config-timeline.xml
-        </param-value>
+        <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
     <context-param>
         <param-name>com.sun.faces.verifyObjects</param-name>
