@@ -15,7 +15,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.web.bean;
+package org.mapfaces.demo.bean;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;

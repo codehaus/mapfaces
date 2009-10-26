@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.mapfaces.web.model;
+package org.mapfaces.demo.model;
 
 import java.io.Serializable;
 

@@ -67,6 +67,12 @@
             <li>
                 <a href="./widgets/timepicker.jsf">TimePicker widget</a>
             </li>
+            <li>
+                <a href="./widgets/datePicker.jsf">DatePicker widget</a>
+            </li>
+            <li>
+                <a href="./widgets/autocompleter.jsf">AutoCompleter widget</a>
+            </li>
         </ul>
         <br/>
         <h2>Online application examples : </h2>

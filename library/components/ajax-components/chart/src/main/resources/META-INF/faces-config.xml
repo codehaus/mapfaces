@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2004 The Apache Software Foundation.
@@ -18,31 +17,25 @@
  */
 -->
 
-<!DOCTYPE faces-config PUBLIC
-  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
-  "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
-
-<!-- =========== FULL CONFIGURATION FILE ================================== -->
-
-<faces-config>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee  http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
     <component>
-      <component-type>net.sf.jsfcomp.chartcreator.UIChart</component-type>
-      <component-class>net.sf.jsfcomp.chartcreator.component.UIChart</component-class>
+        <component-type>net.sf.jsfcomp.chartcreator.UIChart</component-type>
+        <component-class>net.sf.jsfcomp.chartcreator.component.UIChart</component-class>
     </component>
     <component>
-      <component-type>net.sf.jsfcomp.chartcreator.UIChartAxis</component-type>
-      <component-class>net.sf.jsfcomp.chartcreator.component.UIChartAxis</component-class>
+        <component-type>net.sf.jsfcomp.chartcreator.UIChartAxis</component-type>
+        <component-class>net.sf.jsfcomp.chartcreator.component.UIChartAxis</component-class>
     </component>
     
     <render-kit>
-    	<renderer>
-    		<component-family>net.sf.jsfcomp.chartcreator.UIChart</component-family>
-    		<renderer-type>net.sf.jsfcomp.chartcreator.ChartRenderer</renderer-type>
-    		<renderer-class>net.sf.jsfcomp.chartcreator.renderkit.ChartRenderer</renderer-class>
-    	</renderer>
+        <renderer>
+            <component-family>net.sf.jsfcomp.chartcreator.UIChart</component-family>
+            <renderer-type>net.sf.jsfcomp.chartcreator.ChartRenderer</renderer-type>
+            <renderer-class>net.sf.jsfcomp.chartcreator.renderkit.ChartRenderer</renderer-class>
+        </renderer>
     </render-kit>
     
     <lifecycle>
-    	<phase-listener>net.sf.jsfcomp.chartcreator.ChartListener</phase-listener>
+        <phase-listener>net.sf.jsfcomp.chartcreator.ChartListener</phase-listener>
     </lifecycle>
 </faces-config>

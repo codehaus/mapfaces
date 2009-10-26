@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.mapfaces.web.bean;
+package org.mapfaces.demo.bean;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -57,7 +57,7 @@ import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.treetable.TreeTableUtils;
-import org.mapfaces.web.model.ModelTreeRow;
+import org.mapfaces.demo.model.ModelTreeRow;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
