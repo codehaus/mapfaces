@@ -199,7 +199,7 @@ Function:
 
 
 var TimePicker = new Class({
-
+    Implements: [Options],
 	options: {
 
 		visible: false,

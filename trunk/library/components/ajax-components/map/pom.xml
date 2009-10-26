@@ -161,14 +161,6 @@
                             </includes>
                         </aggregation>
                         <aggregation>
-		            <!--removeIncluded>true</removeIncluded-->
-                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/mootools.min.js</output>
-                            <includes>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/js/mootools-1.2-core.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/js/mootools-1.2-more.js</include>
-                            </includes>
-                        </aggregation>
-                        <aggregation>
 			    <!--removeIncluded>true</removeIncluded-->
                             <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/tree.min.js</output>
                             <includes>
@@ -330,12 +322,6 @@ These lines are deprecated and are here only for example -->
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/mapfaces.css</output>
                             <includes>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/mapfaces.css</include>
-                            </includes>
-                        </aggregation>
-                        <aggregation>
-                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/mootools.min.js</output>
-                            <includes>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/mootools.min.js</include>
                             </includes>
                         </aggregation>
                         <aggregation>

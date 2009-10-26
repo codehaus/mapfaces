@@ -33,7 +33,8 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
  */
 public class DatatableRenderer extends TableRenderer {
 
-    private static final String LOAD_Mootools = "/org/mapfaces/resources/compressed/mootools.min.js";
+    private static final String MOOTOOLS_CORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
+    private static final String MOOTOOLS_MORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
     private static final String DATATABLE_CSS = "/org/mapfaces/resources/datatable/css/sortableTable.css";
     private static final String DATATABLE_JS = "/org/mapfaces/resources/datatable/js/sortableTable.js";
 
@@ -125,7 +126,11 @@ public class DatatableRenderer extends TableRenderer {
 
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, LOAD_Mootools, null), null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+        writer.endElement("script");
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
         writer.endElement("script");
 
         writer.startElement("link", comp);

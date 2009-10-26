@@ -5,17 +5,17 @@
     <!-- Managed Beans -->
     <managed-bean>
         <managed-bean-name>switchTab</managed-bean-name>
-        <managed-bean-class>org.mapfaces.template.bean.TabsBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.template.bean.TabsBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>init</managed-bean-name>
-        <managed-bean-class>org.mapfaces.template.bean.InitBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.template.bean.InitBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
      <managed-bean>
         <managed-bean-name>metadata</managed-bean-name>
-        <managed-bean-class>org.mapfaces.web.bean.MetadataBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.web.bean.MetadataBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
         

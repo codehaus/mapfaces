@@ -45,7 +45,8 @@ public class AutocompletionRenderer extends Renderer {
 
     private static final Logger LOGGER = Logger.getLogger(AutocompletionRenderer.class.getName());
     private static final String MAPFACES_WIDGETS_CSS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
-    private static final String MOOTOOLS_JS = "/org/widgetfaces/resources/compressed/mootools.min.js";
+    private static final String MOOTOOLS_CORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
+    private static final String MOOTOOLS_MORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
     private static final String MAPFACES_WIDGETS_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
 
     private static final String VALUE_KEY =   "value";
@@ -254,7 +255,11 @@ public class AutocompletionRenderer extends Renderer {
         if (comp.isLoadMootools()) {
             writer.startElement(HTML.SCRIPT_ELEM, comp);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_JS, null), null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 

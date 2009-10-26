@@ -1,5 +1,5 @@
 
-package org.mapfaces.template.bean;
+package org.mapfaces.demo.template.bean;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

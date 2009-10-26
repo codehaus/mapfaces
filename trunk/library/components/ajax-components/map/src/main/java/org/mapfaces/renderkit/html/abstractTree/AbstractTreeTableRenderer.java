@@ -45,7 +45,8 @@ import org.mapfaces.util.tree.TreeStyle;
 public abstract class AbstractTreeTableRenderer extends Renderer implements CustomizeTreeComponentRenderer {
 
     /* Script Js and Css Style link */
-    private static final String Loading_Mootools_min     = "/org/mapfaces/resources/compressed/mootools.min.js";
+    private static final String MOOTOOLS_CORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
+    private static final String MOOTOOLS_MORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
     private static final String Loading_Tree_min         = "/org/mapfaces/resources/compressed/tree.min.js";
     
     /* Local fields */
@@ -312,7 +313,11 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         if (temp == null) {
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
-            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, Loading_Mootools_min, null), null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+            writer.endElement("script");
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
             writer.endElement("script");
         }
         

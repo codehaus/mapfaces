@@ -48,12 +48,12 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
     private static final Logger LOGGER = Logger.getLogger(DatepickerRenderer.class.getName());
 
-//    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
-    private static final String LOAD_MOOTOOLS = "/org/widgetfaces/resources/compressed/mootools.min.js";
-    private static final String MAPFACES_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
     private static final String MAPFACES_CSS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
-    private static final String DATEPICKER_STYLECLASS = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
+    private static final String MOOTOOLS_CORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
+    private static final String MOOTOOLS_MORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
+    private static final String MAPFACES_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
 
+    private static final String DATEPICKER_STYLECLASS = "﻿w8em format-y-m-d highlight-days-67 divider-dash";
     private static final String INPUTDATE_SUFFIX =   "_inputdate";
     private static final String VALUE_KEY =   "value";
     /**
@@ -271,7 +271,11 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         if (comp.isLoadMootools()) {
             writer.startElement(HTML.SCRIPT_ELEM, comp);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, LOAD_MOOTOOLS, null), null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
+            writer.startElement(HTML.SCRIPT_ELEM, comp);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 

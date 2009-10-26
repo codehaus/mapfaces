@@ -1,9 +1,6 @@
-
-
-package org.mapfaces.template.bean;
+package org.mapfaces.demo.template.bean;
 
 import java.util.Locale;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 
 /**
@@ -12,14 +9,12 @@ import javax.faces.context.FacesContext;
  * @author Sidhoum Mehdi (Geomatys).
  */
 public class InitBean {
+
     /**
      * Allow to hide some message used by devellopers and to log information in data file.
      */
     //private static final Logger LOGGER = Logger.getLogger(InitBean.class.getName());
-    
     private Locale locale;
-    
-    
 
     public InitBean() {
         final FacesContext context = FacesContext.getCurrentInstance();

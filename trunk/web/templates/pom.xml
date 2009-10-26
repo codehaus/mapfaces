@@ -114,8 +114,6 @@
                             <output>${project.build.directory}/${project.build.finalName}/resources/all.js</output>
                             <includes>
 				<!--include>${basedir}/src/licenses/license.js</include-->
-                                <include>**/mootools-1.2-core.js</include>
-                                <include>**/mootools-1.2-more.js</include>
                                 <include>**/mocha.js</include>
                                 <include>**/mocha-init.js</include>
                                 <include>**/start.js</include>
@@ -142,8 +140,6 @@ These lines are deprecated and are here only for example -->
                         <!--aggregation>
                             <output>${project.build.sourceDirectory}/../webapp/resources/all.js</output>
                             <includes>
-                                <include>**/mootools-1.2-core.js</include>
-                                <include>**/mootools-1.2-more.js</include>
                                 <include>**/mocha.js</include>
                                 <include>**/mocha-init.js</include>
                                 <include>**/start.js</include>
