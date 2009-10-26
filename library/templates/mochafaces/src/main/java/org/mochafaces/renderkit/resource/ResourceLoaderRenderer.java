@@ -52,8 +52,8 @@ public class ResourceLoaderRenderer extends Renderer {
     private final static String JS_tabs = "/org/mochafaces/mocha/scripts/source/Components/Tabs.js";
     private final static String JS_themes = "/org/mochafaces/mocha/scripts/source/Utilities/Themes.js";
     private final static String JS_addons = "/org/mochafaces/mocha/scripts/source/Core/Addons.js";
-    private final static String JS_mootoolsC = "/org/mochafaces/core/mootools-1.2.2-core.js";
-    private final static String JS_mootoolsM = "/org/mochafaces/core/mootools-1.2.2.2-more.js";
+    private final static String JS_mootoolsC = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
+    private final static String JS_mootoolsM = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
 
     /**
      * {@inheritDoc }

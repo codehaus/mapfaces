@@ -28,16 +28,17 @@
             <script type="text/javascript" src="resources/js/excanvas-compressed.js"></script>
             <![endif]-->
 
-            <script src="resources/all.js" type="text/javascript"></script>
+            <!--script src="resources/all.js" type="text/javascript"></script-->
+            <!-- getting mootools lib compressed by yuicompressor from jar mapfaces-core -->
+            <script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js"></script>
+            <script type="text/javascript" src="resource.jsf?r=/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js"></script>
 
-            <!--script src="/seadatanet/resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" type="text/javascript"></script-->
+            <script src="resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" type="text/javascript"></script>
 
-        <!--script type="text/javascript" src="resources/js/mootools-1.2-core.js"></script>
-            <script type="text/javascript" src="resources/js/mootools-1.2-more.js"></script>
-            <script type="text/javascript" src="resources/js/mocha.js"></script>
+        <script type="text/javascript" src="resources/js/mocha.js"></script>
             <script type="text/javascript" src="resources/js/mocha-init.js"></script>
             <script type="text/javascript" src="resources/js/start.js"></script>
-            <script src="resources/js/browserdetect.js" type="text/javascript" charset="utf-8"></script-->
+            <script src="resources/js/browserdetect.js" type="text/javascript" charset="utf-8"></script>
 
         </head>
 

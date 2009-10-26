@@ -38,6 +38,9 @@ import org.widgetfaces.component.temporal.UITimePicker;
  */
 public class TimePickerRenderer extends Renderer {
 
+    private static final String MOOTOOLS_CORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
+    private static final String MOOTOOLS_MORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
+
     /**
      * Encode the component and its values.
      * @param context Context of the JSF page.
@@ -61,7 +64,6 @@ public class TimePickerRenderer extends Renderer {
          * JAVASCRIPT / css
          */
         final String NOGRAYSRC = "/org/widgetfaces/widget/timepicker/js/nogray_time_picker.js";
-        final String MOOTOOLSSRC = "/org/widgetfaces/resources/compressed/mootools.min.js";
         final String TIMEPICKERCSS = "/org/widgetfaces/widget/timepicker/css/timepicker_style.css";
 
         final String COMPID = component.getAttributes().get(HTML.id_ATTRIBUTE).toString();
@@ -134,7 +136,11 @@ public class TimePickerRenderer extends Renderer {
             // Loading of Mootools.
             writer.startElement(HTML.SCRIPT_ELEM, component);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLSSRC, null), null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
+            writer.startElement(HTML.SCRIPT_ELEM, component);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 

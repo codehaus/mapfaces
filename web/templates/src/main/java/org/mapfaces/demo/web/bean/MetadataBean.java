@@ -14,8 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
-package org.mapfaces.web.bean;
+package org.mapfaces.demo.web.bean;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -30,8 +29,7 @@ import org.ajax4jsf.ajax.repeat.UIRepeat;
 import org.mapfaces.util.XMLMetadataUtilities;
 import org.opengis.metadata.MetaData;
 
-public class MetadataBean
-{
+public class MetadataBean {
 
     private MetaData metaData;
     private String id;
@@ -42,117 +40,93 @@ public class MetadataBean
     private UIRepeat repeater;
     private Set keys;
 
-    public FacesContext getContext()
-    {
+    public FacesContext getContext() {
         return context;
     }
 
-    public void setContext(FacesContext context)
-    {
+    public void setContext(FacesContext context) {
         this.context = context;
     }
 
     public MetadataBean()
-        throws Exception
-    {
+            throws Exception {
         metaData = null;
         url = null;
         keys = new HashSet(1);
         context = FacesContext.getCurrentInstance();
         url = (String) context.getExternalContext().getRequestParameterMap().get("url");
-        if(metaData == null && url != null)
+        if (metaData == null && url != null) {
             loadMetaData(url, "ISO19139FRA");
+        }
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String aId)
-    {
+    public void setId(String aId) {
         id = aId;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
-    public void seturl(String url)
-    {
+    public void seturl(String url) {
         this.url = url;
     }
 
-    public MetaData getMetaData()
-    {
+    public MetaData getMetaData() {
         return metaData;
     }
 
-    public void setMetaData(MetaData metaData)
-    {
+    public void setMetaData(MetaData metaData) {
         this.metaData = metaData;
     }
 
-    private void loadMetaData(String url, String type)
-    {
-        try
-        {
+    private void loadMetaData(String url, String type) {
+        try {
             setMetaData(XMLMetadataUtilities.readMetaData(new URL(url), type));
-        }
-        catch(MalformedURLException ex)
-        {
+        } catch (MalformedURLException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (JAXBException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        catch(JAXBException ex)
-        {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-        catch(UnsupportedEncodingException ex)
-        {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-        if(metaData == null)
+        if (metaData == null) {
             LOGGER.log(Level.SEVERE, "The Metadata file is null !!!");
+        }
     }
 
-    public Set getKeys()
-    {
+    public Set getKeys() {
         return keys;
     }
 
-    public void setKeys(Set keys)
-    {
+    public void setKeys(Set keys) {
         this.keys = keys;
     }
 
-    public void setRepeater(UIRepeat repeater)
-    {
+    public void setRepeater(UIRepeat repeater) {
         this.repeater = repeater;
     }
 
-    public UIRepeat getRepeater()
-    {
+    public UIRepeat getRepeater() {
         return repeater;
     }
 
-    public HtmlInputText getPriceRef()
-    {
+    public HtmlInputText getPriceRef() {
         return priceRef;
     }
 
-    public void setPriceRef(HtmlInputText priceRef)
-    {
+    public void setPriceRef(HtmlInputText priceRef) {
         this.priceRef = priceRef;
     }
 
-    public String change()
-    {
+    public String change() {
         System.out.println("change");
         priceRef.processValidators(FacesContext.getCurrentInstance());
         priceRef.processUpdates(FacesContext.getCurrentInstance());
         return null;
     }
-
-
 }
