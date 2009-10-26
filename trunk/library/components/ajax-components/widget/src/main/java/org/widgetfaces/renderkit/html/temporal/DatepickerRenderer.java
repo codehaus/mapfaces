@@ -49,7 +49,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     private static final Logger LOGGER = Logger.getLogger(DatepickerRenderer.class.getName());
 
 //    private static final String LOAD_Datepicker = "/org/widgetfaces/widget/datepicker/js/datepicker.js";
-    private static final String LOAD_MOOTOOLS = "/org/widgetfaces/resources/js/loading.js";
+    private static final String LOAD_MOOTOOLS = "/org/widgetfaces/resources/compressed/mootools.min.js";
     private static final String MAPFACES_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
     private static final String MAPFACES_CSS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
     private static final String DATEPICKER_STYLECLASS = "﻿w8em format-y-m-d highlight-days-67 divider-dash";

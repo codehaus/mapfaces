@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
-    <managed-bean>
+    <!--managed-bean>
         <managed-bean-name>timelineBean</managed-bean-name>
         <managed-bean-class>bean.TimeLineBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -9,20 +9,20 @@
         <managed-bean-name>treebean</managed-bean-name>
         <managed-bean-class>bean.TreetableBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>    
+    </managed-bean-->
     <managed-bean>
         <managed-bean-name>map</managed-bean-name>
-        <managed-bean-class>org.mapfaces.web.bean.MapBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.bean.MapBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>metadata</managed-bean-name>
-        <managed-bean-class>org.mapfaces.web.bean.MetadataBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.bean.MetadataBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>mfbean</managed-bean-name>
-        <managed-bean-class>org.mapfaces.web.bean.MFBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.bean.MFBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
@@ -95,7 +95,17 @@
 
     <managed-bean>
         <managed-bean-name>timepickerbean</managed-bean-name>
-        <managed-bean-class>org.mapfaces.web.bean.TimePickerBean</managed-bean-class>
+        <managed-bean-class>org.mapfaces.demo.bean.TimePickerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datepickerbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.DatePickerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+        <managed-bean-name>autocompleterbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.AutoCompleterBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 

@@ -5,11 +5,9 @@
 <%@taglib prefix="wf" uri="http://widget-mapfaces.org/taglib"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+"http://www.w3.org/TR/html4/loose.dtd">
 
-<%--
-    This file is an entry point for JavaServer Faces application.
---%>
+
 <f:view>
     <html>
         <head>
@@ -29,13 +27,13 @@
                     <h:selectBooleanCheckbox value="#{timepickerbean.outputTop}"/>
                     <h:outputText value="outputTop"/>
                 </h:panelGrid>
-		<h:commandButton value="Submit"/>
+                <h:commandButton value="Submit"/>
                 <wf:timepicker  id="timepickerId"
-			        value="#{timepickerbean.date}"
-				loadMootools="#{timepickerbean.loadMootools}"
-				loadJs="#{timepickerbean.loadJs}"
-				rendered="#{timepickerbean.rendered}"
-				outputTop="#{timepickerbean.outputTop}"/>
+                                value="#{timepickerbean.date}"
+                                loadMootools="#{timepickerbean.loadMootools}"
+                                loadJs="#{timepickerbean.loadJs}"
+                                rendered="#{timepickerbean.rendered}"
+                                outputTop="#{timepickerbean.outputTop}"/>
             </h:form>
         </body>
     </html>
