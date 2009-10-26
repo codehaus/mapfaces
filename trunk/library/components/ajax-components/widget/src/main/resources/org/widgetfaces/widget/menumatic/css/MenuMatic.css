@@ -49,22 +49,22 @@
 
 /* Parent Sub Menu Links ---[javascript users only]*/
 .subMenuParentBtn{ 
-	background: url(../img/arrow_right.gif) right center no-repeat;  
+	background: url(resource.jsf?r=/org/widgetfaces/widget/menumatic/img/arrow_right.gif) right center no-repeat;
 }
 
 /* Parent Sub Menu Links on hover or focus ---[javascript users only]*/
 .subMenuParentBtnFocused{ 
-	background: url(../img/arrow_right_over.gif) right center no-repeat;  
+	background: url(resource.jsf?r=/org/widgetfaces/widget/menumatic/img/arrow_right_over.gif) right center no-repeat;
 }
 
 /* Parent Main Menu Links ---[javascript users only]*/
 .mainMenuParentBtn{	
-	 background: url(../img/arrow_down.gif) right center no-repeat; 
+	 background: url(resource.jsf?r=/org/widgetfaces/widget/menumatic/img/arrow_down.gif) right center no-repeat;
 }
 
 /* Parent Main Menu Links on hover or focus ---[javascript users only]*/
 .mainMenuParentBtnFocused{	
-	background: url(../img/arrow_down_over.gif) right center no-repeat; 
+	background: url(resource.jsf?r=/org/widgetfaces/widget/menumatic/img/arrow_down_over.gif) right center no-repeat;
 }
 
 /* ----[ OLs ULs, LIs, and DIVs ]----*/
