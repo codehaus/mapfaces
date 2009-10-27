@@ -1,0 +1,94 @@
+/*
+
+*, html {
+margin: 0;
+padding: 0;
+}
+
+*/
+
+
+/**************************************************************
+
+Sortable Table
+v 1.4
+
+**************************************************************/
+
+table {
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+th {
+    background-color: #eee;
+    background: #eee url(resource.jsf?r=/org/mapfaces/resources/datatable/images/icon-table-sort.png) no-repeat 2px 4px;
+    padding: 4px 4px 4px 14px;
+    text-align: left;
+}
+
+tr {
+    background-color: #eee;
+    padding: 4px;
+    height:22px;
+}
+
+tr.altRow {
+    background-color: #fff;
+}
+
+td {
+    padding: 2px;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+
+
+.sortedASC {
+    background: url(resource.jsf?r=/org/mapfaces/resources/datatable/images/icon-table-sort-asc.png) no-repeat 2px 0px #eee;
+}
+
+.sortedDESC {
+    background: url(resource.jsf?r=/org/mapfaces/resources/datatable/images/icon-table-sort-desc.png) no-repeat 2px 6px #eee;
+}
+
+.tableHeaderOver {
+    cursor: pointer;
+    color: #354158;
+}
+
+
+tr.selected {
+    background-color: orange;
+    color: #fff;
+}
+
+tr.over {
+    background-color: darkorange;
+    color: #fff;
+    cursor: pointer;
+}
+
+tr.hide {
+    display: none;
+}
+
+/***************************/
+.tableFilter {
+    border: 1px solid #ccc;
+    padding: 2px;
+    margin: 5px 0 10px 0;
+}
+
+.tableFilter input {
+    border: 1px solid #ccc;
+}
+
+.tableFilter select {
+    border: 1px solid #ccc;
+}
+
+/*************************************************************/

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!-- =========================================================== -->
+  <!--     Project Description                                     -->
+  <!-- =========================================================== -->
+  <parent>
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces</artifactId>
+    <version>0.2-SNAPSHOT</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.mapfaces</groupId>
+  <artifactId>mapfaces-web</artifactId>
+  <packaging>pom</packaging>
+  <version>0.2-SNAPSHOT</version>
+  <name>MapFaces - Web applications templates and examples</name>
+  
+  <scm>
+    <connection>
+      scm:svn:http://svn.codehaus.org/mapfaces/trunk/
+    </connection>
+    <url>http://svn.codehaus.org/mapfaces/trunk/</url>
+  </scm>
+
+  <organization>
+    <name>MapFaces</name>
+    <url>http://mapfaces.codehaus.org</url>
+  </organization>
+  <inceptionYear>2008</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>Lesser General Public License (LGPL)</name>
+      <url>http://www.gnu.org/copyleft/lesser.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  
+  <!-- =========================================================== -->
+  <!--     build     -->
+  <!-- =========================================================== -->
+  <build>
+    <plugins>
+      <!-- rename the war file -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>mapfaces</warName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  
+  <!-- =========================================================== -->
+  <!--     Modules for the build in approximate dependency order   -->
+  <!-- =========================================================== -->
+  <modules>
+    <module>examples</module>
+    <module>templates</module>
+    <!--module>testHttpUnit</module-->
+  </modules>
+</project>
+

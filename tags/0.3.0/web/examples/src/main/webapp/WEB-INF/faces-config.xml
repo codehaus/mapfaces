@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+    <!--managed-bean>
+        <managed-bean-name>timelineBean</managed-bean-name>
+        <managed-bean-class>bean.TimeLineBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>treebean</managed-bean-name>
+        <managed-bean-class>bean.TreetableBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean-->
+    <managed-bean>
+        <managed-bean-name>map</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.MapBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>metadata</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.MetadataBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>mfbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.MFBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <!-- Charts beans -->
+    <managed-bean>
+        <managed-bean-name>BarCharts</managed-bean-name>
+        <managed-bean-class>demo.BarCharts</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sourceProvider</property-name>
+            <value>#{SourceProvider}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>PieCharts</managed-bean-name>
+        <managed-bean-class>demo.PieCharts</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sourceProvider</property-name>
+            <value>#{SourceProvider}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>LineCharts</managed-bean-name>
+        <managed-bean-class>demo.LineCharts</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sourceProvider</property-name>
+            <value>#{SourceProvider}</value>
+        </managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>AreaCharts</managed-bean-name>
+        <managed-bean-class>demo.AreaCharts</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sourceProvider</property-name>
+            <value>#{SourceProvider}</value>
+        </managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>OtherCharts</managed-bean-name>
+        <managed-bean-class>demo.OtherCharts</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sourceProvider</property-name>
+            <value>#{SourceProvider}</value>
+        </managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>Events</managed-bean-name>
+        <managed-bean-class>demo.Events</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sourceProvider</property-name>
+            <value>#{SourceProvider}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>SourceProvider</managed-bean-name>
+        <managed-bean-class>demo.SourceProvider</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>timepickerbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.TimePickerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datepickerbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.DatePickerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+        <managed-bean-name>autocompleterbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.AutoCompleterBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+</faces-config>

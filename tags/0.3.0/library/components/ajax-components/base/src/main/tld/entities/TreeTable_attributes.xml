@@ -1,0 +1,117 @@
+
+<attribute>
+    <description>
+                <![CDATA[Collapse allow to collapse by default all subnode of
+                the tree table model. By default, all nodes with a depth greate than
+                the default collapse Depth value (1) are collapse.]]>
+    </description>
+    <name>collapse</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <description>
+                <![CDATA[Determines the depth of the tree display, by default,
+                this value is set to 1 ]]>
+    </description>
+    <name>collapseDepth</name>
+    <required>false</required>
+    <deferred-value>
+        <type>int</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>nodeStyle</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>nodeClass</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>leafStyle</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>leafClass</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>oddLineStyle</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>oddLineClass</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>evenLineStyle</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <name>evenLineClass</name>
+    <required>false</required>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+</attribute>
+
+
+<attribute>
+    <description></description>
+    <name>activateAjaxLoading</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <description></description>
+    <name>loadCss</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>
+
+<attribute>
+    <description></description>
+    <name>loadJs</name>
+    <required>false</required>
+    <deferred-value>
+        <type>boolean</type>
+    </deferred-value>
+</attribute>
