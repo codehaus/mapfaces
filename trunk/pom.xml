@@ -10,7 +10,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces</artifactId>
     <packaging>pom</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <name>MapFaces</name>
   
     <scm>

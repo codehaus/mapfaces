@@ -9,14 +9,14 @@
   <parent>
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.mapfaces</groupId>
   <artifactId>mapfaces-web</artifactId>
   <packaging>pom</packaging>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.3-SNAPSHOT</version>
   <name>MapFaces - Web applications templates and examples</name>
   
   <scm>
