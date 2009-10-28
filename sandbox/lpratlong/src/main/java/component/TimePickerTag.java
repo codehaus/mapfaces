@@ -28,7 +28,7 @@ public class TimePickerTag extends UIComponentELTag {
     private ValueExpression loadJs = null;
     private ValueExpression style = null;
     private ValueExpression styleClass = null;
-    private ValueExpression outputTop = null;
+    private ValueExpression targetInput = null;
 
     /**
      * @return String Return the Renderer Type of the component.
@@ -60,7 +60,7 @@ public class TimePickerTag extends UIComponentELTag {
             component.setValueExpression("loadNogray", this.loadJs);
             component.setValueExpression("style", this.style);
             component.setValueExpression("styleClass", this.styleClass);
-            component.setValueExpression("outputTop", this.outputTop);
+            component.setValueExpression("targetInput", this.targetInput);
             
             UITimePicker timepicker = (UITimePicker) component;
             FacesContext context = FacesContext.getCurrentInstance();
@@ -72,7 +72,7 @@ public class TimePickerTag extends UIComponentELTag {
             this.setPropertiesInComponent(this.value, datePath, "Value", context, timepicker);
             this.setPropertiesInComponent(this.loadMootools, "java.lang.Boolean", "LoadMootools", context, timepicker);
             this.setPropertiesInComponent(this.loadJs, booleanPath, "LoadJs", context, timepicker);
-            this.setPropertiesInComponent(this.outputTop, booleanPath, "OutputTop", context, timepicker);
+            this.setPropertiesInComponent(this.targetInput, stringPath, "targetInput", context, timepicker);
             this.setPropertiesInComponent(this.style, stringPath, "Style", context, timepicker);
             this.setPropertiesInComponent(this.styleClass, stringPath, "StyleClass", context, timepicker);
 
@@ -100,7 +100,7 @@ public class TimePickerTag extends UIComponentELTag {
         this.loadJs = null;
         this.style = null;
         this.styleClass = null;
-        this.outputTop = null;
+        this.targetInput = null;
     }
 
     /**
@@ -194,15 +194,15 @@ public class TimePickerTag extends UIComponentELTag {
     /**
      * @return the outputTop
      */
-    public ValueExpression getOutputTop() {
-        return outputTop;
+    public ValueExpression getTargetInput() {
+        return targetInput;
     }
 
     /**
      * @param outputTop the outputTop to set
      */
-    public void setOutputTop(ValueExpression outputTop) {
-        this.outputTop = outputTop;
+    public void setTargetInput(ValueExpression targetInput) {
+        this.targetInput = targetInput;
     }
 
     /**

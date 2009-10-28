@@ -47,7 +47,7 @@ public class TimePickerTag extends InputTextTag {
     private ValueExpression loadJs = null;
     private ValueExpression style = null;
     private ValueExpression styleClass = null;
-    private ValueExpression outputTop = null;
+    private ValueExpression targetInput = null;
     private ValueExpression loadCss = null;
 
     /**
@@ -80,7 +80,7 @@ public class TimePickerTag extends InputTextTag {
             component.setValueExpression("loadNogray", this.loadJs);
             component.setValueExpression("style", this.style);
             component.setValueExpression("styleClass", this.styleClass);
-            component.setValueExpression("outputTop", this.outputTop);
+            component.setValueExpression("targetInput", this.targetInput);
             component.setValueExpression("loadCss", this.loadCss);
 
             UITimePicker timepicker = (UITimePicker) component;
@@ -89,7 +89,7 @@ public class TimePickerTag extends InputTextTag {
             this.setPropertiesInComponent(this.value, Date.class, "Value", context, timepicker);
             this.setPropertiesInComponent(this.loadMootools, Boolean.class, "LoadMootools", context, timepicker);
             this.setPropertiesInComponent(this.loadJs, Boolean.class, "LoadJs", context, timepicker);
-            this.setPropertiesInComponent(this.outputTop, Boolean.class, "OutputTop", context, timepicker);
+            this.setPropertiesInComponent(this.targetInput, String.class, "targetInput", context, timepicker);
             this.setPropertiesInComponent(this.style, String.class, "Style", context, timepicker);
             this.setPropertiesInComponent(this.styleClass, String.class, "StyleClass", context, timepicker);
 
@@ -117,7 +117,7 @@ public class TimePickerTag extends InputTextTag {
         loadJs = null;
         style = null;
         styleClass = null;
-        outputTop = null;
+        targetInput = null;
         loadCss = null;
     }
 
@@ -213,15 +213,15 @@ public class TimePickerTag extends InputTextTag {
     /**
      * @return the outputTop
      */
-    public ValueExpression getOutputTop() {
-        return outputTop;
+    public ValueExpression getTargetInput() {
+        return targetInput;
     }
 
     /**
      * @param outputTop the outputTop to set
      */
-    public void setOutputTop(ValueExpression outputTop) {
-        this.outputTop = outputTop;
+    public void setTargetInput(ValueExpression targetInput) {
+        this.targetInput = targetInput;
     }
 
     /**

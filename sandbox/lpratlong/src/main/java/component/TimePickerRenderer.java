@@ -110,10 +110,6 @@ public class TimePickerRenderer extends Renderer {
        String minute = "0";
 
        boolean loadBuildFile = false;
-       boolean outputTop = false;
-
-       outputTop = timepicker.isOutputTop();
-       
 
        assertValid(context, component);
        ResponseWriter writer = context.getResponseWriter();
@@ -160,25 +156,6 @@ public class TimePickerRenderer extends Renderer {
            writer.writeAttribute(STYLE, timepicker.getStyle(), STYLE);
        }
 
-       if (outputTop) {
-           writer.startElement(DIV, component);
-           writer.writeAttribute(ID, FORMID + ':' + OUTPUTLABELID, ID);
-           writer.writeAttribute(CLASS, OUTPUTLABELTOPCLASS, CLASS);
-           Date dateValue = this.retrieveDateValue(component);
-           if (dateValue != null) {
-               SimpleDateFormat sdf = new SimpleDateFormat(LONGFORMATDATE);
-               String date = sdf.format(dateValue);
-               writer.write(date);
-               // we initialize the hour et minute param for the javascript function.
-               hour = date.substring(13, 15);
-               minute = date.substring(16, 18);
-           } else {
-               writer.write(LONGFORMATDATE);
-           }
-
-           writer.endElement(DIV);
-       }
-       
        writer.startElement(DIV, component);
        writer.writeAttribute(ID, FORMID + ':' + TIMEPICKERID, ID);
 
@@ -208,25 +185,23 @@ public class TimePickerRenderer extends Renderer {
        containerBottom.setLayout(BLOCK);
        containerBottom.getChildren().add(this.encodeButton(component, TIMEPICKERID + '_' + BUTTONLEFTID, BUTTONLEFTIMG, BUTTONLEFTONCLICK, BUTTONCLASS));
 
-       if (!outputTop) {
-           final HtmlOutputLabel outputLabel = new HtmlOutputLabel();
-           outputLabel.setId(OUTPUTLABELID);
-           outputLabel.setStyleClass(OUTPUTLABELBOTTOMCLASS);
-           Date dateValue = this.retrieveDateValue(component);
-           if (dateValue != null) {
-               SimpleDateFormat sdf = new SimpleDateFormat(SHORTFORMATDATE);
-               String date = sdf.format(dateValue);
-               outputLabel.setValue(date);
-               // we initialize the hour et minute param for the javascript function.
-               hour = date.substring(0,2);
-               minute = date.substring(3, 5);
-           } else {
-               outputLabel.setValue(OUTPUTLABELVALUE);
-           }
-           
-           containerBottom.getChildren().add(outputLabel);
+       final HtmlOutputLabel outputLabel = new HtmlOutputLabel();
+       outputLabel.setId(OUTPUTLABELID);
+       outputLabel.setStyleClass(OUTPUTLABELBOTTOMCLASS);
+       Date dateValue = this.retrieveDateValue(component);
+       if (dateValue != null) {
+           SimpleDateFormat sdf = new SimpleDateFormat(SHORTFORMATDATE);
+           String date = sdf.format(dateValue);
+           outputLabel.setValue(date);
+           // we initialize the hour et minute param for the javascript function.
+           hour = date.substring(0,2);
+           minute = date.substring(3, 5);
+       } else {
+           outputLabel.setValue(OUTPUTLABELVALUE);
        }
 
+       containerBottom.getChildren().add(outputLabel);
+       
        containerBottom.getChildren().add(this.encodeButton(component, TIMEPICKERID + '_' + BUTTONRIGHTID, BUTTONRIGHTIMG, BUTTONRIGHTONCLICK, BUTTONCLASS));
        component.getChildren().add(containerBottom);
 
@@ -238,9 +213,16 @@ public class TimePickerRenderer extends Renderer {
            writer.writeAttribute(SRC, TIMEPICKERSRC, SRC);
            writer.endElement(SCRIPT);
        }
-       
+
+       final String targetInput;
+       if (timepicker.getTargetInput() != null) {
+           targetInput = timepicker.getTargetInput();
+       } else {
+           targetInput = "";
+       }
+
        writer.startElement(SCRIPT, component);
-       writer.write("var " + INSTANCEJS + " = loadTimePicker('" + FORMID + ":" + TIMEPICKERID + "', '" + FORMID + ':' + OUTPUTLABELID + "', " + outputTop  + ", " + hour + ", " + minute + ");");
+       writer.write("var " + INSTANCEJS + " = loadTimePicker('" + FORMID + ":" + TIMEPICKERID + "', '" + FORMID + ':' + OUTPUTLABELID + "'," + hour + ", " + minute + ", '" + targetInput + "');");
        writer.endElement(SCRIPT);
 
     }

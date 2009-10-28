@@ -20,7 +20,8 @@
         <body>
             <h1><h:outputText value="JavaServer Faces"/></h1>
             <h:form id="main_form">
-                <tp:timepicker id="monTp" value="#{horloge.date}" loadMootools="#{horloge.loadMootools}" loadJs="#{horloge.loadJs}" rendered="true" outputTop="#{horloge.outputTop}" />
+                <tp:timepicker id="monTp" value="#{horloge.date}" loadMootools="#{horloge.loadMootools}" loadJs="#{horloge.loadJs}" rendered="true" targetInput="#{horloge.targetInput}" />
+                <h:inputText id="inputTest" />
             </h:form>
         </body>
     </html>

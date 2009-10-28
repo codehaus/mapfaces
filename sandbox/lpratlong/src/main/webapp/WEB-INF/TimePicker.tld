@@ -77,10 +77,10 @@
       </attribute>
 
       <attribute>
-         <description>Indicate if the label on which the time is displayed is on the top (true) or on the bottom (false).</description>
-         <name>outputTop</name>
+         <description>Indicate an other target input where the time has to be displayed.</description>
+         <name>targetInput</name>
          <deferred-value>
-            <type>boolean</type>
+            <type>String</type>
          </deferred-value>
       </attribute>
    </tag>

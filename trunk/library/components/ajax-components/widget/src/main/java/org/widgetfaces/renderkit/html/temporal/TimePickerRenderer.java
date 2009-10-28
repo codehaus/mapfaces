@@ -65,6 +65,7 @@ public class TimePickerRenderer extends Renderer {
          */
         final String NOGRAYSRC = "/org/widgetfaces/widget/timepicker/js/nogray_time_picker.js";
         final String TIMEPICKERCSS = "/org/widgetfaces/widget/timepicker/css/timepicker_style.css";
+        final String TIMEPICKERSRC = "/org/widgetfaces/widget/timepicker/js/timepicker.js";
 
         final String COMPID = component.getAttributes().get(HTML.id_ATTRIBUTE).toString();
 
@@ -115,11 +116,7 @@ public class TimePickerRenderer extends Renderer {
         String minute = "0";
 
         boolean loadBuildFile = false;
-        boolean outputTop = false;
-
-        outputTop = timepicker.isOutputTop();
-
-
+        
         assertValid(context, component);
         ResponseWriter writer = context.getResponseWriter();
 
@@ -173,25 +170,6 @@ public class TimePickerRenderer extends Renderer {
             writer.writeAttribute(HTML.style_ATTRIBUTE, timepicker.getStyle(), HTML.style_ATTRIBUTE);
         }
 
-        if (outputTop) {
-            writer.startElement(HTML.DIV_ELEM, component);
-            writer.writeAttribute(HTML.id_ATTRIBUTE, FORMID + ':' + OUTPUTLABELID, null);
-            writer.writeAttribute(HTML.class_ATTRIBUTE, OUTPUTLABELTOPCLASS, null);
-            Date dateValue = this.retrieveDateValue(component);
-            if (dateValue != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat(LONGFORMATDATE);
-                String date = sdf.format(dateValue);
-                writer.write(date);
-                // we initialize the hour et minute param for the javascript function.
-                hour = date.substring(13, 15);
-                minute = date.substring(16, 18);
-            } else {
-                writer.write(LONGFORMATDATE);
-            }
-
-            writer.endElement(HTML.DIV_ELEM);
-        }
-
         writer.startElement(HTML.DIV_ELEM, component);
         writer.writeAttribute(HTML.id_ATTRIBUTE, FORMID + ':' + TIMEPICKERID, null);
 
@@ -232,24 +210,23 @@ public class TimePickerRenderer extends Renderer {
             containerBottom.setLayout(BLOCK);
             containerBottom.getChildren().add(this.encodeButton(context, component, TIMEPICKERID + '_' + BUTTONLEFTID, BUTTONLEFTIMG, BUTTONLEFTONCLICK, BUTTONCLASS));
 
-            if (!outputTop) {
-                final HtmlOutputLabel outputLabel = new HtmlOutputLabel();
-                outputLabel.setId(OUTPUTLABELID);
-                outputLabel.setStyleClass(OUTPUTLABELBOTTOMCLASS);
-                Date dateValue = this.retrieveDateValue(component);
-                if (dateValue != null) {
-                    SimpleDateFormat sdf = new SimpleDateFormat(SHORTFORMATDATE);
-                    String date = sdf.format(dateValue);
-                    outputLabel.setValue(date);
-                    // we initialize the hour et minute param for the javascript function.
-                    hour = date.substring(0, 2);
-                    minute = date.substring(3, 5);
-                } else {
-                    outputLabel.setValue(OUTPUTLABELVALUE);
-                }
-
-                containerBottom.getChildren().add(outputLabel);
+            final HtmlOutputLabel outputLabel = new HtmlOutputLabel();
+            outputLabel.setId(OUTPUTLABELID);
+            outputLabel.setStyleClass(OUTPUTLABELBOTTOMCLASS);
+            Date dateValue = this.retrieveDateValue(component);
+            if (dateValue != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat(SHORTFORMATDATE);
+                String date = sdf.format(dateValue);
+                outputLabel.setValue(date);
+                // we initialize the hour et minute param for the javascript function.
+                hour = date.substring(0, 2);
+                minute = date.substring(3, 5);
+            } else {
+                outputLabel.setValue(OUTPUTLABELVALUE);
             }
+
+            containerBottom.getChildren().add(outputLabel);
+            
             containerBottom.getChildren().add(encodeButton(context, component, TIMEPICKERID + '_' + BUTTONRIGHTID, BUTTONRIGHTIMG, BUTTONRIGHTONCLICK, BUTTONCLASS));
             component.getChildren().add(containerBottom);
         }
@@ -257,11 +234,22 @@ public class TimePickerRenderer extends Renderer {
         // Verify if we need to load No_Gray library in the jsp.
         if (loadBuildFile) {
             // Load JS File to build the object.
-            wrtieActivationScript(context, timepicker, writer);
+            writer.startElement(HTML.SCRIPT_ELEM, component);
+            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, HTML.TYPE_ATTR);
+            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, TIMEPICKERSRC, null), null);
+            writer.endElement(HTML.SCRIPT_ELEM);
         }
 
+        final String targetInput;
+        if (timepicker.getTargetInput() != null) {
+            targetInput = timepicker.getTargetInput();
+        } else {
+            targetInput = "";
+        }
+
+        final String imgPath = ResourcePhaseListener.getURL(context, "/org/widgetfaces/widget/timepicker/img", null);
         writer.startElement(HTML.SCRIPT_ELEM, component);
-        writer.write("var " + INSTANCEJS + " = loadTimePicker('" + FORMID + ":" + TIMEPICKERID + "', '" + FORMID + ':' + OUTPUTLABELID + "', " + outputTop + ", " + hour + ", " + minute + ");");
+        writer.write("var " + INSTANCEJS + " = loadTimePicker('" + FORMID + ":" + TIMEPICKERID + "', '" + FORMID + ':' + OUTPUTLABELID + "', " + hour + ", " + minute + ", '" + targetInput + "', '" + imgPath + "');");
         writer.endElement(HTML.SCRIPT_ELEM);
 
     }
@@ -353,41 +341,41 @@ public class TimePickerRenderer extends Renderer {
         return (component instanceof UITimePicker && ((UITimePicker) component).getValue() != null) ? ((UITimePicker) component).getValue() : null;
     }
 
-    /**
-     * This function write the activation script for targeted components.
-     * @TODO the timepicker component should have attributes targetInputId to fill the time value
-     * @TODO the timezone must be displayed with the current locale timezone
-     * @param context
-     * @param timepicker
-     * @param writer
-     */
-    public void wrtieActivationScript(FacesContext context, UITimePicker timepicker, ResponseWriter writer) throws IOException {
-        writer.startElement(HTML.SCRIPT_ELEM, timepicker);
-        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-
-        //@TODO write decreaseTimePicker function with targetInputId as attribute value
-        writer.write("function decreaseTimePicker(timepicker, targetInputId){var minutes=timepicker.time.minute;" +
-                "if(minutes==0){minutes=59;}else{minutes-=1;}updateTimePicker(timepicker,minutes,targetInputId);" +
-                "}\n");
-        //@TODO write increaseTimePicker function with targetInputId as attribute value
-        writer.write("function increaseTimePicker(timepicker, targetInputId){var minutes=timepicker.time.minute;" +
-                "if(minutes==59){minutes=0;this.previousMinute=59;}else{minutes+=1;}updateTimePicker(timepicker,minutes,targetInputId);" +
-                "}\n");
-        writer.write("function updateTimePicker(timepickerComp,minutes,datepickerId) {if (typeof timepickerComp != 'undefined') {" +
-                "timepickerComp.time.minute = minutes;timepickerComp.updateField();timepickerComp.moveHands();timepickerComp.fireEvent('onChange');" +
-                "}}");
-        //@TODO the function loadTimePicker needs to take in arguments targetId for the inputText components that will be completed by a datepicker component.
-        writer.write("function loadTimePicker(tpId, tpValueId, onTop, heure, minute) {" +
-                "var timepicker = new TimePicker(tpId, null, null, {imagesPath:'" + ResourcePhaseListener.getURL(context, "/org/widgetfaces/widget/timepicker/img", null) + "', visible:true,offset:1000," +
-                "startTime: {hour:heure, minute:minute}, previousMinute: minute,onChange:function(){" +
-                "if (this.time.hour < 12) var ampm = this.options.lang.am;else var ampm = this.options.lang.pm;var hour = this.time.hour%12;" +
-                "var hourinput = this.time.hour;if ((this.time.minute == 0) && (this.previousMinute != 0)) {" +
-                "if (this.previousMinute <= 30) {this.time.hour--;} else if (30 < this.previousMinute) {this.time.hour++;}}" +
-                "this.previousMinute = this.time.minute;this.updateAmPm();if (hour < 10) hour = '0'+hour;if (hour == 0 && ampm == this.options.lang.am) hour = '12';" +
-                "var minute = this.time.minute;if (minute < 10) minute = '0'+minute;if(!onTop && $(tpValueId))$(tpValueId).innerHTML=hour+':'+minute+' '+ampm;" +
-                "else {var inputvalue = $(tpValueId).value+'T';var substr = inputvalue.substring(0, inputvalue.indexOf('T'));if($(tpValueId)){$(tpValueId).innerHTML = '';" +
-                "$(tpValueId).innerHTML = substr+'T'+hourinput+':'+minute+':'+new Date().getSeconds()+'+01' ;}}}" +
-                "});return timepicker;}");
-        writer.endElement(HTML.SCRIPT_ELEM);
-    }
+//    /**
+//     * This function write the activation script for targeted components.
+//     * @TODO the timepicker component should have attributes targetInputId to fill the time value
+//     * @TODO the timezone must be displayed with the current locale timezone
+//     * @param context
+//     * @param timepicker
+//     * @param writer
+//     */
+//    public void wrtieActivationScript(FacesContext context, UITimePicker timepicker, ResponseWriter writer) throws IOException {
+//        writer.startElement(HTML.SCRIPT_ELEM, timepicker);
+//        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+//
+//        //@TODO write decreaseTimePicker function with targetInputId as attribute value
+//        writer.write("function decreaseTimePicker(timepicker, targetInputId){var minutes=timepicker.time.minute;" +
+//                "if(minutes==0){minutes=59;}else{minutes-=1;}updateTimePicker(timepicker,minutes,targetInputId);" +
+//                "}\n");
+//        //@TODO write increaseTimePicker function with targetInputId as attribute value
+//        writer.write("function increaseTimePicker(timepicker, targetInputId){var minutes=timepicker.time.minute;" +
+//                "if(minutes==59){minutes=0;this.previousMinute=59;}else{minutes+=1;}updateTimePicker(timepicker,minutes,targetInputId);" +
+//                "}\n");
+//        writer.write("function updateTimePicker(timepickerComp,minutes,datepickerId) {if (typeof timepickerComp != 'undefined') {" +
+//                "timepickerComp.time.minute = minutes;timepickerComp.updateField();timepickerComp.moveHands();timepickerComp.fireEvent('onChange');" +
+//                "}}");
+//        //@TODO the function loadTimePicker needs to take in arguments targetId for the inputText components that will be completed by a datepicker component.
+//        writer.write("function loadTimePicker(tpId, tpValueId, heure, minute, targetInput) {" +
+//                "var timepicker = new TimePicker(tpId, null, null, {imagesPath:'" + ResourcePhaseListener.getURL(context, "/org/widgetfaces/widget/timepicker/img", null) + "', visible:true,offset:1000," +
+//                "startTime: {hour:heure, minute:minute}, previousMinute: minute,onChange:function(){" +
+//                "if (this.time.hour < 12) var ampm = this.options.lang.am;else var ampm = this.options.lang.pm;var hour = this.time.hour%12;" +
+//                "var hourinput = this.time.hour;if ((this.time.minute == 0) && (this.previousMinute != 0)) {" +
+//                "if (this.previousMinute <= 30) {this.time.hour--;} else if (30 < this.previousMinute) {this.time.hour++;}}" +
+//                "this.previousMinute = this.time.minute;this.updateAmPm();if (hour < 10) hour = '0'+hour;if (hour == 0 && ampm == this.options.lang.am) hour = '12';" +
+//                "var minute = this.time.minute;if (minute < 10) minute = '0'+minute;if($(tpValueId))$(tpValueId).innerHTML=hour+':'+minute+' '+ampm;" +
+//                "else {var inputvalue = $(tpValueId).value+'T';var substr = inputvalue.substring(0, inputvalue.indexOf('T'));if($(tpValueId)){$(tpValueId).innerHTML = '';" +
+//                "$(tpValueId).innerHTML = substr+'T'+hourinput+':'+minute+':'+new Date().getSeconds()+'+01' ;}}}" +
+//                "});return timepicker;}");
+//        writer.endElement(HTML.SCRIPT_ELEM);
+//    }
 }

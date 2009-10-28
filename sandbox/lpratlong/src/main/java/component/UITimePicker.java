@@ -39,7 +39,7 @@ public class UITimePicker extends UIInput {
     /**
      * Define the position of the Output Label
      */
-    private boolean outputTop;
+    private String targetInput;
 
     /**
      * Default constructor.
@@ -64,7 +64,7 @@ public class UITimePicker extends UIInput {
         values[3] = this.isLoadJs();
         values[4] = this.getStyle();
         values[5] = this.getStyleClass();
-        values[6] = this.isOutputTop();
+        values[6] = this.getTargetInput();
         return values;
     }
 
@@ -78,11 +78,11 @@ public class UITimePicker extends UIInput {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         // value is got on the Tag Class.
-        this.setLoadMootools((boolean) (Boolean)values[2]);
-        this.setLoadJs((boolean) (Boolean)values[3]);
+        this.setLoadMootools((Boolean) values[2]);
+        this.setLoadJs((Boolean) values[3]);
         this.setStyle(values[4].toString());
         this.setStyleClass(values[5].toString());
-        this.setOutputTop((boolean) (Boolean)values[6]);
+        this.setTargetInput(values[6].toString());
     }
 
     /**
@@ -166,15 +166,15 @@ public class UITimePicker extends UIInput {
     /**
      * @return the outputTop
      */
-    public boolean isOutputTop() {
-        return outputTop;
+    public String getTargetInput() {
+        return targetInput;
     }
 
     /**
      * @param outputTop the outputTop to set
      */
-    public void setOutputTop(boolean outputTop) {
-        this.outputTop = outputTop;
+    public void setTargetInput(String targetInput) {
+        this.targetInput = targetInput;
     }
     
 }

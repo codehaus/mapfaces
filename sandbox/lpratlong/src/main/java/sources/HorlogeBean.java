@@ -17,6 +17,7 @@ public class HorlogeBean {
     private boolean loadMootools = true;
     private boolean loadJs = true;
     private boolean outputTop = false;
+    private String targetInput = "main_form:inputTest";
 
     /**
      * @return the date
@@ -72,5 +73,19 @@ public class HorlogeBean {
      */
     public void setOutputTop(boolean outputTop) {
         this.outputTop = outputTop;
+    }
+
+    /**
+     * @return the targetInput
+     */
+    public String getTargetInput() {
+        return targetInput;
+    }
+
+    /**
+     * @param targetInput the targetInput to set
+     */
+    public void setTargetInput(String targetInput) {
+        this.targetInput = targetInput;
     }
 }

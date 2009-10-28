@@ -54,9 +54,9 @@ public class UITimePicker extends UIInput {
      */
     private String styleClass;
     /**
-     * Define the position of the Output Label
+     * Define the target input.
      */
-    private boolean outputTop;
+    private String targetInput;
     /**
      * Flag that indicates if the css resources will be loaded or not.
      */
@@ -85,7 +85,7 @@ public class UITimePicker extends UIInput {
         values[3] = this.isLoadJs();
         values[4] = this.getStyle();
         values[5] = this.getStyleClass();
-        values[6] = this.isOutputTop();
+        values[6] = this.getTargetInput();
         values[7] = this.isLoadCss();
         return values;
     }
@@ -104,7 +104,7 @@ public class UITimePicker extends UIInput {
         this.setLoadJs((Boolean) values[3]);
         this.setStyle((String) values[4]);
         this.setStyleClass((String) values[5]);
-        this.setOutputTop((Boolean) values[6]);
+        this.setTargetInput((String) values[6]);
         this.setLoadCss((Boolean) values[7]);
     }
 
@@ -189,15 +189,15 @@ public class UITimePicker extends UIInput {
     /**
      * @return the outputTop
      */
-    public boolean isOutputTop() {
-        return outputTop;
+    public String getTargetInput() {
+        return targetInput;
     }
 
     /**
      * @param outputTop the outputTop to set
      */
-    public void setOutputTop(boolean outputTop) {
-        this.outputTop = outputTop;
+    public void setTargetInput(String targetInput) {
+        this.targetInput = targetInput;
     }
 
     /**

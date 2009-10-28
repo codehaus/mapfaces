@@ -20,8 +20,8 @@ function updateTimePicker(timepickerComp,minutes,datepickerId) {
 }
 
 
-function loadTimePicker(tpId, tpValueId, heure, minute, targetInputId) {
-    var timepicker = new TimePicker(tpId, null, null, {imagesPath:"images", visible:true,offset:1000,
+function loadTimePicker(tpId, tpValueId, heure, minute, targetInputId, imgPath) {
+    var timepicker = new TimePicker(tpId, null, null, {imagesPath:imgPath, visible:true,offset:1000,
         startTime: {hour:heure, minute:minute}, previousMinute: minute,
         onChange:function(){
             if (this.time.hour < 12) var ampm = this.options.lang.am;
