@@ -24,16 +24,20 @@
                     <h:outputText value="load timepicker scripts"/>
                     <h:selectBooleanCheckbox value="#{timepickerbean.rendered}"/>
                     <h:outputText value="render the component"/>
-                    <h:selectBooleanCheckbox value="#{timepickerbean.outputTop}"/>
-                    <h:outputText value="outputTop"/>
+                    <h:selectBooleanCheckbox value="#{timepickerbean.targetInputActif}"/>
+                    <h:outputText value="targetInput"/>
                 </h:panelGrid>
                 <h:commandButton value="Submit"/>
-                <wf:timepicker  id="timepickerId"
+                <wf:timepicker id="timepickerId"
                                 value="#{timepickerbean.date}"
                                 loadMootools="#{timepickerbean.loadMootools}"
                                 loadJs="#{timepickerbean.loadJs}"
                                 rendered="#{timepickerbean.rendered}"
-                                outputTop="#{timepickerbean.outputTop}"/>
+                                targetInput="formId:inputTargeted"/>
+
+                <h:panelGroup style="margin-top:30px;" rendered="#{timepickerbean.targetInputActif}">
+                    <h:inputText id="inputTargeted" />
+                </h:panelGroup>
             </h:form>
         </body>
     </html>

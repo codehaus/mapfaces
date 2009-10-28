@@ -28,7 +28,8 @@ public class TimePickerBean {
     private Date date = new Date();
     private boolean loadMootools = true;
     private boolean loadJs = true;
-    private boolean outputTop = false;
+    private String targetInput = "formId:inputTargeted";
+    private boolean targetInputActif = true;
     private boolean rendered = true;
 
     public TimePickerBean(){
@@ -78,20 +79,6 @@ public class TimePickerBean {
     }
 
     /**
-     * @return the outputTop
-     */
-    public boolean isOutputTop() {
-        return outputTop;
-    }
-
-    /**
-     * @param outputTop the outputTop to set
-     */
-    public void setOutputTop(boolean outputTop) {
-        this.outputTop = outputTop;
-    }
-
-    /**
      * @return the rendered
      */
     public boolean isRendered() {
@@ -104,4 +91,33 @@ public class TimePickerBean {
     public void setRendered(boolean rendered) {
         this.rendered = rendered;
     }
+
+    /**
+     * @return the targetInput
+     */
+    public String getTargetInput() {
+        return targetInput;
+    }
+
+    /**
+     * @param targetInput the targetInput to set
+     */
+    public void setTargetInput(String targetInput) {
+        this.targetInput = targetInput;
+    }
+
+    /**
+     * @return the targetInputActif
+     */
+    public boolean isTargetInputActif() {
+        return targetInputActif;
+    }
+
+    /**
+     * @param targetInputActif the targetInputActif to set
+     */
+    public void setTargetInputActif(boolean targetInputActif) {
+        this.targetInputActif = targetInputActif;
+    }
+
 }
