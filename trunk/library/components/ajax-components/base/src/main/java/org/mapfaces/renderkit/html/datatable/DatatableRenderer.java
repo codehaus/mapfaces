@@ -40,6 +40,19 @@ public class DatatableRenderer extends TableRenderer {
     private static final String DATATABLE_JS = "/org/mapfaces/resources/datatable/js/sortableTable.js";
 
     @Override
+    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        final UIDatatable comp = (UIDatatable) component;
+        /*
+         * Applying style class only for this datatable family (mapfaces)
+         * This is to avoid to conflict with another table.
+         */
+        comp.setStyleClass((comp.getStyleClass()!=null)?comp.getStyleClass()+" mfdatatable":" mfdatatable");
+        super.encodeBegin(context, component);
+    }
+
+
+
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
         final ResponseWriter writer = context.getResponseWriter();
