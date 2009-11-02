@@ -28,12 +28,12 @@ import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBException;
 import org.ajax4jsf.ajax.repeat.UIRepeat;
 import org.mapfaces.util.XMLMetadataUtilities;
-import org.opengis.metadata.MetaData;
+import org.opengis.metadata.Metadata;
 
 public class MetadataBean
 {
 
-    private MetaData metaData;
+    private Metadata metaData;
     private String id;
     private String url;
     private FacesContext context;
@@ -85,12 +85,12 @@ public class MetadataBean
         this.url = url;
     }
 
-    public MetaData getMetaData()
+    public Metadata getMetaData()
     {
         return metaData;
     }
 
-    public void setMetaData(MetaData metaData)
+    public void setMetaData(Metadata metaData)
     {
         this.metaData = metaData;
     }

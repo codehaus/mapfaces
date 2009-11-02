@@ -19,8 +19,8 @@ package org.mapfaces.util;
 import org.mapfaces.share.utils.XMLUtilities;
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.JAXBException;
-import org.geotoolkit.metadata.iso.DefaultMetaData;
-import org.opengis.metadata.MetaData;
+import org.geotoolkit.metadata.iso.DefaultMetadata;
+import org.opengis.metadata.Metadata;
 
 public class XMLMetadataUtilities extends XMLUtilities {
 
@@ -28,7 +28,7 @@ public class XMLMetadataUtilities extends XMLUtilities {
     public static final Class jaxbInstanceISO1939FRA[];
 
     static {
-        jaxbInstanceISO1939 = org.geotoolkit.metadata.iso.DefaultMetaData.class;
+        jaxbInstanceISO1939 = org.geotoolkit.metadata.iso.DefaultMetadata.class;
         jaxbInstanceISO1939FRA = new Class[7];
         jaxbInstanceISO1939FRA[0] = org.geotoolkit.metadata.fra.FRA_Constraints.class;
         jaxbInstanceISO1939FRA[1] = org.geotoolkit.metadata.fra.FRA_DataIdentification.class;
@@ -42,17 +42,17 @@ public class XMLMetadataUtilities extends XMLUtilities {
     public XMLMetadataUtilities() {
     }
 
-    public static MetaData readMetaData(Object source, String type)
+    public static Metadata readMetaData(Object source, String type)
             throws JAXBException, UnsupportedEncodingException {
-        MetaData elt = null;
+        Metadata elt = null;
 
         if (type.equals("ISO19139")) {
-            elt = (DefaultMetaData) unmarshal(source, new Class[]{
+            elt = (DefaultMetadata) unmarshal(source, new Class[]{
                         jaxbInstanceISO1939
                     });
 
         } else if (type.equals("ISO19139FRA")) {
-            elt = (DefaultMetaData) unmarshal(source, jaxbInstanceISO1939FRA);
+            elt = (DefaultMetadata) unmarshal(source, jaxbInstanceISO1939FRA);
             
         }
         return elt;

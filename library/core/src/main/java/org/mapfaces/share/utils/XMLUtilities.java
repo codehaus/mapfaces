@@ -22,7 +22,7 @@ import javax.xml.bind.*;
 import javax.xml.stream.*;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import org.opengis.metadata.citation.OnLineResource;
+import org.opengis.metadata.citation.OnlineResource;
 import org.w3c.dom.Node;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -108,8 +108,8 @@ public class XMLUtilities {
             XMLStreamReader s = (XMLStreamReader) source;
             return unMarshaller.unmarshal(s);
         }
-        if (source instanceof OnLineResource) {
-            OnLineResource online = (OnLineResource) source;
+        if (source instanceof OnlineResource) {
+            OnlineResource online = (OnlineResource) source;
             try {
                 URL url = online.getLinkage().toURL();
                 return unMarshaller.unmarshal(url);
