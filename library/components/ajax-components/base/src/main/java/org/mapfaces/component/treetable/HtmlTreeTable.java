@@ -15,7 +15,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.component.html;
+package org.mapfaces.component.treetable;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import javax.faces.context.FacesContext;
 
 import javax.el.ValueExpression;
-import org.mapfaces.component.treetable.UITreeData;
 
 public class HtmlTreeTable extends UITreeData {
 

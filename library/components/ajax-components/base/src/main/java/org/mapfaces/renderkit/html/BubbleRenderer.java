@@ -15,7 +15,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.renderkit;
+package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;

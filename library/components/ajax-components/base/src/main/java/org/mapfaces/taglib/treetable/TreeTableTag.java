@@ -19,7 +19,7 @@ package org.mapfaces.taglib.treetable;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import org.mapfaces.taglib.html.HtmlTreeTableTag;
+import org.mapfaces.taglib.treetable.HtmlTreeTableTag;
 
 /**
  *

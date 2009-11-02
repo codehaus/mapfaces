@@ -15,7 +15,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.renderkit.treetable;
+package org.mapfaces.renderkit.html.treetable;
 
 import com.sun.faces.renderkit.AttributeManager;
 
