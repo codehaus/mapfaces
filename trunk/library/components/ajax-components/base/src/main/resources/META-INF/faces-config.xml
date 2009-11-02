@@ -4,20 +4,34 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
-    <!-- COMPONENTS -->
+    <!-- Treetable -->
     <component>
         <component-type>org.mapfaces.component.tree.TreeTable</component-type>
         <component-class>org.mapfaces.component.treetable.UITreeTable</component-class>
     </component>
-
     <component>
         <component-type>org.mapfaces.component.tree.TreeColumn</component-type>
         <component-class>org.mapfaces.component.treetable.UITreeColumn</component-class>
     </component>
 
+    <!-- Bubble component -->
     <component>
         <component-type>org.mapfaces.component.Bubble</component-type>
         <component-class>org.mapfaces.component.UIBubble</component-class>
+    </component>
+
+    <!-- Datatable component -->
+    <component>
+        <component-type>org.mapfaces.Datatable</component-type>
+        <component-class>org.mapfaces.component.datatable.UIDatatable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.datatable.Columns</component-type>
+        <component-class>org.mapfaces.component.datatable.UIColumns</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.datatable.Scroller</component-type>
+        <component-class>org.mapfaces.component.datatable.UIScroller</component-class>
     </component>
 
     <!-- RENDERKIT -->
@@ -25,13 +39,32 @@
         <renderer>
             <component-family>org.mapfaces.component.tree.TreeTable</component-family>
             <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.treetable.TreeTableRenderer</renderer-class>
+            <renderer-class>org.mapfaces.renderkit.html.treetable.TreeTableRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Bubble component</description>
             <component-family>org.mapfaces.component.Bubble</component-family>
             <renderer-type>org.mapfaces.renderkit.HTMLBubble</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.BubbleRenderer</renderer-class>
+            <renderer-class>org.mapfaces.renderkit.html.BubbleRenderer</renderer-class>
         </renderer>
+        <!-- Datatable Renderers -->
+        <renderer>
+            <description>Datatable</description>
+            <component-family>org.mapfaces.Datatable</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLDatatable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.DatatableRenderer</renderer-class>
+        </renderer>
+        <!--renderer>
+            <description>Columns </description>
+            <component-family>org.mapfaces.datatable.Columns</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLColumns</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.ColumnsRenderer</renderer-class>
+        </renderer-->
+        <!--renderer>
+            <description>Scroller </description>
+            <component-family>org.mapfaces.datatable.Scroller</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLScroller</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.ScrollerRenderer</renderer-class>
+        </renderer-->
     </render-kit>
 </faces-config>

@@ -18,7 +18,6 @@
 package org.mapfaces.component.treetable;
 
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.html.HtmlTreeTable;
 
 /**
  * 
@@ -56,6 +55,11 @@ public class UITreeTable extends HtmlTreeTable {
      * To disable js loading. True value by default.
      */
     private boolean loadJs = true;
+
+    public UITreeTable() {
+        super();
+        setRendererType(RENDERER_TYPE); // this component has a renderer
+    }
 
     // ---------------------------------------------------------- Methods
     /**

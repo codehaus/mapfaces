@@ -2,7 +2,7 @@
 
 <%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
-<%@taglib prefix="mf" uri="http://mapfaces.org/taglib"%>
+<%@taglib prefix="mf-base" uri="http://mapfaces.org/taglib-base"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,22 +17,22 @@
         <body>
             <h1><h:outputText value="MapFaces Datatable sorting demo"/></h1>
             <h:form id="mainform">
-                <mf:Datatable id="mfdatatable"
+                <mf-base:Datatable id="mfdatatable"
                               value="#{datatablebean.allContactsModel}"
                               var="_row"
                               style="text-align:center;" sortable="true" rules="all" >
-                    <mf:DataTableColumn axis="number">
+                    <mf-base:DataTableColumn axis="number">
                         <f:facet name="header"><h:outputText value="ID"/></f:facet>
                         <h:outputText value="#{_row.doubleValue}" style="text-align:center;"/>
                         <f:facet name="footer"><h:outputText value=""/></f:facet>
-                    </mf:DataTableColumn>
+                    </mf-base:DataTableColumn>
 
-                    <mf:DataTableColumn axis="string">
+                    <mf-base:DataTableColumn axis="string">
                         <f:facet name="header"><h:outputText value="name"/></f:facet>
                         <h:outputText value="#{_row.value}" style="text-align:center;"/>
                         <f:facet name="footer"><h:outputText value=""/></f:facet>
-                    </mf:DataTableColumn>
-                </mf:Datatable>
+                    </mf-base:DataTableColumn>
+                </mf-base:Datatable>
 
 
                 <hr/>

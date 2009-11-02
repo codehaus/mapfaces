@@ -15,7 +15,7 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.taglib.html;
+package org.mapfaces.taglib.treetable;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;

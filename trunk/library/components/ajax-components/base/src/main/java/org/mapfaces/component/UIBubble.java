@@ -20,8 +20,14 @@ package org.mapfaces.component;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 /**
- *
+ * This UIclass represents a popup component that can contains a lot of sub components.
+ * This was created to complete the UIPopup component (targeted only for getFeatureInfo uses).
+ * You can just add some components as children of this UIBubble to display them.
+ * This component is wrapped by a nice and a small javascript effect that use Spry lib
+ * (compatible with a large of libraries like Prototype, Mootools, JQuery or scriptaculous and all web browsers.)
+ * 
  * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.3
  */
 public class UIBubble extends UIComponentBase {
     

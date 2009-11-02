@@ -249,24 +249,12 @@
         <component-class>org.mapfaces.component.treebuilder.UITreeNodeInfo</component-class>
     </component>
 
-    <!-- Datatable component -->
-    <component>
-        <component-type>org.mapfaces.Datatable</component-type>
-        <component-class>org.mapfaces.component.datatable.UIDatatable</component-class>
-    </component>
-    <component>
-        <component-type>org.mapfaces.datatable.Columns</component-type>
-        <component-class>org.mapfaces.component.datatable.UIColumns</component-class>
-    </component>
-    <!-- Autocompletion -->
+    
+    <!-- Autocompletion this autocompletion component is another completion for thesaurus uses -->
     <component>
         <component-type>org.mapfaces.Autocompletion</component-type>
         <component-class>org.widgetfaces.component.autocompletion.UIAutocompletion</component-class>
     </component>
-    <!--component>
-        <component-type>org.mapfaces.datatable.Scroller</component-type>
-        <component-class>org.mapfaces.component.datatable.UIScroller</component-class>
-    </component-->
     
     <!-- *************************************************************** -->
     <!-- ******************** RENDER-KIT ******************************* -->
@@ -627,26 +615,6 @@
             <renderer-class>org.mapfaces.renderkit.html.ExtPanelRenderer</renderer-class>
         </renderer>
 
-        <!-- Datatable Renderers -->
-        <renderer>
-            <description>Datatable</description>
-            <component-family>org.mapfaces.Datatable</component-family>
-            <renderer-type>org.mapfaces.renderkit.HTMLDatatable</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.html.datatable.DatatableRenderer</renderer-class>
-        </renderer>
-        <!--renderer>
-            <description>Columns </description>
-            <component-family>org.mapfaces.datatable.Columns</component-family>
-            <renderer-type>org.mapfaces.renderkit.datatable.HTMLColumns</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.html.datatable.ColumnsRenderer</renderer-class>
-        </renderer-->
-        <!--renderer>
-            <description>Scroller </description>
-            <component-family>org.mapfaces.datatable.Scroller</component-family>
-            <renderer-type>org.mapfaces.renderkit.datatable.HTMLScroller</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.html.datatable.ScrollerRenderer</renderer-class>
-        </renderer-->
-
         <!-- DataRequest -->
         <renderer>
             <description>DataRequest is no visual component, it is used to handle data request for getFeatureInfo or getCoverage and redirect the value in output components like a Popup</description>
@@ -656,6 +624,7 @@
         </renderer>
         <!-- Autocompletion -->
         <renderer>
+            <description>This autocomlpletion is a special component used with thesaurus services</description>
             <component-family>org.mapfaces.Autocompletion</component-family>
             <renderer-type>org.mapfaces.renderkit.HTMLAutocompletionAndZoom</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.AutocompletionAndZoomRenderer</renderer-class>

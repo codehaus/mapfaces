@@ -23,7 +23,6 @@ import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.Context;
 import org.mapfaces.share.utils.AjaxUtils;
-import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.util.FacesMapUtils;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
