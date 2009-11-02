@@ -3157,7 +3157,7 @@
         </attribute>
         <attribute>
             <description>
-                <![CDATA[Define if the tabl is sortable or not]]>
+                <![CDATA[Define if the table is sortable or not]]>
             </description>
             <name>sortable</name>
             <required>false</required>

@@ -75,6 +75,13 @@
             </li>
         </ul>
         <br/>
+        <h2>Datatable examples : </h2>
+        <ul>
+            <li>
+                <a href="./datatable/sorting.jsf">Datatable sorting</a>
+            </li>
+        </ul>
+        <br/>
         <h2>Online application examples : </h2>
         <ul>
             <li>
