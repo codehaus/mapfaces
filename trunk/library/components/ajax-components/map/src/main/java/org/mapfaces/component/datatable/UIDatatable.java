@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2009, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.component.datatable;
 
 import javax.faces.component.html.HtmlDataTable;
@@ -33,16 +34,26 @@ import javax.faces.context.FacesContext;
  * <li><b>scrolling</b> - provide a scrolling capability out of the box
  * </ul>
  * @author Kevin Delfour (IRD)
+ * @since 0.3
  */
 public class UIDatatable extends HtmlDataTable {
 
     private static final String FAMILY = "org.mapfaces.Datatable";
+    private static final String RENDER_TYPE = "org.mapfaces.renderkit.HTMLDatatable";
     /* Fields */
     private String overCls;
     private int sortOn = 0;
     private String sortBy = "ASC";
     private boolean scrolling = false;
     private boolean sortable = false;
+
+    /**
+     * Creates a new inbstance of UIDatatable
+     */
+    public UIDatatable() {
+        super();
+        setRendererType(RENDER_TYPE);    // this component has a renderer
+    }
 
     /* Accessors */
     /**

@@ -108,5 +108,10 @@
         <managed-bean-class>org.mapfaces.demo.bean.AutoCompleterBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datatablebean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.DatatableBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
 </faces-config>
