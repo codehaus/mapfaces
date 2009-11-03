@@ -670,6 +670,19 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Active snapping when modify.]]></description>
         </attribute>
+        <attribute>
+            <name>layerTargetId</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                <![CDATA[Indicate the ID of the SVG Layer on which the
+                tools have to be linked. If empty, the EditionBar component
+                instanciate a new Layer.]]>
+            </description>
+        </attribute>
         <!--attribute>
             <name>split</name>
             <deferred-value>

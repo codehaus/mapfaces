@@ -53,6 +53,7 @@ public class EditionBarTag extends WidgetBaseTag {
     private ValueExpression regularPolygonSides = null;
     private ValueExpression deleteFeature = null;
     private ValueExpression split = null;
+    private ValueExpression layerTargetId = null;
 
     /**
      * {@inheritDoc }
@@ -92,7 +93,7 @@ public class EditionBarTag extends WidgetBaseTag {
         component.setValueExpression("regularPolygonSides",getRegularPolygonSides());
         component.setValueExpression("deleteFeature",getDeleteFeature());
         component.setValueExpression("split",getSplit());
-
+        component.setValueExpression("layerTargetId",getLayerTargetId());
     }
 
     /**
@@ -116,6 +117,7 @@ public class EditionBarTag extends WidgetBaseTag {
         setRegularPolygonSides(null);
         setDeleteFeature(null);
         setSplit(null);
+        setLayerTargetId(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -316,6 +318,20 @@ public class EditionBarTag extends WidgetBaseTag {
      */
     public void setSplit(ValueExpression split) {
         this.split = split;
+    }
+
+    /**
+     * @return the layerTargetId
+     */
+    public ValueExpression getLayerTargetId() {
+        return layerTargetId;
+    }
+
+    /**
+     * @param layerTargetId the layerTargetId to set
+     */
+    public void setLayerTargetId(ValueExpression layerTargetId) {
+        this.layerTargetId = layerTargetId;
     }
 
 }
