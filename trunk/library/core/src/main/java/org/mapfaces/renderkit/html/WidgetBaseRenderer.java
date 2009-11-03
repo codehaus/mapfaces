@@ -32,6 +32,8 @@ import org.mapfaces.share.utils.FacesUtils;
 /**
  * @author Olivier Terral (Geomatys).
  * @author Mehdi Sidhoum (Geomatys).
+ *
+ * @since 0.1
  */
 
 public class WidgetBaseRenderer extends Renderer {

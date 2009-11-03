@@ -13,14 +13,17 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>MapFaces Datatable sorting demo</title>
+            <style>
+                .selectedPager{color: red;background: cyan;}
+            </style>
         </head>
         <body>
             <h1><h:outputText value="MapFaces Datatable sorting demo"/></h1>
             <h:form id="mainform">
                 <mf-base:Datatable id="mfdatatable"
-                              value="#{datatablebean.allContactsModel}"
-                              var="_row"
-                              style="text-align:center;" sortable="true" rules="all" >
+                                   value="#{datatablebean.allContactsModel}"
+                                   var="_row"
+                                   style="text-align:center;" sortable="true" rules="all" rows="10">
                     <mf-base:DataTableColumn axis="number">
                         <f:facet name="header"><h:outputText value="ID"/></f:facet>
                         <h:outputText value="#{_row.doubleValue}" style="text-align:center;"/>
@@ -33,14 +36,21 @@
                         <f:facet name="footer"><h:outputText value=""/></f:facet>
                     </mf-base:DataTableColumn>
                 </mf-base:Datatable>
+                <mf-base:DataScroller dataTableId="mfdatatable"
+                                      id="datascrollerpager"
+                                      selectedStyleClass="selectedPager"
+                                      showpages="5"
+                                      style="margin:0pt auto;text-align:center;"
+                                      styleClass="dtscroller"/>
 
 
                 <hr/>
 
+                <h1><h:outputText value="Mojarra default datatable "/></h1>
                 <h:dataTable id="jsfdatatable"
                              value="#{datatablebean.allContactsModel}"
                              var="_row2"
-                             style="text-align:center;" rules="all">
+                             style="text-align:center;" rules="all" rows="4">
                     <h:column>
                         <f:facet name="header"><h:outputText value="ID"/></f:facet>
                         <h:outputText value="#{_row2.doubleValue}" style="text-align:center;"/>
@@ -53,10 +63,13 @@
                         <f:facet name="footer"><h:outputText value=""/></f:facet>
                     </h:column>
                 </h:dataTable>
+                <%/*mf-base:DataScroller dataTableId="jsfdatatable"
+        id="datascrollerpager2"
+        selectedStyleClass="selectedPager"
+        showpages="3"
+        style="margin:0pt auto;text-align:center;"
+        styleClass="dtscroller"/*/%>
             </h:form>
         </body>
     </html>
 </f:view>
-
-
-

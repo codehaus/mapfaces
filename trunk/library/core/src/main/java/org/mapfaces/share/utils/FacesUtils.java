@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.share.utils;
 
 import java.io.IOException;
@@ -44,8 +45,10 @@ import javax.servlet.http.HttpSession;
 import org.mapfaces.component.models.UIModelBase;
 
 /**
+ * This class regroup all Faces methods that are called in components renderers classes.
  *
- * @author kevindelfour
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
  */
 public class FacesUtils {
     private static final Logger LOGGER = Logger.getLogger(FacesUtils.class.getName());
@@ -459,7 +462,7 @@ public class FacesUtils {
      */
     public static void assertValid(final FacesContext context, final UIComponent component) {
         if (context == null) {
-            throw new NullPointerException("context should not be null");
+            throw new NullPointerException("FacesContext should not be null");
         }
         if (component == null) {
             throw new NullPointerException("component should not be null");

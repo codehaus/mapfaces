@@ -34,9 +34,13 @@ public class DatatableBean {
      * Creates a new instance of datatablebean
      */
     public DatatableBean() {
+
+        String[] timezones = java.util.TimeZone.getAvailableIDs();
+
+        
         List<DataModelRow> modelsList = new ArrayList<DataModelRow>();
-        for (int i = 0; i < 10; i++) {
-            modelsList.add(new DataModelRow(i, "contact_" + i));
+        for (int i = 0; i < timezones.length; i++) {
+            modelsList.add(new DataModelRow(i, timezones[i]));
         }
         allContactsModel = new ListDataModel(modelsList);
     }
