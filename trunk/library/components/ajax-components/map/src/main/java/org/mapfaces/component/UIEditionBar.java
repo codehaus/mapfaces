@@ -40,6 +40,7 @@ public class UIEditionBar extends UIWidgetBase {
     private boolean drawRegularPolygon = false;
     private int regularPolygonSides = 4;
     private boolean split = false;
+    private String layerTargetId = "";
 
     /** Creates a new instance of UIEditionBar */
     public UIEditionBar() {
@@ -60,7 +61,7 @@ public class UIEditionBar extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[15];
+        final Object values[] = new Object[16];
         values[0] = super.saveState(context);
         values[1] = isDrawPoint();
         values[2] = isDrawLine();
@@ -76,6 +77,7 @@ public class UIEditionBar extends UIWidgetBase {
         values[12] = getRegularPolygonSides();
         values[13] = isDeleteFeature();
         values[14] = isSplit();
+        values[15] = getLayerTargetId();
         return values;
     }
 
@@ -100,6 +102,7 @@ public class UIEditionBar extends UIWidgetBase {
         setRegularPolygonSides((Integer) values[12]);
         setDeleteFeature((boolean) (Boolean) values[13]);
         setSplit((boolean) (Boolean) values[14]);
+        setLayerTargetId(values[15].toString());
     }
 
     /**
@@ -296,5 +299,19 @@ public class UIEditionBar extends UIWidgetBase {
      */
     public void setSplit(boolean split) {
         this.split = split;
+    }
+
+    /**
+     * @return the layerTargetId
+     */
+    public String getLayerTargetId() {
+        return layerTargetId;
+    }
+
+    /**
+     * @param layerTargetId the layerTargetId to set
+     */
+    public void setLayerTargetId(String layerTargetId) {
+        this.layerTargetId = layerTargetId;
     }
 }

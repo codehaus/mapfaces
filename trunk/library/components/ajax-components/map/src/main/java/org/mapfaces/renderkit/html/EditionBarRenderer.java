@@ -97,19 +97,30 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
             
             //Name of the js variable in client side
             final String controlJsVariable = FacesMapUtils.getJsVariableFromClientId(clientId);
+
+            // If this attribute is set, so Edition bar has to refer to the
+            // SVG Layer with the ID indicated.
+            final String layerTargetId = comp.getAttributes().get("layerTargetId").toString();
+            // we use another variable to stock the final ID of the SVG layer.
+            String layerId = "editingLayer";
+            if ((layerTargetId == null) || "".equals(layerTargetId)) {
 //            /**
 //             *TBD
-//             *Test for editing tools 
+//             *Test for editing tools
 //             */
-            writer.write("window.editingLayer = new OpenLayers.Layer.Vector( 'Editing' );");
-            writer.write("" + mapJsVariable + ".addLayer(window.editingLayer);");
+                writer.write("window." + layerId + " = new OpenLayers.Layer.Vector( 'Editing' );");
+                writer.write("" + mapJsVariable + ".addLayer(window." + layerId + ");");
+            } else {
+                layerId = layerTargetId;
+            }
+
 //          // writer.write("" + jsObject + ".addLayer(window.gml);");
 //           //writer.write("" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
 //            //TBD
            
             writer.write("" +
                     "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.EditingToolbar) {" +
-                    "var " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(editingLayer, {'div':OpenLayers.Util.getElement('" + idDivbar + "')");
+                    "var " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(" + layerId + ", {'div':OpenLayers.Util.getElement('" + idDivbar + "')");
 
 
             if (comp.isDrawPoint()) {
@@ -148,7 +159,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
             writer.write("});");
 
             if (comp.isSnapping()) {
-                writer.write("" + controlJsVariable + "_Snapping = new OpenLayers.Control.Snapping({layer: window.editingLayer});");
+                writer.write("" + controlJsVariable + "_Snapping = new OpenLayers.Control.Snapping({layer: window." + layerId + "});");
                 writer.write("" + mapJsVariable + ".addControl(" + controlJsVariable + "_Snapping);");
                 writer.write("" + controlJsVariable + "_Snapping.activate();");
             }
