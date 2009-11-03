@@ -4,7 +4,7 @@
   PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
   "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd" [
 
-<!ENTITY default_attributes       SYSTEM "entities/default_attributes.xml">
+<!ENTITY commons_attributes       SYSTEM "entities/commons_attributes.xml">
 <!ENTITY events_attributes          SYSTEM "entities/events_attributes.xml">
 <!ENTITY HTMLtreetable_attributes   SYSTEM "entities/HTMLTreeTable_attributes.xml">
 <!ENTITY treetable_attributes       SYSTEM "entities/TreeTable_attributes.xml">
@@ -28,7 +28,7 @@
         <description>
                 <![CDATA[Treetable component]]>
         </description>
-        &default_attributes;
+        &commons_attributes;
         &events_attributes;
         &HTMLtreetable_attributes;
         &treetable_attributes;
@@ -41,7 +41,7 @@
         <description>
                 <![CDATA[Treetable component]]>
         </description>
-        &default_attributes;
+        &commons_attributes;
         &HTMLtreecolumn_attributes;
     </tag>
 
@@ -52,7 +52,7 @@
         <description><![CDATA[This is the tag that creates a component popup or bubble.]]>
         </description>
 
-        &default_attributes;
+        &commons_attributes;
         
         <attribute>
             <name>width</name>
@@ -190,7 +190,7 @@
             When done rendering all the rows, set the "rowIndex" property of
             the UIData to -1, and close out the "table" element.</p>]]>
         </description>
-        &default_attributes;
+        &commons_attributes;
         <attribute>
             <description>
                 <![CDATA[Zero-relative row number of the first row to be displayed.  If this
@@ -609,7 +609,7 @@
         <body-content>
             JSP
         </body-content>
-        &default_attributes;
+        &commons_attributes;
         <attribute>
             <description>
                 <![CDATA[Space-separated list of CSS style class(es) that will be
@@ -638,6 +638,52 @@
             </description>
             <name>axis</name>
             <required>true</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+    <!-- datascroller or pager for datatable -->
+    <tag>
+        <description>
+            <![CDATA[<p>If a datatable is truly large, you don't want it sent
+            to the client in its entirety. Downloading the table takes a long time,
+            and chances are that the application user wants to see only the first few rows anyway.
+            The standard user interface for navigating a large table is a pager (datascroller),
+            a set of links to each page of the table, to the next and previous pages,
+            and if there are great number of pages, to the next of previous batch of pages.</p>]]>
+        </description>
+        <name>DataScroller</name>
+        <tag-class>org.mapfaces.taglib.datatable.DataScrollerTag</tag-class>
+        <body-content>JSP</body-content>
+        
+        &commons_attributes;
+        <attribute>
+            <description>
+                <![CDATA[The number of pages that will be displayed in one batch.]]>
+            </description>
+            <name>showpages</name>
+            <required>false</required>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[The datatable ID targeted by this pager component to display its pages.]]>
+            </description>
+            <name>dataTableId</name>
+            <required>true</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[Style class for the selected current page link.]]>
+            </description>
+            <name>selectedStyleClass</name>
+            <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>

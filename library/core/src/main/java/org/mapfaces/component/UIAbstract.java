@@ -20,11 +20,12 @@ package org.mapfaces.component;
 import javax.faces.context.FacesContext;
 
 /**
- * @author Mehdi Sidhoum
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.1
  */
 public class UIAbstract extends UIWidgetBase {
 
-    public static final String FAMILIY = "javax.faces.Output";
+    public static final String FAMILY = "javax.faces.Output";
 
     /** Creates a new instance of UIAbstract */
     public UIAbstract() {
@@ -37,7 +38,7 @@ public class UIAbstract extends UIWidgetBase {
      */
     @Override
     public String getFamily() {
-        return FAMILIY;
+        return FAMILY;
     }
 
     /**

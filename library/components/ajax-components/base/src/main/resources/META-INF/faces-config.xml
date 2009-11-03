@@ -30,8 +30,8 @@
         <component-class>org.mapfaces.component.datatable.UIColumns</component-class>
     </component>
     <component>
-        <component-type>org.mapfaces.datatable.Scroller</component-type>
-        <component-class>org.mapfaces.component.datatable.UIScroller</component-class>
+        <component-type>org.mapfaces.datatable.DataScroller</component-type>
+        <component-class>org.mapfaces.component.datatable.UIDataScroller</component-class>
     </component>
 
     <!-- RENDERKIT -->
@@ -54,17 +54,23 @@
             <renderer-type>org.mapfaces.renderkit.HTMLDatatable</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.datatable.DatatableRenderer</renderer-class>
         </renderer>
+        <renderer>
+            <description>If a datatable is truly large, you don't want it sent
+            to the client in its entirety. Downloading the table takes a long time,
+            and chances are that the application user wants to see only the first few rows anyway.
+            The standard user interface for navigating a large table is a pager (datascroller),
+            a set of links to each page of the table, to the next and previous pages,
+            and if there are great number of pages, to the next of previous batch of pages.
+            </description>
+            <component-family>org.mapfaces.datatable.DataScroller</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLDataScroller</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.DataScrollerRenderer</renderer-class>
+        </renderer>
         <!--renderer>
             <description>Columns </description>
             <component-family>org.mapfaces.datatable.Columns</component-family>
             <renderer-type>org.mapfaces.renderkit.datatable.HTMLColumns</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.datatable.ColumnsRenderer</renderer-class>
-        </renderer-->
-        <!--renderer>
-            <description>Scroller </description>
-            <component-family>org.mapfaces.datatable.Scroller</component-family>
-            <renderer-type>org.mapfaces.renderkit.datatable.HTMLScroller</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.html.datatable.ScrollerRenderer</renderer-class>
         </renderer-->
     </render-kit>
 </faces-config>

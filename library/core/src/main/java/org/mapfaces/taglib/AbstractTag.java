@@ -18,7 +18,9 @@
 package org.mapfaces.taglib;
 
 /**
- * @author Mehdi Sidhoum
+ * This is a basic tag class that can be inspired for components dev
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.1
  */
 public class AbstractTag extends WidgetBaseTag {
 

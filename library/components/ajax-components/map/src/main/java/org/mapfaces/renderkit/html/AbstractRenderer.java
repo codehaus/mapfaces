@@ -26,8 +26,9 @@ import org.mapfaces.component.UIAbstract;
 import org.mapfaces.models.Context;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.1
  */
 public class AbstractRenderer extends WidgetBaseRenderer {
 
@@ -67,6 +68,6 @@ public class AbstractRenderer extends WidgetBaseRenderer {
      */
     @Override
     public boolean getRendersChildren() {
-        return false;
+        return false; //this component does not encode children renderers
     }
 }
