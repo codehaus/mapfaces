@@ -13,6 +13,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html.datatable;
 
 import java.io.IOException;
@@ -24,8 +25,12 @@ import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+import org.ajax4jsf.ajax.html.HtmlActionParameter;
+import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
 import org.mapfaces.component.datatable.UIDataScroller;
+import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
  * This is the renderer od datascroller component
@@ -36,6 +41,11 @@ import org.mapfaces.share.utils.FacesUtils;
  * @since 0.3
  */
 public class DataScrollerRenderer extends Renderer {
+
+    private String PREVIOUS_IMG = "/org/mapfaces/resources/datatable/images/resultset_previous.png";
+    private String NEXT_IMG = "/org/mapfaces/resources/datatable/images/resultset_next.png";
+    private String BACKWARD_IMG = "/org/mapfaces/resources/datatable/images/resultset_backward.png";
+    private String FORWARD_IMG = "/org/mapfaces/resources/datatable/images/resultset_forward.png";
 
     /**
      * {@inheritDoc }
@@ -55,31 +65,31 @@ public class DataScrollerRenderer extends Renderer {
 
         String id = pager.getClientId(context);
 
-        String formId = FacesUtils.getFormClientId(context, pager);
-
         ResponseWriter writer = context.getResponseWriter();
 
-        String style = pager.getStyle();
+        String style = pager.getStyle() != null ? pager.getStyle() : "";
         String styleClass = pager.getStyleClass();
         String selectedStyleClass = pager.getSelectedStyleClass();
         String dataTableId = pager.getDataTableId();
-
         int showpages = pager.getShowpages();
 
         // find the component with the given ID
         UIData data = (UIData) FacesUtils.findComponentById(context, context.getViewRoot(), dataTableId);
         if (data == null) {
-            if(pager.isDebug()){
-                Logger.getLogger(DataScrollerRenderer.class.getName()).log(Level.WARNING, "There is no datatable component specified by the dataTableId property : "+dataTableId);
+            if (pager.isDebug()) {
+                Logger.getLogger(DataScrollerRenderer.class.getName()).log(Level.WARNING, "There is no datatable component specified by the dataTableId property : " + dataTableId);
             }
             return; //the renderer cannot continue if the target datatable component is not present in the page.
         }
+
+        //Start of rendering the component
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, id, "id");
+        writer.writeAttribute(HTML.style_ATTRIBUTE, style, "style");
+
         int first = data.getFirst();
-        System.out.println(">>>>>>> first = "+first);
         int rowcount = data.getRowCount();
-        System.out.println(">>>>>>> rowCount = "+rowcount);
         int pagesize = data.getRows();
-        System.out.println(">>>>>>>>>  rows = "+pagesize);
         if (pagesize <= 0) {
             pagesize = rowcount;
         }
@@ -100,29 +110,28 @@ public class DataScrollerRenderer extends Renderer {
             endPage = Math.min(startPage + showpages, pages);
         }
 
-        if (currentPage > 0) {
-            writeLink(writer, pager, formId, id, "<", styleClass);
-        }
-
+        FacesUtils.removeChildren(context, component);
         if (startPage > 0) {
-            writeLink(writer, pager, formId, id, "<<", styleClass);
+            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, BACKWARD_IMG, null), "<<", styleClass);
+        }
+        if (currentPage > 0) {
+            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, PREVIOUS_IMG, null), "<", styleClass);
         }
 
         for (int i = startPage; i < endPage; i++) {
-            writeLink(writer, pager, formId, id, "" + (i + 1),
+            writeLink(context, writer, pager, null, "" + (i + 1),
                     i == currentPage ? selectedStyleClass : styleClass);
         }
 
-        if (endPage < pages) {
-            writeLink(writer, pager, formId, id, ">>", styleClass);
-        }
-
         if (first < rowcount - pagesize) {
-            writeLink(writer, pager, formId, id, ">", styleClass);
+            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, NEXT_IMG, null), ">", styleClass);
         }
 
-        // hidden field to hold result
-        writeHiddenField(writer, pager, id);
+        if (endPage < pages) {
+            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, FORWARD_IMG, null), ">>", styleClass);
+        }
+
+        writer.endElement(HTML.DIV_ELEM);
     }
 
     /**
@@ -172,45 +181,39 @@ public class DataScrollerRenderer extends Renderer {
         data.setFirst(first);
     }
 
-    private void writeLink(ResponseWriter writer, UIComponent component,
-            String formId, String id, String value, String styleClass)
+    /**
+     * Writer for a4j commandLink with the associated action parameter that will
+     * be catched in decode process.
+     * @param context
+     * @param writer
+     * @param component
+     * @param imgIcon
+     * @param value
+     * @param styleClass
+     * @throws java.io.IOException
+     */
+    private void writeLink(FacesContext context, ResponseWriter writer, UIDataScroller component,
+            String imgIcon, String value, String styleClass)
             throws IOException {
-        writer.writeText(" ", null);
-        writer.startElement("a", component);
-        writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("onclick", onclickCode(formId, id, value), null);
+//        writer.writeText(" ", null);
+
+        String formId = FacesUtils.getFormClientId(context, component);
+        
+        HtmlAjaxCommandLink link = new HtmlAjaxCommandLink();
+        link.setReRender(component.getDataTableId() + "_div, "+component.getId());
+        
+        link.setAjaxSingle(true);
+        link.setValue(value);
         if (styleClass != null) {
-            writer.writeAttribute("class", styleClass, "styleClass");
+            link.setStyleClass(styleClass);
         }
-        writer.writeText(value, null);
-        writer.endElement("a");
-    }
 
-    private String onclickCode(String formId, String id, String value) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("document.forms[");
-        builder.append("'");
-        builder.append(formId);
-        builder.append("'");
-        builder.append("]['");
-        builder.append(id);
-        builder.append("'].value='");
-        builder.append(value);
-        builder.append("';");
-        builder.append(" document.forms[");
-        builder.append("'");
-        builder.append(formId);
-        builder.append("'");
-        builder.append("].submit()");
-        builder.append("; return false;");
-        return builder.toString();
-    }
-
-    private void writeHiddenField(ResponseWriter writer, UIComponent component,
-            String id) throws IOException {
-        writer.startElement("input", component);
-        writer.writeAttribute("type", "hidden", null);
-        writer.writeAttribute("name", id, null);
-        writer.endElement("input");
+        HtmlActionParameter param = new HtmlActionParameter();
+        param.setName(component.getClientId(context));
+        param.setValue(value);
+        link.getChildren().add(param);
+        if (!component.getChildren().contains(link)) {
+            component.getChildren().add(link);
+        }
     }
 }

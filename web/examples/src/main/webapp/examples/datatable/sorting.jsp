@@ -3,6 +3,7 @@
 <%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <%@taglib prefix="mf-base" uri="http://mapfaces.org/taglib-base"%>
+<%@taglib prefix="a4j"uri="https://ajax4jsf.dev.java.net/ajax"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -42,9 +43,10 @@
                                       showpages="5"
                                       style="margin:0pt auto;text-align:center;"
                                       styleClass="dtscroller"/>
-
+                                      
 
                 <hr/>
+                <a4j:commandLink value="a4jCommandLink" reRender="mfdatatable, datascrollerpager"/><br/>
 
                 <h1><h:outputText value="Mojarra default datatable "/></h1>
                 <h:dataTable id="jsfdatatable"
