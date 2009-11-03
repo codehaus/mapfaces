@@ -27,6 +27,7 @@ import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.datatable.UIColumns;
 import org.mapfaces.component.datatable.UIDatatable;
 import org.mapfaces.share.listener.ResourcePhaseListener;
+import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
  *
@@ -46,7 +47,19 @@ public class DatatableRenderer extends TableRenderer {
          * Applying style class only for this datatable family (mapfaces)
          * This is to avoid to conflict with another table.
          */
-        comp.setStyleClass((comp.getStyleClass()!=null)?comp.getStyleClass()+" mfdatatable":" mfdatatable");
+        if(comp.getStyleClass() != null){
+            if(!comp.getStyleClass().contains("mfdatatable")){
+                comp.setStyleClass(comp.getStyleClass()+" mfdatatable");
+            }
+        }else {
+            comp.setStyleClass("mfdatatable");
+        }
+
+        final ResponseWriter writer = context.getResponseWriter();
+        String clientId = comp.getClientId(context);
+        writer.startElement(HTML.DIV_ELEM, component);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId+"_div", "id");
+        
         super.encodeBegin(context, component);
     }
 
@@ -126,6 +139,8 @@ public class DatatableRenderer extends TableRenderer {
             writer.write(st.toString());
             writer.endElement("script");
         }
+
+        writer.endElement(HTML.DIV_ELEM); //closing the wrapper div
     }
 
     /**

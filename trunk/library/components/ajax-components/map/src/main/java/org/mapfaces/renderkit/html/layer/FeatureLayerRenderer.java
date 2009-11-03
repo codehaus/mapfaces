@@ -156,10 +156,7 @@ public class FeatureLayerRenderer extends LayerRenderer {
         }
         SimpleFeatureType sft = builder.buildFeatureType();
         for (Feature f : comp.getFeatures()) {
-            List<Object> objects = new ArrayList<Object>();
-            for (String key : f.getAttributes().keySet()) {
-                objects.add(f.getAttributes().get(key));
-            }
+            List<Object> objects = new ArrayList(f.getAttributes().values());
             
             SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
             features.add(sf);
