@@ -35,7 +35,7 @@
 
             <script src="resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" type="text/javascript"></script>
 
-        <script type="text/javascript" src="resources/js/mocha.js"></script>
+            <script type="text/javascript" src="resources/js/mocha.js"></script>
             <script type="text/javascript" src="resources/js/mocha-init.js"></script>
             <script type="text/javascript" src="resources/js/start.js"></script>
             <script src="resources/js/browserdetect.js" type="text/javascript" charset="utf-8"></script>

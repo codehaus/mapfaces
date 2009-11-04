@@ -3,18 +3,19 @@
 <%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <%@taglib prefix="mf" uri="http://mapfaces.org/taglib"%>
+<%@taglib prefix="mf-base" uri="http://mapfaces.org/taglib-base"%>
 <%@taglib prefix="mf-model" uri="http://mapfaces.org/taglib-models"%>
-<%@taglib prefix="wf" uri="http://widget-mapfaces.org/taglib"%>
+<%@taglib prefix="mf-widget" uri="http://widget-mapfaces.org/taglib"%>
 
 
 
 <mf-model:Context id="owsVisuContext" minifyJS="true"  service="map-context.xml"
-                  scriptaculous="false" mootools="false" debug="false">
+                  scriptaculous="false" mootools="false" openlayers="false" debug="false">
 
     <%--  The main mappane is englobed with a h:panelGroup tag
     with a styleClass ="mochaMainAppColumn" to fix it in the main column  --%>
     <h:panelGroup id="mappaneBox" layout="block" styleClass="mochaMainAppColumn">
-        <mf:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
+        <mf-base:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
             <mf:MapPane id="mappane" numZoomLevels="18" style="width:100%; height:100%;"
                         debug="false" navigation="true" />
             <mf:DataRequest id="datarequest"
@@ -23,11 +24,11 @@
                             featureCount="0">
                 <mf:Popup id="popupfeatureInfo" iframe="true" style="width:500px;"></mf:Popup>
             </mf:DataRequest>
-            <mf:Div styleClass="footerMap">
+            <mf-base:Div styleClass="footerMap">
                 <mf:ScaleBar></mf:ScaleBar>
-            </mf:Div>
+            </mf-base:Div>
 
-        </mf:Div>
+        </mf-base:Div>
     </h:panelGroup>
 
     <%-- The layer control is englobed with a h:panelGroup tag
@@ -54,20 +55,22 @@
         <mf:ButtonBar id="ButtonBar" reRender="datarequest"
                       styleClass="mfButtonBar horizontal"
                       style="height:34px;opacity:1;position:relative;width:100%;"
-                      featureInfo="true"/>
-
-        <mf:CursorTrack id="CursorTrack"
-                        style="height:34px;opacity:1;position:relative;width:100%;font-size: 1em;"
-                        showDMS="true" showLatLon="false" showXY="true" />
-        <mf:Scale id="Scale"
-                  style="height:34px;opacity:1;position:relative;width:100%;font-size: 1em;"/>
-
-        <mf:Div>
+                      featureInfo="true" measureDistance="true" />
+        <mf-base:Div>
             <mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
                                loadMootools="false" enableAjax="true" multiple="true"
                                maxChoices="5" id="autocompleteZoom">
             </mf:Autocompletion>
-        </mf:Div>
+        </mf-base:Div>
+        <mf:CursorTrack id="CursorTrack"
+                        style="height:15px;opacity:1;position:relative;font-size: 1em;margin:5px;"
+                        showDMS="true" showLatLon="false" showXY="false" />
+        <mf:Scale id="Scale"
+                  style="height:15px;opacity:1;position:relative;width:100%;font-size: 1em;padding:0px;"/>
+
+        <div id="output" style="height:15px;margin:5px;"></div>
+
+        
     </h:panelGroup>
 </mf-model:Context>
 
