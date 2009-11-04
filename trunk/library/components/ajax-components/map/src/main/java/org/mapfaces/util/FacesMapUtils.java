@@ -818,16 +818,12 @@ public class FacesMapUtils extends FacesUtils {
         //building a FeatureCollection for this layer.
         FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FeatureCollectionUtilities.createCollection();
         if (featList != null) {
-            System.out.println("++++++ getSimpleFeatures");
             long featureId = 0;
             SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 
             if (featList.size() != 0) {
-                System.out.println("++++++ before SetFeature");
                 Feature f = featList.get(0);
-                System.out.println("++++++ before SetName");
                 builder.setName(f.getName());
-                System.out.println("++++++ before SetCrs");
                 builder.setCRS(f.getCrs());
                 for (String key : f.getAttributes().keySet()) {
                     if (key.equals("geometry")) {
@@ -839,18 +835,15 @@ public class FacesMapUtils extends FacesUtils {
             }
             SimpleFeatureType sft = builder.buildFeatureType();
             for (Feature f : featList) {
-                System.out.println("++++++ Construction de la liste");
                 List<Object> objects = new ArrayList<Object>();
                 for (String key : f.getAttributes().keySet()) {
                     objects.add(f.getAttributes().get(key));
                 }
-                System.out.println("++++++ Middle");
                 SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
                 simpleFeatures.add(sf);
                 featureId++;
             }
         }
-        System.out.println("++++++ end getSimpleFeatures");
         return simpleFeatures;
     }
 
