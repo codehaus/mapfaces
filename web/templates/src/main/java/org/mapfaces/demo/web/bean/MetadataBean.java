@@ -19,26 +19,21 @@ package org.mapfaces.demo.web.bean;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBException;
-import org.ajax4jsf.ajax.repeat.UIRepeat;
 import org.mapfaces.util.XMLMetadataUtilities;
 import org.opengis.metadata.Metadata;
 
 public class MetadataBean {
 
-    private Metadata metaData;
+    private Metadata metadata;
     private String id;
     private String url;
     private FacesContext context;
     private static final Logger LOGGER = Logger.getLogger(MetadataBean.class.getName());
-    HtmlInputText priceRef;
-    private UIRepeat repeater;
-    private Set keys;
+
 
     public FacesContext getContext() {
         return context;
@@ -50,13 +45,12 @@ public class MetadataBean {
 
     public MetadataBean()
             throws Exception {
-        metaData = null;
+        metadata = null;
         url = null;
-        keys = new HashSet(1);
         context = FacesContext.getCurrentInstance();
         url = (String) context.getExternalContext().getRequestParameterMap().get("url");
-        if (metaData == null && url != null) {
-            loadMetaData(url, "ISO19139FRA");
+        if (metadata == null && url != null) {
+            loadMetadata(url, "ISO19139");
         }
     }
 
@@ -76,17 +70,17 @@ public class MetadataBean {
         this.url = url;
     }
 
-    public Metadata getMetaData() {
-        return metaData;
+    public Metadata getMetadata() {
+        return metadata;
     }
 
-    public void setMetaData(Metadata metaData) {
-        this.metaData = metaData;
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 
-    private void loadMetaData(String url, String type) {
+    private void loadMetadata(String url, String type) {
         try {
-            setMetaData(XMLMetadataUtilities.readMetaData(new URL(url), type));
+            setMetadata(XMLMetadataUtilities.readMetadata(new URL(url), type));
         } catch (MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (JAXBException ex) {
@@ -94,39 +88,9 @@ public class MetadataBean {
         } catch (UnsupportedEncodingException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        if (metaData == null) {
+        if (metadata == null) {
             LOGGER.log(Level.SEVERE, "The Metadata file is null !!!");
         }
     }
 
-    public Set getKeys() {
-        return keys;
-    }
-
-    public void setKeys(Set keys) {
-        this.keys = keys;
-    }
-
-    public void setRepeater(UIRepeat repeater) {
-        this.repeater = repeater;
-    }
-
-    public UIRepeat getRepeater() {
-        return repeater;
-    }
-
-    public HtmlInputText getPriceRef() {
-        return priceRef;
-    }
-
-    public void setPriceRef(HtmlInputText priceRef) {
-        this.priceRef = priceRef;
-    }
-
-    public String change() {
-        System.out.println("change");
-        priceRef.processValidators(FacesContext.getCurrentInstance());
-        priceRef.processUpdates(FacesContext.getCurrentInstance());
-        return null;
-    }
 }
