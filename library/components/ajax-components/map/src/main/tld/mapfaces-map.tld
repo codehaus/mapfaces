@@ -1672,7 +1672,7 @@
         <attribute>
             <name>value</name>
             <deferred-value>
-                <type>java.lang.Object</type>
+                <type>java.util.List</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
