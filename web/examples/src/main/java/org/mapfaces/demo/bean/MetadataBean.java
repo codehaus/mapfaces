@@ -14,146 +14,84 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
-package org.mapfaces.demo.bean;
+package org.mapfaces.demo.web.bean;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBException;
-import org.ajax4jsf.ajax.repeat.UIRepeat;
 import org.mapfaces.util.XMLMetadataUtilities;
 import org.opengis.metadata.Metadata;
 
-public class MetadataBean
-{
+public class MetadataBean {
 
-    private Metadata metaData;
+    private Metadata metadata;
     private String id;
     private String url;
     private FacesContext context;
     private static final Logger LOGGER = Logger.getLogger(MetadataBean.class.getName());
-    HtmlInputText priceRef;
-    private UIRepeat repeater;
-    private Set keys;
 
-    public FacesContext getContext()
-    {
+
+    public FacesContext getContext() {
         return context;
     }
 
-    public void setContext(FacesContext context)
-    {
+    public void setContext(FacesContext context) {
         this.context = context;
     }
 
     public MetadataBean()
-        throws Exception
-    {
-        metaData = null;
+            throws Exception {
+        metadata = null;
         url = null;
-        keys = new HashSet(1);
         context = FacesContext.getCurrentInstance();
-        System.out.println("Je rentre dans le constructeur de MetadatBean");
-        url = "http://localhost:8084/mf/data/metadata/sage_thau.xml";//(String) context.getExternalContext().getRequestParameterMap().get("url");
-        if(metaData == null && url != null)
-            loadMetaData(url, "ISO19139FRA");
+        //url = (String) context.getExternalContext().getRequestParameterMap().get("url");
+        url = "http://localhost:8084/mf/data/metadata/sage_thau.xml";
+        if (metadata == null && url != null) {
+            loadMetadata(url, "ISO19139");
+        }
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String aId)
-    {
+    public void setId(String aId) {
         id = aId;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
-    public void seturl(String url)
-    {
+    public void seturl(String url) {
         this.url = url;
     }
 
-    public Metadata getMetaData()
-    {
-        return metaData;
+    public Metadata getMetadata() {
+        return metadata;
     }
 
-    public void setMetaData(Metadata metaData)
-    {
-        this.metaData = metaData;
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 
-    private void loadMetaData(String url, String type)
-    {
-        try
-        {
-            setMetaData(XMLMetadataUtilities.readMetaData(new URL(url), type));
-        }
-        catch(MalformedURLException ex)
-        {
+    private void loadMetadata(String url, String type) {
+        try {
+            setMetadata(XMLMetadataUtilities.readMetadata(new URL(url), type));
+        } catch (MalformedURLException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (JAXBException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        catch(JAXBException ex)
-        {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-        catch(UnsupportedEncodingException ex)
-        {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-        if(metaData == null)
+        if (metadata == null) {
             LOGGER.log(Level.SEVERE, "The Metadata file is null !!!");
+        }
     }
-
-    public Set getKeys()
-    {
-        return keys;
-    }
-
-    public void setKeys(Set keys)
-    {
-        this.keys = keys;
-    }
-
-    public void setRepeater(UIRepeat repeater)
-    {
-        this.repeater = repeater;
-    }
-
-    public UIRepeat getRepeater()
-    {
-        return repeater;
-    }
-
-    public HtmlInputText getPriceRef()
-    {
-        return priceRef;
-    }
-
-    public void setPriceRef(HtmlInputText priceRef)
-    {
-        this.priceRef = priceRef;
-    }
-
-    public String change()
-    {
-        System.out.println("change");
-        priceRef.processValidators(FacesContext.getCurrentInstance());
-        priceRef.processUpdates(FacesContext.getCurrentInstance());
-        return null;
-    }
-
 
 }
