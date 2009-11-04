@@ -69,6 +69,7 @@ import org.opengis.referencing.operation.TransformException;
 public class AutocompletionListener implements PhaseListener {
 
     private static final Logger LOGGER = Logger.getLogger(AutocompletionListener.class.getName());
+    private static final boolean debug = false;
 
     @Override
     public void afterPhase(final PhaseEvent phaseEvent) {
@@ -120,16 +121,20 @@ public class AutocompletionListener implements PhaseListener {
                     final URL url =
                             buildRequestUrl(sessionMap, requestMap, value, "GEMET", "RDF", true);
 
-                    if (url != null) {
+                    if (debug) LOGGER.log(Level.INFO,  url.toString());
 
+                    if (url != null) {
                         final String wsUrl = requestMap.get(AjaxUtils.THESAURUS_WS_URL);
                         final String request = requestMap.get(AjaxUtils.THESAURUS_WS_REQUEST);
                         concepts = XMLThesaurusUtilities.readThesaurus(url, "RDF");
+
                         if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword)) {
                             //putting the list of current words requested to find all the word property
                             FacesUtils.putAtSessionMap(facesContext, requestMap.get(AjaxUtils.AUTOCOMPLETION_CLIENTID), concepts);
                             writeHtmlWithServletResponse((HttpServletResponse) facesContext.getExternalContext().getResponse(), concepts);
+
                         } else if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
+                            
                             if (!concepts.isEmpty()) {
                                 writeConceptGeoWithServletResponse((HttpServletResponse) facesContext.getExternalContext().getResponse(), concepts.get(0), requestMap.get(AjaxUtils.THESAURUS_OUTPUT_EPSG));
                             }

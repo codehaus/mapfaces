@@ -136,7 +136,7 @@ public class AutocompletionRenderer extends Renderer {
             final StringBuilder ajaxrequest = new StringBuilder();
             ajaxrequest.append("new Autocompleter.Request.HTML($('").
                     append(inputId). append("'),").
-                    append("'").append(urlRequest).append("',{").
+                    append("'").append(urlRequest).append("',{zIndex:10000,").
                     append("postData:{").
                     //append("'").append(AjaxUtils.AUTOCOMPLETION_VALUE).append("': $('").append(inputId).append("').value,").
                     append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
