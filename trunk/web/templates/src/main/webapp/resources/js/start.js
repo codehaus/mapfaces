@@ -221,10 +221,10 @@ function handleMeasurements(event) {
     var element = document.getElementById('output');
     var out = "";
     if(order == 1) {
-        out += "measure: " + measure.toFixed(3) + " " + units;
+        out += "Distance: " + measure.toFixed(3) + " " + units;
 
     } else {
-        out += "measure: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
+        out += "Distance: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
     }
     element.innerHTML = out;
 }
