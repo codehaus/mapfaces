@@ -27,11 +27,15 @@ import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.datatable.UIColumns;
 import org.mapfaces.component.datatable.UIDatatable;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.RendererUtils.HTML;
+import org.mapfaces.share.utils.FacesUtils;
 
 /**
+ * This is the renderer class for UIDatatable component that allows a sorting filter 
+ * (by mootools script)
  *
+ * @author Mehdi Sidhoum (Geomatys)
  * @author Kevin Delfour (IRD)
+ * @since 0.3
  */
 public class DatatableRenderer extends TableRenderer {
 
@@ -47,30 +51,28 @@ public class DatatableRenderer extends TableRenderer {
          * Applying style class only for this datatable family (mapfaces)
          * This is to avoid to conflict with another table.
          */
-        if(comp.getStyleClass() != null){
-            if(!comp.getStyleClass().contains("mfdatatable")){
-                comp.setStyleClass(comp.getStyleClass()+" mfdatatable");
+        if (comp.getStyleClass() != null) {
+            if (!comp.getStyleClass().contains("mfdatatable")) {
+                comp.setStyleClass(comp.getStyleClass() + " mfdatatable");
             }
-        }else {
+        } else {
             comp.setStyleClass("mfdatatable");
         }
 
-        final ResponseWriter writer = context.getResponseWriter();
-        String clientId = comp.getClientId(context);
-        writer.startElement(HTML.DIV_ELEM, component);
-        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId+"_div", "id");
-        
+        ResponseWriter writer = context.getResponseWriter();
+        if (writer == null) {
+            writer = FacesUtils.getResponseWriter2(context);
+        }
+
         super.encodeBegin(context, component);
     }
-
-
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
         final ResponseWriter writer = context.getResponseWriter();
         final UIDatatable comp = (UIDatatable) component;
-        
+
         /* Adding JS and CSS files needed */
         writeHeaders(context, component);
 
@@ -115,17 +117,17 @@ public class DatatableRenderer extends TableRenderer {
 
             //Adding js script to add axis attributes to all column
             /*
-             var ths = ($('userHome:all').getChildren()[0]).getChildren()[0];
-             ths.getChildren()[0].set('axis','string');
+            var ths = ($('userHome:all').getChildren()[0]).getChildren()[0];
+            ths.getChildren()[0].set('axis','string');
              */
-            
+
             final StringBuilder st = new StringBuilder();
             st.append("var ths = ($('").append(comp.getClientId(context)).append("').getChildren()[0]).getChildren()[0];");
 
             int i = 0;
-            for(UIComponent column:comp.getChildren()){
-                if (column instanceof UIColumns){
-                    st.append("ths.getChildren()[").append(i).append("].set('axis','").append(((UIColumns)column).getAxis()).append("');");
+            for (UIComponent column : comp.getChildren()) {
+                if (column instanceof UIColumns) {
+                    st.append("ths.getChildren()[").append(i).append("].set('axis','").append(((UIColumns) column).getAxis()).append("');");
                     i++;
                 }
             }
@@ -139,8 +141,6 @@ public class DatatableRenderer extends TableRenderer {
             writer.write(st.toString());
             writer.endElement("script");
         }
-
-        writer.endElement(HTML.DIV_ELEM); //closing the wrapper div
     }
 
     /**

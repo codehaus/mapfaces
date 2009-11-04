@@ -43,10 +43,13 @@
                                       showpages="5"
                                       style="margin:0pt auto;text-align:center;"
                                       styleClass="dtscroller"/>
-                                      
+                                                                   
 
                 <hr/>
-                <a4j:commandLink value="a4jCommandLink" reRender="mfdatatable, datascrollerpager"/><br/>
+                <a4j:commandLink value="a4jCommandLink   datascrollerpager_div" reRender="datascrollerpager_div"/><br/>
+                <a4j:commandLink value="a4jCommandLink   datascrollerpager" reRender="datascrollerpager"/><br/>
+                <a4j:commandLink value="a4jCommandLink   mfdatatable" reRender="mfdatatable"/><br/>
+                <h:commandButton value="Submit"/><br/>
 
                 <h1><h:outputText value="Mojarra default datatable "/></h1>
                 <h:dataTable id="jsfdatatable"

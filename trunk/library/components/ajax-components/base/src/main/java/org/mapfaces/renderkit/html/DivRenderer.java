@@ -27,8 +27,10 @@ import org.mapfaces.component.UIDiv;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
+ * This class render an element html DIV that can be called to rerender by ajax4jsf
  *
- * @author Mehdi Sidhoum.
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class DivRenderer extends Renderer {
     private static final Logger LOGGER = Logger.getLogger(DivRenderer.class.getName());
