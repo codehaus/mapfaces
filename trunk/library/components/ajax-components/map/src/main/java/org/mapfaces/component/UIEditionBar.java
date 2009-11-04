@@ -102,7 +102,7 @@ public class UIEditionBar extends UIWidgetBase {
         setRegularPolygonSides((Integer) values[12]);
         setDeleteFeature((boolean) (Boolean) values[13]);
         setSplit((boolean) (Boolean) values[14]);
-        setLayerTargetId(values[15].toString());
+        setLayerTargetId((String) values[15]);
     }
 
     /**

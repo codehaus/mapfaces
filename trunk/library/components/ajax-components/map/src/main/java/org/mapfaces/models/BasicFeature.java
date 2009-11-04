@@ -19,39 +19,72 @@ package org.mapfaces.models;
 
 import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  *
- * @author Mehdi Sidhoum (Geomatys).
+ * @author leopratlong (Geomatys).
  */
-public class DefaultFeature implements Feature {
+public class BasicFeature implements Feature {
 
 
-    private static final long serialVersionUID = 7526471155622776147L;
+    private static final long serialVersionUID = 7526479565456578L;
     private String id;
-    private String name;
     private CoordinateReferenceSystem crs;
-    private Map<String, Serializable> attributes;
     private Geometry geometry;
+    private String name;
+    
     /**
      * This object must be serializable
      */
     private Serializable userObject;
 
-    public DefaultFeature() {
+    public BasicFeature() {
     }
-    
-    @Override
+
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
-    
-    @Override
+
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
+    }
+    
+    /**
+     * @return the geometry
+     */
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    /**
+     * @param geometry the geometry to set
+     */
+    public void setGeometry(Geometry geometry) {
+        this.geometry = geometry;
+    }
+
+    /**
+     * @return the userObject
+     */
+    public Serializable getUserObject() {
+        return userObject;
+    }
+
+    /**
+     * @param userObject the userObject to set
+     */
+    public void setUserObject(Serializable userObject) {
+        this.userObject = userObject;
     }
 
     @Override
@@ -65,42 +98,26 @@ public class DefaultFeature implements Feature {
     }
 
     @Override
-    public CoordinateReferenceSystem getCrs() {
-        return crs;
-    }
-
-    @Override
-    public void setCrs(CoordinateReferenceSystem crs) {
-        this.crs = crs;
-    }
-
-    @Override
     public Map<String, Serializable> getAttributes() {
-        return attributes;
+        return new HashMap<String, Serializable>();
     }
 
     @Override
     public void setAttributes(Map<String, Serializable> attributes) {
-        this.attributes = attributes;
     }
 
-    @Override
-    public Geometry getGeometry() {
-        return geometry;
+    /**
+     * @return the crs
+     */
+    public CoordinateReferenceSystem getCrs() {
+        return crs;
     }
 
-    @Override
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
-    }
-    
-    @Override
-    public Serializable getUserObject() {
-        return userObject;
+    /**
+     * @param crs the crs to set
+     */
+    public void setCrs(CoordinateReferenceSystem crs) {
+        this.crs = crs;
     }
 
-    @Override
-    public void setUserObject(Serializable object) {
-        this.userObject = object;
-    }
 }

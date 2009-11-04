@@ -138,33 +138,10 @@ public class FeatureLayerRenderer extends LayerRenderer {
         final int indexLayer = comp.getBindingIndex();
         final MutableStyle mutableStyle = FacesMapUtils.createStyle(comp.getImage(), size, rotation, indexLayer);
 
-        //building a FeatureCollection for this layer.
-        FeatureCollection<SimpleFeatureType, SimpleFeature> features = FeatureCollectionUtilities.createCollection();
-        long featureId = 0;
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        if (comp.getFeatures() != null && comp.getFeatures().size() != 0 && comp.getFeatures().get(0) != null) {
-            Feature f = comp.getFeatures().get(0);
-            builder.setName(f.getName());
-            builder.setCRS(f.getCrs());
-            for (String key : f.getAttributes().keySet()) {
-                if (key.equals("geometry")) {
-                    builder.add(key, Geometry.class);
-                } else {
-                    builder.add(key, f.getAttributes().get(key).getClass());
-                }
-            }
-        }
-        SimpleFeatureType sft = builder.buildFeatureType();
-        for (Feature f : comp.getFeatures()) {
-            List<Object> objects = new ArrayList(f.getAttributes().values());
-            
-            SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
-            features.add(sf);
-            featureId++;
-        }
-
-
-        final FeatureMapLayer mapLayer = MapBuilder.createFeatureLayer(features, mutableStyle);
+        FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FacesMapUtils.getSimpleFeaturesFromFeatures(comp.getFeatures());
+        
+        final FeatureMapLayer mapLayer = MapBuilder.createFeatureLayer(simpleFeatures, mutableStyle);
+        
         mapContext = MapBuilder.createContext(crs);
         mapContext.layers().add(mapLayer);
 

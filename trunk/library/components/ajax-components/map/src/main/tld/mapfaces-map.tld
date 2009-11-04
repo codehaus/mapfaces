@@ -1662,6 +1662,23 @@
             <description><![CDATA[Flag that indicates if the mapcontext' layers will be grouped or not in allInOne layer.]]></description>
         </attribute>
     </tag>
+    <!-- SvgLayer -->
+    <tag>
+        <name>SvgLayer</name>
+        <description><![CDATA[Implements a SVG Layer with a list of feature. Allow to know the shapes from the client on the server-side.]]></description>
+        <tag-class>org.mapfaces.taglib.SvgLayerTag</tag-class>
+        <body-content>JSP</body-content>
+	&commons_attributes;
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The list of features.]]></description>
+        </attribute>
+    </tag>
     <!-- TIMELINE -->
     <tag>
         <name>TimeLine</name>
