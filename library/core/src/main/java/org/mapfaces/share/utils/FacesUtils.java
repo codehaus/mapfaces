@@ -42,6 +42,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.models.UIModelBase;
 
 /**
@@ -467,6 +468,33 @@ public class FacesUtils {
         if (component == null) {
             throw new NullPointerException("component should not be null");
         }
+    }
+
+    /**
+     * Function to create a classic <a4j:support> component
+     *
+     * @param context           FacesContext
+     * @param comp              UIComponent Parent of the <a4j:support> component
+     * @param event             String  Click Event (onclick,....)
+     * @param idsToReRender     String  Id of components to refresh
+     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request
+     * @return  ajaxComp        the <a4j:support> component
+     */
+    public static HtmlAjaxSupport createBasicAjaxSupport(final FacesContext context,
+            final UIComponent comp, final String event, final String idsToReRender) {
+
+        /* Add <a4j:support> component */
+        final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
+        ajaxComp.setId(comp.getId() + "_Ajax");
+        if (event != null && !event.equals("")) {
+            ajaxComp.setEvent(event);
+        }
+        ajaxComp.setAjaxSingle(true);
+        ajaxComp.setLimitToList(true);
+        if(idsToReRender != null && ! idsToReRender.equals("")) {
+            ajaxComp.setReRender(idsToReRender);
+        }
+        return ajaxComp;
     }
 
 }

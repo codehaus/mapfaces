@@ -80,6 +80,9 @@
             <li>
                 <a href="./datatable/sorting.jsf">Datatable sorting</a>
             </li>
+            <li>
+                <a href="./datatable/datascroller.jsf">Datatable with datascroller and sorting</a>
+            </li>
         </ul>
         <br/>
         <h2>Online application examples : </h2>

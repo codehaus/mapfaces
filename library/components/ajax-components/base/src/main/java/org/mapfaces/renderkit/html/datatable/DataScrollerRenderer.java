@@ -23,14 +23,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
+import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import org.ajax4jsf.ajax.html.HtmlActionParameter;
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.datatable.UIDataScroller;
-import org.mapfaces.share.listener.ResourcePhaseListener;
+import org.mapfaces.component.datatable.UIDatatable;
 import org.mapfaces.share.utils.FacesUtils;
 
 /**
@@ -65,9 +66,15 @@ public class DataScrollerRenderer extends Renderer {
 
         UIDataScroller pager = (UIDataScroller) component;
 
-        String id = pager.getClientId(context);
-
-        ResponseWriter writer = context.getResponseWriter();
+        //add an a4j support component as child to send all ajaxrequest of this pager component.
+        HtmlAjaxSupport a4jSupport = null;
+        final String a4jsupportFacetKey = "a4jsupport";
+        if (pager.getFacets().containsKey(a4jsupportFacetKey)) {
+            a4jSupport = (HtmlAjaxSupport) pager.getFacets().get(a4jsupportFacetKey);
+        } else {
+            a4jSupport = FacesUtils.createBasicAjaxSupport(context, pager, null, null);
+            pager.getFacets().put(a4jsupportFacetKey, a4jSupport);
+        }
 
         String style = pager.getStyle() != null ? pager.getStyle() : "";
         String styleClass = pager.getStyleClass();
@@ -84,11 +91,22 @@ public class DataScrollerRenderer extends Renderer {
             return; //the renderer cannot continue if the target datatable component is not present in the page.
         }
 
+        boolean isMFDatatable = false;
+        String jsActivationdt = null;
+        if (data instanceof UIDatatable) {
+            isMFDatatable = true;
+            UIDatatable uidata = (UIDatatable) data;
+            if (uidata.isSortable()) {
+                jsActivationdt = DatatableRenderer.buildActivationScript(uidata, uidata.getClientId(context));
+            }
+        }
+        String formId = FacesUtils.getFormId(context, component);
+
         //Start of rendering the component
         UIDiv uiDiv = new UIDiv();
-        uiDiv.setId(pager.getId()+"_div");
+        uiDiv.setId(pager.getId() + "_div");
         uiDiv.setStyle(style);
-        
+
         int first = data.getFirst();
         int rowcount = data.getRowCount();
         int pagesize = data.getRows();
@@ -115,30 +133,31 @@ public class DataScrollerRenderer extends Renderer {
 
 
         UIDiv existingDiv = null;
-        foo:for(UIComponent child : pager.getChildren()){
-            if(child instanceof UIDiv){
+        foo:
+        for (UIComponent child : pager.getChildren()) {
+            if (child instanceof UIDiv) {
                 existingDiv = (UIDiv) child;
                 break foo;
             }
         }
-       
+
         if (startPage > 0) {
-            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, BACKWARD_IMG, null), "<<", styleClass, uiDiv);
+            appendLink(context, pager, "/resource.jsf?r=" + BACKWARD_IMG, "<<", styleClass, uiDiv, a4jSupport, isMFDatatable, formId, jsActivationdt);
         }
         if (currentPage > 0) {
-            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, PREVIOUS_IMG, null), "<", styleClass, uiDiv);
+            appendLink(context, pager, "/resource.jsf?r=" + PREVIOUS_IMG, "<", styleClass, uiDiv, a4jSupport, isMFDatatable, formId, jsActivationdt);
         }
 
         for (int i = startPage; i < endPage; i++) {
-            appendLink(context, writer, pager, null, "" + (i + 1), i == currentPage ? selectedStyleClass : styleClass, uiDiv);
+            appendLink(context, pager, null, "" + (i + 1), i == currentPage ? selectedStyleClass : styleClass, uiDiv, a4jSupport, isMFDatatable, formId, jsActivationdt);
         }
 
         if (first < rowcount - pagesize) {
-            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, NEXT_IMG, null), ">", styleClass, uiDiv);
+            appendLink(context, pager, "/resource.jsf?r=" + NEXT_IMG, ">", styleClass, uiDiv, a4jSupport, isMFDatatable, formId, jsActivationdt);
         }
 
         if (endPage < pages) {
-            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, FORWARD_IMG, null), ">>", styleClass, uiDiv);
+            appendLink(context, pager, "/resource.jsf?r=" + FORWARD_IMG, ">>", styleClass, uiDiv, a4jSupport, isMFDatatable, formId, jsActivationdt);
         }
 
         FacesUtils.removeChildren(context, pager);//clean pager children
@@ -151,7 +170,7 @@ public class DataScrollerRenderer extends Renderer {
      */
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        String key = component.getClientId(context)+"_key";
+        String key = component.getClientId(context) + "_key";
         Map<String, String> parameters = context.getExternalContext().getRequestParameterMap();
 
         String response = (String) parameters.get(key);
@@ -205,26 +224,38 @@ public class DataScrollerRenderer extends Renderer {
      * @param wrapper
      * @throws java.io.IOException
      */
-    private void appendLink(FacesContext context, ResponseWriter writer, UIDataScroller component,
-            String imgIcon, String value, String styleClass, UIDiv wrapper) {
-//        writer.writeText(" ", null);
+    private void appendLink(FacesContext context, UIDataScroller component,
+            String imgIconUrl, String value, String styleClass, UIDiv wrapper, HtmlAjaxSupport a4jSupport, boolean isMFDatatable, String formId, String datatableJS) {
 
         HtmlAjaxCommandLink link = new HtmlAjaxCommandLink();
-        link.setReRender(component.getDataTableId()+", "+component.getId());
+        link.setReRender(component.getDataTableId() + ", " + component.getId());
 
-        String formId = FacesUtils.getFormId(context, component);
+        String jsactivation = "";
+        if (isMFDatatable && datatableJS != null) {
+            jsactivation = datatableJS;
+        }
 
-        link.setOncomplete("A4J.AJAX.Submit('"+formId+"','"+formId+"',null,{'single':'true','parameters':{'"+component.getClientId(context)+"_ajax':'"+component.getClientId(context)+"_ajax','refresh':'"+wrapper.getClientId(context)+"'},'actionUrl':window.location.href} );" +
-                " var ths = ($('mainform:mfdatatable').getChildren()[0]).getChildren()[0];ths.getChildren()[0].set('axis','number');ths.getChildren()[1].set('axis','string');function mfdatatable_loading(){var mfdatatable_datatable = new SortableTable('mainform:mfdatatable',{overCls:'over',sortOn:'0',sortBy:'ASC'});};mfdatatable_loading();");
+        link.setOncomplete("A4J.AJAX.Submit('" + formId + "','" + formId + "',null,{'single':'true','parameters':{'" + a4jSupport.getClientId(context) + "':'" + a4jSupport.getClientId(context) + "','refresh':'" + wrapper.getClientId(context) + "'},'actionUrl':window.location.href} );" +
+                jsactivation);
 
         link.setAjaxSingle(true);
-        link.setValue(value);
+
+        if (imgIconUrl != null) {
+            HtmlGraphicImage image = new HtmlGraphicImage();
+            image.setUrl(imgIconUrl);
+            image.setStyle("border:none;");
+            link.getChildren().add(image);
+        } else {
+            link.setValue(value);
+        }
+
         if (styleClass != null) {
             link.setStyleClass(styleClass);
         }
+        link.setStyle("padding-left:2px;padding-right:2px;cursor:pointer;");
 
         HtmlActionParameter param = new HtmlActionParameter();
-        param.setName(component.getClientId(context)+"_key");
+        param.setName(component.getClientId(context) + "_key");
         param.setValue(value);
         link.getChildren().add(param);
         if (!wrapper.getChildren().contains(link)) {

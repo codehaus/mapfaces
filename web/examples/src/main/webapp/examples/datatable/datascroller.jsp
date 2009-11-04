@@ -17,15 +17,10 @@
             <style>
                 .selectedPager{background:LightBlue none repeat scroll 0 0;color:white;font-weight:bold;font-size:11px;}
                 .dtscroller{color:black;font-size:11px;}
-		.oddColumn{padding:5px;vertical-align:top;}
-    		.evenColumn{padding:5px;vertical-align:top;}
-		.headerdatatable{text-align:center; background:#83b6ea;color:#ffffff;font-size:10px;}
-		.rowodd{text-align:center;background:#ffffff;}
-		.roweven{text-align:center;background:#d8e4f0;}
             </style>
         </head>
         <body>
-            <h1><h:outputText value="MapFaces Datatable sorting by Mootools"/></h1>
+            <h1><h:outputText value="MapFaces Datatable sorting by Mootools demo"/></h1>
             <h:form id="mainform">
 		<h:panelGroup layout="block" style="width:600px;margin-left:60pt;">
 		        <mfb:Datatable id="mfdatatable"
@@ -44,19 +39,23 @@
 		                <f:facet name="footer"><h:outputText value=""/></f:facet>
 		            </mfb:DataTableColumn>
 		        </mfb:Datatable>
+		        <mfb:DataScroller dataTableId="mfdatatable"
+		                          id="datascrollerpager"
+		                          selectedStyleClass="selectedPager"
+		                          showpages="5"
+		                          style="margin:0pt auto;text-align:center;"
+		                          styleClass="dtscroller">
+		        </mfb:DataScroller>
 		</h:panelGroup>
 
                 <hr/>
 
-                <h1><h:outputText value="default datatable "/></h1>
-		<h:panelGroup layout="block" style="width:400px;margin-left:60pt;height:200px;overflow:auto;">
-			<mfb:Datatable id="mfdatatable2"
-		                       value="#{datatablebean.allContactsModel}"
-		                       var="_row2"
-		                       style="text-align:center;" 
-					headerClass="headerdatatable" 
-					rowClasses="rowodd, roweven" 
-					columnClasses="oddColumn,evenColumn">
+                <h1><h:outputText value="Mojarra default datatable "/></h1>
+		<h:panelGroup layout="block" style="width:400px;margin-left:60pt;">
+		        <h:dataTable id="jsfdatatable"
+		                     value="#{datatablebean.allContactsModel}"
+		                     var="_row2"
+		                     style="text-align:center;width:100%" rules="all" rows="4">
 		            <h:column>
 		                <f:facet name="header"><h:outputText value="ID"/></f:facet>
 		                <h:outputText value="#{_row2.doubleValue}" style="text-align:center;"/>
@@ -68,7 +67,14 @@
 		                <h:outputText value="#{_row2.value}" style="text-align:center;"/>
 		                <f:facet name="footer"><h:outputText value=""/></f:facet>
 		            </h:column>
-		        </mfb:Datatable>		        
+		        </h:dataTable>
+		        <mfb:DataScroller dataTableId="jsfdatatable"
+		                          id="datascrollerpager2"
+		                          selectedStyleClass="selectedPager"
+		                          showpages="5"
+		                          style="margin:0pt auto;text-align:center;"
+		                          styleClass="dtscroller">
+		        </mfb:DataScroller>
 		</h:panelGroup>
             </h:form>
         </body>
