@@ -20,6 +20,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.Map;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * This is an interface to represent all features that can be serializable.
@@ -39,9 +40,9 @@ public interface Feature extends Serializable {
 
     void setName(String name);
 
-    DefaultGeographicCRS getCrs();
+    CoordinateReferenceSystem getCrs();
 
-    void setCrs(DefaultGeographicCRS crs);
+    void setCrs(CoordinateReferenceSystem crs);
 
     Map<String, Serializable> getAttributes();
 

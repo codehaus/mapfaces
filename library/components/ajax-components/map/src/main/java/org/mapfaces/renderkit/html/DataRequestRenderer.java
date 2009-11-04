@@ -64,6 +64,7 @@ import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.FeatureVisitor;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  *
@@ -284,7 +285,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     LOGGER.log(Level.SEVERE, null, ex);
                                 }
 
-                                DefaultGeographicCRS layerCrs = DefaultGeographicCRS.WGS84;
+                                CoordinateReferenceSystem layerCrs = DefaultGeographicCRS.WGS84;
 
                                 //Init a SimpleFeatureTypeBuilder instance by getting the first feature model.
                                 final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();

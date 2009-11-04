@@ -57,6 +57,8 @@ import javax.xml.bind.Unmarshaller;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
+import org.geotoolkit.data.FeatureCollectionUtilities;
+import org.geotoolkit.data.collection.FeatureCollection;
 import org.mapfaces.component.UILayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
@@ -71,6 +73,9 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 
 import org.geotoolkit.factory.Hints;
+import org.geotoolkit.feature.simple.DefaultSimpleFeature;
+import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.geotoolkit.sld.MutableStyledLayerDescriptor;
@@ -86,6 +91,8 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.Utilities;
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
@@ -649,7 +656,7 @@ public class FacesMapUtils extends FacesUtils {
         final DefaultFeature feature = new DefaultFeature();
         feature.setId(identifier);
         try {
-            feature.setCrs((DefaultGeographicCRS) CRS.decode(srs));
+            feature.setCrs(CRS.decode(srs));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -827,6 +834,51 @@ public class FacesMapUtils extends FacesUtils {
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "Model saved at the  session map for the component,  clientId : " + compClientId + "");
         }
+    }
+
+    /**
+     * Return a geotk SimpleFeature Collection from a Feature List.
+     * @param featList List of feature objects.
+     * @return FeatureCollection of geotk SimpleFeature.
+     */
+    public static FeatureCollection<SimpleFeatureType, SimpleFeature> getSimpleFeaturesFromFeatures(List<Feature> featList) {
+        //building a FeatureCollection for this layer.
+        FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FeatureCollectionUtilities.createCollection();
+        if (featList != null) {
+            System.out.println("++++++ getSimpleFeatures");
+            long featureId = 0;
+            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+
+            if (featList.size() != 0) {
+                System.out.println("++++++ before SetFeature");
+                Feature f = featList.get(0);
+                System.out.println("++++++ before SetName");
+                builder.setName(f.getName());
+                System.out.println("++++++ before SetCrs");
+                builder.setCRS(f.getCrs());
+                for (String key : f.getAttributes().keySet()) {
+                    if (key.equals("geometry")) {
+                        builder.add(key, Geometry.class);
+                    } else {
+                        builder.add(key, f.getAttributes().get(key).getClass());
+                    }
+                }
+            }
+            SimpleFeatureType sft = builder.buildFeatureType();
+            for (Feature f : featList) {
+                System.out.println("++++++ Construction de la liste");
+                List<Object> objects = new ArrayList<Object>();
+                for (String key : f.getAttributes().keySet()) {
+                    objects.add(f.getAttributes().get(key));
+                }
+                System.out.println("++++++ Middle");
+                SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
+                simpleFeatures.add(sf);
+                featureId++;
+            }
+        }
+        System.out.println("++++++ end getSimpleFeatures");
+        return simpleFeatures;
     }
 
 }

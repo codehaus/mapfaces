@@ -102,6 +102,10 @@
         <component-class>org.mapfaces.component.layer.UIWmsLayer</component-class>
     </component>
     <component>
+        <component-type>org.mapfaces.component.SvgLayer</component-type>
+        <component-class>org.mapfaces.component.layer.UISvgLayer</component-class>
+    </component>
+    <component>
         <component-type>org.mapfaces.component.LayerControl</component-type>
         <component-class>org.mapfaces.component.UILayerControl</component-class>
     </component>
@@ -364,6 +368,12 @@
             <component-family>org.mapfaces.MapContextLayer</component-family>
             <renderer-type>org.mapfaces.renderkit.html.MapContextLayer</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.layer.MapContextLayerRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Renders a SVGLayer. </description>
+            <component-family>org.mapfaces.SvgLayer</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.SvgLayer</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.layer.SvgLayerRenderer</renderer-class>
         </renderer>
         <renderer>
             <description>Renders an LayerControl </description>

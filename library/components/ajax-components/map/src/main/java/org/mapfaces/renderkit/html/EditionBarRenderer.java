@@ -100,7 +100,7 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
 
             // If this attribute is set, so Edition bar has to refer to the
             // SVG Layer with the ID indicated.
-            final String layerTargetId = comp.getAttributes().get("layerTargetId").toString();
+            final String layerTargetId = (String) comp.getAttributes().get("layerTargetId");
             // we use another variable to stock the final ID of the SVG layer.
             String layerId = "editingLayer";
             if ((layerTargetId == null) || "".equals(layerTargetId)) {
