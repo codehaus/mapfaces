@@ -42,7 +42,7 @@ public class XMLMetadataUtilities extends XMLUtilities {
     public XMLMetadataUtilities() {
     }
 
-    public static Metadata readMetaData(Object source, String type)
+    public static Metadata readMetadata(Object source, String type)
             throws JAXBException, UnsupportedEncodingException {
         Metadata elt = null;
 
