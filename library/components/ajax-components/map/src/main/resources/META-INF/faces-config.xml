@@ -26,10 +26,6 @@
         <component-class>org.mapfaces.component.UIDataRequest</component-class>
     </component>
     <component>
-        <component-type>org.mapfaces.component.Div</component-type>
-        <component-class>org.mapfaces.component.UIDiv</component-class>
-    </component>
-    <component>
         <component-type>org.mapfaces.component.ExtPanel</component-type>
         <component-class>org.mapfaces.component.UIExtPanel</component-class>
     </component>
@@ -600,13 +596,7 @@
             <renderer-type>org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeNodeInfo</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.treebuilder.TreeNodeInfoRenderer</renderer-class>
         </renderer>
-        <!-- Div Renderers -->
-        <renderer>
-            <description>Div </description>
-            <component-family>org.mapfaces.Div</component-family>
-            <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
-            <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
-        </renderer>
+        
         <!-- ExtPanel Renderers -->
         <renderer>
             <description>ExtPanel </description>

@@ -38,7 +38,13 @@ import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 
-
+/**
+ * This render a mapcontext layer component that was created by the mappane component
+ * for each layer founded in the list as property value of context or mappane.
+ * 
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
+ */
 public class MapContextLayerRenderer extends LayerRenderer {
 
     private static final Logger LOGGER = Logger.getLogger(MapContextLayerRenderer.class.getName());
@@ -104,8 +110,8 @@ public class MapContextLayerRenderer extends LayerRenderer {
         final String styleImg = filteropacity+"opacity:" + opacity + ";";
         final String display = (hidden) ? "display:none" : "display:block;";
         writer.startElement("div", comp);
-        writer.writeAttribute("id", clientId, "style");
-        writer.writeAttribute("class", "layerDiv", "style");
+        writer.writeAttribute("id", clientId, "id");
+        writer.writeAttribute("class", "layerDiv", null);
         writer.writeAttribute("style", display + "position: absolute; width: 100%; height: 100%; z-index: 100;" + comp.getStyle(), "style");
 
         UIMapPane mappane = FacesMapUtils.getParentUIMapPane(context, comp);

@@ -125,6 +125,15 @@
         </attribute>
     </tag>
 
+    <!-- Div -->
+    <tag>
+        <name>Div</name>
+        <tag-class>org.mapfaces.taglib.DivTag</tag-class>
+        <body-content>JSP</body-content>
+        <description><![CDATA[This is the tag that creates a component Div for jsf.]]></description>
+        &commons_attributes;
+    </tag>
+
     <!-- Datatable -->
     <tag>
         <name>Datatable</name>

@@ -34,6 +34,12 @@
         <component-class>org.mapfaces.component.datatable.UIDataScroller</component-class>
     </component>
 
+    <!-- Div component -->
+    <component>
+        <component-type>org.mapfaces.component.Div</component-type>
+        <component-class>org.mapfaces.component.UIDiv</component-class>
+    </component>
+
     <!-- RENDERKIT -->
     <render-kit>
         <renderer>
@@ -72,5 +78,13 @@
             <renderer-type>org.mapfaces.renderkit.datatable.HTMLColumns</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.datatable.ColumnsRenderer</renderer-class>
         </renderer-->
+
+        <!-- Div Renderer -->
+        <renderer>
+            <description>render an html div</description>
+            <component-family>org.mapfaces.Div</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
+        </renderer>
     </render-kit>
 </faces-config>

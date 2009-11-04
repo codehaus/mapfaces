@@ -16,7 +16,7 @@
 
 package org.mapfaces.component.datatable;
 
-import javax.faces.component.UIOutput;
+import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 
 /**
@@ -26,7 +26,7 @@ import javax.faces.context.FacesContext;
  * @author Mehdi Sidhoum (Geomatys).
  * @since 0.3
  */
-public class UIDataScroller extends UIOutput {
+public class UIDataScroller extends UICommand {
 
     private static final String FAMILY = "org.mapfaces.datatable.DataScroller";
     /**

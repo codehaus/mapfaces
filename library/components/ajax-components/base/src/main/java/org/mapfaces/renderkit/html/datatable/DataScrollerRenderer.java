@@ -17,6 +17,7 @@
 package org.mapfaces.renderkit.html.datatable;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,15 +28,16 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import org.ajax4jsf.ajax.html.HtmlActionParameter;
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
+import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.datatable.UIDataScroller;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.FacesUtils;
-import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
- * This is the renderer od datascroller component
+ * This is the renderer of datascroller component to allow a pagination feature
  * It renders a set of links to each page of a table, to the next and previous pages,
  * and if there are a great number of pages, to the next and previous batch of pages.
+ * This component is compatible with UIDatatable of mapfaces
  *
  * @author Mehdi Sidhoum (Geomatys).
  * @since 0.3
@@ -83,10 +85,10 @@ public class DataScrollerRenderer extends Renderer {
         }
 
         //Start of rendering the component
-        writer.startElement(HTML.DIV_ELEM, component);
-        writer.writeAttribute(HTML.id_ATTRIBUTE, id, "id");
-        writer.writeAttribute(HTML.style_ATTRIBUTE, style, "style");
-
+        UIDiv uiDiv = new UIDiv();
+        uiDiv.setId(pager.getId()+"_div");
+        uiDiv.setStyle(style);
+        
         int first = data.getFirst();
         int rowcount = data.getRowCount();
         int pagesize = data.getRows();
@@ -110,28 +112,38 @@ public class DataScrollerRenderer extends Renderer {
             endPage = Math.min(startPage + showpages, pages);
         }
 
-        FacesUtils.removeChildren(context, component);
+
+
+        UIDiv existingDiv = null;
+        foo:for(UIComponent child : pager.getChildren()){
+            if(child instanceof UIDiv){
+                existingDiv = (UIDiv) child;
+                break foo;
+            }
+        }
+       
         if (startPage > 0) {
-            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, BACKWARD_IMG, null), "<<", styleClass);
+            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, BACKWARD_IMG, null), "<<", styleClass, uiDiv);
         }
         if (currentPage > 0) {
-            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, PREVIOUS_IMG, null), "<", styleClass);
+            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, PREVIOUS_IMG, null), "<", styleClass, uiDiv);
         }
 
         for (int i = startPage; i < endPage; i++) {
-            writeLink(context, writer, pager, null, "" + (i + 1),
-                    i == currentPage ? selectedStyleClass : styleClass);
+            appendLink(context, writer, pager, null, "" + (i + 1), i == currentPage ? selectedStyleClass : styleClass, uiDiv);
         }
 
         if (first < rowcount - pagesize) {
-            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, NEXT_IMG, null), ">", styleClass);
+            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, NEXT_IMG, null), ">", styleClass, uiDiv);
         }
 
         if (endPage < pages) {
-            writeLink(context, writer, pager, ResourcePhaseListener.getURL(context, FORWARD_IMG, null), ">>", styleClass);
+            appendLink(context, writer, pager, ResourcePhaseListener.getURL(context, FORWARD_IMG, null), ">>", styleClass, uiDiv);
         }
 
-        writer.endElement(HTML.DIV_ELEM);
+        FacesUtils.removeChildren(context, pager);//clean pager children
+        pager.getChildren().add(uiDiv);
+
     }
 
     /**
@@ -139,10 +151,10 @@ public class DataScrollerRenderer extends Renderer {
      */
     @Override
     public void decode(FacesContext context, UIComponent component) {
-        String id = component.getClientId(context);
+        String key = component.getClientId(context)+"_key";
         Map<String, String> parameters = context.getExternalContext().getRequestParameterMap();
 
-        String response = (String) parameters.get(id);
+        String response = (String) parameters.get(key);
         if (response == null || response.equals("")) {
             return;
         }
@@ -182,7 +194,7 @@ public class DataScrollerRenderer extends Renderer {
     }
 
     /**
-     * Writer for a4j commandLink with the associated action parameter that will
+     * Adds an a4j commandLink as child of the wrapper div with the associated action parameter that will
      * be catched in decode process.
      * @param context
      * @param writer
@@ -190,18 +202,17 @@ public class DataScrollerRenderer extends Renderer {
      * @param imgIcon
      * @param value
      * @param styleClass
+     * @param wrapper
      * @throws java.io.IOException
      */
-    private void writeLink(FacesContext context, ResponseWriter writer, UIDataScroller component,
-            String imgIcon, String value, String styleClass)
-            throws IOException {
+    private void appendLink(FacesContext context, ResponseWriter writer, UIDataScroller component,
+            String imgIcon, String value, String styleClass, UIDiv wrapper) {
 //        writer.writeText(" ", null);
 
-        String formId = FacesUtils.getFormClientId(context, component);
-        
         HtmlAjaxCommandLink link = new HtmlAjaxCommandLink();
-        link.setReRender(component.getDataTableId() + "_div, "+component.getId());
-        
+        link.setReRender(component.getDataTableId());
+        link.setOncomplete("var ths = ($('mainform:mfdatatable').getChildren()[0]).getChildren()[0];ths.getChildren()[0].set('axis','number');ths.getChildren()[1].set('axis','string');function mfdatatable_loading(){var mfdatatable_datatable = new SortableTable('mainform:mfdatatable',{overCls:'over',sortOn:'0',sortBy:'ASC'});};mfdatatable_loading();");
+
         link.setAjaxSingle(true);
         link.setValue(value);
         if (styleClass != null) {
@@ -209,11 +220,30 @@ public class DataScrollerRenderer extends Renderer {
         }
 
         HtmlActionParameter param = new HtmlActionParameter();
-        param.setName(component.getClientId(context));
+        param.setName(component.getClientId(context)+"_key");
         param.setValue(value);
         link.getChildren().add(param);
-        if (!component.getChildren().contains(link)) {
-            component.getChildren().add(link);
+        if (!wrapper.getChildren().contains(link)) {
+            wrapper.getChildren().add(link);
+        }
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean getRendersChildren() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
+        final List<UIComponent> childrens = component.getChildren();
+        for (final UIComponent tmp : childrens) {
+            FacesUtils.encodeRecursive(context, tmp);
         }
     }
 }

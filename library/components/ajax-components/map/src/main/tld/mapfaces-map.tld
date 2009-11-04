@@ -191,14 +191,7 @@
             <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]></description>
         </attribute>
     </tag>
-    <!-- Div -->
-    <tag>
-        <name>Div</name>
-        <tag-class>org.mapfaces.taglib.DivTag</tag-class>
-        <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component Div for jsf.]]></description>
-        &commons_attributes;
-    </tag>
+    
     <!-- ExtPanel -->
     <tag>
         <name>ExtPanel</name>

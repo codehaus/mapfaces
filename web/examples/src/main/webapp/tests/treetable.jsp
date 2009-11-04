@@ -4,6 +4,7 @@
 <%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <%@taglib prefix="mf" uri="http://mapfaces.org/taglib"%>
+<%@taglib prefix="mf-base" uri="http://mapfaces.org/taglib-base"%>
 
 <%@taglib prefix="a4j"uri="https://ajax4jsf.dev.java.net/ajax"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -18,7 +19,7 @@
     <body>
     <h:form id="main_form">
 
-        <mf:Div id="treetableDiv" style="margin:0pt auto;height:300px;overflow:auto;margin-top:10pt;width:600px;">
+        <mf-base:Div id="treetableDiv" style="margin:0pt auto;height:300px;overflow:auto;margin-top:10pt;width:600px;">
             <mf:TreeTable id="treetable" collapsed="true" collapseDepth="1" value="#{map.exampleModel}" var="itemExample" style="width:100%;height:100%;overflow:auto;" debug="false">
                 <mf:TreePanel id="treepanel"
                header="false"
@@ -48,7 +49,7 @@
 
                 </mf:TreePanel>
             </mf:TreeTable>
-        </mf:Div>
+        </mf-base:Div>
 
         <a4j:commandButton reRender="treetableDiv" ajaxSingle="true" value="div"/>
         <a4j:commandButton reRender="treetable" ajaxSingle="true" value="treetable"/>
