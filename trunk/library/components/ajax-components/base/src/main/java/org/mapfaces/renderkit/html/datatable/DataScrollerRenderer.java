@@ -210,8 +210,12 @@ public class DataScrollerRenderer extends Renderer {
 //        writer.writeText(" ", null);
 
         HtmlAjaxCommandLink link = new HtmlAjaxCommandLink();
-        link.setReRender(component.getDataTableId());
-        link.setOncomplete("var ths = ($('mainform:mfdatatable').getChildren()[0]).getChildren()[0];ths.getChildren()[0].set('axis','number');ths.getChildren()[1].set('axis','string');function mfdatatable_loading(){var mfdatatable_datatable = new SortableTable('mainform:mfdatatable',{overCls:'over',sortOn:'0',sortBy:'ASC'});};mfdatatable_loading();");
+        link.setReRender(component.getDataTableId()+", "+component.getId());
+
+        String formId = FacesUtils.getFormId(context, component);
+
+        link.setOncomplete("A4J.AJAX.Submit('"+formId+"','"+formId+"',null,{'single':'true','parameters':{'"+component.getClientId(context)+"_ajax':'"+component.getClientId(context)+"_ajax','refresh':'"+wrapper.getClientId(context)+"'},'actionUrl':window.location.href} );" +
+                " var ths = ($('mainform:mfdatatable').getChildren()[0]).getChildren()[0];ths.getChildren()[0].set('axis','number');ths.getChildren()[1].set('axis','string');function mfdatatable_loading(){var mfdatatable_datatable = new SortableTable('mainform:mfdatatable',{overCls:'over',sortOn:'0',sortBy:'ASC'});};mfdatatable_loading();");
 
         link.setAjaxSingle(true);
         link.setValue(value);
