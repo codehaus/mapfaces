@@ -11,14 +11,6 @@
 
 
 <f:view >
-    <%--h:outputText id="outputid" value="param.id = #{param.id}" style="color:red;display:none;"/>
-    <h:outputText id="outputid2" value="  this.id = #{metadatapopup.id}" style="color:red;display:none;"/>
-
-    <t:saveState id="save2" value="#{metadatapopup.id}"/>
-    <t:saveState id="save6" value="#{metadatapopup.url}"/>
-    <t:saveState id="save3" value="#{metadatapopup.title}"/>
-    <t:saveState id="save4" value="#{metadatapopup.treeModel}"--%>
-
     <html>
         <head>
             <title>Metadata</title>
@@ -30,30 +22,23 @@
                 <h:panelGrid columns="2" border="1">
 
                     url:<h:outputText id="logo-orga_md" value="#{metadata.url}"/>
-                    fileIdentifier: <h:outputText id="logo-fileIdentifier" value="#{metadata.metaData.fileIdentifier}"/>
-                    parentIdentifier: <h:outputText id="logo-parentIdentifier" value="#{metadata.metaData.parentIdentifier}"/>
-                    datasetURI: <h:outputText id="logo-datasetURI" value="#{metadata.metaData.dataSetUri}"/>
+                    fileIdentifier: <h:outputText id="logo-fileIdentifier" value="#{metadata.metadata.fileIdentifier}"/>
+                    parentIdentifier: <h:outputText id="logo-parentIdentifier" value="#{metadata.metadata.parentIdentifier}"/>
+                    datasetURI: <h:outputText id="logo-datasetURI" value="#{metadata.metadata.dataSetUri}"/>
 
-                    mdStandardName: <h:outputText id="logo-metadataStandardName" value="#{metadata.metaData.metadataStandardName}"/>
-                    mdStandardVersion: <h:outputText id="logo-metadataStandardVersion" value="#{metadata.metaData.metadataStandardVersion}"/>
-                    dateStamp: <h:outputText id="logo-dateStamp" value="#{metadata.metaData.dateStamp}" >
+                    mdStandardName: <h:outputText id="logo-metadataStandardName" value="#{metadata.metadata.metadataStandardName}"/>
+                    mdStandardVersion: <h:outputText id="logo-metadataStandardVersion" value="#{metadata.metadata.metadataStandardVersion}"/>
+                    dateStamp: <h:outputText id="logo-dateStamp" value="#{metadata.metadata.dateStamp}" >
                         <f:convertDateTime type="date" dateStyle="medium"/>
                     </h:outputText>
-                    language: <h:outputText id="logo-language" value="#{metadata.metaData.language}"/>
-                    characterSet: <h:outputText id="logo-characterSet" value="#{metadata.metaData.characterSet}"/>
+                    language: <h:outputText id="logo-language" value="#{metadata.metadata.language}"/>
+                    characterSet: <h:outputText id="logo-characterSet" value="#{metadata.metadata.characterSet}"/>
                 </h:panelGrid>
-                <%--h:inputText value="hy" size="7">
-                    <a4j:support action="#{metadata.change}"
-                                 event="onchange" reRender="margin1" />
-                </h:inputText--%>
-                <%--h:outputText id="margin1" value="fgdf">
-                </h:outputText--%>
+
                 <h2>Contact Info</h2>
 
-                <a4j:repeat value="#{metadata.metaData.contacts}" var="contact" binding="#{metadata.repeater}" ajaxKeys="#{metadata.keys}">
-                    
-                    <h:outputText id="margin" value="yh">
-                    </h:outputText>
+                <a4j:repeat value="#{metadata.metadata.contacts}" var="contact" >
+
                     <h:panelGrid columns="2" border="1">
                         individualName: <h:outputText id="logo-individualName" value="#{contact.individualName}"/>
                         organisationName: <h:outputText id="logo-organisationName" value="#{contact.organisationName}"/>
@@ -82,24 +67,25 @@
                             hoursOfService: <h:outputText id="logo-hoursOfService" value="#{contact.contactInfo.hoursOfService}"/>
                             contactInstructions: <h:outputText id="logo-contactInstructions" value="#{contact.contactInfo.contactInstructions}"/>
 
-                            onLineResource name: <h:outputText value="#{contact.contactInfo.onLineResource.name}"/>
+                            onLineResource name: <%--h:outputText value="#{contact.contactInfo.onLineResource.name}"/>
                             onLineResource applicationProfile : <h:outputText value="#{contact.contactInfo.onLineResource.applicationProfile}"/>
                             onLineResource protocol : <h:outputText value="#{contact.contactInfo.onLineResource.protocol}"/>
                             onLineResource description : <h:outputText value="#{contact.contactInfo.onLineResource.description}"/>
-                            onLineResource linkage : <h:outputText value="#{contact.contactInfo.onLineResource.linkage}"/>
+                            onLineResource linkage : <h:outputText value="#{contact.contactInfo.onLineResource.linkage}"/--%>
                         </h:panelGrid>
                     </h:panelGrid>
                 </a4j:repeat>
 
                 <h2>Reference System Info</h2>
-                <a4j:repeat value="#{metadata.metaData.referenceSystemInfo}" var="referencesystem">
+                <a4j:repeat value="#{metadata.metadata.referenceSystemInfo}" var="referencesystem">
                     <h:panelGrid columns="2">
                         domainOfValidity :  <h:outputText value="#{referencesystem.domainOfValidity}"/>
                         Scope :  <h:outputText value="#{referencesystem.scope}"/>
                     </h:panelGrid>
                 </a4j:repeat>
+
                 <h2>Identification Info</h2>
-                <%--a4j:repeat value="#{metadata.metaData.identificationInfo}" binding="#{metadata.repeater}" var="identification">
+                <a4j:repeat value="#{metadata.metadata.identificationInfo}"  var="identification">
                     <h:panelGrid columns="2">
                         Citation:
                         <h:panelGrid columns="2" border="1">
@@ -323,18 +309,18 @@
                             </h:panelGrid>
                         </a4j:repeat>
                     </h:panelGrid>
-                    <mf-model:Context id="context" minifyJS="false" debug="true" service="data/context/owc030.xml">
+                    <%--mf-model:Context id="context" minifyJS="false" debug="true" service="data/context/owc030.xml">
                         <mf:MapPane navigation="true" debug="true"></mf:MapPane>
                         <mf:ButtonBar></mf:ButtonBar>
-                    </mf-model:Context>
+                    </mf-model:Context--%>
 
-                </a4j:repeat--%>
+                </a4j:repeat>
 
                 <%--mf-model:Context minifyJS="false" debug="true" service="data/context/owc030.xml">
                              <mf:MapPane navigation="true" debug="true"></mf:MapPane>
                              <mf:ButtonBar></mf:ButtonBar>
                          </mf-model:Context--%>
-                <a4j:log popup="false" width="1200" height="1000" ></a4j:log>
+                <%--a4j:log popup="false" width="1200" height="1000" ></a4j:log--%>
             </h:form>
         </body>
     </html>
