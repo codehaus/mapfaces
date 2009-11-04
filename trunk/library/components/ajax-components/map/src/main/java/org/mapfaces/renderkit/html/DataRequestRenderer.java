@@ -60,6 +60,7 @@ import org.mapfaces.models.Feature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.WmsLayer;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.FeatureVisitor;
 import org.opengis.feature.simple.SimpleFeature;
@@ -67,9 +68,13 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- *
+ * This is the rendered class for UIDataRequest component,
+ * the most important function of this component is to execute a getFeatureInfo
+ * request and fill a list of Features that are catched by a vsistor from geotk.
+ * 
  * @author Mehdi Sidhoum (Geomatys).
  * @author Olivier Terral (Geomatys).
+ * @since 0.2
  */
 public class DataRequestRenderer extends WidgetBaseRenderer {
 
@@ -109,7 +114,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
             if (comp.getFacets().containsKey(a4jsupportFacetKey)) {
                 a4jSupport = (HtmlAjaxSupport) comp.getFacets().get(a4jsupportFacetKey);
             } else {
-                a4jSupport = FacesMapUtils.createBasicAjaxSupport(context, comp, "", rerender);
+                a4jSupport = FacesUtils.createBasicAjaxSupport(context, comp, "", rerender);
                 comp.getFacets().put(a4jsupportFacetKey, a4jSupport);
             }
             String formId = FacesMapUtils.getFormId(context, component);

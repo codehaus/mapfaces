@@ -28,12 +28,14 @@ import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.UIMapSize;
 import org.mapfaces.models.Context;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class MapSizeRenderer extends WidgetBaseRenderer {
 
@@ -118,7 +120,7 @@ public class MapSizeRenderer extends WidgetBaseRenderer {
     private HtmlAjaxSupport createAjaxSupport(final FacesContext context, final UIMapSize comp) {
 
         /* Add <a4j:support> component */
-        final HtmlAjaxSupport ajaxComp = FacesMapUtils.createBasicAjaxSupport(context, comp, "onchange", null);
+        final HtmlAjaxSupport ajaxComp = FacesUtils.createBasicAjaxSupport(context, comp, "onchange", null);
 
         /*2 ways to resize the map:
          *  -use OpenLayers javascript, but the resize change the resolution of the map but in term of speed it's the better solution

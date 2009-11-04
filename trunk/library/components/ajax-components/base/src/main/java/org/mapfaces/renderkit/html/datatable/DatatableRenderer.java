@@ -51,12 +51,16 @@ public class DatatableRenderer extends TableRenderer {
          * Applying style class only for this datatable family (mapfaces)
          * This is to avoid to conflict with another table.
          */
-        if (comp.getStyleClass() != null) {
-            if (!comp.getStyleClass().contains("mfdatatable")) {
-                comp.setStyleClass(comp.getStyleClass() + " mfdatatable");
+        if (comp.isSortable()) {
+            if (comp.getStyleClass() != null) {
+                if (!comp.getStyleClass().contains("mfdatatable")) {
+                    comp.setStyleClass(comp.getStyleClass() + " mfdatatable");
+                }
+            } else {
+                comp.setStyleClass("mfdatatable");
             }
         } else {
-            comp.setStyleClass("mfdatatable");
+            comp.setStyleClass(comp.getStyleClass());
         }
 
         ResponseWriter writer = context.getResponseWriter();
@@ -98,47 +102,9 @@ public class DatatableRenderer extends TableRenderer {
          */
         if (comp.isSortable()) {
 
-            // Add OverCls class
-            String overCls = comp.getOverCls();
-            if (overCls == null) {
-                overCls = "over";
-            }
-
-            //Modify sortOn attribute
-            final int sortOn = comp.getSortOn();
-
-            //Modify sortBy attribute
-            String sortBy = "ASC";
-            if (comp.getSortBy() != null) {
-                if (comp.getSortBy().toUpperCase().equals("DESC")) {
-                    sortBy = comp.getSortBy().toUpperCase();
-                }
-            }
-
-            //Adding js script to add axis attributes to all column
-            /*
-            var ths = ($('userHome:all').getChildren()[0]).getChildren()[0];
-            ths.getChildren()[0].set('axis','string');
-             */
-
-            final StringBuilder st = new StringBuilder();
-            st.append("var ths = ($('").append(comp.getClientId(context)).append("').getChildren()[0]).getChildren()[0];");
-
-            int i = 0;
-            for (UIComponent column : comp.getChildren()) {
-                if (column instanceof UIColumns) {
-                    st.append("ths.getChildren()[").append(i).append("].set('axis','").append(((UIColumns) column).getAxis()).append("');");
-                    i++;
-                }
-            }
-            st.append("function ").append(comp.getId()).append("_loading(){var ").append(comp.getId()).append("_datatable = new SortableTable('").append(comp.getClientId(context)).append("',{");
-            st.append("overCls:'").append(overCls).append("',");
-            st.append("sortOn:'").append(sortOn).append("',");
-            st.append("sortBy:'").append(sortBy).append("'");
-            st.append("});};").append(comp.getId()).append("_loading();");
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", "type");
-            writer.write(st.toString());
+            writer.write(buildActivationScript(comp,comp.getClientId(context)));
             writer.endElement("script");
         }
     }
@@ -172,5 +138,53 @@ public class DatatableRenderer extends TableRenderer {
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeAttribute("src", ResourcePhaseListener.getURL(context, DATATABLE_JS, null), null);
         writer.endElement("script");
+    }
+
+    /**
+     * This static method returns the activation script needed to sort the datatable component.
+     * this method is called by the DataScroller renderer to reactivate the js events after an a4j rerender.
+     * @param comp
+     * @return
+     */
+    public static String buildActivationScript(UIDatatable comp, String clientId){
+        // Add OverCls class
+            String overCls = comp.getOverCls();
+            if (overCls == null) {
+                overCls = "over";
+            }
+
+            //Modify sortOn attribute
+            final int sortOn = comp.getSortOn();
+
+            //Modify sortBy attribute
+            String sortBy = "ASC";
+            if (comp.getSortBy() != null) {
+                if (comp.getSortBy().toUpperCase().equals("DESC")) {
+                    sortBy = comp.getSortBy().toUpperCase();
+                }
+            }
+
+            //Adding js script to add axis attributes to all column
+            /*
+            var ths = ($('userHome:all').getChildren()[0]).getChildren()[0];
+            ths.getChildren()[0].set('axis','string');
+             */
+
+            final StringBuilder st = new StringBuilder();
+            st.append("var ths = ($('").append(clientId).append("').getChildren()[0]).getChildren()[0];");
+
+            int i = 0;
+            for (UIComponent column : comp.getChildren()) {
+                if (column instanceof UIColumns) {
+                    st.append("ths.getChildren()[").append(i).append("].set('axis','").append(((UIColumns) column).getAxis()).append("');");
+                    i++;
+                }
+            }
+            st.append("function ").append(comp.getId()).append("_loading(){var ").append(comp.getId()).append("_datatable = new SortableTable('").append(clientId).append("',{");
+            st.append("overCls:'").append(overCls).append("',");
+            st.append("sortOn:'").append(sortOn).append("',");
+            st.append("sortBy:'").append(sortBy).append("'");
+            st.append("});};").append(comp.getId()).append("_loading();");
+            return st.toString();
     }
 }

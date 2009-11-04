@@ -361,33 +361,6 @@ public class FacesMapUtils extends FacesUtils {
     }
 
     /**
-     * Function to create a classic <a4j:support> component
-     *
-     * @param context           FacesContext
-     * @param comp              UIComponent Parent of the <a4j:support> component
-     * @param event             String  Click Event (onclick,....)
-     * @param idsToReRender     String  Id of components to refresh
-     * @param extraParams       HashMap<String,String>  Extra param to add to the ajax request
-     * @return  ajaxComp        the <a4j:support> component
-     */
-    public static HtmlAjaxSupport createBasicAjaxSupport(final FacesContext context,
-            final UIComponent comp, final String event, final String idsToReRender) {
-
-        /* Add <a4j:support> component */
-        final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
-        ajaxComp.setId(comp.getId() + "_Ajax");
-        if (event != null && !event.equals("")) {
-            ajaxComp.setEvent(event);
-        }
-        ajaxComp.setAjaxSingle(true);
-        ajaxComp.setLimitToList(true);
-        if(idsToReRender != null && ! idsToReRender.equals("")) {
-            ajaxComp.setReRender(idsToReRender);
-        }
-        return ajaxComp;
-    }
-
-    /**
      * This method creates a new HtmlAjaxSupport component with parameters and js code if necessary.
      * @param context
      * @param comp
