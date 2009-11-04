@@ -42,7 +42,11 @@
                                       selectedStyleClass="selectedPager"
                                       showpages="5"
                                       style="margin:0pt auto;text-align:center;"
-                                      styleClass="dtscroller"/>
+                                      styleClass="dtscroller">
+                                          <a4j:support id="pagerajax" ajaxSingle="true"/>
+                </mf-base:DataScroller>
+                <a4j:support id="pagerajax2" ajaxSingle="true"/>
+                <a4j:support id="pagerajax3" />
                                                                    
 
                 <hr/>
