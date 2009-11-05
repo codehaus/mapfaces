@@ -1678,6 +1678,15 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[The list of features.]]></description>
         </attribute>
+        <attribute>
+            <name>cliToServOnly</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Flag that indicates if we send features to the client or if we only get back the CRUD feature operations from the client.]]></description>
+        </attribute>
     </tag>
     <!-- TIMELINE -->
     <tag>

@@ -79,7 +79,7 @@ public class EditionBarTag extends WidgetBaseTag {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("empty", empty);
-        component.setValueExpression("drawpoint",getDrawpoint());
+        component.setValueExpression("drawPoint",getDrawPoint());
         component.setValueExpression("drawLine",getDrawLine());
         component.setValueExpression("drawPolygon",getDrawPolygon());
         component.setValueExpression("select",getSelect());
@@ -103,7 +103,7 @@ public class EditionBarTag extends WidgetBaseTag {
     public void release() {
         // allways call the superclass method
         super.release();
-        setDrawpoint(null);
+        setDrawPoint(null);
         setDrawLine(null);
         setDrawPolygon(null);
         setSelect(null);
@@ -127,14 +127,14 @@ public class EditionBarTag extends WidgetBaseTag {
     /**
      * @return the drawpoint
      */
-    public ValueExpression getDrawpoint() {
+    public ValueExpression getDrawPoint() {
         return drawPoint;
     }
 
     /**
      * @param drawpoint the drawpoint to set
      */
-    public void setDrawpoint(ValueExpression drawpoint) {
+    public void setDrawPoint(ValueExpression drawpoint) {
         this.drawPoint = drawpoint;
     }
 

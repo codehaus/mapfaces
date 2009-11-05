@@ -36,6 +36,7 @@ public class SvgLayerTag extends WidgetBaseTag {
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.SvgLayer";
 
     private ValueExpression value = null;
+    private ValueExpression cliToServOnly = null;
 
     /**
      * {@inheritDoc }
@@ -61,6 +62,7 @@ public class SvgLayerTag extends WidgetBaseTag {
         // always call the superclass method
         super.setProperties(component);
         component.setValueExpression("value", value);
+        component.setValueExpression("cliToServOnly", cliToServOnly);
     }
 
     /**
@@ -71,6 +73,7 @@ public class SvgLayerTag extends WidgetBaseTag {
         // allways call the superclass method
         super.release();
         value = null;
+        cliToServOnly = null;
     }
 
     /**
@@ -85,5 +88,19 @@ public class SvgLayerTag extends WidgetBaseTag {
      */
     public void setValue(ValueExpression value) {
         this.value = value;
+    }
+
+    /**
+     * @return the cliToServOnly
+     */
+    public ValueExpression getCliToServOnly() {
+        return cliToServOnly;
+    }
+
+    /**
+     * @param cliToServOnly the cliToServOnly to set
+     */
+    public void setCliToServOnly(ValueExpression cliToServOnly) {
+        this.cliToServOnly = cliToServOnly;
     }
 }
