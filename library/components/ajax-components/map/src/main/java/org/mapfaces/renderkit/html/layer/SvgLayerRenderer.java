@@ -113,7 +113,7 @@ public class SvgLayerRenderer extends WidgetBaseRenderer {
                         "$('" + clientId + "').value=$('" + clientId + "').value" +
                         "+ ';' + event.feature.geometry;}}").toString());
 
-        if ((comp.getValue() != null) && (comp.getValue() instanceof List)) {
+        if (!comp.isCliToServOnly() &&(comp.getValue() != null) && (comp.getValue() instanceof List)) {
             final List<SimpleFeature> featList = (List) comp.getValue();
             if (featList.size() > 0) {
                 writer.write("var parser_" + compId + ";var wkt_" + compId + ";var geometry_" + compId + ";var feature_" + compId + ";");

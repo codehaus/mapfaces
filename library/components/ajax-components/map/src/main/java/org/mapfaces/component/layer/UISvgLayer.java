@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 public class UISvgLayer extends UILayer {
 
     public static final String FAMILIY = "org.mapfaces.SvgLayer";
+    private boolean cliToServOnly;
 
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
@@ -47,8 +48,9 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[1];
+        final Object values[] = new Object[2];
         values[0] = super.saveState(context);
+        values[1] = cliToServOnly;
         return values;
     }
 
@@ -59,5 +61,20 @@ public class UISvgLayer extends UILayer {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
+        setCliToServOnly((Boolean) values[1]);
+    }
+
+    /**
+     * @return the cliToServOnly
+     */
+    public boolean isCliToServOnly() {
+        return cliToServOnly;
+    }
+
+    /**
+     * @param cliToServOnly the cliToServOnly to set
+     */
+    public void setCliToServOnly(boolean cliToServOnly) {
+        this.cliToServOnly = cliToServOnly;
     }
 }
