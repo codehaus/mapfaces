@@ -56,7 +56,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  *
  * @author leopratlong (Geomatys)
  */
-public class SvgLayerRenderer extends WidgetBaseRenderer {
+public class SvgLayerRenderer extends LayerRenderer {
  
     private static final Logger LOGGER = Logger.getLogger(EditionBarRenderer.class.getName());
     /**
