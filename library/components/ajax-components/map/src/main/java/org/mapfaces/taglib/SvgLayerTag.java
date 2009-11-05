@@ -37,6 +37,9 @@ public class SvgLayerTag extends LayerTag {
 
     private ValueExpression value = null;
     private ValueExpression cliToServOnly = null;
+    private ValueExpression featuresAdded = null;
+    private ValueExpression featuresRemoved = null;
+    private ValueExpression featuresUpdated = null;
 
     /**
      * {@inheritDoc }
@@ -63,6 +66,9 @@ public class SvgLayerTag extends LayerTag {
         super.setProperties(component);
         component.setValueExpression("value", value);
         component.setValueExpression("cliToServOnly", cliToServOnly);
+        component.setValueExpression("featuresAdded", featuresAdded);
+        component.setValueExpression("featuresRemoved", featuresRemoved);
+        component.setValueExpression("featuresUpdated", featuresUpdated);
     }
 
     /**
@@ -74,6 +80,9 @@ public class SvgLayerTag extends LayerTag {
         super.release();
         value = null;
         cliToServOnly = null;
+        featuresAdded = null;
+        featuresRemoved = null;
+        featuresUpdated = null;
     }
 
     /**
@@ -102,5 +111,47 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setCliToServOnly(ValueExpression cliToServOnly) {
         this.cliToServOnly = cliToServOnly;
+    }
+
+    /**
+     * @return the featuresAdded
+     */
+    public ValueExpression getFeaturesAdded() {
+        return featuresAdded;
+    }
+
+    /**
+     * @param featuresAdded the featuresAdded to set
+     */
+    public void setFeaturesAdded(ValueExpression featuresAdded) {
+        this.featuresAdded = featuresAdded;
+    }
+
+    /**
+     * @return the featuresRemoved
+     */
+    public ValueExpression getFeaturesRemoved() {
+        return featuresRemoved;
+    }
+
+    /**
+     * @param featuresRemoved the featuresRemoved to set
+     */
+    public void setFeaturesRemoved(ValueExpression featuresRemoved) {
+        this.featuresRemoved = featuresRemoved;
+    }
+
+    /**
+     * @return the featuresUpdated
+     */
+    public ValueExpression getFeaturesUpdated() {
+        return featuresUpdated;
+    }
+
+    /**
+     * @param featuresUpdated the featuresUpdated to set
+     */
+    public void setFeaturesUpdated(ValueExpression featuresUpdated) {
+        this.featuresUpdated = featuresUpdated;
     }
 }

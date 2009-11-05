@@ -1687,6 +1687,42 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Flag that indicates if we send features to the client or if we only get back the CRUD feature operations from the client.]]></description>
         </attribute>
+        <attribute>
+            <name>featuresAdded</name>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Features added by the user on the last submit.]]></description>
+        </attribute>
+        <attribute>
+            <name>featuresRemoved</name>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Features removed by the user on the last submit.]]></description>
+        </attribute>
+        <attribute>
+            <name>featuresUpdated</name>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Features updated by the user on the last submit.]]></description>
+        </attribute>
+        <attribute>
+            <name>submitTriggerId</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Indicates the ID of the element which will trigger the submit of the form.]]></description>
+        </attribute>
     </tag>
     <!-- TIMELINE -->
     <tag>
