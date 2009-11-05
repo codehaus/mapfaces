@@ -24,7 +24,7 @@ import javax.faces.component.UIComponent;
  *
  * @author leopratlong (Geomatys)
  */
-public class SvgLayerTag extends WidgetBaseTag {
+public class SvgLayerTag extends LayerTag {
 
     /**
      * <p>The standard component type for this component.</p>

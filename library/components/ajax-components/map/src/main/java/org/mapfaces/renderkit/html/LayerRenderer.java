@@ -56,7 +56,6 @@ public class LayerRenderer extends WidgetBaseRenderer {
         final Map<String, String> params = context.getExternalContext().getRequestParameterMap();
         final Layer layer = comp.getLayer();
 
-        
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] \t\tparams.get('refresh') =  " + params.get("refresh"));
             LOGGER.log(Level.INFO, "[DEBUG] \t\tcomp.getClientId(context) =  " + comp.getClientId(context));
@@ -83,8 +82,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
             model.setMaxx(bbox.split(",")[2]);
             model.setMaxy(bbox.split(",")[3]);
         }
-   
-
+  
         final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
 
         if (layerId != null) {
@@ -163,14 +161,13 @@ public class LayerRenderer extends WidgetBaseRenderer {
                 }
             }
         }
-
         //Modify Component property
         if (params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE") != null) {
             comp.setStyle(params.get("org.mapfaces.ajax.LAYER_CONTAINER_STYLE"));
         }
 
         comp.setModel((AbstractModelBase) model);
-        comp.setLayer(model.getLayerFromId(layer.getId()));
+        if (layer != null) comp.setLayer(model.getLayerFromId(layer.getId()));
 
     }
     private String debugChangePropertyMessage( String property, String id, String value) {
