@@ -17,8 +17,10 @@
 
 package org.mapfaces.component.layer;
 
+import java.util.List;
 import org.mapfaces.component.*;
 import javax.faces.context.FacesContext;
+import org.opengis.feature.simple.SimpleFeature;
 
 /**
  *
@@ -28,6 +30,9 @@ public class UISvgLayer extends UILayer {
 
     public static final String FAMILIY = "org.mapfaces.SvgLayer";
     private boolean cliToServOnly;
+    private List<SimpleFeature> featuresAdded;
+    private List<SimpleFeature> featuresRemoved;
+    private List<SimpleFeature> featuresUpdated;
 
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
@@ -48,9 +53,12 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[2];
+        final Object values[] = new Object[5];
         values[0] = super.saveState(context);
         values[1] = cliToServOnly;
+        values[2] = getFeaturesAdded();
+        values[3] = getFeaturesRemoved();
+        values[4] = getFeaturesUpdated();
         return values;
     }
 
@@ -62,6 +70,9 @@ public class UISvgLayer extends UILayer {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setCliToServOnly((Boolean) values[1]);
+        setFeaturesAdded((List<SimpleFeature>) values[2]);
+        setFeaturesRemoved((List<SimpleFeature>) values[3]);
+        setFeaturesUpdated((List<SimpleFeature>) values[4]);
     }
 
     /**
@@ -77,4 +88,47 @@ public class UISvgLayer extends UILayer {
     public void setCliToServOnly(boolean cliToServOnly) {
         this.cliToServOnly = cliToServOnly;
     }
+
+    /**
+     * @return the featuresAdded
+     */
+    public List<SimpleFeature> getFeaturesAdded() {
+        return featuresAdded;
+    }
+
+    /**
+     * @param featuresAdded the featuresAdded to set
+     */
+    public void setFeaturesAdded(List<SimpleFeature> featuresAdded) {
+        this.featuresAdded = featuresAdded;
+    }
+
+    /**
+     * @return the featuresRemoved
+     */
+    public List<SimpleFeature> getFeaturesRemoved() {
+        return featuresRemoved;
+    }
+
+    /**
+     * @param featuresRemoved the featuresRemoved to set
+     */
+    public void setFeaturesRemoved(List<SimpleFeature> featuresRemoved) {
+        this.featuresRemoved = featuresRemoved;
+    }
+
+    /**
+     * @return the featuresUpdated
+     */
+    public List<SimpleFeature> getFeaturesUpdated() {
+        return featuresUpdated;
+    }
+
+    /**
+     * @param featuresUpdated the featuresUpdated to set
+     */
+    public void setFeaturesUpdated(List<SimpleFeature> featuresUpdated) {
+        this.featuresUpdated = featuresUpdated;
+    }
+
 }
