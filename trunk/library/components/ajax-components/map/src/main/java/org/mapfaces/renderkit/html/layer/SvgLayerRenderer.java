@@ -116,12 +116,12 @@ public class SvgLayerRenderer extends WidgetBaseRenderer {
         if ((comp.getValue() != null) && (comp.getValue() instanceof List)) {
             final List<SimpleFeature> featList = (List) comp.getValue();
             if (featList.size() > 0) {
-                writer.write("var parser_" + compId + ",var wkt_" + compId + ",var geometry_" + compId + ",var feature_" + compId + ";");
+                writer.write("var parser_" + compId + ";var wkt_" + compId + ";var geometry_" + compId + ";var feature_" + compId + ";");
                 final WKTWriter wktWriter = new WKTWriter();
                 for (final SimpleFeature feature : featList) {
                     writer.write(new StringBuilder("").append("parser_" + compId + " = new OpenLayers.Format.WKT();" +
                             "wkt_" + compId + " = '" + wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';" +
-                            "geometry_" + compId + " = parser.read(wkt_" + compId + ");" +
+                            "geometry_" + compId + " = parser_" + compId + ".read(wkt_" + compId + ");" +
                             "feature_" + compId + " = new OpenLayers.Feature.Vector(geometry_" + compId + ");" +
                             layerName + ".addFeatures(feature_" + compId + ");").toString());
                 }
@@ -145,7 +145,7 @@ public class SvgLayerRenderer extends WidgetBaseRenderer {
             final Map parameterMap = ext.getRequestParameterMap();
             
             if (this.debug) {
-                LOGGER.log(Level.INFO, "[DEBUG] ScgLayerRenderer DECODE");
+                LOGGER.log(Level.INFO, "[DEBUG] SvgLayerRenderer DECODE");
             }
             final UIContext contextComp = (UIContext) FacesMapUtils.getParentUIContext(context, comp);
             final Context tmp = (Context) contextComp.getModel();
