@@ -36,6 +36,7 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.UIWidgetBase;
 import org.mapfaces.component.layer.UIFeatureLayer;
 import org.mapfaces.component.layer.UIMapContextLayer;
+import org.mapfaces.component.layer.UISvgLayer;
 import org.mapfaces.component.layer.UIWmsLayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.AbstractModelBase;
@@ -185,7 +186,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         comp.setAjaxCompId(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
-        FacesUtils.removeChildren(context, component);
+//        FacesUtils.removeChildren(context, component);
 
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
@@ -279,7 +280,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 LOGGER.log(Level.INFO, "[DEBUG]  \tChild family's " + tmp.getFamily());
             }
             FacesMapUtils.encodeRecursive(context, tmp);
-            if (tmp instanceof UILayer) {
+            if ((tmp instanceof UILayer) && !(tmp instanceof UISvgLayer)) {
                 final UILayer uiLayer = (UILayer) tmp;
                 final Layer layer = uiLayer.getLayer();
                 if (!layer.isDisable()) {

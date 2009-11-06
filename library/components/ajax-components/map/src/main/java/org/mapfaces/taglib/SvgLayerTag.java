@@ -37,9 +37,10 @@ public class SvgLayerTag extends LayerTag {
 
     private ValueExpression value = null;
     private ValueExpression cliToServOnly = null;
-    private ValueExpression featuresAdded = null;
-    private ValueExpression featuresRemoved = null;
-    private ValueExpression featuresUpdated = null;
+    private ValueExpression featureAdded = null;
+    private ValueExpression featureRemoved = null;
+    private ValueExpression featureBeforeUpdate = null;
+    private ValueExpression featureAfterUpdate = null;
 
     /**
      * {@inheritDoc }
@@ -66,9 +67,10 @@ public class SvgLayerTag extends LayerTag {
         super.setProperties(component);
         component.setValueExpression("value", value);
         component.setValueExpression("cliToServOnly", cliToServOnly);
-        component.setValueExpression("featuresAdded", featuresAdded);
-        component.setValueExpression("featuresRemoved", featuresRemoved);
-        component.setValueExpression("featuresUpdated", featuresUpdated);
+        component.setValueExpression("featureAdded", featureAdded);
+        component.setValueExpression("featureRemoved", featureRemoved);
+        component.setValueExpression("featureBeforeUpdate", featureBeforeUpdate);
+        component.setValueExpression("featureAfterUpdate", featureAfterUpdate);
     }
 
     /**
@@ -80,9 +82,10 @@ public class SvgLayerTag extends LayerTag {
         super.release();
         value = null;
         cliToServOnly = null;
-        featuresAdded = null;
-        featuresRemoved = null;
-        featuresUpdated = null;
+        featureAdded = null;
+        featureRemoved = null;
+        featureBeforeUpdate = null;
+        featureAfterUpdate = null;
     }
 
     /**
@@ -114,44 +117,58 @@ public class SvgLayerTag extends LayerTag {
     }
 
     /**
-     * @return the featuresAdded
+     * @return the featureAdded
      */
-    public ValueExpression getFeaturesAdded() {
-        return featuresAdded;
+    public ValueExpression getFeatureAdded() {
+        return featureAdded;
     }
 
     /**
-     * @param featuresAdded the featuresAdded to set
+     * @param featureAdded the featureAdded to set
      */
-    public void setFeaturesAdded(ValueExpression featuresAdded) {
-        this.featuresAdded = featuresAdded;
+    public void setFeatureAdded(ValueExpression featureAdded) {
+        this.featureAdded = featureAdded;
     }
 
     /**
-     * @return the featuresRemoved
+     * @return the featureRemoved
      */
-    public ValueExpression getFeaturesRemoved() {
-        return featuresRemoved;
+    public ValueExpression getFeatureRemoved() {
+        return featureRemoved;
     }
 
     /**
-     * @param featuresRemoved the featuresRemoved to set
+     * @param featureRemoved the featureRemoved to set
      */
-    public void setFeaturesRemoved(ValueExpression featuresRemoved) {
-        this.featuresRemoved = featuresRemoved;
+    public void setFeatureRemoved(ValueExpression featureRemoved) {
+        this.featureRemoved = featureRemoved;
     }
 
     /**
-     * @return the featuresUpdated
+     * @return the featureBeforeUpdate
      */
-    public ValueExpression getFeaturesUpdated() {
-        return featuresUpdated;
+    public ValueExpression getFeatureBeforeUpdate() {
+        return featureBeforeUpdate;
     }
 
     /**
-     * @param featuresUpdated the featuresUpdated to set
+     * @param featureBeforeUpdate the featureBeforeUpdate to set
      */
-    public void setFeaturesUpdated(ValueExpression featuresUpdated) {
-        this.featuresUpdated = featuresUpdated;
+    public void setFeatureBeforeUpdate(ValueExpression featureBeforeUpdate) {
+        this.featureBeforeUpdate = featureBeforeUpdate;
+    }
+
+    /**
+     * @return the featureAfterUpdate
+     */
+    public ValueExpression getFeatureAfterUpdate() {
+        return featureAfterUpdate;
+    }
+
+    /**
+     * @param featureAfterUpdate the featureAfterUpdate to set
+     */
+    public void setFeatureAfterUpdate(ValueExpression featureAfterUpdate) {
+        this.featureAfterUpdate = featureAfterUpdate;
     }
 }

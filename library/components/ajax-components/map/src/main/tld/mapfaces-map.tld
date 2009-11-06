@@ -1688,40 +1688,40 @@
             <description><![CDATA[Flag that indicates if we send features to the client or if we only get back the CRUD feature operations from the client.]]></description>
         </attribute>
         <attribute>
-            <name>featuresAdded</name>
+            <name>featureAdded</name>
             <deferred-value>
-                <type>java.util.List</type>
+                <type>org.opengis.feature.simple.SimpleFeature</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Features added by the user on the last submit.]]></description>
+            <description><![CDATA[Feature added by the user.]]></description>
         </attribute>
         <attribute>
-            <name>featuresRemoved</name>
+            <name>featureRemoved</name>
             <deferred-value>
-                <type>java.util.List</type>
+                <type>org.opengis.feature.simple.SimpleFeature</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Features removed by the user on the last submit.]]></description>
+            <description><![CDATA[Feature removed by the user.]]></description>
         </attribute>
         <attribute>
-            <name>featuresUpdated</name>
+            <name>featureBeforeUpdate</name>
             <deferred-value>
-                <type>java.util.List</type>
+                <type>org.opengis.feature.simple.SimpleFeature</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Features updated by the user on the last submit.]]></description>
+            <description><![CDATA[Feature before an update by the user.]]></description>
         </attribute>
         <attribute>
-            <name>submitTriggerId</name>
+            <name>featureAfterUpdate</name>
             <deferred-value>
-                <type>java.lang.String</type>
+                <type>org.opengis.feature.simple.SimpleFeature</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Indicates the ID of the element which will trigger the submit of the form.]]></description>
+            <description><![CDATA[Feature after an update by the user.]]></description>
         </attribute>
     </tag>
     <!-- TIMELINE -->
