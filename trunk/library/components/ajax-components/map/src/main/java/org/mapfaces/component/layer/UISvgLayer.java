@@ -30,9 +30,10 @@ public class UISvgLayer extends UILayer {
 
     public static final String FAMILIY = "org.mapfaces.SvgLayer";
     private boolean cliToServOnly;
-    private List<SimpleFeature> featuresAdded;
-    private List<SimpleFeature> featuresRemoved;
-    private List<SimpleFeature> featuresUpdated;
+    private SimpleFeature featureAdded;
+    private SimpleFeature featureRemoved;
+    private SimpleFeature featureBeforeUpdate;
+    private SimpleFeature featureAfterUpdate;
 
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
@@ -53,12 +54,13 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[5];
+        final Object values[] = new Object[6];
         values[0] = super.saveState(context);
         values[1] = cliToServOnly;
-        values[2] = getFeaturesAdded();
-        values[3] = getFeaturesRemoved();
-        values[4] = getFeaturesUpdated();
+        values[2] = getFeatureAdded();
+        values[3] = getFeatureRemoved();
+        values[4] = getFeatureBeforeUpdate();
+        values[5] = getFeatureAfterUpdate();
         return values;
     }
 
@@ -70,9 +72,10 @@ public class UISvgLayer extends UILayer {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         setCliToServOnly((Boolean) values[1]);
-        setFeaturesAdded((List<SimpleFeature>) values[2]);
-        setFeaturesRemoved((List<SimpleFeature>) values[3]);
-        setFeaturesUpdated((List<SimpleFeature>) values[4]);
+        setFeatureAdded((SimpleFeature) values[2]);
+        setFeatureRemoved((SimpleFeature) values[3]);
+        setFeatureBeforeUpdate((SimpleFeature) values[4]);
+        setFeatureAfterUpdate((SimpleFeature) values[5]);
     }
 
     /**
@@ -90,45 +93,59 @@ public class UISvgLayer extends UILayer {
     }
 
     /**
-     * @return the featuresAdded
+     * @return the featureAdded
      */
-    public List<SimpleFeature> getFeaturesAdded() {
-        return featuresAdded;
+    public SimpleFeature getFeatureAdded() {
+        return featureAdded;
     }
 
     /**
-     * @param featuresAdded the featuresAdded to set
+     * @param featureAdded the featureAdded to set
      */
-    public void setFeaturesAdded(List<SimpleFeature> featuresAdded) {
-        this.featuresAdded = featuresAdded;
+    public void setFeatureAdded(SimpleFeature featureAdded) {
+        this.featureAdded = featureAdded;
     }
 
     /**
-     * @return the featuresRemoved
+     * @return the featureRemoved
      */
-    public List<SimpleFeature> getFeaturesRemoved() {
-        return featuresRemoved;
+    public SimpleFeature getFeatureRemoved() {
+        return featureRemoved;
     }
 
     /**
-     * @param featuresRemoved the featuresRemoved to set
+     * @param featureRemoved the featureRemoved to set
      */
-    public void setFeaturesRemoved(List<SimpleFeature> featuresRemoved) {
-        this.featuresRemoved = featuresRemoved;
+    public void setFeatureRemoved(SimpleFeature featureRemoved) {
+        this.featureRemoved = featureRemoved;
     }
 
     /**
-     * @return the featuresUpdated
+     * @return the featureBeforeUpdate
      */
-    public List<SimpleFeature> getFeaturesUpdated() {
-        return featuresUpdated;
+    public SimpleFeature getFeatureBeforeUpdate() {
+        return featureBeforeUpdate;
     }
 
     /**
-     * @param featuresUpdated the featuresUpdated to set
+     * @param featureBeforeUpdate the featureBeforeUpdate to set
      */
-    public void setFeaturesUpdated(List<SimpleFeature> featuresUpdated) {
-        this.featuresUpdated = featuresUpdated;
+    public void setFeatureBeforeUpdate(SimpleFeature featureBeforeUpdate) {
+        this.featureBeforeUpdate = featureBeforeUpdate;
+    }
+
+    /**
+     * @return the featureAfterUpdate
+     */
+    public SimpleFeature getFeatureAfterUpdate() {
+        return featureAfterUpdate;
+    }
+
+    /**
+     * @param featureAfterUpdate the featureAfterUpdate to set
+     */
+    public void setFeatureAfterUpdate(SimpleFeature featureAfterUpdate) {
+        this.featureAfterUpdate = featureAfterUpdate;
     }
 
 }

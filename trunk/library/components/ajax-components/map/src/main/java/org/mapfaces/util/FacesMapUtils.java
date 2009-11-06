@@ -819,32 +819,46 @@ public class FacesMapUtils extends FacesUtils {
         FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FeatureCollectionUtilities.createCollection();
         if (featList != null) {
             long featureId = 0;
-            SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+            final SimpleFeatureTypeBuilder builder;
 
             if (featList.size() != 0) {
-                Feature f = featList.get(0);
-                builder.setName(f.getName());
-                builder.setCRS(f.getCrs());
-                for (String key : f.getAttributes().keySet()) {
-                    if (key.equals("geometry")) {
-                        builder.add(key, Geometry.class);
-                    } else {
-                        builder.add(key, f.getAttributes().get(key).getClass());
-                    }
+                builder = getSimpleFeatureTypeBuilderFromFeature(featList.get(0));
+                SimpleFeatureType sft = builder.buildFeatureType();
+                for (Feature f : featList) {
+                    simpleFeatures.add(getSimpleFeatureFromFeature(f, sft, featureId));
+                    featureId++;
                 }
-            }
-            SimpleFeatureType sft = builder.buildFeatureType();
-            for (Feature f : featList) {
-                List<Object> objects = new ArrayList<Object>();
-                for (String key : f.getAttributes().keySet()) {
-                    objects.add(f.getAttributes().get(key));
-                }
-                SimpleFeature sf = new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
-                simpleFeatures.add(sf);
-                featureId++;
             }
         }
         return simpleFeatures;
+    }
+
+    public static SimpleFeature getSimpleFeatureFromFeature(Feature feature, long featureId) {
+        SimpleFeatureTypeBuilder builder = getSimpleFeatureTypeBuilderFromFeature(feature);
+        return getSimpleFeatureFromFeature(feature, builder.buildFeatureType(), featureId);
+    }
+
+    private static SimpleFeature getSimpleFeatureFromFeature(Feature feature, SimpleFeatureType sft, long featureId) {
+        List<Object> objects = new ArrayList<Object>();
+        for (String key : feature.getAttributes().keySet()) {
+            objects.add(feature.getAttributes().get(key));
+        }
+        return new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
+    }
+
+    private static SimpleFeatureTypeBuilder getSimpleFeatureTypeBuilderFromFeature(Feature feature) {
+        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+        builder.setName(feature.getName());
+        builder.setCRS(feature.getCrs());
+        for (String key : feature.getAttributes().keySet()) {
+            if (key.equals("geometry")) {
+                builder.add(key, Geometry.class);
+            } else {
+                builder.add(key, feature.getAttributes().get(key).getClass());
+            }
+        }
+
+        return builder;
     }
 
 }
