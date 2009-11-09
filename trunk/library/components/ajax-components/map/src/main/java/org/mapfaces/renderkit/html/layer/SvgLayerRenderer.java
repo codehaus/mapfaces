@@ -17,8 +17,10 @@
 
 package org.mapfaces.renderkit.html.layer;
 
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import com.vividsolutions.jts.io.WKTWriter;
 import org.mapfaces.renderkit.html.*;
 import java.io.IOException;
 import java.io.Serializable;
@@ -96,40 +98,25 @@ public class SvgLayerRenderer extends LayerRenderer {
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
 
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
-        // The projection is notified once on the Input Hidden. All the features will be from the same projection for a Map.
-        /* stringBuilder.append("if($('"+ clientId + "')){" + mapJsVariable + ".getProjection();}"); */
 
         final String layerName = "window." + compId;
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "_obj', ['mainForm']);");
-        // we create the Vector Layer with OpenLayers.
-        // We register an event triggered when a feature is created.
-     /*   stringBuilder.append(layerName + ".events.register('featureadded', " + compId + "" + ", " + functionAddName + ");");
-        stringBuilder.append(layerName + ".events.register('featuremodified', " + compId + "" + ", " + functionUpdateName + ");");
-        stringBuilder.append(layerName + ".events.register('featureremoved', " + compId + "" + ", " + functionRemoveName + ");"); */
-        
-        // we add the layer to the mapPane.
-        stringBuilder.append(mapJsVariable + ".addLayer(" + layerName + ");");
-                
-        
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', ['mainForm'," + mapJsVariable + "]);");
+       
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() &&(comp.getValue() != null) && (comp.getValue() instanceof List)) {
-           /* final List<SimpleFeature> featList = (List) comp.getValue();
+            final List<SimpleFeature> featList = (List) comp.getValue();
             if (featList.size() > 0) {
                 stringBuilder.append("var parser_" + compId + ";var wkt_" + compId + ";var geometry_" + compId + ";var feature_" + compId + ";");
                 // Creat
                 final WKTWriter wktWriter = new WKTWriter();
                 for (final SimpleFeature feature : featList) {
-                    stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();");
-                    stringBuilder.append("wkt_" + compId + "='").append(wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';");
-                    stringBuilder.append("geometry_" + compId + " = parser_").append(compId + ".read(wkt_" + compId + ");");
-                    stringBuilder.append("feature_" + compId).append(" = new OpenLayers.Feature.Vector(geometry_" + compId + ");");
-                    stringBuilder.append(layerName + ".addFeatures(feature_").append(compId + ");");
-
-                    // TODO: delete Hidden Field content.
+                    stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();")
+                        .append("wkt_" + compId + "='").append(wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';")
+                        .append(layerName + ".layer.addFeatures(parser_" + compId + ".read(wkt_" + compId + "));");
                 }
-            } */
+            }
         }
-        stringBuilder.append("});");
+        stringBuilder.append(layerName + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
         writer.endElement(HTML.SCRIPT_ELEM);
         writer.flush();

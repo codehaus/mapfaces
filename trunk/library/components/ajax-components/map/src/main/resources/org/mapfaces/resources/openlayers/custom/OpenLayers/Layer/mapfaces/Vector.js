@@ -7,37 +7,45 @@
  */
 
 /**
- * Class: OpenLayers.Layer.MapFaces
+ * Class: OpenLayers.Layer.mapfaces.Vector
  * Instances of OpenLayers.Layer.MapFaces are used to render MapFaces data from
  *     a variety of sources. Create a new MapFaces layer with the
- *     <OpenLayers.Layer.MapFaces> constructor.
+ *     <OpenLayers.Layer.mapfaces.Vector> constructor.
  *
  * Inherits from:
- *  - <OpenLayers.Layer>
+ *  - <OpenLayers.Layer.MapFaces>
  */
-OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
+OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, {
 
     featureBeforeModified: null,
-    mapFaces: new OpenLayers.Layer.MapFaces(),
+    eventsActived: false,
 
     initialize: function(clientId, options) {
-        /* OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, options); */
-        OpenLayers.Layer.Vector.prototype.initialize.apply(this, options);
-        this.mapFaces.formId = options[0];
-        this.events.register('featureadded', null, this.onFeatureAdded);
-        this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
-        this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);
-        this.events.register('featureremoved', null, this.onFeatureRemoved);
+        OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, options);
+        this.formId = options[0];
+        this.layer = new OpenLayers.Layer.Vector(clientId + '_l');
+        this.layer.events.register('featureadded', this, this.onFeatureAdded);
+        this.layer.events.register('beforefeaturemodified', this, this.onBeforeFeatureModified);
+        this.layer.events.register('afterfeaturemodified', this, this.onAfterFeatureModified);
+        this.layer.events.register('featureremoved', this, this.onFeatureRemoved);
+
+        options[1].addLayer(this.layer);
+    },
+
+    activeEvents: function(active) {
+        this.eventsActived = true;
     },
 
     onFeatureAdded: function(event) {
-        var requestParams = {
-            'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
-            'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
-            'org.mapfaces.ajax.NO_RERENDER': true,
-            'crs': this.map.getProjection()
-        };
-        this.mapFaces.submit(requestParams);
+        if (this.eventsActived) {
+            var requestParams = {
+                'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
+                'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
+                'org.mapfaces.ajax.NO_RERENDER': true,
+                'crs': this.layer.map.getProjection()
+            };
+            this.submit(requestParams);
+        }
     },
 
     onFeatureRemoved: function(event) {
@@ -45,9 +53,9 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureRemoved',
             'org.mapfaces.ajax.NO_RERENDER': true,
-            'crs': this.map.getProjection()
+            'crs': this.layer.map.getProjection()
         };
-        this.mapFaces.submit(requestParams);
+        this.submit(requestParams);
     },
 
     onBeforeFeatureModified: function(event) {
@@ -60,11 +68,32 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
                 'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.featureBeforeModified + ';' + event.feature.geometry,
                 'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
                 'org.mapfaces.ajax.NO_RERENDER': true,
-                'crs': this.map.getProjection()
+                'crs': this.layer.map.getProjection()
             };
             this.featureBeforeModified = null;
-            this.mapFaces.submit(requestParams);
+            this.submit(requestParams);
         }
+    },
+
+    onMoveEnd: function(parameters) {
+    },
+
+    onZoomChanged: function(requestParams) {
+    },
+
+    onVisibilityChanged: function(parameters) {
+    },
+
+    onOpacityChanged: function(parameters) {
+    },
+
+    onElevationChanged: function(parameters) {
+    },
+
+    onTimeChanged: function(parameters) {
+    },
+
+    onDimRangeChanged: function(parameters) {
     },
     
     /**
@@ -74,7 +103,67 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
     destroy: function() {
         this.drawn = null;
         this.clientId = null;
-        OpenLayers.Layer.prototype.destroy.apply(this, arguments);
+        OpenLayers.Layer.MapFaces.prototype.destroy.apply(this, arguments);
+    },
+
+   /*
+    *Send A4J request to refrsh layers when a moveend event is triggered
+    */
+    onRefresh: function(requestParams) {
+    },
+
+    _reRender: function(requestParams) {
+    },
+
+    /**
+     * APIMethod: setOpacity
+     * Sets the opacity for the entire layer (all images)
+     *
+     * Parameter:
+     * opacity - {Float}
+     */
+    setOpacity: function(opacity) {
+    },
+    /**
+     * APIMethod: setElevation
+     * Sets the elevation for the layer.
+     *
+     * Parameter:
+     * elevation - {Float}
+     */
+    setElevation: function(elevation) {
+    },
+
+    /**
+     * APIMethod: setTime
+     * Sets the time parameter for the layer.
+     *
+     * Parameter:
+     * time - {Date}
+     */
+    setTime: function(time) {
+    },
+
+    /**
+     * APIMethod: setDimRange
+     * Sets the dimrange parameter for the layer.
+     *
+     * Parameter:
+     * dimrange - {Float,Float}
+     */
+    setDimRange: function(dimRange) {
+    },
+    /*************************************** functions triggerred on  loading  events******************************/
+    onLoadStart: function() {
+    },
+
+    onLoadSuccess: function() {
+    },
+
+    onLoadFailed: function() {
+    },
+
+    onLoadEnd: function() {
     },
 
     CLASS_NAME: "OpenLayers.Layer.MapFaces.Vector"
