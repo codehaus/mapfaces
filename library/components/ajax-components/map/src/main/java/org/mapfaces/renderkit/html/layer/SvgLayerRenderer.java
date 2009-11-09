@@ -17,10 +17,8 @@
 
 package org.mapfaces.renderkit.html.layer;
 
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
-import com.vividsolutions.jts.io.WKTWriter;
 import org.mapfaces.renderkit.html.*;
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
@@ -41,7 +38,6 @@ import org.geotoolkit.referencing.CRS;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UISvgLayer;
 import org.mapfaces.component.models.UIContext;
-import org.mapfaces.models.BasicFeature;
 import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
@@ -93,11 +89,6 @@ public class SvgLayerRenderer extends LayerRenderer {
         writer.writeAttribute(HTML.NAME_ATTRIBUTE, clientId, HTML.NAME_ATTRIBUTE);
         writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
         writer.endElement((String) HTML.INPUT_ELEM);
-
-//        writer.startElement(HTML.DIV_ELEM, comp);
-//        writer.writeAttribute(HTML.style_ATTRIBUTE, "background-image:url(resource.jsf?r=/org/mapfaces/resources/img/save.gif);" +
-//                "float:right;height:24px;margin-left:25px;position:relative;top:2px;width:24px;", HTML.style_ATTRIBUTE);
-//        writer.endElement(HTML.DIV_ELEM);
         
         writer.startElement(HTML.SCRIPT_ELEM, comp);
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
@@ -108,11 +99,8 @@ public class SvgLayerRenderer extends LayerRenderer {
         // The projection is notified once on the Input Hidden. All the features will be from the same projection for a Map.
         /* stringBuilder.append("if($('"+ clientId + "')){" + mapJsVariable + ".getProjection();}"); */
 
-        final String functionAddName = "addFeature_" + compId;
-        final String functionUpdateName = "updateFeature_" + compId;
-        final String functionRemoveName = "removeFeature_" + compId;
         final String layerName = "window." + compId;
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', ['mainForm']);");
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "_obj', ['mainForm']);");
         // we create the Vector Layer with OpenLayers.
         // We register an event triggered when a feature is created.
      /*   stringBuilder.append(layerName + ".events.register('featureadded', " + compId + "" + ", " + functionAddName + ");");
@@ -192,46 +180,12 @@ public class SvgLayerRenderer extends LayerRenderer {
                         final SimpleFeature sFeatureAfter = FacesMapUtils.getSimpleFeatureFromFeature(featureAfter, 1);
                         setValueExpression(comp, context, "featureAfterUpdate", sFeatureAfter);
                     }
-                
-                /*   if (!value.isEmpty()) {
-                // ABRUTI !!!
-                final String[] featList = value.split(";");
-                final List<Feature> featuresAdded = new ArrayList<Feature>();
-                final List<Feature> featuresUpdated = new ArrayList<Feature>();
-                final List<Feature> featuresRemoved = new ArrayList<Feature>();
-                if ((featList.length > 1) && ((featList.length - 1) % 3 == 0)) {
-                final WKTReader wktReader = new WKTReader();
-                final CoordinateReferenceSystem crs = CRS.decode(featList[1]);
-                int i = 1;
-                String operation;
-                String featString;
-                String featId;
-                while(i < featList.length) {
-                operation = featList[i];
-                featId = featList[i++];
-                featString = featList[i++];
-                final Feature feat = new DefaultFeature();
-                feat.setAttributes(new HashMap<String, Serializable>());
-                feat.setGeometry(wktReader.read(featString));
-                feat.getAttributes().put("geometry", wktReader.read(featString));
-                feat.setCrs(crs);
-                feat.setName(featId);
-                if ("a".equals(operation)) featuresAdded.add(feat);
-                else if("d".equals(operation)) featuresRemoved.add(feat);
-                else featuresUpdated.add(feat);
-                }
-                final List<SimpleFeature> sfAddedList = getListSimpleFeaturesFromFeatures(featuresAdded);
-                final List<SimpleFeature> sfUpdatedList = getListSimpleFeaturesFromFeatures(featuresUpdated);
-                final List<SimpleFeature> sfRemovedList = getListSimpleFeaturesFromFeatures(featuresRemoved);
-                setValueExpression(comp, context, "featuresAdded", sfAddedList);
-                comp.setFeaturesAdded(sfAddedList);
-                setValueExpression(comp, context, "featuresUpdated", sfUpdatedList);
-                comp.setFeaturesAdded(sfUpdatedList);
-                setValueExpression(comp, context, "featuresRemoved", sfRemovedList);
-                comp.setFeaturesAdded(sfRemovedList);
-                }
-                }
-                } */
+
+                    //invoke methodBinding on action and actionListener if not null.
+                    if (comp.getActionExpression() != null) {
+                        comp.getActionExpression().invoke(context.getELContext(), null);
+                    }
+                    
                 } catch (ParseException ex) {
                     Logger.getLogger(SvgLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NoSuchAuthorityCodeException ex) {
@@ -239,50 +193,7 @@ public class SvgLayerRenderer extends LayerRenderer {
                 } catch (FactoryException ex) {
                 Logger.getLogger(SvgLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
             }
-             /*   if (!value.isEmpty()) {
-                    // ABRUTI
-                        final String[] featList = value.split(";");
-                        final List<Feature> featuresAdded = new ArrayList<Feature>();
-                        final List<Feature> featuresUpdated = new ArrayList<Feature>();
-                        final List<Feature> featuresRemoved = new ArrayList<Feature>();
-                        if ((featList.length > 1) && ((featList.length - 1) % 3 == 0)) {
-                            final WKTReader wktReader = new WKTReader();
-                            final CoordinateReferenceSystem crs = CRS.decode(featList[1]);
-                            int i = 1;
-                            String operation;
-                            String featString;
-                            String featId;
-                            while(i < featList.length) {
-                                operation = featList[i];
-                                featId = featList[i++];
-                                featString = featList[i++];
-
-                                final Feature feat = new DefaultFeature();
-                                feat.setAttributes(new HashMap<String, Serializable>());
-                                feat.setGeometry(wktReader.read(featString));
-                                feat.getAttributes().put("geometry", wktReader.read(featString));
-                                feat.setCrs(crs);
-                                feat.setName(featId);
-                                
-                                if ("a".equals(operation)) featuresAdded.add(feat);
-                                else if("d".equals(operation)) featuresRemoved.add(feat);
-                                else featuresUpdated.add(feat);
-                            }
-
-                            final List<SimpleFeature> sfAddedList = getListSimpleFeaturesFromFeatures(featuresAdded);
-                            final List<SimpleFeature> sfUpdatedList = getListSimpleFeaturesFromFeatures(featuresUpdated);
-                            final List<SimpleFeature> sfRemovedList = getListSimpleFeaturesFromFeatures(featuresRemoved);
-
-                            setValueExpression(comp, context, "featuresAdded", sfAddedList);
-                            comp.setFeaturesAdded(sfAddedList);
-                            setValueExpression(comp, context, "featuresUpdated", sfUpdatedList);
-                            comp.setFeaturesAdded(sfUpdatedList);
-                            setValueExpression(comp, context, "featuresRemoved", sfRemovedList);
-                            comp.setFeaturesAdded(sfRemovedList);
-                        }
-                    }
-                } */
-            }
+        }
        
     }
 
