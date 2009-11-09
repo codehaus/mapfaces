@@ -18,12 +18,12 @@
 OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
 
     featureBeforeModified: null,
-    mapPane: new OpenLayers.Layer.MapFaces(),
+    mapFaces: new OpenLayers.Layer.MapFaces(),
 
     initialize: function(clientId, options) {
         /* OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, options); */
         OpenLayers.Layer.Vector.prototype.initialize.apply(this, options);
-        this.mapPane.formId = options[0];
+        this.mapFaces.formId = options[0];
         this.events.register('featureadded', null, this.onFeatureAdded);
         this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
         this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);
@@ -37,7 +37,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
             'org.mapfaces.ajax.NO_RERENDER': true,
             'crs': this.map.getProjection()
         };
-        this.mapPane.submit(requestParams);
+        this.mapFaces.submit(requestParams);
     },
 
     onFeatureRemoved: function(event) {
@@ -47,7 +47,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
             'org.mapfaces.ajax.NO_RERENDER': true,
             'crs': this.map.getProjection()
         };
-        this.mapPane.submit(requestParams);
+        this.mapFaces.submit(requestParams);
     },
 
     onBeforeFeatureModified: function(event) {
@@ -63,7 +63,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.Vector, {
                 'crs': this.map.getProjection()
             };
             this.featureBeforeModified = null;
-            this.mapPane.submit(requestParams);
+            this.mapFaces.submit(requestParams);
         }
     },
     

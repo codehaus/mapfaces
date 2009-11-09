@@ -17,7 +17,9 @@
 
 package org.mapfaces.taglib;
 
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
+import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
 
 /**
@@ -41,6 +43,7 @@ public class SvgLayerTag extends LayerTag {
     private ValueExpression featureRemoved = null;
     private ValueExpression featureBeforeUpdate = null;
     private ValueExpression featureAfterUpdate = null;
+    private MethodExpression action = null;
 
     /**
      * {@inheritDoc }
@@ -71,6 +74,9 @@ public class SvgLayerTag extends LayerTag {
         component.setValueExpression("featureRemoved", featureRemoved);
         component.setValueExpression("featureBeforeUpdate", featureBeforeUpdate);
         component.setValueExpression("featureAfterUpdate", featureAfterUpdate);
+        if (getAction() != null) {
+            ((ActionSource2) component).setActionExpression(getAction());
+        }
     }
 
     /**
@@ -86,6 +92,7 @@ public class SvgLayerTag extends LayerTag {
         featureRemoved = null;
         featureBeforeUpdate = null;
         featureAfterUpdate = null;
+        action = null;
     }
 
     /**
@@ -170,5 +177,19 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setFeatureAfterUpdate(ValueExpression featureAfterUpdate) {
         this.featureAfterUpdate = featureAfterUpdate;
+    }
+
+    /**
+     * @return the action
+     */
+    public MethodExpression getAction() {
+        return action;
+    }
+
+    /**
+     * @param action the action to set
+     */
+    public void setAction(MethodExpression action) {
+        this.action = action;
     }
 }
