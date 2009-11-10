@@ -108,7 +108,7 @@ public class SvgLayerRenderer extends LayerRenderer {
                 final WKTWriter wktWriter = new WKTWriter();
                 for (final SimpleFeature feature : featList) {
                     stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();")
-                            .append(layerName + ".addFeatures(parser_" + compId + ".read(" + wktWriter.write((Geometry) feature.getDefaultGeometry()) + "));");
+                            .append(layerName + ".addFeatures(parser_" + compId + ".read('" + wktWriter.write((Geometry) feature.getDefaultGeometry()) + "'));");
                 }
             }
         }
