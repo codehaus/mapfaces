@@ -100,7 +100,7 @@ public class SvgLayerRenderer extends LayerRenderer {
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
 
         final String layerName = "window." + compId;
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', ['mainForm'," + mapJsVariable + "]);");
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'mainForm'});");
        
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() &&(comp.getValue() != null) && (comp.getValue() instanceof List)) {
@@ -116,6 +116,7 @@ public class SvgLayerRenderer extends LayerRenderer {
                 }
             }
         }
+        stringBuilder.append(mapJsVariable).append(".addLayer("+layerName+");");
         stringBuilder.append(layerName + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
         writer.endElement(HTML.SCRIPT_ELEM);
