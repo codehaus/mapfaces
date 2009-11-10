@@ -15,25 +15,16 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.util;
+package org.mapfaces.models.layer;
 
-import org.mapfaces.models.Context;
-import org.mapfaces.models.Dimension;
 import org.mapfaces.models.Layer;
-import org.mapfaces.models.Server;
 
 /**
- * @author Olivier Terral (Geomatys).
+ * This is a model for svg layer
+ * @author leopratlong
+ * @since 0.3
  */
-public interface ContextFactory {
+public interface SvgLayer extends Layer {
+    
 
-    public Context createDefaultContext();
-    public Layer createDefaultLayer();
-    public Server createDefaultServer();
-    public Dimension createDefaultDimension();
-    public Layer createDefaultFeatureLayer(int index);
-    public Layer createDefaultWmsLayer();
-    public Layer createDefaultWmsGetMapLayer();
-    public Layer createDefaultMapContextLayer(int index);
-    public Layer createDefaultSvgLayer();
 }

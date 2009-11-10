@@ -27,6 +27,7 @@ import org.mapfaces.models.Layer;
 import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.DefaultFeatureLayer;
 import org.mapfaces.models.layer.DefaultMapContextLayer;
+import org.mapfaces.models.layer.DefaultSvgLayer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.DefaultWmsLayer;
 
@@ -110,6 +111,12 @@ public class DefaultContextFactory implements ContextFactory {
         layer.setOutputFormat("image/gif");
         layer.setType(org.mapfaces.models.LayerType.FEATURE);
         layer.setQueryable(true);
+        return layer;
+    }
+
+    @Override
+    public Layer createDefaultSvgLayer() {
+        Layer layer = new DefaultSvgLayer();
         return layer;
     }
 }

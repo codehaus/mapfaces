@@ -36,15 +36,21 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.geotoolkit.data.collection.FeatureCollection;
 import org.geotoolkit.data.collection.FeatureIterator;
+import org.geotoolkit.map.MapBuilder;
+import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UISvgLayer;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.Context;
+import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
+import org.mapfaces.models.layer.SvgLayer;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
+import org.mapfaces.util.ContextFactory;
+import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesMapUtils;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -65,64 +71,77 @@ public class SvgLayerRenderer extends LayerRenderer {
      */
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
-
         super.encodeBegin(context, component);
-        
         // Find UIMapPane refers to this widget.
         final String mapJsVariable;
         final UIMapPane uiMapPane = FacesMapUtils.getUIMapPane(context, component);
         if (uiMapPane != null) {
-                mapJsVariable = FacesMapUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
+            mapJsVariable = FacesMapUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
         } else {
             LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
             component.setRendered(false);
             mapJsVariable = null;
             return;
         }
-
         final UISvgLayer comp = (UISvgLayer) component;
         // Find client ID then server ID.
         final String clientId = comp.getClientId(context);
         final String compId = comp.getId();
-
         // We write an Input hidden element to stock the serialized features.
         writer.startElement((String) HTML.INPUT_ELEM, comp);
         writer.writeAttribute(HTML.TYPE_ATTR, HTML.INPUT_TYPE_HIDDEN, HTML.TYPE_ATTR);
         writer.writeAttribute(HTML.NAME_ATTRIBUTE, clientId, HTML.NAME_ATTRIBUTE);
         writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
         writer.endElement((String) HTML.INPUT_ELEM);
-        
         writer.startElement(HTML.SCRIPT_ELEM, comp);
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
-
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
-
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
-
         final String layerName = "window." + compId;
         stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'mainForm'});");
-       
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
-        if (!comp.isCliToServOnly() &&(comp.getValue() != null) && (comp.getValue() instanceof List)) {
+        if (!comp.isCliToServOnly() && (comp.getValue() != null) && (comp.getValue() instanceof List)) {
             final List<SimpleFeature> featList = (List) comp.getValue();
             if (featList.size() > 0) {
                 stringBuilder.append("var parser_" + compId + ";var wkt_" + compId + ";var geometry_" + compId + ";var feature_" + compId + ";");
                 // Creat
                 final WKTWriter wktWriter = new WKTWriter();
                 for (final SimpleFeature feature : featList) {
-                    stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();")
-                        .append("wkt_" + compId + "='").append(wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';")
-                        .append(layerName + ".addFeatures(parser_" + compId + ".read(wkt_" + compId + "));");
+                    stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();").append("wkt_" + compId + "='").append(wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';").append(layerName + ".addFeatures(parser_" + compId + ".read(wkt_" + compId + "));");
                 }
             }
         }
-
-        stringBuilder.append(mapJsVariable).append(".addLayer("+layerName+");");
+        stringBuilder.append(mapJsVariable).append(".addLayer(" + layerName + ");");
         stringBuilder.append(layerName + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
         writer.endElement(HTML.SCRIPT_ELEM);
         writer.flush();
+
+        if (comp.getModel() instanceof DefaultContext) {
+            final Context ctx = (DefaultContext) comp.getModel();
+            if(comp.getLayer() == null){
+                final SvgLayer svgLayer = (SvgLayer) new DefaultContextFactory().createDefaultSvgLayer();
+                svgLayer.setName("svgLayer_" + compId);
+                svgLayer.setCompId(compId);
+                svgLayer.setId(compId);
+                final String layerTitle;
+                if (comp.getTitle() != null) {
+                    layerTitle = comp.getTitle();
+                } else {
+                    layerTitle = "SVG Layer";
+                }
+                svgLayer.setTitle(layerTitle);
+
+                Double opacity = comp.getOpacity();
+                if ((opacity > 1) && (opacity < 0)) {
+                    opacity = 0.0;
+                }
+                svgLayer.setOpacity(opacity.toString());
+                ctx.addLayer(svgLayer);
+            }
+        }
     }
+
 
     /**
      * {@inheritDoc }
