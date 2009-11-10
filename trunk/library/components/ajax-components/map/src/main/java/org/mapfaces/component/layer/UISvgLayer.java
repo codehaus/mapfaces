@@ -34,6 +34,8 @@ public class UISvgLayer extends UILayer {
     private SimpleFeature featureRemoved;
     private SimpleFeature featureBeforeUpdate;
     private SimpleFeature featureAfterUpdate;
+    private String title;
+    private double opacity;
 
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
@@ -54,13 +56,15 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[6];
+        final Object values[] = new Object[8];
         values[0] = super.saveState(context);
         values[1] = cliToServOnly;
         values[2] = getFeatureAdded();
         values[3] = getFeatureRemoved();
         values[4] = getFeatureBeforeUpdate();
         values[5] = getFeatureAfterUpdate();
+        values[6] = getTitle();
+        values[7] = getOpacity();
         return values;
     }
 
@@ -76,6 +80,8 @@ public class UISvgLayer extends UILayer {
         setFeatureRemoved((SimpleFeature) values[3]);
         setFeatureBeforeUpdate((SimpleFeature) values[4]);
         setFeatureAfterUpdate((SimpleFeature) values[5]);
+        setTitle((String) values[6]);
+        setOpacity((Double) values[7]);
     }
 
     /**
@@ -146,6 +152,34 @@ public class UISvgLayer extends UILayer {
      */
     public void setFeatureAfterUpdate(SimpleFeature featureAfterUpdate) {
         this.featureAfterUpdate = featureAfterUpdate;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the opacity
+     */
+    public double getOpacity() {
+        return opacity;
+    }
+
+    /**
+     * @param opacity the opacity to set
+     */
+    public void setOpacity(double opacity) {
+        this.opacity = opacity;
     }
 
 }

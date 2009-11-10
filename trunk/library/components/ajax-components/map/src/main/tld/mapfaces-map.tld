@@ -1666,7 +1666,7 @@
     <tag>
         <name>SvgLayer</name>
         <description><![CDATA[Implements a SVG Layer with a list of feature. Allow to know the shapes from the client on the server-side.]]></description>
-        <tag-class>org.mapfaces.taglib.SvgLayerTag</tag-class>
+        <tag-class>org.mapfaces.taglib.layer.SvgLayerTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
         <attribute>
@@ -1737,6 +1737,24 @@
                     java.lang.Object action()
                 </method-signature>
             </deferred-method>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Title for the layer on the MapContext.]]></description>
+        </attribute>
+        <attribute>
+            <name>opacity</name>
+            <deferred-value>
+                <type>java.lang.Double</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(Values between 0 and 1) Set the opacity of the layer.]]></description>
         </attribute>
     </tag>
     <!-- TIMELINE -->

@@ -15,8 +15,9 @@
  *    Lesser General Public License for more details.
  */
 
-package org.mapfaces.taglib;
+package org.mapfaces.taglib.layer;
 
+import org.mapfaces.taglib.*;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.component.ActionSource2;
@@ -43,6 +44,8 @@ public class SvgLayerTag extends LayerTag {
     private ValueExpression featureRemoved = null;
     private ValueExpression featureBeforeUpdate = null;
     private ValueExpression featureAfterUpdate = null;
+    private ValueExpression title = null;
+    private ValueExpression opacity = null;
     private MethodExpression action = null;
 
     /**
@@ -74,6 +77,8 @@ public class SvgLayerTag extends LayerTag {
         component.setValueExpression("featureRemoved", featureRemoved);
         component.setValueExpression("featureBeforeUpdate", featureBeforeUpdate);
         component.setValueExpression("featureAfterUpdate", featureAfterUpdate);
+        component.setValueExpression("title", title);
+        component.setValueExpression("opacity", opacity);
         if (getAction() != null) {
             ((ActionSource2) component).setActionExpression(getAction());
         }
@@ -93,6 +98,8 @@ public class SvgLayerTag extends LayerTag {
         featureBeforeUpdate = null;
         featureAfterUpdate = null;
         action = null;
+        title = null;
+        opacity = null;
     }
 
     /**
@@ -191,5 +198,33 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setAction(MethodExpression action) {
         this.action = action;
+    }
+
+    /**
+     * @return the title
+     */
+    public ValueExpression getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(ValueExpression title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the opacity
+     */
+    public ValueExpression getOpacity() {
+        return opacity;
+    }
+
+    /**
+     * @param opacity the opacity to set
+     */
+    public void setOpacity(ValueExpression opacity) {
+        this.opacity = opacity;
     }
 }

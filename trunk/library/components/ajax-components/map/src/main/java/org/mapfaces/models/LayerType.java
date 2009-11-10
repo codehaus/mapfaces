@@ -30,7 +30,8 @@ public enum LayerType {
     
     //MF types
     FEATURE("FEATURE"),
-    MAPCONTEXT("MAPCONTEXT"), 
+    MAPCONTEXT("MAPCONTEXT"),
+    SVG("SVG"),
     DEFAULT("DEFAULT"); 
     
     private final String value;
