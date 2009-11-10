@@ -27,11 +27,10 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
         this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
         this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);
         this.events.register('featureremoved', null, this.onFeatureRemoved);
-
     },
 
     activeEvents: function(active) {
-        this.eventsActived = true;
+        this.eventsActived = active;
     },
 
     onFeatureAdded: function(event) {

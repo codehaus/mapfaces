@@ -112,10 +112,11 @@ public class SvgLayerRenderer extends LayerRenderer {
                 for (final SimpleFeature feature : featList) {
                     stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();")
                         .append("wkt_" + compId + "='").append(wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';")
-                        .append(layerName + ".layer.addFeatures(parser_" + compId + ".read(wkt_" + compId + "));");
+                        .append(layerName + ".addFeatures(parser_" + compId + ".read(wkt_" + compId + "));");
                 }
             }
         }
+
         stringBuilder.append(mapJsVariable).append(".addLayer("+layerName+");");
         stringBuilder.append(layerName + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
