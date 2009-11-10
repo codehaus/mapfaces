@@ -15,21 +15,19 @@
  * Inherits from:
  *  - <OpenLayers.Layer.MapFaces>
  */
-OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, {
+OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, OpenLayers.Layer.Vector, {
 
     featureBeforeModified: null,
     eventsActived: false,
 
     initialize: function(clientId, options) {
-        OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, options);
-        this.formId = options[0];
-        this.layer = new OpenLayers.Layer.Vector(clientId + '_l');
-        this.layer.events.register('featureadded', this, this.onFeatureAdded);
-        this.layer.events.register('beforefeaturemodified', this, this.onBeforeFeatureModified);
-        this.layer.events.register('afterfeaturemodified', this, this.onAfterFeatureModified);
-        this.layer.events.register('featureremoved', this, this.onFeatureRemoved);
+        //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
+        OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
+        this.events.register('featureadded', null, this.onFeatureAdded);
+        this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
+        this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);
+        this.events.register('featureremoved', null, this.onFeatureRemoved);
 
-        options[1].addLayer(this.layer);
     },
 
     activeEvents: function(active) {
@@ -42,7 +40,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, {
                 'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
                 'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
                 'org.mapfaces.ajax.NO_RERENDER': true,
-                'crs': this.layer.map.getProjection()
+                'crs': this.map.getProjection()
             };
             this.submit(requestParams);
         }
@@ -53,7 +51,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, {
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureRemoved',
             'org.mapfaces.ajax.NO_RERENDER': true,
-            'crs': this.layer.map.getProjection()
+            'crs': this.map.getProjection()
         };
         this.submit(requestParams);
     },
@@ -68,7 +66,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, {
                 'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.featureBeforeModified + ';' + event.feature.geometry,
                 'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
                 'org.mapfaces.ajax.NO_RERENDER': true,
-                'crs': this.layer.map.getProjection()
+                'crs': this.map.getProjection()
             };
             this.featureBeforeModified = null;
             this.submit(requestParams);
