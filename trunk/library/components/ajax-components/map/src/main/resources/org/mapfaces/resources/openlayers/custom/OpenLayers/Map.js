@@ -919,7 +919,7 @@ OpenLayers.Map = OpenLayers.Class({
         this.events.triggerEvent("preaddlayer", {layer: layer});
 
         //MF add the if , skip this action when it's a OpenLayers.Layer.MapFaces layer
-        if (layer.CLASS_NAME.indexOf("MapFaces") == -1) {
+        if (layer.CLASS_NAME != "OpenLayers.Layer.MapFaces") {
             layer.div.className = "olLayerDiv";
             layer.div.style.overflow = "";
             this.setLayerZIndex(layer, this.layers.length);
