@@ -98,16 +98,17 @@ public class SvgLayerRenderer extends LayerRenderer {
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
         final String layerName = "window." + compId;
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'mainForm'});");
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + FacesUtils.getFormId(context, comp) + "'});");
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() && (comp.getValue() != null) && (comp.getValue() instanceof List)) {
             final List<SimpleFeature> featList = (List) comp.getValue();
             if (featList.size() > 0) {
-                stringBuilder.append("var parser_" + compId + ";var wkt_" + compId + ";var geometry_" + compId + ";var feature_" + compId + ";");
-                // Creat
+                stringBuilder.append("var parser_" + compId + ";");
+                // WKTWriter read a geometry and write WKT string.
                 final WKTWriter wktWriter = new WKTWriter();
                 for (final SimpleFeature feature : featList) {
-                    stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();").append("wkt_" + compId + "='").append(wktWriter.write((Geometry) feature.getDefaultGeometry()) + "';").append(layerName + ".addFeatures(parser_" + compId + ".read(wkt_" + compId + "));");
+                    stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();")
+                            .append(layerName + ".addFeatures(parser_" + compId + ".read(" + wktWriter.write((Geometry) feature.getDefaultGeometry()) + "));");
                 }
             }
         }
