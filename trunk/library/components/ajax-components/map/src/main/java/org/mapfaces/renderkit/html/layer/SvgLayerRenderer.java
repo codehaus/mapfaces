@@ -61,6 +61,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  *
  * @author leopratlong (Geomatys)
+ * @since 0.3
  */
 public class SvgLayerRenderer extends LayerRenderer {
  
@@ -87,12 +88,7 @@ public class SvgLayerRenderer extends LayerRenderer {
         // Find client ID then server ID.
         final String clientId = comp.getClientId(context);
         final String compId = comp.getId();
-        // We write an Input hidden element to stock the serialized features.
-        writer.startElement((String) HTML.INPUT_ELEM, comp);
-        writer.writeAttribute(HTML.TYPE_ATTR, HTML.INPUT_TYPE_HIDDEN, HTML.TYPE_ATTR);
-        writer.writeAttribute(HTML.NAME_ATTRIBUTE, clientId, HTML.NAME_ATTRIBUTE);
-        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
-        writer.endElement((String) HTML.INPUT_ELEM);
+        
         writer.startElement(HTML.SCRIPT_ELEM, comp);
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
@@ -132,7 +128,6 @@ public class SvgLayerRenderer extends LayerRenderer {
                     layerTitle = "SVG Layer";
                 }
                 svgLayer.setTitle(layerTitle);
-
                 Double opacity = comp.getOpacity();
                 if ((opacity > 1) && (opacity < 0)) {
                     opacity = 0.0;
@@ -224,22 +219,6 @@ public class SvgLayerRenderer extends LayerRenderer {
         feat.setName(featId);
 
         return feat;
-    }
-
-    /**
-     * Return a Geotk SimpleFeatures List from a List of MapFaces Features.
-     * @param featList The list of MapFaces Features.
-     * @return List of Geotk SimpleFeatures.
-     */
-    private List<SimpleFeature> getListSimpleFeaturesFromFeatures(List<Feature> featList) {
-        final FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FacesMapUtils.getSimpleFeaturesFromFeatures(featList);
-        final FeatureIterator<SimpleFeature> featIt = simpleFeatures.features();
-        final List<SimpleFeature> sfList = new ArrayList<SimpleFeature>();
-        while(featIt.hasNext()) {
-            sfList.add(featIt.next());
-        }
-
-        return sfList;
     }
 
     /**
