@@ -186,8 +186,6 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
         comp.setAjaxCompId(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
-//        FacesUtils.removeChildren(context, component);
-
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
@@ -206,6 +204,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         } else {
                             layer.setId(uiwmsLayer.getId());
                         }
+                        comp.removeLayer(uiwmsLayer);
                         comp.getChildren().add(uiwmsLayer);
                         layer.setCompId(uiwmsLayer.getClientId(context));
                         uiwmsLayer.setLayer((WmsLayer) layer);
@@ -216,6 +215,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         uiMCLayer.getAttributes().put(HTML.id_ATTRIBUTE, FacesMapUtils.getParentUIModelBase(context, component).getId() + "_" + comp.getId() + "_" + layer.getId());
                         final MapContextLayer mcLayer = (MapContextLayer) layer;
 
+                        comp.removeLayer(uiMCLayer);
                         comp.getChildren().add(uiMCLayer);
                         mcLayer.setCompId(uiMCLayer.getClientId(context));
                         uiMCLayer.setLayer(mcLayer);
@@ -235,6 +235,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         } else {
                             tmpfeature.setId(uiFLayer.getId());
                         }
+                        comp.removeLayer(uiFLayer);
                         comp.getChildren().add(uiFLayer);
                         tmpfeature.setCompId(uiFLayer.getClientId(context));
                         uiFLayer.setLayer(tmpfeature);
