@@ -46,6 +46,7 @@ public class SvgLayerTag extends LayerTag {
     private ValueExpression featureAfterUpdate = null;
     private ValueExpression title = null;
     private ValueExpression opacity = null;
+    private ValueExpression reRender = null;
     private MethodExpression action = null;
 
     /**
@@ -79,6 +80,7 @@ public class SvgLayerTag extends LayerTag {
         component.setValueExpression("featureAfterUpdate", featureAfterUpdate);
         component.setValueExpression("title", title);
         component.setValueExpression("opacity", opacity);
+        component.setValueExpression("reRender", reRender);
         if (getAction() != null) {
             ((ActionSource2) component).setActionExpression(getAction());
         }
@@ -100,6 +102,7 @@ public class SvgLayerTag extends LayerTag {
         action = null;
         title = null;
         opacity = null;
+        reRender = null;
     }
 
     /**
@@ -226,5 +229,19 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setOpacity(ValueExpression opacity) {
         this.opacity = opacity;
+    }
+
+    /**
+     * @return the reRender
+     */
+    public ValueExpression getReRender() {
+        return reRender;
+    }
+
+    /**
+     * @param reRender the reRender to set
+     */
+    public void setReRender(ValueExpression reRender) {
+        this.reRender = reRender;
     }
 }

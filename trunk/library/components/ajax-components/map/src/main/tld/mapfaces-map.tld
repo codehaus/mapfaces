@@ -1756,6 +1756,15 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(Values between 0 and 1) Set the opacity of the layer.]]></description>
         </attribute>
+        <attribute>
+            <name>reRender</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Indicates a field to reRender after the action.]]></description>
+        </attribute>
     </tag>
     <!-- TIMELINE -->
     <tag>

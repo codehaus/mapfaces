@@ -52,6 +52,7 @@ import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesMapUtils;
+import org.mapfaces.util.Utils;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
@@ -85,10 +86,14 @@ public class SvgLayerRenderer extends LayerRenderer {
             return;
         }
         final UISvgLayer comp = (UISvgLayer) component;
-        // Find client ID then server ID.
-        final String clientId = comp.getClientId(context);
+        // Find server ID.
         final String compId = comp.getId();
         
+        final String reRender = comp.getReRender();
+        final String idsToRefresh;
+        if (reRender != null) idsToRefresh = Utils.buildRerenderStringFromString(FacesUtils.getFormId(context, comp), reRender);
+        else idsToRefresh = "";
+
         writer.startElement(HTML.SCRIPT_ELEM, comp);
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
@@ -109,6 +114,7 @@ public class SvgLayerRenderer extends LayerRenderer {
             }
         }
         stringBuilder.append(mapJsVariable).append(".addLayer(" + layerName + ");");
+        stringBuilder.append(layerName + ".initReRender('" + idsToRefresh + "');");
         stringBuilder.append(layerName + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
         writer.endElement(HTML.SCRIPT_ELEM);
