@@ -23,6 +23,9 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     initialize: function(clientId, options) {
         //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
         OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
+        this.id = clientId + "_layer";
+        this.clientId = this.formId + ':' + this.id;
+        this.compId = clientId;
         this.events.register('featureadded', null, this.onFeatureAdded);
         this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
         this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);
