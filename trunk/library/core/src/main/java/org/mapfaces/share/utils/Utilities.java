@@ -5,7 +5,12 @@
 
 package org.mapfaces.share.utils;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.geotoolkit.wms.xml.AbstractKeyword;
@@ -104,6 +109,29 @@ public class Utilities {
             }
             return nbocc;
         }
+    }
+
+    /**
+     * Returns true if the connection passed in args is working, otherwise returns false.
+     * a meta table is requested.
+     * @param connection
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public static boolean isValid(Connection connection) {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                PreparedStatement stmt = connection.prepareStatement("select * from pg_database limit 1");
+                if (stmt != null && !stmt.isClosed()) {
+                    stmt.executeQuery();
+                    stmt.close();
+                }
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 }
