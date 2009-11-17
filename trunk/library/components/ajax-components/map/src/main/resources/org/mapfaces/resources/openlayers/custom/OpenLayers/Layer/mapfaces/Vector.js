@@ -73,7 +73,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
         if (this.featureBeforeModified != null) {
             var requestParams = {
                 'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': this.featureBeforeModified + ';' + event.feature.geometry,
-                'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
+                'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureUpdated',
                 'org.mapfaces.ajax.NO_RERENDER': true,
                 'crs': this.map.getProjection()
             };
