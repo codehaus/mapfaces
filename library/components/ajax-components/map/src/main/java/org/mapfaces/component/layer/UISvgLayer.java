@@ -37,7 +37,14 @@ public class UISvgLayer extends UILayer {
     private String title;
     private double opacity;
     private String reRender;
-
+    private int width;
+    private String fillColor;
+    private String strokeColor;
+    private String selFillColor;
+    private String selStrokeColor;
+    private String hovFillColor;
+    private String hovStrokeColor;
+    
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
         super();
@@ -57,7 +64,7 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[9];
+        final Object values[] = new Object[16];
         values[0] = super.saveState(context);
         values[1] = cliToServOnly;
         values[2] = getFeatureAdded();
@@ -67,6 +74,13 @@ public class UISvgLayer extends UILayer {
         values[6] = getTitle();
         values[7] = getOpacity();
         values[8] = getReRender();
+        values[9] = getWidth();
+        values[10] = getFillColor();
+        values[11] = getStrokeColor();
+        values[12] = getSelFillColor();
+        values[13] = getSelStrokeColor();
+        values[14] = getHovFillColor();
+        values[15] = getHovStrokeColor();
         return values;
     }
 
@@ -85,6 +99,13 @@ public class UISvgLayer extends UILayer {
         setTitle((String) values[6]);
         setOpacity((Double) values[7]);
         setReRender((String) values[8]);
+        setWidth((Integer) values[9]);
+        setFillColor((String) values[10]);
+        setStrokeColor((String) values[11]);
+        setSelFillColor((String) values[12]);
+        setSelStrokeColor((String) values[13]);
+        setHovFillColor((String) values[14]);
+        setHovStrokeColor((String) values[15]);
     }
 
     /**
@@ -197,6 +218,104 @@ public class UISvgLayer extends UILayer {
      */
     public void setReRender(String reRender) {
         this.reRender = reRender;
+    }
+
+    /**
+     * @return the width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * @return the fillColor
+     */
+    public String getFillColor() {
+        return fillColor;
+    }
+
+    /**
+     * @param fillColor the fillColor to set
+     */
+    public void setFillColor(String fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    /**
+     * @return the strokeColor
+     */
+    public String getStrokeColor() {
+        return strokeColor;
+    }
+
+    /**
+     * @param strokeColor the strokeColor to set
+     */
+    public void setStrokeColor(String strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
+    /**
+     * @return the selFillColor
+     */
+    public String getSelFillColor() {
+        return selFillColor;
+    }
+
+    /**
+     * @param selFillColor the selFillColor to set
+     */
+    public void setSelFillColor(String selFillColor) {
+        this.selFillColor = selFillColor;
+    }
+
+    /**
+     * @return the selStrokeColor
+     */
+    public String getSelStrokeColor() {
+        return selStrokeColor;
+    }
+
+    /**
+     * @param selStrokeColor the selStrokeColor to set
+     */
+    public void setSelStrokeColor(String selStrokeColor) {
+        this.selStrokeColor = selStrokeColor;
+    }
+
+    /**
+     * @return the hovFillColor
+     */
+    public String getHovFillColor() {
+        return hovFillColor;
+    }
+
+    /**
+     * @param hovFillColor the hovFillColor to set
+     */
+    public void setHovFillColor(String hovFillColor) {
+        this.hovFillColor = hovFillColor;
+    }
+
+    /**
+     * @return the hovStrokeColor
+     */
+    public String getHovStrokeColor() {
+        return hovStrokeColor;
+    }
+
+    /**
+     * @param hovStrokeColor the hovStrokeColor to set
+     */
+    public void setHovStrokeColor(String hovStrokeColor) {
+        this.hovStrokeColor = hovStrokeColor;
     }
 
 }

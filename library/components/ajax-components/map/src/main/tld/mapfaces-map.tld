@@ -1765,6 +1765,69 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Indicates a field to reRender after the action.]]></description>
         </attribute>
+        <attribute>
+            <name>width</name>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the width of the features.]]></description>
+        </attribute>
+        <attribute>
+            <name>fillColor</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the fillColor of the features.]]></description>
+        </attribute>
+        <attribute>
+            <name>strokeColor</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the stroke color of the features.]]></description>
+        </attribute>
+        <attribute>
+            <name>selFillColor</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the fillColor of the selected features.]]></description>
+        </attribute>
+        <attribute>
+            <name>selStrokeColor</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the stroke color of the selected features.]]></description>
+        </attribute>
+        <attribute>
+            <name>hovFillColor</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the fillColor of the hovered features.]]></description>
+        </attribute>
+        <attribute>
+            <name>hovStrokeColor</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the stroke color of the hovered features.]]></description>
+        </attribute>
     </tag>
     <!-- TIMELINE -->
     <tag>
