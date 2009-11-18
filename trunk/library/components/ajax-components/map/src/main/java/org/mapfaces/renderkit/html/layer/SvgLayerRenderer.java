@@ -99,7 +99,22 @@ public class SvgLayerRenderer extends LayerRenderer {
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
         final String layerName = "window." + compId;
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + FacesUtils.getFormId(context, comp) + "'});");
+        
+        // We define the StyleMap of the SVGLayer.
+        final int width = (comp.getWidth() > 0) ? comp.getWidth(): 1;
+        final String fillColor = (comp.getFillColor() != null) ? comp.getFillColor(): "#000000";
+        final String strokeColor = (comp.getStrokeColor() != null) ? comp.getStrokeColor(): "#000000";
+        final String selFillColor = (comp.getSelFillColor() != null) ? comp.getSelFillColor(): "#000000";
+        final String selStrokeColor = (comp.getSelStrokeColor() != null) ? comp.getSelStrokeColor(): "#000000";
+        final String hovFillColor = (comp.getHovFillColor() != null) ? comp.getHovFillColor(): "#000000";
+        final String hovStrokeColor = (comp.getHovStrokeColor() != null) ? comp.getHovStrokeColor(): "#000000";
+
+        stringBuilder.append("var style_" + compId + " = new OpenLayers.StyleMap({" +
+                "'default': new OpenLayers.Style({pointRadius: '${type}', fillColor: '" + fillColor + "', strokeColor: '" + strokeColor + "', strokeWidth: " + width + "})," +
+                "'select': new OpenLayers.Style({fillColor: '" + selFillColor + "', strokeColor: '" + selStrokeColor + "'})," +
+                "'hover': new OpenLayers.Style({fillColor: '" + hovFillColor + "', strokeColor: '" + hovStrokeColor + "'})});");
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + FacesUtils.getFormId(context, comp) + "', styleMap:style_" + compId + "});");
+
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() && (comp.getValue() != null) && (comp.getValue() instanceof List)) {
             final List<SimpleFeature> featList = (List) comp.getValue();

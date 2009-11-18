@@ -47,6 +47,13 @@ public class SvgLayerTag extends LayerTag {
     private ValueExpression title = null;
     private ValueExpression opacity = null;
     private ValueExpression reRender = null;
+    private ValueExpression width = null;
+    private ValueExpression fillColor = null;
+    private ValueExpression strokeColor = null;
+    private ValueExpression selFillColor = null;
+    private ValueExpression selStrokeColor = null;
+    private ValueExpression hovFillColor = null;
+    private ValueExpression hovStrokeColor = null;
     private MethodExpression action = null;
 
     /**
@@ -81,6 +88,14 @@ public class SvgLayerTag extends LayerTag {
         component.setValueExpression("title", title);
         component.setValueExpression("opacity", opacity);
         component.setValueExpression("reRender", reRender);
+        component.setValueExpression("width", width);
+        component.setValueExpression("fillColor", fillColor);
+        component.setValueExpression("strokeColor", strokeColor);
+        component.setValueExpression("selFillColor", selFillColor);
+        component.setValueExpression("selStrokeColor", selStrokeColor);
+        component.setValueExpression("hovFillColor", hovFillColor);
+        component.setValueExpression("hovStrokeColor", hovStrokeColor);
+        
         if (getAction() != null) {
             ((ActionSource2) component).setActionExpression(getAction());
         }
@@ -103,6 +118,13 @@ public class SvgLayerTag extends LayerTag {
         title = null;
         opacity = null;
         reRender = null;
+        width = null;
+        fillColor = null;
+        strokeColor = null;
+        selFillColor = null;
+        selStrokeColor = null;
+        hovFillColor = null;
+        hovStrokeColor = null;
     }
 
     /**
@@ -243,5 +265,103 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setReRender(ValueExpression reRender) {
         this.reRender = reRender;
+    }
+
+    /**
+     * @return the width
+     */
+    public ValueExpression getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(ValueExpression width) {
+        this.width = width;
+    }
+
+    /**
+     * @return the fillColor
+     */
+    public ValueExpression getFillColor() {
+        return fillColor;
+    }
+
+    /**
+     * @param fillColor the fillColor to set
+     */
+    public void setFillColor(ValueExpression fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    /**
+     * @return the strokeColor
+     */
+    public ValueExpression getStrokeColor() {
+        return strokeColor;
+    }
+
+    /**
+     * @param strokeColor the strokeColor to set
+     */
+    public void setStrokeColor(ValueExpression strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
+    /**
+     * @return the selFillColor
+     */
+    public ValueExpression getSelFillColor() {
+        return selFillColor;
+    }
+
+    /**
+     * @param selFillColor the selFillColor to set
+     */
+    public void setSelFillColor(ValueExpression selFillColor) {
+        this.selFillColor = selFillColor;
+    }
+
+    /**
+     * @return the selStrokeColor
+     */
+    public ValueExpression getSelStrokeColor() {
+        return selStrokeColor;
+    }
+
+    /**
+     * @param selStrokeColor the selStrokeColor to set
+     */
+    public void setSelStrokeColor(ValueExpression selStrokeColor) {
+        this.selStrokeColor = selStrokeColor;
+    }
+
+    /**
+     * @return the hovFillColor
+     */
+    public ValueExpression getHovFillColor() {
+        return hovFillColor;
+    }
+
+    /**
+     * @param hovFillColor the hovFillColor to set
+     */
+    public void setHovFillColor(ValueExpression hovFillColor) {
+        this.hovFillColor = hovFillColor;
+    }
+
+    /**
+     * @return the hovStrokeColor
+     */
+    public ValueExpression getHovStrokeColor() {
+        return hovStrokeColor;
+    }
+
+    /**
+     * @param hovStrokeColor the hovStrokeColor to set
+     */
+    public void setHovStrokeColor(ValueExpression hovStrokeColor) {
+        this.hovStrokeColor = hovStrokeColor;
     }
 }
