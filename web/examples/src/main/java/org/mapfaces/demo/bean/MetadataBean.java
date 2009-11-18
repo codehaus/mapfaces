@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.mapfaces.demo.web.bean;
+package org.mapfaces.demo.bean;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
