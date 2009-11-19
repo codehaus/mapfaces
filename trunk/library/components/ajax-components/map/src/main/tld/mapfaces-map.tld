@@ -1810,24 +1810,6 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Defines the stroke color of the selected features.]]></description>
         </attribute>
-        <attribute>
-            <name>hovFillColor</name>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Defines the fillColor of the hovered features.]]></description>
-        </attribute>
-        <attribute>
-            <name>hovStrokeColor</name>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Defines the stroke color of the hovered features.]]></description>
-        </attribute>
     </tag>
     <!-- TIMELINE -->
     <tag>

@@ -65,7 +65,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * @since 0.3
  */
 public class SvgLayerRenderer extends LayerRenderer {
- 
+
     private static final Logger LOGGER = Logger.getLogger(EditionBarRenderer.class.getName());
 
     /**
@@ -88,7 +88,7 @@ public class SvgLayerRenderer extends LayerRenderer {
         final UISvgLayer comp = (UISvgLayer) component;
         // Find server ID.
         final String compId = comp.getId();
-        
+
         final String reRender = comp.getReRender();
         final String idsToRefresh;
         if (reRender != null) idsToRefresh = Utils.buildRerenderStringFromString(FacesUtils.getFormId(context, comp), reRender);
@@ -99,20 +99,20 @@ public class SvgLayerRenderer extends LayerRenderer {
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
         final String layerName = "window." + compId;
-        
-        // We define the StyleMap of the SVGLayer.
-        final int width = (comp.getWidth() > 0) ? comp.getWidth(): 1;
-        final String fillColor = (comp.getFillColor() != null) ? comp.getFillColor(): "#000000";
-        final String strokeColor = (comp.getStrokeColor() != null) ? comp.getStrokeColor(): "#000000";
-        final String selFillColor = (comp.getSelFillColor() != null) ? comp.getSelFillColor(): "#000000";
-        final String selStrokeColor = (comp.getSelStrokeColor() != null) ? comp.getSelStrokeColor(): "#000000";
-        final String hovFillColor = (comp.getHovFillColor() != null) ? comp.getHovFillColor(): "#000000";
-        final String hovStrokeColor = (comp.getHovStrokeColor() != null) ? comp.getHovStrokeColor(): "#000000";
 
-        stringBuilder.append("var style_" + compId + " = new OpenLayers.StyleMap({" +
-                "'default': new OpenLayers.Style({pointRadius: '${type}', fillColor: '" + fillColor + "', strokeColor: '" + strokeColor + "', strokeWidth: " + width + "})," +
-                "'select': new OpenLayers.Style({fillColor: '" + selFillColor + "', strokeColor: '" + selStrokeColor + "'})," +
-                "'hover': new OpenLayers.Style({fillColor: '" + hovFillColor + "', strokeColor: '" + hovStrokeColor + "'})});");
+        // We define the StyleMap of the SVGLayer.
+        stringBuilder.append("var style_" + compId + " = new OpenLayers.StyleMap({").append("'default': new OpenLayers.Style({pointRadius: 5");
+        final String width = (comp.getWidth() > 0) ? Integer.toString(comp.getWidth()): "1";
+        stringBuilder.append(", strokeWidth:" + width)
+                .append((comp.getFillColor() != null) ? ", fillColor: '" + comp.getFillColor() + "'": "")
+                .append((comp.getStrokeColor() != null) ? ", strokeColor: '" + comp.getStrokeColor() + "'": "");
+        if ((comp.getSelFillColor() != null) && (comp.getSelStrokeColor() != null)) {
+            stringBuilder.append("}), 'select': new OpenLayers.Style({ pointRadius: 5")
+                    .append((comp.getSelFillColor() != null) ? ", fillColor: '" + comp.getSelFillColor() + "'": "")
+                    .append((comp.getSelStrokeColor() != null) ? ", strokeColor: '" + comp.getSelStrokeColor() + "'": "");
+        }
+        stringBuilder.append("})});");
+
         stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + FacesUtils.getFormId(context, comp) + "', styleMap:style_" + compId + "});");
 
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
@@ -165,13 +165,13 @@ public class SvgLayerRenderer extends LayerRenderer {
      */
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
-    
+
             super.decode(context, component);
 
             final ExternalContext ext = context.getExternalContext();
             final UISvgLayer comp = (UISvgLayer) component;
             final Map parameterMap = ext.getRequestParameterMap();
-            
+
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[DEBUG] SvgLayerRenderer DECODE");
             }
@@ -182,7 +182,7 @@ public class SvgLayerRenderer extends LayerRenderer {
             final Object operationObj = FacesUtils.getRequestParameterValue(context, "org.mapfaces.ajax.AJAX_CONTAINER_ID");
             final Object crsObj = FacesUtils.getRequestParameterValue(context, "crs");
 
-            
+
             if ((valueObj instanceof String) && (operationObj instanceof String) && (crsObj instanceof String)) {
                 try {
                     final String value = (String) valueObj;
@@ -210,7 +210,7 @@ public class SvgLayerRenderer extends LayerRenderer {
                     if (comp.getActionExpression() != null) {
                         comp.getActionExpression().invoke(context.getELContext(), null);
                     }
-                    
+
                 } catch (ParseException ex) {
                     Logger.getLogger(SvgLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NoSuchAuthorityCodeException ex) {
@@ -219,7 +219,7 @@ public class SvgLayerRenderer extends LayerRenderer {
                 Logger.getLogger(SvgLayerRenderer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-       
+
     }
 
     /**
