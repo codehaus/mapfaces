@@ -42,8 +42,6 @@ public class UISvgLayer extends UILayer {
     private String strokeColor;
     private String selFillColor;
     private String selStrokeColor;
-    private String hovFillColor;
-    private String hovStrokeColor;
     
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
@@ -64,7 +62,7 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[16];
+        final Object values[] = new Object[14];
         values[0] = super.saveState(context);
         values[1] = cliToServOnly;
         values[2] = getFeatureAdded();
@@ -79,8 +77,6 @@ public class UISvgLayer extends UILayer {
         values[11] = getStrokeColor();
         values[12] = getSelFillColor();
         values[13] = getSelStrokeColor();
-        values[14] = getHovFillColor();
-        values[15] = getHovStrokeColor();
         return values;
     }
 
@@ -104,8 +100,6 @@ public class UISvgLayer extends UILayer {
         setStrokeColor((String) values[11]);
         setSelFillColor((String) values[12]);
         setSelStrokeColor((String) values[13]);
-        setHovFillColor((String) values[14]);
-        setHovStrokeColor((String) values[15]);
     }
 
     /**
@@ -289,33 +283,4 @@ public class UISvgLayer extends UILayer {
     public void setSelStrokeColor(String selStrokeColor) {
         this.selStrokeColor = selStrokeColor;
     }
-
-    /**
-     * @return the hovFillColor
-     */
-    public String getHovFillColor() {
-        return hovFillColor;
-    }
-
-    /**
-     * @param hovFillColor the hovFillColor to set
-     */
-    public void setHovFillColor(String hovFillColor) {
-        this.hovFillColor = hovFillColor;
-    }
-
-    /**
-     * @return the hovStrokeColor
-     */
-    public String getHovStrokeColor() {
-        return hovStrokeColor;
-    }
-
-    /**
-     * @param hovStrokeColor the hovStrokeColor to set
-     */
-    public void setHovStrokeColor(String hovStrokeColor) {
-        this.hovStrokeColor = hovStrokeColor;
-    }
-
 }

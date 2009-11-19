@@ -52,8 +52,6 @@ public class SvgLayerTag extends LayerTag {
     private ValueExpression strokeColor = null;
     private ValueExpression selFillColor = null;
     private ValueExpression selStrokeColor = null;
-    private ValueExpression hovFillColor = null;
-    private ValueExpression hovStrokeColor = null;
     private MethodExpression action = null;
 
     /**
@@ -93,9 +91,7 @@ public class SvgLayerTag extends LayerTag {
         component.setValueExpression("strokeColor", strokeColor);
         component.setValueExpression("selFillColor", selFillColor);
         component.setValueExpression("selStrokeColor", selStrokeColor);
-        component.setValueExpression("hovFillColor", hovFillColor);
-        component.setValueExpression("hovStrokeColor", hovStrokeColor);
-        
+
         if (getAction() != null) {
             ((ActionSource2) component).setActionExpression(getAction());
         }
@@ -123,8 +119,6 @@ public class SvgLayerTag extends LayerTag {
         strokeColor = null;
         selFillColor = null;
         selStrokeColor = null;
-        hovFillColor = null;
-        hovStrokeColor = null;
     }
 
     /**
@@ -335,33 +329,5 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setSelStrokeColor(ValueExpression selStrokeColor) {
         this.selStrokeColor = selStrokeColor;
-    }
-
-    /**
-     * @return the hovFillColor
-     */
-    public ValueExpression getHovFillColor() {
-        return hovFillColor;
-    }
-
-    /**
-     * @param hovFillColor the hovFillColor to set
-     */
-    public void setHovFillColor(ValueExpression hovFillColor) {
-        this.hovFillColor = hovFillColor;
-    }
-
-    /**
-     * @return the hovStrokeColor
-     */
-    public ValueExpression getHovStrokeColor() {
-        return hovStrokeColor;
-    }
-
-    /**
-     * @param hovStrokeColor the hovStrokeColor to set
-     */
-    public void setHovStrokeColor(ValueExpression hovStrokeColor) {
-        this.hovStrokeColor = hovStrokeColor;
     }
 }
