@@ -107,8 +107,8 @@ public class LocatorMapRenderer extends MapPaneRenderer {
                     .append("mfFormId:'").append(FacesMapUtils.getFormId(context, component)).append("',")
                     .append("mfRequestId:'updateBboxOrWindow'")
                     .append("};").toString());
-
-            
+            System.out.println("MaxExtent ==> " + comp.getMaxExtent());
+            System.out.println("ClientId ==> " + clientId);
             writer.write("var " + jsObject + " = new OpenLayers.Control.OverviewMap({div: OpenLayers.Util.getElement('" + clientId + "'),mapOptions:ovmapOptions});");
             writer.write(new StringBuilder(mapJsObject).append(".addControl(").append(jsObject).append(");")
                 .append("    if(!window.maps){window.maps = {};}")
