@@ -78,20 +78,15 @@ public class LocatorMapRenderer extends MapPaneRenderer {
 
             //suppression des ":" pour nommer l'objet javascript correspondant correctement
             //Find UIMapPane refers to this widget 
-            String mapJsObject = null ;
-            final UIMapPane uIMapPane = FacesMapUtils.getUIMapPane(context, component);
-            if (uIMapPane != null) {
-                    mapJsObject = uIMapPane.getClientId(context);
+            final UIMapPane uiMapPane = FacesMapUtils.getUIMapPane(context, component);
+            final String mapJsObject;
+            if (uiMapPane != null) {
+                mapJsObject = FacesMapUtils.getJsVariableFromClientId(uiMapPane.getClientId(context));
             } else {
                 LOGGER.log(Level.SEVERE, "This widget doesn't referred to an UIMapPane so it can't be rendered !!!");
                 component.setRendered(false);
+                mapJsObject = null;
                 return;
-            }
-            if (mapJsObject.contains(":")) {
-                //TODO don't commi this 
-                mapJsObject = mapJsObject.split(":")[0]+"app_Mappane";
-            }else{
-                mapJsObject = "mappane";
             }
             writer.write(new StringBuilder("var ovmapOptions = {")
                     .append("id:'").append(jsObject).append("',")
@@ -113,6 +108,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
                     .append("mfRequestId:'updateBboxOrWindow'")
                     .append("};").toString());
 
+            
             writer.write("var " + jsObject + " = new OpenLayers.Control.OverviewMap({div: OpenLayers.Util.getElement('" + clientId + "'),mapOptions:ovmapOptions});");
             writer.write(new StringBuilder(mapJsObject).append(".addControl(").append(jsObject).append(");")
                 .append("    if(!window.maps){window.maps = {};}")
