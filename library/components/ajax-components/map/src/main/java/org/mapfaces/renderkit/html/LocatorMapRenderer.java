@@ -89,7 +89,7 @@ public class LocatorMapRenderer extends MapPaneRenderer {
             }
             if (mapJsObject.contains(":")) {
                 //TODO don't commi this 
-                mapJsObject = mapJsObject.split(":")[0]+"mappane";
+                mapJsObject = mapJsObject.split(":")[0]+"app_Mappane";
             }else{
                 mapJsObject = "mappane";
             }
