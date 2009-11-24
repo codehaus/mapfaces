@@ -1810,6 +1810,24 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Defines the stroke color of the selected features.]]></description>
         </attribute>
+        <attribute>
+            <name>targetContextCompId</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Required to execute an OnComplete ajax reRender.]]></description>
+        </attribute>
+        <attribute>
+            <name>reRenderComplete</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Defines the onComplete to execute once the reRender is done.]]></description>
+        </attribute>
     </tag>
     <!-- TIMELINE -->
     <tag>

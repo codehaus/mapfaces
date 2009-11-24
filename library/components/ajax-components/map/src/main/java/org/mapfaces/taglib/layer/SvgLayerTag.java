@@ -52,6 +52,8 @@ public class SvgLayerTag extends LayerTag {
     private ValueExpression strokeColor = null;
     private ValueExpression selFillColor = null;
     private ValueExpression selStrokeColor = null;
+    private ValueExpression targetContextCompId = null;
+    private ValueExpression reRenderComplete = null;
     private MethodExpression action = null;
 
     /**
@@ -91,6 +93,8 @@ public class SvgLayerTag extends LayerTag {
         component.setValueExpression("strokeColor", strokeColor);
         component.setValueExpression("selFillColor", selFillColor);
         component.setValueExpression("selStrokeColor", selStrokeColor);
+        component.setValueExpression("targetContextCompId", targetContextCompId);
+        component.setValueExpression("reRenderComplete", reRenderComplete);
 
         if (getAction() != null) {
             ((ActionSource2) component).setActionExpression(getAction());
@@ -119,6 +123,8 @@ public class SvgLayerTag extends LayerTag {
         strokeColor = null;
         selFillColor = null;
         selStrokeColor = null;
+        targetContextCompId = null;
+        reRenderComplete = null;
     }
 
     /**
@@ -329,5 +335,33 @@ public class SvgLayerTag extends LayerTag {
      */
     public void setSelStrokeColor(ValueExpression selStrokeColor) {
         this.selStrokeColor = selStrokeColor;
+    }
+
+    /**
+     * @return the targetContextCompId
+     */
+    public ValueExpression getTargetContextCompId() {
+        return targetContextCompId;
+    }
+
+    /**
+     * @param targetContextCompId the targetContextCompId to set
+     */
+    public void setTargetContextCompId(ValueExpression targetContextCompId) {
+        this.targetContextCompId = targetContextCompId;
+    }
+
+    /**
+     * @return the reRenderComplete
+     */
+    public ValueExpression getReRenderComplete() {
+        return reRenderComplete;
+    }
+
+    /**
+     * @param reRenderComplete the reRenderComplete to set
+     */
+    public void setReRenderComplete(ValueExpression reRenderComplete) {
+        this.reRenderComplete = reRenderComplete;
     }
 }
