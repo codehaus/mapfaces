@@ -46,6 +46,7 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
+import org.mapfaces.models.layer.DefaultMapContextLayer;
 import org.mapfaces.models.layer.SvgLayer;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
@@ -88,18 +89,19 @@ public class SvgLayerRenderer extends LayerRenderer {
         final UISvgLayer comp = (UISvgLayer) component;
         // Find server ID.
         final String compId = comp.getId();
-
+        final String formId = FacesUtils.getFormId(context, comp);
         final String reRender = comp.getReRender();
         final String idsToRefresh;
-        if (reRender != null) idsToRefresh = Utils.buildRerenderStringFromString(FacesUtils.getFormId(context, comp), reRender);
-        else idsToRefresh = "";
+        if (reRender != null) idsToRefresh = Utils.buildRerenderStringFromString(formId, reRender);
+        else idsToRefresh = null;
+        final String modelContextId = (comp.getTargetContextCompId() != null) ? formId + ":" + comp.getTargetContextCompId() + "_Ajax":null;
 
         writer.startElement(HTML.SCRIPT_ELEM, comp);
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
         final String layerName = "window." + compId;
-
+        
         // We define the StyleMap of the SVGLayer.
         stringBuilder.append("var style_" + compId + " = new OpenLayers.StyleMap({").append("'default': new OpenLayers.Style({pointRadius: 5");
         final String width = (comp.getWidth() > 0) ? Integer.toString(comp.getWidth()): "1";
@@ -113,7 +115,8 @@ public class SvgLayerRenderer extends LayerRenderer {
         }
         stringBuilder.append("})});");
 
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + FacesUtils.getFormId(context, comp) + "', styleMap:style_" + compId + "});");
+        final String reRenderComplete = (comp.getReRenderComplete() != null) ? comp.getReRenderComplete() : "";
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + formId + "', styleMap:style_" + compId + ", reRender:'" + idsToRefresh + "', contextCompId:'" + modelContextId + "', 'reRenderComplete':function(){" + reRenderComplete + "}});");
 
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() && (comp.getValue() != null) && (comp.getValue() instanceof List)) {
@@ -129,7 +132,6 @@ public class SvgLayerRenderer extends LayerRenderer {
             }
         }
         stringBuilder.append(mapJsVariable).append(".addLayer(" + layerName + ");");
-        stringBuilder.append(layerName + ".initReRender('" + idsToRefresh + "');");
         stringBuilder.append(layerName + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
         writer.endElement(HTML.SCRIPT_ELEM);

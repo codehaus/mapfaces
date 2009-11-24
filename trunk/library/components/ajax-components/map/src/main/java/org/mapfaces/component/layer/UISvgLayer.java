@@ -42,6 +42,8 @@ public class UISvgLayer extends UILayer {
     private String strokeColor;
     private String selFillColor;
     private String selStrokeColor;
+    private String targetContextCompId;
+    private String reRenderComplete;
     
     /** Creates a new instance of UIEditionBar */
     public UISvgLayer() {
@@ -62,7 +64,7 @@ public class UISvgLayer extends UILayer {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[14];
+        final Object values[] = new Object[16];
         values[0] = super.saveState(context);
         values[1] = cliToServOnly;
         values[2] = getFeatureAdded();
@@ -77,6 +79,8 @@ public class UISvgLayer extends UILayer {
         values[11] = getStrokeColor();
         values[12] = getSelFillColor();
         values[13] = getSelStrokeColor();
+        values[14] = getTargetContextCompId();
+        values[15] = getReRenderComplete();
         return values;
     }
 
@@ -100,6 +104,8 @@ public class UISvgLayer extends UILayer {
         setStrokeColor((String) values[11]);
         setSelFillColor((String) values[12]);
         setSelStrokeColor((String) values[13]);
+        setTargetContextCompId((String) values[14]);
+        setReRenderComplete((String) values[15]);
     }
 
     /**
@@ -282,5 +288,33 @@ public class UISvgLayer extends UILayer {
      */
     public void setSelStrokeColor(String selStrokeColor) {
         this.selStrokeColor = selStrokeColor;
+    }
+
+    /**
+     * @return the targetContextCompId
+     */
+    public String getTargetContextCompId() {
+        return targetContextCompId;
+    }
+
+    /**
+     * @param targetContextCompId the targetContextCompId to set
+     */
+    public void setTargetContextCompId(String targetContextCompId) {
+        this.targetContextCompId = targetContextCompId;
+    }
+
+    /**
+     * @return the reRenderComplete
+     */
+    public String getReRenderComplete() {
+        return reRenderComplete;
+    }
+
+    /**
+     * @param reRenderComplete the reRenderComplete to set
+     */
+    public void setReRenderComplete(String reRenderComplete) {
+        this.reRenderComplete = reRenderComplete;
     }
 }

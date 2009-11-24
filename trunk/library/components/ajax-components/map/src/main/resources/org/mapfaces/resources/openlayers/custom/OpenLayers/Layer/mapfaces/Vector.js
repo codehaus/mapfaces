@@ -20,6 +20,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     featureBeforeModified: null,
     eventsActived: false,
     reRender: null,
+    contextCompId: null,
 
     initialize: function(clientId, options) {
         //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
@@ -37,19 +38,16 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
         this.eventsActived = active;
     },
 
-    initReRender: function(_reRender) {
-        this.reRender = _reRender;
-    },
-
     onFeatureAdded: function(event) {
         if (this.eventsActived) {
             var requestParams = {
                 'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
                 'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureAdded',
                 'org.mapfaces.ajax.NO_RERENDER': true,
-                'refresh': this.reRender,
                 'crs': this.map.getProjection()
             };
+
+            this.onCompleteReRender();
             this.submit(requestParams);
         }
     },
@@ -62,6 +60,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
             'refresh': this.reRender,
             'crs': this.map.getProjection()
         };
+        this.onCompleteReRender();
         this.submit(requestParams);
     },
 
@@ -77,8 +76,17 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
                 'org.mapfaces.ajax.NO_RERENDER': true,
                 'crs': this.map.getProjection()
             };
+            this.onCompleteReRender();
             this.featureBeforeModified = null;
             this.submit(requestParams);
+        }
+    },
+
+    onCompleteReRender: function() {
+        if ((this.reRender != "") && (this.contextCompId != "")) {
+            var requestParamsReRender = {'refresh':this.reRender};
+            requestParamsReRender[this.contextCompId] = this.contextCompId;
+            this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'actionUrl':window.location.href})};
         }
     },
 
