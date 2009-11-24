@@ -86,12 +86,14 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[5];
+        final Object values[] = new Object[7];
         values[0] = super.saveState(context);
         values[1] = isDebug();
         values[2] = getTree();
         values[3] = getStyle();
         values[4] = getStyleClass();
+        values[5] = isMootools();
+        values[6] = isMinifyJS();
         return values;
     }
 
@@ -111,6 +113,8 @@ public abstract class UITreeBase extends UICommand implements AjaxRendererInterf
         setTree((TreeTableModel) values[2]);
         setStyle((String) values[3]);
         setStyleClass((String) values[4]);
+        setMootools((Boolean)values[5]);
+        setMinifyJS((Boolean)values[6]);
     }
 
     /**

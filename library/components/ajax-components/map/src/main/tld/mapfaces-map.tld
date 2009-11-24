@@ -2100,6 +2100,24 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[The depth that indicates the level of collapsed nodes.]]></description>
         </attribute>
+        <attribute>
+            <name>mootools</name>
+            <description><![CDATA[Allow to load mootools library or not, default to true.]]></description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>minifyJS</name>
+            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]></description>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
     </tag>
   <!-- TreePanel -->
     <tag>
