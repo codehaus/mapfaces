@@ -310,7 +310,8 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
         }
 
         //If TreeTable is not a UIContext children
-        if (temp == null) {
+        //loading mootools only if it is needed
+        if (temp == null && comp.isMootools()) {
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
