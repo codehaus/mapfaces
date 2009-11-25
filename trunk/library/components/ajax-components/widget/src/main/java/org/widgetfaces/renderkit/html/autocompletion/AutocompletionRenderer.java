@@ -84,6 +84,7 @@ public class AutocompletionRenderer extends Renderer {
         writer.writeAttribute(HTML.id_ATTRIBUTE, comp.getId() + "_input", null);
         writer.writeAttribute(HTML.NAME_ATTRIBUTE, comp.getId() + "_input", null);
         final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
+        
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
                 comp.setValue(ve.getValue(context.getELContext()));
@@ -129,8 +130,8 @@ public class AutocompletionRenderer extends Renderer {
        
 
         str.append("document.addEvent('domready', function(){");
-        /* Enable ajax request */
-        if (comp.isEnableAjax()) {
+        /* If we use a web thesaurus service*/
+        if (comp.getWtsUrl() != null) {
             
             final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());            
             final StringBuilder ajaxrequest = new StringBuilder();
@@ -141,7 +142,7 @@ public class AutocompletionRenderer extends Renderer {
                     //append("'").append(AjaxUtils.AUTOCOMPLETION_VALUE).append("': $('").append(inputId).append("').value,").
                     append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
                     append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '" + clientId + "',").
-                    append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWsUrl()).append("',").
+                    append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWtsUrl()).append("',").
                     append("'").append(AjaxUtils.THESAURUS_WS_REQUEST).append("': '").append(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword).append("'").
                     append("}});");
             str.append(ajaxrequest);

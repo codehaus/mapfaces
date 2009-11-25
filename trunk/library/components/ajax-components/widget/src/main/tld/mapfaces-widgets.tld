@@ -157,7 +157,7 @@
             <deferred-value>
                 <type>java.lang.Object</type>
             </deferred-value>
-            <required>true</required>
+            <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description>
                 <![CDATA[the services value can be a List of String or a String as ['keyword1','keyword2']. For commonly uses it is better to use a list of string directly because a CleanStringJavascript is applyed.]]>
@@ -171,6 +171,17 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[This is the title attribute for input text component.]]>
+            </description>
+        </attribute>
+        <attribute>
+            <name>wtsUrl</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                <![CDATA[the wtsUrl is the url of a web thesaurus service.]]>
             </description>
         </attribute>
         
@@ -207,7 +218,8 @@
         &events_attributes;
         
         <attribute>
-            <description><![CDATA[Indicate an other target input where the time has to be displayed.]]></description>
+            <description><![CDATA[Indicate an other target input where the time has to be displayed.]]>
+            </description>
             <name>targetInput</name>
             <deferred-value>
                 <type>java.lang.String</type>
