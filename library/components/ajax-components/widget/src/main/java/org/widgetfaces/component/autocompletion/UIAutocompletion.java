@@ -88,6 +88,7 @@ public class UIAutocompletion extends HtmlInputText {
     private boolean loadMootools = true;
     private boolean loadCss = true;
     private boolean loadJs = true;
+    private String wtsUrl = null;
     private String title;
 
     public UIAutocompletion() {
@@ -95,9 +96,14 @@ public class UIAutocompletion extends HtmlInputText {
         setRendererType(RENDERER_TYPE);
     }
 
-    public String getWsUrl() {
+    public String getWtsUrl() {
         //@TODO to be removed :  use attribute to past the url of thesaurus service
-        return "http://solardev:8080/mdweb/WS/thesaurus";
+        return wtsUrl;
+    }
+
+    public void setWtsUrl(String url) {
+        //@TODO to be removed :  use attribute to past the url of thesaurus service
+        wtsUrl = url;
     }
 
     public boolean isMapfacesWidgetsCss() {
@@ -116,7 +122,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object[] values = new Object[20];
+        final Object[] values = new Object[21];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -137,6 +143,7 @@ public class UIAutocompletion extends HtmlInputText {
         values[17] = isLoadCss();
         values[18] = getTitle();
         values[19] = isRendered();
+        values[20] = getWtsUrl();
         return values;
     }
 
@@ -171,6 +178,7 @@ public class UIAutocompletion extends HtmlInputText {
         setLoadCss((Boolean) values[17]);
         setTitle((String)values[18]);
         setRendered((Boolean) values[19]);
+        setWtsUrl((String) values[20]);
     }
 
     /**

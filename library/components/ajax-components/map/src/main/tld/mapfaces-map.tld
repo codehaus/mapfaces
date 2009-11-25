@@ -14,15 +14,18 @@
     <jsp-version>2.1</jsp-version>
     <short-name>mf</short-name>
     <uri>http://mapfaces.org/taglib</uri>
-    <display-name><![CDATA[Mapfaces map components]]></display-name>
-    <description><![CDATA[Mapfaces map components.]]></description>
+    <display-name><![CDATA[Mapfaces map components]]>
+    </display-name>
+    <description><![CDATA[Mapfaces map components.]]>
+    </description>
 
    <!-- Abstract -->
     <tag>
         <name>Abstract</name>
         <tag-class>org.mapfaces.taglib.AbstractTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget which will simply process a model with a stylesheet - no specialized listeners provided.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget which will simply process a model with a stylesheet - no specialized listeners provided.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -42,7 +45,8 @@
         <tag-class>org.mapfaces.taglib.AutocompletionAndZoomTag</tag-class>
         <body-content>JSP</body-content>
         <description><![CDATA[This is the tag that creates a component widget which provides the
-            functionality for text suggestion and completion.]]></description>
+            functionality for text suggestion and completion.]]>
+        </description>
         &commons_attributes;
 	&events_attributes;
         <attribute>
@@ -61,7 +65,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(integer) the minimum length of the string the user must enter
-                before the suggestions are displayed; defaults to 1]]></description>
+                before the suggestions are displayed; defaults to 1]]>
+            </description>
         </attribute>
         <attribute>
             <name>markQuery</name>
@@ -72,7 +77,8 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) whether or not to wrap the portion of each suggestion
                 that matches the user entry with a span tag (which gets the css
-                class autocompleter-queried); defaults to true.]]></description>
+                class autocompleter-queried); defaults to true.]]>
+            </description>
         </attribute>
         <attribute>
             <name>maxChoices</name>
@@ -82,7 +88,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(integer) the maximum number of suggestion items to display;
-                defaults to 10.]]></description>
+                defaults to 10.]]>
+            </description>
         </attribute>
         <attribute>
             <name>delay</name>
@@ -93,7 +100,8 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(integer) the period (in milliseconds) to wait befor the
                 suggestion dropdown is displayed or its items updated after
-                typing in the input; defaults to 400.]]></description>
+                typing in the input; defaults to 400.]]>
+            </description>
         </attribute>
         <attribute>
             <name>autoSubmit</name>
@@ -103,7 +111,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) whether to submit the form when the user chooses a
-                suggestion item by hitting enter; defaults to false.]]></description>
+                suggestion item by hitting enter; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>overflow</name>
@@ -113,7 +122,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) If set to true, the maxChoices option is ignored and
-                all the available suggestion items are displayed; defaults to false.]]></description>
+                all the available suggestion items are displayed; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>overflowMargin</name>
@@ -125,7 +135,8 @@
             <description><![CDATA[(integer) if overflow is true and the user moves their selection
                 (using the cursor keys) to an item that is outside the viewable
                 list, this option specifies how far to jump down the suggestions
-                dropdown to show more suggestion items; defaults to 25.]]></description>
+                dropdown to show more suggestion items; defaults to 25.]]>
+            </description>
         </attribute>
         <attribute>
             <name>selectFirst</name>
@@ -139,7 +150,8 @@
                 * For instance: if the user types "aj" and the first suggestion
                 is "ajax",a true setting for this option would select that
                 first entry even though it doesn't completely match the user's
-                entry; defaults to false.]]></description>
+                entry; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>filterSubset</name>
@@ -151,7 +163,8 @@
             <description><![CDATA[(boolean) if filter is not defined (and therefore the filter
                 used is the default one) this setting will, if true, allow for
                 matches anywhere in the suggestion, otherwise the user entry
-                must match the beginning of the suggestion; defaults to false.]]></description>
+                must match the beginning of the suggestion; defaults to false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>multiple</name>
@@ -162,33 +175,47 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[(boolean) whether to split the user entered text into multiple
                 values; defaults to false;
-                the following two options affect the behavior of the split.]]></description>
+                the following two options affect the behavior of the split.]]>
+            </description>
         </attribute>
         <attribute>
             <name>services</name>
             <deferred-value>
                 <type>java.lang.Object</type>
             </deferred-value>
-            <required>true</required>
+            <required>false</required>
             <rtexprvalue>false</rtexprvalue>
         </attribute>
-	<attribute>
+        <attribute>
             <name>loadMootools</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]></description>
+            <description><![CDATA[(boolean) Flag that indicates if the mootools lib should be added in dependencies or not, default is true.]]>
+            </description>
         </attribute>
-	<attribute>
+        <attribute>
             <name>loadJs</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]></description>
+            <description><![CDATA[(boolean) Flag that indicates if the widget faces lib should be added in dependencies or not, default is true.]]>
+            </description>
+        </attribute>
+        <attribute>
+            <name>wtsUrl</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description>
+                the wtsUrl is the url of a web thesaurus service.
+            </description>
         </attribute>
     </tag>
     
@@ -197,7 +224,8 @@
         <name>ExtPanel</name>
         <tag-class>org.mapfaces.taglib.ExtPanelTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a simple panel component with css providing by extJs.]]></description>
+        <description><![CDATA[This is the tag that creates a simple panel component with css providing by extJs.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>title</name>
@@ -282,7 +310,8 @@
         <name>DimRange</name>
         <tag-class>org.mapfaces.taglib.DimRangeTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget which will simply process a model with a stylesheet - no specialized listeners provided.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget which will simply process a model with a stylesheet - no specialized listeners provided.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -302,7 +331,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The style of the overall div that surrounds this component.]]></description>
+            <description><![CDATA[The style of the overall div that surrounds this component.]]>
+            </description>
         </attribute>
     </tag>
     <!-- ButtonBar -->
@@ -310,7 +340,8 @@
         <name>ButtonBar</name>
         <tag-class>org.mapfaces.taglib.ButtonBarTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget which will simply process a model with a stylesheet - no specialized listeners provided.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget which will simply process a model with a stylesheet - no specialized listeners provided.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -385,7 +416,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a smooth slide effect on single Click handler when DragPan button selected .]]></description>
+            <description><![CDATA[Add a smooth slide effect on single Click handler when DragPan button selected .]]>
+            </description>
         </attribute>
         <attribute>
             <name>floatingBar</name>
@@ -394,7 +426,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the tool bar can be floating or not. i.e : true means the div is outside the component. otherwise the false value means inside.]]></description>
+            <description><![CDATA[Flag that indicates if the tool bar can be floating or not. i.e : true means the div is outside the component. otherwise the false value means inside.]]>
+            </description>
         </attribute>
         <attribute>
             <name>graticule</name>
@@ -403,7 +436,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add graticules on the map , works only for certain projection.]]></description>
+            <description><![CDATA[Add graticules on the map , works only for certain projection.]]>
+            </description>
         </attribute>
         <attribute>
             <name>save</name>
@@ -423,7 +457,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag to activate the getFeatureInfo functionnality.]]></description>
+            <description><![CDATA[Flag to activate the getFeatureInfo functionnality.]]>
+            </description>
         </attribute>
         <attribute>
             <name>measureDistance</name>
@@ -432,7 +467,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag to activate the measureDistance functionnality.]]></description>
+            <description><![CDATA[Flag to activate the measureDistance functionnality.]]>
+            </description>
         </attribute>
         <attribute>
             <name>measureArea</name>
@@ -441,7 +477,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag to activate the measureArea functionnality.]]></description>
+            <description><![CDATA[Flag to activate the measureArea functionnality.]]>
+            </description>
         </attribute>
         <attribute>
             <name>selectionZoomBox</name>
@@ -450,10 +487,11 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a selection by bounding box button, 
+            <description><![CDATA[Add a selection by bounding box button,
                 you must to set values for the attached attributes : 
                 colorSelectionBox,focusIdSelectionBox,northIdSelectionBox,
-                southIdSelectionBox,eastIdSelectionBox,westIdSelectionBox otherwise a default values will be set.]]></description>
+                southIdSelectionBox,eastIdSelectionBox,westIdSelectionBox otherwise a default values will be set.]]>
+            </description>
         </attribute>
         <attribute>
             <name>colorSelectionBox</name>
@@ -462,7 +500,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The color style for the border of the bounding box.]]></description>
+            <description><![CDATA[The color style for the border of the bounding box.]]>
+            </description>
         </attribute>
         <attribute>
             <name>focusIdSelectionBox</name>
@@ -471,7 +510,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of an element to have a focus after the selection is done, this feature is used in several search application.]]></description>
+            <description><![CDATA[The id of an element to have a focus after the selection is done, this feature is used in several search application.]]>
+            </description>
         </attribute>
         <attribute>
             <name>northIdSelectionBox</name>
@@ -480,7 +520,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of an input element to have the value of latitude MaxY.]]></description>
+            <description><![CDATA[The id of an input element to have the value of latitude MaxY.]]>
+            </description>
         </attribute>
         <attribute>
             <name>eastIdSelectionBox</name>
@@ -489,7 +530,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of an input element to have the value of longitude MaxX.]]></description>
+            <description><![CDATA[The id of an input element to have the value of longitude MaxX.]]>
+            </description>
         </attribute>
         <attribute>
             <name>southIdSelectionBox</name>
@@ -498,7 +540,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of an input element to have the value of latitude MinY.]]></description>
+            <description><![CDATA[The id of an input element to have the value of latitude MinY.]]>
+            </description>
         </attribute>
         <attribute>
             <name>westIdSelectionBox</name>
@@ -507,7 +550,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of an input element to have the value of longitude MinX.]]></description>
+            <description><![CDATA[The id of an input element to have the value of longitude MinX.]]>
+            </description>
         </attribute>
         <attribute>
             <name>reRender</name>
@@ -516,7 +560,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of the target datarequest component if the featureInfo attribute is setted to true value.]]></description>
+            <description><![CDATA[The id of the target datarequest component if the featureInfo attribute is setted to true value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>callAjaxRegion</name>
@@ -525,7 +570,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Allow a loading on the getfeatureInfo if there is one ajaxregion defined in the page.]]></description>
+            <description><![CDATA[Allow a loading on the getfeatureInfo if there is one ajaxregion defined in the page.]]>
+            </description>
         </attribute>
     </tag>
     <!-- EditionBar -->
@@ -534,7 +580,8 @@
         <tag-class>org.mapfaces.taglib.EditionBarTag</tag-class>
         <body-content>JSP</body-content>
         <description><![CDATA[This is the tag that creates a component widget which will simply
-            process a model with a stylesheet - no specialized listeners provided.]]></description>
+            process a model with a stylesheet - no specialized listeners provided.]]>
+        </description>
 	&commons_attributes;
         <attribute>
             <name>floatingBar</name>
@@ -544,7 +591,8 @@
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[Flag that indicates if the tool bar can be floating or not.
-                i.e : true means the div is outside the component. otherwise the false value means inside.]]></description>
+                i.e : true means the div is outside the component. otherwise the false value means inside.]]>
+            </description>
         </attribute>
         <attribute>
             <name>value</name>
@@ -553,7 +601,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The abstract string value.]]></description>
+            <description><![CDATA[The abstract string value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>drawPoint</name>
@@ -562,25 +611,28 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a create point button .]]></description>
+            <description><![CDATA[Add a create point button .]]>
+            </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>drawLine</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a create line button.]]></description>
+            <description><![CDATA[Add a create line button.]]>
+            </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>drawPolygon</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a create polygon button.]]></description>
+            <description><![CDATA[Add a create polygon button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>drawRegularPolygon</name>
@@ -589,7 +641,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a create rgular polygon button.]]></description>
+            <description><![CDATA[Add a create rgular polygon button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>regularPolygonSides</name>
@@ -598,16 +651,18 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Number of sides of the drawing RegularPolygon.]]></description>
+            <description><![CDATA[Number of sides of the drawing RegularPolygon.]]>
+            </description>
         </attribute>
-         <attribute>
+        <attribute>
             <name>deleteFeature</name>
             <deferred-value>
                 <type>boolean</type>
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a delete featurebutton.]]></description>
+            <description><![CDATA[Add a delete featurebutton.]]>
+            </description>
         </attribute>
         <attribute>
             <name>drag</name>
@@ -616,7 +671,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a drag geometry  button.]]></description>
+            <description><![CDATA[Add a drag geometry  button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>resize</name>
@@ -625,7 +681,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a resize geometry  button.]]></description>
+            <description><![CDATA[Add a resize geometry  button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>rotate</name>
@@ -634,7 +691,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a rotate geometry  button.]]></description>
+            <description><![CDATA[Add a rotate geometry  button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>modify</name>
@@ -643,7 +701,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a modify geometry button.]]></description>
+            <description><![CDATA[Add a modify geometry button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>select</name>
@@ -652,7 +711,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add a selection geometry button.]]></description>
+            <description><![CDATA[Add a selection geometry button.]]>
+            </description>
         </attribute>
         <attribute>
             <name>snapping</name>
@@ -661,7 +721,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Active snapping when modify.]]></description>
+            <description><![CDATA[Active snapping when modify.]]>
+            </description>
         </attribute>
         <attribute>
             <name>layerTargetId</name>
@@ -691,7 +752,8 @@
         <name>CursorTrack</name>
         <tag-class>org.mapfaces.taglib.CursorTrackTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -700,7 +762,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showPX</name>
@@ -709,7 +772,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add pixel dipslaying.]]></description>
+            <description><![CDATA[Add pixel dipslaying.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showXY</name>
@@ -718,7 +782,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add xy dipslaying.]]></description>
+            <description><![CDATA[Add xy dipslaying.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showLatLon</name>
@@ -727,7 +792,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add Lat/Lon dipslaying.]]></description>
+            <description><![CDATA[Add Lat/Lon dipslaying.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showDMS</name>
@@ -736,7 +802,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add DMS dipslaying.]]></description>
+            <description><![CDATA[Add DMS dipslaying.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showDM</name>
@@ -745,7 +812,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add DM dipslaying.]]></description>
+            <description><![CDATA[Add DM dipslaying.]]>
+            </description>
         </attribute>
     </tag>
     <!-- Scale -->
@@ -753,7 +821,8 @@
         <name>Scale</name>
         <tag-class>org.mapfaces.taglib.ScaleTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
 	&commons_attributes;
         <attribute>
             <name>value</name>
@@ -762,7 +831,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
     </tag>
     <!-- LocatorMap -->
@@ -770,7 +840,8 @@
         <name>LocatorMap</name>
         <tag-class>org.mapfaces.taglib.LocatorMapTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
        	&commons_attributes;
         <attribute>
             <name>value</name>
@@ -779,7 +850,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
         <attribute>
             <name>targetContextCompId</name>
@@ -788,7 +860,8 @@
             </deferred-value>
             <required>true</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The style of the overall div that surrounds this component.]]></description>
+            <description><![CDATA[The style of the overall div that surrounds this component.]]>
+            </description>
         </attribute>
     </tag>
     <!-- ScaleBar -->
@@ -796,7 +869,8 @@
         <name>ScaleBar</name>
         <tag-class>org.mapfaces.taglib.ScaleBarTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -805,7 +879,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
     </tag>
    <!-- Popup -->
@@ -813,7 +888,8 @@
         <name>Popup</name>
         <tag-class>org.mapfaces.taglib.PopupTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -822,7 +898,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
         <attribute>
             <name>iframe</name>
@@ -831,7 +908,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the innerHtml will be added in a iframe tag.]]></description>
+            <description><![CDATA[Flag that indicates if the innerHtml will be added in a iframe tag.]]>
+            </description>
         </attribute>
         <attribute>
             <name>width</name>
@@ -840,7 +918,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Specify the popup width as integer value.]]></description>
+            <description><![CDATA[Specify the popup width as integer value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>height</name>
@@ -849,7 +928,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Specify popup height as integer value.]]></description>
+            <description><![CDATA[Specify popup height as integer value.]]>
+            </description>
         </attribute>
     </tag>
     <!-- DataRequest -->
@@ -857,17 +937,20 @@
         <name>DataRequest</name>
         <tag-class>org.mapfaces.taglib.DataRequestTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component to perform a request and set an output as a child component like popup or others output component.]]></description>
+        <description><![CDATA[This is the tag that creates a component to perform a request and set an output as a child component like popup or others output component.]]>
+        </description>
         <attribute>
             <name>id</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[The component identifier for this component.  This value must be
                 unique within the closest parent component that is a naming
-                container.]]></description>
+                container.]]>
+            </description>
         </attribute>
         <attribute>
-            <description><![CDATA[A value binding that points to a bean property]]></description>
+            <description><![CDATA[A value binding that points to a bean property]]>
+            </description>
             <name>binding</name>
             <deferred-value>
                 <type>javax.faces.component.UIComponent</type>
@@ -876,7 +959,8 @@
         <attribute>
             <description><![CDATA[Flag indicating whether or not this component should be rendered
                 (during Render Response Phase), or processed on any subsequent
-                form submit.]]></description>
+                form submit.]]>
+            </description>
             <name>rendered</name>
             <deferred-value>
                 <type>boolean</type>
@@ -889,7 +973,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is a serializable object witch is containing in a Feature from MFlayer component. Note: it can be used for wms or no wms layers, this object is String for wms layers.]]></description>
+            <description><![CDATA[This is a serializable object witch is containing in a Feature from MFlayer component. Note: it can be used for wms or no wms layers, this object is String for wms layers.]]>
+            </description>
         </attribute>
         <attribute>
             <name>outputFormat</name>
@@ -898,7 +983,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The outputFormat of the data.]]></description>
+            <description><![CDATA[The outputFormat of the data.]]>
+            </description>
         </attribute>
         <attribute>
             <name>targetPopupId</name>
@@ -907,7 +993,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of the target popup.]]></description>
+            <description><![CDATA[The id of the target popup.]]>
+            </description>
         </attribute>
         <attribute>
             <name>debug</name>
@@ -916,7 +1003,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add debug message in server console.]]></description>
+            <description><![CDATA[Add debug message in server console.]]>
+            </description>
         </attribute>
         <attribute>
             <name>featureLayerOnly</name>
@@ -925,7 +1013,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Allow getfeatureInfo on featureLayers type only.]]></description>
+            <description><![CDATA[Allow getfeatureInfo on featureLayers type only.]]>
+            </description>
         </attribute>
         <attribute>
             <name>featureCount</name>
@@ -934,7 +1023,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Number of features per layer allowed. The default is all features count in the intersection.]]></description>
+            <description><![CDATA[Number of features per layer allowed. The default is all features count in the intersection.]]>
+            </description>
         </attribute>
         <attribute>
             <name>layersNames</name>
@@ -943,7 +1033,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is a list that contains all interested layers indicated by their layer name.]]></description>
+            <description><![CDATA[This is a list that contains all interested layers indicated by their layer name.]]>
+            </description>
         </attribute>
         <attribute>
             <name>outputLatitude</name>
@@ -952,7 +1043,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is the lattitude value when a click has been released on the Mappane.]]></description>
+            <description><![CDATA[This is the lattitude value when a click has been released on the Mappane.]]>
+            </description>
         </attribute>
         <attribute>
             <name>outputLongitude</name>
@@ -961,7 +1053,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is the longitude value when a click has been released on the Mappane.]]></description>
+            <description><![CDATA[This is the longitude value when a click has been released on the Mappane.]]>
+            </description>
         </attribute>
         <attribute>
             <name>featureInfoValues</name>
@@ -970,7 +1063,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is a list that contains all resulted output values of the getFeatureinfo on every requested layer with the forced format text/plain.]]></description>
+            <description><![CDATA[This is a list that contains all resulted output values of the getFeatureinfo on every requested layer with the forced format text/plain.]]>
+            </description>
         </attribute>
         <attribute>
             <name>requestUrlList</name>
@@ -979,7 +1073,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is a list that contains all getFeatureInfo urls released in the server side.]]></description>
+            <description><![CDATA[This is a list that contains all getFeatureInfo urls released in the server side.]]>
+            </description>
         </attribute>
         <attribute>
             <description><![CDATA[MethodExpression representing the application action to invoke
@@ -987,7 +1082,8 @@
                 must evaluate to a public method that takes no parameters, and
                 returns an Object (the toString() of which is called to derive
                 the logical outcome) which is passed to the NavigationHandler
-                for this application.]]></description>
+                for this application.]]>
+            </description>
             <name>action</name>
             <required>false</required>
             <deferred-method>
@@ -1000,7 +1096,8 @@
             <description><![CDATA[MethodExpression representing an action listener method that will be
                 notified when this component is activated by the user.  The
                 expression must evaluate to a public method that takes an
-                ActionEvent parameter, with a return type of void.]]></description>
+                ActionEvent parameter, with a return type of void.]]>
+            </description>
             <name>actionListener</name>
             <required>false</required>
             <deferred-method>
@@ -1016,7 +1113,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The id of the target component to refresh.]]></description>
+            <description><![CDATA[The id of the target component to refresh.]]>
+            </description>
         </attribute>
     </tag>
     <!-- MeasureDistance -->
@@ -1024,7 +1122,8 @@
         <name>MeasureDistance</name>
         <tag-class>org.mapfaces.taglib.MeasureDistanceTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
 	&commons_attributes;
         <attribute>
             <name>value</name>
@@ -1033,7 +1132,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
     </tag>
     <!-- MeasureArea -->
@@ -1041,7 +1141,8 @@
         <name>MeasureArea</name>
         <tag-class>org.mapfaces.taglib.MeasureAreaTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -1050,7 +1151,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
+            </description>
         </attribute>
     </tag>
     <!-- MapSize -->
@@ -1058,7 +1160,8 @@
         <name>MapSize</name>
         <tag-class>org.mapfaces.taglib.MapSizeTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget which modify the map viewport size.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget which modify the map viewport size.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -1067,7 +1170,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The abstract string value.]]></description>
+            <description><![CDATA[The abstract string value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>title</name>
@@ -1076,7 +1180,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The title to display.]]></description>
+            <description><![CDATA[The title to display.]]>
+            </description>
         </attribute>
         <attribute>
             <name>itemsLabels</name>
@@ -1085,7 +1190,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The labels of the select menu.]]></description>
+            <description><![CDATA[The labels of the select menu.]]>
+            </description>
         </attribute>
         <attribute>
             <name>itemsValues</name>
@@ -1094,7 +1200,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The values of the select menu.]]></description>
+            <description><![CDATA[The values of the select menu.]]>
+            </description>
         </attribute>
     </tag>
     <!-- LayerControl -->
@@ -1102,7 +1209,8 @@
         <name>LayerControl</name>
         <tag-class>org.mapfaces.taglib.LayerControlTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget which modify the map viewport size.]]></description>
+        <description><![CDATA[This is the tag that creates a component widget which modify the map viewport size.]]>
+        </description>
 	&commons_attributes;
         
         <attribute>
@@ -1112,7 +1220,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The abstract string value.]]></description>
+            <description><![CDATA[The abstract string value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleTreeTable</name>
@@ -1121,7 +1230,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The style of the TreeTable subcomponent.]]></description>
+            <description><![CDATA[The style of the TreeTable subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleClassTreeTable</name>
@@ -1130,7 +1240,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The styleClass of the TreeTable subcomponent.]]></description>
+            <description><![CDATA[The styleClass of the TreeTable subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleTreePanel</name>
@@ -1139,7 +1250,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The style of the TreePanel subcomponent.]]></description>
+            <description><![CDATA[The style of the TreePanel subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleClassTreePanel</name>
@@ -1148,7 +1260,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The styleClass of the TreeTable subcomponent.]]></description>
+            <description><![CDATA[The styleClass of the TreeTable subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>widthTreeColumn</name>
@@ -1157,7 +1270,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width of the TreeColumn subcomponent.]]></description>
+            <description><![CDATA[The width of the TreeColumn subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>widthVisibilityColumn</name>
@@ -1166,7 +1280,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width of the VisibilityColumn subcomponent.]]></description>
+            <description><![CDATA[The width of the VisibilityColumn subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>widthOpacityColumn</name>
@@ -1175,7 +1290,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width of the OpacityColumn subcomponent.]]></description>
+            <description><![CDATA[The width of the OpacityColumn subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>widthElevationColumn</name>
@@ -1184,7 +1300,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width of the ElevationColumn subcomponent.]]></description>
+            <description><![CDATA[The width of the ElevationColumn subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>widthTimeColumn</name>
@@ -1193,7 +1310,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width of the TimeColumn subcomponent.]]></description>
+            <description><![CDATA[The width of the TimeColumn subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>titlePanel</name>
@@ -1202,7 +1320,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The panel title.]]></description>
+            <description><![CDATA[The panel title.]]>
+            </description>
         </attribute>
         <attribute>
             <name>headerTreeColumn</name>
@@ -1211,7 +1330,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The header title of the treeColumn sub component.]]></description>
+            <description><![CDATA[The header title of the treeColumn sub component.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleOddLines</name>
@@ -1220,7 +1340,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is the style for odd treeLines sub components.]]></description>
+            <description><![CDATA[This is the style for odd treeLines sub components.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleEvenLines</name>
@@ -1229,7 +1350,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is the style for even treeLines sub components.]]></description>
+            <description><![CDATA[This is the style for even treeLines sub components.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleLeafLines</name>
@@ -1238,7 +1360,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is the style for leaf treeLines sub components.]]></description>
+            <description><![CDATA[This is the style for leaf treeLines sub components.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleNodeLines</name>
@@ -1247,11 +1370,13 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is the style for node treeLines sub components.]]></description>
+            <description><![CDATA[This is the style for node treeLines sub components.]]>
+            </description>
         </attribute>
         <attribute>
             <name>mootools</name>
-            <description><![CDATA[Allow to load mootools library or not, default to true]]></description>
+            <description><![CDATA[Allow to load mootools library or not, default to true]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1260,7 +1385,8 @@
         </attribute>
         <attribute>
             <name>minifyJS</name>
-            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]></description>
+            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1269,7 +1395,8 @@
         </attribute>
         <attribute>
             <name>displayAllLayers</name>
-            <description><![CDATA[Allow to load all layers in the treetable.]]></description>
+            <description><![CDATA[Allow to load all layers in the treetable.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1278,7 +1405,8 @@
         </attribute>
         <attribute>
             <name>displayHeader</name>
-            <description><![CDATA[Allow to display treetable header.]]></description>
+            <description><![CDATA[Allow to display treetable header.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1292,7 +1420,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the elevation column must be displayed or not.]]></description>
+            <description><![CDATA[Flag that indicates if the elevation column must be displayed or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>visibilityColumn</name>
@@ -1301,7 +1430,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the visibility column must be displayed or not.]]></description>
+            <description><![CDATA[Flag that indicates if the visibility column must be displayed or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>opacityColumn</name>
@@ -1310,7 +1440,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the opacity column must be displayed or not.]]></description>
+            <description><![CDATA[Flag that indicates if the opacity column must be displayed or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>timeColumn</name>
@@ -1319,7 +1450,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the time column must be displayed or not.]]></description>
+            <description><![CDATA[Flag that indicates if the time column must be displayed or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>layerInfo</name>
@@ -1328,7 +1460,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the layerInfo component must be displayed or not.]]></description>
+            <description><![CDATA[Flag that indicates if the layerInfo component must be displayed or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>colorMapEditor</name>
@@ -1337,7 +1470,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the colorMapEditoe component must be displayed or not.]]></description>
+            <description><![CDATA[Flag that indicates if the colorMapEditoe component must be displayed or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>activateDnd</name>
@@ -1346,7 +1480,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the Drag n Drop must be enable or not.]]></description>
+            <description><![CDATA[Flag that indicates if the Drag n Drop must be enable or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>bypassUpdates</name>
@@ -1355,7 +1490,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag Attribute to enable the update model values phase on each action @TODO this is working only on Checkbox column.]]></description>
+            <description><![CDATA[Flag Attribute to enable the update model values phase on each action @TODO this is working only on Checkbox column.]]>
+            </description>
         </attribute>
     </tag>
     <!-- MapPane -->
@@ -1363,7 +1499,8 @@
         <name>MapPane</name>
         <tag-class>org.mapfaces.taglib.MapPaneTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to render a map from an OGC context document. The layers are rendered using http://openlayers.org .]]></description>
+        <description><![CDATA[This is the tag that creates a component widget to render a map from an OGC context document. The layers are rendered using http://openlayers.org .]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -1372,7 +1509,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object MapContext from geotoolkit.]]></description>
+            <description><![CDATA[The new context defined by the user, the type is an Object MapContext from geotoolkit.]]>
+            </description>
         </attribute>
         <attribute>
             <name>service</name>
@@ -1381,7 +1519,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The URL of the context.]]></description>
+            <description><![CDATA[The URL of the context.]]>
+            </description>
         </attribute>
         <attribute>
             <name>singleTile</name>
@@ -1390,7 +1529,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[When we use a WMS layer and you don't want a tile WMS layer, set it to true.]]></description>
+            <description><![CDATA[When we use a WMS layer and you don't want a tile WMS layer, set it to true.]]>
+            </description>
         </attribute>
         <attribute>
             <name>empty</name>
@@ -1399,7 +1539,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[When we use a WMS layer and you don't want a tile WMS layer, set it to true.]]></description>
+            <description><![CDATA[When we use a WMS layer and you don't want a tile WMS layer, set it to true.]]>
+            </description>
         </attribute>
         <attribute>
             <name>fixedSize</name>
@@ -1408,7 +1549,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the size will be taken from the context doc. Otherwise, it is dynamically taken from the parent element.]]></description>
+            <description><![CDATA[if this is set to true, the size will be taken from the context doc. Otherwise, it is dynamically taken from the parent element.]]>
+            </description>
         </attribute>
         <attribute>
             <name>loadingSrc</name>
@@ -1417,7 +1559,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[urlPathType, that is the loading img to be displayed while models load.]]></description>
+            <description><![CDATA[urlPathType, that is the loading img to be displayed while models load.]]>
+            </description>
         </attribute>
         <attribute>
             <name>maxExtent</name>
@@ -1426,7 +1569,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[String type, that represents the boundingBox tag of the context.]]></description>
+            <description><![CDATA[String type, that represents the boundingBox tag of the context.]]>
+            </description>
         </attribute>
         <attribute>
             <name>maxResolution</name>
@@ -1435,7 +1579,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[double type, that represents the maximum resolution.]]></description>
+            <description><![CDATA[double type, that represents the maximum resolution.]]>
+            </description>
         </attribute>
         <attribute>
             <name>tileGutter</name>
@@ -1444,7 +1589,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[For tiled wms layers: Overlap of map tiles in pixels. Useful for preventing rendering artefacts at tile edges. Recommended values: 0-15, default is 0 (no gutter at all).]]></description>
+            <description><![CDATA[For tiled wms layers: Overlap of map tiles in pixels. Useful for preventing rendering artefacts at tile edges. Recommended values: 0-15, default is 0 (no gutter at all).]]>
+            </description>
         </attribute>
         <attribute>
             <name>tileBuffer</name>
@@ -1453,7 +1599,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[For tiled wms layers: how many rows of tiles should be preloaded outside the visible map? Large values mean slow loading, small ones mean longer delays when panning. Recommended values: 1-3, default 			is 2.]]></description>
+            <description><![CDATA[For tiled wms layers: how many rows of tiles should be preloaded outside the visible map? Large values mean slow loading, small ones mean longer delays when panning. Recommended values: 1-3, default 			is 2.]]>
+            </description>
         </attribute>
         <attribute>
             <name>tileSize</name>
@@ -1462,7 +1609,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[For tiled wms layers: how many pixels should the size of one tile be? Default is 256.]]></description>
+            <description><![CDATA[For tiled wms layers: how many pixels should the size of one tile be? Default is 256.]]>
+            </description>
         </attribute>
         <attribute>
             <name>imageBuffer</name>
@@ -1471,7 +1619,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[for untiled wms layers: how many times should the map image be larger than the visible map. Large values mean slow loading, small ones mean many reloads when panning. Recommended values: 1-3, default 			is 2.]]></description>
+            <description><![CDATA[for untiled wms layers: how many times should the map image be larger than the visible map. Large values mean slow loading, small ones mean many reloads when panning. Recommended values: 1-3, default 			is 2.]]>
+            </description>
         </attribute>
         <attribute>
             <name>displayOutsideMapExtent</name>
@@ -1480,7 +1629,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Should layers also be rendered outside the map extent? Default is false.]]></description>
+            <description><![CDATA[Should layers also be rendered outside the map extent? Default is false.]]>
+            </description>
         </attribute>
         <attribute>
             <name>imageReproject</name>
@@ -1489,7 +1639,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Should layers be reprojected? Mainly used in combination with google map layers. Default is false.]]></description>
+            <description><![CDATA[Should layers be reprojected? Mainly used in combination with google map layers. Default is false.]]>
+            </description>
         </attribute>
     	<!--attribute>
             <name>outputNodeId</name>
@@ -1532,7 +1683,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this property has a value of "false", automatic refresh of the widget output is suppressed. Optional, defaults to true.]]></description>
+            <description><![CDATA[if this property has a value of "false", automatic refresh of the widget output is suppressed. Optional, defaults to true.]]>
+            </description>
         </attribute>
         <attribute>
             <name>panZoomBar</name>
@@ -1541,7 +1693,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the PanZoomBar coontrol is used.]]></description>
+            <description><![CDATA[if this is set to true, the PanZoomBar coontrol is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>navigation</name>
@@ -1550,7 +1703,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the PanZoomBar coontrol is used.]]></description>
+            <description><![CDATA[if this is set to true, the PanZoomBar coontrol is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>panZoom</name>
@@ -1559,7 +1713,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the PanZoom coontrol is used.]]></description>
+            <description><![CDATA[if this is set to true, the PanZoom coontrol is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>navToolBar</name>
@@ -1568,7 +1723,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the nevToolBar  coontrol is used.]]></description>
+            <description><![CDATA[if this is set to true, the nevToolBar  coontrol is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>fractionalZoom</name>
@@ -1577,7 +1733,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Disable zoom levels.]]></description>
+            <description><![CDATA[Disable zoom levels.]]>
+            </description>
         </attribute>
         <attribute>
             <name>keyboardDefaults</name>
@@ -1586,7 +1743,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the keyboardDefaults coontrol (we can move the map with arrow)  is used.]]></description>
+            <description><![CDATA[if this is set to true, the keyboardDefaults coontrol (we can move the map with arrow)  is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>numZoomLevels</name>
@@ -1595,7 +1753,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the keyboardDefaults coontrol (we can move the map with arrow)  is used.]]></description>
+            <description><![CDATA[if this is set to true, the keyboardDefaults coontrol (we can move the map with arrow)  is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>layerSwitcher</name>
@@ -1604,7 +1763,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the layerSwitcher control (manage displayable layer)  is used.]]></description>
+            <description><![CDATA[if this is set to true, the layerSwitcher control (manage displayable layer)  is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>mousePosition</name>
@@ -1613,7 +1773,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[if this is set to true, the mousePosition control (manage displayable layer)  is used.]]></description>
+            <description><![CDATA[if this is set to true, the mousePosition control (manage displayable layer)  is used.]]>
+            </description>
         </attribute>
         <attribute>
             <name>google</name>
@@ -1632,7 +1793,8 @@
                 break;
                 default:
                     baseLayerType=G_HYBRID_MAP;
-                Add GoogleMap layer to the map as a base layer (G_SATELLITE_MAP,G_NORMAL_MAP,G_HYBRID_MAP).]]></description>
+                Add GoogleMap layer to the map as a base layer (G_SATELLITE_MAP,G_NORMAL_MAP,G_HYBRID_MAP).]]>
+            </description>
         </attribute>
         <attribute>
             <name>yahoo</name>
@@ -1641,7 +1803,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add YahooMap layer to the map as a base layer (noType).]]></description>
+            <description><![CDATA[Add YahooMap layer to the map as a base layer (noType).]]>
+            </description>
         </attribute>
         <attribute>
             <name>virtualEarth</name>
@@ -1650,7 +1813,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Add VirtualEarth layer to the map as a base layer (VEMapStyle.Aerial,VEMapStyle.Road,VEMapStyle.Hybrid).]]></description>
+            <description><![CDATA[Add VirtualEarth layer to the map as a base layer (VEMapStyle.Aerial,VEMapStyle.Road,VEMapStyle.Hybrid).]]>
+            </description>
         </attribute>
         <attribute>
             <name>layersGrouped</name>
@@ -1659,13 +1823,15 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the mapcontext' layers will be grouped or not in allInOne layer.]]></description>
+            <description><![CDATA[Flag that indicates if the mapcontext' layers will be grouped or not in allInOne layer.]]>
+            </description>
         </attribute>
     </tag>
     <!-- SvgLayer -->
     <tag>
         <name>SvgLayer</name>
-        <description><![CDATA[Implements a SVG Layer with a list of feature. Allow to know the shapes from the client on the server-side.]]></description>
+        <description><![CDATA[Implements a SVG Layer with a list of feature. Allow to know the shapes from the client on the server-side.]]>
+        </description>
         <tag-class>org.mapfaces.taglib.layer.SvgLayerTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
@@ -1676,7 +1842,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The list of features.]]></description>
+            <description><![CDATA[The list of features.]]>
+            </description>
         </attribute>
         <attribute>
             <name>cliToServOnly</name>
@@ -1685,7 +1852,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if we send features to the client or if we only get back the CRUD feature operations from the client.]]></description>
+            <description><![CDATA[Flag that indicates if we send features to the client or if we only get back the CRUD feature operations from the client.]]>
+            </description>
         </attribute>
         <attribute>
             <name>featureAdded</name>
@@ -1834,7 +2002,8 @@
         <name>TimeLine</name>
         <tag-class>org.mapfaces.taglib.timeline.TimeLineTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[Component for visualizing time-based events.]]></description>
+        <description><![CDATA[Component for visualizing time-based events.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -1843,7 +2012,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The Event data List"Event" value.]]></description>
+            <description><![CDATA[The Event data List"Event" value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>sliderZoom</name>
@@ -1852,7 +2022,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if this timeline component will contains a slider for zoom.]]></description>
+            <description><![CDATA[Flag that indicates if this timeline component will contains a slider for zoom.]]>
+            </description>
         </attribute>
         <attribute>
             <name>inputDate</name>
@@ -1861,7 +2032,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if this timeline component will contains an input date.]]></description>
+            <description><![CDATA[Flag that indicates if this timeline component will contains an input date.]]>
+            </description>
         </attribute>
         <attribute>
             <name>theme</name>
@@ -1870,7 +2042,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is a name of a theme for the bandinfos subcomponents.]]></description>
+            <description><![CDATA[This is a name of a theme for the bandinfos subcomponents.]]>
+            </description>
         </attribute>
         <attribute>
             <name>synchronizeBands</name>
@@ -1879,7 +2052,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the timeline must be synchronized or not between bandinfos components.]]></description>
+            <description><![CDATA[Flag that indicates if the timeline must be synchronized or not between bandinfos components.]]>
+            </description>
         </attribute>
         <attribute>
             <name>dynamicBands</name>
@@ -1888,7 +2062,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the timeline should load the band components dynamically from a context or not.]]></description>
+            <description><![CDATA[Flag that indicates if the timeline should load the band components dynamically from a context or not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>activeControl</name>
@@ -1897,7 +2072,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if the timeline should load the control panel.]]></description>
+            <description><![CDATA[Flag that indicates if the timeline should load the control panel.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleControlPanel</name>
@@ -1906,7 +2082,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The style of the control panel which is a subcomponent.]]></description>
+            <description><![CDATA[The style of the control panel which is a subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>styleClassControlPanel</name>
@@ -1915,11 +2092,13 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The style class attribute of the control panel which is a subcomponent.]]></description>
+            <description><![CDATA[The style class attribute of the control panel which is a subcomponent.]]>
+            </description>
         </attribute>
         <attribute>
             <name>minifyJS</name>
-            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]></description>
+            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1928,7 +2107,8 @@
         </attribute>
         <attribute>
             <name>enableBandsInput</name>
-            <description><![CDATA[This is a flag that indicates if the timeline allow to its children if they must load the input slider and inputs components.]]></description>
+            <description><![CDATA[This is a flag that indicates if the timeline allow to its children if they must load the input slider and inputs components.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -1942,7 +2122,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[this is the height of the timeline.]]></description>
+            <description><![CDATA[this is the height of the timeline.]]>
+            </description>
         </attribute>
         <attribute>
             <name>bandHeight</name>
@@ -1951,7 +2132,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[this is the height of the bandinfo components which compose the timeline.]]></description>
+            <description><![CDATA[this is the height of the bandinfo components which compose the timeline.]]>
+            </description>
         </attribute>
     </tag>
     <!-- BANDINFO -->
@@ -1959,7 +2141,8 @@
         <name>BandInfo</name>
         <tag-class>org.mapfaces.taglib.timeline.BandInfoTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[Component BandInfo for visualizing time-based events.]]></description>
+        <description><![CDATA[Component BandInfo for visualizing time-based events.]]>
+        </description>
         &commons_attributes;
         <attribute>
             <name>value</name>
@@ -1968,7 +2151,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The Event data List"TimeLineEvent" value.]]></description>
+            <description><![CDATA[The Event data List"TimeLineEvent" value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showEventText</name>
@@ -1977,7 +2161,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The flag that indicates if the events will be rendered.]]></description>
+            <description><![CDATA[The flag that indicates if the events will be rendered.]]>
+            </description>
         </attribute>
         <attribute>
             <name>date</name>
@@ -1986,7 +2171,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The date to centers on.]]></description>
+            <description><![CDATA[The date to centers on.]]>
+            </description>
         </attribute>
         <attribute>
             <name>width</name>
@@ -1995,7 +2181,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width in percentage this is the height of the bandInfo component.]]></description>
+            <description><![CDATA[The width in percentage this is the height of the bandInfo component.]]>
+            </description>
         </attribute>
         <attribute>
             <name>intervalUnit</name>
@@ -2004,8 +2191,9 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the Timeline.DateTime, Default is YEAR.  value can take one of this enumeration values : 
-                {MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM }; default is YEAR.]]></description>
+            <description><![CDATA[the Timeline.DateTime, Default is YEAR.  value can take one of this enumeration values :
+                {MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM }; default is YEAR.]]>
+            </description>
         </attribute>
         <attribute>
             <name>intervalPixels</name>
@@ -2014,7 +2202,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the interval pixels, default is 100.]]></description>
+            <description><![CDATA[the interval pixels, default is 100.]]>
+            </description>
         </attribute>
         <attribute>
             <name>trackHeight</name>
@@ -2023,7 +2212,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the track height for example 0.5.]]></description>
+            <description><![CDATA[the track height for example 0.5.]]>
+            </description>
         </attribute>
         <attribute>
             <name>trackGap</name>
@@ -2032,7 +2222,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the track gap, for example 0.2.]]></description>
+            <description><![CDATA[the track gap, for example 0.2.]]>
+            </description>
         </attribute>
         <attribute>
             <name>timeZone</name>
@@ -2041,7 +2232,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the time zone, 0 by default.]]></description>
+            <description><![CDATA[the time zone, 0 by default.]]>
+            </description>
         </attribute>
         <attribute>
             <name>theme</name>
@@ -2050,7 +2242,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The theme for the timeline component, for example BLUE, RED, YELLOW OR DEFAULT if is not .]]></description>
+            <description><![CDATA[The theme for the timeline component, for example BLUE, RED, YELLOW OR DEFAULT if is not .]]>
+            </description>
         </attribute>
         <attribute>
             <name>inputInterval</name>
@@ -2059,7 +2252,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The flag that indicates if the component will display an input component to change the intervalUnit.]]></description>
+            <description><![CDATA[The flag that indicates if the component will display an input component to change the intervalUnit.]]>
+            </description>
         </attribute>
     </tag>
     <!-- HOTZONE BANDINFO -->
@@ -2067,7 +2261,8 @@
         <name>HotZoneBandInfo</name>
         <tag-class>org.mapfaces.taglib.timeline.HotZoneBandInfoTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[Component HotZoneBandInfo for visualizing time-based events with multiple zones.]]></description>
+        <description><![CDATA[Component HotZoneBandInfo for visualizing time-based events with multiple zones.]]>
+        </description>
 	&commons_attributes;
         
         <attribute>
@@ -2077,7 +2272,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The Event data List"Event" value.]]></description>
+            <description><![CDATA[The Event data List"Event" value.]]>
+            </description>
         </attribute>
         <attribute>
             <name>showEventText</name>
@@ -2086,7 +2282,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The flag that indicates if the events will be rendered.]]></description>
+            <description><![CDATA[The flag that indicates if the events will be rendered.]]>
+            </description>
         </attribute>
         <attribute>
             <name>date</name>
@@ -2095,7 +2292,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The date to centers on.]]></description>
+            <description><![CDATA[The date to centers on.]]>
+            </description>
         </attribute>
         <attribute>
             <name>width</name>
@@ -2104,7 +2302,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The width in percentage this is the height of the bandInfo component.]]></description>
+            <description><![CDATA[The width in percentage this is the height of the bandInfo component.]]>
+            </description>
         </attribute>
         <attribute>
             <name>intervalUnit</name>
@@ -2113,8 +2312,9 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the Timeline.DateTime, Default is YEAR.  value can take one of this enumeration values : 
-                {MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM }; default is YEAR.]]></description>
+            <description><![CDATA[the Timeline.DateTime, Default is YEAR.  value can take one of this enumeration values :
+                {MILLISECOND, SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM }; default is YEAR.]]>
+            </description>
         </attribute>
         <attribute>
             <name>intervalPixels</name>
@@ -2123,7 +2323,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the interval pixels, default is 100.]]></description>
+            <description><![CDATA[the interval pixels, default is 100.]]>
+            </description>
         </attribute>
         <attribute>
             <name>trackHeight</name>
@@ -2132,7 +2333,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the track height for example 0.5.]]></description>
+            <description><![CDATA[the track height for example 0.5.]]>
+            </description>
         </attribute>
         <attribute>
             <name>trackGap</name>
@@ -2141,7 +2343,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the track gap, for example 0.2.]]></description>
+            <description><![CDATA[the track gap, for example 0.2.]]>
+            </description>
         </attribute>
         <attribute>
             <name>timeZone</name>
@@ -2150,7 +2353,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[the time zone, 0 by default.]]></description>
+            <description><![CDATA[the time zone, 0 by default.]]>
+            </description>
         </attribute>
         <attribute>
             <name>theme</name>
@@ -2159,7 +2363,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The theme for the timeline component, for example BLUE, RED, YELLOW OR DEFAULT if is not.]]></description>
+            <description><![CDATA[The theme for the timeline component, for example BLUE, RED, YELLOW OR DEFAULT if is not.]]>
+            </description>
         </attribute>
         <attribute>
             <name>inputInterval</name>
@@ -2168,7 +2373,8 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The flag that indicates if the component will display an input component to change the intervalUnit.]]></description>
+            <description><![CDATA[The flag that indicates if the component will display an input component to change the intervalUnit.]]>
+            </description>
         </attribute>
         <attribute>
             <name>sliderInput</name>
@@ -2177,13 +2383,15 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Flag that indicates if this bandInfo component will contains a slider Input component to choice intervals.]]></description>
+            <description><![CDATA[Flag that indicates if this bandInfo component will contains a slider Input component to choice intervals.]]>
+            </description>
         </attribute>
     </tag>
     <!-- slider -->
     <tag>
-	<name>slider</name>
-        <description><![CDATA[render slider]]></description>
+        <name>slider</name>
+        <description><![CDATA[render slider]]>
+        </description>
         <tag-class>org.mapfaces.taglib.timeline.SliderTag</tag-class>
         <body-content>JSP</body-content>
         &commons_attributes;
@@ -2192,19 +2400,23 @@
             <name>value</name>
         </attribute>
         <attribute>
-            <description><![CDATA[id of input component to set value for.]]></description>
+            <description><![CDATA[id of input component to set value for.]]>
+            </description>
             <name>for</name>
         </attribute>
         <attribute>
-            <description><![CDATA[Maximum value of slider.]]></description>
+            <description><![CDATA[Maximum value of slider.]]>
+            </description>
             <name>maxval</name>
         </attribute>
         <attribute>
-            <description><![CDATA[boolean value if slider is horizontal.]]></description>
+            <description><![CDATA[boolean value if slider is horizontal.]]>
+            </description>
             <name>horizontal</name>
         </attribute>
         <attribute>
-            <description><![CDATA[length in pixels of slider]]></description>
+            <description><![CDATA[length in pixels of slider]]>
+            </description>
             <name>length</name>
         </attribute>
     </tag>
@@ -2213,19 +2425,22 @@
         <name>TimeLineControl</name>
         <tag-class>org.mapfaces.taglib.timeline.TimeLineControlTag</tag-class>
         <body-content>JSP</body-content>
-        <description><![CDATA[Component to control a timeline.]]></description>
+        <description><![CDATA[Component to control a timeline.]]>
+        </description>
         &commons_attributes;
     </tag>
     <!--TreeTable -->
     <tag>
         <name>TreeTable</name>
-        <description><![CDATA[Tree]]></description>
+        <description><![CDATA[Tree]]>
+        </description>
         <tag-class>org.mapfaces.taglib.tree.TreeTableTag</tag-class>
         <body-content>JSP</body-content>
         &commons_attributes;
         <attribute>
             <name>value</name>
-            <description><![CDATA[The tree model value use for the component]]></description>
+            <description><![CDATA[The tree model value use for the component]]>
+            </description>
             <required>true</required>
             <deferred-value>
                 <type>java.lang.Object</type>
@@ -2233,7 +2448,8 @@
         </attribute>
         <attribute>
             <name>var</name>
-            <description><![CDATA[Type of the node use in the TreeModel]]></description>
+            <description><![CDATA[Type of the node use in the TreeModel]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -2241,7 +2457,8 @@
         </attribute>
         <attribute>
             <name>width</name>
-            <description><![CDATA[The width of this component in pixels (defaults to auto)]]></description>
+            <description><![CDATA[The width of this component in pixels (defaults to auto)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>int</type>
@@ -2249,7 +2466,8 @@
         </attribute>
         <attribute>
             <name>height</name>
-            <description><![CDATA[The height of this component in pixels (defaults to auto)]]></description>
+            <description><![CDATA[The height of this component in pixels (defaults to auto)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>int</type>
@@ -2258,7 +2476,8 @@
         <attribute>
             <description><![CDATA[Flag indicating if the treetable will be collapsed or not,
                 the depth of collapsed nodes can be specified by collapseDepth attribute.
-                default value is false means the tree is expanded all nodes.]]></description>
+                default value is false means the tree is expanded all nodes.]]>
+            </description>
             <name>collapsed</name>
             <deferred-value>
                 <type>boolean</type>
@@ -2271,19 +2490,22 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The depth that indicates the level of collapsed nodes.]]></description>
+            <description><![CDATA[The depth that indicates the level of collapsed nodes.]]>
+            </description>
         </attribute>
     </tag>
   <!-- TreePanel -->
     <tag>
         <name>TreePanel</name>
-        <description><![CDATA[TreePanel]]></description>
+        <description><![CDATA[TreePanel]]>
+        </description>
         <tag-class>org.mapfaces.taglib.tree.TreePanelTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
         <attribute>
             <name>collapsible</name>
-            <description><![CDATA[True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults 			to false)]]></description>
+            <description><![CDATA[True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults 			to false)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2291,7 +2513,8 @@
         </attribute>
         <attribute>
             <name>frame</name>
-            <description><![CDATA[True to render the panel with custom rounded borders, false to render with plain 1px square borders (defaults to false)]]></description>
+            <description><![CDATA[True to render the panel with custom rounded borders, false to render with plain 1px square borders (defaults to false)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2299,7 +2522,8 @@
         </attribute>
         <attribute>
             <name>header</name>
-            <description><![CDATA[True to create the header element explicitly, false to skip creating it. By default, when header is not specified, if a title is set the header will be created automatically, otherwise it will not. If 			a title is set but header is explicitly set to false, the header will not be rendered]]></description>
+            <description><![CDATA[True to create the header element explicitly, false to skip creating it. By default, when header is not specified, if a title is set the header will be created automatically, otherwise it will not. If 			a title is set but header is explicitly set to false, the header will not be rendered]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2307,7 +2531,8 @@
         </attribute>
         <attribute>
             <name>rowId</name>
-            <description><![CDATA[Enable to show rowId]]></description>
+            <description><![CDATA[Enable to show rowId]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2315,7 +2540,8 @@
         </attribute>
         <attribute>
             <name>showLines</name>
-            <description><![CDATA[False to disable tree lines (defaults to true)]]></description>
+            <description><![CDATA[False to disable tree lines (defaults to true)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2323,9 +2549,10 @@
         </attribute>
         <attribute>
             <name>title</name>
-            <description><![CDATA[The title text to display in the panel header (defaults to ''). When a title is specified the header element will automatically be created and displayed unless header is explicitly set to false. 
+            <description><![CDATA[The title text to display in the panel header (defaults to ''). When a title is specified the header element will automatically be created and displayed unless header is explicitly set to false.
 		If you don't want to specify a title at config time, but you may want one later, you must either specify a non-empty title (a blank space ' ' will do) or header:true 
-		so that the container element will get created.]]></description>
+		so that the container element will get created.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2334,7 +2561,8 @@
         </attribute>
         <attribute>
             <name>showRoot</name>
-            <description><![CDATA[False to disable root render]]></description>
+            <description><![CDATA[False to disable root render]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2342,7 +2570,8 @@
         </attribute>
         <attribute>
             <name>enableDragDrop</name>
-            <description><![CDATA[Enable or disable Drag and drop utilities in a treepanel]]></description>
+            <description><![CDATA[Enable or disable Drag and drop utilities in a treepanel]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2390,13 +2619,15 @@
     <!-- TreeToolbar -->
     <tag>
         <name>TreeToolbar</name>
-        <description><![CDATA[Tree Toolbar]]></description>
+        <description><![CDATA[Tree Toolbar]]>
+        </description>
         <tag-class>org.mapfaces.taglib.tree.TreeToolbarTag</tag-class>
         <body-content>JSP</body-content>
         &commons_attributes;
         <attribute>
             <name>styleTools</name>
-            <description><![CDATA[Allow to apply a style to tools components.]]></description>
+            <description><![CDATA[Allow to apply a style to tools components.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2405,7 +2636,8 @@
         </attribute>
         <attribute>
             <name>styleClassTools</name>
-            <description><![CDATA[Allow to apply a style to tools components.]]></description>
+            <description><![CDATA[Allow to apply a style to tools components.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2416,7 +2648,8 @@
     <!-- TreeColumn -->
     <tag>
         <name>TreeColumn</name>
-        <description><![CDATA[TreeColumns]]></description>
+        <description><![CDATA[TreeColumns]]>
+        </description>
         <tag-class>org.mapfaces.taglib.tree.TreeColumnTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;        
@@ -2440,7 +2673,8 @@
         </attribute>
         <attribute>
             <name>value</name>
-            <description><![CDATA[The tree model value use for the component.]]></description>
+            <description><![CDATA[The tree model value use for the component.]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.Object</type>
@@ -2448,7 +2682,8 @@
         </attribute>
         <attribute>
             <name>width</name>
-            <description><![CDATA[The width of this component in pixels (defaults to auto).]]></description>
+            <description><![CDATA[The width of this component in pixels (defaults to auto).]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -2466,7 +2701,8 @@
     <!-- Column -->
     <tag>
         <name>Column</name>
-        <description><![CDATA[Columns]]></description>
+        <description><![CDATA[Columns]]>
+        </description>
         <tag-class>org.mapfaces.taglib.tree.ColumnTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
@@ -2507,7 +2743,8 @@
     <!-- TreeNodeInfo -->
     <tag>
         <name>TreeNodeInfo</name>
-        <description><![CDATA[org:treenodeinfo]]></description>
+        <description><![CDATA[org:treenodeinfo]]>
+        </description>
         <tag-class>org.mapfaces.taglib.tree.TreeNodeInfoTag</tag-class>
         <body-content>JSP</body-content>
         &commons_attributes;
@@ -2530,13 +2767,15 @@
    <!-- TreeLayout -->
     <tag>
         <name>TreeLayoutTable</name>
-        <description><![CDATA[TreeLayout]]></description>
+        <description><![CDATA[TreeLayout]]>
+        </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreeTableTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
         <attribute>
             <name>value</name>
-            <description><![CDATA[The tree model value use for the component]]></description>
+            <description><![CDATA[The tree model value use for the component]]>
+            </description>
             <required>true</required>
             <deferred-value>
                 <type>java.lang.Object</type>
@@ -2544,7 +2783,8 @@
         </attribute>
         <attribute>
             <name>var</name>
-            <description><![CDATA[Type of the node use in the TreeModel]]></description>
+            <description><![CDATA[Type of the node use in the TreeModel]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -2552,7 +2792,8 @@
         </attribute>
         <attribute>
             <name>width</name>
-            <description><![CDATA[The width of this component in pixels (defaults to auto)]]></description>
+            <description><![CDATA[The width of this component in pixels (defaults to auto)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>int</type>
@@ -2560,7 +2801,8 @@
         </attribute>
         <attribute>
             <name>height</name>
-            <description><![CDATA[The height of this component in pixels (defaults to auto)]]></description>
+            <description><![CDATA[The height of this component in pixels (defaults to auto)]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>int</type>
@@ -2568,7 +2810,8 @@
         </attribute>
         <attribute>
             <name>mootools</name>
-            <description><![CDATA[Allow to load mootools library or not, default to true.]]></description>
+            <description><![CDATA[Allow to load mootools library or not, default to true.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2577,7 +2820,8 @@
         </attribute>
         <attribute>
             <name>minifyJS</name>
-            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]></description>
+            <description><![CDATA[Allow to load the minify JavaScript library or the uncompressed library , default to true.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2588,13 +2832,15 @@
     <!-- TreeLayoutPanel -->
     <tag>
         <name>TreeLayoutPanel</name>
-        <description><![CDATA[TreeLayoutPanel]]></description>
+        <description><![CDATA[TreeLayoutPanel]]>
+        </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreePanelTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
         <attribute>
             <name>collapsible</name>
-            <description><![CDATA[True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults 			to false).]]></description>
+            <description><![CDATA[True to make the panel collapsible and have the expand/collapse toggle button automatically rendered into the header tool button area, false to keep the panel statically sized with no button (defaults 			to false).]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2602,7 +2848,8 @@
         </attribute>
         <attribute>
             <name>frame</name>
-            <description><![CDATA[True to render the panel with custom rounded borders, false to render with plain 1px square borders (defaults to false).]]></description>
+            <description><![CDATA[True to render the panel with custom rounded borders, false to render with plain 1px square borders (defaults to false).]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2610,7 +2857,8 @@
         </attribute>
         <attribute>
             <name>header</name>
-            <description><![CDATA[True to create the header element explicitly, false to skip creating it. By default, when header is not specified, if a title is set the header will be created automatically, otherwise it will not. If 			a title is set but header is explicitly set to false, the header will not be rendered.]]></description>
+            <description><![CDATA[True to create the header element explicitly, false to skip creating it. By default, when header is not specified, if a title is set the header will be created automatically, otherwise it will not. If 			a title is set but header is explicitly set to false, the header will not be rendered.]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2618,7 +2866,8 @@
         </attribute>
         <attribute>
             <name>rowId</name>
-            <description><![CDATA[Enable to show rowId.]]></description>
+            <description><![CDATA[Enable to show rowId.]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2626,7 +2875,8 @@
         </attribute>
         <attribute>
             <name>showLines</name>
-            <description><![CDATA[False to disable tree lines (defaults to true).]]></description>
+            <description><![CDATA[False to disable tree lines (defaults to true).]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2634,8 +2884,9 @@
         </attribute>
         <attribute>
             <name>title</name>
-            <description><![CDATA[The title text to display in the panel header (defaults to ''). When a title is specified the header element will automatically be created and displayed unless header is explicitly set to false. If 		you don't want to specify a title at config time, but you may want one later, you must either specify a non-empty title (a blank space ' ' will do) or header:true 
-		so that the container element will get created.]]></description>
+            <description><![CDATA[The title text to display in the panel header (defaults to ''). When a title is specified the header element will automatically be created and displayed unless header is explicitly set to false. If 		you don't want to specify a title at config time, but you may want one later, you must either specify a non-empty title (a blank space ' ' will do) or header:true
+		so that the container element will get created.]]>
+            </description>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2644,7 +2895,8 @@
         </attribute>
         <attribute>
             <name>showRoot</name>
-            <description><![CDATA[False to disable root render.]]></description>
+            <description><![CDATA[False to disable root render.]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2652,7 +2904,8 @@
         </attribute>
         <attribute>
             <name>enableDragDrop</name>
-            <description><![CDATA[Enable or disable Drag and drop utilities in a treepanel.]]></description>
+            <description><![CDATA[Enable or disable Drag and drop utilities in a treepanel.]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>boolean</type>
@@ -2700,7 +2953,8 @@
     <!-- TreeLayoutTColumn -->
     <tag>
         <name>TreeLayoutTColumn</name>
-        <description><![CDATA[TreeColumns]]></description>
+        <description><![CDATA[TreeColumns]]>
+        </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreeColumnTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
@@ -2724,7 +2978,8 @@
         </attribute>
         <attribute>
             <name>value</name>
-            <description><![CDATA[The tree model value use for the component.]]></description>
+            <description><![CDATA[The tree model value use for the component.]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.Object</type>
@@ -2732,7 +2987,8 @@
         </attribute>
         <attribute>
             <name>width</name>
-            <description><![CDATA[The width of this component in pixels (defaults to auto).]]></description>
+            <description><![CDATA[The width of this component in pixels (defaults to auto).]]>
+            </description>
             <required>false</required>
             <deferred-value>
                 <type>java.lang.String</type>
@@ -2750,7 +3006,8 @@
   <!-- TreeLayoutColumn  -->
     <tag>
         <name>TreeLayoutColumn</name>
-        <description><![CDATA[Columns]]></description>
+        <description><![CDATA[Columns]]>
+        </description>
         <tag-class>org.mapfaces.taglib.treelayout.ColumnTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
@@ -2791,7 +3048,8 @@
     <!-- TreeLayoutCheckColumn -->
     <tag>
         <name>TreeLayoutCheckColumn</name>
-        <description><![CDATA[Checkboxe Column]]></description>
+        <description><![CDATA[Checkboxe Column]]>
+        </description>
         <tag-class>org.mapfaces.taglib.treelayout.CheckColumnTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;
@@ -2815,7 +3073,8 @@
         </attribute>
         <attribute>
             <name>value</name>
-            <description><![CDATA[The tree model value use for the component.]]></description>
+            <description><![CDATA[The tree model value use for the component.]]>
+            </description>
             <required>true</required>
             <rtexprvalue>false</rtexprvalue>
             <deferred-value>
@@ -2833,7 +3092,8 @@
     <!-- TreeLayoutNodeInfo -->
     <tag>
         <name>TreeLayoutNodeInfo</name>
-        <description><![CDATA[org:treenodeinfo]]></description>
+        <description><![CDATA[org:treenodeinfo]]>
+        </description>
         <tag-class>org.mapfaces.taglib.treelayout.TreeNodeInfoTag</tag-class>
         <body-content>JSP</body-content>
 	&commons_attributes;

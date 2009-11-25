@@ -66,6 +66,7 @@ public class AutocompletionTag extends InputTextTag {
     private ValueExpression enableAjax = null;
     private ValueExpression rendered = null;
     private ValueExpression title = null;
+    private ValueExpression wtsUrl = null;
 
     /* Methods*/
     /**
@@ -128,6 +129,7 @@ public class AutocompletionTag extends InputTextTag {
         component.setValueExpression("debug", getDebug());
         component.setValueExpression("style", getStyle());
         component.setValueExpression("styleClass", getStyleClass());
+        component.setValueExpression("wtsUrl", getWtsUrl());
     }
 
     /**
@@ -172,6 +174,7 @@ public class AutocompletionTag extends InputTextTag {
         setStyle(null);
         setStyleClass(null);
         setLoadCss(null);
+        setWtsUrl(null);
     }
 
     /**
@@ -682,6 +685,18 @@ public class AutocompletionTag extends InputTextTag {
      */
     public void setRendered(ValueExpression rendered) {
         this.rendered = rendered;
+    }
+/**
+     * @param the web service thesaurus url
+     */
+    public ValueExpression getWtsUrl() {
+        return wtsUrl;
+    }
+    /**
+     * @param the web service thesaurus url
+     */
+    public void setWtsUrl(ValueExpression url) {
+        this.wtsUrl = url;
     }
 }
 
