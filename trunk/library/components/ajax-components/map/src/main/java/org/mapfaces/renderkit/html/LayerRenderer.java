@@ -83,12 +83,14 @@ public class LayerRenderer extends WidgetBaseRenderer {
             model.setMaxy(bbox.split(",")[3]);
         }
   
+        if (params.containsKey("forceRefresh")) {
+            if (layer != null) {
+                model.setLayerRefresh(layer.getId(), params.get("forceRefresh"));
+            }
+        }
         final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
-
         if (layerId != null) {
-
             if (layerId.equals(comp.getClientId(context))) {
-
                 String value = params.get("org.mapfaces.ajax.AJAX_COMPONENT_VALUE");
 
                 final String layerProperty = params.get("org.mapfaces.ajax.AJAX_CONTAINER_ID");
@@ -99,6 +101,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     final String elevationKey = "elevation";
                     final String dimrangeKey = "dimrange";
                     final String uservalueKey = "uservalue";
+
                     //Modify Context property
                     if (layerProperty.toLowerCase(Locale.getDefault()).contains(hiddenKey)) {
                         final boolean hidden = value.equals("true");

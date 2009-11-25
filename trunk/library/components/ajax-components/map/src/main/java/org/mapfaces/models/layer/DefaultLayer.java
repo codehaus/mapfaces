@@ -68,6 +68,7 @@ public class DefaultLayer implements Layer {
     private String resX;
     private String resY;
     private String resZ;
+    private String refresh;
     private Map<String, Serializable> MapGroupHierarchiesValues;
 
     /*
@@ -773,6 +774,20 @@ public class DefaultLayer implements Layer {
 
     public boolean isDisable() {
         return disable;
+    }
+
+    /**
+     * @return the refresh
+     */
+    public String getRefresh() {
+        return refresh;
+    }
+
+    /**
+     * @param refresh the refresh to set
+     */
+    public void setRefresh(String refresh) {
+        this.refresh = refresh;
     }
 
 }

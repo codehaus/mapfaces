@@ -188,6 +188,7 @@ public interface Layer extends Serializable, Cloneable {
 
     void setCompId(String id);
     
-   
-    
+    String getRefresh();
+
+    void setRefresh(String refresh);
 }

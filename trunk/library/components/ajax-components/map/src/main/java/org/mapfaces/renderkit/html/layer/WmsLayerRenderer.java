@@ -26,7 +26,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.geotoolkit.wms.GetMapRequest;
 import org.geotoolkit.wms.WebMapServer;
 import org.geotoolkit.wms.map.WMSMapLayer;
 
@@ -101,9 +100,7 @@ public class WmsLayerRenderer extends LayerRenderer {
             layer.setMaxScaleDenominator(new Double (0.0));
             layer.setDisable(true);
         }
-        
         if (mappane.getInitDisplay() && (!layer.isHidden() && layer.isDisplayable())) {
-
             //Set to 0 by default because if the upper Layer isn't displayable at this extent,
             //MouseWheel events aren't triggered by Img element  under this Layer.
             final Dimension dim = new Dimension(0, 0);
@@ -150,7 +147,11 @@ public class WmsLayerRenderer extends LayerRenderer {
 
             // 3. get the URL fragment
             if (mapLayer != null) {
-                writer.writeAttribute(HTML.src_ATTRIBUTE, mapLayer.query(model.getEnvelope(), dim), HTML.src_ATTRIBUTE);
+                URL urlImg = mapLayer.query(model.getEnvelope(), dim);
+                if (model.getLayerRefresh(layer.getId()) != null) {
+                    urlImg = new URL(urlImg.toString().concat("&REFRESH=").concat(model.getLayerRefresh(layer.getId()).toString()));
+                }
+                writer.writeAttribute(HTML.src_ATTRIBUTE, urlImg, HTML.src_ATTRIBUTE);
             }
 
             if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {
@@ -172,7 +173,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                 if (!completeUrl.contains("HEIGHT=")) {
                     completeUrl = completeUrl.concat("&HEIGHT=");
                 }
-
+                
                 completeUrl = FacesMapUtils.setParameterValueAndGetUrl("SRS", srs, completeUrl);
                 completeUrl = FacesMapUtils.setParameterValueAndGetUrl("BBOX", imgExtentLowerCorner[0] + "," + imgExtentLowerCorner[1] + "," + imgExtentUpperCorner[0] + "," + imgExtentUpperCorner[1], completeUrl);
                 completeUrl = FacesMapUtils.setParameterValueAndGetUrl("WIDTH", String.valueOf(dim.getWidth()), completeUrl);

@@ -57,7 +57,6 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
             'org.mapfaces.ajax.AJAX_COMPONENT_VALUE': event.feature.id + ';' + event.feature.geometry,
             'org.mapfaces.ajax.AJAX_CONTAINER_ID': 'featureRemoved',
             'org.mapfaces.ajax.NO_RERENDER': true,
-            'refresh': this.reRender,
             'crs': this.map.getProjection()
         };
         this.onCompleteReRender();
@@ -84,7 +83,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
 
     onCompleteReRender: function() {
         if ((this.reRender != "") && (this.contextCompId != "")) {
-            var requestParamsReRender = {'refresh':this.reRender};
+            var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':Math.random()*100};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
             this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'actionUrl':window.location.href})};
         }
