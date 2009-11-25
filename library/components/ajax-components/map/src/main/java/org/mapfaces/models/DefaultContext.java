@@ -711,5 +711,30 @@ public class DefaultContext extends AbstractModelBase implements Context {
         }
     }
 
-   
+    /**
+     * Define the Refresh value for a specified Layer.
+     * @param layerId Id of the layer.
+     * @param value Value of Refresh attribute.
+     */
+    @Override
+    public void setLayerRefresh(final String layerId, final String value) {
+        final Layer tmp = getLayerFromId(layerId);
+        if(tmp != null)
+            tmp.setRefresh(value);
+    }
+
+    /**
+     * Return
+     * @param layerId
+     * @return
+     */
+    @Override
+    public String getLayerRefresh(final String layerId) {
+        final Layer tmp = getLayerFromId(layerId);
+        final String result;
+        if(tmp != null) result = tmp.getRefresh();
+        else result = "";
+
+        return result;
+    }
 }

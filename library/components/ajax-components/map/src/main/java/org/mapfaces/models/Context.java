@@ -95,7 +95,6 @@ public interface Context extends Serializable {
 
     String getAbstract();
 
-
 /*******************************Layers functions*******************************/
 
     List<Layer> getLayers();
@@ -132,6 +131,10 @@ public interface Context extends Serializable {
     void removeLayerFromId(String layerId);
 
     void clearMapContextLayers();
+
+    void setLayerRefresh(final String layerId, final String value);
+
+    String getLayerRefresh(String id);
 
 /**************************** Layer Dimension functions ***********************/
 
