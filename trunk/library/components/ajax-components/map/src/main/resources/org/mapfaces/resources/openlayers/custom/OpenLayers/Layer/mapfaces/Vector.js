@@ -21,6 +21,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     eventsActived: false,
     reRender: null,
     contextCompId: null,
+    reRenderComplete: null,
 
     initialize: function(clientId, options) {
         //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
@@ -85,7 +86,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
         if ((this.reRender != "") && (this.contextCompId != "")) {
             var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':Math.random()*100};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
-            this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'actionUrl':window.location.href})};
+            this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'oncomplete':this.reRenderComplete,'actionUrl':window.location.href})};
         }
     },
 
