@@ -717,7 +717,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * @param value Value of Refresh attribute.
      */
     @Override
-    public void setLayerRefresh(final String layerId, final String value) {
+    public void setLayerRefresh(final String layerId, final boolean value) {
         final Layer tmp = getLayerFromId(layerId);
         if(tmp != null)
             tmp.setRefresh(value);
@@ -729,11 +729,11 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * @return
      */
     @Override
-    public String getLayerRefresh(final String layerId) {
+    public boolean getLayerRefresh(final String layerId) {
         final Layer tmp = getLayerFromId(layerId);
-        final String result;
+        final boolean result;
         if(tmp != null) result = tmp.getRefresh();
-        else result = "";
+        else result = false;
 
         return result;
     }

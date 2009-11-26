@@ -317,7 +317,9 @@ OpenLayers.Layer = OpenLayers.Class({
         if (this.id == null) {
 
             this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
+        }
 
+        if (!document.getElementById(this.id)) {
             this.div = OpenLayers.Util.createDiv(this.id);
             this.div.style.width = "100%";
             this.div.style.height = "100%";

@@ -68,7 +68,7 @@ public class DefaultLayer implements Layer {
     private String resX;
     private String resY;
     private String resZ;
-    private String refresh;
+    public boolean refresh;
     private Map<String, Serializable> MapGroupHierarchiesValues;
 
     /*
@@ -779,14 +779,14 @@ public class DefaultLayer implements Layer {
     /**
      * @return the refresh
      */
-    public String getRefresh() {
+    public boolean getRefresh() {
         return refresh;
     }
 
     /**
      * @param refresh the refresh to set
      */
-    public void setRefresh(String refresh) {
+    public void setRefresh(boolean refresh) {
         this.refresh = refresh;
     }
 

@@ -85,7 +85,7 @@ public class LayerRenderer extends WidgetBaseRenderer {
   
         if (params.containsKey("forceRefresh")) {
             if (layer != null) {
-                model.setLayerRefresh(layer.getId(), params.get("forceRefresh"));
+                model.setLayerRefresh(layer.getId(), true);
             }
         }
         final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");

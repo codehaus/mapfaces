@@ -476,7 +476,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
          */
         final UIContext contextComp = (UIContext) FacesMapUtils.getParentUIContext(context, comp);
         if (contextComp.getAjaxRegion() != null) {
-            stringBuilder.append("mfRequestId: '" + FacesMapUtils.getFormId(context, component) + ":" + contextComp.getAjaxRegion() + "'");
+            String ajaxRegion = contextComp.getAjaxRegion();
+            if (!ajaxRegion.contains(":")) ajaxRegion = FacesMapUtils.getFormId(context, component) + ":" + ajaxRegion;
+            stringBuilder.append("mfRequestId: '" + ajaxRegion + "'");
         } else {
             /**
              * mfRequestId : Id of the request, a totally arbitrary attribute

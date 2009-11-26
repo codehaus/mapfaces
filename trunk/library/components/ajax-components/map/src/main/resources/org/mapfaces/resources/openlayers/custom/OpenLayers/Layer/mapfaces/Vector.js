@@ -84,7 +84,8 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
 
     onCompleteReRender: function() {
         if ((this.reRender != "") && (this.contextCompId != "")) {
-            var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':Math.random()*100};
+            /* forceRefresh is used to reRender a WMS Layer to deallocate the image from the browser cache. */
+            var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':'true'};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
             this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'oncomplete':this.reRenderComplete,'actionUrl':window.location.href})};
         }

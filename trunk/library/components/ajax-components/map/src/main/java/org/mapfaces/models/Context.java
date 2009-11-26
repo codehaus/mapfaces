@@ -132,9 +132,9 @@ public interface Context extends Serializable {
 
     void clearMapContextLayers();
 
-    void setLayerRefresh(final String layerId, final String value);
+    void setLayerRefresh(final String layerId, final boolean value);
 
-    String getLayerRefresh(String id);
+    boolean getLayerRefresh(String id);
 
 /**************************** Layer Dimension functions ***********************/
 
