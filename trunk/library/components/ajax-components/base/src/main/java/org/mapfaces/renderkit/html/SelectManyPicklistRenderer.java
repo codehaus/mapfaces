@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
@@ -56,6 +57,10 @@ import org.mapfaces.share.utils.SelectItemsIterator;
  */
 public class SelectManyPicklistRenderer extends Renderer {
 
+    /*
+     *@TODO add static elements attributes in org.mapfaces.share.utils.RendererUtils.HTML
+     * instead of this renderer class
+     */
     private static String INPUT_TYPE_BUTTON = "button";
     private static String BR_ELEM = "br";
     private static String DATAFLD_ATTR = "datafld";
@@ -114,7 +119,7 @@ public class SelectManyPicklistRenderer extends Renderer {
     private static String[] UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE = {
         DIR_ATTR,
         LANG_ATTR,
-        TITLE_ATTR, //NOTE: if changed, please verify universal attributes in HtmlMessageRenderer !
+        TITLE_ATTR,
     };
     private static String[] UNIVERSAL_ATTRIBUTES =
             (String[]) PickListArrayUtils.concat(
@@ -401,7 +406,6 @@ public class SelectManyPicklistRenderer extends Renderer {
 
         renderSelectOptions(facesContext, uiComponent, Collections.EMPTY_SET, selectItemsToDisplay);
 
-        // bug #970747: force separate end tag
         writer.writeText("", null);
         writer.endElement("select");
     }
