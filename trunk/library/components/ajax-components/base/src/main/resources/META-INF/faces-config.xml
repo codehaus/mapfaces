@@ -40,6 +40,12 @@
         <component-class>org.mapfaces.component.UIDiv</component-class>
     </component>
 
+    <!-- SelectManyPicklist component -->
+    <component>
+        <component-type>org.mapfaces.component.SelectManyPicklist</component-type>
+        <component-class>org.mapfaces.component.UISelectManyPicklist</component-class>
+    </component>
+
     <!-- RENDERKIT -->
     <render-kit>
         <renderer>
@@ -85,6 +91,14 @@
             <component-family>org.mapfaces.Div</component-family>
             <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
+        </renderer>
+        <!-- SelectManyPicklist Renderer -->
+        <renderer>
+            <description>render two selectManyListbox components with some buttons
+            to have the main SelectManypicklist component from myfaces behaviour</description>
+            <component-family>org.mapfaces.SelectManyPicklist</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.SelectManyPicklist</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.SelectManyPicklistRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>

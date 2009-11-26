@@ -73,6 +73,9 @@
             <li>
                 <a href="./widgets/autocompleter.jsf">AutoCompleter widget</a>
             </li>
+            <li>
+                <a href="./widgets/selectManyPicklist.jsf">selectManyPicklist widget</a>
+            </li>
         </ul>
         <br/>
         <h2>Datatable examples : </h2>

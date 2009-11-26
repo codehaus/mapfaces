@@ -14,17 +14,21 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.share.utils;
 
 import com.sun.faces.util.FacesLogger;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 
 /**
  * This class extends the RendererUtils from A4J project
  * @author Olivier Terral (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys)
  */
 public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils {
 
@@ -37,6 +41,23 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
         public static final String src_ATTRIBUTE = "src";
         public static final String TEXTJAVASCRIPT_VALUE = "text/javascript";
     }
+
+    /**
+     * This object is used to compare a submitted value with an object that can not be a string
+     */
+    public static final Object NOTHING = new Serializable() {
+        public boolean equals(final Object o)
+        {
+            if (o != null)
+            {
+                if (o.getClass().equals(this.getClass()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
 
     /**
      *
@@ -79,4 +100,52 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
         return true;
 
     }
+
+    /**
+     * Returns the path of a component from the view root
+     * used for debugging purpose
+     * @param component
+     * @return
+     */
+    public static String getPathToComponent(UIComponent component) {
+        StringBuffer buf = new StringBuffer();
+
+        if (component == null) {
+            buf.append("{Component-Path : ");
+            buf.append("[null]}");
+            return buf.toString();
+        }
+
+        getPathToComponent(component, buf);
+
+        buf.insert(0, "{Component-Path : ");
+        buf.append("}");
+
+        return buf.toString();
+    }
+
+    private static void getPathToComponent(UIComponent component, StringBuffer buf) {
+        if (component == null)
+            return;
+
+        StringBuffer intBuf = new StringBuffer();
+
+        intBuf.append("[Class: ");
+        intBuf.append(component.getClass().getName());
+        if (component instanceof UIViewRoot) {
+            intBuf.append(",ViewId: ");
+            intBuf.append(((UIViewRoot) component).getViewId());
+        }
+        else {
+            intBuf.append(",Id: ");
+            intBuf.append(component.getId());
+        }
+        intBuf.append("]");
+
+        buf.insert(0, intBuf.toString());
+
+        getPathToComponent(component.getParent(), buf);
+    }
+
+    
 }

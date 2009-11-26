@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.FactoryFinder;
+import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.component.UIParameter;
@@ -495,6 +496,18 @@ public class FacesUtils {
             ajaxComp.setReRender(idsToReRender);
         }
         return ajaxComp;
+    }
+
+    /**
+     * Returns the current action url
+     * @param facesContext
+     * @return String A String representing the action URL
+     */
+    public static String getActionUrl(FacesContext facesContext)
+    {
+        ViewHandler viewHandler = facesContext.getApplication().getViewHandler();
+        String viewId = facesContext.getViewRoot().getViewId();
+        return viewHandler.getActionURL(facesContext, viewId);
     }
 
 }
