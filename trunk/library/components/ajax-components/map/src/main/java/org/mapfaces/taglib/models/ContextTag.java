@@ -71,6 +71,10 @@ public class ContextTag extends UIComponentELTag {
      * This is a flag that indicates if we must load compressed scripts or uncompressed.
      */
     private ValueExpression minifyJS = null;
+    /**
+     * Ajax region to target for the Context children requests.
+     */
+    private ValueExpression ajaxRegion = null;
 
     /**
      * {@inheritDoc }
@@ -107,6 +111,7 @@ public class ContextTag extends UIComponentELTag {
         component.setValueExpression("mootools", mootools);
         component.setValueExpression("openlayers", openlayers);
         component.setValueExpression("minifyJS", minifyJS);
+        component.setValueExpression("ajaxRegion", ajaxRegion);
         
         //setting the flag to load or not the prototype and scriptaculous js libs
         if (scriptaculous != null) {
@@ -137,6 +142,7 @@ public class ContextTag extends UIComponentELTag {
         mootools = null;
         openlayers = null;
         minifyJS = null;
+        ajaxRegion = null;
     }
 
     public void setValue(ValueExpression value) {
@@ -192,5 +198,19 @@ public class ContextTag extends UIComponentELTag {
 
     public void setMinifyJS(ValueExpression minifyJS) {
         this.minifyJS = minifyJS;
+    }
+
+    /**
+     * @return the ajaxRegion
+     */
+    public ValueExpression getAjaxRegion() {
+        return ajaxRegion;
+    }
+
+    /**
+     * @param ajaxRegion the ajaxRegion to set
+     */
+    public void setAjaxRegion(ValueExpression ajaxRegion) {
+        this.ajaxRegion = ajaxRegion;
     }
 }

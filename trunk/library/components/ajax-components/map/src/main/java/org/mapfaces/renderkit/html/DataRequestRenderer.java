@@ -126,6 +126,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 String targetregion = formId;
                 final String clientIdAjaxRegion = FacesMapUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
                 if (clientIdAjaxRegion != null) {
+                    LOGGER.info("Find ajaxRegion with datarequest id = "+clientIdAjaxRegion);
                     targetregion = clientIdAjaxRegion;
                 }
                 responseWriter.write("<script type='text/javascript'>" +
@@ -250,7 +251,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                         //@TODO test the type for MapContext layer case.
                         
-                        switch (queryLayer.getType()) {
+                            switch (queryLayer.getType()) {
                             case WMS:
 
                                 boolean skipLayer = false;

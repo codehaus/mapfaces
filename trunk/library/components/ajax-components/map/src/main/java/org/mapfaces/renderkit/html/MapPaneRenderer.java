@@ -471,9 +471,18 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         stringBuilder.append("mfFormId: '").append(FacesMapUtils.getFormId(context, component)).append("',");
 
         /**
-         * mfRequestId : Id of the request, a totally arbitrary attribute
+         * If we have specified an ajaxRegion for the Context component, we
+         * use its ID to set the mfRequestId of the request.
          */
-        stringBuilder.append("mfRequestId: 'updateBboxOrWindow'");
+        final UIContext contextComp = (UIContext) FacesMapUtils.getParentUIContext(context, comp);
+        if (contextComp.getAjaxRegion() != null) {
+            stringBuilder.append("mfRequestId: '" + FacesMapUtils.getFormId(context, component) + ":" + contextComp.getAjaxRegion() + "'");
+        } else {
+            /**
+             * mfRequestId : Id of the request, a totally arbitrary attribute
+             */
+            stringBuilder.append("mfRequestId: 'updateBboxOrWindow'");
+        }
 
         /**
          * Close  the map options creation
