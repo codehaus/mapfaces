@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2009, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -14,9 +14,9 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.component;
 
+import javax.faces.component.StateHolder;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.context.FacesContext;
 
@@ -25,10 +25,9 @@ import javax.faces.context.FacesContext;
  * @author Mehdi Sidhoum (Geomatys)
  * @since 0.3
  */
-public class UISelectManyPicklist extends HtmlSelectManyListbox {
+public class UISelectManyPicklist extends HtmlSelectManyListbox implements StateHolder {
 
     public static final String FAMILIY = "org.mapfaces.SelectManyPicklist";
-
     private boolean debug;
     private String style = "";
     private String styleClass = "";
@@ -45,6 +44,7 @@ public class UISelectManyPicklist extends HtmlSelectManyListbox {
     private String removeButtonStyleClass = "";
     private String removeAllButtonStyleClass = "";
     private boolean loadJs = true;
+    private Object value;
 
     public UISelectManyPicklist() {
         super();
@@ -64,7 +64,7 @@ public class UISelectManyPicklist extends HtmlSelectManyListbox {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[17];
+        final Object values[] = new Object[18];
         values[0] = super.saveState(context);
         values[1] = style;
         values[2] = styleClass;
@@ -82,6 +82,7 @@ public class UISelectManyPicklist extends HtmlSelectManyListbox {
         values[14] = removeButtonStyleClass;
         values[15] = removeAllButtonStyleClass;
         values[16] = loadJs;
+        values[17] = value;
 
         return values;
     }
@@ -109,6 +110,7 @@ public class UISelectManyPicklist extends HtmlSelectManyListbox {
         setRemoveButtonStyleClass((String) values[14]);
         setRemoveAllButtonStyleClass((String) values[15]);
         setLoadJs((Boolean) values[16]);
+        setValue(values[17]);
     }
 
     /**
@@ -307,4 +309,19 @@ public class UISelectManyPicklist extends HtmlSelectManyListbox {
         this.loadJs = loadJs;
     }
 
+    /**
+     * @return the value
+     */
+    @Override
+    public Object getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    @Override
+    public void setValue(Object value) {
+        this.value = value;
+    }
 }

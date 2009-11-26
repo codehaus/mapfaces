@@ -13,6 +13,8 @@
             <h1>SelectManyPickList component demo</h1>
             <br/>
             <h:form id="mainform">
+
+                <h5> This first component is just a composition of selectManyListbox components with a backing bean</h5>
                 <h:panelGrid columns="3" cellspacing="0" border="1" width="75%">
 
                     <h:outputText value="Invisible:"/>
@@ -30,26 +32,35 @@
                         <h:commandButton value="<<" actionListener="#{pickListBean.moveAllToInvisible}" style="width: 50px;" />
                         <h:commandButton value="" type="button" onclick="add();" style="width: 50px;" />
                     </h:panelGrid>
-
+                    
                     <h:selectManyListbox id="poly_select" value="#{pickListBean.selectedVisibleItems}" size="5" style="width: 300px;">
                         <f:selectItems id="visibleItems" value="#{pickListBean.visibleItems}" />
                     </h:selectManyListbox>
 
-                    
-                </h:panelGrid>
-                <br/>
-                <mfb:selectManyPicklist   id="picklistMF"
-                                            size="5"
-                                            style="font-size:10px;margin-top:13px;"
-                                            value="#{pickListBean.selectedItem}"
-                                            ondblclick="mapfaces_picklist_addToSelected('mainform:picklistMF_AVAILABLE','mainform:picklistMF_SELECTED','mainform:picklistMF_HIDDEN')"
-                                            addAllButtonStyle="display:none"
-                                            removeAllButtonStyle="display:none"
-                                            addButtonStyle="top:15px;position:relative;cursor:pointer;"
-                                            removeButtonStyle="bottom:3px;position:relative;cursor:pointer;">
 
-                        <f:selectItems value="#{pickListBean.servicesItems}" />
+                </h:panelGrid>
+                <hr/>
+                <h5> This second component is the MapFaces component inspired from the tomahawk selectManyPicklist (see myfaces apache project).</h5>
+                <mfb:selectManyPicklist   id="picklistMF"
+                                          size="5"
+                                          style="font-size:10px;"
+                                          value="#{pickListBean.selectedItem}"
+                                          ondblclick="mapfaces_picklist_addToSelected('mainform:picklistMF_AVAILABLE','mainform:picklistMF_SELECTED','mainform:picklistMF_HIDDEN')"
+                                          addAllButtonStyle="cursor:pointer;"
+                                          removeAllButtonStyle="cursor:pointer;"
+                                          addButtonStyle="cursor:pointer;"
+                                          removeButtonStyle="cursor:pointer;">
+
+                    <f:selectItems value="#{pickListBean.servicesItems}" />
                 </mfb:selectManyPicklist>
+                <br/>
+                <a4j:commandButton value="refresh picklist" reRender="picklistMF, selectedItems" action="#{pickListBean.doAction}"/>
+                <br/>
+                <h:panelGroup id="selectedItems">
+                    <a4j:repeat value="#{pickListBean.selectedItem}" var="item">
+                        <h:outputText value="#{item}" id="selectedItems"/>
+                    </a4j:repeat>
+                </h:panelGroup>
             </h:form>
         </body>
     </html>

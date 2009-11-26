@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2009, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -96,6 +96,17 @@ public class SelectManyPicklistTag extends UIComponentELTag {
         // always call the superclass method
         super.setProperties(component);
 
+        FacesContext context = FacesContext.getCurrentInstance();
+        final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+        UISelectManyPicklist picklist = (UISelectManyPicklist) component;
+
+        if (value != null) {
+            if (value.getExpressionString() != null && value.getExpressionString().contains("#")) {
+                final ValueExpression vex = ef.createValueExpression(context.getELContext(), value.getExpressionString(), java.lang.Object.class);
+                picklist.setValue(vex.getValue(context.getELContext()));
+            }
+        }
+
         component.setValueExpression("styleClass", styleClass);
         component.setValueExpression("style", style);
         component.setValueExpression("debug", debug);
@@ -137,16 +148,6 @@ public class SelectManyPicklistTag extends UIComponentELTag {
         component.setValueExpression("loadJs", loadJs);
         component.setValueExpression("value", value);
 
-        FacesContext context = FacesContext.getCurrentInstance();
-        final ExpressionFactory ef = context.getApplication().getExpressionFactory();
-        UISelectManyPicklist picklist = (UISelectManyPicklist) component;
-
-        if (value != null) {
-            if (value.getExpressionString() != null && value.getExpressionString().contains("#")) {
-                final ValueExpression vex = ef.createValueExpression(context.getELContext(), value.getExpressionString(), java.lang.Object.class);
-                picklist.setValue( vex.getValue(context.getELContext()));
-            }
-        }
     }
 
     /**

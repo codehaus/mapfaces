@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2009, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectMany;
@@ -286,16 +288,16 @@ public class SelectManyPicklistRenderer extends Renderer {
     }
 
     @Override
-    public void decode(FacesContext facesContext, UIComponent component) {
-        FacesUtils.assertValid(facesContext, component);
+    public void decode(FacesContext context, UIComponent component) {
+        FacesUtils.assertValid(context, component);
         final UISelectManyPicklist comp = (UISelectManyPicklist) component;
         if (!(component instanceof EditableValueHolder)) {
-            throw new IllegalArgumentException("Component " + component.getClientId(facesContext) + " is not an EditableValueHolder");
+            throw new IllegalArgumentException("Component " + component.getClientId(context) + " is not an EditableValueHolder");
         }
 
-        String hiddenClientId = component.getClientId(facesContext) + HIDDEN_SUFFIX;
+        String hiddenClientId = component.getClientId(context) + HIDDEN_SUFFIX;
 
-        Map paramValuesMap = facesContext.getExternalContext().getRequestParameterValuesMap();
+        Map paramValuesMap = context.getExternalContext().getRequestParameterValuesMap();
 
         if (comp.isReadonly() || comp.isDisabled()) {
             return;
@@ -306,9 +308,32 @@ public class SelectManyPicklistRenderer extends Renderer {
 
             if (valuesInline[0].trim().equals("")) {
                 ((EditableValueHolder) component).setSubmittedValue(new String[]{});
+                Object value = comp.getValue();
+
+                ValueExpression ve = comp.getValueExpression("value");
+                if (ve == null && value instanceof String) {
+                    final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+                    ve = ef.createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
+                }
+
+                if (ve != null) {
+                    ve.setValue(context.getELContext(), new String[]{});
+                    comp.setValueExpression("value", ve);
+                }
             } else {
                 String[] reqValues = valuesInline[0].split(",");
                 ((EditableValueHolder) component).setSubmittedValue(reqValues);
+                Object value = comp.getValue();
+                ValueExpression ve = comp.getValueExpression("value");
+                if (ve == null && value instanceof String) {
+                    final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+                    ve = ef.createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
+                }
+
+                if (ve != null) {
+                    ve.setValue(context.getELContext(), reqValues);
+                    comp.setValueExpression("value", ve);
+                }
             }
         } else {
             /* request parameter not found, nothing to decode - set submitted value to an empty array
@@ -318,6 +343,17 @@ public class SelectManyPicklistRenderer extends Renderer {
             So in fact, there must be component value at this location, but for listboxes, comboboxes etc.
             the submitted value is not posted if no item is selected. */
             ((EditableValueHolder) component).setSubmittedValue(new String[]{});
+            ValueExpression ve = comp.getValueExpression("value");
+            Object value = comp.getValue();
+            if (ve == null && value instanceof String) {
+                final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+                ve = ef.createValueExpression(context.getELContext(), (String) value, java.lang.Object.class);
+            }
+            if (ve != null) {
+                ve.setValue(context.getELContext(), new String[]{});
+                comp.setValueExpression("value", ve);
+            }
+
         }
     }
 
@@ -562,8 +598,7 @@ public class SelectManyPicklistRenderer extends Renderer {
     private Set internalSubmittedOrSelectedValuesAsSet(FacesContext context,
             UIComponent component, UISelectMany uiSelectMany,
             Object values) {
-        //@TODO to be removed after fixed the bug when submitted the form
-        System.out.println(">>>>>>>>>>>  values = "+values);
+
         final String EMPTY_STRING = "";
         if (values == null || EMPTY_STRING.equals(values)) {
             return Collections.EMPTY_SET;
@@ -599,6 +634,12 @@ public class SelectManyPicklistRenderer extends Renderer {
 
                 return set;
             }
+        } else if (values instanceof String && ((String) values).contains("#")) {
+            //This case is for apache tomcat server only
+            final ExpressionFactory ef = context.getApplication().getExpressionFactory();
+            final ValueExpression vex = ef.createValueExpression(context.getELContext(), (String) values, java.lang.Object.class);
+            Object valuesExpr = vex.getValue(context.getELContext());
+            return internalSubmittedOrSelectedValuesAsSet(context, component, uiSelectMany, valuesExpr);
         } else {
             throw new IllegalArgumentException("Value of UISelectMany component with path : " + RendererUtils.getPathToComponent(uiSelectMany) + " is not of type Array or List");
         }
