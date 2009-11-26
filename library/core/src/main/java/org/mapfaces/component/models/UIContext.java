@@ -34,6 +34,7 @@ public class UIContext extends UIModelBase {
     private boolean openlayers = true;
     private boolean minifyJS = true;
     private String service = "";
+    private String ajaxRegion = "";
 
     /** Creates a new instance of UIAbstract */
     public UIContext(){
@@ -54,13 +55,14 @@ public class UIContext extends UIModelBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[10];
+        final Object values[] = new Object[11];
         values[0] = super.saveState(context);
         values[1] = scriptaculous;
         values[2] = mootools;
         values[3] = minifyJS;
         values[4] = service;
         values[5] = openlayers;
+        values[6] = ajaxRegion;
         return values;
     }
 
@@ -76,6 +78,7 @@ public class UIContext extends UIModelBase {
         minifyJS = (Boolean) values[3];
         service = (String) values[4];
         openlayers = (Boolean) values[5];
+        ajaxRegion = (String) values[6];
     }
 
     /**
@@ -135,6 +138,20 @@ public class UIContext extends UIModelBase {
 
     public void setService(String service) {
         this.service = service;
+    }
+
+    /**
+     * @return the ajaxRegion
+     */
+    public String getAjaxRegion() {
+        return ajaxRegion;
+    }
+
+    /**
+     * @param ajaxRegion the ajaxRegion to set
+     */
+    public void setAjaxRegion(String ajaxRegion) {
+        this.ajaxRegion = ajaxRegion;
     }
 
 }

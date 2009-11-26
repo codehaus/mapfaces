@@ -130,6 +130,15 @@
             <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[a flag that indicates if openlayers script will be loaded or not.]]></description>
         </attribute>
+        <attribute>
+            <name>ajaxRegion</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[Ajax region to target for the Context children requests.]]></description>
+        </attribute>
     </tag>
 
 </taglib>
