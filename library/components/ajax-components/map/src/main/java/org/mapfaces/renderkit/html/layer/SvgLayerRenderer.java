@@ -116,7 +116,7 @@ public class SvgLayerRenderer extends LayerRenderer {
         stringBuilder.append("})});");
 
         final String reRenderComplete = (comp.getReRenderComplete() != null) ? comp.getReRenderComplete() : "";
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + formId + "', styleMap:style_" + compId + ", reRender:'" + idsToRefresh + "', contextCompId:'" + modelContextId + "', 'reRenderComplete':function(){" + reRenderComplete + "}});");
+        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + formId + "', id:'" + comp.getClientId(context) + "', styleMap:style_" + compId + ", reRender:'" + idsToRefresh + "', contextCompId:'" + modelContextId + "', 'reRenderComplete':function(){" + reRenderComplete + "}});");
 
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() && (comp.getValue() != null) && (comp.getValue() instanceof List)) {

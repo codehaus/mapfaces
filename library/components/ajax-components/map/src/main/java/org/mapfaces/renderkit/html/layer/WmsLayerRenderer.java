@@ -148,8 +148,8 @@ public class WmsLayerRenderer extends LayerRenderer {
             // 3. get the URL fragment
             if (mapLayer != null) {
                 URL urlImg = mapLayer.query(model.getEnvelope(), dim);
-                if (model.getLayerRefresh(layer.getId()) != null) {
-                    urlImg = new URL(urlImg.toString().concat("&REFRESH=").concat(model.getLayerRefresh(layer.getId()).toString()));
+                if (model.getLayerRefresh(layer.getId())) {
+                    urlImg = new URL(urlImg.toString().concat("&REFRESH=").concat(Long.toString(System.currentTimeMillis())));
                 }
                 writer.writeAttribute(HTML.src_ATTRIBUTE, urlImg, HTML.src_ATTRIBUTE);
             }

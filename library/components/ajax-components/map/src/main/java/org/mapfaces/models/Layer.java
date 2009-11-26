@@ -180,6 +180,10 @@ public interface Layer extends Serializable, Cloneable {
     
     boolean isDisable();
 
+    boolean getRefresh();
+
+    void setRefresh(boolean refresh);
+    
     /*
      * properties needed by JSF
      * */
@@ -187,8 +191,5 @@ public interface Layer extends Serializable, Cloneable {
     String getCompId();
 
     void setCompId(String id);
-    
-    String getRefresh();
 
-    void setRefresh(String refresh);
 }
