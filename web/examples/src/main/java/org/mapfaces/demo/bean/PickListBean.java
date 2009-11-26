@@ -1,7 +1,20 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2009, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.demo.bean;
 
 import java.util.ArrayList;
@@ -14,7 +27,7 @@ import javax.faces.model.SelectItem;
 
 /**
  *
- * @author mediii
+ * @author Mehdi Sidhoum (Geomatys)
  */
 public class PickListBean {
 //array of values of selected items in "Invisible" list
@@ -34,8 +47,7 @@ public class PickListBean {
      */
     private final Map<String, String> mapServices = new HashMap<String, String>();
 
-
-    private String selectedItem;
+    private String[] selectedItem = new String[]{"value1"};
     private List<SelectItem> servicesItems = new ArrayList<SelectItem>();
 
     public PickListBean() {
@@ -65,12 +77,19 @@ public class PickListBean {
 
 
         servicesItems.add(new SelectItem("value1", "Myfaces Tomahawk"));
-        servicesItems.add(new SelectItem("value1", "JBoss Richfaces"));
-        servicesItems.add(new SelectItem("value1", "Ajax4jsf"));
-        servicesItems.add(new SelectItem("value1", "Mapfaces"));
-        servicesItems.add(new SelectItem("value1", "IceFaces"));
-        servicesItems.add(new SelectItem("value1", "Mojarra"));
-        servicesItems.add(new SelectItem("value1", "MDweb2"));
+        servicesItems.add(new SelectItem("value2", "JBoss Richfaces"));
+        servicesItems.add(new SelectItem("value3", "Ajax4jsf"));
+        servicesItems.add(new SelectItem("value4", "Mapfaces"));
+        servicesItems.add(new SelectItem("value5", "IceFaces"));
+        servicesItems.add(new SelectItem("value6", "Mojarra"));
+        servicesItems.add(new SelectItem("value7", "MDweb2"));
+    }
+
+    public void doAction(){
+        System.out.println("doAction>>>>>>>>> selectedItem.length = "+selectedItem.length);
+        for (String s : selectedItem){
+            System.out.println("doAction==> "+s);
+        }
     }
 
     public void setSelectedInvisibleItems(String[] items) {
@@ -151,20 +170,6 @@ public class PickListBean {
     }
 
     /**
-     * @return the selectedItem
-     */
-    public String getSelectedItem() {
-        return selectedItem;
-    }
-
-    /**
-     * @param selectedItem the selectedItem to set
-     */
-    public void setSelectedItem(String selectedItem) {
-        this.selectedItem = selectedItem;
-    }
-
-    /**
      * @return the servicesItems
      */
     public List<SelectItem> getServicesItems() {
@@ -176,6 +181,20 @@ public class PickListBean {
      */
     public void setServicesItems(List<SelectItem> servicesItems) {
         this.servicesItems = servicesItems;
+    }
+
+    /**
+     * @return the selectedItem
+     */
+    public String[] getSelectedItem() {
+        return selectedItem;
+    }
+
+    /**
+     * @param selectedItem the selectedItem to set
+     */
+    public void setSelectedItem(String[] selectedItem) {
+        this.selectedItem = selectedItem;
     }
 
 }
