@@ -23,7 +23,8 @@ import javax.faces.webapp.UIComponentELTag;
 
 /**
  *
- * @author Mehdi Sidhoum.
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class DivTag extends UIComponentELTag {
     
