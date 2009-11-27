@@ -15,7 +15,7 @@
             <br/>
             <h:form id="form">
                 <h:commandButton value="submit"/>
-                <mf-model:Context service="data/context/blueMarble.xml">
+                <mf-model:Context service="/data/context/blueMarble.xml">
                     <mf:MapPane/>
                     <mf:ButtonBar featureInfo="true" reRender="datarequest"></mf:ButtonBar>
                     <mf:DataRequest id="datarequest" targetPopupId="popupfeatureInfo"

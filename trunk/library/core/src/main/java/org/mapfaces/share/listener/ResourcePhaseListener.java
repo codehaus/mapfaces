@@ -29,6 +29,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys).
@@ -106,17 +107,20 @@ public class ResourcePhaseListener implements PhaseListener {
             }
 
             final InputStream in = getClass().getResourceAsStream(resourcePath);
-            final HttpServletResponse servletResponse =
-                    (HttpServletResponse) external.getResponse();
+            
             try {
-                
-                servletResponse.setContentType(contentType);
-                servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
-                servletResponse.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE);
-                servletResponse.setHeader("Cache-control", "max-age=" + (DEFAULT_EXPIRE / 1000));
-                final OutputStream out = servletResponse.getOutputStream();
+                //TODO :  these setters should be in WebContainerUtils but i don't know
+                //if PortletResponse allow  header values
+                if (external.getResponse() instanceof HttpServletResponse) {
+                    final HttpServletResponse servletResponse =
+                            (HttpServletResponse) external.getResponse();
+                    servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
+                    servletResponse.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE);
+                    servletResponse.setHeader("Cache-control", "max-age=" + (DEFAULT_EXPIRE / 1000));
+                }
 
-                //PrintWriter out = servletResponse.getWriter();
+                final OutputStream out = WebContainerUtils.getResponseOutpustream(context, contentType);
+
 
                 int ch;
                 if (in == null) {

@@ -15,7 +15,7 @@
             <br/>
             <h:form>
                 <h:commandButton value="submit"/>
-                <mf-model:Context service="data/context/blueMarble.xml">
+                <mf-model:Context service="/data/context/blueMarble.xml">
                     <mf:MapPane navigation="true"></mf:MapPane>
                     <mf:CursorTrack showDM="true" showLatLon="true"
                                     showPX="true" showXY="true">

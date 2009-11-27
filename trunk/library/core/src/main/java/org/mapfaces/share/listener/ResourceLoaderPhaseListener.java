@@ -17,17 +17,16 @@
 
 package org.mapfaces.share.listener;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Kevin Delfour
@@ -78,26 +77,23 @@ public class ResourceLoaderPhaseListener implements PhaseListener {
         byte mainArr[] = new byte[0];
         byte byteArr[] = new byte[65535];
 
-        final HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+       
 
         try {
 //            String resourcePath = RESOURCE_FOLDER + "/" + resourceName;
             final String resourcePath     = resourceName;
-            final InputStream inputStream = ResourceLoaderPhaseListener.class.getResourceAsStream(resourcePath);
             final URL url                 = ResourceLoaderPhaseListener.class.getResource(resourcePath);
+
             if (url == null) {
                 // resource not found
                 facesContext.responseComplete();
-
                 return;
             }
 
+            final InputStream inputStream = ResourceLoaderPhaseListener.class.getResourceAsStream(resourcePath);
+            OutputStream outputStream = WebContainerUtils.getResponseOutpustream(facesContext, contentType);
             final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            final BufferedReader bufferedReader       = new BufferedReader(inputStreamReader);
-
-            response.setContentType(contentType);
-            response.setStatus(200);
-            final ServletOutputStream outputStream = response.getOutputStream();
 
             for (int indice = 0; (indice = inputStream.read(byteArr)) > 0;) {
                 int tempIndice = mainArr.length + indice;

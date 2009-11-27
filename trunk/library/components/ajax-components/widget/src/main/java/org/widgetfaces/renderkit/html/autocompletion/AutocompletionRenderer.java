@@ -27,7 +27,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.servlet.http.HttpServletRequest;
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.widgetfaces.adapter.autocompletion.Adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
@@ -35,6 +34,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys)
@@ -133,7 +133,7 @@ public class AutocompletionRenderer extends Renderer {
         /* If we use a web thesaurus service*/
         if (comp.getWtsUrl() != null) {
             
-            final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());            
+            final String urlRequest = WebContainerUtils.getAjaxServer(context); 
             final StringBuilder ajaxrequest = new StringBuilder();
             ajaxrequest.append("new Autocompleter.Request.HTML($('").
                     append(inputId). append("'),").

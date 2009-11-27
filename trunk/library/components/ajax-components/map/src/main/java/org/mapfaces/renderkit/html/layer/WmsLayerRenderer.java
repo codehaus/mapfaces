@@ -203,7 +203,7 @@ public class WmsLayerRenderer extends LayerRenderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         super.decode(context, component);
-    }
+    } 
 
     @Override
     public boolean getRendersChildren() {
