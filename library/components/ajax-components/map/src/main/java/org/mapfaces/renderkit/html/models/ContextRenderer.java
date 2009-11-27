@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.renderkit.html.models;
 
 import java.io.File;
@@ -23,8 +22,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
@@ -33,7 +34,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+import javax.portlet.PortletRequest;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
@@ -81,12 +84,13 @@ public class ContextRenderer extends Renderer {
     @Override
     public void encodeBegin(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
+        
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE BEGIN");
         }
         assertValid(context, component);
         final ResponseWriter writer = context.getResponseWriter();
-        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
+        final ExternalContext sc = context.getExternalContext();
 
         //Add the context path variable to load openlayers with the good url , see  custom/OpenLayers.js
         /*writer.startElement("script", component);
@@ -97,6 +101,7 @@ public class ContextRenderer extends Renderer {
         //Write the resources files once per page
         boolean resourcesFlag = false;
         final ExternalContext extContext = context.getExternalContext();
+
         if (!extContext.getRequestMap().containsKey("mapfacesFlag.resourcesContext")) {
             extContext.getRequestMap().put("mapfacesFlag.resourcesContext", Boolean.TRUE);
             resourcesFlag = true;
@@ -109,7 +114,7 @@ public class ContextRenderer extends Renderer {
             comp.getChildren().add(css);
         }
 
-/*@TODO remove all Mootools reference from MapFaces */
+        /*@TODO remove all Mootools reference from MapFaces */
         if (comp.isMootools() && resourcesFlag) {
             writer.startElement("script", component);
             writer.writeAttribute("type", HTML.TEXTJAVASCRIPT_VALUE, null);
@@ -123,7 +128,7 @@ public class ContextRenderer extends Renderer {
 
         final boolean isMinifyJS = comp.isMinifyJS();
 
-/* Scriptaculous never be used anymore */
+        /* Scriptaculous never be used anymore */
 //        if (comp.isScriptaculous() && resourcesFlag) {
 //
 //            //Add Prototype script
@@ -159,6 +164,7 @@ public class ContextRenderer extends Renderer {
 
         if (comp.isOpenlayers() && resourcesFlag) {
             writer.startElement("script", component);
+
             if (isMinifyJS) {
                 writer.writeAttribute("src", ResourcePhaseListener.getURL(context, OPENLAYERS_MINIFY_JS, null), null);
             } else {
@@ -171,62 +177,88 @@ public class ContextRenderer extends Renderer {
 
         //Loading the context file if the model is null.
         Context ctx = null;
+        
         if (comp.getModel() == null) {
             String fileUrl = (String) component.getAttributes().get("service");
-
             ValueExpression ve = comp.getValueExpression("service");
+            
             if (ve != null) {
+                
                 if (ve.getValue(context.getELContext()) instanceof String) {
                     fileUrl = (String) ve.getValue(context.getELContext());
                 }
             }
+
             if (fileUrl == null || fileUrl.length() < 1) {
                 throw new IllegalArgumentException("You must indicate a path to file to read");
             }
-            if (fileUrl.contains("http://")) {
+            String filePath = null;
+
+            if (fileUrl.startsWith("file://")) {
+
+                if (fileUrl.startsWith("file://.sicade")) {
+                    filePath = fileUrl.replaceFirst("file://", System.getProperty("user.home"));
+
+                    if (System.getProperty("os.name", "").startsWith("Windows")) {
+                        filePath = filePath.replaceFirst(".sicade", "\\Application Data\\Sicade");
+
+                    } else {
+                        filePath = filePath.replaceFirst(".sicade", "/.sicade");
+                    }
+
+                } else {
+                    // remove the "file://" prefix
+                    filePath = fileUrl.replaceFirst("file://", "");
+                }
+
+                if (comp.isDebug()) {
+                    LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] path = " + filePath);
+                }
+                
                 try {
-                    ctx = XMLContextUtilities.readContext(new URL(fileUrl));
+                    ctx = XMLContextUtilities.readContext(new FileReader(new File(filePath)));
+
                 } catch (JAXBException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
+
                 } catch (UnsupportedEncodingException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
-            } else {
-                if (fileUrl.startsWith("file://.sicade")) {
 
-                    File mapcontextFile = new File(System.getProperty("user.home"));
-                    if (comp.isDebug()) {
-                        LOGGER.log(Level.INFO, "[DEBBUG] [Try to load the mapcontext from a file] user home = " + System.getProperty("user.home") + "  system = " + System.getProperty("os.name", ""));
-                    }
-                    if (System.getProperty("os.name", "").startsWith("Windows")) {
-                        mapcontextFile = new File(mapcontextFile, "Application Data\\Sicade");
-                    } else {
-                        mapcontextFile = new File(mapcontextFile, ".sicade");
-                    }
-                    String[] tabString = fileUrl.replaceFirst("file://.sicade/", "").split("/");
-                    for (String s : tabString) {
-                        mapcontextFile = new File(mapcontextFile, s);
-                    }
-                    if (comp.isDebug()) {
-                        LOGGER.log(Level.INFO, "[DEBBUG] [Loading Mapcontext file] path = " + mapcontextFile);
-                    }
-                    try {
-                        ctx = XMLContextUtilities.readContext(new FileReader(mapcontextFile));
-                    } catch (JAXBException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                    } catch (UnsupportedEncodingException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                    }
+            } else {
+            //if fileUrl is an URL
+                
+                //if fileUrl is a completeURL
+                if (fileUrl.startsWith("http://")) {
+                    filePath = fileUrl;
+
                 } else {
-                    try {
-                        ctx = XMLContextUtilities.readContext(new FileReader(new File(sc.getRealPath(fileUrl))));
-                    } catch (JAXBException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                    } catch (UnsupportedEncodingException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
+                //if fileUrl is a relative path
+                    filePath = "http://" + sc.getRequestHeaderMap().get("host") + sc.getRequestContextPath();
+
+                    if (fileUrl.startsWith("/")) {
+                        filePath += fileUrl;
+
+                    } else {
+                        final String servletPath = sc.getRequestServletPath();
+                        filePath += servletPath.substring(0, servletPath.lastIndexOf("/") + 1) + fileUrl;
                     }
                 }
+
+                if (comp.isDebug()) {
+                    LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] url = " + filePath);
+                }
+                try {
+                    ctx = XMLContextUtilities.readContext(new URL(filePath));
+
+                } catch (JAXBException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+
+                } catch (UnsupportedEncodingException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
             }
+
         } else {
             ctx = (Context) comp.getModel();
             if (comp.isDebug()) {
@@ -239,14 +271,16 @@ public class ContextRenderer extends Renderer {
         //- TODO add all the layers separetely
 
         final ContextFactory contextFactory = new DefaultContextFactory();
+
         if (ctx == null) {
             ctx = contextFactory.createDefaultContext();
         }
+        
         if (obj instanceof MapContext) {
             //add all the MapContext (gt) layers  into an allInOne layer.
             MapContextLayer mcLayer = (MapContextLayer) contextFactory.createDefaultMapContextLayer(FacesMapUtils.getNewLayerIndex(ctx));
-            String mapcontextKey = FacesMapUtils.getCurrentSessionId()+mcLayer.getId()+UIMapPane.MAPCONTEXT_KEY_SUFFIX;
-            
+            String mapcontextKey = FacesMapUtils.getCurrentSessionId() + mcLayer.getId() + UIMapPane.MAPCONTEXT_KEY_SUFFIX;
+
             //putting this layer's mapcontext into session map and set key into mclayer model
             FacesMapUtils.putAtSessionMap(context, mapcontextKey, (MapContext) obj);
             mcLayer.setMapContextKeyInSession(mapcontextKey);
@@ -254,9 +288,11 @@ public class ContextRenderer extends Renderer {
 
         } else if (obj instanceof Context) {
             //TODO add layers at the end of the context if it exists
+
         } else if (obj instanceof List) {
             //add the list of feature (mapfaces) into a FeatureLayer
             List list = (List) obj;
+
             if (list != null && list.size() != 0 && list.get(0) instanceof Feature) {
                 FeatureLayer layer = (FeatureLayer) contextFactory.createDefaultFeatureLayer(FacesMapUtils.getNewLayerIndex(ctx));
                 layer.setFeatures(list);
@@ -265,33 +301,39 @@ public class ContextRenderer extends Renderer {
                 layer.setRotation(20);
                 layer.setSize(10);
                 ctx.addLayer(layer);
+
             } else {
                 //else if there are no features in the list but it contains Layers
-                
+
                 //clear the context from all WmsGetMapLayers.
                 List<Layer> layerToRemove = new ArrayList<Layer>();
+
                 for (Layer lay : ctx.getLayers()) {
                     if (lay instanceof DefaultWmsGetMapLayer) {
                         layerToRemove.add(lay);
                     }
                 }
+
                 for (Layer lay : layerToRemove) {
                     ctx.removeLayerFromId(lay.getId());
                 }
-                
+
                 int layercount = (ctx != null && ctx.getLayers() != null) ? ctx.getLayers().size() : 0;
                 layercount = layercount - FacesMapUtils.getCountWMSGetMapLayers(ctx);
                 int loop = 0;
+
                 for (Object l : list) {
                     loop++;
+
                     if (l instanceof DefaultWmsGetMapLayer) {
                         DefaultWmsGetMapLayer wmsLayer = (DefaultWmsGetMapLayer) l;
+
                         if (ctx.getLayers().contains(wmsLayer)) {
                             continue;
                         }
 
-                        wmsLayer.setId("MapFaces_Layer_WMS_" + (layercount + loop) );
-                        
+                        wmsLayer.setId("MapFaces_Layer_WMS_" + (layercount + loop));
+
                         if (!ctx.getLayersId().contains(wmsLayer.getId())) {
                             ctx.addLayer(wmsLayer);
 //                            System.out.println("=========   wmsLayer getGroup = " + wmsLayer.getGroup());
@@ -301,7 +343,7 @@ public class ContextRenderer extends Renderer {
                         }
 
                     }
-                //@TODO add here more cases for instanceof layer.
+                    //@TODO add here more cases for instanceof layer.
                 }
             }
         }
@@ -318,7 +360,7 @@ public class ContextRenderer extends Renderer {
         //ajaxComp.setEventsQueue("org.mapfaces.ajax.AJAX_LAYER_ID");
         ajaxComp.setRequestDelay(5);
         ajaxComp.setReRender(comp.getId());
-        
+
         if (FacesMapUtils.findComponentById(context, component, ajaxComp.getId()) == null) {
             comp.getFacets().put("a4jsupport", ajaxComp);
             comp.setAjaxCompId(ajaxComp.getClientId(context));
@@ -331,10 +373,13 @@ public class ContextRenderer extends Renderer {
     @Override
     public void encodeChildren(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
+
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE CHILDREN");
         }
+
         for (final UIComponent tmp : component.getChildren()) {
+
             if (tmp instanceof UIWidgetBase) {
                 ((UIWidgetBase) tmp).setModel(comp.getModel());
             }
@@ -347,7 +392,6 @@ public class ContextRenderer extends Renderer {
      */
     @Override
     public boolean getRendersChildren() {
-
         return true;
     }
 
@@ -357,6 +401,7 @@ public class ContextRenderer extends Renderer {
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final UIContext comp = (UIContext) component;
+
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer ENCODE END");
         }
@@ -370,27 +415,32 @@ public class ContextRenderer extends Renderer {
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
         final UIContext comp = (UIContext) component;
+
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer DECODE");
         }
+
         if (context.getExternalContext().getRequestParameterMap() != null) {
             final Context tmp = (Context) comp.getModel();
 
             final Map params = context.getExternalContext().getRequestParameterMap();
             final String title = (String) params.get(FacesMapUtils.getFormId(context, component) + ":title");
-            if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null
-                    && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
+            if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
                 final ServletContext servletCtx = (ServletContext) context.getExternalContext().getContext();
+
                 if (!params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME").equals("null")) {
                     tmp.save(servletCtx, (String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));
+
                 } else {
                     tmp.save(servletCtx, null);
                 }
             }
+
             if (title != null && !title.equals(tmp.getTitle())) {
                 tmp.setTitle(title);
             }
             comp.setModel((AbstractModelBase) tmp);
+
             if (comp.isDebug()) {
                 LOGGER.log(Level.INFO, "[DEBBUG] ContextRenderer New context parameters : " + tmp.getTitle() + " " + tmp.getMinx() + " " + tmp.getMiny().toString() + " " + tmp.getMaxx() + " " + tmp.getMaxy() + "");
             }
@@ -398,20 +448,25 @@ public class ContextRenderer extends Renderer {
     }
 
     private void assertValid(FacesContext context, UIComponent component) {
+
         if (context == null) {
             throw new NullPointerException("context should not be null");
         }
+        
         if (component == null) {
             throw new NullPointerException("component should not be null");
         }
     }
     // creates and puts the model data to session for this chart object
+
     public void setModelAtSession(FacesContext facesContext, UIContext comp) {
         Map session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         String compClientId = comp.getClientId(facesContext);
         session.put("model", comp.getModel());
+        
         if (comp.isDebug()) {
             LOGGER.log(Level.INFO, "[MapContextLayerRenderer] model saved in  session map for this layer,  clientId : " + compClientId + "\n");
         }
     }
 }
+
