@@ -15,7 +15,10 @@
             <br/>
             <h:form>
                 <h:commandButton value="submit"/>
-                <mf-model:Context service="data/context/blueMarble.xml">
+                <%--mf-model:Context service="file://.sicade/blueMarble.xml"--%>
+                <%--<mf-model:Context service="file:///home/olivier/svn/mapfaces/trunk/web/examples/src/main/webapp/data/context/blueMarble.xml">--%>
+                <%--<mf-model:Context service="data/context/blueMarble.xml">--%>
+                <mf-model:Context service="/data/context/blueMarble.xml">
                     <mf:MapPane navigation="true"></mf:MapPane>
                 </mf-model:Context>
             </h:form>
