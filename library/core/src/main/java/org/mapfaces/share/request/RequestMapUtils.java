@@ -20,7 +20,6 @@ package org.mapfaces.share.request;
 import java.util.Enumeration;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Kevin Delfour
@@ -40,12 +39,5 @@ public class RequestMapUtils {
             return ec.getRequestMap().get(key.toString());
         }
         return null;
-    }
-
-    public static void showRequestMap(final HttpServletRequest request) {
-        final Enumeration map = request.getAttributeNames();
-        while (map.hasMoreElements()) {
-            System.out.println("ATTRIBUTES" + map.nextElement());
-        }
     }
 }

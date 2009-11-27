@@ -17,7 +17,8 @@
 
 package org.mapfaces.share.listener;
 
-import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -25,7 +26,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpServletRequest;
 
 import org.mapfaces.share.interfaces.A4JInterface;
 import org.mapfaces.share.interfaces.AjaxInterface;
@@ -52,14 +52,16 @@ public class AjaxListener implements PhaseListener {
     public void afterPhase(final PhaseEvent event) {
 //        FacesContext context = event.getFacesContext();
         final FacesContext context = FacesContext.getCurrentInstance();
+
         if (context != null) {
-            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            final String a4jrequest = request.getParameter("AJAXREQUEST");
-            final String ajaxParam = request.getParameter(AjaxUtils.AJAX_REQUEST_PARAM_KEY);
+            Map<String, String> map = context.getExternalContext().getRequestParameterMap();
+            final String a4jrequest = map.get("AJAXREQUEST");
+            final String ajaxParam = map.get(AjaxUtils.AJAX_REQUEST_PARAM_KEY);
+            
             // Check for the existence of the Ajax param
             if (ajaxParam != null && ajaxParam.equals("true")) {
                 context.responseComplete();// Let JSF know to skip the rest of the lifecycle
-                final String componentId = request.getParameter(AjaxUtils.AJAX_CONTAINER_ID_KEY);
+                final String componentId = map.get(AjaxUtils.AJAX_CONTAINER_ID_KEY);
 //                if (componentId == null) {
 //                    if (LOGGER.isLoggable(Level.WARNING)) {
 //                        //LOGGER.warning("[WARNING] [AjaxListener] No client ID found under key : " + componentId);
@@ -75,11 +77,13 @@ public class AjaxListener implements PhaseListener {
 
                 //Save the state of the page
                 context.getApplication().getStateManager().saveView(context);
+                
             } else if (a4jrequest != null) {
-                final Enumeration<String> listParameters = request.getParameterNames();
-                while (listParameters.hasMoreElements()) {
-                    String param = listParameters.nextElement();
-                    if (param.equals(request.getParameter(param))) {
+                final Iterator<String> it = context.getExternalContext().getRequestParameterNames();
+
+                while (it.hasNext()) {
+                    String param = it.next();
+                    if (param.equals(map.get(param))) {
                         A4JPostRequest(context, param);
                     }
                 }

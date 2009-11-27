@@ -93,7 +93,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -595,8 +595,8 @@ public class ChartUtils {
                    );
             TransformerFactory tf = TransformerFactory.newInstance();
            
-            Transformer transform = tf.newTransformer(
-                    new StreamSource(FacesUtils.getHostUrl()+ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
+            Transformer transform = tf.newTransformer( 
+                    new StreamSource(WebContainerUtils.getHostUrl()+ResourcePhaseListener.getURL(FacesContext.getCurrentInstance(), "/org/mapfaces/svgtovml/xsl/svg2vml.xsl", null)));
 
             StreamResult result = new StreamResult(out);
             transform.transform(source, result);

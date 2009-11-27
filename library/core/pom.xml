@@ -76,6 +76,7 @@
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -104,7 +105,14 @@
             <artifactId>jsp-api</artifactId>
             <scope>provided</scope>
         </dependency>
-     
+
+        <!-- Portlet -->
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+
         <!-- ajax4jsf -->
         <dependency>
             <groupId>org.ajax4jsf</groupId>

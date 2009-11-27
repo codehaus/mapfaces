@@ -22,10 +22,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
@@ -34,9 +32,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.portlet.PortletRequest;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
@@ -60,6 +56,7 @@ import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.util.XMLContextUtilities;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -228,13 +225,15 @@ public class ContextRenderer extends Renderer {
             } else {
             //if fileUrl is an URL
                 
-                //if fileUrl is a completeURL
+                //if fileUrl is a complete URL
                 if (fileUrl.startsWith("http://")) {
                     filePath = fileUrl;
 
                 } else {
-                //if fileUrl is a relative path
-                    filePath = "http://" + sc.getRequestHeaderMap().get("host") + sc.getRequestContextPath();
+                //if fileUrl is a relative path URL
+
+                    //TODO: probably doesn't work with portlet use function WebContainerUtils.getRequestURL
+                    filePath = WebContainerUtils.getRequestURL(context);
 
                     if (fileUrl.startsWith("/")) {
                         filePath += fileUrl;
@@ -248,6 +247,7 @@ public class ContextRenderer extends Renderer {
                 if (comp.isDebug()) {
                     LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] url = " + filePath);
                 }
+                
                 try {
                     ctx = XMLContextUtilities.readContext(new URL(filePath));
 

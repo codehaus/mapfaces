@@ -38,11 +38,6 @@ import javax.faces.lifecycle.Lifecycle;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
-import javax.faces.webapp.FacesServlet;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 import org.mapfaces.component.models.UIModelBase;
 
@@ -60,12 +55,14 @@ public class FacesUtils {
      * @param context
      * @return
      */
+    //TODO : this function should be in the clas WebContainerUtils
     public static boolean isIEBrowser(FacesContext context) {
-        final HttpServletRequest servletReq = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String useragent = servletReq.getHeader("User-Agent");
+        final String useragent = WebContainerUtils.getUserAgent(context);
         boolean isIE = false;
+        
         if (useragent != null) {
             final String user = useragent.toLowerCase(Locale.getDefault());
+
             if (user.indexOf("msie") != -1) {
                 isIE = true;
             }
@@ -91,17 +88,6 @@ public class FacesUtils {
         return null;
     }
 
-    /**
-     * Returns the host url from the current container.
-     * @return String
-     */
-    public static String getHostUrl() {
-        //ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        final String url = request.getRequestURL().toString();
-        final String uri = request.getRequestURI();
-        return url.substring(0, url.indexOf(uri));
-    }
 
     /**
      * This is a recursive method to encode all component's children.
@@ -153,21 +139,14 @@ public class FacesUtils {
      */
     public static PrintWriter getResponseWriter(FacesContext fc) {
         PrintWriter writer = null;
+        
         try {
-            writer = getResponse(fc).getWriter();
+            writer = WebContainerUtils.getResponseWriter(fc);
+
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Can't get the response writer !!!", ex);
         }
         return writer;
-    }
-
-    /**
-     * Returns HttpServletResponse from facesContext
-     * @param fc
-     * @return
-     */
-    public static HttpServletResponse getResponse(FacesContext fc) {
-        return (HttpServletResponse) fc.getExternalContext().getResponse();
     }
 
     /**
@@ -317,15 +296,13 @@ public class FacesUtils {
     public static ResponseWriter getResponseWriter2(FacesContext context) throws IOException {
         ResponseWriter curWriter = context.getResponseWriter();
         if (null == curWriter) {
-            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
             final RenderKitFactory rkf = (RenderKitFactory) FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
             final RenderKit renderKit = rkf.getRenderKit(context,
                     context.getViewRoot().getRenderKitId());
 
-            curWriter = renderKit.createResponseWriter(response.getWriter(),
-                    "text/html", request.getCharacterEncoding());
+            curWriter = renderKit.createResponseWriter(WebContainerUtils.getResponseWriter(context),
+                    "text/html", context.getExternalContext().getRequestCharacterEncoding());
 
             context.setResponseWriter(curWriter);
         }
@@ -358,11 +335,15 @@ public class FacesUtils {
      * @param context
      * @return the id of the life cycle.
      */
-    public static String getLifecycleId(ServletContext context) {
+     /**
+     * NB : This function was commented because she doesn't make the difference between Servletequest and PortletRequest
+     *and we don't use it. If you want use it, move it into WebContainerUtils class
+     */
+    /*public static String getLifecycleId(ServletContext context) {
         final String lifecycleId = context.getInitParameter(FacesServlet.LIFECYCLE_ID_ATTR);
         return lifecycleId != null ? lifecycleId
                 : LifecycleFactory.DEFAULT_LIFECYCLE;
-    }
+    }*/
 
     /**
      * Creates a new UIParameter component.
@@ -379,26 +360,29 @@ public class FacesUtils {
         return fParam;
     }
 
+    //TODO maybe we should remove this function and use directly the WebContainerUtils.getSessionId(context)
     /**
      * This method returns the current Session id, if context is null then {@code null} is returned.
      * @return String id
      */
     public static String getCurrentSessionId() {
-        String result = null;
         final FacesContext context = FacesContext.getCurrentInstance();
+        
         if (context != null) {
-            final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            final HttpSession session = request.getSession();
-            result = session.getId();
+            return WebContainerUtils.getSessionId(context);
         }
-        return result;
+        return null;
     }
 
     /**
      * This method returns the  current server informations ie:  Sun Java System Application Server or Apache Tomcat/6.0.13 ...
      * @return the server name.
      */
-    public static String getServerInfoFromContext() {
+    /**
+     * NB : This function was commented because she doesn't make the difference between Servletequest and PortletRequest
+     *and we don't use it. If you want use it, move it into WebContainerUtils class
+     */
+   /* public static String getServerInfoFromContext() {
         final FacesContext context = FacesContext.getCurrentInstance();
         if (context != null) {
             final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -406,7 +390,7 @@ public class FacesUtils {
             return session.getServletContext().getServerInfo();
         }
         return null;
-    }
+    }*/
 
     /**
      * This method puts at the sessionmap a couple key value.

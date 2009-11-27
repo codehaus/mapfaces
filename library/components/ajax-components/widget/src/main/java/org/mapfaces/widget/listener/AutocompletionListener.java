@@ -268,6 +268,8 @@ public class AutocompletionListener implements PhaseListener {
                                                                     if (outputEpsgCode == null) {
                                                                         outputEpsgCode = "EPSG:4326";
                                                                     }
+                                                                    if(debug) LOGGER.log(Level.INFO,  "1 epsg code  = " + pos.getSrsName());
+                                                                    if(debug) LOGGER.log(Level.INFO,  "1 output epsg code  = " + outputEpsgCode);
                                                                     final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode);
                                                                     final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
                                                                     final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
@@ -328,6 +330,8 @@ public class AutocompletionListener implements PhaseListener {
                                                                         if (outputEpsgCode == null) {
                                                                             outputEpsgCode = "EPSG:4326";
                                                                         }
+                                                                        if(debug) LOGGER.log(Level.INFO,  "2 epsg code  = " + pos.getSrsName());
+                                                                        if(debug) LOGGER.log(Level.INFO,  "2 output epsg code  = " + outputEpsgCode);
                                                                         final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode);
                                                                         final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
                                                                         final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);

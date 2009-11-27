@@ -89,9 +89,7 @@ public class UIContext extends UIModelBase {
      */
     public String saveModel(final FacesContext context) throws JAXBException {
         //TODO
-//        ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-//        String fileUrl = sc.getRealPath("tmp/owc.xml");
-//        File t = new File(fileUrl);
+//        File t = new File( System.getProperty("user.home") + "/tmp/owc_save.xml");
 //
 //        //casting the model to Context for this UIContext component.
 //        Context modelContext = (Context) getModel();

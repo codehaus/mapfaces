@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseListener;
 import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpServletRequest;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * This is a browser detect listener that can detects every full jsf life cycle process.
@@ -53,9 +53,10 @@ public class DetectBrowserListener implements PhaseListener {
     }
 
     public void proceedToDetect(FacesContext context) {
+        
         if (context != null) {
-            HttpServletRequest servletReq = (HttpServletRequest) context.getExternalContext().getRequest();
-            String useragent = servletReq.getHeader("User-Agent");
+            String useragent = WebContainerUtils.getUserAgent(context);
+            
             if (useragent != null) {
                 String user = useragent.toLowerCase();
                 if ((user.indexOf("msie") != -1)) {

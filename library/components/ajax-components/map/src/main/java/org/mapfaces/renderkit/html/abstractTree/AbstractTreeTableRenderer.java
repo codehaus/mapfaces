@@ -36,6 +36,7 @@ import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.utils.AjaxUtils;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.tree.TreeStyle;
 
@@ -210,9 +211,7 @@ public abstract class AbstractTreeTableRenderer extends Renderer implements Cust
     @Override
     public void encodeEnd(final FacesContext context, final UIComponent component) throws IOException {
         final ResponseWriter writer      = context.getResponseWriter();
-        final AjaxUtils ajaxtools        = new AjaxUtils();
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String AJAX_SERVER         = ajaxtools.getAjaxServer(request);
+        final String AJAX_SERVER         = WebContainerUtils.getAjaxServer(context);
         Date phaseStart,phaseEnd ;
 
         /* Initialisation */

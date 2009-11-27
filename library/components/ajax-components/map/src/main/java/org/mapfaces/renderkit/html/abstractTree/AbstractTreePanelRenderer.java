@@ -42,8 +42,8 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.models.tree.TreeTableModel;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.share.request.ServletUtils;
 import org.mapfaces.share.utils.AjaxUtils;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.tree.TreeStyle;
 import org.mapfaces.util.treetable.TreeTableConfig;
@@ -84,7 +84,7 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
         /*
          * Look client Browser, if it's Opera, we fix loadAll option
          */
-        if (ServletUtils.isOpera()) {
+        if (WebContainerUtils.isOpera()) {
             loadAll = true;
         } else {
             loadAll = treepanel.isLoadAll();

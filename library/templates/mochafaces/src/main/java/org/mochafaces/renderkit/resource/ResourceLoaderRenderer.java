@@ -27,8 +27,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import org.mapfaces.share.listener.ResourcePhaseListener;
-import org.mapfaces.share.request.ServletUtils;
 import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mochafaces.component.resource.UIMetaResource;
 
 /**
@@ -140,7 +140,7 @@ public class ResourceLoaderRenderer extends Renderer {
         writer.writeAttribute("href", ResourcePhaseListener.getURL(context, CSS_window, null), null);
         writer.endElement("link");
 
-        if (ServletUtils.isExplorer()){
+        if (WebContainerUtils.isExplorer()){
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.writeAttribute("src", ResourcePhaseListener.getURL(context, JS_IE, null), null);

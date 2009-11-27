@@ -15,9 +15,9 @@
             <br/>
             <h:form>
                 <h:commandButton value="submit"/>
-                <mf-model:Context service="data/context/blueMarble.xml">
+                <mf-model:Context service="/data/context/blueMarble.xml">
                     <mf:MapPane navigation="true"></mf:MapPane>
-                    <mf:LayerControl id="lc"></mf:LayerControl>
+                    <mf:LayerControl id="lc" layerInfo="true"></mf:LayerControl>
                 </mf-model:Context>
             </h:form>
         </body>

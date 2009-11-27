@@ -37,6 +37,7 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.widgetfaces.component.temporal.UIDatepicker;
 
 /**
@@ -172,7 +173,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         if (comp.isEnableAjax()) {
             final StringBuilder ajaxrequest = new StringBuilder();
 
-            final String urlRequest = AjaxUtils.getAjaxServer((HttpServletRequest) context.getExternalContext().getRequest());
+            final String urlRequest = WebContainerUtils.getAjaxServer(context);
             ajaxrequest.append("new Request.HTML({").
                     append("url:'").append(urlRequest).append("',").
                     append("data:{").append("'javax.faces.ViewState':").

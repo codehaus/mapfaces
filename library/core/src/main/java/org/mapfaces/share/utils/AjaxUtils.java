@@ -19,8 +19,6 @@ package org.mapfaces.share.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author Kevin Delfour
  */
@@ -83,11 +81,7 @@ public class AjaxUtils {
     public static String getRequestJs (String method, String url, String parameters){
 //        return "var requete = new Request({method: '"+method+"', url: '" +url+ "'}).send('" +parameters+ "');";
         return "var requete = new Request({method: '"+method+"',url: '" +url+ "'}).send('" +parameters+ "');";
-    }
-
-    public static String getAjaxServer(HttpServletRequest request) {
-        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getRequestURI();
-    }
+    }   
 
     public synchronized String getAjaxParameters(){
         final StringBuilder AjaxParameters = new StringBuilder("");
