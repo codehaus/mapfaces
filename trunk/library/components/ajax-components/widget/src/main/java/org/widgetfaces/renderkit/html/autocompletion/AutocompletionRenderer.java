@@ -256,18 +256,18 @@ public class AutocompletionRenderer extends Renderer {
         if (comp.isLoadMootools()) {
             writer.startElement(HTML.SCRIPT_ELEM, comp);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
             writer.startElement(HTML.SCRIPT_ELEM, comp);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 
          if (comp.isLoadJs()) {
             writer.startElement(HTML.SCRIPT_ELEM, comp);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 

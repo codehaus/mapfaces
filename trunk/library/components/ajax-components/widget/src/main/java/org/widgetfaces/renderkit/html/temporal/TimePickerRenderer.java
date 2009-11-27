@@ -133,11 +133,11 @@ public class TimePickerRenderer extends Renderer {
             // Loading of Mootools.
             writer.startElement(HTML.SCRIPT_ELEM, component);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
             writer.startElement(HTML.SCRIPT_ELEM, component);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 
@@ -147,7 +147,7 @@ public class TimePickerRenderer extends Renderer {
             // Loading of the plugin Nogray TimePicker.
             writer.startElement(HTML.SCRIPT_ELEM, component);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, NOGRAYSRC, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, NOGRAYSRC, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 
@@ -175,7 +175,7 @@ public class TimePickerRenderer extends Renderer {
 
         writer.startElement(HTML.IMG_ELEM, component);
         writer.writeAttribute(HTML.class_ATTRIBUTE, FIRSTIMGCLASS, null);
-        writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, FIRSTIMGSRC, null), null);
+        writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, FIRSTIMGSRC, null), null);
 
         writer.startElement(HTML.DIV_ELEM, component);
         writer.endElement(HTML.DIV_ELEM);
@@ -185,7 +185,7 @@ public class TimePickerRenderer extends Renderer {
 
         writer.startElement(HTML.IMG_ELEM, component);
         writer.writeAttribute(HTML.class_ATTRIBUTE, SECONDIMGCLASS, null);
-        writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, SECONDIMGSRC, null), null);
+        writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SECONDIMGSRC, null), null);
         writer.endElement(HTML.IMG_ELEM);
 
         writer.startElement(LINK, component);
@@ -236,7 +236,7 @@ public class TimePickerRenderer extends Renderer {
             // Load JS File to build the object.
             writer.startElement(HTML.SCRIPT_ELEM, component);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, HTML.TYPE_ATTR);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, TIMEPICKERSRC, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, TIMEPICKERSRC, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
 

@@ -57,87 +57,50 @@ import org.mapfaces.share.utils.SelectItemsIterator;
  */
 public class SelectManyPicklistRenderer extends Renderer {
 
-    /*
-     *@TODO add static elements attributes in org.mapfaces.share.utils.RendererUtils.HTML
-     * instead of this renderer class
-     */
-    private static String INPUT_TYPE_BUTTON = "button";
-    private static String BR_ELEM = "br";
-    private static String DATAFLD_ATTR = "datafld";
-    private static String DATASRC_ATTR = "datasrc";
-    private static String DATAFORMATAS_ATTR = "dataformatas";
-    // Common event handler attributes
-    private static String ONCLICK_ATTR = "onclick";
-    private static String ONDBLCLICK_ATTR = "ondblclick";
-    private static String ONMOUSEDOWN_ATTR = "onmousedown";
-    private static String ONMOUSEUP_ATTR = "onmouseup";
-    private static String ONMOUSEOVER_ATTR = "onmouseover";
-    private static String ONMOUSEMOVE_ATTR = "onmousemove";
-    private static String ONMOUSEOUT_ATTR = "onmouseout";
-    private static String ONKEYPRESS_ATTR = "onkeypress";
-    private static String ONKEYDOWN_ATTR = "onkeydown";
-    private static String ONKEYUP_ATTR = "onkeyup";
-
-    // Input field event handler attributes
-    private static String ONFOCUS_ATTR = "onfocus";
-    private static String ONBLUR_ATTR = "onblur";
-    private static String ONSELECT_ATTR = "onselect";
-    private static String ONCHANGE_ATTR = "onchange";
-
-    // universal attributes
-    private static String DIR_ATTR = "dir";
-    private static String LANG_ATTR = "lang";
-    private static String STYLE_ATTR = "style";
-    private static String TITLE_ATTR = "title";
     private static String STYLE_CLASS_ATTR = "styleClass"; //"class" cannot be used as property name
-    private static String ACCESSKEY_ATTR = "accesskey";
-    private static String TABINDEX_ATTR = "tabindex";
     private static String OPTGROUP_ELEM = "optgroup";
-    private static String LABEL_ATTR = "label";
-    private static String OPTION_ELEM = "option";
-    private static String SELECTED_ATTR = "selected";
     private static final char TABULATOR = '\t';
     private static String[] SELECT_ATTRIBUTES = {
-        DATAFLD_ATTR,
-        DATASRC_ATTR,
-        DATAFORMATAS_ATTR,};
+        HTML.DATAFLD_ATTR,
+        HTML.DATASRC_ATTR,
+        HTML.DATAFORMATAS_ATTR,};
     private static String[] EVENT_HANDLER_ATTRIBUTES_WITHOUT_ONCLICK = {
-        ONDBLCLICK_ATTR,
-        ONMOUSEDOWN_ATTR,
-        ONMOUSEUP_ATTR,
-        ONMOUSEOVER_ATTR,
-        ONMOUSEMOVE_ATTR,
-        ONMOUSEOUT_ATTR,
-        ONKEYPRESS_ATTR,
-        ONKEYDOWN_ATTR,
-        ONKEYUP_ATTR
+        HTML.ondblclick_ATTRIBUTE,
+        HTML.onmousedown_ATTRIBUTE,
+        HTML.onmouseup_ATTRIBUTE,
+        HTML.onmouseover_ATTRIBUTE,
+        HTML.onmousemove_ATTRIBUTE,
+        HTML.onmouseout_ATTRIBUTE,
+        HTML.onkeypress_ATTRIBUTE,
+        HTML.onkeydown_ATTRIBUTE,
+        HTML.onkeyup_ATTRIBUTE
     };
     private static String[] EVENT_HANDLER_ATTRIBUTES =
             (String[]) PickListArrayUtils.concat(
             EVENT_HANDLER_ATTRIBUTES_WITHOUT_ONCLICK,
-            new String[]{ONCLICK_ATTR});
+            new String[]{HTML.onclick_ATTRIBUTE});
     private static String[] UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE = {
-        DIR_ATTR,
-        LANG_ATTR,
-        TITLE_ATTR,
+        HTML.dir_ATTRIBUTE,
+        HTML.lang_ATTRIBUTE,
+        HTML.title_ATTRIBUTE,
     };
     private static String[] UNIVERSAL_ATTRIBUTES =
             (String[]) PickListArrayUtils.concat(
             UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE,
-            new String[]{STYLE_ATTR, STYLE_CLASS_ATTR});
+            new String[]{HTML.style_ATTRIBUTE, STYLE_CLASS_ATTR});
     private static String[] COMMON_PASSTROUGH_ATTRIBUTES =
             (String[]) PickListArrayUtils.concat(
             EVENT_HANDLER_ATTRIBUTES,
             UNIVERSAL_ATTRIBUTES);
     private static String[] COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED = {
-        ACCESSKEY_ATTR,
-        TABINDEX_ATTR
+        HTML.accesskey_ATTRIBUTE,
+        HTML.tabindex_ATTRIBUTE
     };
     private static String[] COMMON_FIELD_EVENT_ATTRIBUTES = {
-        ONFOCUS_ATTR,
-        ONBLUR_ATTR,
-        ONSELECT_ATTR,
-        ONCHANGE_ATTR
+        HTML.onfocus_ATTRIBUTE,
+        HTML.onblur_ATTRIBUTE,
+        HTML.onselect_ATTRIBUTE,
+        HTML.onchange_ATTRIBUTE
     };
     private static String[] COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED =
             (String[]) PickListArrayUtils.concat(
@@ -227,7 +190,7 @@ public class SelectManyPicklistRenderer extends Renderer {
                 selectItemsForSelectedValues);
 
 
-        writer.startElement("table", component);
+        writer.startElement(HTML.TABLE_ELEMENT, component);
         writer.startElement(HTML.TR_ELEMENT, component);
         writer.startElement(HTML.td_ELEM, component);
 
@@ -252,22 +215,22 @@ public class SelectManyPicklistRenderer extends Renderer {
         encodeSwapButton(context, component, javascriptAddToSelected,
                 addButtonText, addButtonStyle, addButtonStyleClass);
 
-        writer.startElement(BR_ELEM, component);
-        writer.endElement(BR_ELEM);
+        writer.startElement(HTML.BR_ELEM, component);
+        writer.endElement(HTML.BR_ELEM);
 
         // encode (add all) button.
         encodeSwapButton(context, component, javascriptAddAllToSelected,
                 addAllButtonText, addAllButtonStyle, addAllButtonStyleClass);
 
-        writer.startElement(BR_ELEM, component);
-        writer.endElement(BR_ELEM);
+        writer.startElement(HTML.BR_ELEM, component);
+        writer.endElement(HTML.BR_ELEM);
 
         // encode (remove selected) button.
         encodeSwapButton(context, component, javascriptRemoveFromSelected,
                 removeButtonText, removeButtonStyle, removeButtonStyleClass);
 
-        writer.startElement(BR_ELEM, component);
-        writer.endElement(BR_ELEM);
+        writer.startElement(HTML.BR_ELEM, component);
+        writer.endElement(HTML.BR_ELEM);
 
         // encode (remove all) button.
         encodeSwapButton(context, component, javascriptRemoveAllFromSelected,
@@ -287,7 +250,7 @@ public class SelectManyPicklistRenderer extends Renderer {
 
         writer.endElement(HTML.td_ELEM);
         writer.endElement(HTML.TR_ELEMENT);
-        writer.endElement("table");
+        writer.endElement(HTML.tabindex_ATTRIBUTE);
 
         writer.flush();
     }
@@ -375,7 +338,7 @@ public class SelectManyPicklistRenderer extends Renderer {
         if (comp.isLoadJs()) {
             writer.startElement(HTML.SCRIPT_ELEM, comp);
             writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.src_ATTRIBUTE, ResourcePhaseListener.getURL(context, PICKLIST_JS, null), null);
+            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, PICKLIST_JS, null), null);
             writer.endElement(HTML.SCRIPT_ELEM);
         }
     }
@@ -386,11 +349,11 @@ public class SelectManyPicklistRenderer extends Renderer {
             throws IOException {
         ResponseWriter writer = facesContext.getResponseWriter();
 
-        writer.startElement("select", uiComponent);
-        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, "id");
+        writer.startElement(HTML.SELECT_ELEMENT, uiComponent);
+        writer.writeAttribute(HTML.id_ATTRIBUTE, clientId, HTML.id_ATTRIBUTE);
         writer.writeAttribute(HTML.NAME_ATTRIBUTE, clientId, null);
 
-        writer.writeAttribute("multiple", "true", null);
+        writer.writeAttribute(HTML.MULTIPLE_ATTRIBUTE, "true", null);
 
         if (size == 0) {
             //No size given (Listbox) --> size is number of select items
@@ -407,7 +370,7 @@ public class SelectManyPicklistRenderer extends Renderer {
         renderSelectOptions(facesContext, uiComponent, Collections.EMPTY_SET, selectItemsToDisplay);
 
         writer.writeText("", null);
-        writer.endElement("select");
+        writer.endElement(HTML.SELECT_ELEMENT);
     }
 
     private void encodeSwapButton(FacesContext facesContext,
@@ -419,7 +382,7 @@ public class SelectManyPicklistRenderer extends Renderer {
         writer.startElement(HTML.INPUT_ELEM, uiComponent);
         writer.writeAttribute(HTML.style_ATTRIBUTE, style, null);
         writer.writeAttribute(HTML.class_ATTRIBUTE, styleClass, null);
-        writer.writeAttribute(HTML.TYPE_ATTR, INPUT_TYPE_BUTTON, "type");
+        writer.writeAttribute(HTML.TYPE_ATTR, HTML.INPUT_TYPE_BUTTON, HTML.TYPE_ATTR);
         writer.writeAttribute(HTML.onclick_ATTRIBUTE, javaScriptFunction, null);
         writer.writeAttribute(HTML.value_ATTRIBUTE, text, null);
         writer.endElement(HTML.INPUT_ELEM);
@@ -715,7 +678,7 @@ public class SelectManyPicklistRenderer extends Renderer {
 
             if (selectItem instanceof SelectItemGroup) {
                 writer.startElement(OPTGROUP_ELEM, component);
-                writer.writeAttribute(LABEL_ATTR, selectItem.getLabel(),
+                writer.writeAttribute(HTML.LABEL_ATTR, selectItem.getLabel(),
                         null);
                 SelectItem[] selectItems = ((SelectItemGroup) selectItem).getSelectItems();
                 renderSelectOptions(context, component, lookupSet,
@@ -725,14 +688,14 @@ public class SelectManyPicklistRenderer extends Renderer {
                 String itemStrValue = getConvertedStringValue(context, component, selectItem);
 
                 writer.write(TABULATOR);
-                writer.startElement(OPTION_ELEM, component);
+                writer.startElement(HTML.OPTION_ELEM, component);
                 if (itemStrValue != null) {
                     writer.writeAttribute(HTML.value_ATTRIBUTE, itemStrValue, null);
                 }
 
                 if (lookupSet.contains(itemStrValue)) {  //TODO/FIX: we always compare the String vales, better fill lookupSet with Strings only when useSubmittedValue==true, else use the real item value Objects
-                    writer.writeAttribute(SELECTED_ATTR,
-                            SELECTED_ATTR, null);
+                    writer.writeAttribute(HTML.SELECTED_ATTR,
+                            HTML.SELECTED_ATTR, null);
                 }
 
                 boolean disabled = selectItem.isDisabled();
@@ -750,7 +713,7 @@ public class SelectManyPicklistRenderer extends Renderer {
                     labelClass = (String) component.getAttributes().get("enabledClass");
                 }
                 if (labelClass != null) {
-                    writer.writeAttribute("class", labelClass, "labelClass");
+                    writer.writeAttribute(HTML.class_ATTRIBUTE, labelClass, "labelClass");
                 }
 
                 boolean escape;
@@ -763,7 +726,7 @@ public class SelectManyPicklistRenderer extends Renderer {
                     writer.write(selectItem.getLabel());
                 }
 
-                writer.endElement(OPTION_ELEM);
+                writer.endElement(HTML.OPTION_ELEM);
             }
         }
     }
