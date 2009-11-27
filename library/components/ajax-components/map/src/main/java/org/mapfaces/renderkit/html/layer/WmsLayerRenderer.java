@@ -151,7 +151,7 @@ public class WmsLayerRenderer extends LayerRenderer {
                 if (model.getLayerRefresh(layer.getId())) {
                     urlImg = new URL(urlImg.toString().concat("&REFRESH=").concat(Long.toString(System.currentTimeMillis())));
                 }
-                writer.writeAttribute(HTML.src_ATTRIBUTE, urlImg, HTML.src_ATTRIBUTE);
+                writer.writeAttribute(HTML.SRC_ATTRIBUTE, urlImg, HTML.SRC_ATTRIBUTE);
             }
 
             if (layer instanceof DefaultWmsGetMapLayer && layer.getUrlGetMap() != null) {

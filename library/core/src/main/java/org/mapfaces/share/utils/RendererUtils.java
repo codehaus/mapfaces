@@ -34,24 +34,32 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
 
     // Log instance for this class
     protected static final Logger logger = FacesLogger.RENDERKIT.getLogger();
-    
+
     public static interface HTML extends org.ajax4jsf.framework.renderer.RendererUtils.HTML {
 
         public static final String IMG_ELEM = "img";
-        public static final String src_ATTRIBUTE = "src";
+        public static final String SRC_ATTRIBUTE = "src";
         public static final String TEXTJAVASCRIPT_VALUE = "text/javascript";
+        public static final String INPUT_TYPE_BUTTON = "button";
+        public static final String BR_ELEM = "br";
+        public static final String DATAFLD_ATTR = "datafld";
+        public static final String DATASRC_ATTR = "datasrc";
+        public static final String DATAFORMATAS_ATTR = "dataformatas";
+        public static final String LABEL_ATTR = "label";
+        public static final String OPTION_ELEM = "option";
+        public static final String SELECTED_ATTR = "selected";
+        public static final String TABLE_ELEMENT = "table";
+        public static final String SELECT_ELEMENT = "select";
+        public static final String MULTIPLE_ATTRIBUTE = "multiple";
     }
-
     /**
      * This object is used to compare a submitted value with an object that can not be a string
      */
     public static final Object NOTHING = new Serializable() {
-        public boolean equals(final Object o)
-        {
-            if (o != null)
-            {
-                if (o.getClass().equals(this.getClass()))
-                {
+
+        public boolean equals(final Object o) {
+            if (o != null) {
+                if (o.getClass().equals(this.getClass())) {
                     return true;
                 }
             }
@@ -92,8 +100,8 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
         if (!component.isRendered()) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE,
-                            "Children of component {0} will not be encoded since this component's rendered attribute is false",
-                            component.getId());
+                        "Children of component {0} will not be encoded since this component's rendered attribute is false",
+                        component.getId());
             }
             return false;
         }
@@ -125,8 +133,9 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
     }
 
     private static void getPathToComponent(UIComponent component, StringBuffer buf) {
-        if (component == null)
+        if (component == null) {
             return;
+        }
 
         StringBuffer intBuf = new StringBuffer();
 
@@ -135,8 +144,7 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
         if (component instanceof UIViewRoot) {
             intBuf.append(",ViewId: ");
             intBuf.append(((UIViewRoot) component).getViewId());
-        }
-        else {
+        } else {
             intBuf.append(",Id: ");
             intBuf.append(component.getId());
         }
@@ -146,6 +154,4 @@ public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils
 
         getPathToComponent(component.getParent(), buf);
     }
-
-    
 }

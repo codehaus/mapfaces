@@ -52,7 +52,7 @@ public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
         writer.writeAttribute(HTML.width_ATTRIBUTE, 24, null);
         writer.writeAttribute(HTML.height_ATTRIBUTE, 24, null);
         writer.writeAttribute(HTML.alt_ATTRIBUTE, "zoom to", null);
-        writer.writeAttribute(HTML.src_ATTRIBUTE, "resource.jsf?r=/org/mapfaces/resources/img/zoomTo.png", null);
+        writer.writeAttribute(HTML.SRC_ATTRIBUTE, "resource.jsf?r=/org/mapfaces/resources/img/zoomTo.png", null);
         writer.writeAttribute(HTML.onclick_ATTRIBUTE, createOnclick(context, component), null);
         writer.writeAttribute(HTML.style_ATTRIBUTE, "cursor:pointer;", null);
         writer.endElement(HTML.IMG_ELEM);

@@ -66,7 +66,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.writeAttribute(HTML.style_ATTRIBUTE,"margin-top:-15px;position: absolute; top: 0pt; left: 60px; width: 20px; height: 19px; ;cursor:move;",getStyle());
             writer.writeAttribute(HTML.class_ATTRIBUTE,"",HTML.class_ATTRIBUTE);
                 writer.startElement(HTML.IMG_ELEM,comp);
-                writer.writeAttribute(HTML.src_ATTRIBUTE,ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
+                writer.writeAttribute(HTML.SRC_ATTRIBUTE,ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
                 writer.writeAttribute(HTML.class_ATTRIBUTE,"imgHandle",HTML.class_ATTRIBUTE);
                 writer.endElement(HTML.IMG_ELEM);
             writer.endElement(HTML.DIV_ELEM);
@@ -75,7 +75,7 @@ public class DimRangeRenderer extends WidgetBaseRenderer {
             writer.writeAttribute(HTML.style_ATTRIBUTE,"margin-top:-15px;position: absolute; top: 0pt; left: 150px; width: 20px; height: 19px; cursor:move;",getStyle());
             writer.writeAttribute(HTML.class_ATTRIBUTE,"selected",HTML.class_ATTRIBUTE);
                 writer.startElement(HTML.IMG_ELEM,comp);
-                writer.writeAttribute(HTML.src_ATTRIBUTE,ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
+                writer.writeAttribute(HTML.SRC_ATTRIBUTE,ResourcePhaseListener.getURL(context,HANDLE_SLIDER_IMG, null), "src");
                 writer.writeAttribute(HTML.class_ATTRIBUTE,"imgHandle",HTML.class_ATTRIBUTE);
                 writer.endElement(HTML.IMG_ELEM);
             writer.endElement(HTML.DIV_ELEM);
