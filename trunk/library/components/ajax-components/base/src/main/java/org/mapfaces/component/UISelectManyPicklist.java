@@ -324,4 +324,32 @@ public class UISelectManyPicklist extends HtmlSelectManyListbox implements State
     public void setValue(Object value) {
         this.value = value;
     }
+
+    /**
+     * @return the style
+     */
+    public String getStyle() {
+        return style;
+    }
+
+    /**
+     * @param style the style to set
+     */
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    /**
+     * @return the styleClass
+     */
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     * @param styleClass the styleClass to set
+     */
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
+    }
 }

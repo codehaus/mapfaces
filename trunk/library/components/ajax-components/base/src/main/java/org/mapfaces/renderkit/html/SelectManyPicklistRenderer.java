@@ -131,6 +131,13 @@ public class SelectManyPicklistRenderer extends Renderer {
         if (!comp.isRendered()) {
             return;
         }
+
+        //Write the scripts once per page
+        final ExternalContext extContext = context.getExternalContext();
+        if (!extContext.getRequestMap().containsKey("ajaxflag.Picklistjs")) {
+            extContext.getRequestMap().put("ajaxflag.Picklistjs", Boolean.TRUE);
+            writeHeaders(context, component);
+        }
     }
 
     @Override
@@ -166,13 +173,6 @@ public class SelectManyPicklistRenderer extends Renderer {
 
         if (removeAllButtonText == null || removeAllButtonText.length() == 0) {
             removeAllButtonText = "<<";
-        }
-
-        //Write the scripts once per page
-        final ExternalContext extContext = context.getExternalContext();
-        if (!extContext.getRequestMap().containsKey("ajaxflag.Picklistjs")) {
-            extContext.getRequestMap().put("ajaxflag.Picklistjs", Boolean.TRUE);
-            writeHeaders(context, component);
         }
 
         String availableListClientId = component.getClientId(context) + AVAILABLE_SUFFIX;
@@ -250,7 +250,7 @@ public class SelectManyPicklistRenderer extends Renderer {
 
         writer.endElement(HTML.td_ELEM);
         writer.endElement(HTML.TR_ELEMENT);
-        writer.endElement(HTML.tabindex_ATTRIBUTE);
+        writer.endElement(HTML.TABLE_ELEMENT);
 
         writer.flush();
     }
