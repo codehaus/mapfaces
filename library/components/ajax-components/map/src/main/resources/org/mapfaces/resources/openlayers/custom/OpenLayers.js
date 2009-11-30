@@ -286,6 +286,8 @@ if(!window.OpenLayers){
                 "openlayers/custom/OpenLayers/Layer/A4JRequest.js",
                 "openlayers/custom/OpenLayers/Layer/MapFaces.js",
                 "openlayers/custom/OpenLayers/Layer/mapfaces/Vector.js",
+                "openlayers/custom/OpenLayers/Layer.js",
+                "openlayers/custom/OpenLayers/Handler/FeatureExt.js",
                 "openlayers/custom/OpenLayers/UtilExt.js",
                 "openlayers/custom/OpenLayers/Handler/MouseWheel.js",
                 "openlayers/custom/OpenLayers/Control/ZoomBoxOut.js",
