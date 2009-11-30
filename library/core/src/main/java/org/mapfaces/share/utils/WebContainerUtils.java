@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Logger;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
@@ -35,13 +34,13 @@ import javax.servlet.http.HttpSession;
  * This class regroup all  methods to differentiate ServletContainer and PortletContainer
  *
  * @author olivier Terral (Geomatys)
- * @since 0.2
+ * @since 0.3
  */
 public class WebContainerUtils {
 
     private static final Logger LOGGER = Logger.getLogger(WebContainerUtils.class.getName());
 
-    public static String getRequestURL(FacesContext facesContext) {
+    public static String getRequestURL(final FacesContext facesContext) {
         final Object request = facesContext.getExternalContext().getRequest();
 
         if (request instanceof HttpServletRequest) {
@@ -76,7 +75,7 @@ public class WebContainerUtils {
     }
 
     //TODO : remove this function and modify  WebContainerUtils.getRequestURL to match the result of this one
-    public static String getAjaxServer(FacesContext facesContext) {
+    public static String getAjaxServer(final FacesContext facesContext) {
         final Object request = facesContext.getExternalContext().getRequest();
 
         if (request instanceof HttpServletRequest) {
@@ -93,7 +92,7 @@ public class WebContainerUtils {
     }
 
 
-    static String getSessionId(FacesContext context) {
+    static String getSessionId(final FacesContext context) {
         final Object session = context.getExternalContext().getSession(true);
 
         if (session instanceof HttpSession) {
@@ -110,39 +109,34 @@ public class WebContainerUtils {
      * @param facesContext
      * @return String A String representing the action URL
      */
-    public static OutputStream getResponseOutpustream(FacesContext facesContext, String contentType) throws IOException {
+    public static OutputStream getResponseOutpustream(final FacesContext facesContext,final String contentType, final Object cache) throws IOException {
         final Object response = facesContext.getExternalContext().getResponse();
-        
+        setResponseProperties(facesContext, contentType, cache);
+
         if (response instanceof HttpServletResponse) {
-            HttpServletResponse servletResponse = (HttpServletResponse) response;
-            servletResponse.setContentType(contentType);
-            return servletResponse.getOutputStream();
+            return ((HttpServletResponse) response).getOutputStream();
 
         } else if (response instanceof PortletResponse) {
             //A PortletResponse can be a RenderResponse or a ActionResponse
 
             if (response instanceof RenderResponse) {
-                RenderResponse portletResponse = (RenderResponse) response;
-                portletResponse.setContentType(contentType);
-                return portletResponse.getPortletOutputStream();
+                return ((RenderResponse) response).getPortletOutputStream();
 
             } else if (response instanceof ActionResponse) {
-                ActionResponse portletResponse = (ActionResponse) response;
                 return null;
-
             }
-
         }
         return null;
     }
      /**
-     * Returns the current outpustream
+     * Returns the current writer
      * @param facesContext
      * @return String A String representing the action URL
      */
-    public static PrintWriter getResponseWriter(FacesContext facesContext) throws IOException {
+    public static PrintWriter getResponseWriter(final FacesContext facesContext,final String contentType, final Object cache) throws IOException {
         final Object response = facesContext.getExternalContext().getResponse();
-
+        setResponseProperties(facesContext, contentType, cache);
+        
         if (response instanceof HttpServletResponse) {
             HttpServletResponse servletResponse = (HttpServletResponse) response;
             return servletResponse.getWriter();
@@ -158,7 +152,7 @@ public class WebContainerUtils {
         return null;
     }
 
-    public static String getUserAgent(FacesContext context) {
+    public static String getUserAgent(final FacesContext context) {
             final Object request = context.getExternalContext().getRequest();
 
             if (request instanceof HttpServletRequest) {
@@ -168,6 +162,7 @@ public class WebContainerUtils {
             } else if (request instanceof PortletRequest) {
                 //TODO find a way to get the user-agent, it seems portlet doesn't have access to HTTP headers
                 //PortletRequest portletRequest = (PortletRequest) request;
+                return "Firefox";
             }
             return null;
     }
@@ -202,7 +197,7 @@ public class WebContainerUtils {
     }
 
     public static boolean isFirefox() {
-        return getUserAgent().contains("Firefox");
+        return getUserAgent().contains("getus");
     }
 
     public static boolean isCamino() {
@@ -232,6 +227,48 @@ public class WebContainerUtils {
 
     public static boolean isWindowsPlatform() {
         return getUserAgent().contains("Win");
+    }
+
+    public static void setResponseProperties(final FacesContext facesContext, final String contentType, final Object cache) {
+        final Object response = facesContext.getExternalContext().getResponse();
+
+        if (response instanceof HttpServletResponse) {
+            HttpServletResponse servletResponse = (HttpServletResponse) response;
+
+            if (contentType != null)
+                servletResponse.setContentType(contentType);
+
+            //TODO may be we should use reflection to pass dynamic parameter
+            if (cache instanceof Boolean) {
+
+                if (!((Boolean) cache)) {
+                    // need to set no cache or IE will not make future requests when same URL used.
+                    servletResponse.setHeader("Pragma", "No-Cache");
+                    servletResponse.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
+                    servletResponse.setDateHeader("Expires", 1);
+
+                }  else {
+                    servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
+                    servletResponse.setDateHeader("Expires", System.currentTimeMillis() + 10L);
+                    servletResponse.setHeader("Cache-control", "max-age=" + (10L / 1000));
+                }
+                
+            } else if (cache instanceof Long)  {
+                servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
+                servletResponse.setDateHeader("Expires", System.currentTimeMillis() + ((Long)cache));
+                servletResponse.setHeader("Cache-control", "max-age=" + (((Long)cache) / 1000));
+            }
+
+        } else if (response instanceof PortletResponse) {
+            //A PortletResponse can be a RenderResponse or a ActionResponse
+
+            if (response instanceof RenderResponse) {
+                RenderResponse portletResponse = (RenderResponse) response;
+                portletResponse.setContentType(contentType);
+
+            }
+
+        }
     }
 
 }

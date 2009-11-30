@@ -17,6 +17,7 @@
 package org.mapfaces.renderkit.html.abstractTree;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
@@ -44,6 +45,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.FacesMapUtils;
 
 /**
@@ -400,25 +402,21 @@ public abstract class AbstractTreeColumnRenderer extends Renderer implements Aja
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
         final StringBuilder sb = new StringBuilder("");
-        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-
-        response.setContentType("text/xml;charset=UTF-8");
-        // need to set no cache or IE will not make future requests when same URL used.
-        response.setHeader("Pragma", "No-Cache");
-        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
-        response.setDateHeader("Expires", 1);
-        sb.append("");
         sb.append("<response>");
         sb.append("OK");
         sb.append("</response>");
 
         try {
-            response.getWriter().write(sb.toString());
+             WebContainerUtils.getResponseWriter(context, "text/xml;charset=UTF-8", false).write(sb.toString());
+
         } catch (IOException iox) {
             iox.printStackTrace();
+
         } finally {
+
             try {
-                response.getWriter().flush();
+                WebContainerUtils.getResponseWriter(context, "text/xml;charset=UTF-8", false).flush();
+                
             } catch (Exception ee) {
                 ee.printStackTrace();
             }

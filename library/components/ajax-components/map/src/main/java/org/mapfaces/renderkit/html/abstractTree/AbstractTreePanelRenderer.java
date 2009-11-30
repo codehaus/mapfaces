@@ -28,7 +28,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.servlet.http.HttpServletRequest;
 
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
@@ -452,16 +451,15 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
     @Override
     public void handleAjaxRequest(final FacesContext context, final UIComponent component) {
         final UITreePanelBase treepanel = (UITreePanelBase) component;
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         if (treepanel.isDebug()) {
             debug = treepanel.isDebug();
         }
-
+        final  Map<String, String> map = context.getExternalContext().getRequestParameterMap();
         /* First we get attributes from the request*/
-        final String TreeLineNewParentId = request.getParameter(AjaxUtils.DND_NEW_PARENT_COMPONENT);
-        final String TreeLineinDragId = request.getParameter(AjaxUtils.AJAX_COMPONENT_ID_KEY);
-        final String dropPosition = request.getParameter(AjaxUtils.DND_POSITION_LINE);
+        final String TreeLineNewParentId = map.get(AjaxUtils.DND_NEW_PARENT_COMPONENT);
+        final String TreeLineinDragId = map.get(AjaxUtils.AJAX_COMPONENT_ID_KEY);
+        final String dropPosition = map.get(AjaxUtils.DND_POSITION_LINE);
         final UITreeLinesBase treeLinesToDrag = (UITreeLinesBase) FacesMapUtils.findComponentById(context, context.getViewRoot(), TreeLineinDragId);
         final UITreeLinesBase treeLinesToDragIn = (UITreeLinesBase) FacesMapUtils.findComponentById(context, context.getViewRoot(), TreeLineNewParentId);
 

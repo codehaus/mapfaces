@@ -29,8 +29,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
@@ -297,12 +295,8 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
     @Override
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        final StringBuilder sb = new StringBuilder();
-        final ExternalContext ext = context.getExternalContext();
         final UIDatepicker comp = (UIDatepicker) component;
-        final Map parameterMap = ext.getRequestParameterMap();
+        final Map parameterMap = context.getExternalContext().getRequestParameterMap();
         
         final UIForm formContainer = getForm(component);
         final String keyParameterInput = formContainer.getId() + ":" + comp.getId() + INPUTDATE_SUFFIX;
@@ -315,17 +309,15 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
             }
         }
 
-        response.setContentType("text/xml;charset=UTF-8");
-        // need to set no cache or IE will not make future requests when same URL used.
-        response.setHeader("Pragma", "No-Cache");
-        response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
-        response.setDateHeader("Expires", 1);
+        final StringBuilder sb = new StringBuilder();
         sb.append("");
         sb.append("<response>");
         sb.append("OK");
         sb.append("</response>");
+
         try {
-            response.getWriter().write(sb.toString());
+            WebContainerUtils.getResponseWriter(context, "text/xml;charset=UTF-8", false).write(sb.toString());
+            
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }

@@ -40,7 +40,6 @@ import javax.faces.render.Renderer;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
-import javax.servlet.http.HttpServletRequest;
 
 import org.geotoolkit.temporal.object.DefaultInstant;
 import org.geotoolkit.temporal.object.DefaultOrdinalPosition;
@@ -68,6 +67,7 @@ import org.mapfaces.models.timeline.HighlightDecorator;
 import org.mapfaces.models.timeline.Priority;
 import org.mapfaces.models.timeline.Status;
 import org.mapfaces.models.timeline.Zone;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.timeline.TimeLineUtils;
 
 import org.opengis.temporal.Duration;
@@ -754,11 +754,9 @@ public class TimeLineRenderer extends Renderer {
     private void addEvent(final FacesContext context, final Event event, final UITimeLine comp, 
             final String idjs) throws IOException {
         final ResponseWriter writer      = context.getResponseWriter();
-        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        final String pathUrl             = request.getRequestURL().toString();
-        final URL url                    = new URL(pathUrl);
+        final URL url                    = new URL(WebContainerUtils.getRequestURL(context));
         final String domainUrl           = url.getProtocol() + "://" + url.getAuthority();
-        final String fullContextPath     = domainUrl + request.getContextPath() + "/";
+        final String fullContextPath     = domainUrl + context.getExternalContext().getRequestContextPath() + "/";
 
         if (event != null) {
             final Calendar cal          = Calendar.getInstance(Locale.ENGLISH);

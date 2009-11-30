@@ -141,7 +141,7 @@ public class FacesUtils {
         PrintWriter writer = null;
         
         try {
-            writer = WebContainerUtils.getResponseWriter(fc);
+            writer = WebContainerUtils.getResponseWriter(fc, null, null);
 
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Can't get the response writer !!!", ex);
@@ -301,7 +301,7 @@ public class FacesUtils {
             final RenderKit renderKit = rkf.getRenderKit(context,
                     context.getViewRoot().getRenderKitId());
 
-            curWriter = renderKit.createResponseWriter(WebContainerUtils.getResponseWriter(context),
+            curWriter = renderKit.createResponseWriter(WebContainerUtils.getResponseWriter(context, null, null),
                     "text/html", context.getExternalContext().getRequestCharacterEncoding());
 
             context.setResponseWriter(curWriter);

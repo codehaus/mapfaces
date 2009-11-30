@@ -92,7 +92,7 @@ public class ResourceLoaderPhaseListener implements PhaseListener {
             }
 
             final InputStream inputStream = ResourceLoaderPhaseListener.class.getResourceAsStream(resourcePath);
-            OutputStream outputStream = WebContainerUtils.getResponseOutpustream(facesContext, contentType);
+            OutputStream outputStream = WebContainerUtils.getResponseOutpustream(facesContext, contentType, null);
             final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
             for (int indice = 0; (indice = inputStream.read(byteArr)) > 0;) {

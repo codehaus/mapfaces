@@ -70,7 +70,7 @@
 		<attribute>
 			<name>datasource</name>
 			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 			<description><![CDATA[Data to be displayed, must be an EL expression.]]></description>
 		</attribute>
 		<attribute>

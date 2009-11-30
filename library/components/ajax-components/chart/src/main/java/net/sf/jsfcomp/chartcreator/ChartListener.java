@@ -34,6 +34,7 @@ import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Cagatay Civici (latest modification by $Author: cagatay_civici $)
@@ -105,25 +106,23 @@ public class ChartListener implements PhaseListener {
             }
 
             try {
-                if (externalContext.getResponse() instanceof HttpServletResponse) {
-                    writeChartWithServletResponse((HttpServletResponse) externalContext.getResponse(), chartData);
-                //writeChartWithServletResponse((HttpServletResponse)externalContext.getResponse(),chart, chartData, info);
-                //else if(externalContext.getResponse() instanceof RenderResponse)
-                //	writeChartWithPortletResponse((RenderResponse)externalContext.getResponse(), chart, chartData);
-                }
+                if (chartData != null)
+                    writeChart(WebContainerUtils.getResponseOutpustream(facesContext, ChartUtils.resolveContentType(chartData.getOutput()), false), chartData);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 sessionMap.put(id, chartData);
                 facesContext.responseComplete();
             }
-        }else if (sessionMap.get(id) instanceof JFreeChart) {
+
+        } else if (sessionMap.get(id) instanceof JFreeChart) {
+
             try {
-                if (externalContext.getResponse() instanceof HttpServletResponse) {
-                    writeJFreeChartAsPng((HttpServletResponse) externalContext.getResponse(), (JFreeChart) sessionMap.get(id), widthValue, heightValue);
-                }
+                writeJFreeChartAsPng(facesContext, (JFreeChart) sessionMap.get(id), widthValue, heightValue);
+              
             } catch (Exception e) {
                 e.printStackTrace();
+                
             } finally {
                 facesContext.responseComplete();
             }
@@ -140,19 +139,7 @@ public class ChartListener implements PhaseListener {
         return PhaseId.RESTORE_VIEW;
     }
 
-    private void writeChartWithServletResponse(HttpServletResponse response, JFreeChart chart, ChartData chartData, ChartRenderingInfo info) throws IOException {
-        OutputStream stream = response.getOutputStream();
-        response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
-        writeChart(stream, chart, chartData, info);
-    }
-
-    private void writeChartWithServletResponse(HttpServletResponse response, ChartData chartData) throws IOException {
-        if (chartData != null) {
-            OutputStream stream = response.getOutputStream();
-            response.setContentType(ChartUtils.resolveContentType(chartData.getOutput()));
-            writeChart(stream, chartData);
-        }
-    }
+    
 
     /**
      * Write
@@ -160,12 +147,9 @@ public class ChartListener implements PhaseListener {
      * @param jfreechart
      * @throws java.io.IOException
      */
-    private void writeJFreeChartAsPng(HttpServletResponse response, JFreeChart jfreechart, int width, int height) throws IOException {
+    private void writeJFreeChartAsPng(final FacesContext facesContext, JFreeChart jfreechart, int width, int height) throws IOException {
         if (jfreechart != null) {
-            OutputStream stream = response.getOutputStream();
-            ChartUtilities.writeChartAsPNG(stream, jfreechart, width, height);
-            stream.flush();
-            stream.close();
+            ChartUtilities.writeChartAsPNG(WebContainerUtils.getResponseOutpustream(facesContext, "image/png", false), jfreechart, width, height);
         }
     }
 

@@ -15,7 +15,9 @@
  */
 package org.mapfaces.demo.bean;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
@@ -29,16 +31,20 @@ import javax.swing.tree.DefaultTreeModel;
 public class TreetableBean {
 
     private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
-
     private DefaultTreeModel tree;
 
     public TreetableBean() {
         String fileUrl = "data/context/owc030Cut.xml";
         try {
             tree = Adapter.OWC2Tree(fileUrl);
+
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

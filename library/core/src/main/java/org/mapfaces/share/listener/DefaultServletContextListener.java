@@ -34,9 +34,11 @@ public class DefaultServletContextListener implements ServletContextListener {
 
     private static final Logger LOGGER = Logger.getLogger(DefaultServletContextListener.class.getName());
 
+    @Override
     public void contextInitialized(ServletContextEvent event) {
     }
 
+    @Override
     public void contextDestroyed(ServletContextEvent event) {
         try {
             Introspector.flushCaches();

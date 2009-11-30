@@ -20,7 +20,6 @@ package org.mapfaces.models;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.List;
-import javax.servlet.ServletContext;
 import org.opengis.geometry.Envelope;
 
 /**
@@ -178,6 +177,6 @@ public interface Context extends Serializable {
 
     void setWfsServers(Map<String, Server> servers);
 
-    void save(ServletContext sc, String fileUrl);
+    void save(String fileUrl);
 
 }

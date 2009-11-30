@@ -32,6 +32,7 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.util.treetable.TreeTableConfig;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.FacesMapUtils;
 
 /**
@@ -195,9 +196,10 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 
     /**
      * Function to  factorize the code of a column rendereer
+     * TBD: this function should be deleted because it's never used
      */
-    public HttpServletResponse createResponse(final FacesContext context, final boolean haveBeenResolved) throws IOException {
-        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+    public Object createResponse(final FacesContext context, final boolean haveBeenResolved) throws IOException {
+//        final HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 //        final StringBuilder sb = new StringBuilder();
 //        response.setContentType("text/xml;charset=UTF-8");
 //        // need to set no cache or IE will not make future requests when same URL used.
@@ -209,7 +211,7 @@ public abstract class AbstractColumnRenderer extends Renderer implements AjaxRen
 //        sb.append("</response>");
 //        response.getWriter().write(sb.toString());
 //        LOGGER.log(Level.INFO, "Response : " +sb.toString());
-        return response;
+        return context.getExternalContext().getResponse();
     }
 
     public String getVarId(final FacesContext context, final UIColumnBase comp) {

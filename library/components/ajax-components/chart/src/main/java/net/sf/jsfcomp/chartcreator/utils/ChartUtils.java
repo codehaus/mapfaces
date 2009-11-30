@@ -588,11 +588,6 @@ public class ChartUtils {
 
         Source source = new StreamSource(new ByteArrayInputStream(in.toByteArray()));
         try {
-            System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath()
-                   );
-            
-            System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo()
-                   );
             TransformerFactory tf = TransformerFactory.newInstance();
            
             Transformer transform = tf.newTransformer( 

@@ -28,7 +28,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpServletResponse;
 import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
@@ -40,7 +39,7 @@ public class ResourcePhaseListener implements PhaseListener {
     public static final String RESOURCE_LOCATION_PARAM = "r";
     public static final String CONTENT_TYPE_PARAM = "ct";
     public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
-    static public final long DEFAULT_EXPIRE = 1000L * 60L * 60L * 24L * 30L;// 30 day
+    static public final Long DEFAULT_EXPIRE = 1000L * 60L * 60L * 24L * 30L;// 30 day
 
    
     private final Map<String, String> extensionToContentType;
@@ -108,20 +107,8 @@ public class ResourcePhaseListener implements PhaseListener {
 
             final InputStream in = getClass().getResourceAsStream(resourcePath);
             
-            try {
-                //TODO :  these setters should be in WebContainerUtils but i don't know
-                //if PortletResponse allow  header values
-                if (external.getResponse() instanceof HttpServletResponse) {
-                    final HttpServletResponse servletResponse =
-                            (HttpServletResponse) external.getResponse();
-                    servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
-                    servletResponse.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE);
-                    servletResponse.setHeader("Cache-control", "max-age=" + (DEFAULT_EXPIRE / 1000));
-                }
-
-                final OutputStream out = WebContainerUtils.getResponseOutpustream(context, contentType);
-
-
+            try {                
+                final OutputStream out = WebContainerUtils.getResponseOutpustream(context, contentType, DEFAULT_EXPIRE);
                 int ch;
                 if (in == null) {
                     return;
