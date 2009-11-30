@@ -299,10 +299,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     final Feature f = temp.getFeatures().get(0);
                                     builder.setName(f.getName());
                                     layerCrs = f.getCrs();
-                                    builder.setCRS(layerCrs);
                                     for (String key : f.getAttributes().keySet()) {
                                         if (key.equals("geometry")) {
-                                            builder.add(key, Geometry.class);
+                                            builder.add(key, Geometry.class,layerCrs);
                                         } else {
                                             builder.add(key, f.getAttributes().get(key).getClass());
                                         }
