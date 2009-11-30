@@ -247,10 +247,9 @@ public class MapBean {
             if (featureList != null && featureList.size() != 0) {
                 final Feature f = featureList.get(0);
                 builder.setName(f.getName());
-                builder.setCRS(f.getCrs());
                 for (String key : f.getAttributes().keySet()) {
                     if (key.equals("geometry")) {
-                        builder.add(key, Geometry.class);
+                        builder.add(key, Geometry.class,f.getCrs());
                     } else {
                         builder.add(key, f.getAttributes().get(key).getClass());
                     }

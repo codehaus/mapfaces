@@ -849,10 +849,9 @@ public class FacesMapUtils extends FacesUtils {
     private static SimpleFeatureTypeBuilder getSimpleFeatureTypeBuilderFromFeature(Feature feature) {
         SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
         builder.setName(feature.getName());
-        builder.setCRS(feature.getCrs());
         for (String key : feature.getAttributes().keySet()) {
             if (key.equals("geometry")) {
-                builder.add(key, Geometry.class);
+                builder.add(key, Geometry.class,feature.getCrs());
             } else {
                 builder.add(key, feature.getAttributes().get(key).getClass());
             }
