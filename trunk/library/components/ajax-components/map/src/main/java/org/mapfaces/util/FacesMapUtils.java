@@ -25,6 +25,9 @@ import com.vividsolutions.jts.geom.LinearRing;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -91,6 +94,7 @@ import org.mapfaces.models.tree.TreeNodeModel;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.Utilities;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
@@ -860,4 +864,76 @@ public class FacesMapUtils extends FacesUtils {
         return builder;
     }
 
+    public static Context getContext(final FacesContext facesContext, final String fileUrl, final boolean debug) throws FileNotFoundException, MalformedURLException {
+        String filePath = null;
+
+        if (fileUrl.startsWith("file://")) {
+
+            if (fileUrl.startsWith("file://.sicade")) {
+                filePath = fileUrl.replaceFirst("file://", System.getProperty("user.home"));
+
+                if (System.getProperty("os.name", "").startsWith("Windows")) {
+                    filePath = filePath.replaceFirst(".sicade", "\\Application Data\\Sicade");
+
+                } else {
+                    filePath = filePath.replaceFirst(".sicade", "/.sicade");
+                }
+
+            } else {
+                // remove the "file://" prefix
+                filePath = fileUrl.replaceFirst("file://", "");
+            }
+
+            if (debug) {
+                LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] path = " + filePath);
+            }
+
+            try {
+                return XMLContextUtilities.readContext(new FileReader(new File(filePath)));
+
+            } catch (JAXBException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+
+            } catch (UnsupportedEncodingException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            //if fileUrl is an URL
+
+            //if fileUrl is a complete URL
+            if (fileUrl.startsWith("http://")) {
+                filePath = fileUrl;
+
+            } else {
+                //if fileUrl is a relative path URL
+
+                //TODO: probably doesn't work with portlet container, use function WebContainerUtils.getRequestURL
+                filePath = WebContainerUtils.getRequestURL(facesContext);
+
+                if (fileUrl.startsWith("/")) {
+                    filePath += fileUrl;
+
+                } else {
+                    final String servletPath = facesContext.getExternalContext().getRequestServletPath();
+                    filePath += servletPath.substring(0, servletPath.lastIndexOf("/") + 1) + fileUrl;
+                }
+            }
+
+            if (debug) {
+                LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] url = " + filePath);
+            }
+
+            try {
+                return XMLContextUtilities.readContext(new URL(filePath));
+
+            } catch (JAXBException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+
+            } catch (UnsupportedEncodingException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
 }

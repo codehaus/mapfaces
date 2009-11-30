@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -55,6 +56,7 @@ import org.mapfaces.models.Server;
 import org.mapfaces.models.layer.WmsLayer;
 
 import org.mapfaces.share.utils.Utilities;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -129,16 +131,16 @@ public class OWCv030toMFTransformer {
 
                     case URN_OGC_SERVICE_TYPE_WMS:
                         WmsLayer layer = (WmsLayer) contextFactory.createDefaultWmsLayer();
-                        final String wmsUrl = serverType.getOnlineResource().get(0).getHref();
+                        String wmsUrl = serverType.getOnlineResource().get(0).getHref();
 
-                        if (!wmsUrl.contains("http://")) {                            //TODO
-//                                if(wmsUrl.startsWith("/")){
-//                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
+                        if (!wmsUrl.contains("http://")) {
+                            
+                            if(wmsUrl.startsWith("/")){
+                                wmsUrl = WebContainerUtils.getHostUrl() + wmsUrl;
 
-//
-//                                }else{
-//                                    wmsUrl =((ServletContext) FacesContext.getCurrentInstance().getExternalContext()).getContextPath()+wmsUrl;
-//                                }
+                            } else{
+                                wmsUrl = WebContainerUtils.getRequestURL(FacesContext.getCurrentInstance()) + "/" + wmsUrl;
+                            }
                         }
                         Server wms = contextFactory.createDefaultServer();
                         wms.setHref(wmsUrl);

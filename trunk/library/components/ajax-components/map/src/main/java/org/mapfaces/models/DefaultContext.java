@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
+import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBException;
 
 import org.geotoolkit.geometry.Envelope2D;
@@ -661,11 +661,11 @@ public class DefaultContext extends AbstractModelBase implements Context {
      * {@inheritDoc }
      */
     @Override
-    public void save(final ServletContext sc, final String fileName) {
+    public void save(final String fileName) {
         try {
             File output;
             if (fileName == null) {
-                final File dstDir = new File(sc.getRealPath("tmp"));
+                final File dstDir = new File(System.getProperty("user.home") + "/tmp");
                 if (!dstDir.exists()) {
                     final boolean tmp = dstDir.mkdir();
                     if (tmp)
@@ -676,9 +676,9 @@ public class DefaultContext extends AbstractModelBase implements Context {
                 }
                 output = File.createTempFile("owc", ".xml", dstDir);
             } else {
-                output = new File(sc.getRealPath("tmp") + "/" + fileName);
+                output = new File(System.getProperty("user.home") + "/tmp" + "/" + fileName);
             }
-            (new XMLContextUtilities()).writeContext(this, output);
+            XMLContextUtilities.writeContext(this, output);
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {

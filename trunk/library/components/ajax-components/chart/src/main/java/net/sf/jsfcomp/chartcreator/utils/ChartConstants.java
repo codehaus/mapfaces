@@ -22,7 +22,7 @@ package net.sf.jsfcomp.chartcreator.utils;
 public class ChartConstants {
 
 	public final static String CHART_REQUEST = "chartcreatorrequest";		//for phaselistener
-	public final static String CHART_SUFFIX	 = "chart";						//for servlet
+	public final static String CHART_SUFFIX	 = "chart";			
 	public final static String GENERATOR_PARAM = "net.sf.jsfcomp.chartcreator.USE_CHARTLET";
         public final static String SVG_NS = "http://www.w3.org/2000/svg";
 }

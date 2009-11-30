@@ -25,7 +25,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.servlet.http.HttpServletRequest;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
@@ -35,7 +34,6 @@ import org.mapfaces.component.abstractTree.UITreeTableBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.tree.TreeModelsUtils;
 import org.mapfaces.share.interfaces.CustomizeTreeComponentRenderer;
-import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.tree.TreeStyle;

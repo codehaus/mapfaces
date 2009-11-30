@@ -16,11 +16,7 @@
  */
 package org.mapfaces.renderkit.html.models;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +28,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import javax.servlet.ServletContext;
-import javax.xml.bind.JAXBException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
@@ -55,8 +49,6 @@ import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.share.utils.RendererUtils.HTML;
-import org.mapfaces.util.XMLContextUtilities;
-import org.mapfaces.share.utils.WebContainerUtils;
 
 /**
  * @author Olivier Terral (Geomatys).
@@ -188,76 +180,9 @@ public class ContextRenderer extends Renderer {
 
             if (fileUrl == null || fileUrl.length() < 1) {
                 throw new IllegalArgumentException("You must indicate a path to file to read");
-            }
-            String filePath = null;
+            }           
 
-            if (fileUrl.startsWith("file://")) {
-
-                if (fileUrl.startsWith("file://.sicade")) {
-                    filePath = fileUrl.replaceFirst("file://", System.getProperty("user.home"));
-
-                    if (System.getProperty("os.name", "").startsWith("Windows")) {
-                        filePath = filePath.replaceFirst(".sicade", "\\Application Data\\Sicade");
-
-                    } else {
-                        filePath = filePath.replaceFirst(".sicade", "/.sicade");
-                    }
-
-                } else {
-                    // remove the "file://" prefix
-                    filePath = fileUrl.replaceFirst("file://", "");
-                }
-
-                if (comp.isDebug()) {
-                    LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] path = " + filePath);
-                }
-                
-                try {
-                    ctx = XMLContextUtilities.readContext(new FileReader(new File(filePath)));
-
-                } catch (JAXBException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-
-                } catch (UnsupportedEncodingException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-                }
-
-            } else {
-            //if fileUrl is an URL
-                
-                //if fileUrl is a complete URL
-                if (fileUrl.startsWith("http://")) {
-                    filePath = fileUrl;
-
-                } else {
-                //if fileUrl is a relative path URL
-
-                    //TODO: probably doesn't work with portlet use function WebContainerUtils.getRequestURL
-                    filePath = WebContainerUtils.getRequestURL(context);
-
-                    if (fileUrl.startsWith("/")) {
-                        filePath += fileUrl;
-
-                    } else {
-                        final String servletPath = sc.getRequestServletPath();
-                        filePath += servletPath.substring(0, servletPath.lastIndexOf("/") + 1) + fileUrl;
-                    }
-                }
-
-                if (comp.isDebug()) {
-                    LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] url = " + filePath);
-                }
-                
-                try {
-                    ctx = XMLContextUtilities.readContext(new URL(filePath));
-
-                } catch (JAXBException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-
-                } catch (UnsupportedEncodingException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-                }
-            }
+            ctx = FacesMapUtils.getContext(context, fileUrl, comp.isDebug());
 
         } else {
             ctx = (Context) comp.getModel();
@@ -422,17 +347,18 @@ public class ContextRenderer extends Renderer {
 
         if (context.getExternalContext().getRequestParameterMap() != null) {
             final Context tmp = (Context) comp.getModel();
-
             final Map params = context.getExternalContext().getRequestParameterMap();
             final String title = (String) params.get(FacesMapUtils.getFormId(context, component) + ":title");
-            if (!comp.getId().contains("Locator") && params.get("org.mapfaces.ajax.ACTION") != null && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
-                final ServletContext servletCtx = (ServletContext) context.getExternalContext().getContext();
 
+            if (!comp.getId().contains("Locator")
+                    && params.get("org.mapfaces.ajax.ACTION") != null
+                    && ((String) params.get("org.mapfaces.ajax.ACTION")).equals("save")) {
+                
                 if (!params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME").equals("null")) {
-                    tmp.save(servletCtx, (String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));
+                    tmp.save((String) params.get("org.mapfaces.ajax.ACTION_SAVE_FILENAME"));
 
                 } else {
-                    tmp.save(servletCtx, null);
+                    tmp.save(null);
                 }
             }
 

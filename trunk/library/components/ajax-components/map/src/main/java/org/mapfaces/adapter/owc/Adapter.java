@@ -16,8 +16,10 @@
  */
 package org.mapfaces.adapter.owc;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -43,8 +45,8 @@ import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.models.tree.TreeItem;
 import org.mapfaces.models.tree.TreeNodeModel;
+import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.Utils;
-import org.mapfaces.util.XMLContextUtilities;
 
 /**
  * this adapter 
@@ -55,11 +57,10 @@ import org.mapfaces.util.XMLContextUtilities;
 public class Adapter {
     private static String rootKey = "root";
 
-    public static DefaultTreeModel OWC2Tree(final String fileUrl) throws JAXBException, UnsupportedEncodingException {
+    public static DefaultTreeModel OWC2Tree(final String fileUrl) throws JAXBException, UnsupportedEncodingException, FileNotFoundException, MalformedURLException {
 
         final FacesContext context = FacesContext.getCurrentInstance();
-        final ServletContext sc = (ServletContext) context.getExternalContext().getContext();
-        final Context model = new XMLContextUtilities().readContext(sc.getRealPath(fileUrl));
+        final Context model = FacesMapUtils.getContext(context, fileUrl, false);
         final DefaultTreeModel tree = new DefaultTreeModel(null);
         final DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootKey);
         final DefaultMutableTreeNode contextOwc = new DefaultMutableTreeNode(model);

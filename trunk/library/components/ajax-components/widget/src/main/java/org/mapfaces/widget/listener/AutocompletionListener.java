@@ -14,10 +14,10 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.widget.listener;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,13 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import org.geotoolkit.gml.xml.v311.AbstractCurveSegmentType;
@@ -54,6 +51,7 @@ import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.skos.xml.Concept;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.widget.util.XMLThesaurusUtilities;
 import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.MismatchedDimensionException;
@@ -111,42 +109,40 @@ public class AutocompletionListener implements PhaseListener {
             // or
             //<li>$word</li>
             //Url of thesaurus web-service
-            final ExternalContext externalContext = facesContext.getExternalContext();
+            final String mode = requestMap.get(AjaxUtils.AUTOCOMPLETION_MODE);
+            List<Concept> concepts = new ArrayList<Concept>();
 
-            if (externalContext.getResponse() instanceof HttpServletResponse) {
-                final String mode = requestMap.get(AjaxUtils.AUTOCOMPLETION_MODE);
-                List<Concept> concepts = new ArrayList<Concept>();
+            if (mode.equals(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML)) {
+                final URL url =
+                        buildRequestUrl(sessionMap, requestMap, value, "GEMET", "RDF", true);
 
-                if (mode.equals(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML)) {
-                    final URL url =
-                            buildRequestUrl(sessionMap, requestMap, value, "GEMET", "RDF", true);
-
-                    if (debug) LOGGER.log(Level.INFO,  url.toString());
-
-                    if (url != null) {
-                        final String wsUrl = requestMap.get(AjaxUtils.THESAURUS_WS_URL);
-                        final String request = requestMap.get(AjaxUtils.THESAURUS_WS_REQUEST);
-                        concepts = XMLThesaurusUtilities.readThesaurus(url, "RDF");
-
-                        if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword)) {
-                            //putting the list of current words requested to find all the word property
-                            FacesUtils.putAtSessionMap(facesContext, requestMap.get(AjaxUtils.AUTOCOMPLETION_CLIENTID), concepts);
-                            writeHtmlWithServletResponse((HttpServletResponse) facesContext.getExternalContext().getResponse(), concepts);
-
-                        } else if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
-                            
-                            if (!concepts.isEmpty()) {
-                                writeConceptGeoWithServletResponse((HttpServletResponse) facesContext.getExternalContext().getResponse(), concepts.get(0), requestMap.get(AjaxUtils.THESAURUS_OUTPUT_EPSG));
-                            }
-                        }
-                    }
-
-                } else if (mode.equals(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_JSON)) {
-                } else if (mode.equals(AjaxUtils.AUTOCOMPLETION_MODE_LOCAL)) {
+                if (debug) {
+                    LOGGER.log(Level.INFO, url.toString());
                 }
 
-                //putting the list of current words requested to find all the word property
+                if (url != null) {
+                    final String wsUrl = requestMap.get(AjaxUtils.THESAURUS_WS_URL);
+                    final String request = requestMap.get(AjaxUtils.THESAURUS_WS_REQUEST);
+                    concepts = XMLThesaurusUtilities.readThesaurus(url, "RDF");
+
+                    if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword)) {
+                        //putting the list of current words requested to find all the word property
+                        FacesUtils.putAtSessionMap(facesContext, requestMap.get(AjaxUtils.AUTOCOMPLETION_CLIENTID), concepts);
+                        writeHtmlInResponse(WebContainerUtils.getResponseWriter(facesContext, "text/html", null), concepts);
+
+                    } else if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
+
+                        if (!concepts.isEmpty()) {
+                            writeConceptGeoInResponse(WebContainerUtils.getResponseWriter(facesContext, "text/plain", null), concepts.get(0), requestMap.get(AjaxUtils.THESAURUS_OUTPUT_EPSG));
+                        }
+                    }
+                }
+
+            } else if (mode.equals(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_JSON)) {
+            } else if (mode.equals(AjaxUtils.AUTOCOMPLETION_MODE_LOCAL)) {
             }
+
+            //putting the list of current words requested to find all the word property
 
         } catch (UnsupportedEncodingException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -191,10 +187,8 @@ public class AutocompletionListener implements PhaseListener {
         return new URL(sb.toString());
     }
 
-    private void writeHtmlWithServletResponse(final HttpServletResponse response,
+    private void writeHtmlInResponse(final PrintWriter writer,
             final List<Concept> words) throws IOException {
-        final ServletOutputStream stream = response.getOutputStream();
-        response.setContentType("text/html");
         final StringBuilder sb = new StringBuilder("");
         int nbWordsToDisplay = 10;
         if (words.size() < nbWordsToDisplay) {
@@ -204,15 +198,13 @@ public class AutocompletionListener implements PhaseListener {
             sb.append("<li onclick=\"\">" + words.get(i).getPrefLabel() + "</li>");
         }
 
-        stream.print(sb.toString());
-        stream.flush();
-        stream.close();
+        writer.write(sb.toString());
+        writer.flush();
+        writer.close();
     }
 
-    private void writeConceptGeoWithServletResponse(final HttpServletResponse response,
+    private void writeConceptGeoInResponse(final PrintWriter writer,
             final Concept conceptGeo, String outputEpsgCode) throws IOException {
-        final ServletOutputStream stream = response.getOutputStream();
-        response.setContentType("text/plain");
 
         try {
             final StringBuilder sb = new StringBuilder("var thesaurusCollection = {").append("\"type\": \"FeatureCollection\",").
@@ -268,8 +260,12 @@ public class AutocompletionListener implements PhaseListener {
                                                                     if (outputEpsgCode == null) {
                                                                         outputEpsgCode = "EPSG:4326";
                                                                     }
-                                                                    if(debug) LOGGER.log(Level.INFO,  "1 epsg code  = " + pos.getSrsName());
-                                                                    if(debug) LOGGER.log(Level.INFO,  "1 output epsg code  = " + outputEpsgCode);
+                                                                    if (debug) {
+                                                                        LOGGER.log(Level.INFO, "1 epsg code  = " + pos.getSrsName());
+                                                                    }
+                                                                    if (debug) {
+                                                                        LOGGER.log(Level.INFO, "1 output epsg code  = " + outputEpsgCode);
+                                                                    }
                                                                     final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode);
                                                                     final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
                                                                     final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
@@ -330,8 +326,12 @@ public class AutocompletionListener implements PhaseListener {
                                                                         if (outputEpsgCode == null) {
                                                                             outputEpsgCode = "EPSG:4326";
                                                                         }
-                                                                        if(debug) LOGGER.log(Level.INFO,  "2 epsg code  = " + pos.getSrsName());
-                                                                        if(debug) LOGGER.log(Level.INFO,  "2 output epsg code  = " + outputEpsgCode);
+                                                                        if (debug) {
+                                                                            LOGGER.log(Level.INFO, "2 epsg code  = " + pos.getSrsName());
+                                                                        }
+                                                                        if (debug) {
+                                                                            LOGGER.log(Level.INFO, "2 output epsg code  = " + outputEpsgCode);
+                                                                        }
                                                                         final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode);
                                                                         final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
                                                                         final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
@@ -368,7 +368,7 @@ public class AutocompletionListener implements PhaseListener {
                 }
             }
             sb.append("]}}]}");
-            stream.print(sb.toString());
+            writer.write(sb.toString());
         } catch (MismatchedDimensionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (TransformException ex) {
@@ -376,8 +376,8 @@ public class AutocompletionListener implements PhaseListener {
         } catch (FactoryException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        stream.flush();
-        stream.close();
+        writer.flush();
+        writer.close();
     }
 
     /*    Thif function build a getConceptsMatchingKeyword request only for GEMET web-service

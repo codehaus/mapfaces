@@ -23,12 +23,10 @@ import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpServletResponse;
 
 import org.geotoolkit.display.canvas.control.NeverFailMonitor;
 import org.geotoolkit.display.exception.PortrayalException;
@@ -43,6 +41,7 @@ import org.geotoolkit.referencing.CRS;
 
 import org.mapfaces.models.Context;
 
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.opengis.geometry.Envelope;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -75,14 +74,15 @@ public class MfLayerListener implements PhaseListener {
 
     private void handleMfLayerRequest(PhaseEvent phaseEvent, String compId, Date datevalue) {
         FacesContext context = phaseEvent.getFacesContext();
-        ExternalContext externalContext = context.getExternalContext();
+        
         if (compId != null) {
+
             try {
-                if (externalContext.getResponse() instanceof HttpServletResponse) {
-                    writeLayerWithServletResponse(context, compId, (HttpServletResponse) externalContext.getResponse(), datevalue);
-                }
+                writeLayer(context, compId, WebContainerUtils.getResponseOutpustream(context, null, null), datevalue);
+
             } catch (Exception e) {
                 e.printStackTrace();
+                
             } finally {
                 context.responseComplete();
             }
@@ -91,12 +91,7 @@ public class MfLayerListener implements PhaseListener {
 
     public void beforePhase(PhaseEvent phaseEvent) {
     }
-
-    private void writeLayerWithServletResponse(FacesContext context, String id, HttpServletResponse response, Date datevalue) throws IOException {
-        OutputStream stream = response.getOutputStream();
-        writeLayer(context, id, stream, datevalue);
-    }
-
+    
     /**
      * This method portray for every Layers
      * @TODO the synchronized keyword must be removed after a fix in gt-working due to an Exception RecursiveSearchException.
@@ -108,11 +103,14 @@ public class MfLayerListener implements PhaseListener {
     private void writeLayer(FacesContext context, String id, OutputStream stream, Date datevalue) throws IOException {
         Map sessionMap = context.getExternalContext().getSessionMap();
         Context model = (Context) sessionMap.get(id + "_model");
+
         if (model != null) {
             final String srs = model.getSrs();
             final CoordinateReferenceSystem crs;
+
             try {
                 crs = CRS.decode(srs);
+
             } catch (FactoryException ex) {
                 LOGGER.log(Level.SEVERE, "Invalid SRS definition : " + srs, ex);
                 return;
@@ -164,14 +162,19 @@ public class MfLayerListener implements PhaseListener {
 
                 } catch (PortrayalException ex) {
                     LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
+
                 } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
+
                     LOGGER.log(Level.WARNING, "Exception : " + exp.getStackTrace().toString());
+
                 } finally {
                     emptySession(sessionMap, id);
                 }
+
             } else {
                 LOGGER.log(Level.WARNING, "No MapContext in session map for the layer\n id : " + id + "\n MapContext : " + mapContext);
             }
+
         } else {
             LOGGER.log(Level.WARNING, "No Model in session map for the layer\n id: " + id + "\n Model : " + model);
         }
@@ -180,4 +183,6 @@ public class MfLayerListener implements PhaseListener {
     private void emptySession(Map sessionMap, String id) {
         sessionMap.remove(id);
     }
+
+    
 }
