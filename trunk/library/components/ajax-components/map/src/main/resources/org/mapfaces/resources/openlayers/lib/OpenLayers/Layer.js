@@ -318,8 +318,6 @@ OpenLayers.Layer = OpenLayers.Class({
 
             this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
         }
-
-        if (!document.getElementById(this.id)) {
             this.div = OpenLayers.Util.createDiv(this.id);
             this.div.style.width = "100%";
             this.div.style.height = "100%";
@@ -330,8 +328,6 @@ OpenLayers.Layer = OpenLayers.Class({
             if(this.eventListeners instanceof Object) {
                 this.events.on(this.eventListeners);
             }
-
-        }
 
         if (this.wrapDateLine) {
             this.displayOutsideMaxExtent = true;
