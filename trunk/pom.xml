@@ -450,7 +450,7 @@
             <plugin>
                 <groupId>org.geotoolkit.project</groupId>
                 <artifactId>geotk-jar-collector</artifactId>
-                <version>SNAPSHOT</version>
+                <version>${geotoolkit.version}</version>
         
                 <executions>
                     <execution>
