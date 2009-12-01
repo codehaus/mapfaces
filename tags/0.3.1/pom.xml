@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!-- =========================================================== -->
+  <!--     Project Description                                     -->
+  <!-- =========================================================== -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces</artifactId>
+    <packaging>pom</packaging>
+    <version>0.3-SNAPSHOT</version>
+    <name>MapFaces</name>
+  
+    <scm>
+        <connection>
+      scm:svn:http://svn.codehaus.org/mapfaces/trunk/
+        </connection>
+        <url>http://svn.codehaus.org/mapfaces/trunk/</url>
+    </scm>
+
+    <organization>
+        <name>MapFaces</name>
+        <url>http://mapfaces.codehaus.org</url>
+    </organization>
+    <inceptionYear>2008</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Lesser General Public License (LGPL)</name>
+            <url>http://www.gnu.org/copyleft/lesser.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+  
+  
+  
+  <!-- =========================================================== -->
+  <!--     Issue managements                  -->
+  <!-- =========================================================== -->
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://jira.codehaus.org/browse/MAPFACES</url>
+    </issueManagement>
+  
+  <!-- =========================================================== -->
+  <!--    Mailing lists.                    -->
+  <!-- =========================================================== -->  
+    <mailingLists>
+        <mailingList>
+            <name>mapfaces-user</name>
+            <subscribe>http://xircles.codehaus.org/lists/user@mapfaces.codehaus.org</subscribe>
+            <post>user@mapfaces.codehaus.org</post>
+            <archive>http://archive.mapfaces.codehaus.org/user</archive>
+        </mailingList>
+        <mailingList>
+            <name>mapfaces-dev</name>
+            <subscribe>http://xircles.codehaus.org/lists/dev@mapfaces.codehaus.org</subscribe>
+            <post>dev@mapfaces.codehaus.org</post>
+            <archive>http://archive.mapfaces.codehaus.org/dev</archive>
+        </mailingList>
+        <mailingList>
+            <name>mapfaces-announce</name>
+            <subscribe>http://xircles.codehaus.org/lists/announce@mapfaces.codehaus.org</subscribe>
+            <post>announce@mapfaces.codehaus.org</post>
+            <archive>http://archive.mapfaces.codehaus.org/announce</archive>
+        </mailingList>
+        <mailingList>
+            <name>mapfaces-scm</name>
+            <subscribe>http://xircles.codehaus.org/lists/scm@mapfaces.codehaus.org</subscribe>
+            <post>scm@mapfaces.codehaus.org</post>
+            <archive>http://archive.mapfaces.codehaus.org/scm</archive>
+        </mailingList>
+    </mailingLists>
+  
+  <!-- =========================================================== -->
+  <!--     Developers and Contributors                             -->
+  <!-- =========================================================== -->
+    <developers>
+        <developer>
+            <name>Mehdi Sidhoum</name>
+            <id>med</id>
+            <email>mehdi.sidhoum@geomatys.fr</email>
+            <organization>Geomatys</organization>
+            <roles>
+                <role>Project Management Committee (PMC) Member</role>
+                <role>Module Maintainer</role>
+                <role>Java Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <name>Olivier Terral</name>
+            <id>oterral</id>
+            <email>olivier.terral@geomatys.fr</email>
+            <organization>Geomatys</organization>
+            <roles>
+                <role>Project Management Committee (PMC) Member</role>
+                <role>Module Maintainer</role>
+                <role>Java Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <name>Vincent Heurteaux</name>
+            <id>vheurteaux</id>
+            <email>vincent.heurteaux@geomatys.fr</email>
+            <organization>Geomatys</organization>
+            <roles>
+                <role>Project Management Committee (PMC) Member</role>
+                <role>Documentation</role>
+                <role>Commercial</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <name>Johann Sorel</name>
+            <id>eclesia</id>
+            <email>johann.sorel@geomatys.fr</email>
+            <organization>Geomatys</organization>
+            <roles>
+                <role>Project Management Committee (PMC) Member</role>
+                <role>Module Maintainer</role>
+                <role>Java Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <name>Martin Desruisseaux</name>
+            <id>desruisseaux</id>
+            <email>martin.desruisseaux@geomatys.fr</email>
+            <organization>Geomatys</organization>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+    
+  
+  <!-- =========================================================== -->
+  <!--     Dependencies to be inherited by all modules.            -->
+  <!-- =========================================================== -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.3.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+  
+  
+  <!-- =========================================================== -->
+  <!--     Dependencies optionals, replace version number for GT dependencies     -->
+  <!-- =========================================================== -->
+    <properties>
+        <geotoolkit.version>SNAPSHOT</geotoolkit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+  
+    <dependencyManagement>
+        <dependencies>
+
+      <!-- geotoolkit -->
+            <dependency>
+                <groupId>org.geotoolkit</groupId>
+                <artifactId>geotk-epsg</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit</groupId>
+                <artifactId>geotk-metadata-fra</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+
+      <!-- geotoolkit-pending -->
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-ogc</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-gml</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-kml</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-ows</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-owc</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-wmc</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-engine-core</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-go2</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-render</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-xml-sld</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-style</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-wms</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-temporal</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+      <!-- this dependency should not be here but in the geotk project-->
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-filter</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotoolkit.pending</groupId>
+                <artifactId>geotk-feature</artifactId>
+                <version>${geotoolkit.version}</version>
+            </dependency>
+
+      <!-- JSF -->
+      <!-- we should be in 1.2_12 but between 1.2_10 and 1.2_11 the ResourcePhaseListener (omit .jsf extension) doesn't load resources as it should-->  
+            <dependency>
+                <groupId>javax.faces</groupId>
+                <artifactId>jsf-api</artifactId>
+                <version>1.2_08</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.faces</groupId>
+                <artifactId>jsf-impl</artifactId>
+                <version>1.2_08</version>
+            </dependency>
+
+      <!-- JSP, Servlet ,JSTL -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2</version>
+            </dependency>
+
+      <!--Grizzly/Comet-->
+            <dependency>
+                <groupId>com.sun.grizzly</groupId>
+                <artifactId>grizzly-comet-webserver</artifactId>
+                <version>1.8.6.3</version>
+            </dependency>
+
+      <!-- ajax4jsf -->
+            <dependency>
+                <groupId>org.ajax4jsf</groupId>
+                <artifactId>ajax4jsf</artifactId>
+                <version>1.1.2-GEOMATYS</version>
+            </dependency>
+
+      <!-- JAXB -->
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>2.1.5</version>
+            </dependency>
+
+      <!-- JFreeChart -->
+            <dependency>
+                <groupId>jfree</groupId>
+                <artifactId>jcommon</artifactId>
+                <version>1.0.15</version>
+            </dependency>
+            <dependency>
+                <groupId>jfree</groupId>
+                <artifactId>jfreechart</artifactId>
+                <version>1.0.12</version>
+            </dependency>
+
+      <!-- Batik SVG -->
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-transcoder</artifactId>
+                <version>1.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-svggen</artifactId>
+                <version>1.7</version>
+            </dependency>
+
+      <!-- COMMONS -->
+      <!-- (certaines de ces dependances sont deja chargé via un plugin donc on les as commentés)-->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.1</version>
+            </dependency>
+
+       <!-- Database drivers -->
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>8.3-603.jdbc4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgis</groupId>
+                <artifactId>postgis-driver</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>10.4.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derbyLocale_fr</artifactId>
+                <version>10.4.2.0</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+  
+  
+  <!-- =========================================================== -->
+  <!--     GeoToolkit, Geomatys and maven repositories     -->
+  <!-- =========================================================== -->
+    <repositories>
+        <repository>
+            <id>java.net.1</id>
+            <name>java.net community</name>
+            <url>http://download.java.net/maven/1</url>
+            <layout>legacy</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>geomatys</id>
+            <name>Other projects</name>
+            <url>http://maven.geomatys.com</url>
+        </repository>
+
+        <repository>
+            <id>geotoolkit</id>
+            <name>Geotoolkit</name>
+            <url>http://maven.geotoolkit.org/</url>
+        </repository>
+    
+    <!-- repository for batik 1.7 -->
+        <repository>
+            <id>official2</id>
+            <name>official mavenrepo 2</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>geotoolkit</id>
+            <name>Geotoolkit</name>
+            <url>http://maven.geotoolkit.org/</url>
+        </pluginRepository>
+    </pluginRepositories>
+  
+  
+  <!-- =========================================================== -->
+  <!--     build     -->
+  <!-- =========================================================== -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>        <!-- The -source argument for the Java compiler.   -->
+                    <target>1.5</target>        <!-- The -target argument for the Java compiler.   -->
+                    <encoding>UTF-8</encoding>  <!-- The -encoding argument for the Java compiler. -->
+                </configuration>
+            </plugin>
+      <!-- plugion maven for loading all commons jar from apache-->
+      <!--plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin-->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <useSystemClassLoader>true</useSystemClassLoader>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.geotoolkit.project</groupId>
+                <artifactId>geotk-jar-collector</artifactId>
+                <version>SNAPSHOT</version>
+        
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>collect</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+           <!-- rename the war file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>mapfaces</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0-alpha-5</version>
+            </extension>
+        </extensions>
+    </build>
+
+  <!--
+    Server where to deploy the web site.
+  -->
+    <distributionManagement>
+        <site>
+            <id>geomatys</id>
+            <name>Site geomatys</name>
+            <url>dav:http://maven.geomatys.com/maven/reports</url>
+        </site>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>geomatys</id>
+            <name>Distribution geomatys</name>
+            <url>dav:http://maven.geomatys.com</url>
+        </repository>
+    </distributionManagement>
+  
+  <!-- =========================================================== -->
+  <!--     Modules for the build in approximate dependency order   -->
+  <!-- =========================================================== -->
+    <modules>
+        <module>library</module>
+        <module>web</module>
+    </modules>
+</project>
