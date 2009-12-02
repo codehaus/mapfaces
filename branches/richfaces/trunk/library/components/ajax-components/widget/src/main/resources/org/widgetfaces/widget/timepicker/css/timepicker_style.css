@@ -1,0 +1,57 @@
+.TimePickermainDiv {
+    margin:5pt auto;
+}
+
+.TimePickerbottomDiv {
+    width:142px;
+    text-align:center;
+}
+
+.TimePickermainDiv .timePickerDiv {
+    width: 142px;
+    height: 142px;
+    margin:auto;
+    margin-bottom:15px;
+}
+
+.TimePickermainDiv .TimePickerfirstImg {
+    position: absolute;
+    z-index: 1;
+}
+
+.TimePickermainDiv .TimePickersecondImg {
+    position: absolute;
+    z-index: 4;
+    margin-top: 68px;
+    margin-left: 67px;
+}
+
+.TimePickeroutputLabelTop {
+    border: 1px solid #396cca;
+    color: rgb(51, 102, 153);
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    height: 30px;
+    width: 142px;
+    margin-bottom:5px;
+    margin-top: 5px;
+}
+
+.TimePickeroutputLabelBottom {
+    border: 1px solid #396cca;
+    color: rgb(51, 102, 153);
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    height: 20px;
+    width: 80px;
+    margin:auto;
+    vertical-align:middle;
+}
+
+.TimePickerbuttonClass {
+    margin:auto;
+    margin-left:4px;
+    margin-right:4px;
+}

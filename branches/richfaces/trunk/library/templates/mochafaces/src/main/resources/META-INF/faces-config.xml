@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee  http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- COMPONENTS -->
+    <!--            HTML components -->
+    <component>
+        <component-type>org.mochafaces.DivHtml</component-type>
+        <component-class>org.mochafaces.component.html.UIDiv</component-class>
+    </component>
+    <!--            Header components -->
+    <component>
+        <component-type>org.mochafaces.HeaderObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIHeader</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.ResourceLoader</component-type>
+        <component-class>org.mochafaces.component.resource.UIResourceLoader</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.CustomResourceLoader</component-type>
+        <component-class>org.mochafaces.component.resource.UICustomResource</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.MetaResourceLoader</component-type>
+        <component-class>org.mochafaces.component.resource.UIMetaResource</component-class>
+    </component>
+    <!--            Body components -->
+    <component>
+        <component-type>org.mochafaces.BodyObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBody</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.BodyDesktopObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBodyDesktop</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.BodyPageWrapperObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBodyPageWrapper</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.BodyDockWrapperObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBodyDockWrapper</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.BodyDesktopHeaderObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBodyDesktopHeader</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.BodyDesktopTopNavBarObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBodyDesktopTopNavBar</component-class>
+    </component>
+    <component>
+        <component-type>org.mochafaces.BodyDesktopAppNavBarObject</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIBodyDesktopAppNavBar</component-class>
+    </component>
+
+    <!--            Others body components -->
+    <component>
+        <component-type>org.mochafaces.PanelBox</component-type>
+        <component-class>org.mochafaces.component.objectInterface.UIPanelBox</component-class>
+    </component>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- RENDERKIT -->
+    <render-kit>
+        <!--            HTML components -->
+        <renderer>
+            <component-family>org.mochafaces.DivHtml</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLDiv</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.html.DivRenderer</renderer-class>
+        </renderer>
+        <!--            Header components -->
+        <renderer>
+            <component-family>org.mochafaces.HeaderObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLHeaderObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.HeaderRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.ResourceLoader</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLResourceLoader</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.resource.ResourceLoaderRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.CustomResourceLoader</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLCustomResourceLoader</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.resource.CustomResourceRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.MetaResourceLoader</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLMetaResourceLoader</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.resource.MetaResourceRenderer</renderer-class>
+        </renderer>
+
+        <!--            Body components -->
+        <renderer>
+            <component-family>org.mochafaces.BodyObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.BodyDesktopObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyDesktopObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyDesktopRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.BodyPageWrapperObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyPageWrapperObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyPageWrapperRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.BodyDockWrapperObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyDockWrapperObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyDockWrapperRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.BodyDesktopHeaderObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyDesktopHeaderObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyDesktopHeaderRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.BodyDesktopTopNavBarObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyDesktopTopNavBarObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyDesktopTopNavBarRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.mochafaces.BodyDesktopAppNavBarObject</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLBodyDesktopAppNavBarObject</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.BodyDesktopAppNavBarRenderer</renderer-class>
+        </renderer>
+
+        <!--            Others body components -->
+        <renderer>
+            <component-family>org.mochafaces.PanelBox</component-family>
+            <renderer-type>org.mochafaces.renderkit.HTMLPanelBox</renderer-type>
+            <renderer-class>org.mochafaces.renderkit.objectInterface.PanelBoxRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+
+</faces-config>

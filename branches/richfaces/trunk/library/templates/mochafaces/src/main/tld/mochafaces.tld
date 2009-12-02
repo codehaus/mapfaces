@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd" [
+
+<!ENTITY resources_attributes               SYSTEM "entities/default_attributes.xml">
+<!ENTITY commons_attributes                 SYSTEM "entities/commons_attributes.xml">
+<!ENTITY events_attributes                  SYSTEM "entities/events_attributes.xml">
+<!ENTITY header_attributes                  SYSTEM "entities/HTMLHeader_attributes.xml">
+<!ENTITY customResourcesLoader_attributes   SYSTEM "entities/HTMLCustomResources_attributes.xml">
+<!ENTITY metaResourcesLoader_attributes     SYSTEM "entities/HTMLMetaResources_attributes.xml">
+<!ENTITY body_attributes                    SYSTEM "entities/HTMLBody_attributes.xml">
+<!ENTITY bodyDesktopHeader_attributes       SYSTEM "entities/HTMLBodyDesktopHeader_attributes.xml">
+<!ENTITY panelBox_attributes                SYSTEM "entities/HTMLPanelBox_attributes.xml">
+]>
+
+<taglib>
+
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.1</jsp-version>
+    <short-name>mof</short-name>
+    <uri>http://mochafaces.resource.org/taglib</uri>
+    <description>
+        <![CDATA[mochafaces Resource library components build an web without any HTML Code]]>
+    </description>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <tag>
+        <name>header</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.HeaderTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Header MUI component]]>
+        </description>
+        &resources_attributes;
+        &header_attributes;
+    </tag>
+
+    <tag>
+        <name>resources</name>
+        <tag-class>org.mochafaces.taglib.resource.ResourceLoaderTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Resource Loader MUI component]]>
+        </description>
+        &resources_attributes;
+    </tag>
+
+    <tag>
+        <name>customResources</name>
+        <tag-class>org.mochafaces.taglib.resource.CustomResourceTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Custom Resource Loader MUI component]]>
+        </description>
+        &resources_attributes;
+        &customResourcesLoader_attributes;
+    </tag>
+
+    <tag>
+        <name>metaResources</name>
+        <tag-class>org.mochafaces.taglib.resource.MetaResourceTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Meta Resource Loader MUI component]]>
+        </description>
+        &resources_attributes;
+        &metaResourcesLoader_attributes;
+    </tag>
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <tag>
+        <name>body</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.BodyTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Body MUI component]]>
+        </description>
+        &resources_attributes;
+        &events_attributes;
+        &commons_attributes;
+        &body_attributes;
+    </tag>
+
+    <tag>
+        <name>desktop</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.BodyDesktopTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Desktop MUI component]]>
+        </description>
+        &resources_attributes;
+        &events_attributes;
+        &commons_attributes;
+    </tag>
+
+    <tag>
+        <name>desktopHeader</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.BodyDesktopHeaderTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Header of the desktop MUI component]]>
+        </description>
+        &resources_attributes;
+        &events_attributes;
+        &commons_attributes;
+        &bodyDesktopHeader_attributes;
+    </tag>
+
+    <tag>
+        <name>headerTopNavBar</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.BodyDesktopTopNavBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Top Navigation Bar of the Header MUI component]]>
+        </description>
+        &resources_attributes;
+        &events_attributes;
+        &commons_attributes;
+    </tag>
+
+    <tag>
+        <name>headerAppNavBar</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.BodyDesktopAppNavBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Application Navigation Bar of the Header MUI component]]>
+        </description>
+        &resources_attributes;
+        &events_attributes;
+        &commons_attributes;
+    </tag>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <tag>
+        <name>panelBox</name>
+        <tag-class>org.mochafaces.taglib.objectInterface.PanelBoxTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                <![CDATA[Panel box MUI component]]>
+        </description>
+        &resources_attributes;
+        &panelBox_attributes;
+    </tag>
+</taglib>
