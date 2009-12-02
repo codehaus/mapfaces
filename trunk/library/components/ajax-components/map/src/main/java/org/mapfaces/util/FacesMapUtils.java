@@ -868,21 +868,19 @@ public class FacesMapUtils extends FacesUtils {
         String filePath = null;
 
         if (fileUrl.startsWith("file://")) {
-
-            if (fileUrl.startsWith("file://.sicade")) {
-                filePath = fileUrl.replaceFirst("file://", System.getProperty("user.home"));
-
-                if (System.getProperty("os.name", "").startsWith("Windows")) {
-                    filePath = filePath.replaceFirst(".sicade", "\\Application Data\\Sicade");
-
-                } else {
-                    filePath = filePath.replaceFirst(".sicade", "/.sicade");
-                }
-
-            } else {
-                // remove the "file://" prefix
-                filePath = fileUrl.replaceFirst("file://", "");
+            //getting the related path that will start by the home directory.
+            String extPath = fileUrl.replaceFirst("file://", "");            
+            /*
+             *if the os name is Windows xp
+             * @TODO for Microsoft home directory under Vista and Seven.
+             */
+            if (System.getProperty("os.name", "").startsWith("Windows")) {
+               extPath = "\\Application Data\\"+extPath;
+            }else{
+                extPath  = "/" + extPath;
             }
+
+            filePath = System.getProperty("user.home") + extPath;
 
             if (debug) {
                 LOGGER.log(Level.INFO, "[DEBUG] [Try to load mapcontext file] path = " + filePath);
