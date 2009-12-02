@@ -1,5 +1,4 @@
 OpenLayers.Layer = OpenLayers.Class(OpenLayers.Layer, {
-
     initialize: function(name, options) {
         this.addOptions(options);
 
