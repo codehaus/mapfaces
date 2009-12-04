@@ -20,30 +20,16 @@
  */
 OpenLayers.Map = OpenLayers.Class({
 
-    /******* MapFaces extra function***********/
-    onChangeLayer: function(context) {
-       // context.layer.events.triggerEvent(context.property + "changed");
-    },
-    reRenderById: function (divId, parameters) {
-    if (!parameters) parameters = {};
-        OpenLayers.Util.extend(parameters, {
-                'synchronized': 'true',
-                'refresh': divId,
-                'bbox': this.getExtent().toBBOX(),
-                'window':  this.getSize().w+','+ this.getSize().h,
-                'render': 'true', //render the layers, always set to true after the first page loads
-                'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
-            });
-            parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
-         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormId, parameters);
-    },
-    reRender: function (parameters) {
-         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormId, parameters);
-    },
-    /******* MapFaces extra function***********/
+    /* *
+     * MAPFACES new variables
+     * */
+    mfFormClientId: null,
 
+    mfRequestId: null,
 
-    /******* end MapFaces extra function***********/
+    mfAjaxDefaultOptions: null,
+
+    
     /**
      * Constant: Z_INDEX_BASE
      * {Object} Base z-indexes for different classes of thing

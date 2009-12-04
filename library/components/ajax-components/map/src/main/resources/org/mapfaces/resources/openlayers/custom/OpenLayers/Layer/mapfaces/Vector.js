@@ -23,12 +23,11 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     contextCompId: null,
     reRenderComplete: null,
 
-    initialize: function(clientId, options) {
+    initialize: function(options) {
         //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
+        this.addOptions(options);
+        this.div = OpenLayers.Util.getElement(this.compClientId);
         OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
-        this.id = clientId + "_layer";
-        this.clientId = this.formId + ':' + this.id;
-        this.compId = clientId;
         this.events.register('featureadded', null, this.onFeatureAdded);
         this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
         this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);
@@ -83,11 +82,45 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     },
 
     onCompleteReRender: function() {
+        
         if ((this.reRender != "") && (this.contextCompId != "")) {
             /* forceRefresh is used to reRender a WMS Layer to deallocate the image from the browser cache. */
             var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':'true'};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
-            this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'oncomplete':this.reRenderComplete,'actionUrl':window.location.href})};
+            this.onComplete = function(){
+                A4J.AJAX.Submit(
+                    this.requestId,
+                    this.formClientId,
+                    null,
+                    {'single':'true',
+                        'parameters':requestParamsReRender,
+                        'oncomplete':this.reRenderComplete,
+                        'actionUrl':window.location.href
+                    }
+                )
+            };
+//            this.onComplete = function(){
+//
+//                var requestParamsReRender = {
+//                    'refresh':this.reRender,
+//                    'forceRefresh':'true'
+//                };
+//                requestParamsReRender[this.contextCompId] = this.contextCompId;
+//                //TODO this should work,  ask leo to verify this
+//                //new version
+//                this.submit(requestParamsReRender);
+                //old version
+//                A4J.AJAX.Submit(
+//                    this.requestId,
+//                    this.formClientId,
+//                    null,
+//                    {'single':'true',
+//                        'parameters':requestParamsReRender,
+//                        'oncomplete':this.reRenderComplete,
+//                        'actionUrl':window.location.href
+//                    }
+//                )
+//            };
         }
     },
 

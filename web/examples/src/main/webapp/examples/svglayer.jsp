@@ -11,17 +11,20 @@
     <html>
         <head></head>
         <body>
-            <h1>MapPane example</h1>
+            <h1>EditionBar example</h1>
             <br/>
             <h:form>
                 <h:commandButton value="submit"/>
-                <%--mf-model:Context service="file://.sicade/blueMarble.xml"--%>
-                <%--<mf-model:Context service="file:///home/olivier/svn/mapfaces/trunk/web/examples/src/main/webapp/data/context/blueMarble.xml">--%>
-                <%--<mf-model:Context service="data/context/blueMarble.xml">--%>
                 <mf-model:Context minifyJS="false" service="/data/context/blueMarble.xml">
-                    <mf:MapPane navigation="true"></mf:MapPane>
+                    <mf:MapPane navigation="true">
+                        <mf:SvgLayer id="svg"/>
+                    </mf:MapPane>
+                    <mf:EditionBar  drawRegularPolygon ="true"
+                        regularPolygonSides="4" snapping="true" drag="true"
+                        select="true" layerTargetId="svg"/>
                 </mf-model:Context>
             </h:form>
         </body>
     </html>
 </f:view>
+ 

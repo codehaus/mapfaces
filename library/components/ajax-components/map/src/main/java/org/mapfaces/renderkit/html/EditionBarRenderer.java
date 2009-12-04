@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UIEditionBar;
 import org.mapfaces.component.UIMapPane;
+import org.mapfaces.component.layer.UISvgLayer;
 import org.mapfaces.util.FacesMapUtils;
 
 /**
@@ -102,22 +103,29 @@ public class EditionBarRenderer extends WidgetBaseRenderer {
             // SVG Layer with the ID indicated.
             final String layerTargetId = (String) comp.getAttributes().get("layerTargetId");
             // we use another variable to stock the final ID of the SVG layer.
-            String layerId = "editingLayer";
-            if ((layerTargetId == null) || "".equals(layerTargetId)) {
+            String layerId = null;
+
+            if ((layerTargetId != null) && !"".equals(layerTargetId)) {
+                final UIComponent svgLayer =  uIMapPane.findComponent(layerTargetId);
+
+                if (svgLayer instanceof UISvgLayer) {
+                    layerId = FacesMapUtils.getJsVariableFromClientId(svgLayer.getClientId(context));
+                } else {
+                    LOGGER.log(Level.WARNING, "SvgLayer with id '" + layerTargetId + "' not found !!!");
+                }
+            }
+
+            if (layerId == null) {
 //            /**
 //             *TBD
 //             *Test for editing tools
 //             */
+                layerId = "editingLayer";
                 writer.write("window." + layerId + " = new OpenLayers.Layer.Vector( 'Editing' );");
                 writer.write("" + mapJsVariable + ".addLayer(window." + layerId + ");");
-            } else {
-                layerId = layerTargetId;
             }
-
 //          // writer.write("" + jsObject + ".addLayer(window.gml);");
 //           //writer.write("" + jsObject + ".addControl(new OpenLayers.Control.EditingToolbar(vlayer));");
-//            //TBD
-           
             writer.write("" +
                     "if (window.OpenLayers &&  window.OpenLayers.Control && window.OpenLayers.Control.EditingToolbar) {" +
                     "var " + controlJsVariable + " = new OpenLayers.Control.EditingToolbar(" + layerId + ", {'div':OpenLayers.Util.getElement('" + idDivbar + "')");
