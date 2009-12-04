@@ -58,7 +58,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
 
 import org.geotoolkit.data.FeatureCollectionUtilities;
 import org.geotoolkit.data.collection.FeatureCollection;

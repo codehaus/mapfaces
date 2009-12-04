@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import org.ajax4jsf.ajax.html.HtmlAjaxRegion;
+import org.ajax4jsf.component.html.HtmlAjaxRegion;
 
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.component.UIButtonBar;

@@ -27,7 +27,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import org.ajax4jsf.ajax.html.HtmlLoadStyle;
+import org.ajax4jsf.component.html.HtmlLoadStyle;
 import org.widgetfaces.adapter.autocompletion.Adapter;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.mapfaces.share.listener.ResourcePhaseListener;

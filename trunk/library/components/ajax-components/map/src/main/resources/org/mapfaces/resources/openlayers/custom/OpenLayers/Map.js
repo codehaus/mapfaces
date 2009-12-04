@@ -21,9 +21,14 @@
 OpenLayers.Map = OpenLayers.Class({
 
     /******* MapFaces extra function***********/
+    mfFormClientId: null,
+    mfRequestId: null,
+    mfAjaxDefaultOptions: null,
+
     onChangeLayer: function(context) {
        // context.layer.events.triggerEvent(context.property + "changed");
     },
+    
     reRenderById: function (divId, parameters) {
     if (!parameters) parameters = {};
         OpenLayers.Util.extend(parameters, {
@@ -35,10 +40,11 @@ OpenLayers.Map = OpenLayers.Class({
                 'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
             });
             parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
-         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormId, parameters);
+         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormClientId, parameters);
     },
+    
     reRender: function (parameters) {
-         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormId, parameters);
+         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormClientId, parameters);
     },
     /******* MapFaces extra function***********/
 

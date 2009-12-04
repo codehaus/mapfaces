@@ -29,9 +29,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
 
-import org.ajax4jsf.ajax.html.HtmlLoadStyle;
+import org.ajax4jsf.component.html.HtmlLoadStyle;
 import org.geotoolkit.map.MapContext;
 
 import org.mapfaces.component.UIMapPane;
