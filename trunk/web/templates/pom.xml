@@ -150,7 +150,7 @@ These lines are deprecated and are here only for example -->
                             </excludes>
                         </aggregation>
                         <aggregation>
-                            <output>${project.build.sourceDirectory}/../webapp/resources/skin/default/css/all.css</output>
+                            <output>${project.build.sourceDirectory}/../webapp/resources/skin/default/all.css</output>
                             <includes>
                                 <include>**/mocha.css</include>
                                 <include>**/main.css</include>
