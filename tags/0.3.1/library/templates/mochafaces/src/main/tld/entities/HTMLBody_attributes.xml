@@ -1,0 +1,25 @@
+<attribute>
+    <name>onload</name>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+    <required>false</required>
+    <rtexprvalue>false</rtexprvalue>
+    <description>
+        <![CDATA[The onload event occurs when the user agent finishes loading a window or all frames within a FRAMESET.
+        This attribute may be used with BODY and FRAMESET elements.]]>
+    </description>
+</attribute>
+
+<attribute>
+    <name>onunload</name>
+    <deferred-value>
+        <type>java.lang.String</type>
+    </deferred-value>
+    <required>false</required>
+    <rtexprvalue>false</rtexprvalue>
+    <description>
+        <![CDATA[The onunload event occurs when the user agent removes a document from a window or frame.
+        This attribute may be used with BODY and FRAMESET elements.]]>
+    </description>
+</attribute>
