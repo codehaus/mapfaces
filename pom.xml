@@ -10,7 +10,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces</artifactId>
     <packaging>pom</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3.1</version>
     <name>MapFaces</name>
   
     <scm>
@@ -156,7 +156,7 @@
   <!--     Dependencies optionals, replace version number for GT dependencies     -->
   <!-- =========================================================== -->
     <properties>
-        <geotoolkit.version>SNAPSHOT</geotoolkit.version>
+        <geotoolkit.version>3.06</geotoolkit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
   
