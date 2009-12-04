@@ -19,7 +19,7 @@
 
             <title><h:outputText value="Template MochaUI #{init.locale}"/></title>
 
-            <link rel="stylesheet" href="resources/skin/default/css/all.css" type="text/css" ></link>
+            <link rel="stylesheet" href="resources/skin/default/all.css" type="text/css" ></link>
             <!--link rel="stylesheet" href="resources/css/content.css" type="text/css" />
             <link rel="stylesheet" href="resources/css/ui.css" type="text/css" /-->
 

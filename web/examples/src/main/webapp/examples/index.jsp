@@ -32,6 +32,9 @@
                 <a href="./layercontrol.jsf">LayerControl</a>
             </li>
             <li>
+                <a href="./locatormap.jsf">LocatorMap</a>
+            </li>
+            <li>
                 <a href="./featureinfo.jsf">FeatureInfo</a>
             </li>
             <li>
