@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.mapfaces</groupId>
         <artifactId>mapfaces-library</artifactId>
-        <version>0.3-SNAPSHOT</version>
+        <version>0.3-RICHFACES</version>
     </parent>
 
   <!-- =========================================================== -->
@@ -15,7 +15,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-comet</artifactId>
     <packaging>jar</packaging>
-    <name>Mapfaces - Comet module</name>
+    <name>MapFaces - Comet module</name>
 
 
   <!-- =========================================================== -->

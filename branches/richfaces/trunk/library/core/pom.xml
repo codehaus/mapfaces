@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.mapfaces</groupId>
         <artifactId>mapfaces-library</artifactId>
-        <version>0.3-SNAPSHOT</version>
+        <version>0.3-RICHFACES</version>
     </parent>
 
 
@@ -14,7 +14,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-core</artifactId>
     <packaging>jar</packaging>
-    <name>Mapfaces - Core module</name>
+    <name>MapFaces - RichFaces - Core module</name>
     <description>The main module contains the key interfaces and default
     implementations that are used by other MapFaces modules.
     </description>
@@ -104,7 +104,10 @@
             <artifactId>jsp-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+        </dependency>
         <!-- Portlet -->
         <dependency>
             <groupId>javax.portlet</groupId>
@@ -112,11 +115,25 @@
         </dependency>
 
         <!-- ajax4jsf -->
-        <dependency>
+        <!--dependency>
             <groupId>org.ajax4jsf</groupId>
             <artifactId>ajax4jsf</artifactId>
-        </dependency>
-     
+        </dependency-->
+         <!-- RichFaces -->
+            <dependency>
+                <groupId>org.richfaces.ui</groupId>
+                <artifactId>richfaces-ui</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-impl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         <!-- COMMONS -->
         <dependency>
             <groupId>commons-lang</groupId>
