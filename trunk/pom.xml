@@ -10,8 +10,8 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces</artifactId>
     <packaging>pom</packaging>
-    <version>0.3-SNAPSHOT</version>
-    <name>MapFaces</name>
+    <version>0.3-RICHFACES</version>
+    <name>MapFaces - RichFaces</name>
   
     <scm>
         <connection>
@@ -291,11 +291,11 @@
             </dependency>
 
       <!-- ajax4jsf -->
-            <dependency>
+            <!--dependency>
                 <groupId>org.ajax4jsf</groupId>
                 <artifactId>ajax4jsf</artifactId>
                 <version>1.1.2-GEOMATYS</version>
-            </dependency>
+            </dependency-->
 
       <!-- JAXB -->
             <dependency>
@@ -346,6 +346,7 @@
                 <groupId>postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>8.3-603.jdbc4</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.postgis</groupId>
@@ -364,11 +365,67 @@
             </dependency>
 
 	<!-- Portlet -->
-           <dependency>
-              <groupId>javax.portlet</groupId>
-              <artifactId>portlet-api</artifactId>
-              <version>2.0</version>
-           </dependency>
+            <dependency>
+                <groupId>javax.portlet</groupId>
+                <artifactId>portlet-api</artifactId>
+                <version>2.0</version>
+            </dependency>
+            
+        <!-- PortletBridge -->
+            <dependency>
+                <groupId>org.jboss.portletbridge</groupId>
+                <artifactId>portletbridge-api</artifactId>
+                <version>2.0.0.BETA</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-impl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.portletbridge</groupId>
+                <artifactId>portletbridge-impl</artifactId>
+                <version>2.0.0.BETA</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-impl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+      <!-- RichFaces -->
+            <dependency>
+                <groupId>org.richfaces.ui</groupId>
+                <artifactId>richfaces-ui</artifactId>
+                <version>3.3.2.SR1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-impl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            
+      <!-- facelets -->
+            <!--dependency>
+                <groupId>com.sun.facelets</groupId>
+                <artifactId>jsf-facelets</artifactId>
+                <version>1.1.14</version>
+            </dependency-->
 
         </dependencies>
     </dependencyManagement>
