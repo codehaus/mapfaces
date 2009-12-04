@@ -24,7 +24,6 @@ import com.vividsolutions.jts.io.WKTWriter;
 import org.mapfaces.renderkit.html.*;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +33,6 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.geotoolkit.data.collection.FeatureCollection;
-import org.geotoolkit.data.collection.FeatureIterator;
-import org.geotoolkit.map.MapBuilder;
-import org.geotoolkit.map.MapContext;
 import org.geotoolkit.referencing.CRS;
 import org.mapfaces.component.UIMapPane;
 import org.mapfaces.component.layer.UISvgLayer;
@@ -46,16 +41,13 @@ import org.mapfaces.models.Context;
 import org.mapfaces.models.DefaultContext;
 import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Feature;
-import org.mapfaces.models.layer.DefaultMapContextLayer;
 import org.mapfaces.models.layer.SvgLayer;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
-import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesMapUtils;
 import org.mapfaces.util.Utils;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -100,23 +92,39 @@ public class SvgLayerRenderer extends LayerRenderer {
         writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
-        final String layerName = "window." + compId;
         
         // We define the StyleMap of the SVGLayer.
-        stringBuilder.append("var style_" + compId + " = new OpenLayers.StyleMap({").append("'default': new OpenLayers.Style({pointRadius: 5");
+        stringBuilder.append("var style_" + compId + " = new OpenLayers.StyleMap({").
+                append("'default': new OpenLayers.Style({").
+                    append("pointRadius: 5");
         final String width = (comp.getWidth() > 0) ? Integer.toString(comp.getWidth()): "1";
-        stringBuilder.append(", strokeWidth:" + width)
-                .append((comp.getFillColor() != null) ? ", fillColor: '" + comp.getFillColor() + "'": "")
-                .append((comp.getStrokeColor() != null) ? ", strokeColor: '" + comp.getStrokeColor() + "'": "");
+        stringBuilder.
+                    append(", strokeWidth:" + width).
+                    append(", fillColor: '" + comp.getFillColor() + "'").
+                    append(", strokeColor: '" + comp.getStrokeColor() + "'").
+                    append(", fillOpacity: " + comp.getOpacity() + "");
+        
         if ((comp.getSelFillColor() != null) && (comp.getSelStrokeColor() != null)) {
-            stringBuilder.append("}), 'select': new OpenLayers.Style({ pointRadius: 5")
-                    .append((comp.getSelFillColor() != null) ? ", fillColor: '" + comp.getSelFillColor() + "'": "")
-                    .append((comp.getSelStrokeColor() != null) ? ", strokeColor: '" + comp.getSelStrokeColor() + "'": "");
+            stringBuilder.append("}), ").
+                append("'select': new OpenLayers.Style({").
+                    append(" pointRadius: 5").
+                    append(", fillColor: '" + comp.getSelFillColor() + "'").
+                    append(", strokeColor: '" + comp.getSelStrokeColor() + "'").
+                    append(", fillOpacity: " + comp.getOpacity() + "");
         }
         stringBuilder.append("})});");
 
         final String reRenderComplete = (comp.getReRenderComplete() != null) ? comp.getReRenderComplete() : "";
-        stringBuilder.append(layerName + " = new OpenLayers.Layer.MapFaces.Vector('" + compId + "', {formId:'" + formId + "', id:'" + comp.getClientId(context) + "', styleMap:style_" + compId + ", reRender:'" + idsToRefresh + "', contextCompId:'" + modelContextId + "', 'reRenderComplete':function(){" + reRenderComplete + "}});");
+        final String jsLayerVariable = FacesMapUtils.getJsVariableFromClientId(comp.getClientId(context));
+        stringBuilder.append(jsLayerVariable + " = new OpenLayers.Layer.MapFaces.Vector("+
+                "{").
+                append("id:").append("'").append(jsLayerVariable).append("'").append(",").
+                append("compId:").append("'").append(comp.getId()).append("'").append(",").
+                append("compClientId:").append("'").append(comp.getClientId(context)).append("'").append(",").
+                append("styleMap:style_" + compId + ", " +
+                "reRender:'" + idsToRefresh + "', " +
+                "contextCompId:'" + modelContextId + "', " +
+                "'reRenderComplete':function(){" + reRenderComplete + "}});");
 
         // If we want to send Serialized features to the client, and if the Value attribute is set with a List...
         if (!comp.isCliToServOnly() && (comp.getValue() != null) && (comp.getValue() instanceof List)) {
@@ -127,19 +135,19 @@ public class SvgLayerRenderer extends LayerRenderer {
                 final WKTWriter wktWriter = new WKTWriter();
                 for (final SimpleFeature feature : featList) {
                     stringBuilder.append("parser_" + compId + " = new OpenLayers.Format.WKT();")
-                            .append(layerName + ".addFeatures(parser_" + compId + ".read('" + wktWriter.write((Geometry) feature.getDefaultGeometry()) + "'));");
+                            .append(jsLayerVariable + ".addFeatures(parser_" + compId + ".read('" + wktWriter.write((Geometry) feature.getDefaultGeometry()) + "'));");
                 }
             }
         }
-        stringBuilder.append(mapJsVariable).append(".addLayer(" + layerName + ");");
-        stringBuilder.append(layerName + ".activeEvents(true);").append("});");
+        stringBuilder.append(mapJsVariable).append(".addLayer(" + jsLayerVariable + ");");
+        stringBuilder.append(jsLayerVariable + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
         writer.endElement(HTML.SCRIPT_ELEM);
         writer.flush();
 
         if (comp.getModel() instanceof DefaultContext) {
             final Context ctx = (DefaultContext) comp.getModel();
-            if(comp.getLayer() == null){
+            if(comp.getLayer() == null)  {
                 final SvgLayer svgLayer = (SvgLayer) new DefaultContextFactory().createDefaultSvgLayer();
                 svgLayer.setName("svgLayer_" + compId);
                 svgLayer.setCompId(compId);
@@ -153,7 +161,7 @@ public class SvgLayerRenderer extends LayerRenderer {
                 svgLayer.setTitle(layerTitle);
                 Double opacity = comp.getOpacity();
                 if ((opacity > 1) && (opacity < 0)) {
-                    opacity = 0.0;
+                    opacity = 0.5;
                 }
                 svgLayer.setOpacity(opacity.toString());
                 ctx.addLayer(svgLayer);

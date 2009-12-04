@@ -18,21 +18,45 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     requestId: null,
 
-    /**
-     * Property: formId
-     * {String} Required attribute , it represents the clientId of UIForm
-     * component
-     *
-     */
-    formId: null,
-
-    /**
+     /**
      * Property: compId
-     * {String} Required attribute , it represents the clientId of A4J component
+     * {String} Required attribute , it represents the id of the layer component
      *  where we send the request
      *
      */
     compId: null,
+
+    /**
+     * Property: compClientId
+     * {String} Required attribute , it represents the clientId of the layer component
+     *  where we send the request
+     *
+     */
+    compClientId: null,
+
+    /**
+     * Property: formClientId
+     * {String} Required attribute , it represents the clientId of UIForm
+     * component
+     *
+     */
+    formClientId: null,
+
+    /**
+     * Property: targetAjaxCompId
+     * {String} Required attribute , it represents the id of A4J component
+     *  where we send the request
+     *
+     */
+    targetAjaxCompId: null,
+    
+    /**
+     * Property: defaultOptions
+     * {Object} Required parmaters to make an a4j request independently of the web container (Portlet or Servlet)
+     * component
+     *
+     */
+    defaultOptions: null,
 
     /**
      * Property: affected
@@ -163,24 +187,48 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     submit: function(requestParams) {
         this.onSubmit(requestParams);
-        requestParams[this.compId] = this.compId;
-        var actionUrl = window.location.href;
-        if (actionUrl.indexOf("?") != -1)
-            actionUrl = actionUrl.substring(0,actionUrl.indexOf("?"));
-        
-        A4J.AJAX.Submit( 
-            this.requestId, 
-            this.formId,
-            null,
-            {   //'affected': this.affected,
+
+        //This is an id for the request, it can be the id of the ajaxregion
+        //to activate the ajax loader handling if exists
+        this.mfRequestId = this.map.mfRequestId;
+        if ((this.requestParams.ajaxRegionClientId)) {
+            this.mfRequestId = parameters.ajaxRegionClientId;
+        }
+
+        this.targetAjaxCompId = this.map.mfAjaxCompId;
+        this.formClientId = this.map.mfFormClientId;
+        this.defaultOptions = this.map.mfAjaxDefaultOptions;
+
+        var options = null;
+        requestParams[this.targetAjaxCompId] = this.targetAjaxCompId;
+
+        if (this.defaultOptions != null) {
+            options = {};
+            OpenLayers.Util.extend(options, this.defaultOptions);
+
+            OpenLayers.Util.extend(options, {
                 'control':this,
                 'single':this.ajaxSingle,
-                'parameters': requestParams,
-                'actionUrl': actionUrl,
-//                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
                 'oncomplete': OpenLayers.Function.bind(this.onComplete, this)
+            });
+
+            if (requestParams != null) {
+
+                if (options.parameters == null) {
+                    options.parameters = {};
+                }
+                OpenLayers.Util.extend(options.parameters, requestParams);
             }
-            );
+
+
+        }
+
+        A4J.AJAX.Submit(
+            this.requestId,
+            this.formClientId,
+            null,
+            options);
+
     },
 
     /**

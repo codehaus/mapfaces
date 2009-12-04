@@ -17,7 +17,6 @@
 
 package org.mapfaces.component.layer;
 
-import java.util.List;
 import org.mapfaces.component.*;
 import javax.faces.context.FacesContext;
 import org.opengis.feature.simple.SimpleFeature;
@@ -35,13 +34,13 @@ public class UISvgLayer extends UILayer {
     private SimpleFeature featureBeforeUpdate;
     private SimpleFeature featureAfterUpdate;
     private String title;
-    private double opacity;
+    private double opacity = 0.5;
     private String reRender;
     private int width;
-    private String fillColor;
-    private String strokeColor;
-    private String selFillColor;
-    private String selStrokeColor;
+    private String fillColor = "#ff0000";
+    private String strokeColor = "#ff0000";
+    private String selFillColor = "#0000ff";
+    private String selStrokeColor = "#0000ff";
     private String targetContextCompId;
     private String reRenderComplete;
     
