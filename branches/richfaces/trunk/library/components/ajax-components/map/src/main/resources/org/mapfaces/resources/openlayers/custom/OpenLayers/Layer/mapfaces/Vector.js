@@ -27,7 +27,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
         //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
         OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
         this.id = clientId + "_layer";
-        this.clientId = this.formId + ':' + this.id;
+        this.clientId = this.formClientId + ':' + this.id;
         this.compId = clientId;
         this.events.register('featureadded', null, this.onFeatureAdded);
         this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
@@ -87,7 +87,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
             /* forceRefresh is used to reRender a WMS Layer to deallocate the image from the browser cache. */
             var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':'true'};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
-            this.onComplete = function(){A4J.AJAX.Submit(this.formId,this.formId,null,{'single':'true','parameters':requestParamsReRender,'oncomplete':this.reRenderComplete,'actionUrl':window.location.href})};
+            this.onComplete = function(){A4J.AJAX.Submit(this.formClientId,this.formClientId,null,{'single':'true','parameters':requestParamsReRender,'oncomplete':this.reRenderComplete,'actionUrl':window.location.href})};
         }
     },
 

@@ -19,20 +19,43 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
     requestId: null,
 
     /**
-     * Property: formId
-     * {String} Required attribute , it represents the clientId of UIForm
-     * component
-     *
-     */
-    formId: null,
-
-    /**
      * Property: compId
-     * {String} Required attribute , it represents the clientId of A4J component
+     * {String} Required attribute , it represents the id of the layer component
      *  where we send the request
      *
      */
     compId: null,
+
+    /**
+     * Property: compClientId
+     * {String} Required attribute , it represents the clientId of the layer component
+     *  where we send the request
+     *
+     */
+    compClientId: null,
+
+    /**
+     * Property: formClientId
+     * {String} Required attribute , it represents the clientId of UIForm
+     * component
+     *
+     */
+    formClientId: null,
+
+    /**
+     * Property: defaultOptions
+     * {Object} Required parmaters to make an a4j request independently of the web conatiner (Portlet or Servlet)
+     * component
+     *
+     */
+    defaultOptions: null,
+
+    /**
+     * Property: targetAjaxCompId
+     * {String} Required attribute , it represents the id of A4J component
+     *  where we send the request     *
+     */
+    targetAjaxCompId: null,
 
     /**
      * Property: affected
@@ -163,24 +186,101 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     submit: function(requestParams) {
         this.onSubmit(requestParams);
-        requestParams[this.compId] = this.compId;
-        var actionUrl = window.location.href;
-        if (actionUrl.indexOf("?") != -1)
-            actionUrl = actionUrl.substring(0,actionUrl.indexOf("?"));
-        
-        A4J.AJAX.Submit( 
-            this.requestId, 
-            this.formId,
-            null,
-            {   //'affected': this.affected,
+        var options = null;
+        requestParams[this.targetAjaxCompId] = this.targetAjaxCompId;
+
+        if (this.defaultOptions != null) {
+            options = {};
+            OpenLayers.Util.extend(options, this.defaultOptions);
+
+            OpenLayers.Util.extend(options, {
                 'control':this,
                 'single':this.ajaxSingle,
-                'parameters': requestParams,
-                'actionUrl': actionUrl,
-//                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
                 'oncomplete': OpenLayers.Function.bind(this.onComplete, this)
+            });
+            
+            if (requestParams != null) {
+
+                if (options.parameters == null) {
+                    options.parameters = {};
+                }
+                OpenLayers.Util.extend(options.parameters, requestParams);
             }
-            );
+            
+
+        }
+
+        A4J.AJAX.Submit(
+            this.formClientId,
+            null,
+            options);
+
+
+//        A4J.AJAX.Submit(
+//            '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0',
+//            null,
+//            {   //'affected': this.affected,
+//                'containerId': '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot',
+//                'namespace' : "jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj",
+//                'control':this,
+//                'single':this.ajaxSingle,
+//                'parameters': requestParams,
+//                //'actionUrl': actionUrl,
+//                'actionUrl': "/richfaces\x2Dbasic/faces/pages/echo.xhtml?javax.portlet.faces.DirectLink=true",
+////                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
+//                'oncomplete': OpenLayers.Function.bind(this.onComplete, this),
+//                'similarityGroupingId': "_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id5"
+//            }
+//            );
+
+//A4J.AJAX.Submit(
+//        '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0',
+//        event,
+//        {
+//            'parameters': {
+//                    '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id8':'_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id8',
+//                    'org.ajax4jsf.portlet.NAMESPACE':'jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj',
+//                    'javax.faces.portletbridge.STATE_ID':'0d1ca5ca\x2Dd961\x2D4961\x2D82c3\x2D0717bdf523a4:view:jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj'
+//            },
+//            'containerId':'_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot',
+//            'namespace':'jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj',
+//            'actionUrl':'/richfaces\x2Dbasic/faces/pages/echo.xhtml?javax.portlet.faces.DirectLink=true',
+//            'similarityGroupingId':'_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id8'
+//
+//        }
+//);
+//                AJAXREQUEST	_viewRoot
+//_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0
+//_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_Ajax	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_Ajax
+//_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0_link_hidden_	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj_viewRootj_id0j_id7_j_id8_MapFaces_Layer_WMS_0
+//bbox	-180,-90,180,90
+//javax.faces.ViewState	j_id1
+//org.mapfaces.ajax.AJAX_COMPONENT_VALUE	false
+//org.mapfaces.ajax.AJAX_CONTAINER_ID	hidden
+//org.mapfaces.ajax.AJAX_LAYER_ID	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_j_id8_MapFaces_Layer_WMS_0
+//org.mapfaces.ajax.LAYER_CONTAINER_STYLE	top:0px;left:0px;
+//refresh	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_j_id8_MapFaces_Layer_WMS_0
+//render	true
+//synchronized	false
+//window	600,300
+//
+//        A4J.AJAX.Submit(
+//            '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0',
+//            null,
+//            {   //'affected': this.affected,
+//                'containerId': "_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot",
+//                'namespace' : "jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj",
+//                'control':this,
+//                'single':this.ajaxSingle,
+//                'parameters': requestParams,
+//                //'actionUrl': actionUrl,
+//                'actionUrl': "/richfaces-basic/faces/pages/echo.xhtml?javax.portlet.faces.DirectLink=true",
+////                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
+//                'oncomplete': OpenLayers.Function.bind(this.onComplete, this),
+//                'similarityGroupingId': "_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id5"
+//            }
+//            );
+
     },
 
     /**

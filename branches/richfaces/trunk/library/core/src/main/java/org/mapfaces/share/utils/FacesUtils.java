@@ -38,7 +38,7 @@ import javax.faces.lifecycle.Lifecycle;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
 import org.mapfaces.component.models.UIModelBase;
 
 /**

@@ -26,8 +26,8 @@ import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 
 import javax.faces.context.ResponseWriter;
-import org.ajax4jsf.ajax.html.HtmlActionParameter;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.ajax4jsf.component.html.HtmlActionParameter;
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
 import org.mapfaces.component.layercontrol.UIVisibilityColumn;
 import org.mapfaces.component.tree.UITreeLines;
 import org.mapfaces.models.Layer;

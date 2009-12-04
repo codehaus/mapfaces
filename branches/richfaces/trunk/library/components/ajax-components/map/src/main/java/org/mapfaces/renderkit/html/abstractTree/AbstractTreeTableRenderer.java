@@ -27,7 +27,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.ajax4jsf.ajax.html.HtmlLoadStyle;
+import org.ajax4jsf.component.html.HtmlLoadStyle;
 import org.mapfaces.component.abstractTree.UITreeBase;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.component.abstractTree.UITreeTableBase;

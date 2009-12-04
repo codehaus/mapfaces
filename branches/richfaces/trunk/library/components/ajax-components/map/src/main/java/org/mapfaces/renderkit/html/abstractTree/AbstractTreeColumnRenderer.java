@@ -29,8 +29,8 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.ajax4jsf.ajax.html.HtmlAjaxCommandLink;
-import org.ajax4jsf.ajax.html.HtmlAjaxOutputPanel;
+import org.ajax4jsf.component.html.HtmlAjaxCommandLink;
+import org.ajax4jsf.component.html.HtmlAjaxOutputPanel;
 
 import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;

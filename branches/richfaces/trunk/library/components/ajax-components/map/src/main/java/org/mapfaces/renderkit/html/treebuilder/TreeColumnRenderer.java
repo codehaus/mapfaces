@@ -21,7 +21,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
 
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
 import org.mapfaces.component.treebuilder.UITreeLines;

@@ -17,13 +17,7 @@
  */
 OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
 
-    /**
-     * APIProperty: clientId
-     * The clientId corresponds to a org.mapfaces.component.UILayer MapFaces
-     * component
-     * {String}
-     */
-    clientId: null,
+ 
 
     moveend:[],
     
@@ -101,7 +95,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
      * {<OpenLayers.Layer.MapFaces>} A new MapFaces layer
      */
 
-    initialize: function(clientId, options) {
+    initialize: function(options) {
 
         // concatenate events specific to MapFaces with those from the base
         this.EVENT_TYPES =
@@ -114,8 +108,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
             this.events.on(this.eventListeners);
         }
         this.addOptions(options);
-        this.clientId = clientId;
-        this.div = OpenLayers.Util.getElement(this.clientId);
+        this.div = OpenLayers.Util.getElement(this.compClientId);
         OpenLayers.Layer.A4JRequest.prototype.initialize.apply(this, arguments);
         this.events.register("moveend", null, this.onMoveEnd);
         this.events.register("visibilitychanged", null, this.onVisibilityChanged);
@@ -139,7 +132,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
             this.onRefresh(requestParams);
     },
 
-    onZoomChanged: function(requestParams) {
+    onZoomChanged: function(parameters) {
         var requestParams = {
             'refresh': this.zoomchanged
         };
@@ -193,7 +186,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
      */
     destroy: function() {
         this.drawn = null;
-        this.clientId = null;
+        this.compClientId = null;
         OpenLayers.Layer.prototype.destroy.apply(this, arguments);
     },
 
@@ -201,7 +194,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
     *Send A4J request to refrsh layers when a moveend event is triggered
     */
     onRefresh: function(requestParams) {
-        var refresh = this.clientId;
+        var refresh = this.compId;
         var window = this.map.getSize();
         var bbox=this.map.getExtent().toBBOX();
         if(OpenLayers.Util.isvalidExtent(this.map.getProjection(), this.map.getExtent())) {
@@ -221,7 +214,7 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
         OpenLayers.Util.extend(requestParams, {
             //render the layers, always set to true after the first page loads
             'render': 'true',
-            'org.mapfaces.ajax.AJAX_LAYER_ID': this.clientId,
+            'org.mapfaces.ajax.AJAX_LAYER_ID': this.compClientId,
             'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+
             (-parseInt(this.map.layerContainerDiv.style.top))+"px;"+
             "left:"+(-parseInt(this.map.layerContainerDiv.style.left)+"px;")
@@ -233,8 +226,9 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
             this.mfRequestId = parameters.ajaxRegionClientId;
         }
 
-        this.compId = this.map.mfAjaxCompId;
-        this.formId = this.map.mfFormId;
+        this.targetAjaxCompId = this.map.mfAjaxCompId;
+        this.formClientId = this.map.mfFormClientId;
+        this.defaultOptions = this.map.mfAjaxDefaultOptions;
         this.submit(requestParams);
     },
 

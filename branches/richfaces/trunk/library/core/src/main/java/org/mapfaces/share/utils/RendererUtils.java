@@ -30,12 +30,12 @@ import javax.faces.component.UIViewRoot;
  * @author Olivier Terral (Geomatys)
  * @author Mehdi Sidhoum (Geomatys)
  */
-public class RendererUtils extends org.ajax4jsf.framework.renderer.RendererUtils {
+public class RendererUtils extends org.ajax4jsf.renderkit.RendererUtils {
 
     // Log instance for this class
     protected static final Logger logger = FacesLogger.RENDERKIT.getLogger();
 
-    public static interface HTML extends org.ajax4jsf.framework.renderer.RendererUtils.HTML {
+    public static interface HTML extends org.ajax4jsf.renderkit.RendererUtils.HTML {
 
         public static final String IMG_ELEM = "img";
         public static final String SRC_ATTRIBUTE = "src";

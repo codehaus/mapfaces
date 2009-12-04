@@ -15,8 +15,8 @@ OpenLayers.Util.trim = function(str) {
     return str.slice(0, i + 1);
 };
 
-OpenLayers.Util.reRender = function(jsObject, reqId, formId, parameters) {
-        A4J.AJAX.Submit( reqId, formId,
+OpenLayers.Util.reRender = function(jsObject, reqId, formClientId, parameters) {
+        A4J.AJAX.Submit( reqId, formClientId,
             null,
             {
                 'control':jsObject,

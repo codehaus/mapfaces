@@ -41,7 +41,7 @@ import org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator;
 import net.sf.jsfcomp.chartcreator.component.UIChart;
 import net.sf.jsfcomp.chartcreator.model.ChartData;
 import net.sf.jsfcomp.chartcreator.utils.ChartConstants;
-import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
 import net.sf.jsfcomp.chartcreator.utils.ChartUtils;
 import org.mapfaces.share.listener.DetectBrowserListener;
 import org.mapfaces.share.utils.FacesUtils;

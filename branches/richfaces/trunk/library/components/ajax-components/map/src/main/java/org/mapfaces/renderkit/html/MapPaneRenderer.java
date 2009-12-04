@@ -46,7 +46,7 @@ import org.mapfaces.models.layer.DefaultMapContextLayer;
 import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.models.layer.WmsLayer;
-import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.AjaxRendererUtils;
 import org.mapfaces.util.ContextFactory;
 import org.mapfaces.util.DefaultContextFactory;
 import org.mapfaces.util.FacesMapUtils;
@@ -289,20 +289,21 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                     final String jsLayerVariable = FacesMapUtils.getJsVariableFromClientId(uiLayer.getClientId(context));
 
                     final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
-                    //Create an array whjo contains all the MapFaces layers to add for a specific MapPane
+                    //Create an array who contains all the MapFaces layers to add for a specific MapPane
                     stringBuilder.
 
                             append("window.layerToAdd").append(jsMapVariable).append(".push(function() {").
                             //If OpenLayers classes are correctly loaded
                             append("if (window.OpenLayers &&  window.OpenLayers.Layer && window.OpenLayers.Layer.MapFaces) {").
                             //Create a MapFaces layer
-                            append("window."+jsLayerVariable).append("= new OpenLayers.Layer.MapFaces('").append(clientId).append("', {").
+                            append("window."+jsLayerVariable).append("= new OpenLayers.Layer.MapFaces({").
                                 append("id:").append("'").append(jsLayerVariable).append("'").append(",").
+                                append("compId:").append("'").append(uiLayer.getId()).append("'").append(",").
+                                append("compClientId:").append("'").append(clientId).append("'").append(",").
                                 append("visibility:").append(!layer.isHidden()).append(",").
                                 append("maxScale:").append(layer.getMinScaleDenominator()).append(",").
                                 append("minScale:").append(layer.getMaxScaleDenominator()).append("").
                             append("});").
-                            //append(jsMapVariable).append(".removeLayer(").append(jsLayerVariable).append(");").
                             append(jsMapVariable).append(".addLayer(").append(jsLayerVariable).append(");").
                             append("}});");
                     uiMapPane.setAddLayersScript(stringBuilder.toString());
@@ -466,9 +467,14 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         stringBuilder.append("mfAjaxCompId: '").append(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId()).append("',");
 
         /**
-         * mfFormId : Id of the parent UIForm  of the UIMapPane;
+         * mfFormId : ClientId of the parent UIForm  of the UIMapPane;
          */
-        stringBuilder.append("mfFormId: '").append(FacesMapUtils.getFormId(context, component)).append("',");
+        stringBuilder.append("mfFormClientId: '").append(FacesMapUtils.getFormClientId(context, component)).append("',");
+
+        /**
+         * defaultOptions : ClientId of the parent UIForm  of the UIMapPane;
+         */
+        stringBuilder.append("mfAjaxDefaultOptions: ").append(AjaxRendererUtils.buildDefaultOptions(component, context).toString()).append(",");
 
         /**
          * If we have specified an ajaxRegion for the Context component, we
