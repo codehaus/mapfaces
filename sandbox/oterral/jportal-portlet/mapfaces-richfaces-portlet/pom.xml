@@ -4,11 +4,11 @@
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.whatever.project</groupId>
-   <artifactId>myprojectname</artifactId>
+   <artifactId>portlet-jportal</artifactId>
    <packaging>war</packaging>
    <version>1.0-SNAPSHOT</version>
-   <name>JBoss Portlet Bridge - RichFaces Application</name>
-   <url>http://www.mycompany.com</url>
+   <name>Portlet MapFaces RichFaces Application</name>
+   <url>http://www.geomatys.com</url>
 
 
    <prerequisites>
