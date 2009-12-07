@@ -47,7 +47,6 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
                 'crs': this.map.getProjection()
             };
 
-            this.onCompleteReRender();
             this.submit(requestParams);
         }
     },
@@ -59,7 +58,6 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
             'org.mapfaces.ajax.NO_RERENDER': true,
             'crs': this.map.getProjection()
         };
-        this.onCompleteReRender();
         this.submit(requestParams);
     },
 
@@ -75,52 +73,48 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
                 'org.mapfaces.ajax.NO_RERENDER': true,
                 'crs': this.map.getProjection()
             };
-            this.onCompleteReRender();
             this.featureBeforeModified = null;
             this.submit(requestParams);
         }
     },
 
-    onCompleteReRender: function() {
-        
-        if ((this.reRender != "") && (this.contextCompId != "")) {
+    /**
+     * APIMethod: onComplete
+     * The client side script method to be called after the request is completed
+     *
+     * Parameters:
+     * request - {A4J.AJAX.XMLHttpRequest}  A4J request object.
+     * event - {}  DOMEvent.
+     * data - {}  JSON representation of the result.
+     */
+    onComplete: function(request, event, data) {
+
+        if(request && request.options && request.options.parameters && request.options.parameters.refresh
+                && request.options.parameters.refresh.indexOf(this.clientId) != -1) {
+            this.div  = document.getElementById(this.clientId);
+
+            if (this.div && this.div.childNodes[0]) {
+                this.imgDiv  = this.div.childNodes[0];
+            }
+            //TODO load and error events on .imgDiv.childNodes[0] doesn't works on Opera
+            //so we triggered the loadend event directly
+            //but the good way is to triggered events on image (success or error) events
+
+            this.events.triggerEvent("loadend");
+            //this.registerEvents();
+        }
+        //TODO remove the "!= "null"" the value should be null and not "null"
+        if (this.reRender != "null" && this.reRender != "" && this.contextCompId != "null" && (this.contextCompId != "")) {
             /* forceRefresh is used to reRender a WMS Layer to deallocate the image from the browser cache. */
             var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':'true'};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
-            this.onComplete = function(){
-                A4J.AJAX.Submit(
-                    this.requestId,
-                    this.formClientId,
-                    null,
-                    {'single':'true',
-                        'parameters':requestParamsReRender,
-                        'oncomplete':this.reRenderComplete,
-                        'actionUrl':window.location.href
-                    }
-                )
-            };
-//            this.onComplete = function(){
-//
-//                var requestParamsReRender = {
-//                    'refresh':this.reRender,
-//                    'forceRefresh':'true'
-//                };
-//                requestParamsReRender[this.contextCompId] = this.contextCompId;
-//                //TODO this should work,  ask leo to verify this
-//                //new version
-//                this.submit(requestParamsReRender);
-                //old version
-//                A4J.AJAX.Submit(
-//                    this.requestId,
-//                    this.formClientId,
-//                    null,
-//                    {'single':'true',
-//                        'parameters':requestParamsReRender,
-//                        'oncomplete':this.reRenderComplete,
-//                        'actionUrl':window.location.href
-//                    }
-//                )
-//            };
+            OpenLayers.Util.sendA4JRequest(this.requestId, this.formClientId,
+                {
+                    'single':'true',
+                    'parameters':requestParamsReRender,
+                    'oncomplete':this.reRenderComplete,
+                    'actionUrl':this.defaultOptions.actionUrl
+                });
         }
     },
 

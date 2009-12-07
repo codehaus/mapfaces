@@ -15,31 +15,10 @@ OpenLayers.Util.trim = function(str) {
     return str.slice(0, i + 1);
 };
 
-OpenLayers.Util.reRender = function(jsObject, reqId, formClientId, parameters) {
-        //If jsObject is the map object
-         var options = null;
-        parameters[jsObject.mfAjaxCompId] = jsObject.mfAjaxCompId;
-
-        if (this.mfAjaxDefaultOptions != null) {
-            options = {};
-            OpenLayers.Util.extend(options, jsObject.defaultOptions);
-
-            OpenLayers.Util.extend(options, {
-                'control': jsObject,
-                'single': true
-            });
-
-            if (parameters != null) {
-
-                if (options.parameters == null) {
-                    options.parameters = {};
-                }
-                OpenLayers.Util.extend(options.parameters, parameters);
-            }
-        }
-
+OpenLayers.Util.sendA4JRequest = function(requestId, formId, options) {
         A4J.AJAX.Submit(
-            formClientId,
+            requestId,
+            formId,
             null,
             options);
 
