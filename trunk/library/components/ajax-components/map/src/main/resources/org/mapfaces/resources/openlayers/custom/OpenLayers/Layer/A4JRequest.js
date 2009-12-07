@@ -222,12 +222,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
 
 
         }
-
-        A4J.AJAX.Submit(
-            this.requestId,
-            this.formClientId,
-            null,
-            options);
+        OpenLayers.Util.sendA4JRequest(this.requestId, this.formClientId, options);
 
     },
 
