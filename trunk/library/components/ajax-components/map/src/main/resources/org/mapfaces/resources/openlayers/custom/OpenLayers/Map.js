@@ -28,7 +28,27 @@ OpenLayers.Map = OpenLayers.Class({
     mfRequestId: null,
 
     mfAjaxDefaultOptions: null,
+    
+    mfAjaxCompId: null,
 
+    sendA4JRequest: function (parameters) {
+        if (!parameters) parameters = {};
+
+        var options = null;
+        parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
+
+        if (this.mfAjaxDefaultOptions != null) {
+            options = OpenLayers.Util.clone(this.map.mfAjaxDefaultOptions);
+
+            OpenLayers.Util.extend(options, {
+                'control':this,
+                'single': true
+            });
+            options.parameters = parameters;
+        }
+        OpenLayers.Util.sendA4JRequest(this.mfRequestId, this.mfFormClientId,  options);
+
+    },
     
     /**
      * Constant: Z_INDEX_BASE
