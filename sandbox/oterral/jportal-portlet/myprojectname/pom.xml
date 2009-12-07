@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.whatever.project</groupId>
+   <artifactId>myprojectname</artifactId>
+   <packaging>war</packaging>
+   <version>1.0-SNAPSHOT</version>
+   <name>JBoss Portlet Bridge - RichFaces Application</name>
+   <url>http://www.mycompany.com</url>
+
+
+   <prerequisites>
+      <maven>2.0.9</maven>
+   </prerequisites>
+
+   <licenses>
+      <license>
+         <name></name>
+         <url></url>
+      </license>
+   </licenses>
+
+   <scm>
+      <connection></connection>
+      <developerConnection></developerConnection>
+      <url></url>
+   </scm>
+
+   <issueManagement>
+      <system></system>
+      <url></url>
+   </issueManagement>
+
+   <developers>
+      <developer>
+         <id></id>
+         <name></name>
+         <email></email>
+         <timezone></timezone>
+      </developer>
+   </developers>
+
+   <build>
+
+      <defaultGoal>package</defaultGoal>
+      <finalName>richfaces-basic</finalName>
+
+      <plugins>
+
+         <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.0.2</version>
+            <configuration>
+               <source>1.5</source>
+               <target>1.5</target>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-eclipse-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+               <downloadSources>true</downloadSources>
+               <downloadJavadocs>true</downloadJavadocs>
+               <wtpversion>1.5</wtpversion>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-idea-plugin</artifactId>
+            <version>2.1</version>
+            <configuration>
+               <downloadSources>true</downloadSources>
+               <downloadJavadocs>true</downloadJavadocs>
+               <dependenciesAsLibraries>true</dependenciesAsLibraries>
+               <useFullNames>false</useFullNames>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+   <repositories>
+      <repository>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+         </snapshots>
+         <id>repository.jboss.com</id>
+         <name>Jboss Repository for Maven</name>
+         <url>http://repository.jboss.com/maven2/</url>
+         <layout>default</layout>
+      </repository>
+      <repository>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+         <id>snapshots.jboss.org</id>
+         <name>JBoss Snapshot Repository</name>
+         <url>http://snapshots.jboss.org/maven2</url>
+      </repository>
+   </repositories>
+
+   <pluginRepositories>
+      <pluginRepository>
+         <id>codehaus.org</id>
+         <name>CodeHaus Plugin Snapshots</name>
+         <url>http://snapshots.repository.codehaus.org</url>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </pluginRepository>
+   </pluginRepositories>
+
+   <dependencies>
+      <dependency>
+         <groupId>javax.portlet</groupId>
+         <artifactId>portlet-api</artifactId>
+         <version>1.0</version>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.portletbridge</groupId>
+         <artifactId>portletbridge-api</artifactId>
+         <version>${portletbridge.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-impl</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.portletbridge</groupId>
+         <artifactId>portletbridge-impl</artifactId>
+         <version>${portletbridge.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-impl</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.richfaces.ui</groupId>
+         <artifactId>richfaces-ui</artifactId>
+         <version>${richfaces.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-impl</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>com.sun.facelets</groupId>
+         <artifactId>jsf-facelets</artifactId>
+         <version>1.1.14</version>
+      </dependency>
+
+   <dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-map</artifactId>
+            <version>0.3-RICHFACES</version>
+         <exclusions>
+             <exclusion>
+                 <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-impl</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+   </dependencies>
+
+   <profiles>
+      <!--Usage example for local zip:-->
+      <!--mvn clean install -Dlocal -Plocal-portal cargo:start -DJBOSS_ZIP_HOME=/{path_to_zipped_bundle}/jboss-portal-2.7.0.GA-bundled.zip -DJBOSS_HOME_DIR=jboss-portal-2.7.0.GA-bundled/jboss-portal-2.7.0.GA -->
+      <!--(in new window) mvn cargo:deploy -Plocal-portal-->
+      <profile>
+         <id>local</id>
+         <activation>
+            <property>
+               <name>local</name>
+            </property>
+         </activation>
+         <properties>
+            <jboss.zip.home>
+               file:${JBOSS_ZIP_HOME}
+            </jboss.zip.home>
+            <jboss.home.dir>
+               ${project.basedir}/target/installs/${JBOSS_HOME_DIR}/server/default
+            </jboss.home.dir>
+         </properties>
+      </profile>
+
+      <!--To download the 2.7 bundle just use normal:-->
+      <!--mvn install -Plocal-portal cargo:start-->
+      <!--(in new window) mvn cargo:deploy -Plocal-portal-->
+
+      <profile>
+         <id>download-2.7</id>
+         <activation>
+            <activeByDefault>true</activeByDefault>
+            <property>
+               <name>!local</name>
+            </property>
+         </activation>
+         <properties>
+            <jboss.zip.home>
+               http://downloads.sourceforge.net/jboss/jboss-portal-2.7.0.GA-bundled.zip
+            </jboss.zip.home>
+            <jboss.home.dir>
+               ${project.basedir}/target/installs/jboss-portal-2.7.0.GA-bundled/jboss-portal-2.7.0.GA/server/default
+            </jboss.home.dir>
+         </properties>
+      </profile>
+
+
+      <profile>
+         <id>local-portal</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-maven2-plugin</artifactId>
+                  <version>1.0-SNAPSHOT</version>
+                  <configuration>
+                     <wait>true</wait>
+                     <container>
+                        <containerId>
+                           ${cargo.container}
+                        </containerId>
+                        <zipUrlInstaller>
+                           <url>${jboss.zip.home}</url>
+                           <installDir>
+                              ${project.basedir}/target/installs
+                           </installDir>
+                        </zipUrlInstaller>
+                     </container>
+
+                     <configuration>
+                        <type>existing</type>
+                        <home>${jboss.home.dir}</home>
+                        <properties>
+                           <cargo.jboss.configuration>
+                              default
+                           </cargo.jboss.configuration>
+                           <cargo.jvmargs>
+                              ${cargo.jvmargs}
+                           </cargo.jvmargs>
+                           <cargo.host>
+                              ${cargo.host}
+                           </cargo.host>
+                           <cargo.servlet.port>
+                              ${cargo.port}
+                           </cargo.servlet.port>
+                           <cargo.logging>low</cargo.logging>
+                        </properties>
+                     </configuration>
+
+                     <deployer>
+                        <type>installed</type>
+                        <deployables>
+                           <deployable>
+                              <location>target/richfaces-basic.war</location>
+                              <pingURL>http://localhost:8080/simple-portal/</pingURL>
+                           </deployable>
+                        </deployables>
+                     </deployer>
+                  </configuration>
+
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+      
+
+   </profiles>
+
+   <properties>
+      <jsf.version>1.2_10</jsf.version>
+      <richfaces.version>3.3.2.SR1</richfaces.version>
+      <portletbridge.version>1.0.0.CR3</portletbridge.version>
+
+      <cargo.container>jboss4x</cargo.container>
+
+      <cargo.jvmargs>
+         -Xms128m -Xmx512m -XX:MaxPermSize=256m
+      </cargo.jvmargs>
+      <cargo.host>localhost</cargo.host>
+      <cargo.port>8080</cargo.port>
+      <cargo.wait>true</cargo.wait>
+      <installDir>${java.io.tmpdir}/cargo-installs</installDir>
+   </properties>
+
+</project>

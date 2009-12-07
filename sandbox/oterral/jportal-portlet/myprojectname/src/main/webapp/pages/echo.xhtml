@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a4j="http://richfaces.org/a4j"
+        xmlns:rich="http://richfaces.org/rich"
+        xmlns:mf-model="http://mapfaces.org/taglib-models"
+        xmlns:mf="http://mapfaces.org/taglib">
+
+      <h:form>
+         <h3>Congratulations!</h3>
+         <p>You have successfully installed the Richfaces demo portlet using the <a href="http://labs.jboss.com/auth/portletbridge/">JBoss Portlet Bridge</a></p>
+         <rich:panel header="Simple Echo">
+            <h:outputText value="Your message: "/>
+            <h:inputText size="50" value="#{echo.text}">
+               <a4j:support event="onkeyup" reRender="rep"/>
+            </h:inputText>
+
+            <h:outputText id="rep" value="#{echo.text}"/>
+         </rich:panel>
+
+            <mf-model:Context minifyJS="false"  openlayers="false" mootools="false" service="blueMarble.xml">
+                <mf:MapPane navigation="true" debug="false"></mf:MapPane>
+            </mf-model:Context>
+      </h:form>
+
+</ui:composition>

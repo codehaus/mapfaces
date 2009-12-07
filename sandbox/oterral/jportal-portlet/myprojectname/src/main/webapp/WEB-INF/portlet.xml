@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             version="1.0">
+<portlet>
+   <portlet-name>RichFacesEchoPortlet</portlet-name>
+   <portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>
+   <init-param>
+      <name>javax.portlet.faces.defaultViewId.view</name>
+      <value>/pages/echo.xhtml</value>
+   </init-param>
+   <init-param>
+      <name>javax.portlet.faces.preserveActionParams</name>
+      <value>true</value>
+   </init-param>
+   <expiration-cache>-0</expiration-cache>
+   <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>VIEW</portlet-mode>
+   </supports>
+   <portlet-info>
+      <title>RichFaces Echo Portlet</title>
+   </portlet-info>
+</portlet>
+</portlet-app>
