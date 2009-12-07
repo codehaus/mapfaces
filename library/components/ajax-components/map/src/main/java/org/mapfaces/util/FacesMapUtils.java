@@ -208,16 +208,23 @@ public class FacesMapUtils extends FacesUtils {
      * @return
      */
     public static UIMapPane getChildUIMapPane(FacesContext context, UIComponent component) {
+
+       UIMapPane mappane = null;
         if (component instanceof UIMapPane) {
             return (UIMapPane) component;
+
         } else {
             final Iterator kids = component.getChildren().iterator();
+
             while (kids.hasNext()) {
                 final UIComponent kid = (UIComponent) kids.next();
-                return getChildUIMapPane(context, kid);
+                mappane = getChildUIMapPane(context, kid);
+                if (mappane != null) {
+                    return mappane;
+                }
             }
         }
-        return null;
+        return mappane;
     }
 
     /**
@@ -260,6 +267,7 @@ public class FacesMapUtils extends FacesUtils {
         if (component instanceof UIContext) {
             //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
             return getChildUIMapPane(context, component);
+            
         } else {
             final UIComponent parent = FacesMapUtils.getParentUIContext(context, component);
 

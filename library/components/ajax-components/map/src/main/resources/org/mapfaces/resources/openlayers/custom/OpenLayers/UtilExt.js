@@ -14,6 +14,19 @@ OpenLayers.Util.trim = function(str) {
     while (ws.test(str.charAt(--i)));
     return str.slice(0, i + 1);
 };
+OpenLayers.Util.reRenderById = function(divId, parameters) {
+    if (!parameters) parameters = {};
+        OpenLayers.Util.extend(parameters, {
+                'synchronized': 'true',
+                'refresh': divId,
+                'bbox': this.getExtent().toBBOX(),
+                'window':  this.getSize().w+','+ this.getSize().h,
+                'render': 'true', //render the layers, always set to true after the first page loads
+                'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
+            });
+            parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
+         OpenLayers.Util.sendA4JRequest(this, this.mfRequestId, this.mfFormId, parameters);
+    };
 
 OpenLayers.Util.sendA4JRequest = function(requestId, formId, options) {
         A4J.AJAX.Submit(
@@ -23,6 +36,20 @@ OpenLayers.Util.sendA4JRequest = function(requestId, formId, options) {
             options);
 
 };
+OpenLayers.Util.clone = function (srcInstance) {
+    /*Si l'instance source n'est pas un objet ou qu'elle ne vaut rien c'est une feuille donc on la retourne*/
+    if(typeof(srcInstance) != 'object' || srcInstance == null)
+        return srcInstance;
+
+    /*On appel le constructeur de l'instance source pour crée une nouvelle instance de la même classe*/
+    var newInstance = srcInstance.constructor();
+    /*On parcourt les propriétés de l'objet et on les recopies dans la nouvelle instance*/
+    for(var i in srcInstance) {
+        newInstance[i] = OpenLayers.Util.clone(srcInstance[i]);
+    }
+    /*On retourne la nouvelle instance*/
+    return newInstance;
+}
 
 /**
  * This method returns false to wrong extent defined with a projection.
