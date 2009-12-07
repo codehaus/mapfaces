@@ -195,6 +195,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
             this.mfRequestId = parameters.ajaxRegionClientId;
         }
 
+        //set default values for an A4J request
         this.targetAjaxCompId = this.map.mfAjaxCompId;
         this.formClientId = this.map.mfFormClientId;
         this.defaultOptions = this.map.mfAjaxDefaultOptions;
@@ -204,7 +205,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
 
         if (this.defaultOptions != null) {
             options = {};
-            OpenLayers.Util.extend(options, this.defaultOptions);
+            OpenLayers.Util.extend(options, this.mfAjaxDefaultOptions);
 
             OpenLayers.Util.extend(options, {
                 'control':this,
