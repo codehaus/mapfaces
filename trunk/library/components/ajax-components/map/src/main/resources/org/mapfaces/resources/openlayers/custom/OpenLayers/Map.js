@@ -20,36 +20,36 @@
  */
 OpenLayers.Map = OpenLayers.Class({
 
-    /******* MapFaces extra function***********/
+    /* *
+     * MAPFACES new variables
+     * */
     mfFormClientId: null,
+
     mfRequestId: null,
+
     mfAjaxDefaultOptions: null,
 
-    onChangeLayer: function(context) {
-       // context.layer.events.triggerEvent(context.property + "changed");
-    },
-    
-    reRenderById: function (divId, parameters) {
-    if (!parameters) parameters = {};
-        OpenLayers.Util.extend(parameters, {
-                'synchronized': 'true',
-                'refresh': divId,
-                'bbox': this.getExtent().toBBOX(),
-                'window':  this.getSize().w+','+ this.getSize().h,
-                'render': 'true', //render the layers, always set to true after the first page loads
-                'org.mapfaces.ajax.LAYER_CONTAINER_STYLE':"top:"+(-parseInt(this.layerContainerDiv.style.top))+"px;left:"+(-parseInt(this.layerContainerDiv.style.left)+"px;")
+    mfAjaxCompId: null,
+
+    sendA4JRequest: function (parameters) {
+        if (!parameters) parameters = {};
+
+        var options = null;
+        parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
+
+        if (this.mfAjaxDefaultOptions != null) {
+            options = OpenLayers.Util.clone(this.map.mfAjaxDefaultOptions);
+
+            OpenLayers.Util.extend(options, {
+                'control':this,
+                'single': true
             });
-            parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
-         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormClientId, parameters);
-    },
-    
-    reRender: function (parameters) {
-         OpenLayers.Util.reRender(this, this.mfRequestId, this.mfFormClientId, parameters);
-    },
-    /******* MapFaces extra function***********/
+            options.parameters = parameters;
+        }
+        OpenLayers.Util.sendA4JRequest(this.mfRequestId, this.mfFormClientId,  options);
 
+    },
 
-    /******* end MapFaces extra function***********/
     /**
      * Constant: Z_INDEX_BASE
      * {Object} Base z-indexes for different classes of thing
@@ -492,38 +492,38 @@ OpenLayers.Map = OpenLayers.Class({
      * });
      */
     initialize: function (div, options) {
-        
+
         // If only one argument is provided, check if it is an object.
         if(arguments.length === 1 && typeof div === "object") {
             options = div;
             div = options && options.div;
         }
 
-        // Simple-type defaults are set in class definition. 
-        //  Now set complex-type defaults 
+        // Simple-type defaults are set in class definition.
+        //  Now set complex-type defaults
         this.tileSize = new OpenLayers.Size(OpenLayers.Map.TILE_WIDTH,
             OpenLayers.Map.TILE_HEIGHT);
 
         this.maxExtent = new OpenLayers.Bounds(-180, -90, 180, 90);
-        
+
         this.paddingForPopups = new OpenLayers.Bounds(15, 15, 15, 15);
 
         //MF remove theme property
-        /* this.theme = OpenLayers._getScriptLocation() + 
+        /* this.theme = OpenLayers._getScriptLocation() +
                              'theme/default/style.css'; */
 
-        // now override default options 
+        // now override default options
         OpenLayers.Util.extend(this, options);
 
         //MF remove id property
         //this.id = OpenLayers.Util.createUniqueID("OpenLayers.Map_");
-        
+
         this.div = OpenLayers.Util.getElement(div);
         if (this.div == null) {
             alert("Map can't be rendered because one map.div property !!! Div.id  value is " + div );
             return;
         }
-        //Deletee the ifForm: if it's an id and not an DOM element  else take the div.id      
+        //Deletee the ifForm: if it's an id and not an DOM element  else take the div.id
 //        if (typeof div == 'string')div=div.split(":")[1];
 //        else div=div.id;
 //        if (div.indexOf(':')!=-1)div=div.split(":")[1];
@@ -538,36 +538,36 @@ OpenLayers.Map = OpenLayers.Class({
             alert("Map can't be rendered because one of these properties is  null : map.viewPortDiv property  or map.layerContainerDiv  !!! Div value is " + div );
             return;
         }
-        
-        this.events = new OpenLayers.Events(this, 
+
+        this.events = new OpenLayers.Events(this,
             this.div,
             this.EVENT_TYPES,
             this.fallThrough,
             {includeXY: true});
-         
+
         this.updateSize();
         if(this.eventListeners instanceof Object) {
             this.events.on(this.eventListeners);
         }
- 
+
         // update the map size and location before the map moves
         this.events.register("movestart", this, this.updateSize);
 
-        // Because Mozilla does not support the "resize" event for elements 
-        // other than "window", we need to put a hack here. 
+        // Because Mozilla does not support the "resize" event for elements
+        // other than "window", we need to put a hack here.
         if (OpenLayers.String.contains(navigator.appName, "Microsoft")) {
             // If IE, register the resize on the div
             this.events.register("resize", this, this.updateSize);
         } else {
             // Else updateSize on catching the window's resize
-            //  Note that this is ok, as updateSize() does nothing if the 
+            //  Note that this is ok, as updateSize() does nothing if the
             //  map's size has not actually changed.
-            this.updateSizeDestroy = OpenLayers.Function.bind(this.updateSize, 
+            this.updateSizeDestroy = OpenLayers.Function.bind(this.updateSize,
                 this);
             OpenLayers.Event.observe(window, 'resize',
                 this.updateSizeDestroy);
         }
-        
+
 
         this.layers = [];
 
@@ -582,7 +582,7 @@ OpenLayers.Map = OpenLayers.Class({
                 this.controls.push(new OpenLayers.Control.Navigation());
                 this.controls.push(new OpenLayers.Control.PanZoom());
             } else {
-                
+
         }
         }
         this.controls.push(new OpenLayers.Control.MouseWheelDefaults());
@@ -590,7 +590,7 @@ OpenLayers.Map = OpenLayers.Class({
         //        this.controls.push(new OpenLayers.Control.KeyboardDefaults());
         this.controls.push(new OpenLayers.Control.ArgParser());
         this.controls.push(new OpenLayers.Control.Attribution());
-        
+
 
         for(var i=0; i < this.controls.length; i++) {
             this.addControlToMap(this.controls[i]);
@@ -599,7 +599,7 @@ OpenLayers.Map = OpenLayers.Class({
         this.popups = [];
 
         this.unloadDestroy = OpenLayers.Function.bind(this.destroy, this);
-        
+
         // always call map.destroy()
         OpenLayers.Event.observe(window, 'unload', this.unloadDestroy);
 
@@ -608,8 +608,8 @@ OpenLayers.Map = OpenLayers.Class({
         //Refresh layers on each moveend event
         //this.events.register("moveend", null, this.reRenderLayers);
         //this.events.register("moveend", null, this.setCurrentExtent);
-        
-        
+
+
     },
 
     /**
@@ -1365,7 +1365,7 @@ OpenLayers.Map = OpenLayers.Class({
                 for(var i=0, len=this.layers.length; i<len; i++) {
                     this.layers[i].onMapResize();
                 }
-            } 
+            }
             if (this.baseLayer != null) {
                 var center = new OpenLayers.Pixel(newSize.w /2, newSize.h / 2);
                 var centerLL = this.getLonLatFromViewPortPx(center);

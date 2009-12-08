@@ -283,7 +283,7 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Map-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/A4JRequest-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/MapFaces-min.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/mapfaces/Vector-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/MapFaces/Vector-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/UtilExt-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Handler/MouseWheel-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ZoomBoxOut-min.js</include>

@@ -1,9 +1,9 @@
 /**
  * Function: trim
- * 
+ *
  * Parameters:
  * str - {String}
- * 
+ *
  * Returns:
  * {String} A String whitout leading/trailing whitespaces
  */
@@ -14,35 +14,28 @@ OpenLayers.Util.trim = function(str) {
     while (ws.test(str.charAt(--i)));
     return str.slice(0, i + 1);
 };
-
-OpenLayers.Util.reRender = function(jsObject, reqId, formClientId, parameters) {
-        A4J.AJAX.Submit( reqId, formClientId,
+OpenLayers.Util.sendA4JRequest = function(requestId, formId, options) {
+        A4J.AJAX.Submit(
+            requestId,
+            formId,
             null,
-            {
-                'control':jsObject,
-                'single':true,
-                'parameters': parameters,
-                'actionUrl': window.location.href//,
-                //'oncomplete': jsObject.onComplete
-            }
-            );
+            options);
 
-       /* A4J.AJAX.Submit('j_id_jsp_928084566_0','j_id_jsp_928084566_1',event,
-           {
-            'affected':['j_id_jsp_928084566_1:C_Mp_MapFaces_Layer_WMS_1','j_id_jsp_928084566_1:Lc_TreeTable_TreePanel_Visible_5_hidden'] ,
-            'control':this,
-            'single':true,
-            'oncomplete':function(request,event,data){
-                            MapFaces_Layer_WMS_1.visibility = false;
-                         },
-            'parameters':{
-                'j_id_jsp_928084566_1:check_Lc_TreeTable_TreePanel_Visible_5_hidden_Ajax':'j_id_jsp_928084566_1:check_Lc_TreeTable_TreePanel_Visible_5_hidden_Ajax',
-                'org.mapfaces.ajax.AJAX_LAYER_ID':'j_id_jsp_928084566_1:C_Mp_MapFaces_Layer_WMS_1',
-                'org.mapfaces.ajax.AJAX_CONTAINER_ID':'j_id_jsp_928084566_1:check_Lc_TreeTable_TreePanel_Visible_5_hidden'
-            } ,
-            'actionUrl':'/mf/tests/scale.jsf'
-        } )*/
+};
 
+OpenLayers.Util.clone = function (srcInstance) {
+    /*Si l'instance source n'est pas un objet ou qu'elle ne vaut rien c'est une feuille donc on la retourne*/
+    if(typeof(srcInstance) != 'object' || srcInstance == null)
+        return srcInstance;
+
+    /*On appel le constructeur de l'instance source pour crée une nouvelle instance de la même classe*/
+    var newInstance = srcInstance.constructor();
+    /*On parcourt les propriétés de l'objet et on les recopies dans la nouvelle instance*/
+    for(var i in srcInstance) {
+        newInstance[i] = OpenLayers.Util.clone(srcInstance[i]);
+    }
+    /*On retourne la nouvelle instance*/
+    return newInstance;
 };
 
 /**
@@ -58,4 +51,4 @@ OpenLayers.Util.isvalidExtent = function(projection, extent) {
         }
     }
     return true; //in other cases it return true for an unknown projection
-}
+};
