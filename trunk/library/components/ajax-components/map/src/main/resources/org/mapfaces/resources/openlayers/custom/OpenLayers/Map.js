@@ -46,7 +46,7 @@ OpenLayers.Map = OpenLayers.Class({
             });
             options.parameters = parameters;
         }
-        OpenLayers.Util.sendA4JRequest(this.mfRequestId, this.mfFormClientId,  options);
+        OpenLayers.Util.sendA4JRequest(this.mfFormClientId,  options);
 
     },
 

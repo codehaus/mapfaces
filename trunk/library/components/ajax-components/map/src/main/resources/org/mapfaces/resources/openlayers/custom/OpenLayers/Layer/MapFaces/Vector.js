@@ -108,7 +108,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
             /* forceRefresh is used to reRender a WMS Layer to deallocate the image from the browser cache. */
             var requestParamsReRender = {'refresh':this.reRender,'forceRefresh':'true'};
             requestParamsReRender[this.contextCompId] = this.contextCompId;
-            OpenLayers.Util.sendA4JRequest(this.requestId, this.formClientId,
+            OpenLayers.Util.sendA4JRequest(this.formClientId,
                 {
                     'single':'true',
                     'parameters':requestParamsReRender,
