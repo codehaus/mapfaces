@@ -223,7 +223,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
 
 
         }
-        OpenLayers.Util.sendA4JRequest(this.requestId, this.formClientId, options);
+        OpenLayers.Util.sendA4JRequest(this.formClientId, options);
 
     },
 

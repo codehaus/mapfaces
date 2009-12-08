@@ -14,9 +14,8 @@ OpenLayers.Util.trim = function(str) {
     while (ws.test(str.charAt(--i)));
     return str.slice(0, i + 1);
 };
-OpenLayers.Util.sendA4JRequest = function(requestId, formId, options) {
+OpenLayers.Util.sendA4JRequest = function(formId, options) {
         A4J.AJAX.Submit(
-            requestId,
             formId,
             null,
             options);
