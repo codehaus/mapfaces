@@ -90,7 +90,8 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     onComplete: function(request, event, data) {
 
         if(request && request.options && request.options.parameters && request.options.parameters.refresh
-                && request.options.parameters.refresh.indexOf(this.clientId) != -1) {
+            && (request.options.parameters.refresh.indexOf(this.compClientId) != -1
+                || request.options.parameters.refresh.indexOf(this.compId) != -1)) {
             this.div  = document.getElementById(this.clientId);
 
             if (this.div && this.div.childNodes[0]) {

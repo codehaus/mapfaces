@@ -94,7 +94,6 @@ if(!window.OpenLayers){
                 "openlayers/lib/OpenLayers/Projection.js",
                 "openlayers/lib/OpenLayers/Map.js",
                 "openlayers/lib/OpenLayers/Layer.js",
-                "openlayers/custom/OpenLayers/LayerExt.js",
                 "openlayers/lib/OpenLayers/Icon.js",
                 "openlayers/lib/OpenLayers/Marker.js",
                 "openlayers/lib/OpenLayers/Marker/Box.js",
