@@ -38,7 +38,7 @@ OpenLayers.Map = OpenLayers.Class({
         parameters[this.mfAjaxCompId] = this.mfAjaxCompId;
 
         if (this.mfAjaxDefaultOptions != null) {
-            options = OpenLayers.Util.clone(this.map.mfAjaxDefaultOptions);
+            options = OpenLayers.Util.clone(this.mfAjaxDefaultOptions);
 
             OpenLayers.Util.extend(options, {
                 'control':this,
