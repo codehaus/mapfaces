@@ -205,7 +205,6 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Projection.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Map.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/LayerExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Icon.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Marker.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Marker/Box.js</include>
