@@ -64,7 +64,7 @@ OpenLayers.Control.GetCoverageMatrix = OpenLayers.Class(OpenLayers.Control, {
                         'org.mapfaces.ajax.ACTION_GETCOVERAGE_PIXEL' :  (position.right-position.left)+","+(position.bottom-position.top),
                         'org.mapfaces.ajax.ACTION_GETCOVERAGE_FORMAT' : "matrix"
                     }
-                    this.map.reRenderById('form:getCoverage',parameters);
+                    this.map.sendA4JRequest(parameters);
                 }
             }    
         } else { // it's a pixel

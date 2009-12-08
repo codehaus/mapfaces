@@ -18,7 +18,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     requestId: null,
 
-    /**
+     /**
      * Property: compId
      * {String} Required attribute , it represents the id of the layer component
      *  where we send the request
@@ -43,19 +43,20 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
     formClientId: null,
 
     /**
+     * Property: targetAjaxCompId
+     * {String} Required attribute , it represents the id of A4J component
+     *  where we send the request
+     *
+     */
+    targetAjaxCompId: null,
+
+    /**
      * Property: defaultOptions
-     * {Object} Required parmaters to make an a4j request independently of the web conatiner (Portlet or Servlet)
+     * {Object} Required parmaters to make an a4j request independently of the web container (Portlet or Servlet)
      * component
      *
      */
     defaultOptions: null,
-
-    /**
-     * Property: targetAjaxCompId
-     * {String} Required attribute , it represents the id of A4J component
-     *  where we send the request     *
-     */
-    targetAjaxCompId: null,
 
     /**
      * Property: affected
@@ -63,7 +64,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      *
      */
     affected: [],
-    
+
     /**
      * Property: ajaxSingle
      * {Boolean} boolean attribute which provides possibility to limit JSF tree
@@ -110,10 +111,10 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
 
     /**
      * Property: immediate
-     * {Boolean} True means, that the default ActionListener should be executed 
-     * immediately (i.e. during Apply Request Values phase of the request 
-     * processing lifecycle), rather than waiting until the Invoke Application 
-     * phase. 
+     * {Boolean} True means, that the default ActionListener should be executed
+     * immediately (i.e. during Apply Request Values phase of the request
+     * processing lifecycle), rather than waiting until the Invoke Application
+     * phase.
      * Default to false
      *
      */
@@ -186,19 +187,32 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     submit: function(requestParams) {
         this.onSubmit(requestParams);
+
+        //This is an id for the request, it can be the id of the ajaxregion
+        //to activate the ajax loader handling if exists
+        this.mfRequestId = this.map.mfRequestId;
+        if ((this.requestParams.ajaxRegionClientId)) {
+            this.mfRequestId = parameters.ajaxRegionClientId;
+        }
+
+        //set default values for an A4J request
+        this.requestId = this.map.mfRequestId;
+        this.targetAjaxCompId = this.map.mfAjaxCompId;
+        this.formClientId = this.map.mfFormClientId;
+        this.defaultOptions = OpenLayers.Util.clone(this.map.mfAjaxDefaultOptions);
+
         var options = null;
         requestParams[this.targetAjaxCompId] = this.targetAjaxCompId;
 
         if (this.defaultOptions != null) {
             options = {};
             OpenLayers.Util.extend(options, this.defaultOptions);
-
             OpenLayers.Util.extend(options, {
                 'control':this,
                 'single':this.ajaxSingle,
                 'oncomplete': OpenLayers.Function.bind(this.onComplete, this)
             });
-            
+
             if (requestParams != null) {
 
                 if (options.parameters == null) {
@@ -206,80 +220,10 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
                 }
                 OpenLayers.Util.extend(options.parameters, requestParams);
             }
-            
+
 
         }
-
-        A4J.AJAX.Submit(
-            this.formClientId,
-            null,
-            options);
-
-
-//        A4J.AJAX.Submit(
-//            '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0',
-//            null,
-//            {   //'affected': this.affected,
-//                'containerId': '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot',
-//                'namespace' : "jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj",
-//                'control':this,
-//                'single':this.ajaxSingle,
-//                'parameters': requestParams,
-//                //'actionUrl': actionUrl,
-//                'actionUrl': "/richfaces\x2Dbasic/faces/pages/echo.xhtml?javax.portlet.faces.DirectLink=true",
-////                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
-//                'oncomplete': OpenLayers.Function.bind(this.onComplete, this),
-//                'similarityGroupingId': "_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id5"
-//            }
-//            );
-
-//A4J.AJAX.Submit(
-//        '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0',
-//        event,
-//        {
-//            'parameters': {
-//                    '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id8':'_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id8',
-//                    'org.ajax4jsf.portlet.NAMESPACE':'jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj',
-//                    'javax.faces.portletbridge.STATE_ID':'0d1ca5ca\x2Dd961\x2D4961\x2D82c3\x2D0717bdf523a4:view:jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj'
-//            },
-//            'containerId':'_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot',
-//            'namespace':'jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj',
-//            'actionUrl':'/richfaces\x2Dbasic/faces/pages/echo.xhtml?javax.portlet.faces.DirectLink=true',
-//            'similarityGroupingId':'_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id8'
-//
-//        }
-//);
-//                AJAXREQUEST	_viewRoot
-//_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0
-//_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_Ajax	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_Ajax
-//_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0_link_hidden_	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj_viewRootj_id0j_id7_j_id8_MapFaces_Layer_WMS_0
-//bbox	-180,-90,180,90
-//javax.faces.ViewState	j_id1
-//org.mapfaces.ajax.AJAX_COMPONENT_VALUE	false
-//org.mapfaces.ajax.AJAX_CONTAINER_ID	hidden
-//org.mapfaces.ajax.AJAX_LAYER_ID	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_j_id8_MapFaces_Layer_WMS_0
-//org.mapfaces.ajax.LAYER_CONTAINER_STYLE	top:0px;left:0px;
-//refresh	_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id7_j_id8_MapFaces_Layer_WMS_0
-//render	true
-//synchronized	false
-//window	600,300
-//
-//        A4J.AJAX.Submit(
-//            '_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0',
-//            null,
-//            {   //'affected': this.affected,
-//                'containerId': "_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot",
-//                'namespace' : "jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj",
-//                'control':this,
-//                'single':this.ajaxSingle,
-//                'parameters': requestParams,
-//                //'actionUrl': actionUrl,
-//                'actionUrl': "/richfaces-basic/faces/pages/echo.xhtml?javax.portlet.faces.DirectLink=true",
-////                'onbeforedomupdate': OpenLayers.Function.bind(this.onBeforeDomUpdate, this),
-//                'oncomplete': OpenLayers.Function.bind(this.onComplete, this),
-//                'similarityGroupingId': "_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:j_id0:j_id5"
-//            }
-//            );
+        OpenLayers.Util.sendA4JRequest(this.requestId, this.formClientId, options);
 
     },
 
@@ -345,8 +289,8 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
             OpenLayers.Event.observe(this.imgDiv.childNodes[0], 'error',
                 OpenLayers.Function.bind(test, this.imgDiv.childNodes[0]));
         }
-    }, 
-    
+    },
+
     unregisterEvents: function() {
         OpenLayers.Event.stopObservingElement(this.imgDiv.childNodes[0]);
     },
