@@ -65,7 +65,7 @@
                     <mf-model:Context id="owsVisuContext" minifyJS="true"  service="map-context.xml"
                                       scriptaculous="false" mootools="false" openlayers="false" debug="false">
 
-                        <div id="center2" class="x-hide-display">
+                        <div id="center" class="x-hide-display">
                             <mf-base:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
                                 <mf:MapPane id="mappane" numZoomLevels="18" style="width:100%; height:100%;"
                                             debug="false" navigation="true" />
@@ -82,8 +82,8 @@
                             </mf-base:Div>
                         </div>
 
-                        <div id="center1" class="x-hide-display">
-                        </div>
+                        <%--<div id="center1" class="x-hide-display">
+                        </div>--%>
 
                         <!-- use class="x-hide-display" to prevent a brief flicker of the content -->
                         <div id="west" class="x-hide-display">
@@ -97,28 +97,28 @@
                                           styleClass="mfButtonBar horizontal"
                                           style="height:34px;opacity:1;position:relative;width:100%;"
                                           featureInfo="true" measureDistance="true" />
-                            <%--mf-base:Div>
-                                <mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
+                            <mf-base:Div>
+                                <%--<mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
                                                    loadMootools="false" enableAjax="true" multiple="true"
                                                    maxChoices="5" id="autocompleteZoom">
-                                </mf:Autocompletion>
-                            </mf-base:Div--%>
-                            <%--mf:CursorTrack id="CursorTrack"
+                                </mf:Autocompletion>--%>
+                            </mf-base:Div>
+                            <mf:CursorTrack id="CursorTrack"
                                             style="height:15px;opacity:1;position:relative;font-size: 1em;margin:5px;"
                                             showDMS="true" showLatLon="false" showXY="false" />
                             <mf:Scale id="Scale"
                                       style="height:15px;opacity:1;position:relative;width:100%;font-size: 1em;padding:0px;"/>
 
-                            <div id="output" style="height:15px;margin:5px;"></div--%>
+                            <div id="output" style="height:15px;margin:5px;"></div>
 
                         </div>
-
+<%--
                         <div id="props-panel" class="x-hide-display" style="width:200px;height:200px;overflow:hidden;">
                         </div>
 
                         <div id="south" class="x-hide-display">
 
-                        </div>
+                        </div>--%>
 
                     <%--div id="desktop">
 
