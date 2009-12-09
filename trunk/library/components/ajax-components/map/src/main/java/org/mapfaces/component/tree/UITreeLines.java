@@ -24,8 +24,8 @@ import org.mapfaces.component.abstractTree.UITreeLinesBase;
  */
 public class UITreeLines extends UITreeLinesBase {
 
-    private static final String TREELINES_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeLines";
-    private static final String TREELINES_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeLines";
+    private static final String TREELINES_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeLines";
+    private static final String TREELINES_COMP_FAMILY = "org.mapfaces.treetable.TreeLines";
 
     /**
      * {@inheritDoc }

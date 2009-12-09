@@ -27,8 +27,8 @@ import org.mapfaces.taglib.abstractTree.UITreeNodeInfoELTag;
 public class TreeNodeInfoTag extends UITreeNodeInfoELTag {
 
     /* Fields */
-    private static final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treetable.treepanel.TreeNodeInfo";
-    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeNodeInfo";
+    private static final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treetable.TreeNodeInfo";
+    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeNodeInfo";
 
     /* Methods*/
     /**
