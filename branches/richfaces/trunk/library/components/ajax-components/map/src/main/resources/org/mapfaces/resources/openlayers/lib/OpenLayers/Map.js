@@ -1329,7 +1329,7 @@ OpenLayers.Map = OpenLayers.Class({
         if (oldSize == null) {
             this.size = oldSize = newSize;
         }
-        if (!newSize.equals(oldSize)) {
+        if (!newSize.equals(oldSize))  {
             
             // store the new size
             this.size = newSize;
