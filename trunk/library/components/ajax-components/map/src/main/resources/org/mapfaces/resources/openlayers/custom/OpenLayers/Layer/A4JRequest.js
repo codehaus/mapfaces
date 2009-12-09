@@ -162,8 +162,8 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     onBeforeDomUpdate: function(request, event, data) {
 
-//        if(requestParams.refresh.indexOf(this.clientId) != -1)
-//        window.console.debug(this.clientId + " onBeforeDomUpdate");
+//        if(requestParams.refresh.indexOf(this.compClientId) != -1)
+//        window.console.debug(this.compClientId + " onBeforeDomUpdate");
     },
 
     /**
@@ -176,7 +176,7 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
      * data - {}  JSON representation of the result.
      */
     onSubmit: function(requestParams) {
-        if(requestParams && requestParams.refresh && requestParams.refresh.indexOf(this.clientId) != -1)
+        if(requestParams && requestParams.refresh && requestParams.refresh.indexOf(this.compClientId) != -1)
             this.events.triggerEvent("loadstart");
     },
 
@@ -240,8 +240,10 @@ OpenLayers.Layer.A4JRequest = OpenLayers.Class(OpenLayers.Layer, {
         //this is the A4JRequest object
         //this.control is the Layer object
 
-        if(request && request.options && request.options.parameters && request.options.parameters.refresh && request.options.parameters.refresh.indexOf(this.clientId) != -1) {
-            this.div  = document.getElementById(this.clientId);
+        if(request && request.options && request.options.parameters && request.options.parameters.refresh 
+            && (request.options.parameters.refresh.indexOf(this.compClientId) != -1
+                || request.options.parameters.refresh.indexOf(this.compId) != -1)) {
+            this.div  = document.getElementById(this.compClientId);
             if (this.div && this.div.childNodes[0]) {
                 this.imgDiv  = this.div.childNodes[0];
             }

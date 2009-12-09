@@ -90,8 +90,9 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     onComplete: function(request, event, data) {
 
         if(request && request.options && request.options.parameters && request.options.parameters.refresh
-                && request.options.parameters.refresh.indexOf(this.clientId) != -1) {
-            this.div  = document.getElementById(this.clientId);
+                && (request.options.parameters.refresh.indexOf(this.compClientId) != -1
+                || request.options.parameters.refresh.indexOf(this.compId) != -1)) {
+            this.div  = document.getElementById(this.compClientId);
 
             if (this.div && this.div.childNodes[0]) {
                 this.imgDiv  = this.div.childNodes[0];
@@ -145,7 +146,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
      */
     destroy: function() {
         this.drawn = null;
-        this.clientId = null;
+        this.compClientId = null;
         OpenLayers.Layer.MapFaces.prototype.destroy.apply(this, arguments);
     },
 
