@@ -23,8 +23,8 @@ import org.mapfaces.component.abstractTree.UITreeToolbarBase;
  */
 public class UITreeToolbar extends UITreeToolbarBase{
 
-    private static final String TOOLBAR_COMP_FAMILY ="org.mapfaces.treebuilder.treepanel.TreeToolbar";
-    private static final String TOOLBAR_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeToolbar";
+    private static final String TOOLBAR_COMP_FAMILY ="org.mapfaces.treebuilder.TreeToolbar";
+    private static final String TOOLBAR_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreeToolbar";
 
     /**
      * {@inheritDoc }

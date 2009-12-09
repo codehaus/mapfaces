@@ -27,8 +27,8 @@ import org.mapfaces.share.interfaces.A4JRendererInterface;
  */
 public class UITreeColumn extends UITreeColumnBase implements A4JInterface {
 
-    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeColumn";
-    private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treebuilder.treepanel.TreeColumn";
+    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreeColumn";
+    private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treebuilder.TreeColumn";
 
     /**
      * {@inheritDoc }

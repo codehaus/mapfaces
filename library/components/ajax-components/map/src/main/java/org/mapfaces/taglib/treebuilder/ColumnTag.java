@@ -27,8 +27,8 @@ import org.mapfaces.taglib.abstractTree.UIColumnELTag;
 public class ColumnTag extends UIColumnELTag {
 
     /* Fields */
-    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treebuilder.treepanel.Column";
-    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLColumn";
+    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treebuilder.Column";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLColumn";
 
     /* Methods*/
     /**
