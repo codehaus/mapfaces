@@ -247,5 +247,26 @@ OpenLayers.Control.MeasureArea = OpenLayers.Class(OpenLayers.Control, {
         return length;
     },
 
+    outputElemId: 'output',
+    
+    handleMeasurements: function (event) {
+        var geometry = event.geometry;
+        var units = event.units;
+        var order = event.order;
+        var measure = event.measure;
+        var out = "";
+
+        if(order == 1) {
+            out += "Distance: " + measure.toFixed(3) + " " + units;
+
+        } else {
+            out += "Distance: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
+        }
+        
+        var element = document.getElementById(this.outputElemId);
+        if (element)
+            element.innerHTML = out;
+    },
+
     CLASS_NAME: "OpenLayers.Control.MeasureArea"
 });

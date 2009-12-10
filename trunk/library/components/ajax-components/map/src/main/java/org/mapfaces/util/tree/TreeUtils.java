@@ -82,6 +82,7 @@ public class TreeUtils {
         final String treepanelId        = FacesMapUtils.getParentComponentClientIdByClass(context, component, UITreePanelBase.class);
         final UITreePanelBase treepanel = (UITreePanelBase) FacesMapUtils.findComponentByClientId(context, component, treepanelId);
 
+        //final UITreePanelBase treepanel = (UITreePanelBase) FacesMapUtils.findParentComponentByClass(component, UITreePanelBase.class);
         //Copy specific attributes from component to news
         ReflectionUtils.copyAttributes(component, copy,NO_COPY_PROPERTIES);
 
