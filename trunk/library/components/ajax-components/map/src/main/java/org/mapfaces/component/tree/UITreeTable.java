@@ -24,7 +24,7 @@ import org.mapfaces.component.abstractTree.UITreeTableBase;
  */
 public class UITreeTable extends UITreeTableBase {
 
-    private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeTable";
+    private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeTable";
     private static final String TREETABLE_COMP_FAMILY = "javax.faces.Output";
 
     /**

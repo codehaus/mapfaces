@@ -27,8 +27,8 @@ public class CheckColumnTag extends ColumnTag {
 
     /* Fields */
     private ValueExpression value = null;
-    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treebuilder.treepanel.CheckColumn";
-    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLCheckColumn";
+    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treebuilder.CheckColumn";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLCheckColumn";
 
     /**
      * Accessor for value

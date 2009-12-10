@@ -26,8 +26,8 @@ import org.mapfaces.taglib.abstractTree.UITreeToolbarELTag;
 public class TreeToolbarTag extends UITreeToolbarELTag {
 
     /* Fields */
-    private static final String TOOLBAR_COMP_TYPE = "org.mapfaces.treetable.treepanel.TreeToolbar";
-    private static final String TOOLBAR_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeToolbar";
+    private static final String TOOLBAR_COMP_TYPE = "org.mapfaces.treetable.TreeToolbar";
+    private static final String TOOLBAR_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeToolbar";
 
     /* Methods*/
     /**

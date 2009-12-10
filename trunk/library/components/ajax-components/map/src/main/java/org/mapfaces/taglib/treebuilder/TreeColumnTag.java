@@ -29,8 +29,8 @@ public class TreeColumnTag extends UITreeColumnELTag {
 
     /* Fields */
     private ValueExpression value = null;
-    private static final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treebuilder.treepanel.TreeColumn";
-    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.treepanel.HTMLTreeColumn";
+    private static final String TREECOLUMN_COMP_TYPE = "org.mapfaces.treebuilder.TreeColumn";
+    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreeColumn";
 
     /**
      * Accessor for value

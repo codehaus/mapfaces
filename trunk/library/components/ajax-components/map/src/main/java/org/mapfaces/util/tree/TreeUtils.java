@@ -79,9 +79,9 @@ public class TreeUtils {
             throws InstantiationException, IllegalAccessException {
         final FacesContext context      = FacesContext.getCurrentInstance();
         final UIComponent copy          = component.getClass().newInstance();
-        final String treepanelId        = FacesMapUtils.getParentComponentClientIdByClass(context, component, UITreePanelBase.class);
-        final UITreePanelBase treepanel = (UITreePanelBase) FacesMapUtils.findComponentByClientId(context, component, treepanelId);
 
+        final UITreePanelBase treepanel = (UITreePanelBase) FacesMapUtils.findParentComponentByClass(component, UITreePanelBase.class);
+        
         //Copy specific attributes from component to news
         ReflectionUtils.copyAttributes(component, copy,NO_COPY_PROPERTIES);
 
@@ -94,16 +94,16 @@ public class TreeUtils {
             } else {
                 copy.getAttributes().put("value", value);
             }
-
-            final ExternalContext ec = context.getExternalContext();
-            final Map requestMap = ec.getRequestMap();
-            if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
+            
+            final Map requestMap = context.getExternalContext().getRequestMap();
+            
+            if(component.getId().contains(treepanel.getId()))
                 copy.setId(component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
             else
                 copy.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId() + "_" + requestMap.get("property"));
 
         } else {
-           if(component.getId() != null && treepanel.getId() != null && component.getId().contains(treepanel.getId()))
+           if(component.getId().contains(treepanel.getId()))
                copy.setId(component.getId() + "_" + node.getId());
            else
                copy.setId(treepanel.getId() + "_" + component.getId() + "_" + node.getId());

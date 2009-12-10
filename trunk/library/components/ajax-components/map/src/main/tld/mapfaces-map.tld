@@ -1117,44 +1117,6 @@
             </description>
         </attribute>
     </tag>
-    <!-- MeasureDistance -->
-    <tag>
-        <name>MeasureDistance</name>
-        <tag-class>org.mapfaces.taglib.MeasureDistanceTag</tag-class>
-        <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
-        </description>
-	&commons_attributes;
-        <attribute>
-            <name>value</name>
-            <deferred-value>
-                <type>org.mapfaces.model.ViewContextType</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
-            </description>
-        </attribute>
-    </tag>
-    <!-- MeasureArea -->
-    <tag>
-        <name>MeasureArea</name>
-        <tag-class>org.mapfaces.taglib.MeasureAreaTag</tag-class>
-        <body-content>JSP</body-content>
-        <description><![CDATA[This is the tag that creates a component widget to track the mouse cursor and display his position in pixel, xy, lon/lat, Degrees Minutes Sec or Degrees Minutes.]]>
-        </description>
-        &commons_attributes;
-        <attribute>
-            <name>value</name>
-            <deferred-value>
-                <type>org.mapfaces.model.ViewContextType</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[The new context defined by the user, the type is an Object ViewContextType.]]>
-            </description>
-        </attribute>
-    </tag>
     <!-- MapSize -->
     <tag>
         <name>MapSize</name>

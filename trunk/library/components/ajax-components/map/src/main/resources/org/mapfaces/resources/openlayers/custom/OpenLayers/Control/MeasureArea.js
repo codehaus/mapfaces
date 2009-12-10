@@ -83,13 +83,16 @@ OpenLayers.Control.MeasureArea = OpenLayers.Class(OpenLayers.Control, {
     initialize: function(handler, options) {
         // concatenate events specific to measure with those from the base
         this.EVENT_TYPES =
-            OpenLayers.Control.Measure.prototype.EVENT_TYPES.concat(
+        OpenLayers.Control.Measure.prototype.EVENT_TYPES.concat(
             OpenLayers.Control.prototype.EVENT_TYPES
-        );
+            );
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
         this.callbacks = OpenLayers.Util.extend(
-            {done: this.measureComplete, point: this.measurePartial},
-            this.callbacks
+        {
+            done: this.measureComplete,
+            point: this.measurePartial
+            },
+        this.callbacks
         );
         this.handler = new handler(this, this.callbacks, this.handlerOptions);
     },
@@ -245,6 +248,27 @@ OpenLayers.Control.MeasureArea = OpenLayers.Class(OpenLayers.Control, {
             length *= (inPerMapUnit / inPerDisplayUnit);
         }
         return length;
+    },
+
+    outputElemId: 'output',
+
+    handleMeasurements: function (event) {
+        var geometry = event.geometry;
+        var units = event.units;
+        var order = event.order;
+        var measure = event.measure;
+        var out = "";
+
+        if(order == 1) {
+            out += "Distance: " + measure.toFixed(3) + " " + units;
+
+        } else {
+            out += "Distance: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
+        }
+
+        var element = document.getElementById(this.outputElemId);
+        if (element)
+            element.innerHTML = out;
     },
 
     CLASS_NAME: "OpenLayers.Control.MeasureArea"
