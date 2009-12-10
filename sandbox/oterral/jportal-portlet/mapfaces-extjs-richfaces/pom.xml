@@ -133,6 +133,41 @@
          <name>JBoss Snapshot Repository</name>
          <url>http://snapshots.jboss.org/maven2</url>
       </repository>
+      
+      
+      <!--repositories mapfaces-->
+       <repository>
+            <id>java.net.1</id>
+            <name>java.net community</name>
+            <url>http://download.java.net/maven/1</url>
+            <layout>legacy</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>geomatys</id>
+            <name>Other projects</name>
+            <url>http://maven.geomatys.com</url>
+        </repository>
+
+        <repository>
+            <id>geotoolkit</id>
+            <name>Geotoolkit</name>
+            <url>http://maven.geotoolkit.org/</url>
+        </repository>
+
+        <repository>
+            <id>official2</id>
+            <name>official mavenrepo 2</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+
    </repositories>
 
    <pluginRepositories>
