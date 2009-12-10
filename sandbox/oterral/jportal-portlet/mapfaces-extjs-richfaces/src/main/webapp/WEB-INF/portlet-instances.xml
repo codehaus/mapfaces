@@ -2,8 +2,8 @@
 <deployments>
    <deployment>
       <instance>
-         <instance-id>RichFacesEchoPortletInstance</instance-id>
-         <portlet-ref>RichFacesEchoPortlet</portlet-ref>
+         <instance-id>portlet-geo-instance</instance-id>
+         <portlet-ref>portlet-geo</portlet-ref>
       </instance>
    </deployment>
 </deployments>

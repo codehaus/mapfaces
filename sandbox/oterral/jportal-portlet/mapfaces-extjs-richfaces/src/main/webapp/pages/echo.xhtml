@@ -9,75 +9,64 @@
                 xmlns:mf-model="http://mapfaces.org/taglib-models"
                 xmlns:mf-widgets="http://widget-mapfaces.org/taglib">
     <h:form id="form">
+        <div id="layout">
+            <a4j:region id="stat1">
+                <mf-model:Context id="owsVisuContext" minifyJS="true"  service="blueMarble.xml"
+                                  scriptaculous="false" mootools="false" openlayers="false" debug="false" >
 
-           <!-- <h:outputText value="Your message: "/>
-            <h:inputText size="50" value="#{echo.text}">
-                <a4j:support event="onkeyup" reRender="rep"/>
-            </h:inputText>
+                    <div id="center" class="x-hide-display" style="width:100%;height:100%;">
+                        <mf-base:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
+                            <mf:MapPane id="mappane" numZoomLevels="18" style="width:100%; height:100%;"
+                                        debug="false" navigation="true" />
 
-            <h:outputText id="rep" value="#{echo.text}"/>-->
-              <!-- <mf-model:Context minifyJS="false"  openlayers="false" mootools="false" service="blueMarble.xml">
-             <mf:MapPane navigation="true" debug="false"></mf:MapPane>
-         </mf-model:Context>-->
-        <a4j:region id="stat1">
-                    <mf-model:Context id="owsVisuContext" minifyJS="true"  service="blueMarble.xml"
-                                      scriptaculous="false" mootools="false" openlayers="false" debug="false" >
-
-                        <div id="center" class="x-hide-display" style="width:100%;height:100%;">
-                           <mf-base:Div style="width:100%; height:100%;position:absolute;overflow:hidden;">
-                                <mf:MapPane id="mappane" numZoomLevels="18" style="width:100%; height:100%;"
-                                            debug="false" navigation="true" />
-
-                              <mf:DataRequest id="datarequest"
-                                                targetPopupId="popupfeatureInfo"
-                                                outputFormat="text/html"
-                                                featureCount="0">
-                                    <mf:Popup id="popupfeatureInfo" iframe="true" style="width:500px;"></mf:Popup>
-                                </mf:DataRequest>
-                                <mf-base:Div styleClass="footerMap">
-                                    <mf:ScaleBar ></mf:ScaleBar>
-                                </mf-base:Div>
+                            <mf:DataRequest id="datarequest"
+                                            targetPopupId="popupfeatureInfo"
+                                            outputFormat="text/html"
+                                            featureCount="0">
+                                <mf:Popup id="popupfeatureInfo" iframe="true" style="width:500px;"></mf:Popup>
+                            </mf:DataRequest>
+                            <mf-base:Div styleClass="footerMap">
+                                <mf:ScaleBar ></mf:ScaleBar>
                             </mf-base:Div>
-                        </div>
+                        </mf-base:Div>
+                    </div>
 
-                       <!-- <div id="center1" class="x-hide-display">
-                        </div>-->
+                    <!-- <div id="center1" class="x-hide-display">
+                     </div>-->
 
-                        <!-- use class="x-hide-display" to prevent a brief flicker of the content -->
-                        <div id="west" class="x-hide-display">
-                         <mf:LayerControl id="lc"  displayHeader="false"  layerInfo="false"
-                                             style="height:100%;opacity:1;position:relative;width:300px;" >
-                            </mf:LayerControl>
-                        </div>
+                    <!-- use class="x-hide-display" to prevent a brief flicker of the content -->
+                    <div id="west" class="x-hide-display">
+                        <mf:LayerControl id="lc"  displayHeader="false"  layerInfo="false"
+                                         style="height:100%;opacity:1;position:relative;width:300px;" >
+                        </mf:LayerControl>
+                    </div>
 
-                        <div id="east" class="x-hide-display">
-                           <mf:ButtonBar id="ButtonBar" reRender="datarequest"
-                                          styleClass="mfButtonBar horizontal"
-                                          style="height:34px;opacity:1;position:relative;width:100%;"
-                                          featureInfo="true" measureDistance="true" />
-                            <!--<mf-base:Div>
-                                <mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
-                                                   loadMootools="false" enableAjax="true" multiple="true"
-                                                   maxChoices="5" id="autocompleteZoom">
-                                </mf:Autocompletion>
-                            </mf-base:Div>-->
-                            <mf:CursorTrack id="CursorTrack"
-                                            style="height:15px;opacity:1;position:relative;font-size: 1em;margin:5px;"
-                                            showDMS="true" showLatLon="false" showXY="false" />
-                            <mf:Scale id="Scale"
-                                      style="height:15px;opacity:1;position:relative;width:100%;font-size: 1em;padding:0px;"/>
+                    <div id="east" class="x-hide-display">
+                        <mf:ButtonBar id="ButtonBar" reRender="datarequest"
+                                      styleClass="mfButtonBar horizontal"
+                                      style="height:34px;opacity:1;position:relative;width:100%;"
+                                      featureInfo="true" measureDistance="true" />
+                        <!--<mf-base:Div>
+                            <mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
+                                               loadMootools="false" enableAjax="true" multiple="true"
+                                               maxChoices="5" id="autocompleteZoom">
+                            </mf:Autocompletion>
+                        </mf-base:Div>-->
+                        <mf:CursorTrack id="CursorTrack"
+                                        style="height:15px;opacity:1;position:relative;font-size: 1em;margin:5px;"
+                                        showDMS="true" showLatLon="false" showXY="false" />
+                        <mf:Scale id="Scale"
+                                  style="height:15px;opacity:1;position:relative;width:100%;font-size: 1em;padding:0px;"/>
 
 
-                            <div id="output" style="height:15px;margin:5px;"></div>
-                        </div>
-
-                    </mf-model:Context>
-                </a4j:region>
-
-      
+                        <div id="output" style="height:15px;margin:5px;"></div>
+                    </div>
+                </mf-model:Context>
+            </a4j:region>
+        </div>
     </h:form>
 
-    <script type="text/javascript" src="/richfaces-basic/resources/js/ext-3.0.3/adapter/prototype/ext-prototype-adapter.js"></script>
-    <script type="text/javascript" src="/richfaces-basic/resources/js/ext-3.0.3/ext-all.js"></script>
-    <script type="text/javascript" src="/richfaces-basic/resources/js/start.js"></script>
+    <script type="text/javascript" src="/portlet-geo/resources/js/ext-3.0.3/adapter/prototype/ext-prototype-adapter.js"></script>
+    <script type="text/javascript" src="/portlet-geo/resources/js/ext-3.0.3/ext-all.js"></script>
+    <script type="text/javascript" src="/portlet-geo/resources/js/start.js"></script>
 </ui:composition>

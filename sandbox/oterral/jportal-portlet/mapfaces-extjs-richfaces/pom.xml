@@ -6,7 +6,7 @@
    <groupId>org.whatever.project</groupId>
    <artifactId>portlet-jportal</artifactId>
    <packaging>war</packaging>
-   <version>1.0-SNAPSHOT</version>
+   <version>1.0</version>
    <name>Portlet MapFaces ExtJS RichFaces</name>
    <url>http://www.geomatys.com</url>
 
@@ -45,7 +45,7 @@
    <build>
 
       <defaultGoal>package</defaultGoal>
-      <finalName>richfaces-basic</finalName>
+      <finalName>portlet-geo</finalName>
 
       <plugins>
 
@@ -353,7 +353,7 @@
                         <type>installed</type>
                         <deployables>
                            <deployable>
-                              <location>target/richfaces-basic.war</location>
+                              <location>target/portlet-geo.war</location>
                               <pingURL>http://localhost:8080/simple-portal/</pingURL>
                            </deployable>
                         </deployables>

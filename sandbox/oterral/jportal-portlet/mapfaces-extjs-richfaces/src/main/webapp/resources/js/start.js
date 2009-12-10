@@ -11,7 +11,7 @@ Ext.onReady(function(){
         layout:'border',
         width:"100%",
         height:600,
-        renderTo:Ext.getDom('_jbpns_2fdefault_2fRichFacesEchoPortlet_2fRichFacesEchoPortletWindowsnpbj:_viewRoot:form'),
+        renderTo:Ext.getDom('layout'),
         items:[
         {
             region:'west',
