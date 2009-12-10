@@ -44,7 +44,11 @@ OpenLayers.Map = OpenLayers.Class({
                 'control':this,
                 'single': true
             });
-            options.parameters = parameters;
+            
+            if (options.parameters == null) {
+                    options.parameters = {};
+            }
+            OpenLayers.Util.extend(options.parameters, parameters);
         }
         OpenLayers.Util.sendA4JRequest(this.mfRequestId, this.mfFormClientId,  options);
 

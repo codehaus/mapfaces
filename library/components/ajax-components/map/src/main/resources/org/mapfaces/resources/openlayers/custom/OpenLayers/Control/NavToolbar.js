@@ -75,8 +75,8 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
         if(options.measureDistance){
            var md = new OpenLayers.Control.Measure(OpenLayers.Handler.Path);
            md.events.on({
-                    'measure': handleMeasurements,
-                    'measurepartial': handleMeasurements});  
+                    'measure': md.handleMeasurements,
+                    'measurepartial': md.handleMeasurements});
            tab.push(md);
         }
         
@@ -84,8 +84,8 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
         if(options.measureArea){
            var ma = new OpenLayers.Control.MeasureArea(OpenLayers.Handler.Polygon);
            ma.events.on({
-                    'measure': handleMeasurements,
-                    'measurepartial': handleMeasurements});  
+                    'measure': ma.handleMeasurements,
+                    'measurepartial': ma.handleMeasurements});
            tab.push(ma);
         }
         

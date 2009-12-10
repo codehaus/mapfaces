@@ -180,6 +180,7 @@ if(!window.OpenLayers){
                 "openlayers/lib/OpenLayers/Control/SelectFeature.js",
                 "openlayers/lib/OpenLayers/Control/NavigationHistory.js",
                 "openlayers/lib/OpenLayers/Control/Measure.js",
+                "openlayers/lib/OpenLayers/Control/MeasureExt.js",
                 //              "openlayers/lib/OpenLayers/Control/WMSGetFeatureInfo.js",
                 "openlayers/lib/OpenLayers/Geometry.js",
                 "openlayers/lib/OpenLayers/Geometry/Rectangle.js",

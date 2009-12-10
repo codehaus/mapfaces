@@ -256,6 +256,7 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/SelectFeature.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/NavigationHistory.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Measure.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/MeasureExt.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Rectangle.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Collection.js</include>
