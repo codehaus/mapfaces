@@ -23,8 +23,8 @@ import org.mapfaces.component.abstractTree.UITreeColumnBase;
  */
 public class UITreeColumn extends UITreeColumnBase {
 
-    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeColumn";
-    private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.TreeColumn";
+    private static final String TREECOLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeColumn";
+    private static final String TREECOLUMN_COMP_FAMILY = "org.mapfaces.treetable.TreeColumn";
 
     /**
      * {@inheritDoc }

@@ -27,7 +27,7 @@ public class TreeNodeInfoTag extends UITreeNodeInfoELTag {
 
     /* Fields */
     private static final String TREENODEINFO_COMP_TYPE = "org.mapfaces.treelayout.TreeNodeInfo";
-    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.treetable.treepanel.HTMLTreeNodeInfo";
+    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treelayout.HTMLTreeNodeInfo";
 
     /* Methods*/
     /**

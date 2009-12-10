@@ -24,8 +24,8 @@ import org.mapfaces.component.abstractTree.UIColumnBase;
  */
 public class UIColumn extends UIColumnBase {
 
-    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLColumn";
-    private static final String COLUMN_COMP_FAMILY = "org.mapfaces.treetable.treepanel.Column";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLColumn";
+    private static final String COLUMN_COMP_FAMILY = "org.mapfaces.treetable.Column";
 
     /**
      * {@inheritDoc }

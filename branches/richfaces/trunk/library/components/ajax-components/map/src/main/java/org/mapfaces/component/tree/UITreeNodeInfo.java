@@ -24,8 +24,8 @@ import org.mapfaces.component.abstractTree.UITreeNodeInfoBase;
  */
 public class UITreeNodeInfo extends UITreeNodeInfoBase {
 
-    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeNodeInfo";
-    private static final String TREENODEINFO_COMP_FAMILY = "org.mapfaces.treetable.treepanel.treelines.TreeNodeInfo";
+    private static final String TREENODEINFO_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeNodeInfo";
+    private static final String TREENODEINFO_COMP_FAMILY = "org.mapfaces.treetable.TreeNodeInfo";
 
     /**
      * {@inheritDoc }

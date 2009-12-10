@@ -26,8 +26,8 @@ import org.mapfaces.taglib.abstractTree.UITreeLinesELTag;
 public class TreeLinesTag extends UITreeLinesELTag {
 
     /* Fields */
-    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.treepanel.TreeLines";
-    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.treepanel.HTMLTreeLines";
+    private static final String COLUMN_COMP_TYPE = "org.mapfaces.treetable.TreeLines";
+    private static final String COLUMN_RENDERER_TYPE = "org.mapfaces.renderkit.treetable.HTMLTreeLines";
 
     /* Methods*/
     /**

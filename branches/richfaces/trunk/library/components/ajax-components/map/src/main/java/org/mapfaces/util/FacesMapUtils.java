@@ -63,6 +63,7 @@ import org.ajax4jsf.component.html.HtmlAjaxSupport;
 import org.geotoolkit.data.FeatureCollectionUtilities;
 import org.geotoolkit.data.collection.FeatureCollection;
 import org.mapfaces.component.UILayer;
+import org.mapfaces.component.abstractTree.UITreePanelBase;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.component.timeline.UIHotZoneBandInfo;
 import org.mapfaces.component.timeline.UITimeLine;
@@ -943,4 +944,5 @@ public class FacesMapUtils extends FacesUtils {
         }
         return null;
     }
+
 }

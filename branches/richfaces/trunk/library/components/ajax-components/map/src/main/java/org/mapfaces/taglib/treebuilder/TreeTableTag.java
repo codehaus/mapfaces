@@ -27,8 +27,8 @@ import org.mapfaces.taglib.abstractTree.UITreeTableELTag;
 public class TreeTableTag extends UITreeTableELTag {
 
     /* Fields */
-    private static final String TREETABLE_COMP_TYPE = "org.mapfaces.TreeBuilder";
-    private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTreeBuilder";
+    private static final String TREETABLE_COMP_TYPE = "org.mapfaces.treebuilder.TreeBuilder";
+    private static final String TREETABLE_RENDERER_TYPE = "org.mapfaces.renderkit.treebuilder.HTMLTreeBuilder";
 
     /* Methods*/
     /**

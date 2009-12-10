@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlPanelGroup;
@@ -29,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
+import org.apache.derby.impl.sql.compile.Level2CostEstimateImpl;
 import org.mapfaces.component.abstractTree.UIColumnBase;
 import org.mapfaces.component.abstractTree.UITreeColumnBase;
 import org.mapfaces.component.abstractTree.UITreeLinesBase;
@@ -324,11 +326,15 @@ public abstract class AbstractTreePanelRenderer extends Renderer implements Ajax
 
         for (int i = 0, n = root.getChildCount(); i < n; i++) {
             final TreeNodeModel child = (TreeNodeModel) root.getChildAt(i);
-            if (FacesMapUtils.findComponentByClientId(context, context.getViewRoot(), treepanel.getClientId(context) + "_panel_" + child.getId()) != null) {
-                FacesMapUtils.encodeRecursive(context, (FacesMapUtils.findComponentByClientId(context,context.getViewRoot(), treepanel.getClientId(context) + "_panel_" + child.getId())));
+            final String findId = treepanel.getId() + "_panel_" + child.getId();
+            final UIComponent comp = FacesMapUtils.findComponentById(context, context.getViewRoot(), findId);
+
+            if (comp != null) {
+                FacesMapUtils.encodeRecursive(context, comp);
+                
             } else {
-                System.out.println("[WARNING] encodeChildren in " + AbstractTreePanelRenderer.class.getName() + " : findComponent " +
-                        "throw java.nullPointerException to " + treepanel.getClientId(context) + "_panel_" + child.getId());
+               LOGGER.log(Level.WARNING," encodeChildren in " + AbstractTreePanelRenderer.class.getName() + " : findComponent " +
+                        "throw java.nullPointerException to " + findId);
             }
         }
 
