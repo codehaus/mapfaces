@@ -32,7 +32,7 @@
             <h:form>
                 <h:commandButton value="submit"/>
                 <mf-model:Context minifyJS="false" service="/data/context/blueMarble.xml">
-                    <mf:MapPane navigation="true">
+                    <mf:MapPane navigation="true" debug="true">
                          <mf:SvgLayer id="svg" />
                     </mf:MapPane>
                     <mf:EditionBar  drawRegularPolygon ="true"

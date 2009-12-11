@@ -26,8 +26,24 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
     initialize: function(options) {
         //OpenLayers.Layer.MapFaces.prototype.initialize.apply(this, arguments);
         this.addOptions(options);
-        this.div = OpenLayers.Util.getElement(this.compClientId);
+        
+        //TODO this creation of a div should not be here, it's in the SvgLayerRender we should do that
+        if (OpenLayers.Util.getElement(this.compClientId) == null) {
+            this.div = OpenLayers.Util.createDiv(this.compClientId);
+            this.div.style.width = "100%";
+            this.div.style.height = "100%";
+            this.div.dir = "ltr";
+        }
+
+        this.events = new OpenLayers.Events(this, this.div,
+                                                this.EVENT_TYPES);
+        if(this.eventListeners instanceof Object) {
+            this.events.on(this.eventListeners);
+        }
+        
+        //this.div = OpenLayers.Util.getElement(this.compClientId);
         OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
+        
         this.events.register('featureadded', null, this.onFeatureAdded);
         this.events.register('beforefeaturemodified', null, this.onBeforeFeatureModified);
         this.events.register('afterfeaturemodified', null, this.onAfterFeatureModified);

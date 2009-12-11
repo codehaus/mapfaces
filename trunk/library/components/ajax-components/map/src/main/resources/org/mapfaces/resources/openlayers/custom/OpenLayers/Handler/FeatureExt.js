@@ -26,7 +26,6 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler.Feature, {
      * array.
      */
     moveLayerBack: function() {
-        if (this.layer.CLASS_NAME != 'OpenLayers.Layer.MapFaces.Vector') {
             var index = this.layer.getZIndex() - 1;
             if (index >= this.map.Z_INDEX_BASE['Feature']) {
                 this.layer.setZIndex(index);
@@ -34,6 +33,5 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler.Feature, {
                 this.map.setLayerZIndex(this.layer,
                     this.map.getLayerIndex(this.layer));
             }
-        }
     }
 });

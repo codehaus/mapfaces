@@ -88,8 +88,6 @@ public class SvgLayerRenderer extends LayerRenderer {
         else idsToRefresh = null;
         final String modelContextId = (comp.getTargetContextCompId() != null) ? formId + ":" + comp.getTargetContextCompId() + "_Ajax":null;
 
-        writer.startElement(HTML.SCRIPT_ELEM, comp);
-        writer.writeAttribute(HTML.TYPE_ATTR, "text/javascript", "text/javascript");
         final StringBuilder stringBuilder = new StringBuilder(uiMapPane.getAddLayersScript());
         stringBuilder.append("window.layerToAdd").append(mapJsVariable).append(".push(function() {");
         
@@ -142,8 +140,6 @@ public class SvgLayerRenderer extends LayerRenderer {
         stringBuilder.append(mapJsVariable).append(".addLayer(" + jsLayerVariable + ");");
         stringBuilder.append(jsLayerVariable + ".activeEvents(true);").append("});");
         uiMapPane.setAddLayersScript(stringBuilder.toString());
-        writer.endElement(HTML.SCRIPT_ELEM);
-        writer.flush();
 
         if (comp.getModel() instanceof DefaultContext) {
             final Context ctx = (DefaultContext) comp.getModel();
