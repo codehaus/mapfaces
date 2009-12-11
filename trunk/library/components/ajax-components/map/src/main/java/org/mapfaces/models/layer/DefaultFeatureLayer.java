@@ -18,8 +18,9 @@
 package org.mapfaces.models.layer;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
  */
 import java.util.List;
 import org.mapfaces.models.Feature;
@@ -50,6 +51,14 @@ public class DefaultFeatureLayer extends DefaultLayer implements FeatureLayer {
      * Rotation of the image.
      */
     public double rotation = 0;
+
+    /**
+     * icon as an url to allow the possibility of UILayerControl
+     * component to display a small icon behind the layer name on a tree line.
+     * you can set an internal url by using ResourcePhaseListener or a basic path
+     * from your web application
+     */
+    private String icon;
     
     public List<Feature> getFeatures() {
         return features;
@@ -83,7 +92,15 @@ public class DefaultFeatureLayer extends DefaultLayer implements FeatureLayer {
         this.rotation = rotation;
     }
 
+    @Override
+    public String getIcon() {
+        return icon;
+    }
 
+    @Override
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     
 }

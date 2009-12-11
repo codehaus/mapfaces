@@ -23,13 +23,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBException;
 
 import org.geotoolkit.geometry.Envelope2D;
 import org.geotoolkit.referencing.CRS;
+import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.MapContextLayer;
 import org.mapfaces.util.XMLContextUtilities;
 import org.opengis.geometry.Envelope;
@@ -38,7 +39,11 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * @author Olivier Terral.
+ * This is an implementation of Context as a model of ows context.
+ *
+ * @author Olivier Terral (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
  */
 public class DefaultContext extends AbstractModelBase implements Context {
 
@@ -59,7 +64,13 @@ public class DefaultContext extends AbstractModelBase implements Context {
     private String maxx;
     private String maxy;
     private String srs;
-    private List<Layer> layers = new ArrayList<Layer>();
+
+    /**
+     * This list should be a synchronized instance to avoid ConcurentModificationException
+     */
+    private List<Layer> layers = new CopyOnWriteArrayList<Layer>();
+
+
     private Map<String, Server> wmsServers;
     private Map<String, Server> wfsServers;
 
@@ -67,6 +78,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getContextType() {
         return type;
     }
@@ -74,6 +86,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
     /**
      * {@inheritDoc }
      */
+    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -453,6 +466,7 @@ public class DefaultContext extends AbstractModelBase implements Context {
         return layersTmp;
     }
 
+    @Override
     public List<Layer> getQueryableAndVisibleLayers() {
         final List<Layer> queryableLayers = getQueryableLayers();
         final List<Layer> returnLayers = new ArrayList<Layer>();
@@ -696,13 +710,29 @@ public class DefaultContext extends AbstractModelBase implements Context {
     }
 
     /**
-     * Removes all MapContextLayer contained in the context object. it is used to clean the context for every event rerender on the mappane.
+     * Removes all MapContextLayer contained in the context object. 
+     * it is used to clean the context for each event rerender on the mappane.
      */
     @Override
     public void clearMapContextLayers() {
         final List<Layer> listtoremove = new ArrayList<Layer>();
         for (Layer layer : this.getLayers()) {
             if (layer instanceof  MapContextLayer) {
+                listtoremove.add(layer);
+            }
+        }
+        for (Layer layer : listtoremove) {
+                removeLayerFromId(layer.getId());
+        }
+    }
+
+    /**
+     * Removes all FeatureLayer contained in the context object.
+     */
+    public void clearFeatureLayers() {
+        final List<Layer> listtoremove = new ArrayList<Layer>();
+        for (Layer layer : this.getLayers()) {
+            if (layer instanceof  FeatureLayer) {
                 listtoremove.add(layer);
             }
         }

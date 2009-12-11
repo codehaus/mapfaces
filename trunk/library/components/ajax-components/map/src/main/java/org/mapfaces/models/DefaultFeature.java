@@ -20,15 +20,15 @@ package org.mapfaces.models;
 import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.Map;
-import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- *
+ * This is a feature implementation used as a model for FeatureLayer.
+ * 
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class DefaultFeature implements Feature {
-
 
     private static final long serialVersionUID = 7526471155622776147L;
     private String id;
@@ -43,12 +43,12 @@ public class DefaultFeature implements Feature {
 
     public DefaultFeature() {
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(String id) {
         this.id = id;
@@ -93,7 +93,7 @@ public class DefaultFeature implements Feature {
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
-    
+
     @Override
     public Serializable getUserObject() {
         return userObject;
@@ -102,5 +102,43 @@ public class DefaultFeature implements Feature {
     @Override
     public void setUserObject(Serializable object) {
         this.userObject = object;
+    }
+
+    /**
+     * Compares this metadata with the specified element for equality.
+     */
+    @Override
+    public boolean equals(final Object object) {
+        if (object != null && object.getClass().equals(getClass())) {
+            final DefaultFeature that = (DefaultFeature) object;
+            return this.id != null && this.id.equals(that.id) &&
+                    this.crs != null && this.crs.equals(that.getCrs()) &&
+                    this.geometry != null && this.geometry.equals(that.getGeometry());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 17 * hash + (this.crs != null ? this.crs.hashCode() : 0);
+        hash = 17 * hash + (this.geometry != null ? this.geometry.hashCode() : 0);
+        return hash;
+    }
+
+    /**
+     * Returns a string representation of this element.
+     * This is mostly for debugging purpose.
+     */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[").append(getClass().getSimpleName());
+        sb.append(" id : ").append(id);
+        sb.append(" crs : ").append(crs);
+        sb.append(" geometry : ").append(geometry);
+        sb.append(" ]");
+        return sb.toString();
     }
 }

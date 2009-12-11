@@ -192,4 +192,20 @@ public interface Layer extends Serializable, Cloneable {
 
     void setCompId(String id);
 
+    /**
+     * Returns an icon as an url of existing image into the application
+     * you can use the ResourcePhaseListener to load icons from the mapfaces
+     * resources lib if needed.
+     *
+     */
+    String getIcon();
+
+    /**
+     * Set an icon as an url to allow the possibility of UILayerControl
+     * component to display a small icon behind the layer name on a tree line.
+     * you can set an internal url by using ResourcePhaseListener or a basic path
+     * from your web application
+     */
+    void setIcon(String icon);
+
 }

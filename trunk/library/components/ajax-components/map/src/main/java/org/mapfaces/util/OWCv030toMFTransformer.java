@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.util;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
@@ -65,8 +67,9 @@ import org.opengis.referencing.operation.TransformException;
 /**
  * This class builds all needed geotoolkit and mapfaces object from the map context xml file.
  * 
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.1
  */
 public class OWCv030toMFTransformer {
 
@@ -120,7 +123,11 @@ public class OWCv030toMFTransformer {
     }
 
     public static List visitResourceList(List<LayerType> layerList) throws UnsupportedEncodingException, JAXBException {
-        List<Layer> layers = new ArrayList<Layer>();
+        /**
+         * Must be a synchronized list to prevent ConcurrentModificationException
+         */
+        List<Layer> layers = new CopyOnWriteArrayList<Layer>();
+        
         HashMap<String, Server> servers = new HashMap<String, Server>();
 
         int i = 0;

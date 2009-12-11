@@ -83,10 +83,8 @@ public class LayerRenderer extends WidgetBaseRenderer {
             model.setMaxy(bbox.split(",")[3]);
         }
   
-        if (params.containsKey("forceRefresh")) {
-            if (layer != null) {
+        if (params.containsKey("forceRefresh") && layer != null) {
                 model.setLayerRefresh(layer.getId(), true);
-            }
         }
         final String layerId = params.get("org.mapfaces.ajax.AJAX_LAYER_ID");
         if (layerId != null) {
@@ -103,63 +101,65 @@ public class LayerRenderer extends WidgetBaseRenderer {
                     final String uservalueKey = "uservalue";
 
                     //Modify Context property
-                    if (layerProperty.toLowerCase(Locale.getDefault()).contains(hiddenKey)) {
-                        final boolean hidden = value.equals("true");
-                        //                    tmp.setLayerHidden(layer.getId(), test);
-                        if (layer instanceof DefaultWmsGetMapLayer) {
-                            final String sldIdentifier = params.get("WmsGetMapEntry_SLD_identifier");
-                            layer.setHidden(hidden, sldIdentifier);
-                        } else {
-                            layer.setHidden(hidden);
-                        }
+                    if (layer != null) {
+                        if (layerProperty.toLowerCase(Locale.getDefault()).contains(hiddenKey)) {
+                            final boolean hidden = value.equals("true");
+                            //                    tmp.setLayerHidden(layer.getId(), test);
+                            if (layer instanceof DefaultWmsGetMapLayer) {
+                                final String sldIdentifier = params.get("WmsGetMapEntry_SLD_identifier");
+                                layer.setHidden(hidden, sldIdentifier);
+                            } else {
+                                layer.setHidden(hidden);
+                            }
 
-                        layer.setDisplayable(layer.isDisplayable(MapUtils.getScale(model)));
-                        if (isDebug()) {
-                            LOGGER.log(Level.INFO,
-                                    this.debugChangePropertyMessage(hiddenKey,
+                            layer.setDisplayable(layer.isDisplayable(MapUtils.getScale(model)));
+                            if (isDebug()) {
+                                LOGGER.log(Level.INFO,
+                                        this.debugChangePropertyMessage(hiddenKey,
                                         layer.getId(),
                                         String.valueOf(model.isLayerHidden(layer.getId()))));
-                        }
+                            }
 
-                    } else if (layerProperty.toLowerCase().contains(opacityKey)) {
-                        model.setLayerOpacity(layer.getId(), value);
-                        if (isDebug()) {
-                            LOGGER.log(Level.INFO, 
-                                    this.debugChangePropertyMessage(opacityKey,
+                        } else if (layerProperty.toLowerCase().contains(opacityKey)) {
+                            model.setLayerOpacity(layer.getId(), value);
+                            if (isDebug()) {
+                                LOGGER.log(Level.INFO,
+                                        this.debugChangePropertyMessage(opacityKey,
                                         layer.getId(),
                                         String.valueOf(model.getLayerOpacity(layer.getId()))));
-                        }
+                            }
 
-                    } else if (layerProperty.toLowerCase().contains(timeKey)) {
-                        model.setLayerAttrDimension(layer.getId(), timeKey, uservalueKey, value);
+                        } else if (layerProperty.toLowerCase().contains(timeKey)) {
+                            model.setLayerAttrDimension(layer.getId(), timeKey, uservalueKey, value);
 
-                        if (isDebug()) {
-                            LOGGER.log(Level.INFO,
-                                    this.debugChangePropertyMessage(timeKey,
+                            if (isDebug()) {
+                                LOGGER.log(Level.INFO,
+                                        this.debugChangePropertyMessage(timeKey,
                                         layer.getId(),
                                         String.valueOf(model.getLayerAttrDimension(layer.getId(), timeKey, uservalueKey))));
-                        }
+                            }
 
-                    } else if (layerProperty.toLowerCase().contains(elevationKey)) {
-                        model.setLayerAttrDimension(layer.getId(), elevationKey, uservalueKey, value);
+                        } else if (layerProperty.toLowerCase().contains(elevationKey)) {
+                            model.setLayerAttrDimension(layer.getId(), elevationKey, uservalueKey, value);
 
-                        if (isDebug()) {
-                            LOGGER.log(Level.INFO,
-                                    this.debugChangePropertyMessage(elevationKey,
+                            if (isDebug()) {
+                                LOGGER.log(Level.INFO,
+                                        this.debugChangePropertyMessage(elevationKey,
                                         layer.getId(),
                                         String.valueOf(model.getLayerAttrDimension(layer.getId(), elevationKey, uservalueKey))));
-                         }
+                            }
 
-                    } else if (layerProperty.toLowerCase().contains(dimrangeKey)) {
-                        model.setLayerAttrDimension(layer.getId(), "dim_range", uservalueKey, value);
-                        
-                        if (isDebug()) {
-                            LOGGER.log(Level.INFO,
-                                    this.debugChangePropertyMessage(dimrangeKey,
+                        } else if (layerProperty.toLowerCase().contains(dimrangeKey)) {
+                            model.setLayerAttrDimension(layer.getId(), "dim_range", uservalueKey, value);
+
+                            if (isDebug()) {
+                                LOGGER.log(Level.INFO,
+                                        this.debugChangePropertyMessage(dimrangeKey,
                                         layer.getId(),
                                         String.valueOf(model.getLayerAttrDimension(layer.getId(), "dim_range", uservalueKey))));
-                         }                     
+                            }
 
+                        }
                     }
                 }
             }

@@ -24,7 +24,10 @@ import org.mapfaces.component.models.UIModelBase;
 import org.mapfaces.models.AbstractModelBase;
 
 /**
- * @author Mehdi Sidhoum
+ * This is the main class of mapfaces components.
+ *
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.1
  */
 public abstract class UIWidgetBase extends UICommand implements StateHolder {
 
