@@ -20,6 +20,12 @@ package org.mapfaces.models.layer;
 import java.util.Date;
 import org.mapfaces.models.LayerType;
 
+/**
+ *
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
+ */
+
 public class DefaultMapContextLayer extends DefaultLayer implements MapContextLayer {
 
     public LayerType type = LayerType.MAPCONTEXT;

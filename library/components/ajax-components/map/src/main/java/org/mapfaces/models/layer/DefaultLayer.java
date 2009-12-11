@@ -75,6 +75,13 @@ public class DefaultLayer implements Layer {
      * JSF properties we need to know the id of its component
      * */
     private String compId;
+    /**
+     * icon as an url to allow the possibility of UILayerControl
+     * component to display a small icon behind the layer name on a tree line.
+     * you can set an internal url by using ResourcePhaseListener or a basic path
+     * from your web application
+     */
+    private String icon;
 
     public DefaultLayer(boolean edit, boolean lock, int groupId) {
         this.edit = edit;
@@ -788,6 +795,16 @@ public class DefaultLayer implements Layer {
      */
     public void setRefresh(boolean refresh) {
         this.refresh = refresh;
+    }
+
+    @Override
+    public String getIcon() {
+        return icon;
+    }
+
+    @Override
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
 }

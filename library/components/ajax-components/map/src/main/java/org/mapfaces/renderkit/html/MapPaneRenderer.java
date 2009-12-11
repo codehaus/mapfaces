@@ -284,7 +284,7 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             if ((tmp instanceof UILayer) && !(tmp instanceof UISvgLayer)) {
                 final UILayer uiLayer = (UILayer) tmp;
                 final Layer layer = uiLayer.getLayer();
-                if (!layer.isDisable()) {
+                if (layer != null && !layer.isDisable()) {
                     final String clientId = uiLayer.getClientId(context);
                     final String jsLayerVariable = FacesMapUtils.getJsVariableFromClientId(uiLayer.getClientId(context));
 

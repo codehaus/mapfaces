@@ -26,11 +26,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import org.ajax4jsf.framework.util.message.Messages;
 import org.ajax4jsf.framework.util.javascript.ScriptUtils;
+import org.mapfaces.component.UIWidgetBase;
 
 /**
- * This class should be extend AjaxRendererUtils class from A4J project but constructior is in private access
- * Build javascript to make A4J request
+ * This class should be extend AjaxRendererUtils class from A4J project but 
+ * constructior is in private access.
+ * Build javascript to make A4J request.
+ *
  * @author Olivier Terral (Geomatys)
+ * @since 0.3
  */
 public class AjaxRendererUtils {
 
@@ -68,8 +72,9 @@ public class AjaxRendererUtils {
 			}
 
 		}
-		LOGGER.log(Level.INFO, Messages.getMessage(Messages.BUILD_ONCLICK_INFO, uiComponent
-				.getId(), onEvent.toString()));
+            if (uiComponent instanceof UIWidgetBase && ((UIWidgetBase) uiComponent).isDebug())
+                LOGGER.log(Level.INFO, Messages.getMessage(Messages.BUILD_ONCLICK_INFO,
+                        uiComponent.getId(), onEvent.toString()));
 
 		return onEvent;
 

@@ -21,6 +21,7 @@ package org.mapfaces.models.layer;
  * This model of layer is used in the layer control component especialy when a factorization is called on wmsLayers.
  *
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class WmsGetMapEntry extends DefaultWmsGetMapLayer {
 
