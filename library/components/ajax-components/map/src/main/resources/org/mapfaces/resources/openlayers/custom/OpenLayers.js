@@ -141,7 +141,6 @@ if(!window.OpenLayers){
                 "openlayers/lib/OpenLayers/Handler/Path.js",
                 "openlayers/lib/OpenLayers/Handler/Polygon.js",
                 "openlayers/lib/OpenLayers/Handler/Feature.js",
-                "openlayers/custom/OpenLayers/Handler/FeatureExt.js",
                 "openlayers/lib/OpenLayers/Handler/Drag.js",
                 "openlayers/lib/OpenLayers/Handler/RegularPolygon.js",
                 "openlayers/lib/OpenLayers/Handler/Box.js",

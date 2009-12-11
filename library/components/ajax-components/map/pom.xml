@@ -223,7 +223,6 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Path-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Polygon-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Feature-min.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Handler/FeatureExt-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Drag-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/RegularPolygon-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Box-min.js</include>
