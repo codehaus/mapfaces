@@ -19,7 +19,6 @@ package org.mapfaces.models;
 import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.Map;
-import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
@@ -30,6 +29,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 public interface Feature extends Serializable {
     
     static final String POINT = "POINT";
+    static final String LINESTRING = "LINESTRING";
     static final String POLYGON = "POLYGON";
     
     String getId();
