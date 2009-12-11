@@ -16,11 +16,13 @@
             <h:form>
                 <h:commandButton value="submit"/>
                 <mf-model:Context service="/data/context/blueMarble.xml">
-                    <mf:MapPane navigation="true"></mf:MapPane>
+                    <mf:MapPane navigation="true">
+                        <mf:SvgLayer id="svg" />
+                    </mf:MapPane>
                     <mf:ButtonBar graticule="true" featureInfo="true" reRender="datarequest"></mf:ButtonBar>
                     <mf:EditionBar  drawRegularPolygon ="true"
                         regularPolygonSides="4" snapping="true" drag="true"
-                        select="true"/>
+                        select="true" layerTargetId="svg"/>
                     <mf:CursorTrack showDM="true" showLatLon="true"
                                     showPX="true" showXY="true">
                     </mf:CursorTrack>
