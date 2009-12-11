@@ -26,7 +26,11 @@
         <managed-bean-class>org.mapfaces.demo.bean.MFBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-    
+    <managed-bean>
+        <managed-bean-name>svglayerbean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.SvgLayerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <!-- Charts beans -->
     <managed-bean>
         <managed-bean-name>BarCharts</managed-bean-name>
