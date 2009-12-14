@@ -187,8 +187,13 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         comp.setAjaxCompId(FacesMapUtils.getParentUIModelBase(context, component).getAjaxCompId());
 
         if (this.debug) {
+            LOGGER.log(Level.INFO, "[DEBUG] The Mappane has actually  " + comp.getChildCount() + " childs.");
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
+
+        //Allows you to know how many childrens should be moved at the end of mappane childrens list after adding the layers from context file
+        final int nbExistingLayers = comp.getChildCount();
+
 
         for (final Layer layer : layers) {
             if (this.debug) {
@@ -258,6 +263,15 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         if (this.debug) {
             LOGGER.log(Level.INFO, "[DEBUG]  mappane has " + comp.getChildren().size() + " childrens");
         }
+        
+        //TODO Probably there is a better sort of list to do that
+        final List<UIComponent> children = comp.getChildren();
+        
+        for (int i = 0; i < nbExistingLayers; i++) {
+            final UIComponent child = children.get(i);
+            children.remove(i);
+            children.add(child);
+        }
         //Setting the model to all children of the MapPane component
         for (final UIComponent tmp : comp.getChildren()) {
             if (tmp instanceof UIWidgetBase) {
@@ -281,10 +295,11 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                 LOGGER.log(Level.INFO, "[DEBUG]  \tChild family's " + tmp.getFamily());
             }
             FacesMapUtils.encodeRecursive(context, tmp);
+
             if ((tmp instanceof UILayer) && !(tmp instanceof UISvgLayer)) {
                 final UILayer uiLayer = (UILayer) tmp;
                 final Layer layer = uiLayer.getLayer();
-                if (!layer.isDisable()) {
+                if (layer != null && !layer.isDisable()) {
                     final String clientId = uiLayer.getClientId(context);
                     final String jsLayerVariable = FacesMapUtils.getJsVariableFromClientId(uiLayer.getClientId(context));
 

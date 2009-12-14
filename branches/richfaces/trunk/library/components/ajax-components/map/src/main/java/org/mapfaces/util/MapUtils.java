@@ -60,6 +60,8 @@ public class MapUtils {
      * {Integer} 72 (A sensible default)
      */
     public static final int DOTS_PER_INCH = 72;
+    public static final String DEFAULT_EPSG_CODE = "EPSG:4326";
+
 
     public static String getUnits(String srs) {
         try {

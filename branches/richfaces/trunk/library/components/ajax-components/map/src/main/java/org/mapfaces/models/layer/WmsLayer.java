@@ -18,8 +18,9 @@
 package org.mapfaces.models.layer;
 
 /**
- * @author Olivier Terral.
- * @author Mehdi Sidhoum.
+ * @author Olivier Terral (Geomatys).
+ * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 import org.mapfaces.models.*;
 

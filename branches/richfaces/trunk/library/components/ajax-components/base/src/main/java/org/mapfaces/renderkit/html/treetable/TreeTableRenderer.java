@@ -522,7 +522,7 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
             writer.writeAttribute("class", LEAF_EXPAND_STYLE, "iconClass");
         }
         if(iconUrl != null){
-            writer.writeAttribute("style", "background-image:url('"+iconUrl+"')", "style");
+            writer.writeAttribute("style", "background-image:url('"+iconUrl+"');background-repeat:no-repeat;", "style");
         }
         writer.endElement("div");
 

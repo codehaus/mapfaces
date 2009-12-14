@@ -14,22 +14,27 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General  License for more details.
  */
+
 package org.mapfaces.models;
 
 import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.Map;
-import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * This is an interface to represent all features that can be serializable.
  * 
- * @author Mehdi Sidhoum.
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
  */
 public interface Feature extends Serializable {
-    
+
+    /**
+     * @TODO switch to enum
+     */
     static final String POINT = "POINT";
+    static final String LINESTRING = "LINESTRING";
     static final String POLYGON = "POLYGON";
     
     String getId();

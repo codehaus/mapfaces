@@ -24,6 +24,7 @@ import org.mapfaces.models.Server;
  * Default implementation of WMS layer.
  *
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class DefaultWmsLayer extends DefaultLayer implements WmsLayer {
     

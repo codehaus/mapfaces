@@ -20,6 +20,12 @@ package org.mapfaces.models.layer;
 import org.mapfaces.models.*;
 import java.util.List;
 
+/**
+ *
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
+ */
+
 public interface FeatureLayer extends Layer {
     
     public List<Feature> getFeatures();

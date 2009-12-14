@@ -21,10 +21,12 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.swing.JFrame;
@@ -41,6 +43,7 @@ import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.DefaultWmsLayer;
+import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.models.tree.TreeItem;
@@ -166,7 +169,10 @@ public class Adapter {
     }
 
     /**
-     * This method returns a DefaultTreeModel from a context which have layers grouped by group1/group2/.... and  take the MapGroupHierarchiesValues of the layer if exists.
+     * This method returns a DefaultTreeModel from a context which have layers
+     * grouped by group1/group2/.... and  take the MapGroupHierarchiesValues
+     * of the layer if exists.
+     * It also add an icon if the layer have an image ie for featureLayers.
      * @param model
      * @return
      */
@@ -283,6 +289,12 @@ public class Adapter {
             }
         } else {
             final TreeItem treeItemLayer = new TreeItem(layer);
+
+            /**
+             * set an icon for the treeitem if an icon has been specified for the layer
+             */
+            treeItemLayer.setIcon(layer.getIcon());
+            
             final TreeNodeModel itemLayer = new TreeNodeModel(treeItemLayer, indexNode + 1, node.getDepth(), indexNode + 1, false);
             
             //Adding children for the layer if it contains elements in the composite list.
@@ -311,7 +323,7 @@ public class Adapter {
 
     public static void main(String... s) {
         final  DefaultContext context = new DefaultContext();
-        final List<WmsLayer> layers = new ArrayList<WmsLayer>();
+        final List<WmsLayer> layers = new CopyOnWriteArrayList<WmsLayer>();
 
         final WmsLayer layer0 = new DefaultWmsLayer();
         layer0.setName("Layer0");

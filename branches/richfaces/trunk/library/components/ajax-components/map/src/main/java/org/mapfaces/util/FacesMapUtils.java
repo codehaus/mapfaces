@@ -21,6 +21,8 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -102,6 +104,9 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.opengis.geometry.Envelope;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.style.AnchorPoint;
 import org.opengis.style.ExternalGraphic;
 import org.opengis.style.Fill;
@@ -825,6 +830,7 @@ public class FacesMapUtils extends FacesUtils {
      * Return a geotk SimpleFeature Collection from a Feature List.
      * @param featList List of feature objects.
      * @return FeatureCollection of geotk SimpleFeature.
+     * 
      */
     public static FeatureCollection<SimpleFeatureType, SimpleFeature> getSimpleFeaturesFromFeatures(List<Feature> featList) {
         //building a FeatureCollection for this layer.
@@ -844,7 +850,37 @@ public class FacesMapUtils extends FacesUtils {
         }
         return simpleFeatures;
     }
-
+ /*
+     *
+     */
+    public static Feature getFeatureFromWKT(String id, String name, String wkt, CoordinateReferenceSystem crs) throws ParseException {
+        final Feature feat = new DefaultFeature();
+        feat.setId(id);
+        feat.setName(name);
+        final Geometry geom = (new WKTReader()).read(wkt);
+        feat.setGeometry(geom);
+        feat.setAttributes(new HashMap<String, Serializable>());
+        feat.getAttributes().put("geometry", geom);
+        feat.setCrs(crs);
+        return feat;
+    }
+    /*
+     *
+     */
+    public static Feature getFeatureFromWKT(String name, String wkt, CoordinateReferenceSystem crs) throws ParseException, NoSuchAuthorityCodeException, FactoryException {
+        final Feature feat = new DefaultFeature();
+        feat.setId(name + ";" + wkt);
+        feat.setName(name);
+        final Geometry geom = (new WKTReader()).read(wkt);
+        feat.setGeometry(geom);
+        feat.setAttributes(new HashMap<String, Serializable>());
+        feat.getAttributes().put("geometry", geom);
+        if (crs == null)
+            crs = CRS.decode(MapUtils.DEFAULT_EPSG_CODE);
+        feat.setCrs(crs);
+        return feat;
+    }
+    
     public static SimpleFeature getSimpleFeatureFromFeature(Feature feature, long featureId) {
         SimpleFeatureTypeBuilder builder = getSimpleFeatureTypeBuilderFromFeature(feature);
         return getSimpleFeatureFromFeature(feature, builder.buildFeatureType(), featureId);

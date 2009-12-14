@@ -20,6 +20,12 @@ package org.mapfaces.models.layer;
 import java.util.Date;
 import org.mapfaces.models.*;
 
+/**
+ *
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
+ */
+
 public interface MapContextLayer extends Layer {
     
     public String getMapContextKeyInSession();
