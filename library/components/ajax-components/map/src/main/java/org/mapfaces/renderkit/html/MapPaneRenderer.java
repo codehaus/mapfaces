@@ -60,6 +60,8 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
 
     private static final Logger LOGGER = Logger.getLogger(WidgetBaseRenderer.class.getName());
 
+    private Integer nbExistingLayers = null;
+
     /**
      * {@inheritDoc }
      */
@@ -191,8 +193,9 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
             LOGGER.log(Level.INFO, "[DEBUG] The context of the Mappane contains " + layers.size() + " layers.");
         }
 
-        //Allows you to know how many childrens should be moved at the end of mappane childrens list after adding the layers from context file
-        final int nbExistingLayers = comp.getChildCount();
+        //Allows you to know how many childrens should be moved at the end of mappane childrens list,  after adding the layers from context file
+        if (nbExistingLayers == null)
+            nbExistingLayers = comp.getChildCount();
 
 
         for (final Layer layer : layers) {
@@ -266,11 +269,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
         
         //TODO Probably there is a better sort of list to do that
         final List<UIComponent> children = comp.getChildren();
-        
-        for (int i = 0; i < nbExistingLayers; i++) {
-            final UIComponent child = children.get(i);
-            children.remove(i);
-            children.add(child);
+        if (nbExistingLayers != null) {
+            for (int i = 0; i < nbExistingLayers; i++) {
+                final UIComponent child = children.get(i);
+                children.remove(i);
+                children.add(child);
+            }
         }
         //Setting the model to all children of the MapPane component
         for (final UIComponent tmp : comp.getChildren()) {
