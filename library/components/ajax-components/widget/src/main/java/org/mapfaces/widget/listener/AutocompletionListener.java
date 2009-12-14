@@ -32,6 +32,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import org.apache.commons.collections.MapUtils;
 import org.geotoolkit.gml.xml.v311.AbstractCurveSegmentType;
 import org.geotoolkit.gml.xml.v311.AbstractCurveType;
 import org.geotoolkit.gml.xml.v311.AbstractGMLEntry;
@@ -258,15 +259,15 @@ public class AutocompletionListener implements PhaseListener {
                                                                     final DirectPositionType pos = (DirectPositionType) someList.get(n).getValue();
                                                                     final CoordinateReferenceSystem oldCRS = CRS.decode(pos.getSrsName());
                                                                     if (outputEpsgCode == null) {
-                                                                        outputEpsgCode = "EPSG:4326";
+                                                                        outputEpsgCode = AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
                                                                     }
                                                                     if (debug) {
-                                                                        LOGGER.log(Level.INFO, "1 epsg code  = " + pos.getSrsName());
+                                                                        LOGGER.log(Level.INFO, "1 current epsg code  = " + pos.getSrsName());
                                                                     }
                                                                     if (debug) {
                                                                         LOGGER.log(Level.INFO, "1 output epsg code  = " + outputEpsgCode);
                                                                     }
-                                                                    final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode);
+                                                                    final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode, true);
                                                                     final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
                                                                     final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
 
@@ -324,15 +325,15 @@ public class AutocompletionListener implements PhaseListener {
                                                                         final DirectPositionType pos = (DirectPositionType) someList.get(n).getValue();
                                                                         final CoordinateReferenceSystem oldCRS = CRS.decode(pos.getSrsName());
                                                                         if (outputEpsgCode == null) {
-                                                                            outputEpsgCode = "EPSG:4326";
+                                                                            outputEpsgCode =  AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
                                                                         }
                                                                         if (debug) {
-                                                                            LOGGER.log(Level.INFO, "2 epsg code  = " + pos.getSrsName());
+                                                                            LOGGER.log(Level.INFO, "2 curent epsg code  = " + pos.getSrsName());
                                                                         }
                                                                         if (debug) {
                                                                             LOGGER.log(Level.INFO, "2 output epsg code  = " + outputEpsgCode);
                                                                         }
-                                                                        final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode);
+                                                                        final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode, true);
                                                                         final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
                                                                         final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
 
