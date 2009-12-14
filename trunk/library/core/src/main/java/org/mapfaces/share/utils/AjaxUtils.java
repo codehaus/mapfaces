@@ -64,6 +64,7 @@ public class AjaxUtils {
     /**
      * Thesaurus parameters
      */
+    public static final String THESAURUS_DEFAULT_OUTPUT_EPSG = "EPSG:4326";
     public static final String THESAURUS_OUTPUT_EPSG = "org.mapfaces.THESAURUS_OUTPUT_EPSG";
     public static final String THESAURUS_WS_URL     = "org.mapfaces.THESAURUS_WS_URL";
     public static final String THESAURUS_WS_REQUEST    = "org.mapfaces.THESAURUS_WS_REQUEST";

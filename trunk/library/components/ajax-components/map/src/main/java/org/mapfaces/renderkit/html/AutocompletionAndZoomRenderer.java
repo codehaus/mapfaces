@@ -71,9 +71,9 @@ public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
                 append("'").append(AjaxUtils.THESAURUS_OUTPUT_EPSG).append("': '").append(currentEpsg).append("',").
                 append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWtsUrl()).append("',").
                 append("'").append(AjaxUtils.THESAURUS_WS_REQUEST).append("': '").append(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept).append("',").
-                append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': 'main_form:autocompleteZoom',").
+                append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '").append(comp.getClientId(context)).append("',").
                 append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
-                append("'value': ").append("document.getElementById('autocompleteZoom_input').value").
+                append("'value': ").append("document.getElementById('").append(comp.getId()).append("_input').value").
                 append("};");
         sb.append("var ajaxRequest = new Request({").
                 append("url: window.location.href,").

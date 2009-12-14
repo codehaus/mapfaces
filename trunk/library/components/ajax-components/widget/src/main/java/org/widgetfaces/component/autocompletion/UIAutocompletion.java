@@ -14,11 +14,11 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.widgetfaces.component.autocompletion;
 
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
+import org.mapfaces.share.utils.JSLibrary;
 
 /**
  * <p>This AutoCompletion component using script for MooTools provides the
@@ -71,7 +71,10 @@ public class UIAutocompletion extends HtmlInputText {
 
     public static final String FAMILY = "org.mapfaces.Autocompletion";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLAutocompletion";
+
+
     /* Fields */
+    private JSLibrary version = JSLibrary.MOOTOOLS;
     private int minLength = 1;
     private boolean markQuery = true;
     private int maxChoices = 10;
@@ -94,6 +97,20 @@ public class UIAutocompletion extends HtmlInputText {
     public UIAutocompletion() {
         super();
         setRendererType(RENDERER_TYPE);
+    }
+
+    /**
+     * @return the VERSION
+     */
+    public JSLibrary getVersion() {
+        return version;
+    }
+
+    /**
+     * @param VERSION the VERSION to set
+     */
+    public void setVersion(JSLibrary version) {
+        this.version = version;
     }
 
     public String getWtsUrl() {
@@ -176,7 +193,7 @@ public class UIAutocompletion extends HtmlInputText {
         setLoadMootools((Boolean) values[15]);
         setLoadJs((Boolean) values[16]);
         setLoadCss((Boolean) values[17]);
-        setTitle((String)values[18]);
+        setTitle((String) values[18]);
         setRendered((Boolean) values[19]);
         setWtsUrl((String) values[20]);
     }
@@ -344,7 +361,6 @@ public class UIAutocompletion extends HtmlInputText {
         this.multiple = multiple;
     }
 
-
     /**
      * @return the inputValue
      */
@@ -428,5 +444,4 @@ public class UIAutocompletion extends HtmlInputText {
     public void setTitle(String title) {
         this.title = title;
     }
-
 }
