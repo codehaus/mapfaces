@@ -27,6 +27,7 @@ import org.mapfaces.util.FacesMapUtils;
  * when a factorization process has been launched on the layercontrol component.
  * 
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.2
  */
 public class DefaultWmsGetMapLayer extends DefaultWmsLayer {
 

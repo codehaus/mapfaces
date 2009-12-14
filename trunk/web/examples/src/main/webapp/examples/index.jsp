@@ -37,6 +37,9 @@
             <li>
                 <a href="./editionbar.jsf">EditionBar</a>
             </li>
+            <li>
+                <a href="./svglayer.jsf">SvgLayer</a>
+            </li>
         </ul>
         <br/>
         <h2>Complex examples : </h2>

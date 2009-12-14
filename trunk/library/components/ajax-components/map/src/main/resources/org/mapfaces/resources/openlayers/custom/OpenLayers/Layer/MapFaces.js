@@ -97,6 +97,9 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
 
     initialize: function(options) {
 
+        this.addOptions(options);
+        this.div = OpenLayers.Util.getElement(this.compClientId);
+        
         // concatenate events specific to MapFaces with those from the base
         this.EVENT_TYPES =
         OpenLayers.Layer.MapFaces.prototype.EVENT_TYPES.concat(
@@ -107,8 +110,6 @@ OpenLayers.Layer.MapFaces = OpenLayers.Class(OpenLayers.Layer.A4JRequest, {
         if(this.eventListeners instanceof Object) {
             this.events.on(this.eventListeners);
         }
-        this.addOptions(options);
-        this.div = OpenLayers.Util.getElement(this.compClientId);
         OpenLayers.Layer.A4JRequest.prototype.initialize.apply(this, arguments);
         this.events.register("moveend", null, this.onMoveEnd);
         this.events.register("visibilitychanged", null, this.onVisibilityChanged);

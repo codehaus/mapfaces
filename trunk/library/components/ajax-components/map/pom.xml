@@ -213,7 +213,6 @@
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Path-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Polygon-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Feature-min.js</include>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Handler/FeatureExt-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Drag-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/RegularPolygon-min.js</include>
                                 <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Box-min.js</include>
@@ -320,20 +319,20 @@ These lines are deprecated and are here only for example -->
                         <aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/tree.min.js</output>
                             <includes>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/tree.min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/tree.min-min.js</include>
                             </includes>
                         </aggregation>
                         <aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/timeline.min.js</output>
                             <includes>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/timeline.min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/timeline.min-min.js</include>
                             </includes>
                         </aggregation>
 
                         <aggregation>
                             <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/openlayers.min.js</output>
                             <includes>
-                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/openlayers.min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/openlayers.min-min.js</include>
                             </includes>
                         </aggregation-->
 
