@@ -52,6 +52,7 @@ public class AjaxUtils {
     /**
      * Autocompletion listener parameters
      */
+    public static final String AUTOCOMPLETER_VERSION     = "org.mapfaces.widget.AUTOCOMPLETER_VERSION";
     public static final String AUTOCOMPLETION_MODE     = "org.mapfaces.widget.AUTOCOMPLETION_MODE";
     public static final String AUTOCOMPLETION_MODE_REQUEST_HTML    = "request.html";
     public static final String AUTOCOMPLETION_MODE_REQUEST_JSON    = "request.json";

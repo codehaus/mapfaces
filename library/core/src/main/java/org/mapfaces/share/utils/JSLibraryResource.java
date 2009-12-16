@@ -20,14 +20,14 @@ package org.mapfaces.share.utils;
  *
  * @author Olivier Terral (Geomatys)
  */
-public enum JSLibrary {
+public enum JSLibraryResource {
 
     SCRIPTACULOUS("SCRIPTACULOUS"),
     MOOTOOLS("MOOTOOLS");
 
     private final String value;
 
-    JSLibrary(String v) {
+    JSLibraryResource(String v) {
         value = v;
     }
 
@@ -35,8 +35,8 @@ public enum JSLibrary {
         return value;
     }
 
-    public static JSLibrary fromValue(String v) {
-        for (JSLibrary c: JSLibrary.values()) {
+    public static JSLibraryResource fromValue(String v) {
+        for (JSLibraryResource c: JSLibraryResource.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

@@ -43,6 +43,9 @@
             <li>
                 <a href="./svglayer.jsf">SvgLayer</a>
             </li>
+            <li>
+                <a href="./autocompleteandzoom.jsf">Autocompletion and zoom</a>
+            </li>
         </ul>
         <br/>
         <h2>Complex examples : </h2>

@@ -32,7 +32,6 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import org.apache.commons.collections.MapUtils;
 import org.geotoolkit.gml.xml.v311.AbstractCurveSegmentType;
 import org.geotoolkit.gml.xml.v311.AbstractCurveType;
 import org.geotoolkit.gml.xml.v311.AbstractGMLEntry;
@@ -52,6 +51,7 @@ import org.geotoolkit.referencing.CRS;
 import org.geotoolkit.skos.xml.Concept;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
+import org.mapfaces.share.utils.JSLibraryResource;
 import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.widget.util.XMLThesaurusUtilities;
 import org.opengis.geometry.DirectPosition;
@@ -75,12 +75,31 @@ public class AutocompletionListener implements PhaseListener {
         final FacesContext facesContext = phaseEvent.getFacesContext();
         final Map<String, String> requestMap = facesContext.getExternalContext().getRequestParameterMap();
         final Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
+
         if (requestMap.get(AjaxUtils.AUTOCOMPLETION_CLIENTID) != null) {
             final String value = requestMap.get("value");
+
             if (value != null && !value.isEmpty()) {
                 handleRequest(sessionMap, requestMap, phaseEvent, value);
+
             } else {
+                //HACK to remove the vector layer if it exists when the value is null
+                if (requestMap.get(AjaxUtils.THESAURUS_WS_REQUEST).
+                        equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
+                    PrintWriter writer = null;
+                    try {
+                        writer = WebContainerUtils.getResponseWriter(facesContext, "text/plain", null);
+                        writer.append("var targetMapId = '" + requestMap.get("targetMapId") + "';");
+                        writer.append("var targetLayerId = '" + requestMap.get("targetLayerId") + "';");
+                        writer.flush();
+                    } catch (IOException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                    } finally {
+                        writer.close();
+                    }
+                }
                 facesContext.responseComplete();
+
             }
         }
     }
@@ -101,7 +120,8 @@ public class AutocompletionListener implements PhaseListener {
      * @param width
      * @param height
      */
-    private void handleRequest(final Map<String, Object> sessionMap, final Map<String, String> requestMap, final PhaseEvent phaseEvent, final String value) {
+    private void handleRequest(final Map<String, Object> sessionMap, final Map<String, String> requestMap,
+            final PhaseEvent phaseEvent, final String value) {
         final FacesContext facesContext = phaseEvent.getFacesContext();
 
         try {
@@ -129,13 +149,31 @@ public class AutocompletionListener implements PhaseListener {
                     if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword)) {
                         //putting the list of current words requested to find all the word property
                         FacesUtils.putAtSessionMap(facesContext, requestMap.get(AjaxUtils.AUTOCOMPLETION_CLIENTID), concepts);
-                        writeHtmlInResponse(WebContainerUtils.getResponseWriter(facesContext, "text/html", null), concepts);
+                        final PrintWriter writer = WebContainerUtils.getResponseWriter(facesContext, "text/html", null);
 
+                        if (isScriptaculous(requestMap)) {
+                            writer.write("<ul>");
+                        }
+
+                        writeHtmlInResponse(writer, concepts, value);
+
+                        if (isScriptaculous(requestMap)) {
+                            writer.write("</ul>");
+                        }
+
+                        writer.flush();
+                        writer.close();
                     } else if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
+                        final PrintWriter writer = WebContainerUtils.getResponseWriter(facesContext, "text/plain", null);
+                        writer.append("var targetMapId = '" + requestMap.get("targetMapId") + "';");
+                        writer.append("var targetLayerId = '" + requestMap.get("targetLayerId") + "';");
 
                         if (!concepts.isEmpty()) {
-                            writeConceptGeoInResponse(WebContainerUtils.getResponseWriter(facesContext, "text/plain", null), concepts.get(0), requestMap.get(AjaxUtils.THESAURUS_OUTPUT_EPSG));
+                            writeConceptGeoInResponse(writer, concepts.get(0), requestMap.get(AjaxUtils.THESAURUS_OUTPUT_EPSG));
                         }
+
+                        writer.flush();
+                        writer.close();
                     }
                 }
 
@@ -189,26 +227,28 @@ public class AutocompletionListener implements PhaseListener {
     }
 
     private void writeHtmlInResponse(final PrintWriter writer,
-            final List<Concept> words) throws IOException {
+            final List<Concept> words, final String value) throws IOException {
+
         final StringBuilder sb = new StringBuilder("");
         int nbWordsToDisplay = 10;
         if (words.size() < nbWordsToDisplay) {
             nbWordsToDisplay = words.size();
         }
         for (int i = 0; i < nbWordsToDisplay; i++) {
-            sb.append("<li onclick=\"\">" + words.get(i).getPrefLabel() + "</li>");
-        }
+            //TODO set the default Moo style, but there is a bug onclick , may be we should redefined it
+            //final String prefLabel = words.get(i).getPrefLabel();
+            //sb.append("<li>" + prefLabel.replaceAll(value, "<span class='autocompleter-queried'>" + value + "</span>") + "</li>");
 
+            sb.append("<li >" + words.get(i).getPrefLabel() + "</li>");
+        }
         writer.write(sb.toString());
-        writer.flush();
-        writer.close();
     }
 
     private void writeConceptGeoInResponse(final PrintWriter writer,
             final Concept conceptGeo, String outputEpsgCode) throws IOException {
 
         try {
-            final StringBuilder sb = new StringBuilder("var thesaurusCollection = {").append("\"type\": \"FeatureCollection\",").
+            final StringBuilder sb = new StringBuilder("var featureCollection = {").append("\"type\": \"FeatureCollection\",").
                     append("\"features\": [").
                     append("    {").
                     append("        \"type\": \"Feature\",").
@@ -325,7 +365,7 @@ public class AutocompletionListener implements PhaseListener {
                                                                         final DirectPositionType pos = (DirectPositionType) someList.get(n).getValue();
                                                                         final CoordinateReferenceSystem oldCRS = CRS.decode(pos.getSrsName());
                                                                         if (outputEpsgCode == null) {
-                                                                            outputEpsgCode =  AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
+                                                                            outputEpsgCode = AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
                                                                         }
                                                                         if (debug) {
                                                                             LOGGER.log(Level.INFO, "2 curent epsg code  = " + pos.getSrsName());
@@ -377,8 +417,6 @@ public class AutocompletionListener implements PhaseListener {
         } catch (FactoryException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        writer.flush();
-        writer.close();
     }
 
     /*    Thif function build a getConceptsMatchingKeyword request only for GEMET web-service
@@ -441,5 +479,9 @@ public class AutocompletionListener implements PhaseListener {
         concept.setPrefLabel(value);
         concept.setAbout(value);
         return concept;
+    }
+
+    private boolean isScriptaculous(Map<String, String> requestMap) {
+        return (JSLibraryResource.fromValue(requestMap.get(AjaxUtils.AUTOCOMPLETER_VERSION)) == JSLibraryResource.SCRIPTACULOUS);
     }
 }

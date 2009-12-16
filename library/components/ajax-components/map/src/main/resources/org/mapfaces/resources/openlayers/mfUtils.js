@@ -4,42 +4,42 @@
  *
  * @param  json    String       The GeoJson feature collection to parse
  * @param  data    String       object always to null (we need it because of Mootools ajax request and IE)
- * @param  mapId   String       js object name of an OpenLayers.Map
- * @param  layerId String       js object name of an OpenLayers.Layer.Vector object
  *
  *
  */
-window.loadGeoJSON = function (json, data, mapId, layerId) {
-    
-    mapId =
-        (mapId == null && (this.options && this.options.mapId))
-            ? this.options.mapId
-                : mapId;
-    layerId =
-        (layerId == null && (this.options && this.options.layerId))
-            ? this.options.layerId
-                : layerId;
-    var map = window.maps[mapId];
+window.loadGeoJSON = function (json, data) {
+    var map = null;
+    var layer = null;
+    var featureCollection = null;
+
+    if ( window.maps && json != null) {
+
+        //case if the json is in fact an XmlHttpRequest response object
+        if (json.responseText) {
+            json  = json.responseText
+        }
+        
+        if (json != null && json != "") {
+            //json contains targetMapId (String: jsVariable of the MapPane),
+            //targetLayerId(String: jsVariabele of the layer)
+            //and featureCollection (GeoJSON) variables
+            eval(json);
+            map = window.maps[targetMapId];
+            layer = window[targetLayerId];
+        }
+    }
     
     if (map != null) {
-        var layer =  (window[layerId])? layer = window[layerId] : null;
 
-        if (json == null || json == "") {
-
-            if (layer != null && layer.div != null) {
+        if (layer != null && layer.div != null) {
                 map.removeLayer(layer);
-                layer = null;
-            }
+                layer.destroy();
+                window[targetLayerId].destroy();
+        }
 
-        } else {
-            eval(json);
+        if (featureCollection != null) {
+
             var geojson_format = new OpenLayers.Format.GeoJSON();
-            
-            if (layer != null && layer.div != null) {
-                map.removeLayer(layer);
-                layer = null;
-            }
-
             var myStyles = new OpenLayers.StyleMap({
                     "default": new OpenLayers.Style({
                         fillColor: "#ff0000",
@@ -47,11 +47,11 @@ window.loadGeoJSON = function (json, data, mapId, layerId) {
                         strokeWidth: 5
                     })
                 });
-            layer = new OpenLayers.Layer.Vector(layerId, {styleMap: myStyles});
+            layer = new OpenLayers.Layer.Vector("GeoJSON", {styleMap: myStyles});
             map.addLayer(layer);
-            layer.addFeatures(geojson_format.read(thesaurusCollection));
+            layer.addFeatures(geojson_format.read(featureCollection));
             map.zoomToExtent(layer.getDataExtent());
-            window[layerId] = layer;
+            window[targetLayerId] = layer;
         }
     }
 }

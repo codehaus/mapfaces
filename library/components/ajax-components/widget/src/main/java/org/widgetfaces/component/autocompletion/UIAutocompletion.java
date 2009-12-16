@@ -18,7 +18,7 @@ package org.widgetfaces.component.autocompletion;
 
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import org.mapfaces.share.utils.JSLibrary;
+import org.mapfaces.share.utils.JSLibraryResource;
 
 /**
  * <p>This AutoCompletion component using script for MooTools provides the
@@ -74,7 +74,7 @@ public class UIAutocompletion extends HtmlInputText {
 
 
     /* Fields */
-    private JSLibrary version = JSLibrary.MOOTOOLS;
+    private JSLibraryResource version = JSLibraryResource.SCRIPTACULOUS;
     private int minLength = 1;
     private boolean markQuery = true;
     private int maxChoices = 10;
@@ -102,14 +102,14 @@ public class UIAutocompletion extends HtmlInputText {
     /**
      * @return the VERSION
      */
-    public JSLibrary getVersion() {
+    public JSLibraryResource getVersion() {
         return version;
     }
 
     /**
      * @param VERSION the VERSION to set
      */
-    public void setVersion(JSLibrary version) {
+    public void setVersion(JSLibraryResource version) {
         this.version = version;
     }
 
@@ -123,9 +123,6 @@ public class UIAutocompletion extends HtmlInputText {
         wtsUrl = url;
     }
 
-    public boolean isMapfacesWidgetsCss() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 
     /* Methods */
     /**
@@ -139,7 +136,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object[] values = new Object[21];
+        final Object[] values = new Object[22];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -161,6 +158,7 @@ public class UIAutocompletion extends HtmlInputText {
         values[18] = getTitle();
         values[19] = isRendered();
         values[20] = getWtsUrl();
+        values[21] = getVersion();
         return values;
     }
 
@@ -196,6 +194,7 @@ public class UIAutocompletion extends HtmlInputText {
         setTitle((String) values[18]);
         setRendered((Boolean) values[19]);
         setWtsUrl((String) values[20]);
+        setVersion((JSLibraryResource) values[21]);
     }
 
     /**
@@ -444,4 +443,5 @@ public class UIAutocompletion extends HtmlInputText {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }
