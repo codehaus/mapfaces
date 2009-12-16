@@ -52,8 +52,6 @@ ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried
 }
 
 /*SCRIPTACULOUS*/
-
-/*SCRIPTACULOUS*/
 div.autocomplete {
     position:absolute;
     width:250px;
@@ -61,6 +59,7 @@ div.autocomplete {
     border:1px solid #888;
     margin:0;
     padding:0;
+    z-inde: 10000;
 }
 div.autocomplete ul {
     list-style-type:none;
