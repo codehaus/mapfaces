@@ -46,9 +46,16 @@ public class AutocompletionRenderer extends Renderer {
     private static final String MAPFACES_WIDGETS_CSS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.css";
     private static final String MOOTOOLS_CORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4-core-yc.js";
     private static final String MOOTOOLS_MORE_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
-
-    private static final String PROTOTYPE_JS = "/org/mapfaces/resources/js/prototype/prototype-1.8.1.js";
-    private static final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/js/mootools/mootools-1.2.4.1-more-yc.js";
+    private static final String PROTOTYPE_JS = "/org/mapfaces/resources/js/prototype/prototype-1.6.1.js";
+    private static final String SCRIPTACULOUS_JS = "/org/mapfaces/resources/js/scriptaculous/scriptaculous.js";
+    //builder,effects,dragdrop,controls,slider,sound
+    private static final String SCRIPTACULOUS_BUILDER_JS = "/org/mapfaces/resources/js/scriptaculous/builder.js";
+    private static final String SCRIPTACULOUS_EFFECTS_JS = "/org/mapfaces/resources/js/scriptaculous/effects.js";
+    private static final String SCRIPTACULOUS_DND_JS = "/org/mapfaces/resources/js/scriptaculous/dragdrop.js";
+    private static final String SCRIPTACULOUS_CONTROLS_JS = "/org/mapfaces/resources/js/scriptaculous/controls.js";
+    private static final String SCRIPTACULOUS_SLIDER_JS = "/org/mapfaces/resources/js/scriptaculous/slider.js";
+    private static final String SCRIPTACULOUS_SOUND_JS = "/org/mapfaces/resources/js/scriptaculous/sound.js";
+    
     private static final String MAPFACES_WIDGETS_JS = "/org/widgetfaces/resources/compressed/mapfaces-widgets.js";
     private static final String VALUE_KEY = "value";
 
@@ -107,6 +114,20 @@ public class AutocompletionRenderer extends Renderer {
 
 
         writer.endElement(HTML.INPUT_ELEM);
+
+        switch (comp.getVersion()) {
+
+            case SCRIPTACULOUS:
+                writer.startElement(HTML.DIV_ELEM, component);
+                writer.writeAttribute(HTML.id_ATTRIBUTE, comp.getId() + "_list", null);
+                writer.writeAttribute(HTML.class_ATTRIBUTE, "autocomplete", null);
+                writer.endElement(HTML.DIV_ELEM);
+                break;
+
+            default:
+                break;
+        }
+
     }
 
     /**
@@ -130,10 +151,6 @@ public class AutocompletionRenderer extends Renderer {
             
             case SCRIPTACULOUS:
                 str = buildJsScriptaculous(context, comp);
-                break;
-
-            case MOOTOOLS:
-                str = buildJsMootools(context, comp);
                 break;
 
             default:
@@ -205,7 +222,8 @@ public class AutocompletionRenderer extends Renderer {
      */
     private String buildOptions(final UIAutocompletion comp) throws IOException {
         final StringBuilder str = new StringBuilder();
-        str.append("'selectMode' : 'selection','minLength' : ").append(comp.getMinLength()).
+        str.append("'selectMode' : 'selection'").
+                append(",'minLength' : ").append(comp.getMinLength()).
                 append(",'markQuery' : ").append(comp.isMarkQuery()).
                 append(",'maxChoices' : ").append(comp.getMaxChoices()).
                 append(",'delay' : ").append(comp.getDelay()).
@@ -220,8 +238,61 @@ public class AutocompletionRenderer extends Renderer {
         return str.toString();
     }
 
+    //see http://wiki.github.com/madrobby/scriptaculous/ajax-autocompleter for more details
     private String buildJsScriptaculous(final FacesContext context, final UIAutocompletion comp) throws IOException {
         final StringBuilder str = new StringBuilder();
+        final String clientId = comp.getClientId(context);
+        final String id = comp.getId();
+        final String inputId = id + "_input";
+        final String listId = id + "_list";
+        str.append("document.observe('dom:loaded',  function(){");
+
+        /* If we use a web thesaurus service*/
+        if (comp.getWtsUrl() != null) {
+            final String urlRequest = WebContainerUtils.getAjaxServer(context);
+            final StringBuilder constructor = new StringBuilder();
+
+
+            //Creation of the Autocompleter with default options
+            constructor.append(" new Ajax.Autocompleter('").append(inputId).append("','").
+                    append(listId).append("','").
+                    append(urlRequest).append("', ").
+                    append("{ paramName: 'value', tokens: ','").
+                    append(",parameters:'").
+                        append(AjaxUtils.AUTOCOMPLETER_VERSION).append("=").append(comp.getVersion()).append("&").
+                        append(AjaxUtils.AUTOCOMPLETION_MODE).append("=").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("&").
+                        append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("=" + clientId + "&").
+                        append(AjaxUtils.THESAURUS_WS_URL).append("=").append(comp.getWtsUrl()).append("&").
+                        append(AjaxUtils.THESAURUS_WS_REQUEST).append("=").append(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword).
+                    append("'}").
+            append(");");
+            str.append(constructor);
+
+        } else {
+            final String tokenJsObj = id + "_token";
+
+            //Creation of the array of words
+            //the services value can be a List of String or a String as ['keyword1','keyword2']
+            Object servicesValue = (comp.getValueExpression("services") != null) ?
+                comp.getValueExpression("services").getExpressionString() : comp.getServices();
+            str.append("var ").append(tokenJsObj).append("=").
+                    append(Adapter.array2token(servicesValue, context)).append(";");
+
+            //Creation of the Autocompleter with default options
+            str.append("new Autocompleter.Local('").
+                    append(inputId).append("','").
+                    append(listId).append("',").
+                    append(tokenJsObj).append(",{").
+                    append("choices: 5, ").
+                    append("partialSearch: false, ").
+                    append("fullSearch: true, ").
+                    append("partialChars: 1, ").
+                    append("ignoreCase: true ").
+            append("});");
+
+        }
+
+        str.append("});");
         return str.toString();
     }
 
@@ -242,6 +313,7 @@ public class AutocompletionRenderer extends Renderer {
                     append(inputId).append("'),").
                     append("'").append(urlRequest).append("',{zIndex:10000,").
                     append("postData:{").
+                    append("'").append(AjaxUtils.AUTOCOMPLETER_VERSION).append("':'").append(comp.getVersion()).append("',").
                     append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
                     append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '" + clientId + "',").
                     append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWtsUrl()).append("',").
@@ -275,23 +347,66 @@ public class AutocompletionRenderer extends Renderer {
         final ResponseWriter writer = context.getResponseWriter();
         final UIAutocompletion comp = (UIAutocompletion) component;
 
+        switch (comp.getVersion()) {
 
-        if (comp.isLoadMootools()) {
-            writer.startElement(HTML.SCRIPT_ELEM, comp);
-            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
-            writer.endElement(HTML.SCRIPT_ELEM);
-            writer.startElement(HTML.SCRIPT_ELEM, comp);
-            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
-            writer.endElement(HTML.SCRIPT_ELEM);
-        }
+            case SCRIPTACULOUS:
 
-        if (comp.isLoadJs()) {
-            writer.startElement(HTML.SCRIPT_ELEM, comp);
-            writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
-            writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
-            writer.endElement(HTML.SCRIPT_ELEM);
+                if (comp.isLoadJs()) {
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, PROTOTYPE_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_BUILDER_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_EFFECTS_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_DND_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_CONTROLS_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_SLIDER_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, SCRIPTACULOUS_SOUND_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                }
+                break;
+
+            default:
+                
+                if (comp.isLoadJs()) {
+
+                    if (comp.isLoadMootools()) {
+                        writer.startElement(HTML.SCRIPT_ELEM, comp);
+                        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                        writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_CORE_JS, null), null);
+                        writer.endElement(HTML.SCRIPT_ELEM);
+                        writer.startElement(HTML.SCRIPT_ELEM, comp);
+                        writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                        writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MOOTOOLS_MORE_JS, null), null);
+                        writer.endElement(HTML.SCRIPT_ELEM);
+                    }
+                    writer.startElement(HTML.SCRIPT_ELEM, comp);
+                    writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
+                    writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context, MAPFACES_WIDGETS_JS, null), null);
+                    writer.endElement(HTML.SCRIPT_ELEM);
+                }
+                break;
         }
 
         if (comp.isLoadCss()) {

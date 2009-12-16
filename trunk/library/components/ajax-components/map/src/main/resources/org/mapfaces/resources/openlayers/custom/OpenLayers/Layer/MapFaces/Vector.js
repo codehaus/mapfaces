@@ -28,7 +28,8 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
         this.addOptions(options);
         
         //TODO this creation of a div should not be here, it's in the SvgLayerRender we should do that
-        if (OpenLayers.Util.getElement(this.compClientId) == null) {
+        this.div = OpenLayers.Util.getElement(this.compClientId);
+        if (this.div == null) {
             this.div = OpenLayers.Util.createDiv(this.compClientId);
             this.div.style.width = "100%";
             this.div.style.height = "100%";
@@ -120,6 +121,7 @@ OpenLayers.Layer.MapFaces.Vector = OpenLayers.Class(OpenLayers.Layer.MapFaces, O
             this.events.triggerEvent("loadend");
             //this.registerEvents();
         }
+        
         //TODO remove the "!= "null"" the value should be null and not "null"
         if (this.reRender != "null" && this.reRender != "" && this.contextCompId != "null" && (this.contextCompId != "")) {
             /* forceRefresh is used to reRender a WMS Layer to deallocate the image from the browser cache. */

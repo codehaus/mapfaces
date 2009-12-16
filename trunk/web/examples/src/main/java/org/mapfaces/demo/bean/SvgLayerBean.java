@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 import org.mapfaces.models.Feature;
+import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.opengis.feature.IllegalAttributeException;
 import org.opengis.feature.simple.SimpleFeature;
@@ -21,18 +23,26 @@ import org.opengis.referencing.operation.TransformException;
  * @author leopratlong
  */
 public class SvgLayerBean {
+
     private static final Logger LOGGER = Logger.getLogger(SvgLayerBean.class.getName());
-    // The list of HaiesFictives. The SVGLayer component uses this List to
+
+    //The SVGLayer component uses a list of SimpleFeature to
     // draw OpenLayers Features on the SVGLayer.
     private List<SimpleFeature> simpleFeatures = new ArrayList<SimpleFeature>();
-    private List<Feature> features = new ArrayList<Feature>();
     
-    // This members allows to CRUD the HaiesFictives in the DataBase. They are setted
+    // This members allows to CRUD the SimpleFeatures in the DataBase. They are setted
     // by the MapFaces SVGLayer component.
     private SimpleFeature featureAdded;
     private SimpleFeature featureRemoved;
     private SimpleFeature featureBeforeUpdate;
     private SimpleFeature featureAfterUpdate;
+
+
+    //Datable display a list a features model, these Features represents the SimpleFeature displays on map
+    private List<Feature> features = new ArrayList<Feature>();
+    //The Feature selected on the datatable
+    private Feature featureSelected;
+
 
     /**
      * Constructor. Initialize all the service and the default values.
@@ -42,27 +52,24 @@ public class SvgLayerBean {
      */
     public SvgLayerBean() throws SQLException, IOException, ClassNotFoundException {
         try {
+            long id = 1;
             String wkt = "POLYGON((1.05517578125 49.0322265625,8.92138671875 44.505859375,-1.31787109375 42.2646484375,-8.30517578125 47.5380859375,1.05517578125 49.0322265625))";
-            this.features.add(FacesMapUtils.getFeatureFromWKT("polygon1", wkt, null));
-
+            this.features.add(FacesMapUtils.getFeatureFromWKT(String.valueOf(id), "polygon", wkt, null));
+            id +=5;
             wkt = "LINESTRING(-8.70068359375 50.1748046875,15.38134765625 47.6259765625,2.85693359375 42.748046875,-12.47998046875 45.0771484375)";
-            this.features.add(FacesMapUtils.getFeatureFromWKT("line1", wkt, null));
-
+            this.features.add(FacesMapUtils.getFeatureFromWKT(String.valueOf(id), "line", wkt, null));
+            id +=5;
             wkt = "POINT(-10.15087890625 41.078125)";
-            this.features.add(FacesMapUtils.getFeatureFromWKT("point1", wkt, null));
+            this.features.add(FacesMapUtils.getFeatureFromWKT(String.valueOf(id), "point", wkt, null));
 
             for (int i = 0; i <  this.features.size(); i++) {
                 final Feature tmp = this.features.get(i);
-                this.simpleFeatures.add(FacesMapUtils.getSimpleFeatureFromFeature(tmp, Integer.valueOf(tmp.getId())));
+                this.simpleFeatures.add(FacesMapUtils.getSimpleFeatureFromFeature(tmp, Long.valueOf(tmp.getId()).longValue()));
             }
             
         } catch (ParseException ex) {
             LOGGER.log(Level.SEVERE, "WKT can't be parsed !!!", ex);
-        } catch (NoSuchAuthorityCodeException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        } catch (FactoryException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     /**
@@ -81,53 +88,40 @@ public class SvgLayerBean {
      */
     public void updateFeatures() throws IOException, ParseException, SQLException, IOException, IOException, IllegalAttributeException, ClassNotFoundException, TransformException, NoSuchAuthorityCodeException, FactoryException {
         if (getFeatureAdded() != null) {
-//            haieService.saveHaie(featureAdded);
-//            this.haies = haieService.getListSimpleFeature();
-//            this.setHaiesDto(haieService.getDtoList(haies));
-//            int i = 0;
-//            boolean find = false;
-//            SimpleFeature sf = null;
-//            while ((i < haies.size()) && !find) {
-//                sf = haies.get(i);
-//                if (this.haieService.isGeometriesEquals(sf, featureAdded)) {
-//                    find = true;
-//                }
-//                i++;
-//            }
-//            if (find) {
-//                final List<SimpleFeature> sfList = this.haieService.getNearestParcelles(sf);
-//                this.parcelleService.updateList(sfList, sf);
-//            }
+            System.out.println("Feature added");
+            this.simpleFeatures.add(featureAdded);
             featureAdded = null;
+
         } else if(getFeatureRemoved() != null) {
-//            int i = 0;
-//            boolean find = false;
-//            while ((i < haies.size()) && !find) {
-//                final SimpleFeature sf = haies.get(i);
-//                if (this.haieService.isGeometriesEquals(sf, getFeatureRemoved())) {
-//                    deleteHaieAndUpdate(sf);
-//                    find = true;
-//                }
-//                i++;
-//            }
+            System.out.println("Feature removed");
+            int i = 0;
+            boolean find = false;
+
+            while ((i < this.simpleFeatures.size()) && !find) {
+                final SimpleFeature sf = this.simpleFeatures.get(i);
+                
+                if (sf.getDefaultGeometry().toString().equals(featureRemoved.getDefaultGeometry().toString())) {
+                    this.simpleFeatures.remove(sf);
+                    find = true;
+                }
+                i++;
+            }
             featureRemoved = null;
+            
         } else if((getFeatureBeforeUpdate() != null) && (getFeatureAfterUpdate() != null)) {
-//            int i = 0;
-//            boolean find = false;
-//            while ((i < haies.size()) && !find) {
-//                final SimpleFeature sf = haies.get(i);
-//                if (this.haieService.isGeometriesEquals(sf, getFeatureBeforeUpdate())) {
-//                    List<SimpleFeature> sfList = this.haieService.getNearestParcelles(sf);
-//                    featureBeforeUpdate = sf;
-//                    sf.setDefaultGeometry(getFeatureAfterUpdate().getDefaultGeometry());
-//                    this.haieService.updateHaie(sf);
-//                    this.parcelleService.updateListWhenDeleteHaie(sfList, featureBeforeUpdate);
-//                    sfList = this.haieService.getNearestParcelles(sf);
-//                    this.parcelleService.updateList(sfList, sf);
-//                    find = true;
-//                }
-//                i++;
-//            }
+            System.out.println("Feature before and after update");
+            int i = 0;
+            boolean find = false;
+             while ((i < this.getSimpleFeatures().size()) && !find) {
+                final SimpleFeature sf = this.simpleFeatures.get(i);
+
+                 if (sf.getDefaultGeometry().toString().equals(featureBeforeUpdate.getDefaultGeometry().toString())) {
+                    featureBeforeUpdate = sf;
+                    sf.setDefaultGeometry(featureAfterUpdate.getDefaultGeometry());
+                    find = true;
+                }
+                i++;
+            }
             featureBeforeUpdate = null;
             featureAfterUpdate = null;
         }
@@ -144,21 +138,21 @@ public class SvgLayerBean {
      * @throws FactoryException
      */
     public void deleteFeature() throws SQLException, IOException, ClassNotFoundException, TransformException, NoSuchAuthorityCodeException, FactoryException {
-//        Object haieId = FacesUtils.getRequestParameterValue(FacesContext.getCurrentInstance(), "haieId");
-//        if (haieId instanceof String) {
-//            boolean find = false;
-//            int i = 0;
-//            while (!find && (i < haies.size())) {
-//                if (haies.get(i).getID().equals(haieId)) {
-//                    find = true;
-//                    deleteHaieAndUpdate(haies.get(i));
-//                }
-//                i++;
-//            }
-//            this.haieService.deleteHaie((String) haieId);
-//            this.haies = this.haieService.getListSimpleFeature();
-//            this.setHaiesDto(this.haieService.getDtoList(haies));
-//        }
+
+        System.out.println("Delete feature");
+        Object id = FacesUtils.getRequestParameterValue(FacesContext.getCurrentInstance(), "simpleFeatureId");
+        if (id instanceof String) {
+            boolean find = false;
+            int i = 0;
+             while ((i < this.simpleFeatures.size()) && !find) {
+                if (this.simpleFeatures.get(i).getID().equals(id)) {
+                    System.out.println("Real Delete feature");
+                    find = true;
+                    this.simpleFeatures.remove(this.simpleFeatures.get(i));
+                }
+                i++;
+            }
+        }
     }
 
     /**
@@ -167,6 +161,7 @@ public class SvgLayerBean {
      * in the pop-up.
      */
     public void updateSelectedFeature() {
+            System.out.println("Update selected feature");
 //        Object haieId = FacesUtils.getRequestParameterValue(FacesContext.getCurrentInstance(), "haieId");
 //        if (haieId instanceof String) {
 //            boolean find = false;
@@ -195,51 +190,14 @@ public class SvgLayerBean {
      * @throws NoSuchAuthorityCodeException
      * @throws FactoryException
      */
-    private void deleteHaieAndUpdate(SimpleFeature sf) throws SQLException, IOException, ClassNotFoundException, TransformException, NoSuchAuthorityCodeException, FactoryException {
-//        this.haieService.deleteHaie(sf.getID());
+    private void deleteFeatureAndUpdate(SimpleFeature sf) throws SQLException, IOException, ClassNotFoundException, TransformException, NoSuchAuthorityCodeException, FactoryException {
+        
+        System.out.println("Delete feature and update");
+        //        this.haieService.deleteHaie(sf.getID());
 //        final List<SimpleFeature> sfList = this.haieService.getNearestParcelles(sf);
 //        this.parcelleService.updateListWhenDeleteHaie(sfList, sf);
 //        this.haies.remove(sf);
 //        this.setHaiesDto(this.haieService.getDtoList(haies));
-    }
-
-    /**
-     * This method is called as an action by the "Reinitialisation" submit button. It
-     * recompute the Risque value for all the Parcelles. This method sould take
-     * a few time to complete.
-     * @throws IOException
-     * @throws IllegalAttributeException
-     * @throws ClassNotFoundException
-     * @throws TransformException
-     * @throws NoSuchAuthorityCodeException
-     * @throws FactoryException
-     * @throws SQLException
-     */
-    public void updateParcelles() throws IOException, IllegalAttributeException, ClassNotFoundException, TransformException, NoSuchAuthorityCodeException, FactoryException, SQLException {
-//        this.haieService.deleteAll();
-//        this.haies = new ArrayList<SimpleFeature>();
-//        this.haiesDto = new ArrayList<HaieDto>();
-//        this.parcelleService.updateAll();
-    }
-
-    /**
-     * This method returns the total length of all the displayed Haies.
-     * @return BigDecimal : The total, in meter.
-     */
-    public BigDecimal getTotalLength() {
-        BigDecimal totalLength = BigDecimal.ZERO;
-//        for (HaieDto dto : haiesDto) {
-//            totalLength = totalLength.add(dto.getLength());
-//        }
-        return totalLength;
-    }
-
-    /**
-     * Return the table length (displayed on the datatable).
-     * @return int Table length.
-     */
-    public int getTableLength() {
-        return simpleFeatures.size();
     }
     
     /**
@@ -257,19 +215,19 @@ public class SvgLayerBean {
         this.simpleFeatures = simpleFeatures;
     }
 
-//    /**
-//    * @return the Features
-//    */
-//    public List<Feature> getFeatures() {
-//        return features;
-//    }
-//
-//    /**
-//     * @param features the Features to set
-//     */
-//    public void setFeatures(List<Feature> features) {
-//        this.features = features;
-//    }
+    /**
+    * @return the Features
+    */
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    /**
+     * @param features the Features to set
+     */
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
 
     /**
      * @return the featureAdded
@@ -328,31 +286,17 @@ public class SvgLayerBean {
     }
 
 
-//    /**
-//     * @return the selectedHaie
-//     */
-//    public HaieDto getFeatureSelected() {
-//        return selectedHaie;
-//    }
-//
-//    /**
-//     * @param selectedHaie the selectedHaie to set
-//     */
-//    public void setFeatureSelected(HaieDto selectedHaie) {
-//        this.selectedHaie = selectedHaie;
-//    }
-//
-//    /**
-//     * @return the layerNames
-//     */
-//    public List<String> getLayerNames() {
-//        return layerNames;
-//    }
-//
-//    /**
-//     * @param layerNames the layerNames to set
-//     */
-//    public void setLayerNames(List<String> layerNames) {
-//        this.layerNames = layerNames;
-//    }
+    /**
+     * @return the selectedHaie
+     */
+    public Feature getFeatureSelected() {
+        return featureSelected;
+    }
+
+    /**
+     * @param selectedHaie the selectedHaie to set
+     */
+    public void setFeatureSelected(Feature featureSelected) {
+        this.featureSelected = featureSelected;
+    }
 }
