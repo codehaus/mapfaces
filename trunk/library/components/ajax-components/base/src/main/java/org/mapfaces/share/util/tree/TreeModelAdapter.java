@@ -18,6 +18,9 @@
 package org.mapfaces.share.util.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.mapfaces.model.tree.ExtendMutableTreeNode;
@@ -116,5 +119,22 @@ public class TreeModelAdapter {
         }
 
         return leaf;
+    }
+
+    /**
+     * Used for debugging purpose
+     * Display a tree model in swing frame
+     * @param tree
+     * @param title
+     */
+    public static void displayTree(DefaultTreeModel tree, String title){
+        final JFrame frame = new JFrame();
+        final JTree jtree = new JTree();
+        jtree.setModel(tree);
+        frame.setContentPane(new JScrollPane(jtree));
+        frame.setSize(640, 480);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setTitle(title);
     }
 }
