@@ -103,7 +103,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
         }
 
         String filteropacity = "";
-        if(FacesUtils.isIEBrowser(context) && ! layer.isUserValueDisableOpacity()) {
+        if (FacesUtils.isIEBrowser(context) && layer != null && !layer.isUserValueDisableOpacity()) {
             filteropacity = "filter:alpha(opacity=" + (new Float(opacity) * 100) + ");";
         }
 
@@ -146,7 +146,7 @@ public class MapContextLayerRenderer extends LayerRenderer {
             String url = null;
             String viewId = context.getViewRoot().getViewId();
             String actionURL = context.getApplication().getViewHandler().getActionURL(context, viewId);
-            long timeInMills = (layer.getDateFilter() != null) ? layer.getDateFilter().getTime() : System.currentTimeMillis();
+            long timeInMills = (layer != null && layer.getDateFilter() != null) ? layer.getDateFilter().getTime() : System.currentTimeMillis();
             url = actionURL + "?ts=" + timeInMills + "&mfLayerId=" + clientId + "&tmp=" + Math.random();
             writer.startElement("img", comp);
             writer.writeAttribute("id", id + "_Img", "style");

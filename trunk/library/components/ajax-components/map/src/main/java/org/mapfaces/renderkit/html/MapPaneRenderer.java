@@ -55,6 +55,7 @@ import org.mapfaces.util.MapUtils;
 /**
  * @author Olivier Terral (Geomatys).
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.1
  */
 public class MapPaneRenderer extends WidgetBaseRenderer {
 
@@ -161,6 +162,12 @@ public class MapPaneRenderer extends WidgetBaseRenderer {
                         mcLayer.setQueryable(maplayer.isSelectable());
                         if(maplayer.getUserPropertie("disableOpacity") instanceof Boolean) {
                             mcLayer.setUserValueDisableOpacity( ((Boolean) maplayer.getUserPropertie("disableOpacity")).booleanValue());
+                        }
+                        if(maplayer.getUserPropertie("group") instanceof String) {
+                            mcLayer.setGroup( (String) maplayer.getUserPropertie("group"));
+                        }
+                        if(maplayer.getUserPropertie("icon") instanceof String) {
+                            mcLayer.setIcon( (String) maplayer.getUserPropertie("icon"));
                         }
 
                         model.addLayer((MapContextLayer) mcLayer);
