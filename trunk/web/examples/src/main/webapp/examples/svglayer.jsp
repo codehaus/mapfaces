@@ -116,7 +116,7 @@
                                       styleClass="dtscroller">
                     </mfb:DataScroller--%>
                 </h:panelGroup>
-                    <a4j:log popup="false" width="1000" height="600"/>
+                    <%--a4j:log popup="false" width="1000" height="600"/--%>
             </h:form>
         </body>
     </html>
