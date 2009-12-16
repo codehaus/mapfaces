@@ -25,5 +25,6 @@
                 <OnlineResource xlink:type="simple" xlink:href="http://demo.geomatys.com/constellation/WS/wms"/>
             </Server>
         </Layer>
+        
     </ResourceList>
 </OWSContext>

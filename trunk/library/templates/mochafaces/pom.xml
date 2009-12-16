@@ -11,7 +11,7 @@
     <artifactId>mochafaces</artifactId>
     <packaging>jar</packaging>
     <groupId>org.mapfaces</groupId>
-    <name>Mapfaces - MochaFaces</name>
+    <name>MapFaces - MochaFaces</name>
 
 
     <dependencies>

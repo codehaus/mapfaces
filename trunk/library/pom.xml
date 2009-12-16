@@ -19,7 +19,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-library</artifactId>
     <packaging>pom</packaging>
-    <name>Mapfaces - RichFaces - libraries</name>
+    <name>MapFaces - RichFaces - libraries</name>
   
     <scm>
         <connection>

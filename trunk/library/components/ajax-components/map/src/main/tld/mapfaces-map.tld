@@ -217,6 +217,15 @@
                 the wtsUrl is the url of a web thesaurus service.
             </description>
         </attribute>
+         <!--attribute>
+            <name>version</name>
+            <deferred-value>
+                <type>org.mapfaces.share.utils.JSLibraryResource</type>
+            </deferred-value>
+            <description>
+                the version attribute is which js library do you want to use to build the autocompleter, actually only mootools and scriptaculous are available.
+            </description>
+        </attribute-->
     </tag>
     
     <!-- ExtPanel -->

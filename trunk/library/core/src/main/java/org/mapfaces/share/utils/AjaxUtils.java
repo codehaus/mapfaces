@@ -52,6 +52,7 @@ public class AjaxUtils {
     /**
      * Autocompletion listener parameters
      */
+    public static final String AUTOCOMPLETER_VERSION     = "org.mapfaces.widget.AUTOCOMPLETER_VERSION";
     public static final String AUTOCOMPLETION_MODE     = "org.mapfaces.widget.AUTOCOMPLETION_MODE";
     public static final String AUTOCOMPLETION_MODE_REQUEST_HTML    = "request.html";
     public static final String AUTOCOMPLETION_MODE_REQUEST_JSON    = "request.json";
@@ -64,6 +65,7 @@ public class AjaxUtils {
     /**
      * Thesaurus parameters
      */
+    public static final String THESAURUS_DEFAULT_OUTPUT_EPSG = "EPSG:4326";
     public static final String THESAURUS_OUTPUT_EPSG = "org.mapfaces.THESAURUS_OUTPUT_EPSG";
     public static final String THESAURUS_WS_URL     = "org.mapfaces.THESAURUS_WS_URL";
     public static final String THESAURUS_WS_REQUEST    = "org.mapfaces.THESAURUS_WS_REQUEST";

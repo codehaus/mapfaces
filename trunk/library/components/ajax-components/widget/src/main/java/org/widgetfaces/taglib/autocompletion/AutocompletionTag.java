@@ -67,6 +67,7 @@ public class AutocompletionTag extends InputTextTag {
     private ValueExpression rendered = null;
     private ValueExpression title = null;
     private ValueExpression wtsUrl = null;
+    private ValueExpression version = null;
 
     /* Methods*/
     /**
@@ -130,6 +131,7 @@ public class AutocompletionTag extends InputTextTag {
         component.setValueExpression("style", getStyle());
         component.setValueExpression("styleClass", getStyleClass());
         component.setValueExpression("wtsUrl", getWtsUrl());
+        component.setValueExpression("version", getVersion());
     }
 
     /**
@@ -175,6 +177,7 @@ public class AutocompletionTag extends InputTextTag {
         setStyleClass(null);
         setLoadCss(null);
         setWtsUrl(null);
+        setVersion(null);
     }
 
     /**
@@ -697,6 +700,20 @@ public class AutocompletionTag extends InputTextTag {
      */
     public void setWtsUrl(ValueExpression url) {
         this.wtsUrl = url;
+    }
+
+    /**
+     * @return the version
+     */
+    public ValueExpression getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(ValueExpression version) {
+        this.version = version;
     }
 }
 

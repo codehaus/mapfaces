@@ -16,7 +16,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-examples</artifactId>
     <packaging>war</packaging>
-    <name>Mapfaces - RichFaces - Web application</name>
+    <name>MapFaces - RichFaces - Web application</name>
 
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/web/</connection>

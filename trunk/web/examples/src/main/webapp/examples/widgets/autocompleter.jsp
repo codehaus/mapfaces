@@ -39,8 +39,26 @@
                 </h:panelGrid>
                 <h:commandButton value="Submit"/>
                 <br/>
+                <br/>
+                <h:outputText value="Autocompleter local : "/>
                 <wf:Autocompletion id="keywords"
                                    services="['Alabama', 'New York', 'Paris', 'Montpellier', 'Arizona', 'Phoenix']"
+                                   value="#{autocompleterbean.enteredKeyword}"
+                                   multiple="#{autocompleterbean.multiple}"
+                                   overflow="#{autocompleterbean.overflow}"
+                                   style="width:40px;font: 14px Georgia,serif;"
+                                   filterSubset="#{autocompleterbean.filterSubset}"
+                                   overflowMargin="#{autocompleterbean.overflowMargin}"
+                                   maxChoices="#{autocompleterbean.maxChoices}"
+                                   loadMootools="#{autocompleterbean.loadMootools}"
+                                   loadJs="#{autocompleterbean.loadJs}"
+                                   rendered="#{autocompleterbean.rendered}"
+                                   loadCss="#{autocompleterbean.loadCss}"/>
+                <br/>
+                <br/>
+                <h:outputText value="Autocompleter using a Web Thesaurus Service : "/>
+                <wf:Autocompletion id="keywords2"
+                                   wtsUrl="http://cronos.geomatys.com/wts/WS/thesaurus/"
                                    value="#{autocompleterbean.enteredKeyword}"
                                    multiple="#{autocompleterbean.multiple}"
                                    overflow="#{autocompleterbean.overflow}"
