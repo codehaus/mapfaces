@@ -57,7 +57,7 @@
                       style="height:34px;opacity:1;position:relative;width:100%;"
                       featureInfo="true" measureDistance="true" />
         <mf-base:Div>
-            <mf:Autocompletion services="http://cronos.geomatys.com/wts/WS/thesaurus/"
+            <mf:Autocompletion wtsUrl="http://cronos.geomatys.com/wts/WS/thesaurus/"
                                loadMootools="false" enableAjax="true" multiple="true"
                                maxChoices="5" id="autocompleteZoom">
             </mf:Autocompletion>

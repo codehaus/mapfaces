@@ -19,7 +19,7 @@
   <groupId>org.mapfaces</groupId>
   <artifactId>mapfaces-components-javafx</artifactId>
   <packaging>pom</packaging>
-  <name>Mapfaces - JavaFX Components</name>
+  <name>MapFaces - JavaFX Components</name>
   
   <scm>
     <connection>

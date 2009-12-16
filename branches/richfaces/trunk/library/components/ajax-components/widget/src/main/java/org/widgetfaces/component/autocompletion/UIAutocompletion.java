@@ -14,11 +14,11 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.widgetfaces.component.autocompletion;
 
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
+import org.mapfaces.share.utils.JSLibraryResource;
 
 /**
  * <p>This AutoCompletion component using script for MooTools provides the
@@ -71,7 +71,10 @@ public class UIAutocompletion extends HtmlInputText {
 
     public static final String FAMILY = "org.mapfaces.Autocompletion";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLAutocompletion";
+
+
     /* Fields */
+    private JSLibraryResource version = JSLibraryResource.MOOTOOLS;
     private int minLength = 1;
     private boolean markQuery = true;
     private int maxChoices = 10;
@@ -96,6 +99,20 @@ public class UIAutocompletion extends HtmlInputText {
         setRendererType(RENDERER_TYPE);
     }
 
+    /**
+     * @return the VERSION
+     */
+    public JSLibraryResource getVersion() {
+        return version;
+    }
+
+    /**
+     * @param VERSION the VERSION to set
+     */
+    public void setVersion(JSLibraryResource version) {
+        this.version = version;
+    }
+
     public String getWtsUrl() {
         //@TODO to be removed :  use attribute to past the url of thesaurus service
         return wtsUrl;
@@ -106,9 +123,6 @@ public class UIAutocompletion extends HtmlInputText {
         wtsUrl = url;
     }
 
-    public boolean isMapfacesWidgetsCss() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 
     /* Methods */
     /**
@@ -122,7 +136,7 @@ public class UIAutocompletion extends HtmlInputText {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object[] values = new Object[21];
+        final Object[] values = new Object[22];
         values[0] = super.saveState(context);
         values[1] = getMinLength();
         values[2] = isMarkQuery();
@@ -144,6 +158,7 @@ public class UIAutocompletion extends HtmlInputText {
         values[18] = getTitle();
         values[19] = isRendered();
         values[20] = getWtsUrl();
+        values[21] = getVersion();
         return values;
     }
 
@@ -176,9 +191,10 @@ public class UIAutocompletion extends HtmlInputText {
         setLoadMootools((Boolean) values[15]);
         setLoadJs((Boolean) values[16]);
         setLoadCss((Boolean) values[17]);
-        setTitle((String)values[18]);
+        setTitle((String) values[18]);
         setRendered((Boolean) values[19]);
         setWtsUrl((String) values[20]);
+        setVersion((JSLibraryResource) values[21]);
     }
 
     /**
@@ -343,7 +359,6 @@ public class UIAutocompletion extends HtmlInputText {
     public void setMultiple(boolean multiple) {
         this.multiple = multiple;
     }
-
 
     /**
      * @return the inputValue

@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.mapfaces.component.models.UIContext;
 import org.mapfaces.models.Context;
+import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.util.FacesMapUtils;
@@ -29,7 +30,7 @@ import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.widgetfaces.renderkit.html.autocompletion.AutocompletionRenderer;
 
 public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
-
+     private static final String ZOOM_TO_IMG = "/org/mapfaces/resources/img/zoomTo.png";
     /**
      * <p> Render the beginning specified Component to the output stream or writer associated
      * with the response we are creating. If the conversion attempted in a previous call to getConvertedValue()
@@ -52,7 +53,7 @@ public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
         writer.writeAttribute(HTML.width_ATTRIBUTE, 24, null);
         writer.writeAttribute(HTML.height_ATTRIBUTE, 24, null);
         writer.writeAttribute(HTML.alt_ATTRIBUTE, "zoom to", null);
-        writer.writeAttribute(HTML.SRC_ATTRIBUTE, "resource.jsf?r=/org/mapfaces/resources/img/zoomTo.png", null);
+        writer.writeAttribute(HTML.SRC_ATTRIBUTE, ResourcePhaseListener.getURL(context,ZOOM_TO_IMG, null), null);
         writer.writeAttribute(HTML.onclick_ATTRIBUTE, createOnclick(context, component), null);
         writer.writeAttribute(HTML.style_ATTRIBUTE, "cursor:pointer;", null);
         writer.endElement(HTML.IMG_ELEM);
@@ -67,24 +68,62 @@ public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
         String currentEpsg = ((Context) contextComp.getModel()).getSrs();
         if (currentEpsg == null)
             currentEpsg = "EPSG:4326";
-        sb.append("var params = { ").
-                append("'").append(AjaxUtils.THESAURUS_OUTPUT_EPSG).append("': '").append(currentEpsg).append("',").
-                append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWtsUrl()).append("',").
-                append("'").append(AjaxUtils.THESAURUS_WS_REQUEST).append("': '").append(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept).append("',").
-                append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': 'main_form:autocompleteZoom',").
-                append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
-                append("'value': ").append("document.getElementById('autocompleteZoom_input').value").
-                append("};");
+        String str = null;
+        switch (comp.getVersion()) {
+
+            case SCRIPTACULOUS:
+                str = createOnclickScriptaculous(context, comp);
+                break;
+
+            default:
+                str = createOnclickMootools(context, comp);
+                break;
+        }
+        return str;
+    }
+
+
+    private String createOnclickScriptaculous(FacesContext context, UIAutocompletion comp) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(buildCommonParams(context, comp));
+        sb.append("var ajaxRequest = new Ajax.Request(window.location.href,{").
+                append("method: 'post',").
+                append("encoding: 'utf-8',").
+                append("onSuccess: window.loadGeoJSON, ").
+                append("parameters:params").
+                append("});");
+        return sb.toString();
+    }
+
+    private String createOnclickMootools(FacesContext context, UIAutocompletion comp) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(buildCommonParams(context, comp));
         sb.append("var ajaxRequest = new Request({").
                 append("url: window.location.href,").
                 append("method: 'post',").
                 append("encoding: 'utf-8',").
                 append("onComplete: window.loadGeoJSON, ").
-                append("mapId: '" + FacesMapUtils.getJsVariableFromClientId(FacesMapUtils.getChildUIMapPane(context, contextComp).getClientId(context)) + "', ").
-                append("layerId: '" + FacesMapUtils.getJsVariableFromClientId(comp.getClientId(context)) + "', ").
                 append("data:params").
                 append("}).send();");
         return sb.toString();
     }
 
+    private String buildCommonParams(FacesContext context, UIAutocompletion comp) {
+        final StringBuilder sb = new StringBuilder();
+        final UIContext contextComp = FacesMapUtils.getParentUIContext(context, comp);
+        String currentEpsg = ((Context) contextComp.getModel()).getSrs();
+        if (currentEpsg == null)
+            currentEpsg = "EPSG:4326";
+        sb.append("var params = { ").
+                append("targetMapId: '" + FacesMapUtils.getJsVariableFromClientId(FacesMapUtils.getChildUIMapPane(context, contextComp).getClientId(context)) + "', ").
+                append("targetLayerId: '" + FacesMapUtils.getJsVariableFromClientId(comp.getClientId(context)) + "', ").
+                append("'").append(AjaxUtils.THESAURUS_OUTPUT_EPSG).append("': '").append(currentEpsg).append("',").
+                append("'").append(AjaxUtils.THESAURUS_WS_URL).append("': '").append(comp.getWtsUrl()).append("',").
+                append("'").append(AjaxUtils.THESAURUS_WS_REQUEST).append("': '").append(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept).append("',").
+                append("'").append(AjaxUtils.AUTOCOMPLETION_CLIENTID).append("': '").append(comp.getClientId(context)).append("',").
+                append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").
+                append("'value': ").append("document.getElementById('").append(comp.getId()).append("_input').value").
+                append("};");
+        return sb.toString();
+    }
 }

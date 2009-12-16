@@ -1160,8 +1160,8 @@ public class TimeLineRenderer extends Renderer {
 
     public String getIntervalFromDuration(final Duration duration) {
         final Map<Unit, String> map = new HashMap<Unit, String>();
-        map.put(NonSI.YEAR, "YEAR");
-        map.put(NonSI.MONTH, "MONTH");
+        map.put(Utils.YEAR_UNIT, "YEAR");
+        map.put(Utils.MONTH_UNIT, "MONTH");
         map.put(NonSI.WEEK, "WEEK");
         map.put(NonSI.DAY, "DAY");
         map.put(NonSI.HOUR, "HOUR");

@@ -19,7 +19,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-templates</artifactId>
     <packaging>pom</packaging>
-    <name>Mapfaces - RichFaces - templates</name>
+    <name>MapFaces - RichFaces - templates</name>
   
     <scm>
         <connection>

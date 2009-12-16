@@ -16,7 +16,7 @@
     <groupId>org.mapfaces</groupId>
     <artifactId>mapfaces-template</artifactId>
     <packaging>war</packaging>
-    <name>Mapfaces - RichFaces - Template MochaUI</name>
+    <name>MapFaces - RichFaces - Template MochaUI</name>
 
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/template/</connection>

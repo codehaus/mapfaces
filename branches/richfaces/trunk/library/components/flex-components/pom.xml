@@ -19,7 +19,7 @@
   <groupId>org.mapfaces</groupId>
   <artifactId>mapfaces-components-flex</artifactId>
   <packaging>pom</packaging>
-  <name>Mapfaces - Flex Components</name>
+  <name>MapFaces - Flex Components</name>
   
   <scm>
     <connection>
