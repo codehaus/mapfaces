@@ -171,9 +171,9 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         if (comp.isEnableAjax()) {
             final StringBuilder ajaxrequest = new StringBuilder();
 
-            final String urlRequest = WebContainerUtils.getAjaxServer(context);
+            final String actionUrl = WebContainerUtils.getAjaxActionURL(context);
             ajaxrequest.append("new Request.HTML({").
-                    append("url:'").append(urlRequest).append("',").
+                    append("url:'").append(actionUrl).append("',").
                     append("data:{").append("'javax.faces.ViewState':").
                         append("$('javax.faces.ViewState').value").append(",").
                         append("'" + AjaxUtils.AJAX_REQUEST_PARAM_KEY + "':").append("'true'"). append(",").

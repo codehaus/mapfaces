@@ -96,7 +96,7 @@
                             <f:facet name="header"><h:outputText value="Bounds"/></f:facet>
                             <h:outputText value="#{feature.bounds}" style="text-align:center;"/>
                         </h:column>
-                        <h:column headerClass="tableOptionsCol">
+                        <%--h:column headerClass="tableOptionsCol">
                             <f:facet name="header"><h:outputText value="Remove"/></f:facet>
                             <a4j:commandLink action="#{svglayerbean.deleteFeature}" id="removeFeature"
                                              ajaxSingle="true"
@@ -105,7 +105,7 @@
                                 <a4j:actionparam name="forceRefresh" value="true" />
                                 <a4j:actionparam name="simpleFeatureId" value="#{feature.ID}" />
                             </a4j:commandLink>
-                        </h:column>
+                        </h:column--%>
                     </h:dataTable>
 
                     <%--mfb:DataScroller dataTableId="featuresTable"
