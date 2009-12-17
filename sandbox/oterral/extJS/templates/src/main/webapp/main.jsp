@@ -54,7 +54,8 @@
                 <script type="text/javascript" src="resources/js/ext-3.0.3/examples/shared/examples.js"></script>
 
                 <link rel="stylesheet" type="text/css" href="resources/skin/default/all.css" />
-                <script src="resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" type="text/javascript"></script>
+                <script src="resource.jsf?r=/org/mapfaces/resources/compressed/openlayers.min.js" type="text/javascript"></script>
+                <!--script src="resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" type="text/javascript"></script-->
 
                 <script type="text/javascript" src="resources/js/start.js"></script>
         </head>

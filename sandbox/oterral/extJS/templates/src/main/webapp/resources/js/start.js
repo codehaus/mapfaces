@@ -5,15 +5,8 @@ Ext.onReady(function(){
     // can change across page loads, leading to unpredictable results.  The developer
     // should ensure that stable state ids are set for stateful components in real apps.
     Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
-    var panel = new Ext.Panel({
-        title:"title",
-        id:'simplestbl',
-        layout:'border',
-        width:"100%",
-        height:600,
-        renderTo:Ext.getDom('main_form'),
-        items:[
-        {
+    var westside =
+        new Ext.Panel({
             region:'west',
             contentEl: 'west',
             layout:'fit',
@@ -23,15 +16,17 @@ Ext.onReady(function(){
             split:true,
             collapsible:true,
             collapseMode:'mini'
-        },
-        {
+        });
+    var centerside =
+        new Ext.Panel({
             region:'center',
             contentEl: 'center',
             layout:'fit',
             frame:true,
             border:false
-        },
-        {
+        });
+    var eastside =
+        new Ext.Panel({
             region:'east',
             contentEl: 'east',
             layout:'fit',
@@ -41,21 +36,32 @@ Ext.onReady(function(){
             split:true,
             collapsible:true,
             collapseMode:'mini'
-        }
+        });
+    var panel = new Ext.Panel({
+        title:"title",
+        id:'simplestbl',
+        layout:'border',
+        width:"100%",
+        height:600,
+        renderTo:Ext.getDom('main_form'),
+        items:[westside,
+        centerside,
+        eastside
+        
         ]
     });
 
-    panel.on('resize', function() {
+ centerside.on('resize', function() {
+        console.debug("centerside resize");
         if (window.maps) {
             for (var i in window.maps) {
-                if (i.CLASS_NAME == "OpenLayers.Map") {
-                    i.updateSize();
+                var map = window.maps[i]
+                if (map.CLASS_NAME == "OpenLayers.Map") {
+                    map.updateSize();
                 }
             }
         }
     });
-
-
 
     //    var viewport = new Ext.Panel({
     //        layout: 'border',
@@ -159,6 +165,9 @@ Ext.onReady(function(){
 
     if (window.reloadAllMaps)
         window.reloadAllMaps();
+
+
+   
 //        // get a reference to the HTML element with id "hideit" and add a click listener to it
 //        Ext.get("hideit").on('click', function(){
 //            // get a reference to the Panel that was created with id = 'west-panel'

@@ -76,6 +76,11 @@
             <artifactId>jsp-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+                 <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
     <build>
