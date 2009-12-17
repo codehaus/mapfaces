@@ -70,6 +70,14 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        ValueExpression vv = component.getValueExpression("value");
+        Object vobj=null;
+        if(vv!=null)
+            vobj = vv.getValue(context.getELContext());
+
+
+        Object evaluate = context.getApplication().evaluateExpressionGet(context, "#{row.userObject}", Object.class);
+
         // suppress rendering if "rendered" property on the component is false.
         if (!component.isRendered()) {
             return;
@@ -207,7 +215,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
         final UIForm formContainer = getForm(component);
         final String keyParameterInput = formContainer.getId() + ":" + comp.getId() + INPUTDATE_SUFFIX;
-       final  String newValue = (String) parameterMap.get(keyParameterInput);
+        final  String newValue = (String) parameterMap.get(keyParameterInput);
 
         HtmlInputText inputchild = null;
         if (comp.getChildren().size() != 0) {
