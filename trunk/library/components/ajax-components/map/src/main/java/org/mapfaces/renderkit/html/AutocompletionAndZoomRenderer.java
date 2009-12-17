@@ -25,6 +25,7 @@ import org.mapfaces.models.Context;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
+import org.mapfaces.share.utils.WebContainerUtils;
 import org.mapfaces.util.FacesMapUtils;
 import org.widgetfaces.component.autocompletion.UIAutocompletion;
 import org.widgetfaces.renderkit.html.autocompletion.AutocompletionRenderer;
@@ -69,24 +70,25 @@ public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
         if (currentEpsg == null)
             currentEpsg = "EPSG:4326";
         String str = null;
+        final String actionUrl = WebContainerUtils.getAjaxActionURL(context);
         switch (comp.getVersion()) {
 
             case SCRIPTACULOUS:
-                str = createOnclickScriptaculous(context, comp);
+                str = createOnclickScriptaculous(context, comp, actionUrl);
                 break;
 
             default:
-                str = createOnclickMootools(context, comp);
+                str = createOnclickMootools(context, comp, actionUrl);
                 break;
         }
         return str;
     }
 
 
-    private String createOnclickScriptaculous(FacesContext context, UIAutocompletion comp) {
+    private String createOnclickScriptaculous(final FacesContext context, final UIAutocompletion comp, final String actionUrl) {
         final StringBuilder sb = new StringBuilder();
         sb.append(buildCommonParams(context, comp));
-        sb.append("var ajaxRequest = new Ajax.Request(window.location.href,{").
+        sb.append("var ajaxRequest = new Ajax.Request('").append(actionUrl).append("',{").
                 append("method: 'post',").
                 append("encoding: 'utf-8',").
                 append("onSuccess: window.loadGeoJSON, ").
@@ -95,11 +97,11 @@ public class AutocompletionAndZoomRenderer extends AutocompletionRenderer {
         return sb.toString();
     }
 
-    private String createOnclickMootools(FacesContext context, UIAutocompletion comp) {
+    private String createOnclickMootools(final FacesContext context, final UIAutocompletion comp, final String actionUrl) {
         final StringBuilder sb = new StringBuilder();
         sb.append(buildCommonParams(context, comp));
         sb.append("var ajaxRequest = new Request({").
-                append("url: window.location.href,").
+                append("url: '").append(actionUrl).append("',").
                 append("method: 'post',").
                 append("encoding: 'utf-8',").
                 append("onComplete: window.loadGeoJSON, ").

@@ -74,7 +74,7 @@ public class UIAutocompletion extends HtmlInputText {
 
 
     /* Fields */
-    private JSLibraryResource version = JSLibraryResource.MOOTOOLS;
+    private JSLibraryResource version = JSLibraryResource.SCRIPTACULOUS;
     private int minLength = 1;
     private boolean markQuery = true;
     private int maxChoices = 10;
