@@ -3,7 +3,7 @@
 <!DOCTYPE portlet-app PUBLIC
 "-//JBoss Portal//DTD JBoss Portlet 2.6//EN"
 "http://www.jboss.org/portal/dtd/jboss-portlet_2_6.dtd">
-<portlet-app>
+<portlet-app>    
     <portlet>
         <portlet-name>portlet-geo</portlet-name>
         <header-content>
@@ -15,7 +15,9 @@
             <link rel="stylesheet" type="text/css" href="/resources/skin/default/all.css" />
 
 
-            <script type="text/javascript" src="/resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" ></script>
+            <!--script type="text/javascript" src="/resource.jsf?r=/org/mapfaces/resources/openlayers/custom/OpenLayers.js" ></script-->
+            <script type="text/javascript" src="/resource.jsf?r=/org/mapfaces/resources/compressed/openlayers.min.js" ></script>
+            
             <!--script type="text/javascript" src="/resources/js/start.js"></script-->
 
         </header-content>

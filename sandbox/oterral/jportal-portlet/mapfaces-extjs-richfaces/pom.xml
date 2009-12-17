@@ -10,37 +10,9 @@
    <name>Portlet MapFaces ExtJS RichFaces</name>
    <url>http://www.geomatys.com</url>
 
-
    <prerequisites>
       <maven>2.0.9</maven>
    </prerequisites>
-
-   <licenses>
-      <license>
-         <name></name>
-         <url></url>
-      </license>
-   </licenses>
-
-   <scm>
-      <connection></connection>
-      <developerConnection></developerConnection>
-      <url></url>
-   </scm>
-
-   <issueManagement>
-      <system></system>
-      <url></url>
-   </issueManagement>
-
-   <developers>
-      <developer>
-         <id></id>
-         <name></name>
-         <email></email>
-         <timezone></timezone>
-      </developer>
-   </developers>
 
    <build>
 

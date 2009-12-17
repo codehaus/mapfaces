@@ -167,20 +167,3 @@ Ext.onReady(function(){
 //            w.collapsed ? w.expand() : w.collapse();
 //        });
 });
-
-
-function handleMeasurements(event) {
-    var geometry = event.geometry;
-    var units = event.units;
-    var order = event.order;
-    var measure = event.measure;
-    var element = document.getElementById('output');
-    var out = "";
-    if(order == 1) {
-        out += "Distance: " + measure.toFixed(3) + " " + units;
-
-    } else {
-        out += "Distance: " + measure.toFixed(3) + " " + units + "<sup>2</sup>";
-    }
-    element.innerHTML = out;
-}
