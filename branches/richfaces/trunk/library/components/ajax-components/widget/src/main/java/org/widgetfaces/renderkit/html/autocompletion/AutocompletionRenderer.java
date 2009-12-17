@@ -147,14 +147,15 @@ public class AutocompletionRenderer extends Renderer {
         writer.writeAttribute(HTML.TYPE_ATTR, HTML.TEXTJAVASCRIPT_VALUE, null);
         String str = null;
 
+        final String actionUrl = WebContainerUtils.getAjaxActionURL(context);
         switch (comp.getVersion()) {
             
             case SCRIPTACULOUS:
-                str = buildJsScriptaculous(context, comp);
+                str = buildJsScriptaculous(context, comp, actionUrl);
                 break;
 
             default:
-                str = buildJsMootools(context, comp);
+                str = buildJsMootools(context, comp, actionUrl);
                 break;
         }
         
@@ -239,7 +240,7 @@ public class AutocompletionRenderer extends Renderer {
     }
 
     //see http://wiki.github.com/madrobby/scriptaculous/ajax-autocompleter for more details
-    private String buildJsScriptaculous(final FacesContext context, final UIAutocompletion comp) throws IOException {
+    private String buildJsScriptaculous(final FacesContext context, final UIAutocompletion comp, final String actionUrl) throws IOException {
         final StringBuilder str = new StringBuilder();
         final String clientId = comp.getClientId(context);
         final String id = comp.getId();
@@ -249,14 +250,12 @@ public class AutocompletionRenderer extends Renderer {
 
         /* If we use a web thesaurus service*/
         if (comp.getWtsUrl() != null) {
-            final String urlRequest = WebContainerUtils.getAjaxServer(context);
             final StringBuilder constructor = new StringBuilder();
-
-
+            
             //Creation of the Autocompleter with default options
             constructor.append(" new Ajax.Autocompleter('").append(inputId).append("','").
                     append(listId).append("','").
-                    append(urlRequest).append("', ").
+                    append(actionUrl).append("', ").
                     append("{ paramName: 'value', tokens: ','").
                     append(",parameters:'").
                         append(AjaxUtils.AUTOCOMPLETER_VERSION).append("=").append(comp.getVersion()).append("&").
@@ -296,7 +295,7 @@ public class AutocompletionRenderer extends Renderer {
         return str.toString();
     }
 
-    private String buildJsMootools(final FacesContext context, final UIAutocompletion comp) throws IOException {
+    private String buildJsMootools(final FacesContext context, final UIAutocompletion comp, final String actionUrl) throws IOException {
 
         final StringBuilder str = new StringBuilder();
         final String clientId = comp.getClientId(context);
@@ -306,12 +305,11 @@ public class AutocompletionRenderer extends Renderer {
         str.append("document.addEvent('domready', function(){");
         /* If we use a web thesaurus service*/
         if (comp.getWtsUrl() != null) {
-
-            final String urlRequest = WebContainerUtils.getAjaxServer(context);
+            
             final StringBuilder ajaxrequest = new StringBuilder();
             ajaxrequest.append("new Autocompleter.Request.HTML($('").
                     append(inputId).append("'),").
-                    append("'").append(urlRequest).append("',{zIndex:10000,").
+                    append("'").append(actionUrl).append("',{zIndex:10000,").
                     append("postData:{").
                     append("'").append(AjaxUtils.AUTOCOMPLETER_VERSION).append("':'").append(comp.getVersion()).append("',").
                     append("'").append(AjaxUtils.AUTOCOMPLETION_MODE).append("': '").append(AjaxUtils.AUTOCOMPLETION_MODE_REQUEST_HTML).append("',").

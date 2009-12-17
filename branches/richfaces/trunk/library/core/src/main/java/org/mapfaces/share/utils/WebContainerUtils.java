@@ -20,11 +20,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Logger;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletSession;
+import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +43,45 @@ public class WebContainerUtils {
 
     private static final Logger LOGGER = Logger.getLogger(WebContainerUtils.class.getName());
 
+    /*
+     * This function is copy-paste of the function AjaxContextImpl.getAjaxActionUrl from a4j library
+     * Get the correct URL to send an ajax request 
+     */
+    public static String getAjaxActionURL(final FacesContext context) {
+        // Check arguments
+        if (null == context) {
+            throw new NullPointerException(
+                    "Faces context for build AJAX Action URL is null");
+        }
+        UIViewRoot viewRoot = context.getViewRoot();
+        if (null == viewRoot) {
+            throw new NullPointerException(
+                    "Faces view tree for build AJAX Action URL is null");
+        }
+        String viewId = viewRoot.getViewId();
+        if (null == viewId) {
+            throw new NullPointerException(
+                    "View id for build AJAX Action URL is null");
+        }
+        if (!viewId.startsWith("/")) {
+            throw new IllegalArgumentException(
+                    "Illegal view Id for build AJAX Action URL: " + viewId);
+        }
+        ViewHandler viewHandler = context.getApplication().getViewHandler();
+        String actionURL = viewHandler.getActionURL(context, viewId);
+        // HACK - check for a Jboss PortletBridge implementation. If present, append DirectLink attribute to url.
+        // TODO - how to detect portlet application ?
+        if (null != context.getExternalContext().getApplicationMap().get(
+                "org.jboss.portletbridge.application.PortletStateHolder")) {
+            // Mark Ajax action url as transparent with jsf-portlet bridge.
+            actionURL = actionURL
+                    + ((actionURL.lastIndexOf('?') > 0) ? "&" : "?")
+                    + "javax.portlet.faces.DirectLink=true";
+
+        }
+        return context.getExternalContext().encodeActionURL(actionURL);
+    }
+
     public static String getRequestURL(final FacesContext facesContext) {
         final Object request = facesContext.getExternalContext().getRequest();
 
@@ -54,7 +96,7 @@ public class WebContainerUtils {
         }
         return null;
     }
-    
+
     //TODO : remove this function and modify  WebContainerUtils.getRequestURL to match the result of this one
     public static String getHostUrl() {
         final Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -74,7 +116,10 @@ public class WebContainerUtils {
         return null;
     }
 
-    //TODO : remove this function and modify  WebContainerUtils.getRequestURL to match the result of this one
+    //TODO : remove this function, and replaced by WebContainerUtils.getAjaxGctionURL
+    /**
+     * @deprecated
+     */
     public static String getAjaxServer(final FacesContext facesContext) {
         final Object request = facesContext.getExternalContext().getRequest();
 
@@ -84,13 +129,12 @@ public class WebContainerUtils {
 
         } else if (request instanceof PortletRequest) {
             //TODO : not tested, probably doesn't work
-            PortletRequest plRequest = (PortletRequest) request;
+            RenderRequest plRequest = (RenderRequest) request;
             return plRequest.getScheme() + "://" + plRequest.getServerName() + ":" + plRequest.getServerPort() + plRequest.getContextPath();
 
         }
         return null;
     }
-
 
     static String getSessionId(final FacesContext context) {
         final Object session = context.getExternalContext().getSession(true);
@@ -104,12 +148,13 @@ public class WebContainerUtils {
         }
         return null;
     }
+
     /**
      * Returns the current outpustream
      * @param facesContext
      * @return String A String representing the action URL
      */
-    public static OutputStream getResponseOutpustream(final FacesContext facesContext,final String contentType, final Object cache) throws IOException {
+    public static OutputStream getResponseOutpustream(final FacesContext facesContext, final String contentType, final Object cache) throws IOException {
         final Object response = facesContext.getExternalContext().getResponse();
         setResponseProperties(facesContext, contentType, cache);
 
@@ -128,15 +173,16 @@ public class WebContainerUtils {
         }
         return null;
     }
-     /**
+
+    /**
      * Returns the current writer
      * @param facesContext
      * @return String A String representing the action URL
      */
-    public static PrintWriter getResponseWriter(final FacesContext facesContext,final String contentType, final Object cache) throws IOException {
+    public static PrintWriter getResponseWriter(final FacesContext facesContext, final String contentType, final Object cache) throws IOException {
         final Object response = facesContext.getExternalContext().getResponse();
         setResponseProperties(facesContext, contentType, cache);
-        
+
         if (response instanceof HttpServletResponse) {
             HttpServletResponse servletResponse = (HttpServletResponse) response;
             return servletResponse.getWriter();
@@ -153,20 +199,20 @@ public class WebContainerUtils {
     }
 
     public static String getUserAgent(final FacesContext context) {
-            final Object request = context.getExternalContext().getRequest();
+        final Object request = context.getExternalContext().getRequest();
 
-            if (request instanceof HttpServletRequest) {
-                HttpServletRequest servletRequest = (HttpServletRequest) request;
-                return servletRequest.getHeader("User-Agent");
+        if (request instanceof HttpServletRequest) {
+            HttpServletRequest servletRequest = (HttpServletRequest) request;
+            return servletRequest.getHeader("User-Agent");
 
-            } else if (request instanceof PortletRequest) {
-                //TODO find a way to get the user-agent, it seems portlet doesn't have access to HTTP headers
-                //PortletRequest portletRequest = (PortletRequest) request;
-                return "Firefox";
-            }
-            return null;
+        } else if (request instanceof PortletRequest) {
+            //TODO find a way to get the user-agent, it seems portlet doesn't have access to HTTP headers
+            //PortletRequest portletRequest = (PortletRequest) request;
+            return "Firefox";
+        }
+        return null;
     }
-    
+
     public static String getUserAgent() {
         return getUserAgent(FacesContext.getCurrentInstance());
     }
@@ -235,8 +281,9 @@ public class WebContainerUtils {
         if (response instanceof HttpServletResponse) {
             HttpServletResponse servletResponse = (HttpServletResponse) response;
 
-            if (contentType != null)
+            if (contentType != null) {
                 servletResponse.setContentType(contentType);
+            }
 
             //TODO may be we should use reflection to pass dynamic parameter
             if (cache instanceof Boolean) {
@@ -247,16 +294,16 @@ public class WebContainerUtils {
                     servletResponse.setHeader("Cache-Control", "no-cache,no-store,max-age=0");
                     servletResponse.setDateHeader("Expires", 1);
 
-                }  else {
+                } else {
                     servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
                     servletResponse.setDateHeader("Expires", System.currentTimeMillis() + 10L);
                     servletResponse.setHeader("Cache-control", "max-age=" + (10L / 1000));
                 }
-                
-            } else if (cache instanceof Long)  {
+
+            } else if (cache instanceof Long) {
                 servletResponse.setDateHeader("Last-Modified", System.currentTimeMillis());
-                servletResponse.setDateHeader("Expires", System.currentTimeMillis() + ((Long)cache));
-                servletResponse.setHeader("Cache-control", "max-age=" + (((Long)cache) / 1000));
+                servletResponse.setDateHeader("Expires", System.currentTimeMillis() + ((Long) cache));
+                servletResponse.setHeader("Cache-control", "max-age=" + (((Long) cache) / 1000));
             }
 
         } else if (response instanceof PortletResponse) {
@@ -270,5 +317,4 @@ public class WebContainerUtils {
 
         }
     }
-
 }

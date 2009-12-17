@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package org.mapfaces.share.utils;
 
 import java.util.ArrayList;
@@ -40,94 +39,96 @@ import org.mapfaces.component.UIWidgetBase;
  */
 public class AjaxRendererUtils {
 
-        private static final Logger LOGGER = Logger.getLogger(AjaxRendererUtils.class.getName());
-        /**
-	 * Build JavaScript event for component
-	 *
-	 * @param uiComponent -
-	 *            component for build event
-	 * @param facesContext
-	 * @param eventName -
-	 *            name of event
-	 * @param omitDefaultActionUrl - default action URL is not encoded if parameter is true
-	 *
-	 * @return <code>StringBuffer</code> with Javascript code
-	 */
-	public static StringBuffer buildOnEvent(UIComponent uiComponent,
-			FacesContext facesContext, String eventName, boolean omitDefaultActionUrl) {
-		StringBuffer onEvent = new StringBuffer();
-		if (null != eventName) {
-			String commandOnEvent = (String) uiComponent.getAttributes().get(
-					eventName);
-			if (commandOnEvent != null) {
-				onEvent.append(commandOnEvent);
-				onEvent.append(';');
-			}
-		}
-		JSFunction ajaxFunction = org.ajax4jsf.renderkit.AjaxRendererUtils.buildAjaxFunction(uiComponent, facesContext);
-		// Create formal parameter for non-input elements ???
-		// Link Control pseudo-object
-		// Options map. Possible options for function call :
-		// control - name of form control for submit.
-		// name - name for link control \
-		// value - value of control. - possible replace by parameters ?
-		// single true/false - submit all form or only one control.
-		// affected - array of element's ID for update on responce.
-		// oncomplete - function for call after complete request.
-		// status - id of request status component.
-		// parameters - map of parameters name/value for append on request.
-		// ..........
-		ajaxFunction.addParameter(org.ajax4jsf.renderkit.AjaxRendererUtils.buildEventOptions(facesContext, uiComponent, omitDefaultActionUrl));
+    private static final Logger LOGGER = Logger.getLogger(AjaxRendererUtils.class.getName());
 
-		// appendAjaxSubmitParameters(facesContext, uiComponent, onEvent);
-		ajaxFunction.appendScript(onEvent);
-                
-		if (uiComponent instanceof AjaxSupport) {
-			AjaxSupport support = (AjaxSupport) uiComponent;
-			if (support.isDisableDefault()) {
-				onEvent.append("; return false;");
-			}
-		}
-		LOGGER.log(Level.INFO, Messages.getMessage(Messages.BUILD_ONCLICK_INFO, uiComponent
-				.getId(), onEvent.toString()));
+    /**
+     * Build JavaScript event for component
+     *
+     * @param uiComponent -
+     *            component for build event
+     * @param facesContext
+     * @param eventName -
+     *            name of event
+     * @param omitDefaultActionUrl - default action URL is not encoded if parameter is true
+     *
+     * @return <code>StringBuffer</code> with Javascript code
+     */
+    public static StringBuffer buildOnEvent(UIComponent uiComponent,
+            FacesContext facesContext, String eventName, boolean omitDefaultActionUrl) {
+        StringBuffer onEvent = new StringBuffer();
+        if (null != eventName) {
+            String commandOnEvent = (String) uiComponent.getAttributes().get(
+                    eventName);
+            if (commandOnEvent != null) {
+                onEvent.append(commandOnEvent);
+                onEvent.append(';');
+            }
+        }
+        JSFunction ajaxFunction = org.ajax4jsf.renderkit.AjaxRendererUtils.buildAjaxFunction(uiComponent, facesContext);
+        // Create formal parameter for non-input elements ???
+        // Link Control pseudo-object
+        // Options map. Possible options for function call :
+        // control - name of form control for submit.
+        // name - name for link control \
+        // value - value of control. - possible replace by parameters ?
+        // single true/false - submit all form or only one control.
+        // affected - array of element's ID for update on responce.
+        // oncomplete - function for call after complete request.
+        // status - id of request status component.
+        // parameters - map of parameters name/value for append on request.
+        // ..........
+        ajaxFunction.addParameter(org.ajax4jsf.renderkit.AjaxRendererUtils.buildEventOptions(facesContext, uiComponent, omitDefaultActionUrl));
 
-		return onEvent;
+        // appendAjaxSubmitParameters(facesContext, uiComponent, onEvent);
+        ajaxFunction.appendScript(onEvent);
 
-	}
-        public static StringBuffer buildDefaultOptions(UIComponent uiComponent,
-			FacesContext facesContext) {
-            
-                boolean omitDefaultActionUrl = false;
+        if (uiComponent instanceof AjaxSupport) {
+            AjaxSupport support = (AjaxSupport) uiComponent;
+            if (support.isDisableDefault()) {
+                onEvent.append("; return false;");
+            }
+        }
+        LOGGER.log(Level.INFO, Messages.getMessage(Messages.BUILD_ONCLICK_INFO, uiComponent.getId(), onEvent.toString()));
 
-                List<Object> parameters = new ArrayList<Object>();
-                parameters.add(org.ajax4jsf.renderkit.AjaxRendererUtils.buildEventOptions(facesContext, uiComponent, omitDefaultActionUrl));
-                boolean first = true;
-		StringBuffer onEvent = new StringBuffer();
-                
-		if (null != parameters) {
+        return onEvent;
 
-			for (Iterator<?> param = parameters.iterator(); param.hasNext();) {
-				Object element = param.next();
+    }
 
-				if (!first) {
-					onEvent.append(',');
-				}
+    public static StringBuffer buildDefaultOptions(UIComponent uiComponent,
+            FacesContext facesContext) {
 
-				if (null != element) {
-					onEvent.append(ScriptUtils.toScript(element));
-                                        
-				} else {
-					onEvent.append("null");
-				}
-				first = false;
-			}
+        boolean omitDefaultActionUrl = false;
 
-		}
-            if (uiComponent instanceof UIWidgetBase && ((UIWidgetBase) uiComponent).isDebug())
-                LOGGER.log(Level.INFO, Messages.getMessage(Messages.BUILD_ONCLICK_INFO,
-                        uiComponent.getId(), onEvent.toString()));
+        List<Object> parameters = new ArrayList<Object>();
+        parameters.add(org.ajax4jsf.renderkit.AjaxRendererUtils.buildEventOptions(facesContext, uiComponent, omitDefaultActionUrl));
+        boolean first = true;
+        StringBuffer onEvent = new StringBuffer();
 
-		return onEvent;
+        if (null != parameters) {
 
-	}
+            for (Iterator<?> param = parameters.iterator(); param.hasNext();) {
+                Object element = param.next();
+
+                if (!first) {
+                    onEvent.append(',');
+                }
+
+                if (null != element) {
+                    onEvent.append(ScriptUtils.toScript(element));
+
+                } else {
+                    onEvent.append("null");
+                }
+                first = false;
+            }
+
+        }
+        if (uiComponent instanceof UIWidgetBase && ((UIWidgetBase) uiComponent).isDebug()) {
+            LOGGER.log(Level.INFO, Messages.getMessage(Messages.BUILD_ONCLICK_INFO,
+                    uiComponent.getId(), onEvent.toString()));
+        }
+
+        return onEvent;
+
+    }
 }
