@@ -42,9 +42,11 @@ window.loadGeoJSON = function (json, data) {
             var geojson_format = new OpenLayers.Format.GeoJSON();
             var myStyles = new OpenLayers.StyleMap({
                     "default": new OpenLayers.Style({
+                        fillOpacity: "0.5",
                         fillColor: "#ff0000",
                         strokeColor: "#ff9933",
-                        strokeWidth: 5
+                        strokeWidth: 5,
+                        pointRadius: "10"
                     })
                 });
             layer = new OpenLayers.Layer.Vector("GeoJSON", {styleMap: myStyles});
