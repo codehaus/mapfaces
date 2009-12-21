@@ -43,7 +43,9 @@ import org.geotoolkit.gml.xml.v311.CurveType;
 import org.geotoolkit.gml.xml.v311.DirectPositionType;
 import org.geotoolkit.gml.xml.v311.GeometryPropertyType;
 import org.geotoolkit.gml.xml.v311.LineStringSegmentType;
+import org.geotoolkit.gml.xml.v311.LineStringType;
 import org.geotoolkit.gml.xml.v311.MultiGeometryType;
+import org.geotoolkit.gml.xml.v311.PointType;
 import org.geotoolkit.gml.xml.v311.PolygonPatchType;
 import org.geotoolkit.gml.xml.v311.PolyhedralSurfaceType;
 import org.geotoolkit.gml.xml.v311.RingType;
@@ -57,6 +59,7 @@ import org.mapfaces.widget.util.XMLThesaurusUtilities;
 import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.MismatchedDimensionException;
 import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
@@ -87,11 +90,13 @@ public class AutocompletionListener implements PhaseListener {
                 if (requestMap.get(AjaxUtils.THESAURUS_WS_REQUEST).
                         equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
                     PrintWriter writer = null;
+                    
                     try {
                         writer = WebContainerUtils.getResponseWriter(facesContext, "text/plain", null);
                         writer.append("var targetMapId = '" + requestMap.get("targetMapId") + "';");
                         writer.append("var targetLayerId = '" + requestMap.get("targetLayerId") + "';");
                         writer.flush();
+
                     } catch (IOException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
                     } finally {
@@ -203,6 +208,7 @@ public class AutocompletionListener implements PhaseListener {
         final StringBuilder sb = new StringBuilder(wsUrl);
 
         if (webServiceType.equals("GEMET")) {
+            //https://svn.eionet.europa.eu/projects/Zope/wiki/GEMETWebServiceAPI
             //if we request a ThesaurusWS
             final Object tmp = sessionMap.get(requestMap.get(AjaxUtils.AUTOCOMPLETION_CLIENTID));
             List<Concept> concepts = null;
@@ -215,9 +221,10 @@ public class AutocompletionListener implements PhaseListener {
             if (concept != null) {
 
                 if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetConceptsMatchingKeyword)) {
-                    return buildGetConceptsMatchingKeyword(sb, concept.getPrefLabel(), "4", "fr", outputFormat, onlyGeometricConcept);
+                    return buildGetConceptsMatchingKeyword(sb, concept.getPrefLabel(), "1", "fr", outputFormat, onlyGeometricConcept);
 
                 } else if (request.equals(AjaxUtils.THESAURUS_WS_REQUEST_GetGeometricConcept)) {
+                    System.out.println("Getgeometric concept concept.getAbout = " + concept.getAbout());
                     return buildGetGeometricConcept(sb, concept.getAbout(), outputFormat);
                 }
             }
@@ -247,24 +254,28 @@ public class AutocompletionListener implements PhaseListener {
     private void writeConceptGeoInResponse(final PrintWriter writer,
             final Concept conceptGeo, String outputEpsgCode) throws IOException {
 
+        if (outputEpsgCode == null) {
+            outputEpsgCode = AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
+        }
+
         try {
             final StringBuilder sb = new StringBuilder("var featureCollection = {").append("\"type\": \"FeatureCollection\",").
                     append("\"features\": [").
                     append("    {").
                     append("        \"type\": \"Feature\",").
                     append("        \"properties\": {},").
-                    append("        \"geometry\":").
-                    append("            {");
+                    append("        \"geometry\":");
 
+                    sb.append("            {").
+                    append("                \"type\": \"GeometryCollection\",").
+                            append("                \"geometries\":").
+                            append("                    [");
             //@TODO we need a real GML parser to trasnform GML into GeoJSON
             for (int i = 0; i < conceptGeo.getGeometry().size(); i++) {
                 final AbstractGMLEntry GMLEntry = conceptGeo.getGeometry().get(i);
 
                 if (GMLEntry instanceof MultiGeometryType) {
                     final List<GeometryPropertyType> geomMembers = ((MultiGeometryType) GMLEntry).getGeometryMember();
-                    sb.append("                \"type\": \"GeometryCollection\",").
-                            append("                \"geometries\":").
-                            append("                    [");
                     for (int j = 0; j < geomMembers.size(); j++) {
                         final AbstractGeometryType geom = geomMembers.get(j).getAbstractGeometry().getValue();
                         if (geom instanceof PolyhedralSurfaceType) {
@@ -288,41 +299,7 @@ public class AutocompletionListener implements PhaseListener {
                                                     final AbstractCurveSegmentType segment = segments.get(m).getValue();
 
                                                     if (segment instanceof LineStringSegmentType) {
-                                                        final LineStringSegmentType lineSegment = (LineStringSegmentType) segment;
-
-                                                        if (lineSegment.getPosOrPointPropertyOrPointRep() != null) {
-                                                            final List<JAXBElement<?>> someList = lineSegment.getPosOrPointPropertyOrPointRep();
-
-                                                            for (int n = 0; n < someList.size(); n++) {
-
-                                                                if (someList.get(n).getValue() instanceof DirectPositionType) {
-                                                                    final DirectPositionType pos = (DirectPositionType) someList.get(n).getValue();
-                                                                    final CoordinateReferenceSystem oldCRS = CRS.decode(pos.getSrsName());
-                                                                    if (outputEpsgCode == null) {
-                                                                        outputEpsgCode = AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
-                                                                    }
-                                                                    if (debug) {
-                                                                        LOGGER.log(Level.INFO, "1 current epsg code  = " + pos.getSrsName());
-                                                                    }
-                                                                    if (debug) {
-                                                                        LOGGER.log(Level.INFO, "1 output epsg code  = " + outputEpsgCode);
-                                                                    }
-                                                                    final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode, true);
-                                                                    final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
-                                                                    final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
-
-                                                                    sb.append("[").
-                                                                            append(newPos.getCoordinate()[0]).
-                                                                            append(", ").
-                                                                            append(newPos.getCoordinate()[1]).
-                                                                            append("]");
-                                                                    if (n < someList.size() - 1) {
-                                                                        sb.append(",");
-                                                                    }
-
-                                                                }
-                                                            }
-                                                        }
+                                                        sb.append(this.transformLineStringSegtTypeToGeoJSON((LineStringSegmentType) segment, outputEpsgCode));
                                                     }
 
                                                 }
@@ -331,6 +308,7 @@ public class AutocompletionListener implements PhaseListener {
                                         }
                                     }
                                 }
+
                             } else if (((PolyhedralSurfaceType) geom).getPatches() != null) {
                                 final List<JAXBElement<? extends AbstractSurfacePatchType>> listPatchs = ((PolyhedralSurfaceType) geom).getPatches().getValue().getSurfacePatch();
 
@@ -353,42 +331,7 @@ public class AutocompletionListener implements PhaseListener {
                                                         final AbstractCurveSegmentType segment = segments.get(m).getValue();
 
                                                         if (segment instanceof LineStringSegmentType) {
-                                                            final LineStringSegmentType lineSegment = (LineStringSegmentType) segment;
-
-                                                            sb.append("{\"type\": \"LineString\",\"coordinates\":[");
-                                                            if (lineSegment.getPosOrPointPropertyOrPointRep() != null) {
-                                                                final List<JAXBElement<?>> someList = lineSegment.getPosOrPointPropertyOrPointRep();
-
-                                                                for (int n = 0; n < someList.size(); n++) {
-
-                                                                    if (someList.get(n).getValue() instanceof DirectPositionType) {
-                                                                        final DirectPositionType pos = (DirectPositionType) someList.get(n).getValue();
-                                                                        final CoordinateReferenceSystem oldCRS = CRS.decode(pos.getSrsName());
-                                                                        if (outputEpsgCode == null) {
-                                                                            outputEpsgCode = AjaxUtils.THESAURUS_DEFAULT_OUTPUT_EPSG;
-                                                                        }
-                                                                        if (debug) {
-                                                                            LOGGER.log(Level.INFO, "2 curent epsg code  = " + pos.getSrsName());
-                                                                        }
-                                                                        if (debug) {
-                                                                            LOGGER.log(Level.INFO, "2 output epsg code  = " + outputEpsgCode);
-                                                                        }
-                                                                        final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode, true);
-                                                                        final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
-                                                                        final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
-
-                                                                        sb.append("[").
-                                                                                append(newPos.getCoordinate()[0]).
-                                                                                append(", ").
-                                                                                append(newPos.getCoordinate()[1]).
-                                                                                append("]");
-                                                                        if (n < someList.size() - 1) {
-                                                                            sb.append(",");
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            sb.append("]}");
+                                                            sb.append(this.transformLineStringSegtTypeToGeoJSON((LineStringSegmentType) segment, outputEpsgCode));
 
                                                         }
 
@@ -401,14 +344,25 @@ public class AutocompletionListener implements PhaseListener {
 
                                 }
                             }
+
+                        } else if (geom instanceof LineStringType) {
+                            sb.append(this.transformLineStringTypeToGeoJSON((LineStringType) geom, outputEpsgCode));
+
+                        } else if (geom instanceof PointType) {
+                            sb.append(this.transformPointTypeToGeoJSON((PointType) geom, outputEpsgCode));
                         }
+
                         if (j < geomMembers.size() - 1) {
                             sb.append(",");
                         }
                     }
+
+                } else if (GMLEntry instanceof PointType) {
+                    sb.append(this.transformPointTypeToGeoJSON((PointType) GMLEntry, outputEpsgCode));
                 }
             }
-            sb.append("]}}]}");
+                sb.append("]}");
+                sb.append("}]}");
             writer.write(sb.toString());
         } catch (MismatchedDimensionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -483,5 +437,73 @@ public class AutocompletionListener implements PhaseListener {
 
     private boolean isScriptaculous(Map<String, String> requestMap) {
         return (JSLibraryResource.fromValue(requestMap.get(AjaxUtils.AUTOCOMPLETER_VERSION)) == JSLibraryResource.SCRIPTACULOUS);
+    }
+
+    private String transformPosListToGeoJSON(final List<JAXBElement<?>> someList, String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+
+        for (int n = 0; n < someList.size(); n++) {
+
+            if (someList.get(n).getValue() instanceof DirectPositionType) {
+                final DirectPositionType pos = (DirectPositionType) someList.get(n).getValue();
+                sb.append(this.transformPosToGeoJSON(pos, outputEpsgCode));
+
+                if (n < someList.size() - 1) {
+                    sb.append(",");
+                }
+            }
+        }
+        return sb.toString();
+
+    }
+
+    private String transformPosToGeoJSON(final DirectPositionType pos, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+        final CoordinateReferenceSystem oldCRS = CRS.decode(pos.getSrsName());
+        if (debug) {
+            LOGGER.log(Level.INFO, "current epsg code  = " + pos.getSrsName());
+            LOGGER.log(Level.INFO, "output epsg code  = " + outputEpsgCode);
+        }
+        final CoordinateReferenceSystem newCRS = CRS.decode(outputEpsgCode, true);
+        final MathTransform mt = CRS.findMathTransform(oldCRS, newCRS, true);
+        final DirectPosition newPos = mt.transform(pos.getDirectPosition(), null);
+        sb.append("[").
+                append(newPos.getCoordinate()[0]).
+                append(", ").
+                append(newPos.getCoordinate()[1]).
+                append("]");
+        return sb.toString();
+
+    }
+
+    private String transformPointTypeToGeoJSON(final PointType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+        sb.append("{\"type\": \"Point\",\"coordinates\":");
+        sb.append(this.transformPosToGeoJSON(geometry.getPos(), outputEpsgCode));
+        sb.append("}");
+        return sb.toString();
+    }
+
+    private String transformLineStringTypeToGeoJSON(final LineStringType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+        final LineStringType line = (LineStringType) geometry;
+        sb.append("{\"type\": \"LineString\",\"coordinates\":[");
+
+        if (line.getPosOrPointPropertyOrPointRep() != null) {
+            sb.append(this.transformPosListToGeoJSON(line.getPosOrPointPropertyOrPointRep(), outputEpsgCode));
+        }
+        sb.append("]}");
+        return sb.toString();
+    }
+    private String transformLineStringSegtTypeToGeoJSON(final LineStringSegmentType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+        final LineStringSegmentType line = (LineStringSegmentType) geometry;
+        sb.append("{\"type\": \"LineString\",\"coordinates\":[");
+
+        if (line.getPosOrPointPropertyOrPointRep() != null) {
+            sb.append(this.transformPosListToGeoJSON(line.getPosOrPointPropertyOrPointRep(), outputEpsgCode));
+        }
+        sb.append("]}");
+        return sb.toString();
     }
 }
