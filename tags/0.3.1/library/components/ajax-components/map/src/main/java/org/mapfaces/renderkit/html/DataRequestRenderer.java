@@ -421,7 +421,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 append("BBOX=").append(model.getBoundingBox()).
                                 append("&STYLES=").
                                 append("&FORMAT=").append("image/gif").
-                                append("&INFO_FORMAT=").append(outputFormat). //info_format is specified on the tag of the component default to text/plain, other cass hasn't be tested
+                                append("&INFO_FORMAT=").append(outputFormat). //info_format is specified on the tag of the component default to text/plain
                                 append("&VERSION=1.1.1").
                                 append("&SRS=").append(model.getSrs().toUpperCase(Locale.getDefault())).
                                 append("&REQUEST=GetFeatureInfo").
@@ -558,6 +558,11 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         for (String result : featureInfoValues) {
                             if (result != null) {
                                 innerHtml.append("<pre>");
+                                /**
+                                 * To display xml tags as text
+                                 */
+                                result = result.replace("<", "&lt;");
+                                result = result.replace(">", "&gt;");
                                 innerHtml.append(result);
                                 innerHtml.append("</pre>");
                             } else {
@@ -566,7 +571,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                         }
                     }
                     innerHtml.append("</div>");
-                    popup.setInnerHTML(innerHtml.toString());
+
+                    /**
+                     * Adding innerHtml for the popup only if there are no children
+                     * otherwise it will be displayed by the user with dataResult attributes
+                     */
+                    if(popup.getChildren().size()==0){
+                        popup.setInnerHTML(innerHtml.toString());
+                    }
+                    
                     popup.setHidden(false);
 
                     //setting the value expression for dataResult if not null
