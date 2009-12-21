@@ -5,35 +5,33 @@
 
     <parent>
         <groupId>org.mapfaces</groupId>
-        <artifactId>mapfaces-web</artifactId>
+        <artifactId>portlet-liferay-mapfaces-web</artifactId>
         <version>0.3-SNAPSHOT</version>
     </parent>
 
 
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
   <!--     Module Description                                      -->
   <!-- =========================================================== -->
     <groupId>org.mapfaces</groupId>
-    <artifactId>mapfaces-examples</artifactId>
+    <artifactId>portlet-liferay-mapfaces-examples</artifactId>
     <packaging>war</packaging>
-    <name>Mapfaces - Web application</name>
+    <name>MapFaces - Liferay - Portlet - Examples</name>
 
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/web/</connection>
         <url>http://svn.codehaus.org/mapfaces/trunk/modules/web/</url>
     </scm>
- 
+
     <description>MapFaces webapp modules.</description>
 
-
-
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
   <!--     Dependency Management                                   -->
   <!-- =========================================================== -->
     <dependencies>
 
-    <!-- Mapfaces library -->
-	<dependency>
+        <!-- Mapfaces library -->
+        <dependency>
             <groupId>org.mapfaces</groupId>
             <artifactId>mapfaces-base</artifactId>
             <version>${project.version}</version>
@@ -43,12 +41,12 @@
             <artifactId>mapfaces-map</artifactId>
             <version>${project.version}</version>
         </dependency>
-	<dependency>
+        <dependency>
             <groupId>org.mapfaces</groupId>
             <artifactId>mapfaces-chart</artifactId>
             <version>${project.version}</version>
         </dependency>
-	<dependency>
+        <dependency>
             <groupId>org.mapfaces</groupId>
             <artifactId>mapfaces-widgets</artifactId>
             <version>${project.version}</version>
@@ -66,16 +64,66 @@
             <scope>provided</scope>
         </dependency>
 
-            <dependency>
-                <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--SUN portlet bridge -->
+
+        <!--dependency>
+            <groupId>com.sun.faces.portlet</groupId>
+            <artifactId>jsf-portlet</artifactId>
+            <version>1.2.4</version>
+        </dependency-->
+
+        <!--JBOSS portlet bridge -->
+      <dependency>
+         <groupId>org.jboss.portletbridge</groupId>
+         <artifactId>portletbridge-api</artifactId>
+         <version>1.0.0.CR3</version>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-impl</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.portletbridge</groupId>
+         <artifactId>portletbridge-impl</artifactId>
+         <version>1.0.0.CR3</version>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.faces</groupId>
+               <artifactId>jsf-impl</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay</groupId>
+            <artifactId>util-bridges</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -87,10 +135,19 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
-    </plugins>
-</build>
-<properties>
-    <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
-</properties>
+            <!-- rename the war file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>sample-mapfaces-jsf-1.2-sun-jsp-portlet</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    </properties>
 
 </project>
+

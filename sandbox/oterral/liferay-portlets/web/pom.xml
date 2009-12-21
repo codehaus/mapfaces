@@ -14,10 +14,10 @@
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.mapfaces</groupId>
-  <artifactId>mapfaces-web</artifactId>
+  <artifactId>portlet-liferay-mapfaces-web</artifactId>
   <packaging>pom</packaging>
   <version>0.3-SNAPSHOT</version>
-  <name>MapFaces - Web applications templates and examples</name>
+  <name>MapFaces - Liferay - Portlets</name>
   
   <scm>
     <connection>

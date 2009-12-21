@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
+
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.mapfaces</groupId>
-        <artifactId>mapfaces-web</artifactId>
+        <artifactId>portlet-liferay-mapfaces-web</artifactId>
         <version>0.3-SNAPSHOT</version>
     </parent>
-    
-    
+
+
     <!-- =========================================================== -->
     <!--     Module Description                                      -->
     <!-- =========================================================== -->
     <groupId>org.mapfaces</groupId>
-    <artifactId>mapfaces-template</artifactId>
+    <artifactId>portlet-liferay-mapfaces-template</artifactId>
     <packaging>war</packaging>
-    <name>Mapfaces - Template MochaUI</name>
+    <name>MapFaces - Liferay - Portlet - MochaUI</name>
 
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/template/</connection>
         <url>http://svn.codehaus.org/mapfaces/trunk/modules/template/</url>
     </scm>
- 
+
     <description>MapFaces webapp template for jsf and MochaUI.</description>
-    
-    
+
+
     <!-- =========================================================== -->
     <!--     Developers and contributors.                            -->
     <!-- =========================================================== -->
@@ -42,15 +42,15 @@
             <timezone>+1</timezone>
         </developer>
     </developers>
-    
-    
-  <!-- =========================================================== -->
+
+
+    <!-- =========================================================== -->
   <!--     Dependency Management                                   -->
   <!-- =========================================================== -->
     <dependencies>
 
         <!-- Mapfaces library -->
-	<dependency>
+        <dependency>
             <groupId>org.mapfaces</groupId>
             <artifactId>mapfaces-base</artifactId>
             <version>${project.version}</version>
@@ -60,11 +60,11 @@
             <artifactId>mapfaces-map</artifactId>
             <version>${project.version}</version>
         </dependency>
-	<dependency>
-	    <groupId>org.mapfaces</groupId>
-	    <artifactId>mapfaces-widgets</artifactId>
-	    <version>${project.version}</version>
-	</dependency>
+        <dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-widgets</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- JSP, Servlet ,JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -77,17 +77,38 @@
             <scope>provided</scope>
         </dependency>
 
-            <dependency>
-                <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--SUN portlet bridge -->
 
+            <!--dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl-</artifactId>
+            </dependency-->
+        <dependency>
+            <groupId>com.sun.faces.portlet</groupId>
+            <artifactId>jsf-portlet</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay</groupId>
+            <artifactId>util-bridges</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -116,7 +137,7 @@
                         <exclude>**/*-min.*</exclude>
                         <exclude>**/*-bs.*</exclude>
                     </excludes>
-		<!-- for more details see http://alchim.sourceforge.net/yuicompressor-maven-plugin/compress-mojo.html -->
+                    <!-- for more details see http://alchim.sourceforge.net/yuicompressor-maven-plugin/compress-mojo.html -->
                     <nosuffix>true</nosuffix>
                     <force>true</force>
                     <jswarn>false</jswarn>
@@ -124,7 +145,7 @@
                         <aggregation>
                             <output>${project.build.directory}/${project.build.finalName}/resources/all.js</output>
                             <includes>
-				<!--include>${basedir}/src/licenses/license.js</include-->
+                                <!--include>${basedir}/src/licenses/license.js</include-->
                                 <include>**/mocha.js</include>
                                 <include>**/mocha-init.js</include>
                                 <include>**/start.js</include>
@@ -145,7 +166,7 @@
                         </aggregation>
 
 
-<!--Only for NetBeans who doesn't used Maven plugin.
+                        <!--Only for NetBeans who doesn't used Maven plugin.
 Since we have changed the way to generate tld files, we have to use Maven plugin.
 These lines are deprecated and are here only for example -->
                         <!--aggregation>
@@ -171,12 +192,22 @@ These lines are deprecated and are here only for example -->
                 </configuration>
             </plugin>
 
-<!-- rename the war file -->
+            <!-- rename the war file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warName>mf-template</warName>
+                </configuration>
+
+            </plugin>
+
+            <!-- rename the war file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>sample-mapfaces-jsf-1.2-sun-jsp-portlet</warName>
                 </configuration>
             </plugin>
 
@@ -185,5 +216,5 @@ These lines are deprecated and are here only for example -->
     <properties>
         <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
     </properties>
-    
+
 </project>
