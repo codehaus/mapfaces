@@ -36,6 +36,7 @@ import org.geotoolkit.gml.xml.v311.AbstractCurveSegmentType;
 import org.geotoolkit.gml.xml.v311.AbstractCurveType;
 import org.geotoolkit.gml.xml.v311.AbstractGMLEntry;
 import org.geotoolkit.gml.xml.v311.AbstractGeometryType;
+import org.geotoolkit.gml.xml.v311.AbstractRingPropertyType;
 import org.geotoolkit.gml.xml.v311.AbstractRingType;
 import org.geotoolkit.gml.xml.v311.AbstractSurfacePatchType;
 import org.geotoolkit.gml.xml.v311.CurvePropertyType;
@@ -47,6 +48,7 @@ import org.geotoolkit.gml.xml.v311.LineStringType;
 import org.geotoolkit.gml.xml.v311.MultiGeometryType;
 import org.geotoolkit.gml.xml.v311.PointType;
 import org.geotoolkit.gml.xml.v311.PolygonPatchType;
+import org.geotoolkit.gml.xml.v311.PolygonType;
 import org.geotoolkit.gml.xml.v311.PolyhedralSurfaceType;
 import org.geotoolkit.gml.xml.v311.RingType;
 import org.geotoolkit.referencing.CRS;
@@ -266,18 +268,21 @@ public class AutocompletionListener implements PhaseListener {
                     append("        \"properties\": {},").
                     append("        \"geometry\":");
 
-                    sb.append("            {").
-                    append("                \"type\": \"GeometryCollection\",").
-                            append("                \"geometries\":").
-                            append("                    [");
+                   
             //@TODO we need a real GML parser to trasnform GML into GeoJSON
             for (int i = 0; i < conceptGeo.getGeometry().size(); i++) {
                 final AbstractGMLEntry GMLEntry = conceptGeo.getGeometry().get(i);
 
                 if (GMLEntry instanceof MultiGeometryType) {
+                     sb.append("            {").
+                    append("                \"type\": \"GeometryCollection\",").
+                            append("                \"geometries\":").
+                            append("                    [");
                     final List<GeometryPropertyType> geomMembers = ((MultiGeometryType) GMLEntry).getGeometryMember();
+
                     for (int j = 0; j < geomMembers.size(); j++) {
                         final AbstractGeometryType geom = geomMembers.get(j).getAbstractGeometry().getValue();
+
                         if (geom instanceof PolyhedralSurfaceType) {
 
                             if (((PolyhedralSurfaceType) geom).getPolygonPatches() != null) {
@@ -287,25 +292,7 @@ public class AutocompletionListener implements PhaseListener {
                                     final AbstractRingType ring = listPolyPatchs.get(k).getValue().getExterior().getValue().getAbstractRing().getValue();
 
                                     if (ring instanceof RingType) {
-                                        final List<CurvePropertyType> curveMembers = ((RingType) ring).getCurveMember();
-
-                                        for (int l = 0; l < curveMembers.size(); l++) {
-                                            final AbstractCurveType curve = curveMembers.get(l).getAbstractCurve().getValue();
-
-                                            if (curve instanceof CurveType) {
-                                                final List<JAXBElement<? extends AbstractCurveSegmentType>> segments = ((CurveType) curve).getSegments().getAbstractCurveSegment();
-
-                                                for (int m = 0; m < segments.size(); m++) {
-                                                    final AbstractCurveSegmentType segment = segments.get(m).getValue();
-
-                                                    if (segment instanceof LineStringSegmentType) {
-                                                        sb.append(this.transformLineStringSegtTypeToGeoJSON((LineStringSegmentType) segment, outputEpsgCode));
-                                                    }
-
-                                                }
-                                            }
-
-                                        }
+                                        sb.append(this.transformRingTypeToGeoJSON((RingType) ring, outputEpsgCode));
                                     }
                                 }
 
@@ -319,32 +306,16 @@ public class AutocompletionListener implements PhaseListener {
                                         final AbstractRingType ring = ((PolygonPatchType) surf).getExterior().getValue().getAbstractRing().getValue();
 
                                         if (ring instanceof RingType) {
-                                            final List<CurvePropertyType> curveMembers = ((RingType) ring).getCurveMember();
-
-                                            for (int l = 0; l < curveMembers.size(); l++) {
-                                                final AbstractCurveType curve = curveMembers.get(l).getAbstractCurve().getValue();
-
-                                                if (curve instanceof CurveType) {
-                                                    final List<JAXBElement<? extends AbstractCurveSegmentType>> segments = ((CurveType) curve).getSegments().getAbstractCurveSegment();
-
-                                                    for (int m = 0; m < segments.size(); m++) {
-                                                        final AbstractCurveSegmentType segment = segments.get(m).getValue();
-
-                                                        if (segment instanceof LineStringSegmentType) {
-                                                            sb.append(this.transformLineStringSegtTypeToGeoJSON((LineStringSegmentType) segment, outputEpsgCode));
-
-                                                        }
-
-                                                    }
-                                                }
-
-                                            }
+                                            sb.append(this.transformRingTypeToGeoJSON((RingType) ring, outputEpsgCode));
                                         }
                                     }
 
                                 }
                             }
 
+                        } else if (geom instanceof PolygonType) {
+                            sb.append(this.transformPolygonTypeToGeoJSON((PolygonType) geom, outputEpsgCode));
+                        
                         } else if (geom instanceof LineStringType) {
                             sb.append(this.transformLineStringTypeToGeoJSON((LineStringType) geom, outputEpsgCode));
 
@@ -357,11 +328,11 @@ public class AutocompletionListener implements PhaseListener {
                         }
                     }
 
+                    sb.append("]}");
                 } else if (GMLEntry instanceof PointType) {
                     sb.append(this.transformPointTypeToGeoJSON((PointType) GMLEntry, outputEpsgCode));
                 }
             }
-                sb.append("]}");
                 sb.append("}]}");
             writer.write(sb.toString());
         } catch (MismatchedDimensionException ex) {
@@ -484,24 +455,63 @@ public class AutocompletionListener implements PhaseListener {
         return sb.toString();
     }
 
+    private String transformRingTypeToGeoJSON(final RingType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+        final List<CurvePropertyType> curveMembers = ((RingType) geometry).getCurveMember();
+
+        for (int l = 0; l < curveMembers.size(); l++) {
+            final AbstractCurveType curve = curveMembers.get(l).getAbstractCurve().getValue();
+
+            if (curve instanceof CurveType) {
+                final List<JAXBElement<? extends AbstractCurveSegmentType>> segments = ((CurveType) curve).getSegments().getAbstractCurveSegment();
+
+                for (int m = 0; m < segments.size(); m++) {
+                    final AbstractCurveSegmentType segment = segments.get(m).getValue();
+
+                    if (segment instanceof LineStringSegmentType) {
+                        sb.append(this.transformLineStringSegtTypeToGeoJSON((LineStringSegmentType) segment, outputEpsgCode));
+                    }
+
+                }
+            }
+
+        }
+        return sb.toString();
+
+    }
+
+    private String transformPolygonTypeToGeoJSON(final PolygonType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
+        final StringBuilder sb = new StringBuilder("");
+        final PolygonType type = (PolygonType) geometry;
+
+        if (type.getExterior() != null) {
+            final AbstractRingType ring = type.getExterior().getValue().getAbstractRing().getValue();
+
+            if (ring instanceof RingType) {
+                sb.append(this.transformRingTypeToGeoJSON((RingType) ring, outputEpsgCode));
+            }
+        }
+        return sb.toString();
+    }
+
     private String transformLineStringTypeToGeoJSON(final LineStringType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
         final StringBuilder sb = new StringBuilder("");
-        final LineStringType line = (LineStringType) geometry;
+        final LineStringType type = (LineStringType) geometry;
         sb.append("{\"type\": \"LineString\",\"coordinates\":[");
 
-        if (line.getPosOrPointPropertyOrPointRep() != null) {
-            sb.append(this.transformPosListToGeoJSON(line.getPosOrPointPropertyOrPointRep(), outputEpsgCode));
+        if (type.getPosOrPointPropertyOrPointRep() != null) {
+            sb.append(this.transformPosListToGeoJSON(type.getPosOrPointPropertyOrPointRep(), outputEpsgCode));
         }
         sb.append("]}");
         return sb.toString();
     }
     private String transformLineStringSegtTypeToGeoJSON(final LineStringSegmentType geometry, final String outputEpsgCode) throws NoSuchAuthorityCodeException, FactoryException, MismatchedDimensionException, TransformException {
         final StringBuilder sb = new StringBuilder("");
-        final LineStringSegmentType line = (LineStringSegmentType) geometry;
+        final LineStringSegmentType type = (LineStringSegmentType) geometry;
         sb.append("{\"type\": \"LineString\",\"coordinates\":[");
 
-        if (line.getPosOrPointPropertyOrPointRep() != null) {
-            sb.append(this.transformPosListToGeoJSON(line.getPosOrPointPropertyOrPointRep(), outputEpsgCode));
+        if (type.getPosOrPointPropertyOrPointRep() != null) {
+            sb.append(this.transformPosListToGeoJSON(type.getPosOrPointPropertyOrPointRep(), outputEpsgCode));
         }
         sb.append("]}");
         return sb.toString();
