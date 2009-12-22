@@ -14,6 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 package org.mapfaces.adapter.owc;
 
 import java.io.FileNotFoundException;
@@ -21,14 +22,12 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -43,7 +42,6 @@ import org.mapfaces.models.DefaultFeature;
 import org.mapfaces.models.Layer;
 import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 import org.mapfaces.models.layer.DefaultWmsLayer;
-import org.mapfaces.models.layer.FeatureLayer;
 import org.mapfaces.models.layer.WmsGetMapEntry;
 import org.mapfaces.models.layer.WmsLayer;
 import org.mapfaces.models.tree.TreeItem;

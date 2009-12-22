@@ -332,7 +332,7 @@ public class TreeTableRenderer extends BaseTreeTableRenderer {
             if (nodeClass != null) {
                 classes.append(nodeClass);
             }
-        } else {
+        } else {table
             if (leafStyle != null) {
                 styles.append(leafStyle);
             }
