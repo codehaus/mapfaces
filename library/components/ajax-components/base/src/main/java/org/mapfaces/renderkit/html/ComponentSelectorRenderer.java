@@ -1,23 +1,18 @@
 /*
- * MDweb - Open Source tool for cataloging and locating environmental resources
- *         http://mdweb.codehaus.org
+ *    Mapfaces -
+ *    http://www.mapfaces.org
  *
- *   Copyright (c) 2007-2009, Institut de Recherche pour le Développement (IRD)
- *   Copyright (c)      2009, Geomatys
+ *    (C) 2007 - 2008, Geomatys
  *
- * This file is part of MDweb.
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
  *
- * MDweb is free software; you can redistribute it and/or
- *   modify it under the terms of the GNU Lesser General Public
- *   License as published by the Free Software Foundation;
- *   version 3.0 of the License.
- *
- * MDweb is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- *   Lesser General Public License for more details:
- *         http://www.gnu.org/licenses/lgpl-3.0.html
- *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 package org.mapfaces.renderkit.html;
 
@@ -40,7 +35,6 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 
 /**
  * @author Leo Pratlong
- * @author kevindelfour
  */
 public class ComponentSelectorRenderer extends Renderer {
 
