@@ -2,8 +2,8 @@
 <deployments>
    <deployment>
       <instance>
-         <instance-id>RichFacesEchoPortletInstance</instance-id>
-         <portlet-ref>RichFacesEchoPortlet</portlet-ref>
+         <instance-id>MapFacesRichFacesPortletInstance</instance-id>
+         <portlet-ref>MapFacesRichFacesPortlet</portlet-ref>
       </instance>
    </deployment>
 </deployments>

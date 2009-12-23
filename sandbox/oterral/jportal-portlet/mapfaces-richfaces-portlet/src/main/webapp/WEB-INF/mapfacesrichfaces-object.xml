@@ -4,10 +4,10 @@
      <parent-ref>default</parent-ref>
      <if-exists>overwrite</if-exists>
      <page>
-   <page-name>RichFacesEchoPortlet</page-name>
+   <page-name>MapFacesRichFacesPortlet</page-name>
         <window>
-            <window-name>RichFacesEchoPortletWindow</window-name>
-            <instance-ref>RichFacesEchoPortletInstance</instance-ref>
+            <window-name>MapFacesRichFacesPortletWindow</window-name>
+            <instance-ref>MapFacesRichFacesPortletInstance</instance-ref>
             <region>left</region>
             <height>0</height>
             <initial-window-state>maximized</initial-window-state>

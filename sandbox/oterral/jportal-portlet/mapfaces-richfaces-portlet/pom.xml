@@ -45,7 +45,7 @@
    <build>
 
       <defaultGoal>package</defaultGoal>
-      <finalName>richfaces-basic</finalName>
+      <finalName>portlet-mapfaces-richfaces</finalName>
 
       <plugins>
 
@@ -286,7 +286,7 @@
                         <type>installed</type>
                         <deployables>
                            <deployable>
-                              <location>target/richfaces-basic.war</location>
+                              <location>target/portlet-mapfaces-richfaces.war</location>
                               <pingURL>http://localhost:8080/simple-portal/</pingURL>
                            </deployable>
                         </deployables>

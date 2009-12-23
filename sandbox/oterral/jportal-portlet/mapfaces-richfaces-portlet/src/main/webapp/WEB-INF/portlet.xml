@@ -3,24 +3,49 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
              version="1.0">
-<portlet>
-   <portlet-name>RichFacesEchoPortlet</portlet-name>
-   <portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>
-   <init-param>
-      <name>javax.portlet.faces.defaultViewId.view</name>
-      <value>/pages/echo.xhtml</value>
-   </init-param>
-   <init-param>
-      <name>javax.portlet.faces.preserveActionParams</name>
-      <value>true</value>
-   </init-param>
-   <expiration-cache>-0</expiration-cache>
-   <supports>
-      <mime-type>text/html</mime-type>
-      <portlet-mode>VIEW</portlet-mode>
-   </supports>
-   <portlet-info>
-      <title>RichFaces Echo Portlet</title>
-   </portlet-info>
-</portlet>
+    <portlet>
+        <portlet-name>MapFacesRichFacesPortlet</portlet-name>
+        <display-name>Sample MapFaces - RichFaces JSF 1.2</display-name>
+        <portlet-info>
+                <title>Sample MapFaces - RichFaces JSF 1.2</title>
+                <short-title>Sample MapFaces - RichFaces JSF 1.2</short-title>
+                <keywords>Sample MapFaces - RichFaces JSF 1.2</keywords>
+        </portlet-info>
+        <expiration-cache>-0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>VIEW</portlet-mode>
+        </supports>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>guest</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
+
+       <!--SUN portlet bridge-->
+        <!--portlet-class>com.sun.faces.portlet.FacesPortlet</portlet-class>
+        <init-param>
+                <name>com.sun.faces.portlet.INIT_VIEW</name>
+                <value>/pages/echo.xhtml</value>
+        </init-param-->
+
+        <!--JBOSS portlet bridge-->
+        <portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/pages/echo.xhtml</value>
+        </init-param>
+        <init-param>
+            <name>javax.portlet.faces.preserveActionParams</name>
+            <value>true</value>
+        </init-param>
+
+    </portlet>
 </portlet-app>

@@ -3,83 +3,312 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
-   <description>RichFacesPortlet</description>
+    <description>mapfaces - RichFaces - Portlet</description>
 
-   <context-param>
-      <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
-      <param-value>org.jboss.portletbridge.application.FaceletPortletViewHandler</param-value>
-   </context-param>
+    <!-- LIFERAY-->
+    <!--filter>
+        <filter-name>Cache Filter - Resource</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.cache.CacheFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>pattern</param-name>
+            <param-value>2</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>Cache Filter - Resource CSS JSP</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.cache.CacheFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>url-regex-pattern</param-name>
+            <param-value>.+/css\.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>pattern</param-name>
+            <param-value>2</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>Header Filter</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.header.HeaderFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Cache-Control</param-name>
+            <param-value>max-age=315360000, public</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Expires</param-name>
+            <param-value>315360000</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>Header Filter - CSS JSP</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.header.HeaderFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>url-regex-pattern</param-name>
+            <param-value>.+/css\.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Cache-Control</param-name>
+            <param-value>max-age=315360000, public</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Expires</param-name>
+            <param-value>315360000</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>GZip Filter</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.gzip.GZipFilter</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>Minifier Filter</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.minifier.MinifierFilter</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>Minifier Filter - CSS JSP</filter-name>
+        <filter-class>com.liferay.portal.kernel.servlet.PortalClassLoaderFilter</filter-class>
+        <init-param>
+            <param-name>filter-class</param-name>
+            <param-value>com.liferay.portal.servlet.filters.minifier.MinifierFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>url-regex-pattern</param-name>
+            <param-value>.+/css\.jsp</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>Cache Filter - Resource</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter - Resource</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter - Resource</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter - Resource CSS JSP</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.gif</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.ico</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.jpg</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter</filter-name>
+        <url-pattern>*.png</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Header Filter - CSS JSP</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>GZip Filter</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>GZip Filter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>GZip Filter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>GZip Filter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Minifier Filter</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Minifier Filter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Minifier Filter - CSS JSP</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>com.liferay.util.bridges.jsf.sun.LiferayConfigureListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.liferay.portal.kernel.servlet.PortletContextListener</listener-class>
+    </listener>
 
-   <context-param>
-      <param-name>javax.portlet.faces.renderPolicy</param-name>
-      <param-value>ALWAYS_DELEGATE</param-value>
-   </context-param>
+    <servlet>
+        <servlet-name>1</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
+        <init-param>
+            <param-name>portlet-class</param-name>
+            <param-value>com.sun.faces.portlet.FacesPortlet</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
 
-   <context-param>
-      <param-name>org.ajax4jsf.RESOURCE_URI_PREFIX</param-name>
-      <param-value>rfRes</param-value>
-   </context-param>
+    <servlet-mapping>
+        <servlet-name>1</servlet-name>
+        <url-pattern>/1/*</url-pattern>
+    </servlet-mapping>
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://java.sun.com/portlet_2_0</taglib-uri>
+            <taglib-location>/WEB-INF/tld/liferay-portlet.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://liferay.com/tld/portlet</taglib-uri>
+            <taglib-location>/WEB-INF/tld/liferay-portlet-ext.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://liferay.com/tld/security</taglib-uri>
+            <taglib-location>/WEB-INF/tld/liferay-security.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://liferay.com/tld/theme</taglib-uri>
+            <taglib-location>/WEB-INF/tld/liferay-theme.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://liferay.com/tld/ui</taglib-uri>
+            <taglib-location>/WEB-INF/tld/liferay-ui.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://liferay.com/tld/util</taglib-uri>
+            <taglib-location>/WEB-INF/tld/liferay-util.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Page Sources</web-resource-name>
+            <url-pattern>*.jsf</url-pattern>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspx</url-pattern>
+            <url-pattern>*.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>nobody</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <role-name>nobody</role-name>
+    </security-role-->
+    <!--end LIFERAY-->
 
-   <context-param>
-      <param-name>org.richfaces.LoadStyleStrategy</param-name>
-      <param-value>NONE</param-value>
-   </context-param>
+   <!-- RichFaces -->
+    <context-param>
+        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
+        <param-value>org.jboss.portletbridge.application.FaceletPortletViewHandler</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.portlet.faces.renderPolicy</param-name>
+        <param-value>ALWAYS_DELEGATE</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.ajax4jsf.RESOURCE_URI_PREFIX</param-name>
+        <param-value>rfRes</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.LoadStyleStrategy</param-name>
+        <param-value>NONE</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.LoadScriptStrategy</param-name>
+        <param-value>NONE</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.ajax4jsf.COMPRESS_SCRIPT</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
-   <context-param>
-      <param-name>org.richfaces.LoadScriptStrategy</param-name>
-      <param-value>NONE</param-value>
-   </context-param>
+    <!-- Ajax4JSf -->
+    <filter>
+        <display-name>Ajax4jsf Filter</display-name>
+        <filter-name>ajax4jsf</filter-name>
+        <filter-class>org.ajax4jsf.Filter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ajax4jsf</filter-name>
+        <servlet-name>FacesServlet</servlet-name>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
 
-   <context-param>
-      <param-name>org.ajax4jsf.COMPRESS_SCRIPT</param-name>
-      <param-value>false</param-value>
-   </context-param>
+    <!-- JSF -->
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.jsp</param-value>
+    </context-param>
 
-   <!-- JSF -->
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-   <context-param>
-      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-      <param-value>.jsp</param-value>
-   </context-param>
+    <servlet>
+        <servlet-name>FacesServlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-   <context-param>
-      <param-name>facelets.DEVELOPMENT</param-name>
-      <param-value>true</param-value>
-   </context-param>
+    <servlet-mapping>
+        <servlet-name>FacesServlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FacesServlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
 
-   <filter>
-      <display-name>Ajax4jsf Filter</display-name>
-      <filter-name>ajax4jsf</filter-name>
-      <filter-class>org.ajax4jsf.Filter</filter-class>
-   </filter>
-   <filter-mapping>
-      <filter-name>ajax4jsf</filter-name>
-      <servlet-name>FacesServlet</servlet-name>
-      <dispatcher>FORWARD</dispatcher>
-      <dispatcher>REQUEST</dispatcher>
-      <dispatcher>INCLUDE</dispatcher>
-   </filter-mapping>
+    <session-config>
+        <session-timeout>10</session-timeout>
+    </session-config>
 
-   <servlet>
-      <servlet-name>FacesServlet</servlet-name>
-      <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-      <load-on-startup>1</load-on-startup>
-   </servlet>
-
-   <servlet-mapping>
-      <servlet-name>FacesServlet</servlet-name>
-      <url-pattern>/faces/*</url-pattern>
-   </servlet-mapping>
-   <servlet-mapping>
-      <servlet-name>FacesServlet</servlet-name>
-      <url-pattern>*.jsf</url-pattern>
-   </servlet-mapping>
-
-   <session-config>
-      <session-timeout>10</session-timeout>
-   </session-config>
-
-   <!--<error-page>
+    <!--<error-page>
       <exception-type>javax.servlet.ServletException</exception-type>
       <location>/faces/error.xhtml</location>
    </error-page>
