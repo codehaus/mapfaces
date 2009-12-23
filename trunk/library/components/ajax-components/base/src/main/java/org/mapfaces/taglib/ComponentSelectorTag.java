@@ -1,0 +1,154 @@
+/*
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2007 - 2008, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
+
+package org.mapfaces.taglib;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.el.ValueExpression;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.webapp.UIComponentELTag;
+import org.mapfaces.component.UIComponentSelector;
+import org.mapfaces.share.utils.TagUtils;
+import org.mapfaces.taglib.treetable.HtmlTreeTableTag;
+
+/**
+ *
+ * @author Leo Pratlong (Geomatys)
+ */
+public class ComponentSelectorTag extends UIComponentELTag {
+    private static final String RENDERER_TYPE = "org.mapfaces.renderkit.html.ComponentSelector";
+    private static final String COMP_FAMILY   = "org.mapfaces.component.ComponentSelector";
+
+    // ---------------------------------------------------------- Additionals fields
+    private ValueExpression value = null;
+    private ValueExpression type = null;
+    private ValueExpression mandatory = null;
+    private ValueExpression hasParent = null;
+
+    // ---------------------------------------------------------- Methods
+    @Override
+    // General Methods
+    public String getRendererType() {
+        return RENDERER_TYPE;
+    }
+
+    @Override
+    public String getComponentType() {
+        return COMP_FAMILY;
+    }
+
+    @Override
+    protected void setProperties(UIComponent component) {
+       // try {
+            System.out.println("OK => TAG COMPOSANT");
+            super.setProperties(component);
+            component.setValueExpression("value", value);
+            // System.out.println("TAG WATCHER => ve value ===> " + value.getValue(value.getValue(component.)));
+            System.out.println("TAG WATCHER => value ===> " + (String) ((UIComponentSelector)component).getValue());
+            component.setValueExpression("type", type);
+            System.out.println("TAG WATCHER => ve type ===> " + type.getExpressionString());
+            System.out.println("TAG WATCHER => type ===> " + ((UIComponentSelector)component).getType());
+            component.setValueExpression("mandatory", mandatory);
+            component.setValueExpression("hasParent", hasParent);
+
+           /* UIComponentSelector componentSelector = (UIComponentSelector) component;
+            FacesContext context = FacesContext.getCurrentInstance();
+            TagUtils.setPropertiesWithValueExpression(value, String.class, "Value", context, componentSelector, UIComponentSelector.class);
+            TagUtils.setPropertiesWithValueExpression(type, String.class, "Type", context, componentSelector, UIComponentSelector.class);
+            TagUtils.setPropertiesWithValueExpression(mandatory, Boolean.class, "Mandatory", context, componentSelector, UIComponentSelector.class);
+            TagUtils.setPropertiesWithValueExpression(hasParent, Boolean.class, "HasParent", context, componentSelector, UIComponentSelector.class); */
+            System.out.println("FIN TAG COMPOSANT");
+       /* } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
+        } */
+    }
+
+    @Override
+    public void release() {
+        super.release();
+        value = null;
+        type = null;
+        mandatory = null;
+        hasParent = null;
+    }
+
+    // ---------------------------------------------------------- Accessors Methods
+    /**
+     * @return the value
+     */
+    public ValueExpression getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(ValueExpression value) {
+        this.value = value;
+    }
+
+    /**
+     * @return the type
+     */
+    public ValueExpression getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(ValueExpression type) {
+        this.type = type;
+    }
+
+    /**
+     * @return the mandatory
+     */
+    public ValueExpression getMandatory() {
+        return mandatory;
+    }
+
+    /**
+     * @param mandatory the mandatory to set
+     */
+    public void setMandatory(ValueExpression mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    /**
+     * @return the hasParent
+     */
+    public ValueExpression getHasParent() {
+        return hasParent;
+    }
+
+    /**
+     * @param hasParent the hasParent to set
+     */
+    public void setHasParent(ValueExpression hasParent) {
+        this.hasParent = hasParent;
+    }
+}

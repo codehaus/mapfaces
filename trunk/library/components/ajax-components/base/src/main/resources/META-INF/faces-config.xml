@@ -46,6 +46,12 @@
         <component-class>org.mapfaces.component.UISelectManyPicklist</component-class>
     </component>
 
+    <!-- ComponentSelector component -->
+    <component>
+            <component-type>org.mapfaces.component.ComponentSelector</component-type>
+            <component-class>org.mapfaces.component.UIComponentSelector</component-class>
+    </component>
+
     <!-- RENDERKIT -->
     <render-kit>
         <renderer>
@@ -99,6 +105,14 @@
             <component-family>org.mapfaces.SelectManyPicklist</component-family>
             <renderer-type>org.mapfaces.renderkit.html.SelectManyPicklist</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.SelectManyPicklistRenderer</renderer-class>
+        </renderer>
+        <!-- ComponentSelector Renderer -->
+        <renderer>
+            <description>render a ComponentSelector component which allows to display an Input or
+            Output component (usefull when iterating).</description>
+            <component-family>org.mapfaces.component.ComponentSelector</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.ComponentSelector</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.ComponentSelectorRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>

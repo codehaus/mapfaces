@@ -23,7 +23,7 @@
             <h:form id="mainform">
                 <mfb:treetable  id="sensorTreetableConsult"
                                     value="#{treetableBean.treemodel}"
-                                    var="treeitem"
+                                    var="treeNode"
                                     style="width:500px;"
                                     collapse="true"
                                     collapseDepth="1"
@@ -39,17 +39,18 @@
                         <f:facet name="header">
                             <h:outputText id="outputheaderId" value="name" />
                         </f:facet>
-                        <h:outputText id="outputName" value="#{treeitem.userObject.name}"/>
+                        <h:outputText id="outputName" value="#{treeNode.userObject.title}"/>
                     </mfb:treecolumn>
 
                     <mfb:treecolumn width="10%" >
                         <f:facet name="header">
                             <h:outputText value="value" id="outputheaderId2" />
                         </f:facet>
-                        <h:inputText id="inputId" value="#{treeitem.userObject.name}"/>
+                        
                     </mfb:treecolumn>
 
                 </mfb:treetable>
+                <mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.test.value}" />
             </h:form>
         </body>
     </html>

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.mapfaces.share.utils.TagUtils;
 import org.widgetfaces.component.temporal.UITimePicker;
 
 
@@ -86,12 +87,12 @@ public class TimePickerTag extends InputTextTag {
             UITimePicker timepicker = (UITimePicker) component;
             FacesContext context = FacesContext.getCurrentInstance();
 
-            this.setPropertiesInComponent(this.value, Date.class, "Value", context, timepicker);
-            this.setPropertiesInComponent(this.loadMootools, Boolean.class, "LoadMootools", context, timepicker);
-            this.setPropertiesInComponent(this.loadJs, Boolean.class, "LoadJs", context, timepicker);
-            this.setPropertiesInComponent(this.targetInput, String.class, "targetInput", context, timepicker);
-            this.setPropertiesInComponent(this.style, String.class, "Style", context, timepicker);
-            this.setPropertiesInComponent(this.styleClass, String.class, "StyleClass", context, timepicker);
+            TagUtils.setPropertiesWithValueExpression(this.value, Date.class, "Value", context, timepicker, timepicker.getClass());
+            TagUtils.setPropertiesWithValueExpression(this.loadMootools, Boolean.class, "LoadMootools", context, timepicker, timepicker.getClass());
+            TagUtils.setPropertiesWithValueExpression(this.loadJs, Boolean.class, "LoadJs", context, timepicker, timepicker.getClass());
+            TagUtils.setPropertiesWithValueExpression(this.targetInput, String.class, "targetInput", context, timepicker, timepicker.getClass());
+            TagUtils.setPropertiesWithValueExpression(this.style, String.class, "Style", context, timepicker, timepicker.getClass());
+            TagUtils.setPropertiesWithValueExpression(this.styleClass, String.class, "StyleClass", context, timepicker, timepicker.getClass());
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TimePickerTag.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,39 +120,6 @@ public class TimePickerTag extends InputTextTag {
         styleClass = null;
         targetInput = null;
         loadCss = null;
-    }
-
-    /**
-     * Set the properties of our UITimePicker by Reflection.
-     * @param expToAdd Value expression to set in the UITimePicker.
-     * @param className Name of the class of the property (including the lib path).
-     * @param propertyName Name of the property (with an uppercase at the first letter);
-     * @param context Faces context.
-     * @param timepicker The UITimePicker.
-     * @throws ClassNotFoundException Error in the definition of class name.
-     * @throws IllegalAccessException Illegal access.
-     * @throws IllegalArgumentException 
-     * @throws InvocationTargetException
-     */
-    private void setPropertiesInComponent(ValueExpression expToAdd, Class typeExp,
-            String propertyName, FacesContext context, UITimePicker timepicker)
-            throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        if ((expToAdd != null) && !expToAdd.isLiteralText()) {
-            Object valueObject = expToAdd.getValue(context.getELContext());
-            if (typeExp.isInstance(valueObject)) {
-                final Class uitpClass = timepicker.getClass();
-                boolean findMethod = false;
-                int i = 0;
-                Method[] methodList = uitpClass.getMethods();
-                while ((i < methodList.length) && !findMethod) {
-                    if (methodList[i].getName().equals("set" + propertyName)) {
-                        findMethod = true;
-                        methodList[i].invoke(timepicker, typeExp.cast(valueObject));
-                    }
-                    i++;
-                }
-            }
-        }
     }
 
     /**
