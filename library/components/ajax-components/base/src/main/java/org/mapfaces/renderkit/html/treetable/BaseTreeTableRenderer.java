@@ -29,6 +29,7 @@ import com.sun.faces.renderkit.html_basic.HtmlBasicRenderer;
 import com.sun.faces.util.MessageUtils;
 import com.sun.faces.util.Util;
 
+import java.io.Serializable;
 import org.mapfaces.component.treetable.UITreeColumn;
 import org.mapfaces.component.treetable.UITreeData;
 import org.mapfaces.component.treetable.UITreeTable;
@@ -297,14 +298,14 @@ public abstract class BaseTreeTableRenderer extends HtmlBasicRenderer {
     }
 
     // ----------------------------------------------------------- Inner Classes
-    protected static class TableMetaInfo {
+    protected static class TableMetaInfo implements Serializable {
 
         private final static UITreeColumn PLACE_HOLDER_COLUMN = new UITreeColumn();
         private final static String[] EMPTY_STRING_ARRAY = new String[0];
         public final static String KEY = TableMetaInfo.class.getName();
         public final String[] rowClasses;
         public final String[] columnClasses;
-        public final List<UITreeColumn> columns;
+        public final transient List<UITreeColumn> columns;
         public final boolean hasHeaderFacets;
         public final boolean hasFooterFacets;
         public int columnStyleCounter;

@@ -35,6 +35,60 @@
     </tag>
 
     <tag>
+        <name>ComponentSelector</name>
+        <tag-class>org.mapfaces.taglib.ComponentSelectorTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+                ComponentSelector
+        </description>
+        &commons_attributes;
+        <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[
+                Value of the component.]]>
+            </description>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[
+                Type of the component to render.]]>
+            </description>
+        </attribute>
+        <attribute>
+            <name>mandatory</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[
+                True for a mandatory field.]]>
+            </description>
+        </attribute>
+        <attribute>
+            <name>hasParent</name>
+            <deferred-value>
+                <type>java.lang.Boolean</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[
+                In case of a treenode, this row has parents.]]>
+            </description>
+        </attribute>
+    </tag>
+
+    <tag>
         <name>treecolumn</name>
         <tag-class>org.mapfaces.taglib.treetable.TreeColumnTag</tag-class>
         <body-content>JSP</body-content>

@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.xml.bind.JAXBException;
 import org.mapfaces.adapter.owc.Adapter;
 import javax.swing.tree.DefaultTreeModel;
+import org.mapfaces.demo.model.Test;
 import org.mapfaces.models.tree.TreeItem;
 
 /**
@@ -36,6 +37,8 @@ public class TreetableBean {
     private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
     private DefaultTreeModel tree;
     private DefaultTreeModel treemodel;
+    private Test test = new Test("title1","value1");
+    private String type = "text";
 
     public TreetableBean() {
 //        String fileUrl = "data/context/owc030Cut.xml";
@@ -51,7 +54,7 @@ public class TreetableBean {
 //        } catch (MalformedURLException ex) {
 //            LOGGER.log(Level.SEVERE, null, ex);
 //        }
-
+        System.out.println("TEST : title => " + test.getTitle() + " - value => " + test.getValue());
         TreeItem treeItem = new TreeItem("root", "metadata root");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(treeItem);
         root.add(new DefaultMutableTreeNode(new TreeItem("title1","Citation")));
@@ -84,4 +87,33 @@ public class TreetableBean {
     public void setTreemodel(DefaultTreeModel treemodel) {
         this.treemodel = treemodel;
     }
+
+    /**
+     * @return the test
+     */
+    public Test getTest() {
+        return test;
+    }
+
+    /**
+     * @param test the test to set
+     */
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

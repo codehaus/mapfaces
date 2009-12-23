@@ -176,7 +176,6 @@ public class SvgLayerRenderer extends LayerRenderer {
 
             final ExternalContext ext = context.getExternalContext();
             final UISvgLayer comp = (UISvgLayer) component;
-            final Map parameterMap = ext.getRequestParameterMap();
 
             if (this.debug) {
                 LOGGER.log(Level.INFO, "[DEBUG] SvgLayerRenderer DECODE");

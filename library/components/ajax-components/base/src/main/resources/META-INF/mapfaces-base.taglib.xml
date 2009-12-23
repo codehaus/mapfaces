@@ -77,4 +77,11 @@
             <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
         </component>
     </tag>
+    <tag>
+        <tag-name>ComponentSelector</tag-name>
+        <component>
+        <component-type>org.mapfaces.component.ComponentSelector</component-type>
+            <renderer-type>org.mapfaces.renderkit.ComponentSelector</renderer-type>
+        </component>
+    </tag>
 </facelet-taglib>
