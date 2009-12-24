@@ -56,34 +56,25 @@ public class ComponentSelectorTag extends UIComponentELTag {
 
     @Override
     protected void setProperties(UIComponent component) {
-       // try {
-            System.out.println("OK => TAG COMPOSANT");
+        try {
             super.setProperties(component);
+
+            final FacesContext context = FacesContext.getCurrentInstance();
+
+            TagUtils.affectUIValueWithValueExpression(context, value, UIComponentSelector.class, component, "Value", String.class);
+            TagUtils.affectUIValueWithValueExpression(context, type, UIComponentSelector.class, component, "Type", String.class);
+
             component.setValueExpression("value", value);
-            // System.out.println("TAG WATCHER => ve value ===> " + value.getValue(value.getValue(component.)));
-            System.out.println("TAG WATCHER => value ===> " + (String) ((UIComponentSelector)component).getValue());
             component.setValueExpression("type", type);
-            System.out.println("TAG WATCHER => ve type ===> " + type.getExpressionString());
-            System.out.println("TAG WATCHER => type ===> " + ((UIComponentSelector)component).getType());
             component.setValueExpression("mandatory", mandatory);
             component.setValueExpression("hasParent", hasParent);
-
-           /* UIComponentSelector componentSelector = (UIComponentSelector) component;
-            FacesContext context = FacesContext.getCurrentInstance();
-            TagUtils.setPropertiesWithValueExpression(value, String.class, "Value", context, componentSelector, UIComponentSelector.class);
-            TagUtils.setPropertiesWithValueExpression(type, String.class, "Type", context, componentSelector, UIComponentSelector.class);
-            TagUtils.setPropertiesWithValueExpression(mandatory, Boolean.class, "Mandatory", context, componentSelector, UIComponentSelector.class);
-            TagUtils.setPropertiesWithValueExpression(hasParent, Boolean.class, "HasParent", context, componentSelector, UIComponentSelector.class); */
-            System.out.println("FIN TAG COMPOSANT");
-       /* } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvocationTargetException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
-        } */
+        }
     }
 
     @Override

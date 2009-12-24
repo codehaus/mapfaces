@@ -81,7 +81,14 @@
         <tag-name>ComponentSelector</tag-name>
         <component>
         <component-type>org.mapfaces.component.ComponentSelector</component-type>
-            <renderer-type>org.mapfaces.renderkit.ComponentSelector</renderer-type>
+            <renderer-type>org.mapfaces.renderkit.html.ComponentSelector</renderer-type>
+        </component>
+    </tag>
+    <tag>
+        <tag-name>Test</tag-name>
+        <component>
+        <component-type>org.mapfaces.component.Test</component-type>
+            <renderer-type>org.mapfaces.renderkit.html.Test</renderer-type>
         </component>
     </tag>
 </facelet-taglib>
