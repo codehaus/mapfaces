@@ -50,6 +50,7 @@ public class ComponentSelectorRenderer extends Renderer {
         final UIComponentSelector compSel = (UIComponentSelector) component;
         System.out.println("RENDERER");
         if ((compSel.getId() != null) && (compSel.getType() != null)) {
+            if (compSel.getValue() != null) System.out.println("VALUE ==> " + compSel.getValue());
             System.out.println("PREMIER IF");
             final String type = compSel.getType();
             final String id = compSel.getId();

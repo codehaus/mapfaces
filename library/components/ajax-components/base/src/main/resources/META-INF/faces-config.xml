@@ -52,6 +52,11 @@
             <component-class>org.mapfaces.component.UIComponentSelector</component-class>
     </component>
 
+    <component>
+            <component-type>org.mapfaces.component.Test</component-type>
+            <component-class>org.mapfaces.component.UITest</component-class>
+    </component>
+
     <!-- RENDERKIT -->
     <render-kit>
         <renderer>
@@ -113,6 +118,13 @@
             <component-family>org.mapfaces.component.ComponentSelector</component-family>
             <renderer-type>org.mapfaces.renderkit.html.ComponentSelector</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.ComponentSelectorRenderer</renderer-class>
+        </renderer>
+
+        <renderer>
+            <description></description>
+            <component-family>org.mapfaces.component.Test</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.Test</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.TestRenderer</renderer-class>
         </renderer>
     </render-kit>
 </faces-config>

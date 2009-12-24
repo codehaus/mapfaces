@@ -42,7 +42,7 @@
                         <h:outputText id="outputName" value="#{treeNode.userObject.title}"/>
                     </mfb:treecolumn>
 
-                    <mfb:treecolumn width="10%" >
+                    <mfb:treecolumn width="10%">
                         <f:facet name="header">
                             <h:outputText value="value" id="outputheaderId2" />
                         </f:facet>
@@ -50,7 +50,8 @@
                     </mfb:treecolumn>
 
                 </mfb:treetable>
-                <mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.test.value}" />
+                <%/*mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.test.value}" /*/%>
+                <mfb:Test id="test" name="#{treetableBean.test.title}" />
             </h:form>
         </body>
     </html>

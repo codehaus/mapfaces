@@ -27,6 +27,7 @@ public class UIComponentSelector extends UIWidgetBase {
 
     private static final String COMP_FAMILY   = "org.mapfaces.component.ComponentSelector";
 
+    private String value;
     private String type;
     private boolean hasParent;
     private boolean mandatory;
@@ -43,11 +44,12 @@ public class UIComponentSelector extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        final Object[] values = new Object[4];
+        final Object[] values = new Object[5];
         values[0] = super.saveState(context);
-        values[1] = getType();
-        values[2] = isHasParent();
-        values[3] = isMandatory();
+        values[1] = getValue();
+        values[2] = getType();
+        values[3] = isHasParent();
+        values[4] = isMandatory();
         return values;
     }
 
@@ -55,9 +57,10 @@ public class UIComponentSelector extends UIWidgetBase {
     public void restoreState(FacesContext context, Object state) {
         final Object[] values = (Object[]) state;
         super.restoreState(context, values[0]);
-        setType((String) values[1]);
-        setHasParent((Boolean) values[2]);
-        setMandatory((Boolean) values[3]);
+        setValue((String) values[1]);
+        setType((String) values[2]);
+        setHasParent((Boolean) values[3]);
+        setMandatory((Boolean) values[4]);
     }
 
     /**
@@ -100,5 +103,20 @@ public class UIComponentSelector extends UIWidgetBase {
      */
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
+    }
+
+    /**
+     * @return the value
+     */
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
     }
 }
