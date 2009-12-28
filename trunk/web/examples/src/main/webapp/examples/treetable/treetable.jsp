@@ -50,7 +50,8 @@
                     </mfb:treecolumn>
 
                 </mfb:treetable*/%>
-                <mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.value}" />
+                <mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.value}" hasParent="false" maxCar="100" />
+                <h:commandButton value="Ok" />
                 <%/*mfb:Testy id="test" value="#{treetableBean.value}" name="#{treetableBean.name}" /*/%>
             </h:form>
         </body>

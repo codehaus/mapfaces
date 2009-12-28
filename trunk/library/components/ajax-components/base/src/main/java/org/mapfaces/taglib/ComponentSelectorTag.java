@@ -41,6 +41,7 @@ public class ComponentSelectorTag extends UIComponentELTag {
     private ValueExpression type = null;
     private ValueExpression mandatory = null;
     private ValueExpression hasParent = null;
+    private ValueExpression maxCar = null;
 
     // ---------------------------------------------------------- Methods
     @Override
@@ -63,11 +64,14 @@ public class ComponentSelectorTag extends UIComponentELTag {
 
             TagUtils.affectUIValueWithValueExpression(context, value, UIComponentSelector.class, component, "Value", String.class);
             TagUtils.affectUIValueWithValueExpression(context, type, UIComponentSelector.class, component, "Type", String.class);
+            TagUtils.affectUIValueWithValueExpression(context, hasParent, UIComponentSelector.class, component, "HasParent", Boolean.class);
+            TagUtils.affectUIValueWithValueExpression(context, maxCar, UIComponentSelector.class, component, "MaxCar", Integer.class);
 
             component.setValueExpression("value", value);
             component.setValueExpression("type", type);
             component.setValueExpression("mandatory", mandatory);
             component.setValueExpression("hasParent", hasParent);
+            component.setValueExpression("maxCar", maxCar);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
@@ -86,6 +90,7 @@ public class ComponentSelectorTag extends UIComponentELTag {
         type = null;
         mandatory = null;
         hasParent = null;
+        maxCar = null;
     }
 
     // ---------------------------------------------------------- Accessors Methods
@@ -143,5 +148,19 @@ public class ComponentSelectorTag extends UIComponentELTag {
      */
     public void setHasParent(ValueExpression hasParent) {
         this.hasParent = hasParent;
+    }
+
+    /**
+     * @return the maxCar
+     */
+    public ValueExpression getMaxCar() {
+        return maxCar;
+    }
+
+    /**
+     * @param maxCar the maxCar to set
+     */
+    public void setMaxCar(ValueExpression maxCar) {
+        this.maxCar = maxCar;
     }
 }

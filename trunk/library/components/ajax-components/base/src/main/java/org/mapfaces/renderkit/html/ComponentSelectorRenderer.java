@@ -23,7 +23,10 @@ import java.util.logging.Logger;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlInputTextarea;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -32,29 +35,33 @@ import org.geotoolkit.util.logging.Logging;
 
 import org.mapfaces.component.UIComponentSelector;
 import org.mapfaces.share.listener.ResourcePhaseListener;
+import org.mapfaces.share.utils.FacesUtils;
 
 /**
  * @author Leo Pratlong
  */
 public class ComponentSelectorRenderer extends Renderer {
 
-    private static final Logger LOGGER = Logging.getLogger("org.mapfaces.renderkit.html.metadata");
-    private static final String JS_FUNCTIONS_LIBRARY = "/org/mapfaces/metadata/js/metadataUtilities.js";
+    private static final Logger LOGGER = Logging.getLogger("org.mapfaces.renderkit.html");
+    private static final String JS_FUNCTIONS_LIBRARY = "/org/mapfaces/resources/componentcontrols/js/componentUtilities.js";
     private static final String CSS_STYLES = "/org/mapfaces/metadata/css/metadataStyles.css";
     private static final String MANDATORY_FIELD_CLASS = "mandatory_field";
     private static final String DEFAULT_COMPONENT_CLASS = "default_field";
     private static final String CHAR_CONTROL_CLASS = "char_control";
 
+    private static final int DEFAULT_MAX_CAR = 250;
+
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        if (!component.isRendered()) {
+            return;
+        }
+        assertValid(context, component);
         final UIComponentSelector compSel = (UIComponentSelector) component;
-        System.out.println("RENDERER");
         if ((compSel.getId() != null) && (compSel.getType() != null)) {
-            if (compSel.getValue() != null) System.out.println("VALUE ==> " + compSel.getValue());
-            System.out.println("PREMIER IF");
             final String type = compSel.getType();
             final String id = compSel.getId();
-            System.out.println("TYPE => " + type);
+
             if (compSel.isHasParent() == false) {
                 final ResponseWriter writer = context.getResponseWriter();
                 writer.startElement("script", compSel);
@@ -201,16 +208,14 @@ public class ComponentSelectorRenderer extends Renderer {
      */
     private void renderValue(FacesContext context, UIComponentSelector component, String type, String id) {
         final boolean mandatory = component.isMandatory();
-        final String value = (component.getValue() instanceof String) ? (String) component.getValue() : "";
-        System.out.println("value => " + value);
         if ("text".equals(type) || "web".equals(type) || "mail".equals(type)) {
-            renderText(context, component, id, value, mandatory);
+            renderText(context, component, id, mandatory);
+        } else if ("textarea".equals(type)) {
+            renderTextArea(context, component, id, mandatory);
+        } else if ("readonly".equals(type)) {
+            renderReadOnly(context, component, id);
         }
-//        else if ("textarea".equals(type)) {
-//            renderTextArea(context, component, item, profileElement, obligation);
-//        } else if ("readonly".equals(type)) {
-//            renderReadOnly(context, component, item);
-//        } else if ("select".equals(type)) {
+//        else if ("select".equals(type)) {
 //            renderSelect(context, component, item, profileElement, obligation);
 //        } else {
 //            LOGGER.severe("this fieldType is not recognize : " + fieldType + " for " + item.getIdValue());
@@ -230,24 +235,84 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param profileElement
      * @param obligation
      */
-    private void renderText(FacesContext context, UIComponentSelector component, String id, String value, boolean mandatory) {
-        // final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
-        System.out.println("RENDER TEXT INPUT");
+    private void renderText(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
+        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_text");
         final HtmlInputText inputText;
-        /* boolean addNewChild = false;
-        if (mdInput instanceof HtmlInputText) {
-            inputText = (HtmlInputText) mdInput;
-        } else { */
-        inputText = new HtmlInputText();
-        inputText.setId(getIdWithUnderscores(id + "_text"));
-        // MetadataFieldControlRenderer.renderHtmlInputTextControls(inputText, profileElement);
-        //addNewChild = true;
 
-        inputText.setValue(value);
-        // createValueExpr(context, component, itvalueem, inputText, mandatory, false);
-        inputText.setStyleClass(this.returnStyle(mandatory));
-        // if (addNewChild)
-        component.getChildren().add(inputText);
+        if (input instanceof HtmlInputText) {
+            inputText = (HtmlInputText) input;
+            createValueExpr(context, component, inputText);
+        } else {
+            /* boolean addNewChild = false;
+            if (mdInput instanceof HtmlInputText) {
+                inputText = (HtmlInputText) mdInput;
+            } else { */
+            inputText = new HtmlInputText();
+            inputText.setId(getIdWithUnderscores(id) + "_text");
+            // MetadataFieldControlRenderer.renderHtmlInputTextControls(inputText, profileElement);
+            //addNewChild = true;
+
+            createValueExpr(context, component, inputText);
+            // createValueExpr(context, component, itvalueem, inputText, mandatory, false);
+            inputText.setStyleClass(this.returnStyle(mandatory));
+            // if (addNewChild)
+            component.getChildren().add(inputText);
+        }
+    }
+
+    /**
+     *
+     * @param component
+     * @param item
+     * @param profileElement
+     * @param obligation
+     */
+    private void renderTextArea(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
+        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_text");
+        final HtmlInputText maxCarText;
+        final HtmlInputTextarea inputTextArea;
+
+        final Integer maxCar;
+        if (component.getMaxCar() != null) {
+            maxCar = component.getMaxCar();
+        } else {
+            maxCar = DEFAULT_MAX_CAR;
+        }
+        boolean setValue = true;
+        if (input instanceof HtmlInputText) {
+            maxCarText = (HtmlInputText) input;
+            final UIComponent inputValue = FacesUtils.findComponentById(context, maxCarText, getIdWithUnderscores(id) + "_textArea");
+            if (inputValue instanceof HtmlInputTextarea) {
+                inputTextArea = (HtmlInputTextarea) inputValue;
+            } else {
+                inputTextArea = null;
+                setValue = false;
+            }
+        } else {
+            inputTextArea = new HtmlInputTextarea();
+            inputTextArea.setId(getIdWithUnderscores(id) + "_textArea");
+
+            maxCarText = new HtmlInputText();
+            maxCarText.setId(getIdWithUnderscores(id) + "_text");
+            maxCarText.setReadonly(true);
+            maxCarText.setStyleClass(DEFAULT_COMPONENT_CLASS + " " + CHAR_CONTROL_CLASS);
+            maxCarText.getChildren().add(inputTextArea);
+            component.getChildren().add(maxCarText);
+            inputTextArea.setStyleClass(this.returnStyle(mandatory));
+
+            inputTextArea.setOnchange("COMPONENTUTIL.maxcharcheck(this,$('" + maxCarText.getClientId(context) + "')," + maxCar + ");");
+            inputTextArea.setOnkeyup("COMPONENTUTIL.maxcharcheck(this,$('" + maxCarText.getClientId(context) + "')," + maxCar + ");");
+
+            component.getChildren().add(maxCarText);
+        }
+        
+        int maxCarOnLoad = maxCar;
+        if (setValue) {
+            createValueExpr(context, component, inputTextArea);
+            if (inputTextArea.getValue().toString().length() <= maxCar) maxCarOnLoad = maxCar - inputTextArea.getValue().toString().length();
+        }
+
+        maxCarText.setValue(maxCarOnLoad + " car.");
     }
 
 //    private void renderDatePicker(FacesContext context, UIComponentSelector component, boolean mandatory) {
@@ -277,64 +342,23 @@ public class ComponentSelectorRenderer extends Renderer {
 //        }
 //    }
 //
-//    /**
-//     *
-//     * @param component
-//     * @param item
-//     * @param profileElement
-//     * @param obligation
-//     */
-//    private void renderTextArea(FacesContext context, UIMetadataInput component, ValueItem item, ProfileElement profileElement, boolean obligation) {
-//        final UIComponent mdInputMaxCar = FacesUtils.findComponentById(context, component, getIdWithUnderscores(item.getPath().getId()));
-//        final HtmlInputTextarea inputTextArea;
-//        final HtmlInputText maxCarText;
-//        boolean addNewChild = false;
-//        if (mdInputMaxCar instanceof HtmlInputText) {
-//            maxCarText = (HtmlInputText) mdInputMaxCar;
-//            final UIComponent mdInput = FacesUtils.findComponentById(context, mdInputMaxCar, getIdWithUnderscores(item.getPath().getId()) + "_textArea");
-//            if (mdInput instanceof HtmlInputTextarea) {
-//                inputTextArea = (HtmlInputTextarea) mdInput;
-//            } else {
-//                inputTextArea = new HtmlInputTextarea();
-//                inputTextArea.setId(getIdWithUnderscores(item.getPath().getId()) + "_textArea");
-//            }
-//        } else {
-//            inputTextArea = new HtmlInputTextarea();
-//            inputTextArea.setId(getIdWithUnderscores(item.getPath().getId()) + "_textArea");
-//
-//            maxCarText = new HtmlInputText();
-//            maxCarText.setId(getIdWithUnderscores(item.getPath().getId()));
-//            maxCarText.setReadonly(true);
-//            maxCarText.setStyleClass(DEFAULT_COMPONENT_CLASS + " " + CHAR_CONTROL_CLASS);
-//            maxCarText.getChildren().add(inputTextArea);
-//            component.getChildren().add(maxCarText);
-//            addNewChild = true;
-//        }
-//
-//        inputTextArea.setStyleClass(createValueExpr(context, component, item, inputTextArea, obligation, false));
-//        MetadataFieldControlRenderer.renderHtmlInputTextareaControls(inputTextArea, maxCarText, profileElement);
-//
-//        if (addNewChild) {
-//            component.getChildren().add(maxCarText);
-//        }
-//    }
-//
-//    /**
-//     *
-//     * @param component
-//     * @param item
-//     * @param obligation
-//     */
-//    private void renderReadOnly(FacesContext context, UIMetadataInput component, ValueItem item) {
-//        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(item.getPath().getId()));
-//        if (mdInput == null) {
-//            final HtmlOutputText outputText = new HtmlOutputText();
-//            outputText.setValue(item.getValue());
-//            createValueExpr(context, component, item, outputText, false, false);
-//            outputText.setId(getIdWithUnderscores(item.getPath().getId()));
-//            component.getChildren().add(outputText);
-//        }
-//    }
+
+
+    /**
+     *
+     * @param component
+     * @param item
+     * @param obligation
+     */
+    private void renderReadOnly(FacesContext context, UIComponentSelector component, String id) {
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_output");
+        if ((mdInput == null) && (component.getValue() != null)) {
+            final HtmlOutputText outputText = new HtmlOutputText();
+            outputText.setId(getIdWithUnderscores(id) + "_output");
+            outputText.setValue(component.getValue());
+            component.getChildren().add(outputText);
+        }
+    }
 //
 //    /**
 //     *
@@ -469,19 +493,14 @@ public class ComponentSelectorRenderer extends Renderer {
         return (mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS;
     }
 
-    private void createValueExpr(FacesContext context, UIComponentSelector component, String value, UIComponent htmlComp) {
-        final String el;
-
-        if (component.getValueExpression("value") != null) {
-            el = component.getValueExpression("value").getExpressionString();
-        } else {
-            el = "#{row.userObject.value}";
+    private void createValueExpr(FacesContext context, UIComponentSelector component, UIInput htmlComp) {
+        final ValueExpression ve = component.getValueExpression("value");
+        if (ve != null) {
+            if (ve.getValue(context.getELContext()) instanceof String) {
+                htmlComp.setValue(ve.getValue(context.getELContext()));
+                htmlComp.setValueExpression("value", ve);
+            }
         }
-        String inputEl = el.substring(0, el.lastIndexOf("}")) + ".value}";
-        ExpressionFactory factory = context.getApplication().getExpressionFactory();
-        ValueExpression ve = factory.createValueExpression(context.getELContext(), inputEl, String.class);
-        ve.setValue(context.getELContext(), value);
-        htmlComp.setValueExpression("value",ve);
     }
 
     private String getIdWithUnderscores(String id) {
@@ -531,6 +550,15 @@ public class ComponentSelectorRenderer extends Renderer {
             i++;
         }
         return null;
+    }
+
+    private void assertValid(final FacesContext context, final UIComponent component) {
+        if (context == null) {
+            throw new NullPointerException("FacesContext should not be null");
+        }
+        if (component == null) {
+            throw new NullPointerException("component should not be null");
+        }
     }
 }
 
