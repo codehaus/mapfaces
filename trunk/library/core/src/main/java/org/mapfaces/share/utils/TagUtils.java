@@ -87,7 +87,7 @@ public final class TagUtils {
             UIComponent component, Class typeExp, Object valueObject)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             NoSuchMethodException, SecurityException {
-        final Method method = componentClass.getMethod("set" + propertyName, String.class);
+        final Method method = componentClass.getMethod("set" + propertyName, typeExp);
         method.invoke(component, typeExp.cast(valueObject));
     }
 }

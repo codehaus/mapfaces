@@ -16,6 +16,8 @@
 
 package org.mapfaces.demo.bean;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -34,7 +36,9 @@ public class TreetableBean {
     private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
     private DefaultTreeModel tree;
     private DefaultTreeModel treemodel;
-    private String type = "readonly";
+    private String type = "select";
+    private Map<Object, String> selectMap;
+    private Object selectedKey;
 
     public TreetableBean() {
 //        String fileUrl = "data/context/owc030Cut.xml";
@@ -49,7 +53,18 @@ public class TreetableBean {
 //            LOGGER.log(Level.SEVERE, null, ex);
 //        } catch (MalformedURLException ex) {
 //            LOGGER.log(Level.SEVERE, null, ex);
-//        }
+//
+        selectMap = new HashMap<Object, String>();
+        selectMap.put("val1", "Valeur 1");
+        selectMap.put("val2", "Valeur 2");
+        selectMap.put("val3", "Valeur 3");
+        selectMap.put("val4", "Valeur 4");
+        selectMap.put("val5", "Valeur 5");
+        selectMap.put("val6", "Valeur 6");
+        selectMap.put("val7", "Valeur 7");
+        selectMap.put("val8", "Valeur 8");
+        selectedKey = "val4";
+
         TreeItem treeItem = new TreeItem("root", "metadata root");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(treeItem);
         root.add(new DefaultMutableTreeNode(new TreeItem("title1","Citation")));
@@ -123,6 +138,34 @@ public class TreetableBean {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return the selectMap
+     */
+    public Map<Object, String> getSelectMap() {
+        return selectMap;
+    }
+
+    /**
+     * @param selectMap the selectMap to set
+     */
+    public void setSelectMap(Map<Object, String> selectMap) {
+        this.selectMap = selectMap;
+    }
+
+    /**
+     * @return the selectedKey
+     */
+    public Object getSelectedKey() {
+        return selectedKey;
+    }
+
+    /**
+     * @param selectedKey the selectedKey to set
+     */
+    public void setSelectedKey(Object selectedKey) {
+        this.selectedKey = selectedKey;
     }
 
 }
