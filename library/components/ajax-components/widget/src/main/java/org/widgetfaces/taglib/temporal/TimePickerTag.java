@@ -102,7 +102,10 @@ public class TimePickerTag extends InputTextTag {
             Logger.getLogger(TimePickerTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvocationTargetException ex) {
             Logger.getLogger(TimePickerTag.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(TimePickerTag.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**

@@ -34,6 +34,10 @@ import org.mapfaces.models.tree.TreeItem;
  */
 public class TreetableBean {
 
+
+    private String name = "ouiiiiiiii je suis le name";
+    private String value = "ouiiiiiiii je suis la value";
+
     private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
     private DefaultTreeModel tree;
     private DefaultTreeModel treemodel;
@@ -114,6 +118,34 @@ public class TreetableBean {
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
     }
 
 }

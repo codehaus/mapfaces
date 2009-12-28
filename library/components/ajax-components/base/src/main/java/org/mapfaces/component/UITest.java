@@ -17,7 +17,6 @@
 package org.mapfaces.component;
 
 import javax.faces.context.FacesContext;
-import org.mapfaces.component.treetable.UITreeColumn;
 
 /**
  *
@@ -55,13 +54,12 @@ public class UITest extends UIWidgetBase {
         final Object[] values = (Object[]) state;
         super.restoreState(context, values[0]);
         value = (String) values[1];
-        name = (String) values[1];
+        name = (String) values[2];
     }
 
     /**
      * @return the value
      */
-    @Override
     public String getValue() {
         return value;
     }

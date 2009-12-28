@@ -64,7 +64,7 @@ import org.mapfaces.share.utils.JSLibraryResource;
  * <li><b>enableAjax</b> - (boolean) enable or disable ajax request for the component</li>
  * </ul>
  * </p>
- * @author Kevin Delfour (IRD)
+ * @author Kevin Delfour
  * @since 0.2
  */
 public class UIAutocompletion extends HtmlInputText {

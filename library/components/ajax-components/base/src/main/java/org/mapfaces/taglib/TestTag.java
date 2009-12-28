@@ -20,7 +20,6 @@ package org.mapfaces.taglib;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -65,8 +64,10 @@ public class TestTag extends UIComponentELTag {
             Logger.getLogger(TestTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvocationTargetException ex) {
             Logger.getLogger(TestTag.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(TestTag.class.getName()).log(Level.SEVERE, null, ex);
         }
-        component.setValueExpression("value",getValue());
+        component.setValueExpression("value",value);
         component.setValueExpression("name",name);
     }
 
@@ -77,7 +78,7 @@ public class TestTag extends UIComponentELTag {
     public void release() {
         // allways call the superclass method
         super.release();
- //       value = null;
+        value = null;
         name = null;
     }
 
