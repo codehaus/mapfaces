@@ -36,38 +36,6 @@
     </tag>
 
     <tag>
-        <name>Testy</name>
-        <tag-class>org.mapfaces.taglib.TestTag</tag-class>
-        <body-content>JSP</body-content>
-        <description>
-                <![CDATA[Treetable component]]>
-        </description>
-        &commons_attributes;
-        <attribute>
-            <name>value</name>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[
-                Value of the component.]]>
-            </description>
-        </attribute>
-        <attribute>
-            <name>name</name>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
-            <rtexprvalue>false</rtexprvalue>
-            <required>false</required>
-            <description><![CDATA[
-                Name of the component.]]>
-            </description>
-        </attribute>
-    </tag>
-
-    <tag>
         <name>ComponentSelector</name>
         <tag-class>org.mapfaces.taglib.ComponentSelectorTag</tag-class>
         <body-content>JSP</body-content>
