@@ -11,16 +11,17 @@
 <!ENTITY HTMLtreecolumn_attributes  SYSTEM "entities/HTMLTreeColumn_attributes.xml">
 ]>
 
-<taglib>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee     http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
 
-    <tlib-version>1.0</tlib-version>
-    <jsp-version>1.2</jsp-version>
+    <tlib-version>1.1</tlib-version>
+    <jsp-version>2.1</jsp-version>
     <short-name>mf-base</short-name>
     <uri>http://mapfaces.org/taglib-base</uri>
     <description>
         <![CDATA[Mapfaces Base library components]]>
     </description>
 
+    <!-- Treetable -->
     <tag>
         <name>treetable</name>
         <tag-class>org.mapfaces.taglib.treetable.TreeTableTag</tag-class>
@@ -35,7 +36,7 @@
     </tag>
 
     <tag>
-        <name>Test</name>
+        <name>Testy</name>
         <tag-class>org.mapfaces.taglib.TestTag</tag-class>
         <body-content>JSP</body-content>
         <description>
@@ -43,24 +44,26 @@
         </description>
         &commons_attributes;
         <attribute>
+            <name>value</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
             <description><![CDATA[
                 Value of the component.]]>
             </description>
-            <name>value</name>
-            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>name</name>
             <deferred-value>
                 <type>java.lang.String</type>
             </deferred-value>
-        </attribute>
-        <attribute>
+            <rtexprvalue>false</rtexprvalue>
+            <required>false</required>
             <description><![CDATA[
                 Name of the component.]]>
             </description>
-            <name>name</name>
-            <required>false</required>
-            <deferred-value>
-                <type>java.lang.String</type>
-            </deferred-value>
         </attribute>
     </tag>
 

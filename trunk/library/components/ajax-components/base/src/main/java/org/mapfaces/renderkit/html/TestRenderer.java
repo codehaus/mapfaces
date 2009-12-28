@@ -22,11 +22,9 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-import org.mapfaces.component.UIDiv;
 import org.mapfaces.component.UITest;
-import org.mapfaces.share.utils.RendererUtils.HTML;
+import org.mapfaces.share.utils.FacesUtils;
 
 /**
  * This class render an element html DIV that can be called to rerender by ajax4jsf
@@ -42,9 +40,9 @@ public class TestRenderer extends Renderer {
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        assertValid(context, component);
+        FacesUtils.assertValid(context, component);
         UITest test = (UITest) component;
-        System.out.println("RENDERER");
+        
         System.out.println((test.getValue() instanceof String) ? "VALUE INSTANCEOF STRING" : "VALUE NON STRING");
         if ((test.getValue() instanceof String) && (test.getId() != null)) {
             System.out.println("test.getValue() ====> " + test.getValue());
@@ -63,14 +61,7 @@ public class TestRenderer extends Renderer {
 
     public void decode(FacesContext context, UIComponent component) {
     }
+    
 
-    private void assertValid(final FacesContext context, final UIComponent component) {
-        if (context == null) {
-            throw new NullPointerException("context should not be null");
-        }
-        if (component == null) {
-            throw new NullPointerException("component should not be null");
-        }
-    }
 
 }

@@ -35,7 +35,7 @@ public final class TagUtils {
      */
     public static void setPropertiesWithValueExpression(ValueExpression expToAdd, Class typeExp,
             String propertyName, FacesContext context, UIComponent component, Class componentClass)
-            throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
         if ((expToAdd != null) && !expToAdd.isLiteralText()) {
             Object valueObject = expToAdd.getValue(context.getELContext());
             if (typeExp.isInstance(valueObject)) {
@@ -60,7 +60,7 @@ public final class TagUtils {
      * @throws InvocationTargetException
      */
     public static void affectUIValueWithValueExpression(FacesContext context, ValueExpression ve, Class componentClass,
-            UIComponent component, String propertyName, Class valueClass) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            UIComponent component, String propertyName, Class valueClass) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException ,NoSuchMethodException, SecurityException{
         System.out.println("POINT 0");
         if (ve != null) {
             System.out.println("POINT A");
@@ -84,19 +84,10 @@ public final class TagUtils {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException
      */
-    private static void invokeSetterForProperty(Class componentClass, String propertyName, 
+    private static void invokeSetterForProperty(Class componentClass, String propertyName,
             UIComponent component, Class typeExp, Object valueObject)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        final Method[] methodList = componentClass.getMethods();
-        int i = 0;
-        boolean findMethod = false;
-        while ((i < methodList.length) && !findMethod) {
-            if (methodList[i].getName().equals("set" + propertyName)) {
-                System.out.println("POINT C");
-                findMethod = true;
-                methodList[i].invoke(component, typeExp.cast(valueObject));
-            }
-            i++;
-        }
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        final Method method = componentClass.getMethod("set" + propertyName, String.class);
+        method.invoke(component, typeExp.cast(valueObject));
     }
 }

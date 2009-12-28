@@ -21,7 +21,7 @@
         <body>
             <h1><h:outputText value="MapFaces Treetable demo"/></h1>
             <h:form id="mainform">
-                <mfb:treetable  id="sensorTreetableConsult"
+                <%/*mfb:treetable  id="sensorTreetableConsult"
                                     value="#{treetableBean.treemodel}"
                                     var="treeNode"
                                     style="width:500px;"
@@ -49,9 +49,9 @@
                         
                     </mfb:treecolumn>
 
-                </mfb:treetable>
+                </mfb:treetable*/%>
                 <%/*mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.test.value}" /*/%>
-                <mfb:Test id="test" value="#{treetableBean.test.title}" />
+                <mfb:Testy id="test" value="#{treetableBean.value}" name="#{treetableBean.name}" />
             </h:form>
         </body>
     </html>

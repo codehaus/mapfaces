@@ -74,6 +74,8 @@ public class ComponentSelectorTag extends UIComponentELTag {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvocationTargetException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (NoSuchMethodException ex) {
+            Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
