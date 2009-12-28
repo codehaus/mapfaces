@@ -83,6 +83,16 @@
                 <type>java.lang.Boolean</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <description><![CDATA[
+                Max number of caracters for this input.]]>
+            </description>
+            <name>maxCar</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.Integer</type>
+            </deferred-value>
+        </attribute>
     </tag>
 
     <tag>

@@ -34,7 +34,7 @@ public class TreetableBean {
     private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
     private DefaultTreeModel tree;
     private DefaultTreeModel treemodel;
-    private String type = "text";
+    private String type = "readonly";
 
     public TreetableBean() {
 //        String fileUrl = "data/context/owc030Cut.xml";

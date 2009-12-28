@@ -35,7 +35,8 @@ public final class TagUtils {
      */
     public static void setPropertiesWithValueExpression(ValueExpression expToAdd, Class typeExp,
             String propertyName, FacesContext context, UIComponent component, Class componentClass)
-            throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+            throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException {
         if ((expToAdd != null) && !expToAdd.isLiteralText()) {
             Object valueObject = expToAdd.getValue(context.getELContext());
             if (typeExp.isInstance(valueObject)) {
@@ -60,13 +61,11 @@ public final class TagUtils {
      * @throws InvocationTargetException
      */
     public static void affectUIValueWithValueExpression(FacesContext context, ValueExpression ve, Class componentClass,
-            UIComponent component, String propertyName, Class valueClass) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException ,NoSuchMethodException, SecurityException{
-        System.out.println("POINT 0");
+            UIComponent component, String propertyName, Class valueClass) throws IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException ,NoSuchMethodException, SecurityException {
         if (ve != null) {
-            System.out.println("POINT A");
             final ExpressionFactory ef = context.getApplication().getExpressionFactory();
             if (ve.getExpressionString() != null && ve.getExpressionString().contains("#")) {
-                System.out.println("point B");
                 final ValueExpression vex = ef.createValueExpression(context.getELContext(), ve.getExpressionString(), valueClass);
                 invokeSetterForProperty(componentClass, propertyName, component, valueClass, vex.getValue(context.getELContext()));
             }
@@ -86,7 +85,8 @@ public final class TagUtils {
      */
     private static void invokeSetterForProperty(Class componentClass, String propertyName,
             UIComponent component, Class typeExp, Object valueObject)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            NoSuchMethodException, SecurityException {
         final Method method = componentClass.getMethod("set" + propertyName, String.class);
         method.invoke(component, typeExp.cast(valueObject));
     }

@@ -31,6 +31,7 @@ public class UIComponentSelector extends UIWidgetBase {
     private String type;
     private boolean hasParent;
     private boolean mandatory;
+    private Integer maxCar;
 
     public UIComponentSelector() {
         super();
@@ -44,12 +45,13 @@ public class UIComponentSelector extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        final Object[] values = new Object[5];
+        final Object[] values = new Object[6];
         values[0] = super.saveState(context);
         values[1] = getValue();
         values[2] = getType();
         values[3] = isHasParent();
         values[4] = isMandatory();
+        values[5] = getMaxCar();
         return values;
     }
 
@@ -61,6 +63,7 @@ public class UIComponentSelector extends UIWidgetBase {
         setType((String) values[2]);
         setHasParent((Boolean) values[3]);
         setMandatory((Boolean) values[4]);
+        setMaxCar((Integer) values[5]);
     }
 
     /**
@@ -118,5 +121,19 @@ public class UIComponentSelector extends UIWidgetBase {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return the maxCar
+     */
+    public Integer getMaxCar() {
+        return maxCar;
+    }
+
+    /**
+     * @param maxCar the maxCar to set
+     */
+    public void setMaxCar(Integer maxCar) {
+        this.maxCar = maxCar;
     }
 }
