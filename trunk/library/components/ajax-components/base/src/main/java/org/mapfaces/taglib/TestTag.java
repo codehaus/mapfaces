@@ -44,7 +44,7 @@ public class TestTag extends UIComponentELTag {
      */
     public static final String RENDER_TYPE = "org.mapfaces.renderkit.html.Test";
 
-  //  private ValueExpression value = null;
+    private ValueExpression value = null;
     private ValueExpression name = null;
 
     /**
@@ -57,7 +57,7 @@ public class TestTag extends UIComponentELTag {
 
         final FacesContext context = FacesContext.getCurrentInstance();
         try {
-     //       TagUtils.affectUIValueWithValueExpression(context, value, UITest.class, component, "Value", String.class);
+            TagUtils.affectUIValueWithValueExpression(context, value, UITest.class, component, "Value", String.class);
             TagUtils.affectUIValueWithValueExpression(context, name, UITest.class, component, "Name", String.class);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(TestTag.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,7 +66,7 @@ public class TestTag extends UIComponentELTag {
         } catch (InvocationTargetException ex) {
             Logger.getLogger(TestTag.class.getName()).log(Level.SEVERE, null, ex);
         }
-   //     component.setValueExpression("value",getValue());
+        component.setValueExpression("value",getValue());
         component.setValueExpression("name",name);
     }
 
@@ -97,19 +97,19 @@ public class TestTag extends UIComponentELTag {
         return RENDER_TYPE;
     }
 
-//    /**
-//     * @return the value
-//     */
-//    public ValueExpression getValue() {
-//        return value;
-//    }
-//
-//    /**
-//     * @param value the value to set
-//     */
-//    public void setValue(ValueExpression value) {
-//        this.value = value;
-//    }
+    /**
+     * @return the value
+     */
+    public ValueExpression getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(ValueExpression value) {
+        this.value = value;
+    }
 
     /**
      * @return the name

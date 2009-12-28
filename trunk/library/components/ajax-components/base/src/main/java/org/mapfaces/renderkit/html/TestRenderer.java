@@ -44,15 +44,16 @@ public class TestRenderer extends Renderer {
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         assertValid(context, component);
         UITest test = (UITest) component;
-
-        if (/*(test.getValue() instanceof String) && */(test.getId() != null)) {
+        System.out.println("RENDERER");
+        System.out.println((test.getValue() instanceof String) ? "VALUE INSTANCEOF STRING" : "VALUE NON STRING");
+        if ((test.getValue() instanceof String) && (test.getId() != null)) {
             System.out.println("test.getValue() ====> " + test.getValue());
             if (test.getName() != null) {
                 System.out.println("NAME ===> " + test.getName());
             }
             HtmlInputText input = new HtmlInputText();
             input.setId(test.getId());
-           // input.setValue(test.getValue());
+            input.setValue(test.getValue());
         }
 
     }

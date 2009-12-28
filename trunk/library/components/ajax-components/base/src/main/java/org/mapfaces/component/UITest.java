@@ -27,7 +27,7 @@ public class UITest extends UIWidgetBase {
 
     private static final String COMP_FAMILY   = "org.mapfaces.component.Test";
 
-  //  private String value;
+    private String value;
     private String name;
 
     public UITest() {
@@ -45,8 +45,8 @@ public class UITest extends UIWidgetBase {
     public Object saveState(FacesContext context) {
         final Object[] values = new Object[3];
         values[0] = super.saveState(context);
-      //  values[1] = this.value;
-        values[1] = this.name;
+        values[1] = this.value;
+        values[2] = this.name;
         return values;
     }
 
@@ -54,24 +54,24 @@ public class UITest extends UIWidgetBase {
     public void restoreState(FacesContext context, Object state) {
         final Object[] values = (Object[]) state;
         super.restoreState(context, values[0]);
-     //   value = (String) values[1];
+        value = (String) values[1];
         name = (String) values[1];
     }
 
-//    /**
-//     * @return the value
-//     */
-//    @Override
-//    public String getValue() {
-//        return value;
-//    }
-//
-//    /**
-//     * @param value the value to set
-//     */
-//    public void setValue(String value) {
-//        this.value = value;
-//    }
+    /**
+     * @return the value
+     */
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     /**
      * @return the name
