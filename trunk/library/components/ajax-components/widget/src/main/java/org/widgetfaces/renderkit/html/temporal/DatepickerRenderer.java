@@ -70,14 +70,6 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        ValueExpression vv = component.getValueExpression("value");
-        Object vobj=null;
-        if(vv!=null)
-            vobj = vv.getValue(context.getELContext());
-
-
-        Object evaluate = context.getApplication().evaluateExpressionGet(context, "#{row.userObject}", Object.class);
-
         // suppress rendering if "rendered" property on the component is false.
         if (!component.isRendered()) {
             return;
