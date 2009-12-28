@@ -42,7 +42,16 @@
                 <![CDATA[Treetable component]]>
         </description>
         &commons_attributes;
-      
+        <attribute>
+            <description><![CDATA[
+                Value of the component.]]>
+            </description>
+            <name>value</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
         <attribute>
             <description><![CDATA[
                 Name of the component.]]>

@@ -51,7 +51,7 @@
 
                 </mfb:treetable>
                 <%/*mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.test.value}" /*/%>
-                <mfb:Test id="test" name="#{treetableBean.test.title}" />
+                <mfb:Test id="test" value="#{treetableBean.test.title}" />
             </h:form>
         </body>
     </html>
