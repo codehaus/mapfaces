@@ -212,7 +212,7 @@ public class ComponentSelectorRenderer extends Renderer {
     private void renderValue(FacesContext context, UIComponentSelector component, String type, String id) {
         final boolean mandatory = component.isMandatory();
         if ("text".equals(type) || "web".equals(type) || "mail".equals(type)) {
-            renderText(context, component, id, mandatory);
+            renderText(context, component, id, mandatory, type);
         } else if ("textarea".equals(type)) {
             renderTextArea(context, component, id, mandatory);
         } else if ("readonly".equals(type)) {
@@ -238,7 +238,7 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param profileElement
      * @param obligation
      */
-    private void renderText(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
+    private void renderText(FacesContext context, UIComponentSelector component, String id, boolean mandatory, String type) {
         final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_text");
         final HtmlInputText inputText;
 
@@ -258,6 +258,10 @@ public class ComponentSelectorRenderer extends Renderer {
             createValueExpr(context, component, inputText);
             // createValueExpr(context, component, itvalueem, inputText, mandatory, false);
             inputText.setStyleClass(this.returnStyle(mandatory));
+            if ("mail".equals(type)) {
+                inputText.setOnchange("COMPONENTUTIL.emailcheck(this);");
+                inputText.setOnkeyup("COMPONENTUTIL.emailcheck(this);");
+            }
             // if (addNewChild)
             component.getChildren().add(inputText);
         }
