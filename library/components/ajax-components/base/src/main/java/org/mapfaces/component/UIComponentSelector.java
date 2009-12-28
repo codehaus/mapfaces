@@ -16,6 +16,7 @@
  */
 package org.mapfaces.component;
 
+import java.util.Map;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.treetable.UITreeColumn;
 
@@ -32,6 +33,7 @@ public class UIComponentSelector extends UIWidgetBase {
     private boolean hasParent;
     private boolean mandatory;
     private Integer maxCar;
+    private Map<Object, String> selectMap;
 
     public UIComponentSelector() {
         super();
@@ -45,13 +47,14 @@ public class UIComponentSelector extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        final Object[] values = new Object[6];
+        final Object[] values = new Object[7];
         values[0] = super.saveState(context);
         values[1] = getValue();
         values[2] = getType();
         values[3] = isHasParent();
         values[4] = isMandatory();
         values[5] = getMaxCar();
+        values[6] = getSelectMap();
         return values;
     }
 
@@ -64,6 +67,7 @@ public class UIComponentSelector extends UIWidgetBase {
         setHasParent((Boolean) values[3]);
         setMandatory((Boolean) values[4]);
         setMaxCar((Integer) values[5]);
+        setSelectMap((Map) values[6]);
     }
 
     /**
@@ -135,5 +139,19 @@ public class UIComponentSelector extends UIWidgetBase {
      */
     public void setMaxCar(Integer maxCar) {
         this.maxCar = maxCar;
+    }
+
+    /**
+     * @return the selectMap
+     */
+    public Map<Object, String> getSelectMap() {
+        return selectMap;
+    }
+
+    /**
+     * @param selectMap the selectMap to set
+     */
+    public void setSelectMap(Map<Object, String> selectMap) {
+        this.selectMap = selectMap;
     }
 }

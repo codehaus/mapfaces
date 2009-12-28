@@ -18,6 +18,7 @@
 package org.mapfaces.taglib;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ValueExpression;
@@ -42,6 +43,7 @@ public class ComponentSelectorTag extends UIComponentELTag {
     private ValueExpression mandatory = null;
     private ValueExpression hasParent = null;
     private ValueExpression maxCar = null;
+    private ValueExpression selectMap = null;
 
     // ---------------------------------------------------------- Methods
     @Override
@@ -66,12 +68,14 @@ public class ComponentSelectorTag extends UIComponentELTag {
             TagUtils.affectUIValueWithValueExpression(context, type, UIComponentSelector.class, component, "Type", String.class);
             TagUtils.affectUIValueWithValueExpression(context, hasParent, UIComponentSelector.class, component, "HasParent", Boolean.class);
             TagUtils.affectUIValueWithValueExpression(context, maxCar, UIComponentSelector.class, component, "MaxCar", Integer.class);
+            TagUtils.affectUIValueWithValueExpression(context, selectMap, UIComponentSelector.class, component, "SelectMap", Map.class);
 
             component.setValueExpression("value", value);
             component.setValueExpression("type", type);
             component.setValueExpression("mandatory", mandatory);
             component.setValueExpression("hasParent", hasParent);
             component.setValueExpression("maxCar", maxCar);
+            component.setValueExpression("selectMap", selectMap);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
@@ -91,6 +95,7 @@ public class ComponentSelectorTag extends UIComponentELTag {
         mandatory = null;
         hasParent = null;
         maxCar = null;
+        selectMap = null;
     }
 
     // ---------------------------------------------------------- Accessors Methods
@@ -162,5 +167,19 @@ public class ComponentSelectorTag extends UIComponentELTag {
      */
     public void setMaxCar(ValueExpression maxCar) {
         this.maxCar = maxCar;
+    }
+
+    /**
+     * @return the selectMap
+     */
+    public ValueExpression getSelectMap() {
+        return selectMap;
+    }
+
+    /**
+     * @param selectMap the selectMap to set
+     */
+    public void setSelectMap(ValueExpression selectMap) {
+        this.selectMap = selectMap;
     }
 }

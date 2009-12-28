@@ -18,15 +18,18 @@ package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
@@ -214,10 +217,10 @@ public class ComponentSelectorRenderer extends Renderer {
             renderTextArea(context, component, id, mandatory);
         } else if ("readonly".equals(type)) {
             renderReadOnly(context, component, id);
+        } else if ("select".equals(type)) {
+           renderSelect(context, component, id, mandatory);
         }
-//        else if ("select".equals(type)) {
-//            renderSelect(context, component, item, profileElement, obligation);
-//        } else {
+//        else {
 //            LOGGER.severe("this fieldType is not recognize : " + fieldType + " for " + item.getIdValue());
 //        }
 //
@@ -345,7 +348,7 @@ public class ComponentSelectorRenderer extends Renderer {
 
 
     /**
-     *
+     * It renders a ReadOnly output with the Value attribute.
      * @param component
      * @param item
      * @param obligation
@@ -359,54 +362,42 @@ public class ComponentSelectorRenderer extends Renderer {
             component.getChildren().add(outputText);
         }
     }
-//
-//    /**
-//     *
-//     * @param component
-//     * @param item
-//     * @param profileElement
-//     * @param obligation
-//     */
-//    private void renderSelect(FacesContext context, UIMetadataInput component, ValueItem item, ProfileElement profileElement, boolean obligation) {
-//        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(item.getPath().getId()));
-//        final HtmlSelectOneMenu selectOneMenu;
-//        boolean addNewChild = false;
-//        if (mdInput instanceof HtmlSelectOneMenu) {
-//            selectOneMenu = (HtmlSelectOneMenu) mdInput;
-//            selectOneMenu.getChildren().clear();
-//        } else {
-//            selectOneMenu = new HtmlSelectOneMenu();
-//            selectOneMenu.setId(getIdWithUnderscores(item.getPath().getId()));
-//            addNewChild = true;
-//        }
-//
-//        if (profileElement != null) {
-//            final CodeList cl = (CodeList) profileElement.getType();
-//
-//            for (Property prop : cl.getProperties()) {
-//                final CodeListElement code = (CodeListElement) prop;
-//                final UISelectItem selectItem = new UISelectItem();
-//                selectItem.setItemLabel(prop.getName());
-//
-//                if (code instanceof Locale) {
-//                    selectItem.setItemValue(prop.getShortName());
-//                } else {
-//                    selectItem.setItemValue(code.getCode());
-//                }
-//
-//                if (item.getValue().equals(prop.getName())) {
-//                    selectOneMenu.setStyleClass(createValueExpr(context, component, item, selectOneMenu, obligation, false));
-//                }
-//
-//                selectOneMenu.getChildren().add(selectItem);
-//            }
-//        }
-//
-//
-//        if (addNewChild) component.getChildren().add(selectOneMenu);
-//
-//    }
-//
+
+    /**
+     * This method build a Select component with a Map. The Value attribute defines
+     * the selected key of the select.
+     * @param component
+     * @param item
+     * @param profileElement
+     * @param obligation
+     */
+    private void renderSelect(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_select");
+        final HtmlSelectOneMenu selectOneMenu;
+        if (mdInput instanceof HtmlSelectOneMenu) {
+            selectOneMenu = (HtmlSelectOneMenu) mdInput;
+            // selectOneMenu.getChildren().clear();
+        } else {
+            selectOneMenu = new HtmlSelectOneMenu();
+            selectOneMenu.setId(getIdWithUnderscores(id) + "_select");
+
+            if (component.getSelectMap() != null) {
+                final Map<Object, String> selectMap = component.getSelectMap();
+                for (Map.Entry<Object, String> e : selectMap.entrySet()) {
+                    final UISelectItem selectItem = new UISelectItem();
+                    selectItem.setItemLabel(e.getValue());
+                    selectItem.setItemValue(e.getKey());
+                    selectOneMenu.getChildren().add(selectItem);
+                }
+
+                selectOneMenu.setStyleClass(this.returnStyle(mandatory));
+                component.getChildren().add(selectOneMenu);
+            }
+        }
+        
+        createValueExpr(context, component, selectOneMenu);
+    }
+
 //    /**
 //     *
 //     * @param component

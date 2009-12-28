@@ -93,6 +93,16 @@
                 <type>java.lang.Integer</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <description><![CDATA[
+                Map containing the key and value for the SelectInput component.]]>
+            </description>
+            <name>selectMap</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.util.Map</type>
+            </deferred-value>
+        </attribute>
     </tag>
 
     <tag>
