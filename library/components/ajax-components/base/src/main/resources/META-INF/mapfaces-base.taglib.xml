@@ -8,7 +8,7 @@
     <tag>
         <tag-name>treetable</tag-name>
         <component>
-        <component-type>org.mapfaces.component.tree.TreeTable</component-type>
+            <component-type>org.mapfaces.component.tree.TreeTable</component-type>
             <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
         </component>
     </tag>
@@ -23,21 +23,21 @@
     <tag>
         <tag-name>Bubble</tag-name>
         <component>
-        <component-type>org.mapfaces.component.Bubble</component-type>
+            <component-type>org.mapfaces.component.Bubble</component-type>
             <renderer-type>org.mapfaces.renderkit.HTMLBubble</renderer-type>
         </component>
     </tag>
     <tag>
         <tag-name>Div</tag-name>
         <component>
-        <component-type>org.mapfaces.component.Div</component-type>
+            <component-type>org.mapfaces.component.Div</component-type>
             <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
         </component>
     </tag>
     <tag>
         <tag-name>Datatable</tag-name>
         <component>
-        <component-type>org.mapfaces.Datatable</component-type>
+            <component-type>org.mapfaces.Datatable</component-type>
             <renderer-type>org.mapfaces.renderkit.HTMLDatatable</renderer-type>
         </component>
     </tag>
@@ -52,37 +52,37 @@
     <tag>
         <tag-name>DataScroller</tag-name>
         <component>
-        <component-type>org.mapfaces.datatable.DataScroller</component-type>
+            <component-type>org.mapfaces.datatable.DataScroller</component-type>
             <renderer-type>org.mapfaces.renderkit.datatable.HTMLDataScroller</renderer-type>
         </component>
     </tag>
     <tag>
         <tag-name>selectManyPicklist</tag-name>
         <component>
-        <component-type>org.mapfaces.component.SelectManyPicklist</component-type>
+            <component-type>org.mapfaces.component.SelectManyPicklist</component-type>
             <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
         </component>
     </tag>
     <tag>
         <tag-name>treetable</tag-name>
         <component>
-        <component-type>org.mapfaces.component.tree.TreeTable</component-type>
+            <component-type>org.mapfaces.component.tree.TreeTable</component-type>
             <renderer-type>org.mapfaces.renderkit.html.SelectManyPicklist</renderer-type>
         </component>
     </tag>
     <tag>
         <tag-name>treetable</tag-name>
         <component>
-        <component-type>org.mapfaces.component.tree.TreeTable</component-type>
+            <component-type>org.mapfaces.component.tree.TreeTable</component-type>
             <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
         </component>
     </tag>
     <tag>
         <tag-name>ComponentSelector</tag-name>
         <component>
-        <component-type>org.mapfaces.component.ComponentSelector</component-type>
+            <component-type>org.mapfaces.component.ComponentSelector</component-type>
             <renderer-type>org.mapfaces.renderkit.html.ComponentSelector</renderer-type>
         </component>
     </tag>
-    </tag>
+</tag>
 </facelet-taglib>

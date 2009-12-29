@@ -1,22 +1,36 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2009, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
 
 package org.mapfaces.component;
 
-import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 
 /**
+ * This component is called programmatically by iteratif component
+ * ie : treetable or datatable.
  *
- * @author leopratlong
+ * @author Leo Pratlong (Geomatys)
+ * @since 0.3
  */
 public class UITemporal extends HtmlInputText {
+
     public static final String FAMILY = "org.mapfaces.Temporal";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.Temporal";
-    
     /**
      * Define if we have to load the No_Gray TimePicker library on the View page.
      */
@@ -34,10 +48,10 @@ public class UITemporal extends HtmlInputText {
      */
     private boolean loadMootools = true;
     private boolean enableAjax = false;
-    
+
     /**
      * Default constructor.
-     * Create a new instance of UIHorloge
+     * Create a new instance of UITemporal
      */
     public UITemporal() {
         super();
@@ -97,7 +111,7 @@ public class UITemporal extends HtmlInputText {
         setLoadMootools((Boolean) values[4]);
         setEnableAjax((Boolean) values[5]);
     }
-    
+
     /**
      * @return the loadJs
      */
@@ -115,6 +129,7 @@ public class UITemporal extends HtmlInputText {
     /**
      * @return the styleClass
      */
+    @Override
     public String getStyleClass() {
         return styleClass;
     }
@@ -122,6 +137,7 @@ public class UITemporal extends HtmlInputText {
     /**
      * @param styleClass the styleClass to set
      */
+    @Override
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
