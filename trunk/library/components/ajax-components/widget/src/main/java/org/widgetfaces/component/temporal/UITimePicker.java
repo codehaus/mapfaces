@@ -18,7 +18,6 @@
 package org.widgetfaces.component.temporal;
 
 import java.util.Date;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UITemporal;
 
@@ -32,7 +31,6 @@ public class UITimePicker extends UITemporal {
     /**
      * Define the family of the component.
      */
-    public static final String FAMILY = "org.mapfaces.Timepicker";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLTimepicker";
     /**
      * Define the date value of the time picker component.
@@ -90,7 +88,7 @@ public class UITimePicker extends UITemporal {
      */
     @Override
     public String getFamily() {
-        return FAMILY;
+        return "org.mapfaces.Timepicker";
     }
 
     /**
@@ -103,6 +101,7 @@ public class UITimePicker extends UITemporal {
     /**
      * @return the value
      */
+    @Override
     public Date getValue() {
         return value;
     }
@@ -110,6 +109,7 @@ public class UITimePicker extends UITemporal {
     /**
      * @return the style
      */
+    @Override
     public String getStyle() {
         return style;
     }
@@ -117,6 +117,7 @@ public class UITimePicker extends UITemporal {
     /**
      * @param style the style to set
      */
+    @Override
     public void setStyle(String style) {
         this.style = style;
     }

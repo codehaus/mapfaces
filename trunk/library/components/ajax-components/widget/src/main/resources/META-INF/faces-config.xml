@@ -3,7 +3,7 @@
 
 <!-- PhaseListener to load resources from jar -->
     <lifecycle>
-    	<phase-listener>org.mapfaces.widget.listener.AutocompletionListener</phase-listener>
+        <phase-listener>org.mapfaces.widget.listener.AutocompletionListener</phase-listener>
     </lifecycle>
     <!-- Autocompletion -->
     <component>

@@ -52,7 +52,7 @@
             <component-class>org.mapfaces.component.UIComponentSelector</component-class>
     </component>
 
-    <!-- Temporal component -->
+    <!-- Temporal component, used for programmatically calls only. ie : used by iterative components -->
     <component>
             <component-type>org.mapfaces.Temporal</component-type>
             <component-class>org.mapfaces.component.UITemporal</component-class>
@@ -120,7 +120,7 @@
             <renderer-type>org.mapfaces.renderkit.html.ComponentSelector</renderer-type>
             <renderer-class>org.mapfaces.renderkit.html.ComponentSelectorRenderer</renderer-class>
         </renderer>
-        <!-- DatePicker Renderer -->
+        <!-- This renderer is targeted by  UITemporal to use the DatePicker Renderer class -->
         <renderer>
             <description>render a DatePicker component.</description>
             <component-family>org.mapfaces.Temporal</component-family>

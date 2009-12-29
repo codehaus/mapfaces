@@ -17,7 +17,6 @@
 
 package org.widgetfaces.component.temporal;
 
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import org.mapfaces.component.UITemporal;
 import org.mapfaces.share.interfaces.AjaxInterface;
@@ -37,9 +36,7 @@ import org.mapfaces.share.interfaces.AjaxRendererInterface;
  */
 public class UIDatepicker extends UITemporal implements AjaxInterface {
 
-    public static final String FAMILY = "org.mapfaces.Datepicker";
     private static final String RENDERER_TYPE = "org.mapfaces.renderkit.HTMLDatepicker";
-    
     /* Fields */
     private String title;
 
@@ -82,7 +79,7 @@ public class UIDatepicker extends UITemporal implements AjaxInterface {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        setTitle((String)values[1]);
+        setTitle((String) values[1]);
     }
 
     /**
@@ -90,7 +87,7 @@ public class UIDatepicker extends UITemporal implements AjaxInterface {
      */
     @Override
     public String getFamily() {
-        return FAMILY;
+        return "org.mapfaces.Datepicker";
     }
 
     @Override
@@ -112,6 +109,7 @@ public class UIDatepicker extends UITemporal implements AjaxInterface {
     /**
      * @return the title
      */
+    @Override
     public String getTitle() {
         return title;
     }
@@ -119,6 +117,7 @@ public class UIDatepicker extends UITemporal implements AjaxInterface {
     /**
      * @param title the title to set
      */
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
