@@ -16,11 +16,15 @@
 
 package org.mapfaces.demo.bean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.mapfaces.model.ComponentDescriptor;
+import org.mapfaces.model.DefaultComponentDescriptor;
 import org.mapfaces.models.tree.TreeItem;
 
 /**
@@ -31,14 +35,15 @@ public class TreetableBean {
 
 
     private String name = "ouiiiiiiii je suis le name";
-    private String value = "ouiiiiiiii je suis la value";
+    private String value = "20/11/2009";
 
     private static final Logger LOGGER = Logger.getLogger(TreetableBean.class.getName());
     private DefaultTreeModel tree;
     private DefaultTreeModel treemodel;
-    private String type = "select";
+    private String type = "date";
     private Map<Object, String> selectMap;
     private Object selectedKey;
+    private List<ComponentDescriptor> testMap;
 
     public TreetableBean() {
 //        String fileUrl = "data/context/owc030Cut.xml";
@@ -74,6 +79,37 @@ public class TreetableBean {
         root.add(new DefaultMutableTreeNode(new TreeItem("title5","Tempoaral Extent")));
         treemodel = new DefaultTreeModel(root);
 
+        testMap = new ArrayList<ComponentDescriptor>();
+        ComponentDescriptor test = new DefaultComponentDescriptor();
+        test.setTitle("title1");
+        test.setType("text");
+        test.setValue("Valeur1");
+        test.setMaxCar(125);
+        test.setMandatory(true);
+        testMap.add(test);
+        test = new DefaultComponentDescriptor();
+        test.setTitle("title2");
+        test.setType("mail");
+        test.setValue("gerard@gmail.com");
+        test.setMandatory(false);
+        testMap.add(test);
+        test = new DefaultComponentDescriptor();
+        test.setTitle("title3");
+        test.setType("textarea");
+        test.setValue("azertyuiopqsdfghjklmwxcvbn0123456789123456789");
+        test.setMaxCar(150);
+        testMap.add(test);
+        test = new DefaultComponentDescriptor();
+        test.setTitle("title4");
+        test.setType("select");
+        test.setValue(selectedKey);
+        test.setSelectMap(selectMap);
+        testMap.add(test);
+        test = new DefaultComponentDescriptor();
+        test.setTitle("title5");
+        test.setType("date");
+        test.setValue("21/11/2009");
+        testMap.add(test);
     }
 
     public DefaultTreeModel getTree() {
@@ -138,6 +174,7 @@ public class TreetableBean {
      */
     public void setValue(String value) {
         this.value = value;
+        System.out.println("VALUE IN DA BEAN ==> " + this.value);
     }
 
     /**
@@ -166,6 +203,20 @@ public class TreetableBean {
      */
     public void setSelectedKey(Object selectedKey) {
         this.selectedKey = selectedKey;
+    }
+
+    /**
+     * @return the testMap
+     */
+    public List<ComponentDescriptor> getTestMap() {
+        return testMap;
+    }
+
+    /**
+     * @param testMap the testMap to set
+     */
+    public void setTestMap(List<ComponentDescriptor> testMap) {
+        this.testMap = testMap;
     }
 
 }

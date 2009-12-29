@@ -16,15 +16,25 @@
  */
 package org.mapfaces.component;
 
+import com.sun.faces.renderkit.html_basic.BaseTableRenderer;
+import com.sun.faces.renderkit.html_basic.TableRenderer;
 import java.util.Map;
+import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.el.MethodBinding;
+import javax.faces.event.ValueChangeListener;
+import javax.faces.validator.Validator;
 import org.mapfaces.component.treetable.UITreeColumn;
+import org.mapfaces.share.utils.FacesUtils;
 
 /**
  *
  * @author leo pratlong (geomatys)
  */
-public class UIComponentSelector extends UIWidgetBase {
+public class UIComponentSelector extends UIWidgetBase implements EditableValueHolder {
 
     private static final String COMP_FAMILY   = "org.mapfaces.component.ComponentSelector";
 
@@ -34,10 +44,16 @@ public class UIComponentSelector extends UIWidgetBase {
     private boolean mandatory;
     private Integer maxCar;
     private Map<Object, String> selectMap;
+    private Integer maxOccurence;
+    private String key;
 
     public UIComponentSelector() {
         super();
         setRendererType("org.mapfaces.renderkit.html.ComponentSelector");
+
+        System.out.println("############   UIComponentSelector  constructor   id = "+this.getId());
+        
+
     }
 
     @Override
@@ -47,7 +63,7 @@ public class UIComponentSelector extends UIWidgetBase {
 
     @Override
     public Object saveState(FacesContext context) {
-        final Object[] values = new Object[7];
+        final Object[] values = new Object[9];
         values[0] = super.saveState(context);
         values[1] = getValue();
         values[2] = getType();
@@ -55,6 +71,8 @@ public class UIComponentSelector extends UIWidgetBase {
         values[4] = isMandatory();
         values[5] = getMaxCar();
         values[6] = getSelectMap();
+        values[7] = getMaxOccurence();
+        values[8] = getKey();
         return values;
     }
 
@@ -68,6 +86,8 @@ public class UIComponentSelector extends UIWidgetBase {
         setMandatory((Boolean) values[4]);
         setMaxCar((Integer) values[5]);
         setSelectMap((Map) values[6]);
+        setMaxOccurence((Integer) values[7]);
+        setKey((String) values[8]);
     }
 
     /**
@@ -153,5 +173,118 @@ public class UIComponentSelector extends UIWidgetBase {
      */
     public void setSelectMap(Map<Object, String> selectMap) {
         this.selectMap = selectMap;
+    }
+
+    /**
+     * @return the maxOccurence
+     */
+    public Integer getMaxOccurence() {
+        return maxOccurence;
+    }
+
+    /**
+     * @param maxOccurence the maxOccurence to set
+     */
+    public void setMaxOccurence(Integer maxOccurence) {
+        this.maxOccurence = maxOccurence;
+    }
+
+    /**
+     * @return the key
+     */
+    public String getKey() {
+        return key;
+    }
+
+    /**
+     * @param key the key to set
+     */
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Object getSubmittedValue() {
+        return value;
+    }
+
+    public void setSubmittedValue(Object submittedValue) {
+        
+    }
+
+    public boolean isLocalValueSet() {
+        return true;
+    }
+
+    public void setLocalValueSet(boolean localValueSet) {
+        
+    }
+
+    public boolean isValid() {
+        return true;
+    }
+
+    public void setValid(boolean valid) {
+        
+    }
+
+    public boolean isRequired() {
+        return false;
+    }
+
+    public void setRequired(boolean required) {
+        
+    }
+
+    public MethodBinding getValidator() {
+        return null;
+    }
+
+    public void setValidator(MethodBinding validatorBinding) {
+        
+    }
+
+    public MethodBinding getValueChangeListener() {
+        return null;
+    }
+
+    public void setValueChangeListener(MethodBinding valueChangeMethod) {
+        
+    }
+
+    public void addValidator(Validator validator) {
+        
+    }
+
+    public Validator[] getValidators() {
+        return null;
+    }
+
+    public void removeValidator(Validator validator) {
+        
+    }
+
+    public void addValueChangeListener(ValueChangeListener listener) {
+        
+    }
+
+    public ValueChangeListener[] getValueChangeListeners() {
+        return null;
+    }
+
+    public void removeValueChangeListener(ValueChangeListener listener) {
+        
+    }
+
+    public Object getLocalValue() {
+        
+        return this.getAttributes().get("value");
+    }
+
+    public Converter getConverter() {
+        return null;
+    }
+
+    public void setConverter(Converter converter) {
+        
     }
 }
