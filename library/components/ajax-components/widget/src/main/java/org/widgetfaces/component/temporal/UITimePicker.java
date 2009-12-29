@@ -20,13 +20,14 @@ package org.widgetfaces.component.temporal;
 import java.util.Date;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import org.mapfaces.component.UITemporal;
 
 /**
- * This class is a User Interface used to parameter the TimePicker component.
- * @author leopratlong (Geomatys)
+ * This class is an User Interface used to parameter the TimePicker component.
+ * @author leo pratlong (Geomatys)
  * @since 0.2
  */
-public class UITimePicker extends UIInput {
+public class UITimePicker extends UITemporal {
 
     /**
      * Define the family of the component.
@@ -38,29 +39,13 @@ public class UITimePicker extends UIInput {
      */
     private Date value;
     /**
-     * Define if we have to load the MooTools library on the View page.
-     */
-    private boolean loadMootools = true;
-    /**
-     * Define if we have to load the No_Gray TimePicker library on the View page.
-     */
-    private boolean loadJs = true;
-    /**
      * Define the css Style of the component.
      */
     private String style;
     /**
-     * Define the CSS Class of the component.
-     */
-    private String styleClass;
-    /**
      * Define the target input.
      */
     private String targetInput;
-    /**
-     * Flag that indicates if the css resources will be loaded or not.
-     */
-    private boolean loadCss = true;
 
     /**
      * Default constructor.
@@ -78,15 +63,11 @@ public class UITimePicker extends UIInput {
      */
     @Override
     public Object saveState(FacesContext context) {
-        final Object values[] = new Object[8];
+        final Object values[] = new Object[4];
         values[0] = super.saveState(context);
         values[1] = this.getValue();
-        values[2] = this.isLoadMootools();
-        values[3] = this.isLoadJs();
-        values[4] = this.getStyle();
-        values[5] = this.getStyleClass();
-        values[6] = this.getTargetInput();
-        values[7] = this.isLoadCss();
+        values[2] = this.getStyle();
+        values[3] = this.getTargetInput();
         return values;
     }
 
@@ -100,12 +81,8 @@ public class UITimePicker extends UIInput {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
         this.setValue((Date) values[1]);
-        this.setLoadMootools((Boolean) values[2]);
-        this.setLoadJs((Boolean) values[3]);
-        this.setStyle((String) values[4]);
-        this.setStyleClass((String) values[5]);
-        this.setTargetInput((String) values[6]);
-        this.setLoadCss((Boolean) values[7]);
+        this.setStyle((String) values[2]);
+        this.setTargetInput((String) values[3]);
     }
 
     /**
@@ -131,34 +108,6 @@ public class UITimePicker extends UIInput {
     }
 
     /**
-     * @return the loadMootools
-     */
-    public boolean isLoadMootools() {
-        return loadMootools;
-    }
-
-    /**
-     * @param loadMootools the loadMootools to set
-     */
-    public void setLoadMootools(boolean loadMootools) {
-        this.loadMootools = loadMootools;
-    }
-
-    /**
-     * @return the loadJs
-     */
-    public boolean isLoadJs() {
-        return loadJs;
-    }
-
-    /**
-     * @param loadJs the loadJs to set
-     */
-    public void setLoadJs(boolean loadJs) {
-        this.loadJs = loadJs;
-    }
-
-    /**
      * @return the style
      */
     public String getStyle() {
@@ -173,20 +122,6 @@ public class UITimePicker extends UIInput {
     }
 
     /**
-     * @return the styleClass
-     */
-    public String getStyleClass() {
-        return styleClass;
-    }
-
-    /**
-     * @param styleClass the styleClass to set
-     */
-    public void setStyleClass(String styleClass) {
-        this.styleClass = styleClass;
-    }
-
-    /**
      * @return the outputTop
      */
     public String getTargetInput() {
@@ -198,19 +133,5 @@ public class UITimePicker extends UIInput {
      */
     public void setTargetInput(String targetInput) {
         this.targetInput = targetInput;
-    }
-
-    /**
-     * @return the loadCss
-     */
-    public boolean isLoadCss() {
-        return loadCss;
-    }
-
-    /**
-     * @param loadCss the loadCss to set
-     */
-    public void setLoadCss(boolean loadCss) {
-        this.loadCss = loadCss;
     }
 }
