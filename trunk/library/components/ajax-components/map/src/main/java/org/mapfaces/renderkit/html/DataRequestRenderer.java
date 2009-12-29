@@ -238,6 +238,9 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                 final List<String> featureInfoValues = new ArrayList<String>();
                 //List of request url to send. Result of this request will be display in UIPopup
                 final List<String> requestUrlList = new ArrayList<String>();
+                /**
+                 * For layers that contains Features instances to apply a featureVisitor.
+                 */
                 final int countFeature = comp.getFeatureCount();
                 final String outputFormat = (comp.getOutputFormat() != null && !comp.getOutputFormat().equals("")) ? comp.getOutputFormat() : "text/html";
                 final String featureCount = (comp.getFeatureCount() != 0) ? String.valueOf(comp.getFeatureCount()) : "1000";
@@ -397,7 +400,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                                         final Feature resultFeature = new DefaultFeature();
                                         resultFeature.setId(ff.getID());
-                                        if (resultFeature != null && !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
+                                        if ( !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
                                             //append the resulted feature into the global result feature list.
                                             featureInfoList.add(resultFeature);
                                         }

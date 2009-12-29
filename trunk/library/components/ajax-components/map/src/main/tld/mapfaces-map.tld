@@ -1032,7 +1032,9 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[Number of features per layer allowed. The default is all features count in the intersection.]]>
+            <description><![CDATA[Number of features per layer allowed.
+            When a WMS layer is requested it means FEATURE_COUNT parameter value in a GetFeatureInfo request.
+            The default is all features count in the intersection.]]>
             </description>
         </attribute>
         <attribute>
@@ -1072,7 +1074,7 @@
             </deferred-value>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description><![CDATA[This is a list that contains all resulted output values of the getFeatureinfo on every requested layer with the forced format text/plain.]]>
+            <description><![CDATA[This is list contains all resulted output values of the getFeatureinfo response for each requested wms layer with the forced format text/plain.]]>
             </description>
         </attribute>
         <attribute>
