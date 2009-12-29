@@ -37,6 +37,7 @@ import javax.faces.render.Renderer;
 import org.geotoolkit.util.logging.Logging;
 
 import org.mapfaces.component.UIComponentSelector;
+import org.mapfaces.component.UITemporal;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.FacesUtils;
 
@@ -219,6 +220,8 @@ public class ComponentSelectorRenderer extends Renderer {
             renderReadOnly(context, component, id);
         } else if ("select".equals(type)) {
            renderSelect(context, component, id, mandatory);
+        } else if ("date".equals(type)) {
+            renderDatePicker(context, component, id, mandatory);
         }
 //        else {
 //            LOGGER.severe("this fieldType is not recognize : " + fieldType + " for " + item.getIdValue());
@@ -322,33 +325,27 @@ public class ComponentSelectorRenderer extends Renderer {
         maxCarText.setValue(maxCarOnLoad + " car.");
     }
 
-//    private void renderDatePicker(FacesContext context, UIComponentSelector component, boolean mandatory) {
-//        if (isDate(profileElement) || "Date".equals(item.getType().getName())) {
-//            if (context.getExternalContext().getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
-//                context.getExternalContext().getRequestMap().remove("ajaxflag.DatePickerjs");
-//            }
-//            final UIDatepicker datepicker;
-//            boolean addNewChild = false;
-//            if (mdInput instanceof UIDatepicker) {
-//                datepicker = (UIDatepicker) mdInput;
-//            } else {
-//                datepicker = new UIDatepicker();
-//                datepicker.setId(getIdWithUnderscores(item.getPath().getId()));
-//                datepicker.setLoadCss(false);
-//                datepicker.setLoadJs(false);
-//                datepicker.setStyleClass((mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS);
-//                addNewChild = true;
-//            }
-//
-//            // This case is specific : as it doesn't work, we just set its value. This one must be
-//            // catch before (typically in the decode, by calling the method getSubmittedValue of
-//            // the HtmlInput child of the DatePicker. Not a good way to achieve that, but
-//            // this component will be totally rebuild soon.
-//            datepicker.setValue(item.getValue());
-//            if (addNewChild) component.getChildren().add(datepicker);
-//        }
-//    }
-//
+    private void renderDatePicker(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_output");
+        if (context.getExternalContext().getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
+            context.getExternalContext().getRequestMap().remove("ajaxflag.DatePickerjs");
+        }
+        final UITemporal datepicker;
+        if (mdInput instanceof UITemporal) {
+            datepicker = (UITemporal) mdInput;
+        } else {
+            datepicker = new UITemporal();
+            datepicker.setId(getIdWithUnderscores(id) + "_date");
+            datepicker.setLoadCss(true);
+            datepicker.setLoadJs(true);
+            datepicker.setLoadMootools(true);
+            datepicker.setStyleClass((mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS);
+            component.getChildren().add(datepicker);
+        }
+
+        createValueExpr(context, component, datepicker);
+    }
+
 
 
     /**

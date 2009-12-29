@@ -30,13 +30,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
+import org.mapfaces.component.UITemporal;
 import org.mapfaces.share.interfaces.AjaxRendererInterface;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.AjaxUtils;
 import org.mapfaces.share.utils.FacesUtils;
 import org.mapfaces.share.utils.RendererUtils.HTML;
 import org.mapfaces.share.utils.WebContainerUtils;
-import org.widgetfaces.component.temporal.UIDatepicker;
 
 /**
  * @author Mehdi Sidhoum (Geomatys)
@@ -77,7 +77,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
         FacesUtils.assertValid(context, component);
         super.encodeBegin(context, component);
         
-        final UIDatepicker comp = (UIDatepicker) component;
+        final UITemporal comp = (UITemporal) component;
         
 
         //Write the scripts once per page
@@ -159,7 +159,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
-        final UIDatepicker comp = (UIDatepicker) component;
+        final UITemporal comp = (UITemporal) component;
         final StringBuilder str = new StringBuilder();
         final UIForm formContainer = getForm(component);
 
@@ -202,7 +202,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
     @Override
     public void decode(final FacesContext context, final UIComponent component) throws NullPointerException {
         final ExternalContext ext = context.getExternalContext();
-        final UIDatepicker comp = (UIDatepicker) component;
+        final UITemporal comp = (UITemporal) component;
         final Map parameterMap = ext.getRequestParameterMap();
 
         final UIForm formContainer = getForm(component);
@@ -259,7 +259,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
      */
     public void writeHeaders(final FacesContext context, final UIComponent component) throws IOException {
         final ResponseWriter writer = context.getResponseWriter();
-        final UIDatepicker comp = (UIDatepicker) component;
+        final UITemporal comp = (UITemporal) component;
 
 
 //        writer.startElement(HTML.SCRIPT_ELEM, comp);
@@ -295,7 +295,7 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
 
     @Override
     public void handleAjaxRequest(FacesContext context, UIComponent component) {
-        final UIDatepicker comp = (UIDatepicker) component;
+        final UITemporal comp = (UITemporal) component;
         final Map parameterMap = context.getExternalContext().getRequestParameterMap();
         
         final UIForm formContainer = getForm(component);
