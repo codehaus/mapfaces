@@ -431,10 +431,11 @@ public class UIMapPane extends UIWidgetBase {
      * This method remove a layer child of this Mappane if exists.
      * @param layerComp
      */
-    public void removeLayer(final UIComponent layerComp) {
-        for (UIComponent comp : this.getChildren()) {
-            if (comp.getId().equals(layerComp.getId())) {
-                this.getChildren().remove(comp);
+    public void removeLayer(final UIComponent layerToRemove) {
+        for (UIComponent child : this.getChildren()) {
+            if (child.getId().equals(layerToRemove.getId())) {
+                this.getChildren().remove(child);
+                break;
             }
         }
     }
