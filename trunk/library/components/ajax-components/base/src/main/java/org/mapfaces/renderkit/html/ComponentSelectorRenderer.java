@@ -57,6 +57,7 @@ public class ComponentSelectorRenderer extends Renderer {
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+        System.out.println("ENCODE BEGIN !!!");
         if (!component.isRendered()) {
             return;
         }
@@ -81,7 +82,7 @@ public class ComponentSelectorRenderer extends Renderer {
             }
 
             renderValue(context, compSel, type, id);
-
+            System.out.println("ENCODE BEGIN END !!!!!!");
         } else {
             LOGGER.severe("mdi.getValue() return NULL into encodeBegin method");
         }
@@ -247,7 +248,6 @@ public class ComponentSelectorRenderer extends Renderer {
 
         if (input instanceof HtmlInputText) {
             inputText = (HtmlInputText) input;
-            createValueExpr(context, component, inputText);
         } else {
             /* boolean addNewChild = false;
             if (mdInput instanceof HtmlInputText) {
@@ -257,8 +257,6 @@ public class ComponentSelectorRenderer extends Renderer {
             inputText.setId(getIdWithUnderscores(id) + "_text");
             // MetadataFieldControlRenderer.renderHtmlInputTextControls(inputText, profileElement);
             //addNewChild = true;
-
-            createValueExpr(context, component, inputText);
             // createValueExpr(context, component, itvalueem, inputText, mandatory, false);
             inputText.setStyleClass(this.returnStyle(mandatory));
             if ("mail".equals(type)) {
@@ -268,6 +266,7 @@ public class ComponentSelectorRenderer extends Renderer {
             // if (addNewChild)
             component.getChildren().add(inputText);
         }
+        createValueExpr(context, component, inputText, false);
     }
 
     /**
@@ -318,7 +317,7 @@ public class ComponentSelectorRenderer extends Renderer {
         
         int maxCarOnLoad = maxCar;
         if (setValue) {
-            createValueExpr(context, component, inputTextArea);
+            createValueExpr(context, component, inputTextArea, false);
             if (inputTextArea.getValue().toString().length() <= maxCar) maxCarOnLoad = maxCar - inputTextArea.getValue().toString().length();
         }
 
@@ -326,7 +325,7 @@ public class ComponentSelectorRenderer extends Renderer {
     }
 
     private void renderDatePicker(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_output");
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_date");
         if (context.getExternalContext().getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
             context.getExternalContext().getRequestMap().remove("ajaxflag.DatePickerjs");
         }
@@ -342,8 +341,7 @@ public class ComponentSelectorRenderer extends Renderer {
             datepicker.setStyleClass((mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS);
             component.getChildren().add(datepicker);
         }
-
-        createValueExpr(context, component, datepicker);
+        createValueExpr(context, component, datepicker, true);
     }
 
 
@@ -396,7 +394,7 @@ public class ComponentSelectorRenderer extends Renderer {
             }
         }
         
-        createValueExpr(context, component, selectOneMenu);
+        createValueExpr(context, component, selectOneMenu, false);
     }
 
 //    /**
@@ -485,11 +483,14 @@ public class ComponentSelectorRenderer extends Renderer {
         return (mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS;
     }
 
-    private void createValueExpr(FacesContext context, UIComponentSelector component, UIInput htmlComp) {
+    private void createValueExpr(FacesContext context, UIComponentSelector component, UIInput htmlComp, boolean isDatePicker) {
         final ValueExpression ve = component.getValueExpression("value");
         if (ve != null) {
             if (ve.getValue(context.getELContext()) instanceof String) {
-                htmlComp.setValue(ve.getValue(context.getELContext()));
+                System.out.println("VALUE IN DA RENDERER => " + ve.getValue(context.getELContext()));
+                if (!isDatePicker) {
+                    htmlComp.setValue(ve.getValue(context.getELContext()));
+                }
                 htmlComp.setValueExpression("value", ve);
             }
         }
