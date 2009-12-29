@@ -176,7 +176,7 @@ public class FacesUtils {
      */
     public static UIComponent findParentComponentByClass(final UIComponent component, final Class c) {
         UIComponent parent = component;
-        while (!(c.isInstance(parent))) {
+        while (!(c.isInstance(parent)) && (parent!=null)) {
             parent = parent.getParent();
         }
         return parent;

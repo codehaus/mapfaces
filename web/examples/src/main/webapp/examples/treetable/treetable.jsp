@@ -50,7 +50,21 @@
                     </mfb:treecolumn>
 
                 </mfb:treetable*/%>
-                <mfb:ComponentSelector id="truc" type="#{treetableBean.type}" value="#{treetableBean.selectedKey}" selectMap="#{treetableBean.selectMap}" hasParent="false" maxCar="100" />
+                <h:dataTable id="haiesTable"
+                             value="#{treetableBean.testMap}" rows="8"
+                             var="_test" styleClass="tableau"
+                             style="border:0px;float:left;" rules="none" rowClasses="odd,even">
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                        <h:outputText value="#{_test.title}" style="text-align:center;"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="Composants"/></f:facet>
+                        <mfb:ComponentSelector id="test" key="#{_test.title}" type="#{_test.type}"
+                                               value="#{_test.value}" mandatory="#{_test.mandatory}"
+                                               selectMap="#{_test.selectMap}" hasParent="false" maxCar="100" />
+                    </h:column>
+                </h:dataTable>
                 <h:commandButton value="Ok" />
                 <%/*mfb:Testy id="test" value="#{treetableBean.value}" name="#{treetableBean.name}" /*/%>
             </h:form>

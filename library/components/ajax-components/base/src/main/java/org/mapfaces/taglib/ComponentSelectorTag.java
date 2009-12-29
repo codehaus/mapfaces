@@ -44,6 +44,8 @@ public class ComponentSelectorTag extends UIComponentELTag {
     private ValueExpression hasParent = null;
     private ValueExpression maxCar = null;
     private ValueExpression selectMap = null;
+    private ValueExpression maxOccurence = null;
+    private ValueExpression key = null;
 
     // ---------------------------------------------------------- Methods
     @Override
@@ -63,12 +65,19 @@ public class ComponentSelectorTag extends UIComponentELTag {
             super.setProperties(component);
 
             final FacesContext context = FacesContext.getCurrentInstance();
-
+            System.out.println("(TAG) => VALUE ==> " + value);
+            System.out.println("(TAG) => VALUE string ==> " + value.getExpressionString());
+            System.out.println("(TAG) => VALUE getValue => " + value.getValue(context.getELContext()));
+            System.out.println("(TAG) => TYPE ==> " + type);
+            System.out.println("(TAG) => TYPE string ==> " + type.getExpressionString());
+            System.out.println("(TAG) => TYPE getValue ==> " + type.getValue(context.getELContext()));
             TagUtils.affectUIValueWithValueExpression(context, value, UIComponentSelector.class, component, "Value", String.class);
             TagUtils.affectUIValueWithValueExpression(context, type, UIComponentSelector.class, component, "Type", String.class);
             TagUtils.affectUIValueWithValueExpression(context, hasParent, UIComponentSelector.class, component, "HasParent", Boolean.class);
             TagUtils.affectUIValueWithValueExpression(context, maxCar, UIComponentSelector.class, component, "MaxCar", Integer.class);
             TagUtils.affectUIValueWithValueExpression(context, selectMap, UIComponentSelector.class, component, "SelectMap", Map.class);
+            TagUtils.affectUIValueWithValueExpression(context, maxOccurence, UIComponentSelector.class, component, "MaxOccurence", Integer.class);
+            TagUtils.affectUIValueWithValueExpression(context, key, UIComponentSelector.class, component, "Key", String.class);
 
             component.setValueExpression("value", value);
             component.setValueExpression("type", type);
@@ -76,6 +85,8 @@ public class ComponentSelectorTag extends UIComponentELTag {
             component.setValueExpression("hasParent", hasParent);
             component.setValueExpression("maxCar", maxCar);
             component.setValueExpression("selectMap", selectMap);
+            component.setValueExpression("maxOccurence", maxOccurence);
+            component.setValueExpression("key", key);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ComponentSelectorTag.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
@@ -96,6 +107,8 @@ public class ComponentSelectorTag extends UIComponentELTag {
         hasParent = null;
         maxCar = null;
         selectMap = null;
+        maxOccurence = null;
+        key = null;
     }
 
     // ---------------------------------------------------------- Accessors Methods
@@ -181,5 +194,33 @@ public class ComponentSelectorTag extends UIComponentELTag {
      */
     public void setSelectMap(ValueExpression selectMap) {
         this.selectMap = selectMap;
+    }
+
+    /**
+     * @return the maxOccurence
+     */
+    public ValueExpression getMaxOccurence() {
+        return maxOccurence;
+    }
+
+    /**
+     * @param maxOccurence the maxOccurence to set
+     */
+    public void setMaxOccurence(ValueExpression maxOccurence) {
+        this.maxOccurence = maxOccurence;
+    }
+
+    /**
+     * @return the key
+     */
+    public ValueExpression getKey() {
+        return key;
+    }
+
+    /**
+     * @param key the key to set
+     */
+    public void setKey(ValueExpression key) {
+        this.key = key;
     }
 }

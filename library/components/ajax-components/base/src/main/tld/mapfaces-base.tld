@@ -43,6 +43,17 @@
                 <![CDATA[ComponentSelector component]]>
         </description>
         &commons_attributes;
+
+        <attribute>
+            <description><![CDATA[
+                Key of the iteration.]]>
+            </description>
+            <name>key</name>
+            <required>true</required>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
         <attribute>
             <description><![CDATA[
                 Value of the component.]]>
@@ -101,6 +112,16 @@
             <required>false</required>
             <deferred-value>
                 <type>java.util.Map</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <description><![CDATA[
+                Defines the possible number of occurence of this field (to render a More Button).]]>
+            </description>
+            <name>maxOccurence</name>
+            <required>false</required>
+            <deferred-value>
+                <type>java.lang.Integer</type>
             </deferred-value>
         </attribute>
     </tag>

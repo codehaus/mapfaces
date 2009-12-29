@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UISelectItem;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
@@ -38,6 +38,7 @@ import org.geotoolkit.util.logging.Logging;
 
 import org.mapfaces.component.UIComponentSelector;
 import org.mapfaces.component.UITemporal;
+import org.mapfaces.model.ComponentDescriptor;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.FacesUtils;
 
@@ -63,9 +64,35 @@ public class ComponentSelectorRenderer extends Renderer {
         }
         assertValid(context, component);
         final UIComponentSelector compSel = (UIComponentSelector) component;
+
+
+        UIComponent datatable = FacesUtils.findParentComponentByClass(component, HtmlDataTable.class);
+        if(datatable instanceof HtmlDataTable){
+
+        HtmlDataTable htmldttable = (HtmlDataTable)datatable;
+            System.out.println("#############   row index = "+htmldttable.getRowIndex());
+        }
+
+        System.out.println("-----------------------------------------------------------------------");
+        for(String reqkey : context.getExternalContext().getRequestMap().keySet()){
+            System.out.println(">>>>>>>>>>   key = "+reqkey   +"      value = "+context.getExternalContext().getRequestMap().get(reqkey));
+        }
+        ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get("_test");
+        compSel.setType(varObj.getType());
+        compSel.setValue(varObj.getValue());
+        compSel.setKey(varObj.getTitle());
+        compSel.setMandatory(varObj.isMandatory());
+        compSel.setMaxCar(varObj.getMaxCar());
+        compSel.setMaxOccurence(varObj.getMaxOccurence());
+        compSel.setSelectMap(varObj.getSelectMap());
+
+        System.out.println("-----------------------------------------------------------------------");
+
+
+
+        System.out.println("Type =)))> " + compSel.getType());
         if ((compSel.getId() != null) && (compSel.getType() != null)) {
             final String type = compSel.getType();
-            final String id = compSel.getId();
 
             if (compSel.isHasParent() == false) {
                 final ResponseWriter writer = context.getResponseWriter();
@@ -81,7 +108,7 @@ public class ComponentSelectorRenderer extends Renderer {
                 writer.endElement("link");
             }
 
-            renderValue(context, compSel, type, id);
+            renderValue(context, compSel, type, compSel.getKey());
             System.out.println("ENCODE BEGIN END !!!!!!");
         } else {
             LOGGER.severe("mdi.getValue() return NULL into encodeBegin method");
@@ -91,7 +118,13 @@ public class ComponentSelectorRenderer extends Renderer {
 
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        super.encodeChildren(context, component);
+        System.out.println("ENCODE CHILDREN");
+        if (component instanceof UIComponentSelector) {
+                UIComponent child = FacesUtils.findComponentById(context, component, ((UIComponentSelector) component).getKey());
+            System.out.println("Key ==> " + ((UIComponentSelector) component).getKey());
+            System.out.println("Child ? " + child);
+            if (child != null) FacesUtils.encodeRecursive(context, child);
+        }
     }
 
 //    @Override
@@ -223,15 +256,14 @@ public class ComponentSelectorRenderer extends Renderer {
            renderSelect(context, component, id, mandatory);
         } else if ("date".equals(type)) {
             renderDatePicker(context, component, id, mandatory);
+        } else {
+            LOGGER.severe("this fieldType is not recognize : " + type + " for " + id);
         }
-//        else {
-//            LOGGER.severe("this fieldType is not recognize : " + fieldType + " for " + item.getIdValue());
-//        }
-//
-//        if (profileElement.getMaximumOccurence() > 1) {
-//            renderMoreButton(context, component, item);
-//            renderMinusButton(component, item);
-//        }
+
+        if ((component.getMaxOccurence() != null) && (component.getMaxOccurence() > 1)) {
+           // renderMoreButton(context, component, id);
+           // renderMinusButton(component, item);
+        }
 
     }
 
@@ -243,7 +275,7 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param obligation
      */
     private void renderText(FacesContext context, UIComponentSelector component, String id, boolean mandatory, String type) {
-        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_text");
+        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
         final HtmlInputText inputText;
 
         if (input instanceof HtmlInputText) {
@@ -254,7 +286,7 @@ public class ComponentSelectorRenderer extends Renderer {
                 inputText = (HtmlInputText) mdInput;
             } else { */
             inputText = new HtmlInputText();
-            inputText.setId(getIdWithUnderscores(id) + "_text");
+            inputText.setId(getIdWithUnderscores(id));
             // MetadataFieldControlRenderer.renderHtmlInputTextControls(inputText, profileElement);
             //addNewChild = true;
             // createValueExpr(context, component, itvalueem, inputText, mandatory, false);
@@ -277,7 +309,7 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param obligation
      */
     private void renderTextArea(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_text");
+        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
         final HtmlInputText maxCarText;
         final HtmlInputTextarea inputTextArea;
 
@@ -290,7 +322,7 @@ public class ComponentSelectorRenderer extends Renderer {
         boolean setValue = true;
         if (input instanceof HtmlInputText) {
             maxCarText = (HtmlInputText) input;
-            final UIComponent inputValue = FacesUtils.findComponentById(context, maxCarText, getIdWithUnderscores(id) + "_textArea");
+            final UIComponent inputValue = FacesUtils.findComponentById(context, maxCarText, getIdWithUnderscores(id));
             if (inputValue instanceof HtmlInputTextarea) {
                 inputTextArea = (HtmlInputTextarea) inputValue;
             } else {
@@ -325,7 +357,7 @@ public class ComponentSelectorRenderer extends Renderer {
     }
 
     private void renderDatePicker(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_date");
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
         if (context.getExternalContext().getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
             context.getExternalContext().getRequestMap().remove("ajaxflag.DatePickerjs");
         }
@@ -334,7 +366,7 @@ public class ComponentSelectorRenderer extends Renderer {
             datepicker = (UITemporal) mdInput;
         } else {
             datepicker = new UITemporal();
-            datepicker.setId(getIdWithUnderscores(id) + "_date");
+            datepicker.setId(getIdWithUnderscores(id));
             datepicker.setLoadCss(true);
             datepicker.setLoadJs(true);
             datepicker.setLoadMootools(true);
@@ -353,10 +385,10 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param obligation
      */
     private void renderReadOnly(FacesContext context, UIComponentSelector component, String id) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_output");
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
         if ((mdInput == null) && (component.getValue() != null)) {
             final HtmlOutputText outputText = new HtmlOutputText();
-            outputText.setId(getIdWithUnderscores(id) + "_output");
+            outputText.setId(getIdWithUnderscores(id));
             outputText.setValue(component.getValue());
             component.getChildren().add(outputText);
         }
@@ -371,14 +403,14 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param obligation
      */
     private void renderSelect(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_select");
+        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
         final HtmlSelectOneMenu selectOneMenu;
         if (mdInput instanceof HtmlSelectOneMenu) {
             selectOneMenu = (HtmlSelectOneMenu) mdInput;
             // selectOneMenu.getChildren().clear();
         } else {
             selectOneMenu = new HtmlSelectOneMenu();
-            selectOneMenu.setId(getIdWithUnderscores(id) + "_select");
+            selectOneMenu.setId(getIdWithUnderscores(id));
 
             if (component.getSelectMap() != null) {
                 final Map<Object, String> selectMap = component.getSelectMap();
@@ -397,47 +429,45 @@ public class ComponentSelectorRenderer extends Renderer {
         createValueExpr(context, component, selectOneMenu, false);
     }
 
-//    /**
-//     *
-//     * @param component
-//     * @param item
-//     */
-//    private void renderMoreButton(FacesContext context, UIComponent component, ValueItem item) {
-//        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(item.getPath().getId() + "_more"));
-//        if (mdInput == null) {
-//            final HtmlOutputLink linkMore;
-//            final HtmlGraphicImage moreOccurence = new HtmlGraphicImage();
-//            linkMore = new HtmlOutputLink();
-//            final UIMetadataInput mdi = (UIMetadataInput) component;
-//            final UITreeColumn treecolum = (UITreeColumn) mdi.getParent();
-//            final UITreeTable treetable = (UITreeTable) treecolum.getParent();
-//
-//            final String formId = FacesUtils.getParentComponentIdByClass(component, UIForm.class);
-//            final String treetableId = treetable.getId();
-//            final String actionParamIDId = component.getId() + "_actionParamID";
-//            final String actionParamADDId = component.getId() + "_actionParamADD";
-//            final int index = treetable.getRowIndex();
-//            final int actionParamIDValue = index;
-//            final boolean actionParamADDValue = true;
-//
-//            final StringBuilder a4jRequest = new StringBuilder();
-//            linkMore.setId(getIdWithUnderscores(item.getPath().getId()) + "_more");
-//            a4jRequest.append("A4J.AJAX.Submit('").append(formId).append(":metadataRegion','").append(formId).append("',null,{'single':true,'parameters':{'").append(formId).append(":a4jsupport':'").append(formId).append(":a4jsupport',");
-//            a4jRequest.append("'").append(formId).append(":").append(treetableId).append(":").append(index).append(":").append(actionParamIDId).append("':").append(actionParamIDValue).append(",");
-//            a4jRequest.append("'").append(formId).append(":").append(treetableId).append(":").append(index).append(":").append(actionParamADDId).append("':'").append(actionParamADDValue).append("',");
-//            a4jRequest.append("'refresh':'").append(formId).append(":").append(treetableId).append("'} ,");
-//            a4jRequest.append("'actionUrl':window.location.href} ); return false;");
-//
-//            linkMore.setOnclick(a4jRequest.toString());
-//
-//            moreOccurence.setValue("/resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-plus-nl.gif");
-//            moreOccurence.setStyle("position:absolute; left: 94%;");
-//
-//            linkMore.getChildren().add(moreOccurence);
-//            component.getChildren().add(linkMore);
-//        }
-//    }
-//
+    /**
+     *
+     * @param component
+     * @param item
+     */
+    private void renderMoreButton(FacesContext context, UIComponentSelector component, String id) {
+  /*      final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_more");
+        if (mdInput == null) {
+            final HtmlOutputLink linkMore;
+            final HtmlGraphicImage moreOccurence = new HtmlGraphicImage();
+            linkMore = new HtmlOutputLink();
+            final UITreeColumn treecolum = (UITreeColumn) mdi.getParent();
+            final UITreeTable treetable = (UITreeTable) treecolum.getParent();
+            final String formId = FacesUtils.getParentComponentIdByClass(component, UIForm.class);
+            final String treetableId = treetable.getId();
+            final String actionParamIDId = component.getId() + "_actionParamID";
+            final String actionParamADDId = component.getId() + "_actionParamADD";
+            final int index = treetable.getRowIndex();
+            final int actionParamIDValue = index;
+            final boolean actionParamADDValue = true;
+
+            final StringBuilder a4jRequest = new StringBuilder();
+            linkMore.setId(getIdWithUnderscores(item.getPath().getId()) + "_more");
+            a4jRequest.append("A4J.AJAX.Submit('").append(formId).append(":metadataRegion','").append(formId).append("',null,{'single':true,'parameters':{'").append(formId).append(":a4jsupport':'").append(formId).append(":a4jsupport',");
+            a4jRequest.append("'").append(formId).append(":").append(treetableId).append(":").append(index).append(":").append(actionParamIDId).append("':").append(actionParamIDValue).append(",");
+            a4jRequest.append("'").append(formId).append(":").append(treetableId).append(":").append(index).append(":").append(actionParamADDId).append("':'").append(actionParamADDValue).append("',");
+            a4jRequest.append("'refresh':'").append(formId).append(":").append(treetableId).append("'} ,");
+            a4jRequest.append("'actionUrl':window.location.href} ); return false;");
+
+            linkMore.setOnclick(a4jRequest.toString());
+
+            moreOccurence.setValue("/resource.jsf?r=/org/mapfaces/resources/tree/images/default/tree/elbow-plus-nl.gif");
+            moreOccurence.setStyle("position:absolute; left: 94%;");
+
+            linkMore.getChildren().add(moreOccurence);
+            component.getChildren().add(linkMore);
+        } */
+    }
+
 //    /**
 //     *
 //     * @param component
