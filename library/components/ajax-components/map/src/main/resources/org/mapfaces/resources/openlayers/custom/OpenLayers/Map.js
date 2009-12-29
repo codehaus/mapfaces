@@ -50,7 +50,11 @@ OpenLayers.Map = OpenLayers.Class({
             }
             OpenLayers.Util.extend(options.parameters, parameters);
         }
-        OpenLayers.Util.sendA4JRequest(this.mfRequestId, this.mfFormClientId,  options);
+        var idrequest = this.mfRequestId;
+        if (parameters.ajaxRegionClientId) {
+            idrequest = parameters.ajaxRegionClientId;
+        }
+        OpenLayers.Util.sendA4JRequest(idrequest, this.mfFormClientId,  options);
 
     },
     
