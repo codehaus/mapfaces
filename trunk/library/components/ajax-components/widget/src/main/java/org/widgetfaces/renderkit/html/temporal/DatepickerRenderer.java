@@ -122,6 +122,9 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
                 input.setValue(ve.getValue(context.getELContext()));
                 input.setValueExpression(VALUE_KEY, ve);
             }
+        } else {
+            input.setValue(comp.getValue());
+
         }
 
         if (!inputPresence) {
@@ -219,15 +222,18 @@ public class DatepickerRenderer extends Renderer implements AjaxRendererInterfac
             }
         }
 
-        final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
-        if (ve != null && inputchild != null) {
-            if (ve.getValue(context.getELContext()) instanceof String) {
-                inputchild.setValue(ve.getValue(context.getELContext()));
-                inputchild.setValueExpression(VALUE_KEY, ve);
-                ve.setValue(context.getELContext(), newValue);
+        if (inputchild != null) {
+            final ValueExpression ve = comp.getValueExpression(VALUE_KEY);
+            if (ve != null) {
+                if (ve.getValue(context.getELContext()) instanceof String) {
+                    inputchild.setValue(ve.getValue(context.getELContext()));
+                    inputchild.setValueExpression(VALUE_KEY, ve);
+                    ve.setValue(context.getELContext(), newValue);
+                }
+            } else {
+                inputchild.setValue(newValue);
             }
         }
-
     }
 
 
