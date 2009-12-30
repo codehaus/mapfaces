@@ -163,11 +163,11 @@ public class MfLayerListener implements PhaseListener {
                 } catch (PortrayalException ex) {
                     LOGGER.log(Level.SEVERE, ex.getStackTrace().toString(), ex);
 
-                } catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
-
-                    LOGGER.log(Level.WARNING, "Exception : " + exp.getStackTrace().toString());
-
-                } finally {
+                }
+                catch (Exception exp) {//catch all other exception to clean the logs because it can be some flood in portraying process.
+                    LOGGER.log(Level.WARNING, "Exception : " + exp);
+                }
+                finally {
                     emptySession(sessionMap, id);
                 }
 

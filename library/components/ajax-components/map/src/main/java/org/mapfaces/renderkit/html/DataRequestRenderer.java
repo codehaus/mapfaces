@@ -20,6 +20,7 @@ package org.mapfaces.renderkit.html;
 import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -359,7 +360,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                             case GML:
                             case KML:
                             case MAPCONTEXT:
-
+                                
                                 featureInfoX = (String) params.get(mfGfiXKey);
                                 featureInfoY = (String) params.get(mfGfiYKey);
 
@@ -400,6 +401,15 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                                         final Feature resultFeature = new DefaultFeature();
                                         resultFeature.setId(ff.getID());
+                                        if(ff.getAttribute("userObject") instanceof Serializable){
+                                            resultFeature.setUserObject( (Serializable)ff.getAttribute("userObject"));
+                                        }
+                                        if(ff.getAttribute("title") instanceof String){
+                                            resultFeature.setName((String)ff.getAttribute("title"));
+                                        }
+                                        if(ff.getAttribute("geometry") instanceof Geometry){
+                                            resultFeature.setGeometry((Geometry)ff.getAttribute("geometry"));
+                                        }
                                         if ( !featureInfoList.contains(resultFeature) && (countFeature == 0 || featureInfoList.size() < countFeature)) {
                                             //append the resulted feature into the global result feature list.
                                             featureInfoList.add(resultFeature);

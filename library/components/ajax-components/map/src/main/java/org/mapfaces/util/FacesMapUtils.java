@@ -79,6 +79,7 @@ import org.mapfaces.models.layer.DefaultWmsGetMapLayer;
 
 import org.geotoolkit.factory.Hints;
 import org.geotoolkit.feature.simple.DefaultSimpleFeature;
+import org.geotoolkit.feature.simple.SimpleFeatureBuilder;
 import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.referencing.CRS;
@@ -836,26 +837,46 @@ public class FacesMapUtils extends FacesUtils {
      * Return a geotk SimpleFeature Collection from a Feature List.
      * @param featList List of feature objects.
      * @return FeatureCollection of geotk SimpleFeature.
-     * 
+     * @Deprecated use FeatureCollection<SimpleFeatureType, SimpleFeature> getSimpleFeaturesFromFeatures(List<Feature> featList, SimpleFeatureType sft)
      */
     public static FeatureCollection<SimpleFeatureType, SimpleFeature> getSimpleFeaturesFromFeatures(List<Feature> featList) {
         //building a FeatureCollection for this layer.
         FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FeatureCollectionUtilities.createCollection();
         if (featList != null) {
             long featureId = 0;
-            final SimpleFeatureTypeBuilder builder;
-
+            
             if (featList.size() != 0) {
-                builder = getSimpleFeatureTypeBuilderFromFeature(featList.get(0));
-                SimpleFeatureType sft = builder.buildFeatureType();
+                final SimpleFeatureType sft = getSimpleFeatureTypeFromFeature(featList.get(0));
+                final SimpleFeatureBuilder sfb = new SimpleFeatureBuilder(sft);
+                
                 for (Feature f : featList) {
-                    simpleFeatures.add(getSimpleFeatureFromFeature(f, sft, featureId));
+                    simpleFeatures.add(getSimpleFeatureFromFeature(f, sfb, featureId));
                     featureId++;
                 }
             }
         }
         return simpleFeatures;
     }
+
+    public static FeatureCollection<SimpleFeatureType, SimpleFeature> getSimpleFeaturesFromFeatures(List<Feature> featList, SimpleFeatureType sft) {
+        //building a FeatureCollection for this layer.
+        FeatureCollection<SimpleFeatureType, SimpleFeature> simpleFeatures = FeatureCollectionUtilities.createCollection();
+        if (featList != null) {
+            long featureId = 0;
+
+            if (featList.size() != 0) {
+                final SimpleFeatureBuilder sfb = new SimpleFeatureBuilder(sft);
+
+                for (Feature f : featList) {
+                    simpleFeatures.add(getSimpleFeatureFromFeature(f, sfb, featureId));
+                    featureId++;
+                }
+            }
+        }
+        return simpleFeatures;
+    }
+
+
     /*
      *
      */
@@ -891,30 +912,33 @@ public class FacesMapUtils extends FacesUtils {
     }
 
     public static SimpleFeature getSimpleFeatureFromFeature(Feature feature, long featureId) {
-        SimpleFeatureTypeBuilder builder = getSimpleFeatureTypeBuilderFromFeature(feature);
-        return getSimpleFeatureFromFeature(feature, builder.buildFeatureType(), featureId);
+        final SimpleFeatureType sft = getSimpleFeatureTypeFromFeature(feature);
+        final SimpleFeatureBuilder sfb = new SimpleFeatureBuilder(sft);
+        return getSimpleFeatureFromFeature(feature, sfb, featureId);
     }
 
-    private static SimpleFeature getSimpleFeatureFromFeature(Feature feature, SimpleFeatureType sft, long featureId) {
-        List<Object> objects = new ArrayList<Object>();
-        for (String key : feature.getAttributes().keySet()) {
-            objects.add(feature.getAttributes().get(key));
+    public static SimpleFeature getSimpleFeatureFromFeature(Feature feature, SimpleFeatureBuilder sfb, long featureId) {
+        //Clear the feature builder before creating a new feature.
+        sfb.reset();
+        for (Entry<String, Serializable> entry : feature.getAttributes().entrySet()) {
+            sfb.set(entry.getKey(), entry.getValue());
         }
-        return new DefaultSimpleFeature(objects, sft, new DefaultFeatureId(String.valueOf(featureId)));
+        SimpleFeature sf = sfb.buildFeature(String.valueOf(featureId));
+        sf.validate();
+        return sf;
     }
 
-    private static SimpleFeatureTypeBuilder getSimpleFeatureTypeBuilderFromFeature(Feature feature) {
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        builder.setName(feature.getName());
+    private static SimpleFeatureType getSimpleFeatureTypeFromFeature(Feature feature) {
+        SimpleFeatureTypeBuilder sftb = new SimpleFeatureTypeBuilder();
+        sftb.setName(feature.getName());
         for (String key : feature.getAttributes().keySet()) {
             if (key.equals("geometry")) {
-                builder.add(key, Geometry.class, feature.getCrs());
+                sftb.add(key, Geometry.class, feature.getCrs());
             } else {
-                builder.add(key, feature.getAttributes().get(key).getClass());
+                sftb.add(key, feature.getAttributes().get(key).getClass());
             }
         }
-
-        return builder;
+        return sftb.buildFeatureType();
     }
 
     public static Context getContext(final FacesContext facesContext, final String fileUrl, final boolean debug) throws FileNotFoundException, MalformedURLException {
