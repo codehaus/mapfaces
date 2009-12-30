@@ -152,8 +152,9 @@ public class ButtonBarRenderer extends WidgetBaseRenderer {
             if (comp.isFeatureInfo()) {
                 final String rerender = comp.getReRender();
                 final String idsToRefresh = Utils.buildRerenderStringFromString(formId, rerender);
-                final String clientIdAjaxRegion = FacesMapUtils.findClientIdComponentClass(context, context.getViewRoot(), HtmlAjaxRegion.class);
-
+                final String targetAjaxRegionId = comp.getTargetAjaxRegionId();
+                UIComponent finderCompAjaxRegion = FacesMapUtils.findFirstParentComponentByClass(context, comp, HtmlAjaxRegion.class);
+                final String clientIdAjaxRegion = targetAjaxRegionId != null ? formId+":"+targetAjaxRegionId : (finderCompAjaxRegion instanceof HtmlAjaxRegion) ? finderCompAjaxRegion.getClientId(context) : formId;
                 writer.write(",getFeatureInfo: true");
                 if (idsToRefresh != null) {
                     writer.write(",getFeatureInfoOptions: {idToRefresh:'" + idsToRefresh + "'");

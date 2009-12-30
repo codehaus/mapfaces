@@ -82,7 +82,6 @@ import org.geotoolkit.feature.simple.DefaultSimpleFeature;
 import org.geotoolkit.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotoolkit.filter.identity.DefaultFeatureId;
 import org.geotoolkit.referencing.CRS;
-import org.geotoolkit.referencing.crs.DefaultGeographicCRS;
 import org.geotoolkit.sld.MutableStyledLayerDescriptor;
 import org.geotoolkit.sld.xml.Specification.StyledLayerDescriptor;
 import org.geotoolkit.sld.xml.XMLUtilities;
@@ -118,6 +117,7 @@ import org.opengis.style.Stroke;
 /**
  * @author Mehdi Sidhoum (Geomatys).
  * @author Olivier Terral (Geomatys).
+ * @since 0.2
  */
 public class FacesMapUtils extends FacesUtils {
 
@@ -162,6 +162,22 @@ public class FacesMapUtils extends FacesUtils {
     }
 
     /**
+     * Returns the first parent that is an instance of class passed in arguments
+     * @param context
+     * @param comp
+     * @param aClass
+     * @return
+     */
+    public static UIComponent findFirstParentComponentByClass(FacesContext context,
+            UIComponent comp, Class c) {
+        UIComponent parent = comp;
+        while (parent != null && !(c.isInstance(parent))) {
+            parent = parent.getParent();
+        }
+        return parent;
+    }
+
+    /**
      * This method returns the count of wmsGetmapLayers contained in a context model.
      * @param ctx
      * @return
@@ -199,11 +215,8 @@ public class FacesMapUtils extends FacesUtils {
      * @return
      */
     public static UIMapPane getParentUIMapPane(FacesContext context, UIComponent component) {
-        UIComponent parent = component;
-        while (!(parent instanceof UIMapPane)) {
-            parent = parent.getParent();
-        }
-        return (UIMapPane) parent;
+        UIComponent result = findFirstParentComponentByClass(context, component, UIMapPane.class);
+        return (result instanceof UIMapPane) ? (UIMapPane) result : null;
     }
 
     /**
@@ -214,7 +227,7 @@ public class FacesMapUtils extends FacesUtils {
      */
     public static UIMapPane getChildUIMapPane(FacesContext context, UIComponent component) {
 
-       UIMapPane mappane = null;
+        UIMapPane mappane = null;
         if (component instanceof UIMapPane) {
             return (UIMapPane) component;
 
@@ -272,7 +285,7 @@ public class FacesMapUtils extends FacesUtils {
         if (component instanceof UIContext) {
             //If the component is a UIContext , we search recursively the UIMaPane corresponding into its childs 
             return getChildUIMapPane(context, component);
-            
+
         } else {
             final UIComponent parent = FacesMapUtils.getParentUIContext(context, component);
 
@@ -291,11 +304,8 @@ public class FacesMapUtils extends FacesUtils {
      * @return
      */
     public static UITreeLines getParentUITreeLines(FacesContext context, UIComponent component) {
-        UIComponent parent = component;
-        while (!(parent instanceof UITreeLines)) {
-            parent = parent.getParent();
-        }
-        return (UITreeLines) parent;
+        UIComponent result = findFirstParentComponentByClass(context, component, UITreeLines.class);
+        return (result instanceof UITreeLines) ? (UITreeLines) result : null;
     }
 
     /**
@@ -305,13 +315,9 @@ public class FacesMapUtils extends FacesUtils {
      * @return
      */
     public static UIContext getParentUIContext(FacesContext context, UIComponent comp) {
-        UIComponent parent = comp;
-        while (parent != null && !(parent instanceof UIContext)) {
-            parent = parent.getParent();
-        }
-        return (parent == null) ? null : (UIContext) parent;
+        UIComponent result = findFirstParentComponentByClass(context, comp, UIContext.class);
+        return (result instanceof UIContext) ? (UIContext) result : null;
     }
-   
 
     /**
      * Function to create a <a4j:support> component with extra parameters based on the "var" attribute of the treepanel component
@@ -429,12 +435,12 @@ public class FacesMapUtils extends FacesUtils {
         /* Add <a4j:support> component */
         final HtmlAjaxSupport ajaxComp = new HtmlAjaxSupport();
         ajaxComp.setId(parentId + "_Ajax");
-        if(event != null && ! event.equals("")) {
+        if (event != null && !event.equals("")) {
             ajaxComp.setEvent(event);
         }
         ajaxComp.setAjaxSingle(ajaxSingle);
         ajaxComp.setLimitToList(limitTolist);
-        if(idsToReRender != null && ! idsToReRender.equals("")) {
+        if (idsToReRender != null && !idsToReRender.equals("")) {
             ajaxComp.setReRender(idsToReRender);
         }
 
@@ -850,9 +856,10 @@ public class FacesMapUtils extends FacesUtils {
         }
         return simpleFeatures;
     }
- /*
+    /*
      *
      */
+
     public static Feature getFeatureFromWKT(String id, String name, String wkt, CoordinateReferenceSystem crs) throws ParseException {
         final Feature feat = new DefaultFeature();
         feat.setId(id);
@@ -867,6 +874,7 @@ public class FacesMapUtils extends FacesUtils {
     /*
      *
      */
+
     public static Feature getFeatureFromWKT(String name, String wkt, CoordinateReferenceSystem crs) throws ParseException, NoSuchAuthorityCodeException, FactoryException {
         final Feature feat = new DefaultFeature();
         feat.setId(name + ";" + wkt);
@@ -875,12 +883,13 @@ public class FacesMapUtils extends FacesUtils {
         feat.setGeometry(geom);
         feat.setAttributes(new HashMap<String, Serializable>());
         feat.getAttributes().put("geometry", geom);
-        if (crs == null)
+        if (crs == null) {
             crs = CRS.decode(MapUtils.DEFAULT_EPSG_CODE);
+        }
         feat.setCrs(crs);
         return feat;
     }
-    
+
     public static SimpleFeature getSimpleFeatureFromFeature(Feature feature, long featureId) {
         SimpleFeatureTypeBuilder builder = getSimpleFeatureTypeBuilderFromFeature(feature);
         return getSimpleFeatureFromFeature(feature, builder.buildFeatureType(), featureId);
@@ -899,7 +908,7 @@ public class FacesMapUtils extends FacesUtils {
         builder.setName(feature.getName());
         for (String key : feature.getAttributes().keySet()) {
             if (key.equals("geometry")) {
-                builder.add(key, Geometry.class,feature.getCrs());
+                builder.add(key, Geometry.class, feature.getCrs());
             } else {
                 builder.add(key, feature.getAttributes().get(key).getClass());
             }
@@ -913,15 +922,15 @@ public class FacesMapUtils extends FacesUtils {
 
         if (fileUrl.startsWith("file://")) {
             //getting the related path that will start by the home directory.
-            String extPath = fileUrl.replaceFirst("file://", "");            
+            String extPath = fileUrl.replaceFirst("file://", "");
             /*
              *if the os name is Windows xp
              * @TODO for Microsoft home directory under Vista and Seven.
              */
             if (System.getProperty("os.name", "").startsWith("Windows")) {
-               extPath = "\\Application Data\\"+extPath;
-            }else{
-                extPath  = "/" + extPath;
+                extPath = "\\Application Data\\" + extPath;
+            } else {
+                extPath = "/" + extPath;
             }
 
             filePath = System.getProperty("user.home") + extPath;
