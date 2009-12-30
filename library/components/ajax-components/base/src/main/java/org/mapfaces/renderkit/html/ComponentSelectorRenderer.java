@@ -96,9 +96,8 @@ public class ComponentSelectorRenderer extends Renderer {
                 writer.writeAttribute("href", ResourcePhaseListener.getURL(context, CSS_STYLES, null), null);
                 writer.endElement("link");
             }
-
             // We render the component of the type indicated.
-            renderValue(context, compSel, type, compSel.getKey(), isInIterator);
+            renderValue(context, compSel, type, compSel.getKey() + "_" + compSel.getType(), isInIterator);
         } else {
             LOGGER.severe("mdi.getValue() return NULL into encodeBegin method");
         }
@@ -109,7 +108,7 @@ public class ComponentSelectorRenderer extends Renderer {
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
         if (component instanceof UIComponentSelector) {
             UIComponentSelector compSel = ((UIComponentSelector) component);
-            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey());
+            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey() + "_" + compSel.getType());
             if (child != null) FacesUtils.encodeRecursive(context, child);
         }
     }
@@ -136,7 +135,7 @@ public class ComponentSelectorRenderer extends Renderer {
             compSel.setType(varObj.getType());
             compSel.setKey(varObj.getTitle());
             // We check if there is a child with the Key value for id.
-            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey());
+            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey() + "_" + compSel.getType());
             String type = compSel.getType();
             Object valeur = null;
             if ("text".equals(type) || "web".equals(type) || "mail".equals(type) || "select".equals(type)) {
@@ -144,7 +143,7 @@ public class ComponentSelectorRenderer extends Renderer {
                 valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
             } else if ("textarea".equals(type)) {
                 // If the type is a textarea, then we have to catch the HTMLInputTextarea containing the value.
-                final UIComponent inputChild = FacesUtils.findComponentById(context, child, compSel.getKey() + "_sub");
+                final UIComponent inputChild = FacesUtils.findComponentById(context, child, compSel.getKey() + "_" + compSel.getType() + "_sub");
                 if (inputChild instanceof HtmlInputTextarea) {
                     child = inputChild;
                     // We catch the value of the client component with the Request parameter map.

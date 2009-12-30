@@ -60,13 +60,15 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header"><h:outputText value="Composants"/></f:facet>
-                        <mfb:ComponentSelector id="test" key="#{_test.title}" type="#{_test.type}"
+                        <mfb:ComponentSelector id="test" key="#{_test.key}" type="#{_test.type}"
                                                value="#{_test.value}" mandatory="#{_test.mandatory}"
                                                selectMap="#{_test.selectMap}" hasParent="false" maxCar="100" />
                     </h:column>
                 </h:dataTable>
                 <h:commandButton value="Ok" />
                 <%/*mfb:Testy id="test" value="#{treetableBean.value}" name="#{treetableBean.name}" /*/%>
+                <%/*mfb:ComponentSelector id="test2" key="key" type="#{treetableBean.type}"
+                                               value="#{treetableBean.value}" hasParent="false" maxCar="100" /*/%>
             </h:form>
         </body>
     </html>

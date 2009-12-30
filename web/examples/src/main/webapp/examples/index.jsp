@@ -97,6 +97,16 @@
             </li>
         </ul>
         <br/>
+        <h2>Misc examples : </h2>
+        <ul>
+            <li>
+                <a href="./misc/componentSelector.jsf">Component Selector</a>
+            </li>
+            <li>
+                <a href="./misc/iterativeComponentSelector.jsf">Iterative Component Selector</a>
+            </li>
+        </ul>
+        <br/>
         <h2>Online application examples : </h2>
         <ul>
             <li>

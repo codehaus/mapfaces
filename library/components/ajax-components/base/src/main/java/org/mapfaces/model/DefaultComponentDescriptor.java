@@ -20,6 +20,7 @@ public class DefaultComponentDescriptor implements ComponentDescriptor {
     private Map<Object, String> selectMap;
     private boolean mandatory;
     private int maxOccurence;
+    private boolean rendered;
 
 
     /**
@@ -62,6 +63,7 @@ public class DefaultComponentDescriptor implements ComponentDescriptor {
      */
     public void setType(String type) {
         this.type = type;
+        System.out.println("SET TYPE => " + this.type);
     }
 
     /**
@@ -126,5 +128,19 @@ public class DefaultComponentDescriptor implements ComponentDescriptor {
      */
     public void setMaxOccurence(int maxOccurence) {
         this.maxOccurence = maxOccurence;
+    }
+
+    /**
+     * @return the rendered
+     */
+    public boolean isRendered() {
+        return rendered;
+    }
+
+    /**
+     * @param rendered the rendered to set
+     */
+    public void setRendered(boolean rendered) {
+        this.rendered = rendered;
     }
 }
