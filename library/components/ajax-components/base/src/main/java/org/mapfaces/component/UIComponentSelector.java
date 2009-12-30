@@ -16,25 +16,14 @@
  */
 package org.mapfaces.component;
 
-import com.sun.faces.renderkit.html_basic.BaseTableRenderer;
-import com.sun.faces.renderkit.html_basic.TableRenderer;
 import java.util.Map;
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.el.MethodBinding;
-import javax.faces.event.ValueChangeListener;
-import javax.faces.validator.Validator;
-import org.mapfaces.component.treetable.UITreeColumn;
-import org.mapfaces.share.utils.FacesUtils;
 
 /**
  *
  * @author leo pratlong (geomatys)
  */
-public class UIComponentSelector extends UIWidgetBase implements EditableValueHolder {
+public class UIComponentSelector extends UIWidgetBase {
 
     private static final String COMP_FAMILY   = "org.mapfaces.component.ComponentSelector";
 
@@ -50,10 +39,6 @@ public class UIComponentSelector extends UIWidgetBase implements EditableValueHo
     public UIComponentSelector() {
         super();
         setRendererType("org.mapfaces.renderkit.html.ComponentSelector");
-
-        System.out.println("############   UIComponentSelector  constructor   id = "+this.getId());
-        
-
     }
 
     @Override
@@ -201,90 +186,5 @@ public class UIComponentSelector extends UIWidgetBase implements EditableValueHo
      */
     public void setKey(String key) {
         this.key = key;
-    }
-
-    public Object getSubmittedValue() {
-        return value;
-    }
-
-    public void setSubmittedValue(Object submittedValue) {
-        
-    }
-
-    public boolean isLocalValueSet() {
-        return true;
-    }
-
-    public void setLocalValueSet(boolean localValueSet) {
-        
-    }
-
-    public boolean isValid() {
-        return true;
-    }
-
-    public void setValid(boolean valid) {
-        
-    }
-
-    public boolean isRequired() {
-        return false;
-    }
-
-    public void setRequired(boolean required) {
-        
-    }
-
-    public MethodBinding getValidator() {
-        return null;
-    }
-
-    public void setValidator(MethodBinding validatorBinding) {
-        
-    }
-
-    public MethodBinding getValueChangeListener() {
-        return null;
-    }
-
-    public void setValueChangeListener(MethodBinding valueChangeMethod) {
-        
-    }
-
-    public void addValidator(Validator validator) {
-        
-    }
-
-    public Validator[] getValidators() {
-        return null;
-    }
-
-    public void removeValidator(Validator validator) {
-        
-    }
-
-    public void addValueChangeListener(ValueChangeListener listener) {
-        
-    }
-
-    public ValueChangeListener[] getValueChangeListeners() {
-        return null;
-    }
-
-    public void removeValueChangeListener(ValueChangeListener listener) {
-        
-    }
-
-    public Object getLocalValue() {
-        
-        return this.getAttributes().get("value");
-    }
-
-    public Converter getConverter() {
-        return null;
-    }
-
-    public void setConverter(Converter converter) {
-        
     }
 }

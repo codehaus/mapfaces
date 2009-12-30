@@ -65,12 +65,6 @@ public class ComponentSelectorTag extends UIComponentELTag {
             super.setProperties(component);
 
             final FacesContext context = FacesContext.getCurrentInstance();
-            System.out.println("(TAG) => VALUE ==> " + value);
-            System.out.println("(TAG) => VALUE string ==> " + value.getExpressionString());
-            System.out.println("(TAG) => VALUE getValue => " + value.getValue(context.getELContext()));
-            System.out.println("(TAG) => TYPE ==> " + type);
-            System.out.println("(TAG) => TYPE string ==> " + type.getExpressionString());
-            System.out.println("(TAG) => TYPE getValue ==> " + type.getValue(context.getELContext()));
             TagUtils.affectUIValueWithValueExpression(context, value, UIComponentSelector.class, component, "Value", String.class);
             TagUtils.affectUIValueWithValueExpression(context, type, UIComponentSelector.class, component, "Type", String.class);
             TagUtils.affectUIValueWithValueExpression(context, hasParent, UIComponentSelector.class, component, "HasParent", Boolean.class);
