@@ -44,4 +44,8 @@ public interface ComponentDescriptor {
     public int getMaxOccurence();
 
     public void setMaxOccurence(int maxOccurence);
+
+    public boolean isRendered();
+
+    public void setRendered(boolean rendered);
 }

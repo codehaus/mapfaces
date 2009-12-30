@@ -128,5 +128,10 @@
         <managed-bean-class>org.mapfaces.demo.bean.TreetableBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>componentSelectorBean</managed-bean-name>
+        <managed-bean-class>org.mapfaces.demo.bean.ComponentSelectorBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
 </faces-config>
