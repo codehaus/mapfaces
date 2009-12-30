@@ -138,6 +138,7 @@ public class DefaultFeature implements Feature {
         sb.append(" id : ").append(id);
         sb.append(" crs : ").append(crs);
         sb.append(" geometry : ").append(geometry);
+        sb.append(" userObject : ").append(userObject);
         sb.append(" ]");
         return sb.toString();
     }
