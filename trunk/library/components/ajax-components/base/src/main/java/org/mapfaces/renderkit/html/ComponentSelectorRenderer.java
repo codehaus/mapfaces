@@ -17,12 +17,12 @@
 package org.mapfaces.renderkit.html;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIData;
 import javax.faces.component.UIInput;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.html.HtmlDataTable;
@@ -58,39 +58,28 @@ public class ComponentSelectorRenderer extends Renderer {
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        System.out.println("ENCODE BEGIN !!!");
         if (!component.isRendered()) {
             return;
         }
         assertValid(context, component);
         final UIComponentSelector compSel = (UIComponentSelector) component;
-
-
-        UIComponent datatable = FacesUtils.findParentComponentByClass(component, HtmlDataTable.class);
-        if(datatable instanceof HtmlDataTable){
-
-        HtmlDataTable htmldttable = (HtmlDataTable)datatable;
-            System.out.println("#############   row index = "+htmldttable.getRowIndex());
+        boolean isInIterator = false;
+        // Check if this component has an Iterator parent.
+        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
+        if (parent instanceof UIData) {
+            // if this component is a child of an iterator, we take the value of the var
+            // and set the value of our UI.
+            isInIterator = true;
+            ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
+            compSel.setType(varObj.getType());
+            compSel.setValue((varObj.getValue() != null) ? varObj.getValue().toString() : "");
+            compSel.setKey(varObj.getTitle());
+            compSel.setMandatory(varObj.isMandatory());
+            compSel.setMaxCar(varObj.getMaxCar());
+            compSel.setMaxOccurence(varObj.getMaxOccurence());
+            compSel.setSelectMap(varObj.getSelectMap());
         }
 
-        System.out.println("-----------------------------------------------------------------------");
-        for(String reqkey : context.getExternalContext().getRequestMap().keySet()){
-            System.out.println(">>>>>>>>>>   key = "+reqkey   +"      value = "+context.getExternalContext().getRequestMap().get(reqkey));
-        }
-        ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get("_test");
-        compSel.setType(varObj.getType());
-        compSel.setValue(varObj.getValue());
-        compSel.setKey(varObj.getTitle());
-        compSel.setMandatory(varObj.isMandatory());
-        compSel.setMaxCar(varObj.getMaxCar());
-        compSel.setMaxOccurence(varObj.getMaxOccurence());
-        compSel.setSelectMap(varObj.getSelectMap());
-
-        System.out.println("-----------------------------------------------------------------------");
-
-
-
-        System.out.println("Type =)))> " + compSel.getType());
         if ((compSel.getId() != null) && (compSel.getType() != null)) {
             final String type = compSel.getType();
 
@@ -108,8 +97,8 @@ public class ComponentSelectorRenderer extends Renderer {
                 writer.endElement("link");
             }
 
-            renderValue(context, compSel, type, compSel.getKey());
-            System.out.println("ENCODE BEGIN END !!!!!!");
+            // We render the component of the type indicated.
+            renderValue(context, compSel, type, compSel.getKey(), isInIterator);
         } else {
             LOGGER.severe("mdi.getValue() return NULL into encodeBegin method");
         }
@@ -118,164 +107,99 @@ public class ComponentSelectorRenderer extends Renderer {
 
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-        System.out.println("ENCODE CHILDREN");
         if (component instanceof UIComponentSelector) {
-                UIComponent child = FacesUtils.findComponentById(context, component, ((UIComponentSelector) component).getKey());
-            System.out.println("Key ==> " + ((UIComponentSelector) component).getKey());
-            System.out.println("Child ? " + child);
+            UIComponentSelector compSel = ((UIComponentSelector) component);
+            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey());
             if (child != null) FacesUtils.encodeRecursive(context, child);
         }
     }
 
-//    @Override
-//    public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-//        UIComponent child = getCurrentChild(component);
-//        if (child != null) {
-//            FacesUtils.encodeRecursive(context, child);
-//            UIComponent childMore = getChildWithId(component, child.getId() + "_more");
-//            if (childMore != null) {
-//                FacesUtils.encodeRecursive(context, childMore);
-//            }
-//        }
-//    }
-
+    @Override
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+        super.encodeEnd(context, component);
+    }
 
     @Override
     public boolean getRendersChildren() {
-
         return true;
-
     }
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
-
-//        ValueItem item;
-//        final UIMetadataInput mdi = (UIMetadataInput) component;
-//
-//        if (mdi.getValue() != null) {
-//            if (mdi.getValue() instanceof ValueItem) {
-//                item = (ValueItem) mdi.getValue();
-//
-//                // Because of some bugs due to the bad architecture of this component, we
-//                // catch the value of the input typed by user with the "getSubmittedValue" method,
-//                // then set the Item.value.
-//                UIComponent child = getCurrentChild(component);
-//                if ((child instanceof HtmlSelectOneMenu) && ((UIInput)child).getSubmittedValue() != null) {
-//                    item.setValue((String) ((UIInput)child).getSubmittedValue());
-//                } else if (child instanceof UIDatepicker) {
-//                    List<UIComponent> dpChildren = child.getChildren();
-//                    boolean find = false;
-//                    int i = 0;
-//                    while ((i < dpChildren.size()) && !find) {
-//                        if ((dpChildren.get(i).getId() != null) && child.getId().concat("_inputdate").equals(dpChildren.get(i).getId())) {
-//                            if (((UIInput)dpChildren.get(i)).getSubmittedValue() != null) {
-//                                item.setValue(((UIInput)dpChildren.get(i)).getSubmittedValue().toString());
-//                            }
-//                            find = true;
-//                        }
-//                        i++;
-//                    }
-//                }
-//                if (FacesUtils.getRequestParameterValue(context, component.getClientId(context) + "_actionParamID") != null) {
-//                    final boolean rowToAdd = Boolean.valueOf((String) FacesUtils.getRequestParameterValue(context, component.getClientId(context) + "_actionParamADD"));
-//                    final String rowId = (String) FacesUtils.getRequestParameterValue(context, component.getClientId(context) + "_actionParamID");
-//
-//                    final UITreeColumn treecolum = (UITreeColumn) mdi.getParent();
-//                    final UITreeTable treetable = (UITreeTable) treecolum.getParent();
-//                    final DefaultTreeModel defaulttreemodel = (DefaultTreeModel) treetable.getValue();
-//                    final ExtendMutableTreeNode currentTreenode = (ExtendMutableTreeNode) treetable.getRowData();
-//                    item = (ValueItem) currentTreenode.getUserObject();
-//
-//                    DefaultMutableTreeNode node = TreetableAdapter.find((DefaultMutableTreeNode) defaulttreemodel.getRoot(), item);
-//
-//                    if (!rowId.isEmpty()) {
-//                        if (rowToAdd) {
-//                            /* Add a new node */
-//                            if (node == null) {
-//                                LOGGER.severe("Node with this item : " + getIdWithUnderscores(item.getPath().getId()) + "haven't be found !");
-//                            } else {
-//
-//                                final ValueItem item2 = new ValueItem(item);
-//                                item2.setOrdinal(item2.getOrdinal() + 1);
-//                                final DefaultMutableTreeNode clone = TreetableAdapter.copy(node);
-//                                clone.setUserObject(item2);
-//
-//                                final DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
-//                                parent.insert(clone, parent.getIndex(node) + 1);
-//
-//
-//                                DefaultTreeModel treemodelOrdered = TreetableAdapter.reOrder(defaulttreemodel);
-//                                ValueExpression valueExpr = treetable.getValueExpression("value");
-//                                if (valueExpr != null && valueExpr.getExpressionString().contains("#")) {
-//                                    valueExpr.setValue(context.getELContext(), treemodelOrdered);
-//                                    treetable.setValueExpression("value", valueExpr);
-//                                }
-//                                treetable.setValue(treemodelOrdered);
-//                            }
-//                        } else {
-//                            /* Delete a specific node */
-//                            if (node == null) {
-//                                LOGGER.severe("Node with this item : " + getIdWithUnderscores(item.getPath().getId()) + "haven't be found !");
-//                            } else {
-//                                DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
-//                                parent.remove(parent.getIndex(node));
-//
-//                                DefaultTreeModel treemodelOrdered = TreetableAdapter.reOrder(defaulttreemodel);
-//                                ValueExpression valueExpr = treetable.getValueExpression("value");
-//                                if (valueExpr != null && valueExpr.getExpressionString().contains("#")) {
-//                                    valueExpr.setValue(context.getELContext(), treemodelOrdered);
-//                                    treetable.setValueExpression("value", valueExpr);
-//                                }
-//                                treetable.setValue(treemodelOrdered);
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-
+        final UIComponentSelector compSel = (UIComponentSelector) component;
+        // We check if the ComponentSelector has an iterator parent.
+        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
+        if (parent instanceof UIData) {
+            // in this case, we catch the value of the current Var (value for the row).
+            ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
+            // And we catch the type and key values.
+            compSel.setType(varObj.getType());
+            compSel.setKey(varObj.getTitle());
+            // We check if there is a child with the Key value for id.
+            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey());
+            String type = compSel.getType();
+            Object valeur = null;
+            if ("text".equals(type) || "web".equals(type) || "mail".equals(type) || "select".equals(type)) {
+                // We catch the value of the client component with the Request parameter map.
+                valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
+            } else if ("textarea".equals(type)) {
+                // If the type is a textarea, then we have to catch the HTMLInputTextarea containing the value.
+                final UIComponent inputChild = FacesUtils.findComponentById(context, child, compSel.getKey() + "_sub");
+                if (inputChild instanceof HtmlInputTextarea) {
+                    child = inputChild;
+                    // We catch the value of the client component with the Request parameter map.
+                    valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
+                }
+            } else if ("date".equals(type)) {
+                valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context) + "_inputdate");
+            } else {
+                LOGGER.severe("this fieldType is not recognize : " + type);
+            }
+            if (valeur != null) modifyVarValue(context, compSel, valeur);
+        }
     }
 
     /**
-     *
-     * @param context
-     * @param component
-     * @param item
+     * This method calls Render method for the selected component.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param type The type of the component we want to render.
+     * @param id Id of the component to render.
+     * @param isInIterator Indicates if the ComponentSelector is child of an iterator.
      */
-    private void renderValue(FacesContext context, UIComponentSelector component, String type, String id) {
-        final boolean mandatory = component.isMandatory();
+    private void renderValue(FacesContext context, UIComponentSelector compSel, String type, String id, boolean isInIterator) {
+        final boolean mandatory = compSel.isMandatory();
         if ("text".equals(type) || "web".equals(type) || "mail".equals(type)) {
-            renderText(context, component, id, mandatory, type);
+            renderText(context, compSel, id, mandatory, type, isInIterator);
         } else if ("textarea".equals(type)) {
-            renderTextArea(context, component, id, mandatory);
+            renderTextArea(context, compSel, id, mandatory, isInIterator);
         } else if ("readonly".equals(type)) {
-            renderReadOnly(context, component, id);
+            renderReadOnly(context, compSel, id);
         } else if ("select".equals(type)) {
-           renderSelect(context, component, id, mandatory);
+           renderSelect(context, compSel, id, mandatory, isInIterator);
         } else if ("date".equals(type)) {
-            renderDatePicker(context, component, id, mandatory);
+            renderDatePicker(context, compSel, id, mandatory, isInIterator);
         } else {
             LOGGER.severe("this fieldType is not recognize : " + type + " for " + id);
         }
 
-        if ((component.getMaxOccurence() != null) && (component.getMaxOccurence() > 1)) {
-           // renderMoreButton(context, component, id);
-           // renderMinusButton(component, item);
+        if ((compSel.getMaxOccurence() != null) && (compSel.getMaxOccurence() > 1)) {
+           // renderMoreButton(context, compSel, id);
+           // renderMinusButton(compSel, item);
         }
-
     }
 
     /**
-     *
-     * @param component
-     * @param item
-     * @param profileElement
-     * @param obligation
+     * Renders an InputText component.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param id The id for the component we'll render.
+     * @param mandatory Does this input has to be filled ?
+     * @param type the Type of the input (mail, web, text).
+     * @param isInIterator Indicates if the ComponentSelector is a child of an iterator.
      */
-    private void renderText(FacesContext context, UIComponentSelector component, String id, boolean mandatory, String type) {
-        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
+    private void renderText(FacesContext context, UIComponentSelector compSel, String id, boolean mandatory, String type, boolean isInIterator) {
+        final UIComponent input = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id));
         final HtmlInputText inputText;
 
         if (input instanceof HtmlInputText) {
@@ -289,40 +213,41 @@ public class ComponentSelectorRenderer extends Renderer {
             inputText.setId(getIdWithUnderscores(id));
             // MetadataFieldControlRenderer.renderHtmlInputTextControls(inputText, profileElement);
             //addNewChild = true;
-            // createValueExpr(context, component, itvalueem, inputText, mandatory, false);
+            // fillChildValue(context, compSel, itvalueem, inputText, mandatory, false);
             inputText.setStyleClass(this.returnStyle(mandatory));
             if ("mail".equals(type)) {
                 inputText.setOnchange("COMPONENTUTIL.emailcheck(this);");
                 inputText.setOnkeyup("COMPONENTUTIL.emailcheck(this);");
             }
             // if (addNewChild)
-            component.getChildren().add(inputText);
+            compSel.getChildren().add(inputText);
         }
-        createValueExpr(context, component, inputText, false);
+        fillChildValue(context, compSel, inputText, false, isInIterator);
     }
 
     /**
-     *
-     * @param component
-     * @param item
-     * @param profileElement
-     * @param obligation
+     * Renders an InputTextarea component.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param id The id for the component we'll render.
+     * @param mandatory Does this input has to be filled ?
+     * @param isInIterator Indicates if the ComponentSelector is a child of an iterator.
      */
-    private void renderTextArea(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent input = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
+    private void renderTextArea(FacesContext context, UIComponentSelector compSel, String id, boolean mandatory, boolean isInIterator) {
+        final UIComponent input = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id));
         final HtmlInputText maxCarText;
         final HtmlInputTextarea inputTextArea;
 
         final Integer maxCar;
-        if (component.getMaxCar() != null) {
-            maxCar = component.getMaxCar();
+        if (compSel.getMaxCar() != null) {
+            maxCar = compSel.getMaxCar();
         } else {
             maxCar = DEFAULT_MAX_CAR;
         }
         boolean setValue = true;
         if (input instanceof HtmlInputText) {
             maxCarText = (HtmlInputText) input;
-            final UIComponent inputValue = FacesUtils.findComponentById(context, maxCarText, getIdWithUnderscores(id));
+            final UIComponent inputValue = FacesUtils.findComponentById(context, maxCarText, getIdWithUnderscores(id) + "_sub");
             if (inputValue instanceof HtmlInputTextarea) {
                 inputTextArea = (HtmlInputTextarea) inputValue;
             } else {
@@ -331,33 +256,40 @@ public class ComponentSelectorRenderer extends Renderer {
             }
         } else {
             inputTextArea = new HtmlInputTextarea();
-            inputTextArea.setId(getIdWithUnderscores(id) + "_textArea");
+            inputTextArea.setId(getIdWithUnderscores(id) + "_sub");
 
             maxCarText = new HtmlInputText();
-            maxCarText.setId(getIdWithUnderscores(id) + "_text");
+            maxCarText.setId(getIdWithUnderscores(id));
             maxCarText.setReadonly(true);
             maxCarText.setStyleClass(DEFAULT_COMPONENT_CLASS + " " + CHAR_CONTROL_CLASS);
             maxCarText.getChildren().add(inputTextArea);
-            component.getChildren().add(maxCarText);
             inputTextArea.setStyleClass(this.returnStyle(mandatory));
 
             inputTextArea.setOnchange("COMPONENTUTIL.maxcharcheck(this,$('" + maxCarText.getClientId(context) + "')," + maxCar + ");");
             inputTextArea.setOnkeyup("COMPONENTUTIL.maxcharcheck(this,$('" + maxCarText.getClientId(context) + "')," + maxCar + ");");
 
-            component.getChildren().add(maxCarText);
+            compSel.getChildren().add(maxCarText);
         }
-        
+
         int maxCarOnLoad = maxCar;
         if (setValue) {
-            createValueExpr(context, component, inputTextArea, false);
-            if (inputTextArea.getValue().toString().length() <= maxCar) maxCarOnLoad = maxCar - inputTextArea.getValue().toString().length();
+            fillChildValue(context, compSel, inputTextArea, false, isInIterator);
+            if ((inputTextArea.getValue() != null) && (inputTextArea.getValue().toString().length() <= maxCar)) maxCarOnLoad = maxCar - inputTextArea.getValue().toString().length();
         }
 
         maxCarText.setValue(maxCarOnLoad + " car.");
     }
 
-    private void renderDatePicker(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
+    /**
+     * Renders a DatePicker component.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param id The id for the component we'll render.
+     * @param mandatory Does this input has to be filled ?
+     * @param isInIterator Indicates if the ComponentSelector is a child of an iterator.
+     */
+    private void renderDatePicker(FacesContext context, UIComponentSelector compSel, String id, boolean mandatory, boolean isInIterator) {
+        final UIComponent mdInput = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id));
         if (context.getExternalContext().getRequestMap().containsKey("ajaxflag.DatePickerjs")) {
             context.getExternalContext().getRequestMap().remove("ajaxflag.DatePickerjs");
         }
@@ -370,40 +302,38 @@ public class ComponentSelectorRenderer extends Renderer {
             datepicker.setLoadCss(true);
             datepicker.setLoadJs(true);
             datepicker.setLoadMootools(true);
-            datepicker.setStyleClass((mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS);
-            component.getChildren().add(datepicker);
+            datepicker.setStyleClass(returnStyle(mandatory));
+            compSel.getChildren().add(datepicker);
         }
-        createValueExpr(context, component, datepicker, true);
+        fillChildValue(context, compSel, datepicker, true, isInIterator);
     }
 
-
-
     /**
-     * It renders a ReadOnly output with the Value attribute.
-     * @param component
-     * @param item
-     * @param obligation
+     * Renders a read only text component.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param id The id for the component we'll render.
      */
-    private void renderReadOnly(FacesContext context, UIComponentSelector component, String id) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
-        if ((mdInput == null) && (component.getValue() != null)) {
+    private void renderReadOnly(FacesContext context, UIComponentSelector compSel, String id) {
+        final UIComponent mdInput = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id));
+        if ((mdInput == null) && (compSel.getValue() != null)) {
             final HtmlOutputText outputText = new HtmlOutputText();
             outputText.setId(getIdWithUnderscores(id));
-            outputText.setValue(component.getValue());
-            component.getChildren().add(outputText);
+            outputText.setValue(compSel.getValue());
+            compSel.getChildren().add(outputText);
         }
     }
 
     /**
-     * This method build a Select component with a Map. The Value attribute defines
-     * the selected key of the select.
-     * @param component
-     * @param item
-     * @param profileElement
-     * @param obligation
+     * Renders a SelectOneMenu component.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param id The id for the component we'll render.
+     * @param mandatory Does this input has to be filled ?
+     * @param isInIterator Indicates if the ComponentSelector is a child of an iterator.
      */
-    private void renderSelect(FacesContext context, UIComponentSelector component, String id, boolean mandatory) {
-        final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id));
+    private void renderSelect(FacesContext context, UIComponentSelector compSel, String id, boolean mandatory, boolean isInIterator) {
+        final UIComponent mdInput = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id));
         final HtmlSelectOneMenu selectOneMenu;
         if (mdInput instanceof HtmlSelectOneMenu) {
             selectOneMenu = (HtmlSelectOneMenu) mdInput;
@@ -412,8 +342,8 @@ public class ComponentSelectorRenderer extends Renderer {
             selectOneMenu = new HtmlSelectOneMenu();
             selectOneMenu.setId(getIdWithUnderscores(id));
 
-            if (component.getSelectMap() != null) {
-                final Map<Object, String> selectMap = component.getSelectMap();
+            if (compSel.getSelectMap() != null) {
+                final Map<Object, String> selectMap = compSel.getSelectMap();
                 for (Map.Entry<Object, String> e : selectMap.entrySet()) {
                     final UISelectItem selectItem = new UISelectItem();
                     selectItem.setItemLabel(e.getValue());
@@ -422,30 +352,30 @@ public class ComponentSelectorRenderer extends Renderer {
                 }
 
                 selectOneMenu.setStyleClass(this.returnStyle(mandatory));
-                component.getChildren().add(selectOneMenu);
+                compSel.getChildren().add(selectOneMenu);
             }
         }
-        
-        createValueExpr(context, component, selectOneMenu, false);
+
+        fillChildValue(context, compSel, selectOneMenu, false, isInIterator);
     }
 
     /**
      *
-     * @param component
+     * @param compSel
      * @param item
      */
     private void renderMoreButton(FacesContext context, UIComponentSelector component, String id) {
-  /*      final UIComponent mdInput = FacesUtils.findComponentById(context, component, getIdWithUnderscores(id) + "_more");
+  /*      final UIComponent mdInput = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id) + "_more");
         if (mdInput == null) {
             final HtmlOutputLink linkMore;
             final HtmlGraphicImage moreOccurence = new HtmlGraphicImage();
             linkMore = new HtmlOutputLink();
             final UITreeColumn treecolum = (UITreeColumn) mdi.getParent();
             final UITreeTable treetable = (UITreeTable) treecolum.getParent();
-            final String formId = FacesUtils.getParentComponentIdByClass(component, UIForm.class);
+            final String formId = FacesUtils.getParentComponentIdByClass(compSel, UIForm.class);
             final String treetableId = treetable.getId();
-            final String actionParamIDId = component.getId() + "_actionParamID";
-            final String actionParamADDId = component.getId() + "_actionParamADD";
+            final String actionParamIDId = compSel.getId() + "_actionParamID";
+            final String actionParamADDId = compSel.getId() + "_actionParamADD";
             final int index = treetable.getRowIndex();
             final int actionParamIDValue = index;
             final boolean actionParamADDValue = true;
@@ -464,27 +394,27 @@ public class ComponentSelectorRenderer extends Renderer {
             moreOccurence.setStyle("position:absolute; left: 94%;");
 
             linkMore.getChildren().add(moreOccurence);
-            component.getChildren().add(linkMore);
+            compSel.getChildren().add(linkMore);
         } */
     }
 
 //    /**
 //     *
-//     * @param component
+//     * @param compSel
 //     * @param item
 //     */
-//    private void renderMinusButton(UIComponent component, ValueItem item) {
+//    private void renderMinusButton(UIComponent compSel, ValueItem item) {
 //
 //        final HtmlGraphicImage minusOccurence = new HtmlGraphicImage();
 //        final HtmlOutputLink linkMinus = new HtmlOutputLink();
-//        final UIMetadataInput mdi = (UIMetadataInput) component;
+//        final UIMetadataInput mdi = (UIMetadataInput) compSel;
 //        final UITreeColumn treecolum = (UITreeColumn) mdi.getParent();
 //        final UITreeTable treetable = (UITreeTable) treecolum.getParent();
 //
-//        final String formId = FacesUtils.getParentComponentIdByClass(component, UIForm.class);
+//        final String formId = FacesUtils.getParentComponentIdByClass(compSel, UIForm.class);
 //        final String treetableId = treetable.getId();
-//        final String actionParamIDId = component.getId() + "_actionParamID";
-//        final String actionParamADDId = component.getId() + "_actionParamADD";
+//        final String actionParamIDId = compSel.getId() + "_actionParamID";
+//        final String actionParamADDId = compSel.getId() + "_actionParamADD";
 //        final int index = treetable.getRowIndex();
 //        final int actionParamIDValue = index;
 //        final boolean actionParamADDValue = false;
@@ -504,77 +434,80 @@ public class ComponentSelectorRenderer extends Renderer {
 //            minusOccurence.setStyle("position:absolute; left: 96%;");
 //
 //            linkMinus.getChildren().add(minusOccurence);
-//            component.getChildren().add(linkMinus);
+//            compSel.getChildren().add(linkMinus);
 //        }
 //
 //    }
 
+
+    /**
+     * Modifies the Value attribute of the current Var of the iteration (value for
+     * this row).
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param value Value to set.
+     */
+    private void modifyVarValue(FacesContext context, UIComponentSelector compSel, Object value) {
+        System.out.println("MODIFY VAR VALUE");
+        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
+        if (parent instanceof UIData) {
+            System.out.println("VALUEEEEE MODIFYYYYYYQJSHDQLKSJDSQLKJQSD ==> " + value);
+            ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
+            varObj.setValue(value);
+        }
+    }
+
+    /**
+     * Return the styleClass according to its Mandatory value.
+     * @param mandatory Boolean indicating which of the two styleClass we have to choose.
+     * @return String The styleClass.
+     */
     private String returnStyle(boolean mandatory) {
         return (mandatory) ? MANDATORY_FIELD_CLASS + " " + DEFAULT_COMPONENT_CLASS : DEFAULT_COMPONENT_CLASS;
     }
 
-    private void createValueExpr(FacesContext context, UIComponentSelector component, UIInput htmlComp, boolean isDatePicker) {
-        final ValueExpression ve = component.getValueExpression("value");
-        if (ve != null) {
-            if (ve.getValue(context.getELContext()) instanceof String) {
-                System.out.println("VALUE IN DA RENDERER => " + ve.getValue(context.getELContext()));
-                if (!isDatePicker) {
-                    htmlComp.setValue(ve.getValue(context.getELContext()));
+    /**
+     * This method fills ValueExpressions of the UIInput components. Values will now
+     * be linked to the model. If the ComponentSelector is a child of an iterator,
+     * we just set the Value without setting a valueExpression. The case of the DatePicker
+     * is specific because it also uses an UIInput child which will be setted by the DatePicker.
+     * @param context FacesContext
+     * @param compSel The UIComponentSelector
+     * @param htmlComp UIInput Component.
+     * @param isDatePicker Indicates if the UIInput component is a Datepicker.
+     * @param isInIterator Indicates if the ComponentSelector is a child of an iterator.
+     */
+    private void fillChildValue(FacesContext context, UIComponentSelector compSel, UIInput htmlComp, boolean isDatePicker, boolean isInIterator) {
+        if (isInIterator) htmlComp.setValue(compSel.getValue());
+        else {
+            final ValueExpression ve = compSel.getValueExpression("value");
+            if (ve != null) {
+                if (ve.getValue(context.getELContext()) instanceof String) {
+                    if (!isDatePicker) {
+                        htmlComp.setValue(ve.getValue(context.getELContext()));
+                    }
+                    htmlComp.setValueExpression("value", ve);
                 }
-                htmlComp.setValueExpression("value", ve);
             }
         }
     }
 
+    /**
+     * Return a valid ID (without ':' or ' ');
+     * @param id Initial id.
+     * @return String The valid Id.
+     */
     private String getIdWithUnderscores(String id) {
         id = id.replace(':', '_');
         id = id.replace(' ', '_');
         return id;
     }
 
-//    private boolean isDate(ProfileElement profileElement) {
-//        boolean isDate = false;
-//        List<FieldControl> controls = profileElement.getField().getControls();
-//        int i = 0;
-//        while ((i < controls.size()) && !isDate) {
-//            if (controls.get(i).getNameControl().equals("verifDate")) {
-//                isDate = true;
-//            }
-//            i++;
-//        }
-//        return isDate;
-//    }
-//
-//    private ProfileElement getProfileElement(ValueItem item) {
-//        final Profile profile = item.getForm().getProfile();
-//        final ProfileElement profileElement = profile.getProfileElementByPath(item.getPath());
-//        return profileElement;
-//    }
-//
-//    private UIComponent getCurrentChild(UIComponent component) {
-//        final UIMetadataInput mdi = (UIMetadataInput) component;
-//        UIComponent currentChild = null;
-//        if (mdi.getValue() instanceof ValueItem) {
-//            ValueItem item = (ValueItem) mdi.getValue();
-//            currentChild = getChildWithId(component, getIdWithUnderscores(item.getPath().getId()));
-//
-//        }
-//        return currentChild;
-//    }
-
-    private UIComponent getChildWithId(UIComponent component, String id) {
-        int i = 0;
-        boolean find = false;
-        List<UIComponent> children = component.getChildren();
-        while ((i < children.size()) && !find) {
-            if (getIdWithUnderscores(id).equals(children.get(i).getId())) {
-                return children.get(i);
-            }
-            i++;
-        }
-        return null;
-    }
-
+    /**
+     * Check if the context and the component are setted.
+     * @param context FacesContext
+     * @param component The UIComponent.
+     */
     private void assertValid(final FacesContext context, final UIComponent component) {
         if (context == null) {
             throw new NullPointerException("FacesContext should not be null");
