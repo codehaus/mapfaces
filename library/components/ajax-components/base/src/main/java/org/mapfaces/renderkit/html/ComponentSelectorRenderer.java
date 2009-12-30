@@ -222,7 +222,7 @@ public class ComponentSelectorRenderer extends Renderer {
             // if (addNewChild)
             compSel.getChildren().add(inputText);
         }
-        fillChildValue(context, compSel, inputText, false, isInIterator);
+        fillChildValue(context, compSel, inputText, isInIterator);
     }
 
     /**
@@ -273,7 +273,7 @@ public class ComponentSelectorRenderer extends Renderer {
 
         int maxCarOnLoad = maxCar;
         if (setValue) {
-            fillChildValue(context, compSel, inputTextArea, false, isInIterator);
+            fillChildValue(context, compSel, inputTextArea, isInIterator);
             if ((inputTextArea.getValue() != null) && (inputTextArea.getValue().toString().length() <= maxCar)) maxCarOnLoad = maxCar - inputTextArea.getValue().toString().length();
         }
 
@@ -305,7 +305,7 @@ public class ComponentSelectorRenderer extends Renderer {
             datepicker.setStyleClass(returnStyle(mandatory));
             compSel.getChildren().add(datepicker);
         }
-        fillChildValue(context, compSel, datepicker, true, isInIterator);
+        fillChildValue(context, compSel, datepicker, isInIterator);
     }
 
     /**
@@ -356,7 +356,7 @@ public class ComponentSelectorRenderer extends Renderer {
             }
         }
 
-        fillChildValue(context, compSel, selectOneMenu, false, isInIterator);
+        fillChildValue(context, compSel, selectOneMenu, isInIterator);
     }
 
     /**
@@ -448,10 +448,8 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param value Value to set.
      */
     private void modifyVarValue(FacesContext context, UIComponentSelector compSel, Object value) {
-        System.out.println("MODIFY VAR VALUE");
         UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
         if (parent instanceof UIData) {
-            System.out.println("VALUEEEEE MODIFYYYYYYQJSHDQLKSJDSQLKJQSD ==> " + value);
             ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
             varObj.setValue(value);
         }
@@ -474,16 +472,16 @@ public class ComponentSelectorRenderer extends Renderer {
      * @param context FacesContext
      * @param compSel The UIComponentSelector
      * @param htmlComp UIInput Component.
-     * @param isDatePicker Indicates if the UIInput component is a Datepicker.
      * @param isInIterator Indicates if the ComponentSelector is a child of an iterator.
      */
-    private void fillChildValue(FacesContext context, UIComponentSelector compSel, UIInput htmlComp, boolean isDatePicker, boolean isInIterator) {
-        if (isInIterator) htmlComp.setValue(compSel.getValue());
-        else {
+    private void fillChildValue(FacesContext context, UIComponentSelector compSel, UIInput htmlComp, boolean isInIterator) {
+        if (isInIterator) {
+            htmlComp.setValue(compSel.getValue());
+        } else {
             final ValueExpression ve = compSel.getValueExpression("value");
             if (ve != null) {
                 if (ve.getValue(context.getELContext()) instanceof String) {
-                    if (!isDatePicker) {
+                    if (!(htmlComp instanceof UITemporal)) {
                         htmlComp.setValue(ve.getValue(context.getELContext()));
                     }
                     htmlComp.setValueExpression("value", ve);
