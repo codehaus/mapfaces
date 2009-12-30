@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 /**
  * @author Olivier Terral (Geomatys).
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.1
  */
 public class UIButtonBar extends UIWidgetBase {
 
@@ -47,6 +48,7 @@ public class UIButtonBar extends UIWidgetBase {
     private String westIdSelectionBox = "";
     private String reRender = "";
     private boolean callAjaxRegion;
+    private String targetAjaxRegionId;
 
     /** Creates a new instance of UIButtonBar */
     public UIButtonBar() {
@@ -67,7 +69,7 @@ public class UIButtonBar extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[27];
+        final Object values[] = new Object[28];
         values[0] = super.saveState(context);
         values[1] = zoomIn;
         values[2] = zoomOut;
@@ -90,6 +92,7 @@ public class UIButtonBar extends UIWidgetBase {
         values[19] = westIdSelectionBox;
         values[20] = reRender;
         values[21] = callAjaxRegion;
+        values[22] = targetAjaxRegionId;
         return values;
     }
 
@@ -121,6 +124,7 @@ public class UIButtonBar extends UIWidgetBase {
         westIdSelectionBox = (String) values[19];
         reRender = (String) values[20];
         callAjaxRegion = (Boolean) values[21];
+        targetAjaxRegionId = (String) values[22];
     }
 
     public boolean isZoomIn() {
@@ -295,5 +299,19 @@ public class UIButtonBar extends UIWidgetBase {
      */
     public void setCallAjaxRegion(boolean callAjaxRegion) {
         this.callAjaxRegion = callAjaxRegion;
+    }
+
+    /**
+     * @return the targetAjaxRegionId
+     */
+    public String getTargetAjaxRegionId() {
+        return targetAjaxRegionId;
+    }
+
+    /**
+     * @param targetAjaxRegionId the targetAjaxRegionId to set
+     */
+    public void setTargetAjaxRegionId(String targetAjaxRegionId) {
+        this.targetAjaxRegionId = targetAjaxRegionId;
     }
 }

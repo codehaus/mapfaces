@@ -23,6 +23,7 @@ import javax.faces.component.UIComponent;
 /**
  * @author Olivier Terral (Geomatys)
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.1
  */
 public class ButtonBarTag extends WidgetBaseTag {
 
@@ -59,6 +60,7 @@ public class ButtonBarTag extends WidgetBaseTag {
     private ValueExpression westIdSelectionBox = null;
     private ValueExpression reRender = null;
     private ValueExpression callAjaxRegion = null;
+    private ValueExpression targetAjaxRegionId = null;
 
     /**
      * {@inheritDoc }
@@ -105,6 +107,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         component.setValueExpression("westIdSelectionBox", westIdSelectionBox);
         component.setValueExpression("reRender", reRender);
         component.setValueExpression("callAjaxRegion", callAjaxRegion);
+        component.setValueExpression("targetAjaxRegionId", targetAjaxRegionId);
 
     }
 
@@ -137,6 +140,7 @@ public class ButtonBarTag extends WidgetBaseTag {
         setWestIdSelectionBox(null);
         setReRender(null);
         setCallAjaxRegion(null);
+        setTargetAjaxRegionId(null);
     }
 
     public void setEmpty(ValueExpression empty) {
@@ -315,5 +319,19 @@ public class ButtonBarTag extends WidgetBaseTag {
      */
     public void setCallAjaxRegion(ValueExpression callAjaxRegion) {
         this.callAjaxRegion = callAjaxRegion;
+    }
+
+    /**
+     * @return the targetAjaxRegionId
+     */
+    public ValueExpression getTargetAjaxRegionId() {
+        return targetAjaxRegionId;
+    }
+
+    /**
+     * @param targetAjaxRegionId the targetAjaxRegionId to set
+     */
+    public void setTargetAjaxRegionId(ValueExpression targetAjaxRegionId) {
+        this.targetAjaxRegionId = targetAjaxRegionId;
     }
 }
