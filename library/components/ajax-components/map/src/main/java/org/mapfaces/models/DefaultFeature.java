@@ -112,8 +112,8 @@ public class DefaultFeature implements Feature {
         if (object != null && object.getClass().equals(getClass())) {
             final DefaultFeature that = (DefaultFeature) object;
             return this.id != null && this.id.equals(that.id) &&
-                    this.crs != null && this.crs.equals(that.getCrs()) &&
-                    this.geometry != null && this.geometry.equals(that.getGeometry());
+                    this.geometry != null && this.geometry.equals(that.getGeometry()) &&
+                    this.userObject != null && this.userObject.equals(that.getUserObject());
         }
         return false;
     }
