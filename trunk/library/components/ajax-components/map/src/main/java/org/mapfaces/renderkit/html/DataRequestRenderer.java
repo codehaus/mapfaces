@@ -250,23 +250,23 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
 
                 
                 
-                for (Layer queryLayer : queryableAndVisibleLayers) {
-                    if (queryLayer != null && queryLayer.getType() != null) {
+                for (Layer candidatLayer : queryableAndVisibleLayers) {
+                    if (candidatLayer != null && candidatLayer.getType() != null) {
 
                         //@TODO test the type for MapContext layer case.
                         
-                            switch (queryLayer.getType()) {
+                            switch (candidatLayer.getType()) {
                             case WMS:
 
                                 boolean skipLayer = false;
                                 //If user has specified a list of wms layer to request
-                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(queryLayer.getName())) {
+                                if (comp.getLayersNames() != null && !((List) comp.getLayersNames()).contains(candidatLayer.getName())) {
                                     skipLayer = true;
                                 }
 
                                 if (!comp.isFeatureLayerOnly() && !skipLayer) {
                                     //Range Layer by Server
-                                    final WmsLayer wmsLayer = (WmsLayer) queryLayer;
+                                    final WmsLayer wmsLayer = (WmsLayer) candidatLayer;
                                     if (wmsServers.containsKey(wmsLayer.getServer().getHref())) {
                                         wmsServers.get(wmsLayer.getServer().getHref()).add(wmsLayer);
                                     } else {
@@ -277,7 +277,7 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 }
                                 break;
                             case FEATURE:
-                                final FeatureLayer temp = (FeatureLayer) queryLayer;
+                                final FeatureLayer temp = (FeatureLayer) candidatLayer;
                                 final Map mapFeaturesLayer = new HashMap<String, Feature>();
                                 
                                 String featureInfoX = (String) params.get(mfGfiXKey);
@@ -370,12 +370,17 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 UIMapPane uiMapPane =  FacesMapUtils.getUIMapPane(context, component);
                                 Object properMapCtxtObj = sessionMap.get(FacesMapUtils.getCurrentSessionId() + uiMapPane.getId() + UIMapPane.MAPCONTEXT_KEY_SUFFIX);
 
+                                /**
+                                 * Try to match the current candidatLayer (mapfaces model) 
+                                 * with properMaplayer of the mapcontext (geotoolkit model) and get it.
+                                 */
+
                                 MapLayer selectedLayer = null;
                                 MapContext properMapCtxt = null;
                                 if(properMapCtxtObj instanceof MapContext) {
                                     properMapCtxt = (MapContext) properMapCtxtObj;
                                     for(MapLayer properMaplayer : properMapCtxt.layers()) {
-                                        if(queryLayer.getName() != null && queryLayer.getName().equals(properMaplayer.getName())) {
+                                        if(candidatLayer.getName() != null && candidatLayer.getName().equals(properMaplayer.getName())) {
                                             selectedLayer = properMaplayer;
                                             break;
                                         }
@@ -386,21 +391,34 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                     continue; //skip if there are one of maplayer or mapcontext to null
                                 }
 
+                                //Try to proceed a featureVisitor with featureInfoX and featureInfoY coordinates
                                 rect = new Rectangle(Integer.parseInt(featureInfoX), Integer.parseInt(featureInfoY), 1, 1);
                                 featureVisitor = new FeatureVisitor();
                                 try {
+
+                                    /**
+                                     * @TODO use a single Mapcontext object instead of properMapCtxt which is the full mapcontext of the mappane
+                                     */
+
                                     DefaultPortrayalService.visit(properMapCtxt, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
                                 } catch (PortrayalException ex) {
                                     LOGGER.log(Level.SEVERE, null, ex);
                                 }
 
-                                //Adding the resulting feature into the final list of features for dataResult ValueExpression value.
+                                //Adding the resulting features into the final list of features for targeted dataResult ValueExpression value.
                                 for (org.opengis.feature.Feature f : featureVisitor.getFeatureList()) {
                                     if (f instanceof org.opengis.feature.simple.SimpleFeature) {
                                         final org.opengis.feature.simple.SimpleFeature ff = (org.opengis.feature.simple.SimpleFeature) f;
 
                                         final Feature resultFeature = new DefaultFeature();
-                                        resultFeature.setId(ff.getID());
+                                        /**
+                                         * Setting values for the feature
+                                         */
+                                        if(ff.getAttribute("id") instanceof String){
+                                            resultFeature.setId( (String)ff.getAttribute("id"));
+                                        }else {
+                                            resultFeature.setId(ff.getID());
+                                        }                                        
                                         if(ff.getAttribute("userObject") instanceof Serializable){
                                             resultFeature.setUserObject( (Serializable)ff.getAttribute("userObject"));
                                         }
