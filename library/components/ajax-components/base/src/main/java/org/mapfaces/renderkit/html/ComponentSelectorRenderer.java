@@ -139,7 +139,7 @@ public class ComponentSelectorRenderer extends Renderer {
     public void decode(FacesContext context, UIComponent component) {
         final UIComponentSelector compSel = (UIComponentSelector) component;
         // We check if the ComponentSelector has an iterator parent.
-        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
+        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, UIData.class);
         if (parent instanceof UIData) {
             // in this case, we catch the value of the current Var (value for the row).
             final Object obj = context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
@@ -157,7 +157,7 @@ public class ComponentSelectorRenderer extends Renderer {
                 UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey() + "_" + compSel.getType());
                 String type = compSel.getType();
                 Object value = null;
-                if ("text".equals(type) || "web".equals(type) || "mail".equals(type) || "select".equals(type)) {
+                if ((child != null) && "text".equals(type) || "web".equals(type) || "mail".equals(type) || "select".equals(type)) {
                     // We catch the value of the client component with the Request parameter map.
                     value = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
                 } else if ("textarea".equals(type)) {
