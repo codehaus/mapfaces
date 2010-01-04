@@ -16,9 +16,13 @@
 
 package org.mapfaces.demo.bean;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.mapfaces.model.ComponentDescriptor;
+import org.mapfaces.model.DefaultComponentDescriptor;
 import org.mapfaces.models.tree.TreeItem;
 
 /**
@@ -47,12 +51,56 @@ public class TreetableBean {
 //        }
 
         TreeItem treeItem = new TreeItem("root", "metadata root");
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(treeItem);
-        root.add(new DefaultMutableTreeNode(new TreeItem("title1","Citation")));
-        root.add(new DefaultMutableTreeNode(new TreeItem("title2","Responsible party")));
-        root.add(new DefaultMutableTreeNode(new TreeItem("title3","Geographic Extent")));
-        root.add(new DefaultMutableTreeNode(new TreeItem("title4","Contacts")));
-        root.add(new DefaultMutableTreeNode(new TreeItem("title5","Tempoaral Extent")));
+
+        ComponentDescriptor value = new DefaultComponentDescriptor();
+        value.setTitle("title1");
+        value.setKey("key1");
+        value.setType("text");
+        value.setValue("Valeur1");
+        value.setMaxCar(125);
+        value.setMandatory(true);
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(value);
+
+        value = new DefaultComponentDescriptor();
+        value.setTitle("title2");
+        value.setKey("key2");
+        value.setType("mail");
+        value.setValue("gerard@mail.com");
+        value.setMandatory(false);
+        root.add(new DefaultMutableTreeNode(value));
+
+        value = new DefaultComponentDescriptor();
+        value.setTitle("title3");
+        value.setKey("key3");
+        value.setType("textarea");
+        value.setValue("azertyuiop qsdfghjklm wxcvbn 0123456789");
+        value.setMaxCar(150);
+        root.add(new DefaultMutableTreeNode(value));
+
+        Map<Object, String> selectMap = new HashMap<Object, String>();
+        selectMap.put("val1", "Valeur 1");
+        selectMap.put("val2", "Valeur 2");
+        selectMap.put("val3", "Valeur 3");
+        selectMap.put("val4", "Valeur 4");
+        selectMap.put("val5", "Valeur 5");
+        selectMap.put("val6", "Valeur 6");
+        selectMap.put("val7", "Valeur 7");
+        selectMap.put("val8", "Valeur 8");
+        value = new DefaultComponentDescriptor();
+        value.setTitle("title4");
+        value.setKey("key4");
+        value.setType("select");
+        value.setValue("val4");
+        value.setSelectMap(selectMap);
+        root.add(new DefaultMutableTreeNode(value));
+
+        value = new DefaultComponentDescriptor();
+        value.setTitle("title5");
+        value.setKey("key5");
+        value.setType("date");
+        value.setValue("21/11/2009");
+        root.add(new DefaultMutableTreeNode(value));
+        
         treemodel = new DefaultTreeModel(root);
 
     }
