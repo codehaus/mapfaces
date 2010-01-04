@@ -133,9 +133,9 @@ public class MfLayerListener implements PhaseListener {
                     new Double(model.getMaxy()) - new Double(model.getMiny()));
 
             MapContext mapContext = (MapContext) sessionMap.get(id + "_mapContext");
-            mapContext.setCoordinateReferenceSystem(crs);
 
             if (mapContext != null) {
+                mapContext.setCoordinateReferenceSystem(crs);
                 try {
                     LOGGER.log(Level.INFO, " filter for datevalue = " + datevalue);
                     LOGGER.log(Level.INFO, "Enveloppe = " + env);
