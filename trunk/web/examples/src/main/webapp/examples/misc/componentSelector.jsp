@@ -24,22 +24,59 @@
                 <h:panelGrid columns="2">
                     <h:selectBooleanCheckbox value="#{componentSelectorBean.componentDescriptor.rendered}" />
                     <h:outputText value="render the component"/>
-                    <h:selectBooleanCheckbox value="#{componentSelectorBean.componentDescriptor.mandatory}"/>
-                    <h:outputText value="value is mandatory or not"/>
-                    <h:selectOneMenu id="typeMenu" value="#{componentSelectorBean.componentDescriptor.type}">
-                        <f:selectItems value="#{componentSelectorBean.typeList}"/>
-                    </h:selectOneMenu>
-                    <h:outputText value="Component type"/>
-                    <h:inputText value="#{componentSelectorBean.componentDescriptor.maxCar}" 
-                                 rendered="#{componentSelectorBean.componentDescriptor.type == 'textarea'}" />
-                    <h:outputText value="Max caracters" rendered="#{componentSelectorBean.componentDescriptor.type == 'textarea'}"/>
                 </h:panelGrid>
                 <h:commandButton value="Submit"/>
-                <br />
-                <mfb:ComponentSelector id="componentSelectorId" key="#{componentSelectorBean.componentDescriptor.key}"
+                <br /><br />
+                <h:outputText value="Text" /><br />
+                <mfb:ComponentSelector id="componentSelectorText" key="#{componentSelectorBean.componentDescriptor.key}"
                                        type="#{componentSelectorBean.componentDescriptor.type}"
                                        rendered="#{componentSelectorBean.componentDescriptor.rendered}"
                                        value="#{componentSelectorBean.componentDescriptor.value}" hasParent="false" 
+                                       maxCar="#{componentSelectorBean.componentDescriptor.maxCar}"
+                                       mandatory="#{componentSelectorBean.componentDescriptor.mandatory}" />
+
+                <br /><br />
+                <h:outputText value="Textarea" /><br />
+                <mfb:ComponentSelector id="componentSelectorTextarea" key="#{componentSelectorBean.componentDescriptor.key}"
+                                       type="textarea"
+                                       rendered="#{componentSelectorBean.componentDescriptor.rendered}"
+                                       value="#{componentSelectorBean.componentDescriptor.value}" hasParent="false"
+                                       maxCar="#{componentSelectorBean.componentDescriptor.maxCar}"
+                                       mandatory="#{componentSelectorBean.componentDescriptor.mandatory}" />
+
+                <br /><br />
+                <h:outputText value="Mail" /><br />
+                <mfb:ComponentSelector id="componentSelectorMail" key="#{componentSelectorBean.componentDescriptor.key}"
+                                       type="mail"
+                                       rendered="#{componentSelectorBean.componentDescriptor.rendered}"
+                                       value="#{componentSelectorBean.componentDescriptor.value}" hasParent="false"
+                                       maxCar="#{componentSelectorBean.componentDescriptor.maxCar}"
+                                       mandatory="#{componentSelectorBean.componentDescriptor.mandatory}" />
+
+                <br /><br />
+                <h:outputText value="Date" /><br />
+                <mfb:ComponentSelector id="componentSelectorDate" key="#{componentSelectorBean.componentDescriptor.key}"
+                                       type="date"
+                                       rendered="#{componentSelectorBean.componentDescriptor.rendered}"
+                                       value="22/11/2009" hasParent="false"
+                                       maxCar="#{componentSelectorBean.componentDescriptor.maxCar}"
+                                       mandatory="#{componentSelectorBean.componentDescriptor.mandatory}" />
+
+                <br /><br />
+                <h:outputText value="Select" /><br />
+                <mfb:ComponentSelector id="componentSelectorSelect" key="#{componentSelectorBean.componentDescriptor.key}"
+                                       type="select"
+                                       rendered="#{componentSelectorBean.componentDescriptor.rendered}"
+                                       value="#{componentSelectorBean.componentDescriptor.value}" hasParent="false"
+                                       maxCar="#{componentSelectorBean.componentDescriptor.maxCar}"
+                                       mandatory="#{componentSelectorBean.componentDescriptor.mandatory}" />
+
+                <br /><br />
+                <h:outputText value="Read only" /><br />
+                <mfb:ComponentSelector id="componentSelectorRo" key="#{componentSelectorBean.componentDescriptor.key}"
+                                       type="readonly"
+                                       rendered="#{componentSelectorBean.componentDescriptor.rendered}"
+                                       value="#{componentSelectorBean.componentDescriptor.value}" hasParent="false"
                                        maxCar="#{componentSelectorBean.componentDescriptor.maxCar}"
                                        mandatory="#{componentSelectorBean.componentDescriptor.mandatory}" />
             </h:form>
