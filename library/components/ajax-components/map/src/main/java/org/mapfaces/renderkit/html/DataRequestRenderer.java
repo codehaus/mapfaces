@@ -397,10 +397,13 @@ public class DataRequestRenderer extends WidgetBaseRenderer {
                                 try {
 
                                     /**
-                                     * @TODO use a single Mapcontext object instead of properMapCtxt which is the full mapcontext of the mappane
+                                     * Use a single Mapcontext object instead of properMapCtxt which is the full mapcontext of the mappane
                                      */
+                                    CoordinateReferenceSystem crsMC = properMapCtxt.getCoordinateReferenceSystem()!=null?properMapCtxt.getCoordinateReferenceSystem():DefaultGeographicCRS.WGS84;
+                                    MapContext singleMapcontext = MapBuilder.createContext(crsMC);
+                                    singleMapcontext.layers().add(selectedLayer);
 
-                                    DefaultPortrayalService.visit(properMapCtxt, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
+                                    DefaultPortrayalService.visit(singleMapcontext, model.getEnvelope(), model.getDimension(), true, null, rect, featureVisitor);
                                 } catch (PortrayalException ex) {
                                     LOGGER.log(Level.SEVERE, null, ex);
                                 }
