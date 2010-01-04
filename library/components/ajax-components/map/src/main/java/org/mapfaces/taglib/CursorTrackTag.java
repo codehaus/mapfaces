@@ -21,7 +21,8 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 
 /**
- * @author Olivier Terral
+ * @author Olivier Terral (Geomatys)
+ * @since 0.2
  */
 public class CursorTrackTag extends WidgetBaseTag {
 
@@ -41,6 +42,7 @@ public class CursorTrackTag extends WidgetBaseTag {
     private ValueExpression showLatLon = null;
     private ValueExpression showDMS = null;
     private ValueExpression showDM = null;
+    private ValueExpression zindex = null;
 
     /**
      * {@inheritDoc }
@@ -70,6 +72,7 @@ public class CursorTrackTag extends WidgetBaseTag {
         component.setValueExpression("showLatLon", showLatLon);
         component.setValueExpression("showDMS", showDMS);
         component.setValueExpression("showDM", showDM);
+        component.setValueExpression("zindex", zindex);
 
     }
 
@@ -85,6 +88,7 @@ public class CursorTrackTag extends WidgetBaseTag {
         showLatLon = null;
         showDMS = null;
         showDM = null;
+        zindex = null;
 
     }
 
@@ -126,5 +130,19 @@ public class CursorTrackTag extends WidgetBaseTag {
 
     public void setShowDM(ValueExpression showDM) {
         this.showDM = showDM;
+    }
+
+    /**
+     * @return the zindex
+     */
+    public ValueExpression getZindex() {
+        return zindex;
+    }
+
+    /**
+     * @param zindex the zindex to set
+     */
+    public void setZindex(ValueExpression zindex) {
+        this.zindex = zindex;
     }
 }

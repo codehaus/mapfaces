@@ -155,6 +155,12 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
      * 
      **/
     DM: false,
+
+    /**
+     *Property: zIndex
+     *{Integer}
+     */
+    zIndex: 1000,
           
     /**
      * Constructor: OpenLayers.Control.MousePosition
@@ -197,8 +203,8 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
      * Method: redraw  
      */
     redraw: function(evt) {
-            
-        this.div.style.zIndex = this.map.Z_INDEX_BASE['Control'];  //HACK
+
+        this.div.style.zIndex = this.zIndex; //this.map.Z_INDEX_BASE['Control'];  //HACK
         var lonLat;
         var newHtml = "";
         if (evt == null) {

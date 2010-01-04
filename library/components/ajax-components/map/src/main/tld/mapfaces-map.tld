@@ -872,6 +872,17 @@
             <description><![CDATA[Add DM dipslaying.]]>
             </description>
         </attribute>
+        <attribute>
+            <name>zindex</name>
+            <deferred-value>
+                <type>int</type>
+            </deferred-value>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[(integer) The zindex value for the div element
+            defaults to 0]]>
+            </description>
+        </attribute>
     </tag>
     <!-- Scale -->
     <tag>
