@@ -43,7 +43,8 @@ import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.FacesUtils;
 
 /**
- * @author Leo Pratlong
+ * @author Leo Pratlong (Geomatys)
+ * @since 0.3
  */
 public class ComponentSelectorRenderer extends Renderer {
 

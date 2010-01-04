@@ -1,15 +1,29 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *    Mapfaces -
+ *    http://www.mapfaces.org
+ *
+ *    (C) 2009, Geomatys
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
  */
+
 
 package org.mapfaces.model;
 
 import java.util.Map;
 
 /**
- *
- * @author leopratlong
+ * Model for the ComponentSelector.
+ * @author Leo Pratlong (Geomatys)
+ * @since 0.3
  */
 public class DefaultComponentDescriptor implements ComponentDescriptor {
     private String title;
@@ -63,7 +77,6 @@ public class DefaultComponentDescriptor implements ComponentDescriptor {
      */
     public void setType(String type) {
         this.type = type;
-        System.out.println("SET TYPE => " + this.type);
     }
 
     /**
