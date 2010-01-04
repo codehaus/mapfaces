@@ -21,9 +21,9 @@
         <body>
             <h1><h:outputText value="MapFaces Treetable demo"/></h1>
             <h:form id="mainform">
-                <%/*mfb:treetable  id="sensorTreetableConsult"
+                <mfb:treetable  id="sensorTreetableConsult"
                                     value="#{treetableBean.treemodel}"
-                                    var="treeNode"
+                                    var="treeitem"
                                     style="width:500px;"
                                     collapse="true"
                                     collapseDepth="1"
@@ -39,36 +39,20 @@
                         <f:facet name="header">
                             <h:outputText id="outputheaderId" value="name" />
                         </f:facet>
-                        <h:outputText id="outputName" value="#{treeNode.userObject.title}"/>
+                        <h:outputText id="outputName" value="#{treeitem.userObject.title}"/>
                     </mfb:treecolumn>
 
-                    <mfb:treecolumn width="10%">
+                    <mfb:treecolumn width="10%" >
                         <f:facet name="header">
                             <h:outputText value="value" id="outputheaderId2" />
                         </f:facet>
-                        
+                        <mfb:ComponentSelector id="demoComponentSelector" key="#{treeitem.userObject.key}" type="#{treeitem.userObject.type}"
+                                               value="#{treeitem.userObject.value}" mandatory="#{treeitem.userObject.mandatory}"
+                                               selectMap="#{treeitem.userObject.selectMap}" hasParent="false" maxCar="100" />
                     </mfb:treecolumn>
 
-                </mfb:treetable*/%>
-                <h:dataTable id="haiesTable"
-                             value="#{treetableBean.testMap}" rows="8"
-                             var="_test" styleClass="tableau"
-                             style="border:0px;float:left;" rules="none" rowClasses="odd,even">
-                    <h:column>
-                        <f:facet name="header"><h:outputText value="ID"/></f:facet>
-                        <h:outputText value="#{_test.title}" style="text-align:center;"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header"><h:outputText value="Composants"/></f:facet>
-                        <mfb:ComponentSelector id="test" key="#{_test.key}" type="#{_test.type}"
-                                               value="#{_test.value}" mandatory="#{_test.mandatory}"
-                                               selectMap="#{_test.selectMap}" hasParent="false" maxCar="100" />
-                    </h:column>
-                </h:dataTable>
-                <h:commandButton value="Ok" />
-                <%/*mfb:Testy id="test" value="#{treetableBean.value}" name="#{treetableBean.name}" /*/%>
-                <%/*mfb:ComponentSelector id="test2" key="key" type="#{treetableBean.type}"
-                                               value="#{treetableBean.value}" hasParent="false" maxCar="100" /*/%>
+                </mfb:treetable>
+                <h:commandButton value="Submit" />
             </h:form>
         </body>
     </html>

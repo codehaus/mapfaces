@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.el.ValueExpression;
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIInput;
@@ -39,6 +40,7 @@ import org.geotoolkit.util.logging.Logging;
 import org.mapfaces.component.UIComponentSelector;
 import org.mapfaces.component.UITemporal;
 import org.mapfaces.model.ComponentDescriptor;
+import org.mapfaces.model.tree.ExtendMutableTreeNode;
 import org.mapfaces.share.listener.ResourcePhaseListener;
 import org.mapfaces.share.utils.FacesUtils;
 
@@ -66,19 +68,28 @@ public class ComponentSelectorRenderer extends Renderer {
         final UIComponentSelector compSel = (UIComponentSelector) component;
         boolean isInIterator = false;
         // Check if this component has an Iterator parent.
-        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
+        final UIComponent parent = FacesUtils.findParentComponentByClass(compSel, UIData.class);
+
         if (parent instanceof UIData) {
             // if this component is a child of an iterator, we take the value of the var
             // and set the value of our UI.
             isInIterator = true;
-            ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
-            compSel.setType(varObj.getType());
-            compSel.setValue((varObj.getValue() != null) ? varObj.getValue().toString() : "");
-            compSel.setKey(varObj.getTitle());
-            compSel.setMandatory(varObj.isMandatory());
-            compSel.setMaxCar(varObj.getMaxCar());
-            compSel.setMaxOccurence(varObj.getMaxOccurence());
-            compSel.setSelectMap(varObj.getSelectMap());
+            final Object obj = context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
+            ComponentDescriptor varObj = null;
+            if (obj instanceof ComponentDescriptor) {
+                varObj = (ComponentDescriptor) obj;
+            } else if ((obj instanceof ExtendMutableTreeNode) && (((ExtendMutableTreeNode) obj).getUserObject() instanceof ComponentDescriptor)) {
+                varObj = (ComponentDescriptor) ((ExtendMutableTreeNode) obj).getUserObject();
+            }
+            if (varObj != null) {
+                compSel.setType(varObj.getType());
+                compSel.setValue((varObj.getValue() != null) ? varObj.getValue().toString() : "");
+                compSel.setKey(varObj.getTitle());
+                compSel.setMandatory(varObj.isMandatory());
+                compSel.setMaxCar(varObj.getMaxCar());
+                compSel.setMaxOccurence(varObj.getMaxOccurence());
+                compSel.setSelectMap(varObj.getSelectMap());
+            }
         }
 
         if ((compSel.getId() != null) && (compSel.getType() != null)) {
@@ -131,31 +142,39 @@ public class ComponentSelectorRenderer extends Renderer {
         UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
         if (parent instanceof UIData) {
             // in this case, we catch the value of the current Var (value for the row).
-            ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
-            // And we catch the type and key values.
-            compSel.setType(varObj.getType());
-            compSel.setKey(varObj.getTitle());
-            // We check if there is a child with the Key value for id.
-            UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey() + "_" + compSel.getType());
-            String type = compSel.getType();
-            Object valeur = null;
-            if ("text".equals(type) || "web".equals(type) || "mail".equals(type) || "select".equals(type)) {
-                // We catch the value of the client component with the Request parameter map.
-                valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
-            } else if ("textarea".equals(type)) {
-                // If the type is a textarea, then we have to catch the HTMLInputTextarea containing the value.
-                final UIComponent inputChild = FacesUtils.findComponentById(context, child, compSel.getKey() + "_" + compSel.getType() + "_sub");
-                if (inputChild instanceof HtmlInputTextarea) {
-                    child = inputChild;
-                    // We catch the value of the client component with the Request parameter map.
-                    valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
-                }
-            } else if ("date".equals(type)) {
-                valeur = FacesUtils.getRequestParameterValue(context, child.getClientId(context) + "_inputdate");
-            } else {
-                LOGGER.severe("this fieldType is not recognize : " + type);
+            final Object obj = context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
+            ComponentDescriptor varObj = null;
+            if (obj instanceof ComponentDescriptor) {
+                varObj = (ComponentDescriptor) obj;
+            } else if ((obj instanceof ExtendMutableTreeNode) && (((ExtendMutableTreeNode) obj).getUserObject() instanceof ComponentDescriptor)) {
+                varObj = (ComponentDescriptor) ((ExtendMutableTreeNode) obj).getUserObject();
             }
-            if (valeur != null) modifyVarValue(context, compSel, valeur);
+            if (varObj != null) {
+                // And we catch the type and key values.
+                compSel.setType(varObj.getType());
+                compSel.setKey(varObj.getTitle());
+                // We check if there is a child with the Key value for id.
+                UIComponent child = FacesUtils.findComponentById(context, component, compSel.getKey() + "_" + compSel.getType());
+                String type = compSel.getType();
+                Object value = null;
+                if ("text".equals(type) || "web".equals(type) || "mail".equals(type) || "select".equals(type)) {
+                    // We catch the value of the client component with the Request parameter map.
+                    value = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
+                } else if ("textarea".equals(type)) {
+                    // If the type is a textarea, then we have to catch the HTMLInputTextarea containing the value.
+                    final UIComponent inputChild = FacesUtils.findComponentById(context, child, compSel.getKey() + "_" + compSel.getType() + "_sub");
+                    if (inputChild instanceof HtmlInputTextarea) {
+                        child = inputChild;
+                        // We catch the value of the client component with the Request parameter map.
+                        value = FacesUtils.getRequestParameterValue(context, child.getClientId(context));
+                    }
+                } else if ("date".equals(type)) {
+                    value = FacesUtils.getRequestParameterValue(context, child.getClientId(context) + "_inputdate");
+                } else {
+                    LOGGER.severe("this fieldType is not recognize : " + type);
+                }
+                if (value != null) varObj.setValue(value);
+            }
         }
     }
 
@@ -438,22 +457,6 @@ public class ComponentSelectorRenderer extends Renderer {
 //        }
 //
 //    }
-
-
-    /**
-     * Modifies the Value attribute of the current Var of the iteration (value for
-     * this row).
-     * @param context FacesContext
-     * @param compSel The UIComponentSelector
-     * @param value Value to set.
-     */
-    private void modifyVarValue(FacesContext context, UIComponentSelector compSel, Object value) {
-        UIComponent parent = FacesUtils.findParentComponentByClass(compSel, HtmlDataTable.class);
-        if (parent instanceof UIData) {
-            ComponentDescriptor varObj = (ComponentDescriptor) context.getExternalContext().getRequestMap().get(((UIData) parent).getVar());
-            varObj.setValue(value);
-        }
-    }
 
     /**
      * Return the styleClass according to its Mandatory value.
