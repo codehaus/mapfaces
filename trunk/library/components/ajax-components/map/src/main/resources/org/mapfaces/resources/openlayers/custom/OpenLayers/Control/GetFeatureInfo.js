@@ -8,7 +8,7 @@
  */
 
 /**
- * Class: OpenLayers.Control.MousePosition
+ * Class: OpenLayers.Control.GetFeatureInfo
  */
 OpenLayers.Control.GetFeatureInfo= OpenLayers.Class(OpenLayers.Control, {    
     

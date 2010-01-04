@@ -20,8 +20,11 @@ package org.mapfaces.component;
 import javax.faces.context.FacesContext;
 
 /**
- * @author OLivier Terral.
- * @author Mehdi Sidhoum.
+ * UI class for cursor tracker component
+ *
+ * @author OLivier Terral (Geomatys)
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.2
  */
 public class UICursorTrack extends UIWidgetBase {
 
@@ -32,6 +35,7 @@ public class UICursorTrack extends UIWidgetBase {
     private boolean showLatLon = true;
     private boolean showDMS = false;
     private boolean showDM = false;
+    private int zindex;
 
     /** Creates a new instance of UICursorTrack */
     public UICursorTrack() {
@@ -52,13 +56,14 @@ public class UICursorTrack extends UIWidgetBase {
      */
     @Override
     public Object saveState(final FacesContext context) {
-        final Object values[] = new Object[6];
+        final Object values[] = new Object[7];
         values[0] = super.saveState(context);
         values[1] = isShowPX();
         values[2] = isShowXY();
         values[3] = isShowLatLon();
         values[4] = isShowDMS();
         values[5] = isShowDM();
+        values[6] = getZindex();
         return values;
     }
 
@@ -69,11 +74,12 @@ public class UICursorTrack extends UIWidgetBase {
     public void restoreState(final FacesContext context, final Object state) {
         final Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
-        setShowPX((boolean) (Boolean) values[1]);
-        setShowXY((boolean) (Boolean) values[2]);
-        setShowLatLon((boolean) (Boolean) values[3]);
-        setShowDMS((boolean) (Boolean) values[4]);
-        setShowDM((boolean) (Boolean) values[5]);
+        setShowPX((Boolean)values[1]);
+        setShowXY((Boolean) values[2]);
+        setShowLatLon((Boolean) values[3]);
+        setShowDMS((Boolean) values[4]);
+        setShowDM((Boolean) values[5]);
+        setZindex((Integer) values[6]);
     }
 
     public boolean isShowPX() {
@@ -114,5 +120,19 @@ public class UICursorTrack extends UIWidgetBase {
 
     public void setShowDM(final boolean showDM) {
         this.showDM = showDM;
+    }
+
+    /**
+     * @return the zindex
+     */
+    public int getZindex() {
+        return zindex;
+    }
+
+    /**
+     * @param zindex the zindex to set
+     */
+    public void setZindex(int zindex) {
+        this.zindex = zindex;
     }
 }

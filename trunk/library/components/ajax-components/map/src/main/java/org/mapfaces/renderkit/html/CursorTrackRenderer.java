@@ -104,6 +104,9 @@ public class CursorTrackRenderer extends WidgetBaseRenderer {
         if (comp.isShowDM()) {
             writer.write(",DM: true");
         }
+        if (comp.getZindex()!=0) {
+            writer.write(",zIndex: "+comp.getZindex());
+        }
         
         writer.write(new StringBuilder("").
         append("        }); ").
