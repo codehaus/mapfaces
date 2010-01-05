@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2007 - 2010, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,6 @@
 package org.mapfaces.taglib;
 
 import java.util.Map;
-import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,7 +25,8 @@ import org.mapfaces.component.UIMapPane;
 import org.mapfaces.util.FacesMapUtils;
 
 /**
- * @author Mehdi Sidhoum
+ * @author Mehdi Sidhoum (Geomatys)
+ * @since 0.1
  */
 public class MapPaneTag extends WidgetBaseTag {
 
