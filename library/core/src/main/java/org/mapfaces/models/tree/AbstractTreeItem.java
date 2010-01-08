@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2007 - 2010, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,7 @@ import java.io.Serializable;
  * This is a TreeItem interface which can be implmented for basic treetable
  * component for Map treetable like UILayerControl component
  * @author Mehdi Sidhoum (Geomatys).
+ * @since 0.3.0
  */
 public interface AbstractTreeItem extends Serializable {
 
