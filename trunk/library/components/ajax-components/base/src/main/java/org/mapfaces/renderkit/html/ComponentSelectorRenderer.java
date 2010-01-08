@@ -220,7 +220,6 @@ public class ComponentSelectorRenderer extends Renderer {
     private void renderText(FacesContext context, UIComponentSelector compSel, String id, boolean mandatory, String type, boolean isInIterator) {
         final UIComponent input = FacesUtils.findComponentById(context, compSel, getIdWithUnderscores(id));
         final HtmlInputText inputText;
-
         if (input instanceof HtmlInputText) {
             inputText = (HtmlInputText) input;
         } else {

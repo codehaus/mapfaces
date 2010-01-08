@@ -21,19 +21,50 @@ package org.mapfaces.model;
 import java.util.Map;
 
 /**
- * Model for the ComponentSelector.
+ * Model for the ComponentSelector. This class describes all the properties we
+ * need to build a component. It will be usefull for the UIComponentSelector.
  * @author Leo Pratlong (Geomatys)
  * @since 0.3
  */
 public class DefaultComponentDescriptor implements ComponentDescriptor {
+    /**
+     * Title of the component.
+     */
     private String title;
+    /**
+     * This key is used to build the client ID of the component.
+     */
     private String key;
+    /**
+     * Value of the component.
+     */
     private Object value;
+    /**
+     * Type of the component. Could be "text, textarea, mail, web, date, select, readonly".
+     */
     private String type;
+    /**
+     * Number max of caracter for the value of the component.
+     */
     private int maxCar;
+    /**
+     * This map is used for the Select component. It will not be used for the other.
+     */
     private Map<Object, String> selectMap;
+    /**
+     * This attribute indicates if the component is a mandatory field. In this case,
+     * specifics css class will be setted.
+     */
     private boolean mandatory;
+    /**
+     * Indicates the number max of occurence (for example, in an iterative use,
+     * we should need to display more than 1 mail adress and the user could add
+     * new mail adress. This attribute indicates that we render a "more" button).
+     */
     private int maxOccurence;
+    /**
+     * Render the component or not.
+     */
     private boolean rendered;
 
 
