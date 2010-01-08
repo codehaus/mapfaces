@@ -2,7 +2,7 @@
  *    Mapfaces -
  *    http://www.mapfaces.org
  *
- *    (C) 2007 - 2008, Geomatys
+ *    (C) 2007 - 2010, Geomatys
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -26,7 +26,7 @@ import org.mapfaces.util.ReflectionUtils;
 
 /**
  * @author Mehdi Sidhoum (Geomatys).
- * @author Kevin Delfour.
+ * @since 0.2
  */
 public class TreeItem implements AbstractTreeItem {
 
