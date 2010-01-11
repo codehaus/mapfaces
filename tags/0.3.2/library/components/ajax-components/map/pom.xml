@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.mapfaces</groupId>
+        <artifactId>mapfaces-components-ajax</artifactId>
+        <version>0.3-SNAPSHOT</version>
+    </parent>
+
+
+  <!-- =========================================================== -->
+  <!--     Module Description                                      -->
+  <!-- =========================================================== -->
+    <groupId>org.mapfaces</groupId>
+    <artifactId>mapfaces-map</artifactId>
+    <packaging>jar</packaging>
+    <name>Mapfaces - Map module</name>
+    <scm>
+        <connection>scm:svn:http://svn.codehaus.org/mapfaces/trunk/modules/library/main/</connection>
+        <url>http://svn.codehaus.org/mapfaces/trunk/modules/library/main/</url>
+    </scm>
+    <description>The main module contains the key interfaces and default
+    implementations that are used by other MapFaces modules.
+    </description>
+
+
+
+  <!-- =========================================================== -->
+  <!--     Developers and Contributors                             -->
+  <!-- =========================================================== -->
+
+  <!-- =========================================================== -->
+  <!--     Dependency Management                                   -->
+  <!-- =========================================================== -->
+    <dependencies>
+
+        <dependency>
+            <groupId>org.mapfaces</groupId>
+            <artifactId>mapfaces-widgets</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- geotoolkit library -->
+        <dependency>
+            <groupId>org.geotoolkit</groupId>
+            <artifactId>geotk-epsg</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit</groupId>
+            <artifactId>geotk-metadata-fra</artifactId>
+        </dependency>
+
+        <!-- geotoolkit-pending  -->
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-wms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-go2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-temporal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-xml-owc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-xml-wmc</artifactId>
+        </dependency>
+
+	<!-- this dependency should not be here but in the geotk project-->
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-filter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotoolkit.pending</groupId>
+            <artifactId>geotk-feature</artifactId>
+        </dependency>
+
+        <!-- ajax4jsf -->
+        <dependency>
+            <groupId>org.ajax4jsf</groupId>
+            <artifactId>ajax4jsf</artifactId>
+        </dependency>
+
+        <!-- JSF -->
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+        </dependency>
+
+        <!-- JSP, Servlet ,JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- COMMONS -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.sf.alchim</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--Don't compress these files -->
+                    <excludes>
+                        <exclude>**/*.gz.*</exclude>
+                        <exclude>**/all.*</exclude>
+                        <exclude>**/*-min.*</exclude>
+                        <exclude>**/*-bs.*</exclude>
+                        <exclude>**/*mapfaces*</exclude>
+                    </excludes>
+                    <force>true</force>
+                    <nomunge>true</nomunge>
+                    <nosuffix>false</nosuffix>
+                    <jswarn>false</jswarn>
+                    <gzip>false</gzip>
+                    <aggregations>
+                        <aggregation>
+			    <!--removeIncluded>true</removeIncluded-->
+                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/mapfaces.css</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/css/widget.css</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/tree/css/treeW3Cn2.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+			    <!--removeIncluded>true</removeIncluded-->
+                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/tree.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/tree/js/utils-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/tree/js/treetable-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/tree/js/treeline-min.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+			    <!--removeIncluded>true</removeIncluded-->
+                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/timeline.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/timeline-api-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/bundle-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/scripts/l10n/en/timeline-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/scripts/l10n/en/labellers-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/scripts/l10n/fr/timeline-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/scripts/l10n/fr/labellers-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/timeline/api/styles/theme-min.js</include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+			    <!--removeIncluded>true</removeIncluded-->
+                            <output>${project.build.directory}/classes/org/mapfaces/resources/compressed/openlayers.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayersLite-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Util-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/Class-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/Bounds-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/Element-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/LonLat-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/Pixel-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/BaseTypes/Size-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Console-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tween-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Ajax-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Events-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Request-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Request/XMLHttpRequest-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Projection-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Map-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Icon-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Marker-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Marker/Box-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Popup-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tile-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Tile/Image-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Grid-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Markers-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Boxes-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Feature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Feature/Vector-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Click-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Hover-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Point-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Path-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Polygon-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Feature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Drag-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/RegularPolygon-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Box-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Handler/Keyboard-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/LangExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang/en-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Lang/fr-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Lang/enExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Lang/frExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Attribution-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Button-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomBox-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomToMaxExtent-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DragPan-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Navigation-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/MouseDefaults-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/OverviewMap-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/KeyboardDefaults-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ArgParser-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Scale-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ScaleLine-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Snapping-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Split-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DrawFeature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/DragFeature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ModifyFeature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Panel-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/SelectFeature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/NavigationHistory-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/Measure-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/MeasureExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Rectangle-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Collection-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Point-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/MultiPoint-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Curve-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/LineString-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/LinearRing-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Polygon-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/MultiLineString-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/MultiPolygon-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Geometry/Surface-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer/Elements-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer/SVG-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer/Canvas-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Renderer/VML-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Vector-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Layer/Vector/RootContainer-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Protocol-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Protocol/HTTP-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Style-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/StyleMap-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/JSON-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/GeoJSON-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Format/WKT-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/MouseToolbar-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomIn-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/lib/OpenLayers/Control/ZoomOut-min.js</include>
+
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/proj4js/lib/proj4js-combined-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/proj4js/custom/proj4jsExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Map-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/A4JRequest-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/MapFaces-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Layer/MapFaces/Vector-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/UtilExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Handler/MouseWheel-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ZoomBoxOut-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/SelectionZoomBox-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/Graticule-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/Save-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/GetFeatureInfo-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/GetCoverageMatrix-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/Navigation-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/MousePosition-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/OverviewMapExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/MouseWheelDefaults-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ScaleExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/ScaleBar-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/MeasureArea-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/DeleteFeature-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/PanelExt-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/NavToolbar-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/EditingToolbar-min.js</include>
+				<include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/custom/OpenLayers/Control/DragPan-min.js</include>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/openlayers/mfUtils-min.js</include>
+                            </includes>
+                        </aggregation>
+
+<!--Only for NetBeans who doesn't used Maven plugin.
+Since we have changed the way to generate tld files, we have to use Maven plugin.
+These lines are deprecated and are here only for example -->
+                        <!--aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/mapfaces.css</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/mapfaces.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/tree.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/tree.min-min.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/timeline.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/timeline.min-min.js</include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <output>${project.build.sourceDirectory}/../resources/org/mapfaces/resources/compressed/openlayers.min.js</output>
+                            <includes>
+                                <include>${project.build.directory}/classes/org/mapfaces/resources/compressed/openlayers.min-min.js</include>
+                            </includes>
+                        </aggregation-->
+
+
+                    </aggregations>
+                </configuration>
+            </plugin>
+<!-- rename the war file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>mapfaces</warName>
+		    <!-- These line remove all included files specified in aggregation tags, comment these lines if you use Mapfaces in no compressed mode--> 
+                    <!--warSourceExcludes>${project.build.directory}/classes/org/mapfaces/resources/**</warSourceExcludes>
+                    <warSourceExcludes>${project.build.directory}/classes/org/mapfaces/resources/**/**</warSourceExcludes>
+                    <warSourceExcludes>${project.build.directory}/classes/org/mapfaces/resources/**/**/**/**</warSourceExcludes>
+                    <warSourceExcludes>${project.build.directory}/classes/org/mapfaces/resources/**/**/**/**/**</warSourceExcludes>
+                    <warSourceExcludes>${project.build.directory}/classes/org/mapfaces/resources/**/**/**/**/**/**</warSourceExcludes>
+                    <warSourceExcludes>${project.build.directory}/classes/org/mapfaces/resources/**/**/**/**/**/**/**</warSourceExcludes-->
+                </configuration>
+            </plugin>
+<!-- taglib transform -->
+	    <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xslt-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <xslFile>../base/src/main/tld/misc/resolve_entities.xsl</xslFile>
+                    <srcIncludes>**/*.tld</srcIncludes>
+                    <srcDir>src/main/tld</srcDir>
+                    <destDir>target/classes/META-INF</destDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    </properties>
+</project>

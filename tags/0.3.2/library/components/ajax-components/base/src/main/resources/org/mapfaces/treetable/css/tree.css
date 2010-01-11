@@ -1,0 +1,101 @@
+/* 
+    Document   : tree
+    Created on : 23 juil. 2009, 16:59:13
+    Author     : kevindelfour
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/* --------------------------------------------------------------------------------- */
+.treeelbow-line{
+    background-repeat: repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/elbow-line.gif');
+}
+
+.treeitem{
+    float:left;
+/*    position:relative;*/
+}
+
+/* --------------------------------------------------------------------------------- */
+.treeicon{
+    float: left;
+/*    position: relative;*/
+    height: 16px;
+    width: 16px;
+    padding-left:2px;
+    bottom: 1px;
+}
+
+/* --------------------------------------------------------------------------------- */
+.treenode{
+    position: relative;
+    background-color: #D4DCE4;
+}
+
+.treenode-collapsed{
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/folder.gif');
+}
+
+.treenode-collapse_symbol{
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/elbow-plus-nl.gif');
+    cursor:pointer;
+}
+
+.treenode-expanded{
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/folder-open.gif');
+}
+
+.treenode-expand_symbol{
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/elbow-minus-nl.gif');
+    cursor:pointer;
+}
+
+/* --------------------------------------------------------------------------------- */
+.treeleaf{
+    position: relative;
+}
+
+.treeleaf-expanded{
+    display: block;
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/leaf.gif');
+}
+
+.treeleaf-elbow{
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/elbow.gif');
+}
+
+.treeleaf-elbow-end{
+    background-repeat:no-repeat;
+    background-image: url('resource.jsf?r=/org/mapfaces/treetable/images/elbow-end.gif');
+}
+
+.treeleaf-collapse{
+    visibility:hidden;
+}
+
+.treeleaf-expand{
+    visibility:visible;
+}
+
+/* --------------------------------------------------------------------------------- */
+ul{
+    list-style-position: outside;
+    list-style-image: none;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+.x-clear{
+    clear:both;
+    font-size: 0;
+    height: 0;
+    line-height:0;
+    overflow:hidden;
+}

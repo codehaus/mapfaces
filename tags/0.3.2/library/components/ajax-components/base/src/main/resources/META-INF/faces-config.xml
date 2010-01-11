@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config   version="1.2"
+                xmlns="http://java.sun.com/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+    <!-- Treetable -->
+    <component>
+        <component-type>org.mapfaces.component.tree.TreeTable</component-type>
+        <component-class>org.mapfaces.component.treetable.UITreeTable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.component.tree.TreeColumn</component-type>
+        <component-class>org.mapfaces.component.treetable.UITreeColumn</component-class>
+    </component>
+
+    <!-- Bubble component -->
+    <component>
+        <component-type>org.mapfaces.component.Bubble</component-type>
+        <component-class>org.mapfaces.component.UIBubble</component-class>
+    </component>
+
+    <!-- Datatable component -->
+    <component>
+        <component-type>org.mapfaces.Datatable</component-type>
+        <component-class>org.mapfaces.component.datatable.UIDatatable</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.datatable.Columns</component-type>
+        <component-class>org.mapfaces.component.datatable.UIColumns</component-class>
+    </component>
+    <component>
+        <component-type>org.mapfaces.datatable.DataScroller</component-type>
+        <component-class>org.mapfaces.component.datatable.UIDataScroller</component-class>
+    </component>
+
+    <!-- Div component -->
+    <component>
+        <component-type>org.mapfaces.component.Div</component-type>
+        <component-class>org.mapfaces.component.UIDiv</component-class>
+    </component>
+
+    <!-- SelectManyPicklist component -->
+    <component>
+        <component-type>org.mapfaces.component.SelectManyPicklist</component-type>
+        <component-class>org.mapfaces.component.UISelectManyPicklist</component-class>
+    </component>
+
+    <!-- ComponentSelector component -->
+    <component>
+            <component-type>org.mapfaces.component.ComponentSelector</component-type>
+            <component-class>org.mapfaces.component.UIComponentSelector</component-class>
+    </component>
+
+    <!-- Temporal component, used for programmatically calls only. ie : used by iterative components -->
+    <component>
+            <component-type>org.mapfaces.Temporal</component-type>
+            <component-class>org.mapfaces.component.UITemporal</component-class>
+    </component>
+
+    <!-- RENDERKIT -->
+    <render-kit>
+        <renderer>
+            <component-family>org.mapfaces.component.tree.TreeTable</component-family>
+            <renderer-type>org.mapfaces.renderkit.tree.TreeTable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.treetable.TreeTableRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>Bubble component</description>
+            <component-family>org.mapfaces.component.Bubble</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLBubble</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.BubbleRenderer</renderer-class>
+        </renderer>
+        <!-- Datatable Renderers -->
+        <renderer>
+            <description>Datatable</description>
+            <component-family>org.mapfaces.Datatable</component-family>
+            <renderer-type>org.mapfaces.renderkit.HTMLDatatable</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.DatatableRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <description>If a datatable is truly large, you don't want it sent
+            to the client in its entirety. Downloading the table takes a long time,
+            and chances are that the application user wants to see only the first few rows anyway.
+            The standard user interface for navigating a large table is a pager (datascroller),
+            a set of links to each page of the table, to the next and previous pages,
+            and if there are great number of pages, to the next of previous batch of pages.
+            </description>
+            <component-family>org.mapfaces.datatable.DataScroller</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLDataScroller</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.DataScrollerRenderer</renderer-class>
+        </renderer>
+        <!--renderer>
+            <description>Columns </description>
+            <component-family>org.mapfaces.datatable.Columns</component-family>
+            <renderer-type>org.mapfaces.renderkit.datatable.HTMLColumns</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.datatable.ColumnsRenderer</renderer-class>
+        </renderer-->
+
+        <!-- Div Renderer -->
+        <renderer>
+            <description>render an html div</description>
+            <component-family>org.mapfaces.Div</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.Div</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.DivRenderer</renderer-class>
+        </renderer>
+        <!-- SelectManyPicklist Renderer -->
+        <renderer>
+            <description>render two selectManyListbox components with some buttons
+            to have the main SelectManypicklist component from myfaces behaviour</description>
+            <component-family>org.mapfaces.SelectManyPicklist</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.SelectManyPicklist</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.SelectManyPicklistRenderer</renderer-class>
+        </renderer>
+        <!-- ComponentSelector Renderer -->
+        <renderer>
+            <description>render a ComponentSelector component which allows to display an Input or
+            Output component (usefull when iterating).</description>
+            <component-family>org.mapfaces.component.ComponentSelector</component-family>
+            <renderer-type>org.mapfaces.renderkit.html.ComponentSelector</renderer-type>
+            <renderer-class>org.mapfaces.renderkit.html.ComponentSelectorRenderer</renderer-class>
+        </renderer>
+        <!-- This renderer is targeted by  UITemporal to use the DatePicker Renderer class -->
+        <renderer>
+            <description>render a DatePicker component.</description>
+            <component-family>org.mapfaces.Temporal</component-family>
+            <renderer-type>org.mapfaces.renderkit.Temporal</renderer-type>
+            <renderer-class>org.widgetfaces.renderkit.html.temporal.DatepickerRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+</faces-config>
